@@ -1,6 +1,8 @@
-# encoding: UTF-8
-
 class Nature < Source
+  def get_query_string(work)
+    work.doi_escaped
+  end
+
   def get_events(result)
     Array(result['data']).map do |item|
       item.extend Hashie::Extensions::DeepFetch
@@ -29,7 +31,7 @@ class Nature < Source
   end
 
   def url
-    "http://blogs.nature.com/posts.json?doi=%{doi}"
+    "http://blogs.nature.com/posts.json?doi=%{query_string}"
   end
 
   def staleness_year

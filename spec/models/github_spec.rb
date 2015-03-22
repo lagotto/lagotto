@@ -73,6 +73,7 @@ describe Github, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(7)
+      expect(response[:events_url]).to eq("https://github.com/ropensci/alm")
       expect(response[:events]["stargazers_count"]).to eq(5)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 2, groups: nil, comments: nil, likes: 5, citations: nil, total: 7)
     end

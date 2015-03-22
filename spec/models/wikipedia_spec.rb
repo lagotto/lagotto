@@ -14,7 +14,7 @@ describe Wikipedia, type: :model, vcr: true do
 
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{work.query_string}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
+      expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
     end
   end
 
@@ -45,7 +45,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.message).to eq("the server responded with status 408 for http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{work.query_string}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
+      expect(alert.message).to eq("the server responded with status 408 for http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
       expect(alert.status).to eq(408)
       expect(alert.source_id).to eq(subject.id)
     end
@@ -85,7 +85,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(response[:events].length).to eq(637)
       expect(response[:event_count]).to eq(637)
       expect(response[:event_metrics][:citations]).to eq(637)
-      expect(response[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{work.query_string}")
+      expect(response[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
 
       expect(response[:events_by_day].length).to eq(0)
       expect(response[:events_by_month].length).to eq(29)
@@ -110,7 +110,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(response[:events].length).to eq(10)
       expect(response[:event_count]).to eq(10)
       expect(response[:event_metrics][:citations]).to eq(10)
-      expect(response[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{work.query_string}")
+      expect(response[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
 
       expect(response[:events_by_day].length).to eq(0)
       expect(response[:events_by_month].length).to eq(3)

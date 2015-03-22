@@ -1,6 +1,16 @@
-# encoding: UTF-8
-
 class Datacite < Source
+  def get_query_url(work)
+    if url.present? && work.doi.present?
+      url % { doi: work.doi_escaped }
+    end
+  end
+
+  def get_events_url(work)
+    if events_url.present? && work.doi.present?
+      events_url % { doi: work.doi_escaped }
+    end
+  end
+
   def get_events(result)
     result["response"] ||= {}
     Array(result["response"]["docs"]).map { |item| { event: item, event_url: "http://doi.org/#{item['doi']}" } }

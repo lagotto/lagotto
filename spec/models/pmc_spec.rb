@@ -66,11 +66,11 @@ describe Pmc, type: :model, vcr: true do
       FactoryGirl.create(:fatal_error_report_with_admin_user)
       url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
       stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv(name: "pmc")).to be_nil
+      expect(subject.to_csv(name: "pmc")).to be_blank
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for PMC could not be retrieved.")
+      expect(alert.message).to eq("CouchDB report for pmc could not be retrieved.")
       expect(alert.status).to eq(404)
     end
   end

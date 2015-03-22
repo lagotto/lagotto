@@ -228,16 +228,24 @@ class Source < ActiveRecord::Base
     {}
   end
 
-  def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+  def get_query_url(work, options = {})
+    query_string = get_query_string(work)
+    return nil unless url.present? && query_string.present?
+
+    url % { query_string: query_string }
   end
 
   def get_events_url(work)
-    if events_url.present? && work.doi.present?
-      events_url % { doi: work.doi_escaped }
-    end
+    query_string = get_query_string(work)
+    return nil unless events_url.present? && query_string.present?
+
+    events_url % { query_string: query_string }
+  end
+
+  def get_query_string(work)
+    return nil unless work.get_url || work.doi.present?
+
+    [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
 
   # fields with publisher-specific settings such as API keys,

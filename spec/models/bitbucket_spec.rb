@@ -73,6 +73,7 @@ describe Bitbucket, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(434)
+      expect(response[:events_url]).to eq("https://bitbucket.org/galaxy/galaxy-central")
       expect(response[:events]["followers_count"]).to eq(162)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 272, groups: nil, comments: nil, likes: 162, citations: nil, total: 434)
     end

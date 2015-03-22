@@ -13,7 +13,7 @@ describe Wordpress, type: :model, vcr: true do
 
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_query_url(work)).to eq("http://en.search.wordpress.com/?q=#{work.query_string}&t=post&f=json&size=20")
+      expect(subject.get_query_url(work)).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post&f=json&size=20")
     end
   end
 
@@ -40,7 +40,7 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0000001", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=#{work.query_string}&t=post&f=json&size=20", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post&f=json&size=20", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -69,7 +69,7 @@ describe Wordpress, type: :model, vcr: true do
       body = File.read(fixture_path + 'wordpress.json', encoding: 'UTF-8')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response[:events_url]).to eq("http://en.search.wordpress.com/?q=#{work.query_string}&t=post")
+      expect(response[:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post")
 
       expect(response[:events_by_day].length).to eq(1)
       expect(response[:events_by_day].first).to eq(year: 2007, month: 7, day: 12, total: 1)

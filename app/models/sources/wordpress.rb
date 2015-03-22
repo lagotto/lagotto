@@ -22,18 +22,6 @@ class Wordpress < Source
     end
   end
 
-  def get_query_url(work, options = {})
-    return nil unless url.present? && work.get_url
-
-    url % { query_string: work.query_string }
-  end
-
-  def get_events_url(work)
-    return nil unless events_url.present? && work.query_string.present?
-
-    events_url % { :query_string => work.query_string }
-  end
-
   def config_fields
     [:url, :events_url]
   end

@@ -8,13 +8,6 @@ class PlosFulltext < Source
     url % { query_string: query_string }
   end
 
-  def get_events_url(work)
-    query_string = get_query_string(work)
-    return nil unless events_url.present? && query_string.present?
-
-    events_url % { query_string: query_string }
-  end
-
   def get_query_string(work)
     return nil unless work.doi.present? || work.canonical_url.present?
 

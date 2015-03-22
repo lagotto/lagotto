@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class ArticleCoverage < Source
   def get_query_url(work)
     return nil unless work.doi =~ /^10.1371/

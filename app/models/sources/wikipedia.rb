@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Wikipedia < Source
   # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
   def get_query_url(work, options={})
@@ -9,17 +7,12 @@ class Wikipedia < Source
     namespace = options[:namespace] || "0"
     sroffset = options[:sroffset] || 0
     continue = options[:continue] || ""
+    query_string = get_query_string(work)
     url % { host: host,
             namespace: namespace,
-            query_string: work.query_string,
+            query_string: query_string,
             sroffset: sroffset,
             continue: continue }
-  end
-
-  def get_events_url(work)
-    return nil unless events_url.present? && work.get_url
-
-    events_url % { :query_string => work.query_string }
   end
 
   def get_data(work, options={})

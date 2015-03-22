@@ -190,22 +190,6 @@ describe Work, type: :model, vcr: true do
     expect(Addressable::URI.encode("http://dx.doi.org/#{work.doi}")).to eq(work.doi_as_url)
   end
 
-  context "query_string" do
-    it "generates query" do
-      expect(work.query_string).to eq "%22#{work.doi}%22+OR+%22#{work.canonical_url}%22"
-    end
-
-    it "generates query without doi" do
-      work = FactoryGirl.create(:work, doi: nil)
-      expect(work.query_string).to eq "%22#{work.canonical_url}%22"
-    end
-
-    it "returns nil without doi and canonical_url" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
-      expect(work.query_string).to be_nil
-    end
-  end
-
   context "pid" do
     it 'for doi' do
       expect(work.to_param).to eq "doi/#{work.doi}"

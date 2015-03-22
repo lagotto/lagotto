@@ -5,6 +5,10 @@ class ScienceSeeker < Source
     { content_type: 'xml' }
   end
 
+  def get_query_string(work)
+    work.doi_escaped
+  end
+
   def get_events(result)
     events = result['feed'] && result.deep_fetch('feed', 'entry') { nil }
     events = [events] if events.is_a?(Hash)
@@ -35,11 +39,11 @@ class ScienceSeeker < Source
   end
 
   def url
-    "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{doi}"
+    "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{query_string}"
   end
 
   def events_url
-    "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{doi}"
+    "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{query_string}"
   end
 
   def staleness_year

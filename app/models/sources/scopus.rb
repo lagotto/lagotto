@@ -5,6 +5,12 @@ class Scopus < Source
     { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
+  def get_query_url(work)
+    if url.present? && work.doi.present?
+      url % { doi: work.doi_escaped }
+    end
+  end
+
   def parse_data(result, work, options={})
     return result if result[:error]
 

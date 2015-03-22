@@ -1,16 +1,11 @@
 class NatureOpensearch < Source
   def get_query_url(work, options = {})
-    return nil unless url.present? && work.get_url
+    query_string = get_query_string(work)
+    return nil unless url.present? && query_string.present?
 
     start_record = options[:start_record] || 1
 
-    url % { query_string: work.query_string, start_record: start_record }
-  end
-
-  def get_events_url(work)
-    return nil unless events_url.present? && work.get_url
-
-    events_url % { query_string: work.query_string }
+    url % { query_string: query_string, start_record: start_record }
   end
 
   def get_data(work, options={})

@@ -1,6 +1,10 @@
-# encoding: UTF-8
-
 class Pmc < Source
+  def get_query_url(work)
+    if url.present? && work.doi.present?
+      url % { doi: work.doi_escaped }
+    end
+  end
+
   def parse_data(result, work, options={})
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404

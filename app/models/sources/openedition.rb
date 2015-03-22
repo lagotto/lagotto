@@ -3,6 +3,10 @@ class Openedition < Source
     { content_type: 'xml' }
   end
 
+  def get_query_string(work)
+    work.doi_escaped
+  end
+
   def get_events(result)
     events = result.deep_fetch('RDF', 'item') { nil }
     events = [events] if events.is_a?(Hash)
@@ -18,11 +22,11 @@ class Openedition < Source
   end
 
   def url
-    "http://search.openedition.org/feed.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
+    "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_string}&field[]=All&pf=Hypotheses.org"
   end
 
   def events_url
-    "http://search.openedition.org/index.php?op[]=AND&q[]=%{doi}&field[]=All&pf=Hypotheses.org"
+    "http://search.openedition.org/index.php?op[]=AND&q[]=%{query_string}&field[]=All&pf=Hypotheses.org"
   end
 
   def staleness_year

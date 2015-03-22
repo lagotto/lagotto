@@ -1,18 +1,15 @@
 class TwitterSearch < Source
-  def get_query_url(work, options = {})
-    return nil unless get_access_token && url.present? && work.get_url
-
-    url % { :query_string => work.query_string }
-  end
-
-  def get_events_url(work)
-    return nil unless events_url.present? && work.query_string.present?
-
-    events_url % { :query_string => work.query_string }
-  end
-
   def request_options
     { bearer: access_token }
+  end
+
+  def get_query_url(work, options = {})
+    return nil unless get_access_token
+
+    query_string = get_query_string(work)
+    return nil unless url.present? && query_string.present?
+
+    url % { query_string: query_string }
   end
 
   def parse_data(result, work, options={})

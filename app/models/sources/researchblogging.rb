@@ -5,6 +5,10 @@ class Researchblogging < Source
     { content_type: 'xml', username: username, password: password }
   end
 
+  def get_query_string(work)
+    work.doi_escaped
+  end
+
   def get_events(result)
     events = result.deep_fetch('blogposts', 'post') { nil }
     events = [events] if events.is_a?(Hash)
@@ -34,11 +38,11 @@ class Researchblogging < Source
   end
 
   def url
-    "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{doi}"
+    "http://researchbloggingconnect.com/blogposts?count=100&article=doi:%{query_string}"
   end
 
   def events_url
-    "http://researchblogging.org/post-search/list?article=%{doi}"
+    "http://researchblogging.org/post-search/list?article=%{query_string}"
   end
 
   def staleness_year

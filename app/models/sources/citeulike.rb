@@ -9,6 +9,18 @@ class Citeulike < Source
     { metrics: :shares }
   end
 
+  def get_query_url(work)
+    if url.present? && work.doi.present?
+      url % { doi: work.doi_escaped }
+    end
+  end
+
+  def get_events_url(work)
+    if events_url.present? && work.doi.present?
+      events_url % { doi: work.doi_escaped }
+    end
+  end
+
   def get_events(result)
     events = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
     events = [events] if events.is_a?(Hash)

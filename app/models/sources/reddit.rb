@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Reddit < Source
   def parse_data(result, work, options={})
     return result if result[:error]
@@ -41,18 +39,6 @@ class Reddit < Source
           'type' => 'personal_communication' }
       }
     end
-  end
-
-  def get_query_url(work, options = {})
-    return nil unless url.present? && work.query_string.present?
-
-    url % { query_string: work.query_string }
-  end
-
-  def get_events_url(work)
-    return nil unless events_url.present? && work.query_string.present?
-
-    events_url % { :query_string => work.query_string }
   end
 
   def config_fields
