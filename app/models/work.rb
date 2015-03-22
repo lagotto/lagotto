@@ -63,10 +63,10 @@ class Work < ActiveRecord::Base
         target_url = params[:canonical_url]
       end
 
-      Alert.create(:exception => "",
-                   :class_name => "ActiveRecord::RecordInvalid",
-                   :message => message,
-                   :target_url => target_url)
+      Alert.where(message: message).first_or_create(
+        :exception => "",
+        :class_name => "ActiveRecord::RecordInvalid",
+        :target_url => target_url)
       nil
     end
   end

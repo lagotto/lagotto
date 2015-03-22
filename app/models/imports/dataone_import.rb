@@ -50,9 +50,9 @@ class DataoneImport < Import
       end
 
       if doi.nil? && ark.nil? && url.nil?
-        Alert.create(exception: "",
-                     class_name: "ActiveModel::MissingAttributeError",
-                     message: "No known identifier found in #{id}")
+        Alert.where(message: "No known identifier found in #{id}").first_or_create(
+          exception: "",
+          class_name: "ActiveModel::MissingAttributeError")
       end
 
       publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))

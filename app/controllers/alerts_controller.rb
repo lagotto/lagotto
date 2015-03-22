@@ -36,7 +36,9 @@ class AlertsController < ApplicationController
 
   def create
     exception = env["action_dispatch.exception"]
-    @alert = Alert.new(:exception => exception, :request => request)
+    @alert = Alert.where(message: exception.message).first_or_inititalize(
+      :exception => exception,
+      :request => request)
 
     # Filter for errors that should not be saved
     if ["ActiveRecord::RecordNotFound", "ActionController::RoutingError"].include?(exception.class.to_s)

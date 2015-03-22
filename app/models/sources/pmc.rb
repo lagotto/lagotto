@@ -46,11 +46,12 @@ class Pmc < Source
 
         next if save_to_file(feed_url, filename, options)
 
-        Alert.create(:exception => "",
-                     :class_name => "Net::HTTPInternalServerError",
-                     :message => "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved",
-                     :status => 500,
-                     :source_id => id)
+        message = "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved"
+        Alert.where(message: message).first_or_create(
+          :exception => "",
+          :class_name => "Net::HTTPInternalServerError",
+          :status => 500,
+          :source_id => id)
         journals_with_errors << journal
       end
     end
@@ -75,10 +76,12 @@ class Pmc < Source
         status = document.at_xpath("//pmc-web-stat/response/@status").value
         if status != "0"
           error_message = document.at_xpath("//pmc-web-stat/response/error").content
-          Alert.create(:exception => "", :class_name => "Net::HTTPInternalServerError",
-                       :message => "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}",
-                       :status => 500,
-                       :source_id => id)
+          message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}"
+          Alert.where(message: message).first_or_create(
+            :exception => "",
+            :class_name => "Net::HTTPInternalServerError",
+            :status => 500,
+            :source_id => id)
           journals_with_errors << journal
         else
           # go through all the works in the xml document

@@ -57,11 +57,11 @@ module Statable
           class_name = "TooManyErrorsBySourceError"
           message = "#{source.display_name} has exceeded maximum failed queries. Disabling the source."
         end
-        Alert.create(exception: "",
-                     class_name: class_name,
-                     message: message,
-                     source_id: source.id,
-                     level: Alert::FATAL)
+        Alert.where(message: message).first_or_create(
+          exception: "",
+          class_name: class_name,
+          source_id: source.id,
+          level: Alert::FATAL)
       end
 
       event :install do

@@ -10,7 +10,6 @@ module Networkable
   extend ActiveSupport::Concern
 
   included do
-
     def get_result(url, options = { content_type: 'json' })
       conn = faraday_conn(options[:content_type])
       conn.basic_auth(options[:username], options[:password]) if options[:username]
@@ -46,13 +45,8 @@ module Networkable
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     rescue => exception
-      Alert.create(:exception => exception,
-                   :class_name => exception.class.to_s,
-                   :message => exception.message,
-                   :status => 500,
-                   :level => Alert::FATAL,
-                   :source_id => options[:source_id])
-      nil
+      options[:level] = Alert::FATAL
+      create_alert(exception, options)
     end
 
     def read_from_file(filename = "tmpdata", options = { content_type: 'xml' })
@@ -65,13 +59,8 @@ module Networkable
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     rescue => exception
-      Alert.create(:exception => exception,
-                   :class_name => exception.class.to_s,
-                   :message => exception.message,
-                   :status => 500,
-                   :level => Alert::FATAL,
-                   :source_id => options[:source_id])
-      nil
+      options[:level] = Alert::FATAL
+      create_alert(exception, options)
     end
 
     def faraday_conn(content_type = 'json')
@@ -95,35 +84,7 @@ module Networkable
 
     def rescue_faraday_error(url, error, options={})
       if error.is_a?(Faraday::ResourceNotFound)
-        status = 404
-        if error.response.blank? && error.response[:body].blank?
-          { error: "resource not found", status: status }
-        # we raise an error if we find a canonical URL mismatch
-        elsif options[:doi_mismatch]
-          work = Work.where(id: options[:work_id]).first
-          Alert.create(exception: error.exception,
-                       class_name: "Net::HTTPNotFound",
-                       message: error.response[:message],
-                       details: error.response[:body],
-                       status: status,
-                       work_id: work.id,
-                       target_url: url)
-          { error: error.response[:message], status: status }
-        # we raise an error if a DOI can't be resolved
-        elsif options[:doi_lookup]
-          work = Work.where(id: options[:work_id]).first
-          Alert.create(exception: error.exception,
-                       class_name: "Net::HTTPNotFound",
-                       message: "DOI #{work.doi} could not be resolved",
-                       details: error.response[:body],
-                       status: status,
-                       work_id: work.id,
-                       target_url: url)
-          { error: "DOI #{work.doi} could not be resolved", status: status }
-        else
-          error = parse_error_response(error.response[:body])
-          { error: error, status: status }
-        end
+        not_found_error(url, error, options)
       else
         details = nil
         headers = {}
@@ -146,7 +107,7 @@ module Networkable
           exception = ""
         end
 
-        class_name = class_by_status(status) || error.class
+        class_name = class_name_by_status(status) || error.class
         level = level_by_status(status)
 
         message = parse_error_response(error.message)
@@ -154,37 +115,63 @@ module Networkable
         message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
         message = rate_limiting_info(message, headers) if class_name == Net::HTTPTooManyRequests
 
-        Alert.create(exception: exception,
-                     class_name: class_name.to_s,
-                     message: message,
-                     details: details,
-                     status: status,
-                     target_url: url,
-                     level: level,
-                     work_id: options[:work_id],
-                     source_id: options[:source_id])
+        Alert.where(message: message).first_or_create(
+          exception: exception,
+          class_name: class_name.to_s,
+          details: details,
+          status: status,
+          target_url: url,
+          level: level,
+          work_id: options[:work_id],
+          source_id: options[:source_id])
+
         { error: message, status: status }
       end
     end
 
-    def class_by_status(status)
-      class_name =
-        case status
-        when 400 then Net::HTTPBadRequest
-        when 401 then Net::HTTPUnauthorized
-        when 403 then Net::HTTPForbidden
-        when 404 then Net::HTTPNotFound
-        when 406 then Net::HTTPNotAcceptable
-        when 408 then Net::HTTPRequestTimeOut
-        when 409 then Net::HTTPConflict
-        when 417 then Net::HTTPExpectationFailed
-        when 429 then Net::HTTPTooManyRequests
-        when 500 then Net::HTTPInternalServerError
-        when 502 then Net::HTTPBadGateway
-        when 503 then Net::HTTPServiceUnavailable
-        when 504 then Net::HTTPGatewayTimeOut
-        else nil
+    def not_found_error(url, error, options={})
+      status = 404
+      # we raise an error if we find a canonical URL mismatch
+      # or a DOI can't be resolved
+      if options[:doi_mismatch] || options[:doi_lookup]
+        work = Work.where(id: options[:work_id]).first
+        if options[:doi_mismatch]
+          message = error.response[:message]
+        else
+          message = "DOI #{work.doi} could not be resolved"
         end
+        Alert.where(message: message).first_or_create(
+          exception: error.exception,
+          class_name: "Net::HTTPNotFound",
+          details: error.response[:body],
+          status: status,
+          work_id: work.id,
+          target_url: url)
+        { error: message, status: status }
+      else
+        if error.response.blank? && error.response[:body].blank?
+          message = "resource not found"
+        else
+          message = parse_error_response(error.response[:body])
+        end
+        { error: message, status: status }
+      end
+    end
+
+    def class_name_by_status(status)
+      { 400 => Net::HTTPBadRequest,
+        401 => Net::HTTPUnauthorized,
+        403 => Net::HTTPForbidden,
+        404 => Net::HTTPNotFound,
+        406 => Net::HTTPNotAcceptable,
+        408 => Net::HTTPRequestTimeOut,
+        409 => Net::HTTPConflict,
+        417 => Net::HTTPExpectationFailed,
+        429 => Net::HTTPTooManyRequests,
+        500 => Net::HTTPInternalServerError,
+        502 => Net::HTTPBadGateway,
+        503 => Net::HTTPServiceUnavailable,
+        504 => Net::HTTPGatewayTimeOut }.fetch(status, nil)
     end
 
     def level_by_status(status)
@@ -223,6 +210,16 @@ module Networkable
       JSON.parse(string)
     rescue JSON::ParserError
       false
+    end
+
+    def create_alert(exception, options = {})
+      Alert.where(message: exception.message).first_or_create(
+        :exception => exception,
+        :class_name => exception.class.to_s,
+        :status => options[:status] || 500,
+        :level => options[:level],
+        :source_id => options[:source_id])
+      nil
     end
   end
 end
