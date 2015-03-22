@@ -47,7 +47,7 @@ class Pmc < Source
         next if save_to_file(feed_url, filename, options)
 
         message = "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved"
-        Alert.where(message: message).first_or_create(
+        Alert.where(message: message).where(unresolved: true).first_or_create(
           :exception => "",
           :class_name => "Net::HTTPInternalServerError",
           :status => 500,
@@ -77,7 +77,7 @@ class Pmc < Source
         if status != "0"
           error_message = document.at_xpath("//pmc-web-stat/response/error").content
           message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}"
-          Alert.where(message: message).first_or_create(
+          Alert.where(message: message).where(unresolved: true).first_or_create(
             :exception => "",
             :class_name => "Net::HTTPInternalServerError",
             :status => 500,

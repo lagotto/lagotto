@@ -20,7 +20,7 @@ class SourceJob < ActiveJob::Base
     rs_ids, source = arguments
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
 
-    Alert.where(message: exception.message).first_or_create(
+    Alert.where(message: exception.message).where(unresolved: true).first_or_create(
       exception: exception,
       class_name: exception.class.to_s,
       source_id: source.id)

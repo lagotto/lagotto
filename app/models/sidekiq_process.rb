@@ -75,7 +75,7 @@ class SidekiqProcess
     if ps.nil?
       start
       message = "No Sidekiq process running, Sidekiq process started at #{Time.zone.now.utc.iso8601}."
-      Alert.where(message: message).first_or_create(
+      Alert.where(message: message).where(unresolved: true).first_or_create(
         :exception => "",
         :class_name => "StandardError",
         :level => Alert::FATAL)

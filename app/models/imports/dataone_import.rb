@@ -50,7 +50,7 @@ class DataoneImport < Import
       end
 
       if doi.nil? && ark.nil? && url.nil?
-        Alert.where(message: "No known identifier found in #{id}").first_or_create(
+        Alert.where(message: "No known identifier found in #{id}").where(unresolved: true).first_or_create(
           exception: "",
           class_name: "ActiveModel::MissingAttributeError")
       end

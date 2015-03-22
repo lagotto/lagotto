@@ -301,7 +301,7 @@ class Source < ActiveRecord::Base
     result = get_result(service_url, options.merge(timeout: 1800))
     if result.blank? || result["rows"].blank?
       message = "CouchDB report for #{options[:name]} could not be retrieved."
-      Alert.where(message: message).first_or_create(
+      Alert.where(message: message).where(unresolved: true).first_or_create(
         exception: "",
         class_name: "Faraday::ResourceNotFound",
         source_id: id,

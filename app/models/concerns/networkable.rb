@@ -115,7 +115,7 @@ module Networkable
         message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
         message = rate_limiting_info(message, headers) if class_name == Net::HTTPTooManyRequests
 
-        Alert.where(message: message).first_or_create(
+        Alert.where(message: message).where(unresolved: true).first_or_create(
           exception: exception,
           class_name: class_name.to_s,
           details: details,
@@ -140,7 +140,7 @@ module Networkable
         else
           message = "DOI #{work.doi} could not be resolved"
         end
-        Alert.where(message: message).first_or_create(
+        Alert.where(message: message).where(unresolved: true).first_or_create(
           exception: error.exception,
           class_name: "Net::HTTPNotFound",
           details: error.response[:body],
@@ -213,7 +213,7 @@ module Networkable
     end
 
     def create_alert(exception, options = {})
-      Alert.where(message: exception.message).first_or_create(
+      Alert.where(message: exception.message).where(unresolved: true).first_or_create(
         :exception => exception,
         :class_name => exception.class.to_s,
         :status => options[:status] || 500,

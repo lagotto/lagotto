@@ -63,7 +63,7 @@ class Work < ActiveRecord::Base
         target_url = params[:canonical_url]
       end
 
-      Alert.where(message: message).first_or_create(
+      Alert.where(message: message).where(unresolved: true).first_or_create(
         :exception => "",
         :class_name => "ActiveRecord::RecordInvalid",
         :target_url => target_url)

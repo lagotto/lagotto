@@ -59,7 +59,7 @@ class Wos < Source
       end
       error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
       message = "Web of Science error #{status}: '#{error}' for work #{work.doi}"
-      Alert.where(message: message).first_or_create(
+      Alert.where(message: message).where(unresolved: true).first_or_create(
         exception: "",
         class_name: class_name,
         status: status_code,
