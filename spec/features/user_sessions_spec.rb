@@ -41,4 +41,15 @@ describe "user sessions", :type => :feature, js: true do
     sign_out
     expect(page).to have_content "Sign in with PLOS ID"
   end
+
+  it "signs in as second user" do
+    user = FactoryGirl.create(:user, name: "Jack White")
+
+    sign_in
+    expect(page).to have_content "Joe Smith"
+
+    visit "/users"
+    expect(page).to have_css ".panel-heading a.accordion-toggle", count: 2
+
+  end
 end
