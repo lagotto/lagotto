@@ -254,6 +254,11 @@ class Source < ActiveRecord::Base
     config_fields.select { |field| field !~ /url\z/ }
   end
 
+  # all other fields
+  def url_fields
+    config_field - publisher_fields
+  end
+
   # all publisher-specific configurations
   def publisher_configs
     return [] unless by_publisher?
@@ -264,11 +269,6 @@ class Source < ActiveRecord::Base
   def publisher_config(publisher_id)
     conf = publisher_configs.find { |conf| conf[0] == publisher_id }
     conf.nil? ? OpenStruct.new : conf[1]
-  end
-
-  # all other fields
-  def url_fields
-    config_fields.select { |field| field =~ /url\z/ }
   end
 
   def allowed_blank_fields
