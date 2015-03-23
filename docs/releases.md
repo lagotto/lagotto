@@ -3,6 +3,31 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.19 (March 23, 2015)
+
+[Lagotto 3.19](https://github.com/articlemetrics/lagotto/releases/tag/v.3.19) was released on March 23, 2015 with the following changes:
+
+* allow user configuration of signposts, summaries of the most important metrics ([#263](https://github.com/articlemetrics/lagotto/issues/263))
+* support `published_id` when creating works via the v4 API ([#264](https://github.com/articlemetrics/lagotto/issues/264))
+* replacing the cucumber tests removed in ([#262](https://github.com/articlemetrics/lagotto/issues/262)) with rspec acceptance tests ([#265](https://github.com/articlemetrics/lagotto/issues/265))
+* removed duplicate events in display on article pages ([#256](https://github.com/articlemetrics/lagotto/issues/256))
+* hard-code configuration URLs for sources, making it easier to automatically change these parameters via an upgrade ([#271](https://github.com/articlemetrics/lagotto/issues/271))
+* updated documentation to how correct service URLs for sources ([#273](https://github.com/articlemetrics/lagotto/issues/273))
+* upgrade to Rails 4.2.1 ([#275](https://github.com/articlemetrics/lagotto/issues/275))
+* switched from `jasmine_rails` to `teaspoon` for running javascript `jasmine` unit tests ([#276](https://github.com/articlemetrics/lagotto/issues/276))
+* only create one alert per message ([#277](https://github.com/articlemetrics/lagotto/issues/277))
+* fixed bug in generating report with mendeley, pmc or counter data ([#279](https://github.com/articlemetrics/lagotto/issues/279))
+
+To customize the signposts, add/uncomment the following ENV variables in your `.env` file, separating multiple sources via comma:
+
+```sh
+# customize signposts, defaults are shown
+# VIEWED=pmc,counter
+# SAVED=mendeley,citeulike
+# DISCUSSED=twitter,twitter_search,facebook
+# CITED=crossref
+```
+
 ## Lagotto 3.18 (March 2, 2015)
 
 [Lagotto 3.18](https://github.com/articlemetrics/lagotto/releases/tag/v.3.18) was released on March 2, 2015 with the following changes:
