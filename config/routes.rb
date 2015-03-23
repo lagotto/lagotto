@@ -38,7 +38,7 @@ Lagotto::Application.routes.draw do
 
     namespace :v4 do
       resources :alerts, :constraints => { :format=> false }
-      resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }
+      resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:create, :update, :destroy, :show]
     end
 
     namespace :v5 do
