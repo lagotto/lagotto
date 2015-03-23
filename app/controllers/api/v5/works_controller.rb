@@ -22,7 +22,7 @@ class Api::V5::WorksController < Api::BaseController
 
   def show
     @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
-      .decorate(context: { info: params[:info], source_id: params[:source_id] })
+      .decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })
 
     fresh_when last_modified: @work.updated_at
   end
@@ -44,12 +44,11 @@ class Api::V5::WorksController < Api::BaseController
     collection = collection.paginate(per_page: per_page,
                                      page: params[:page],
                                      total_entries: total_entries)
-    user = current_user ? current_user.cache_key : "2"
 
     fresh_when last_modified: collection.maximum(:updated_at)
     @works = collection.decorate(context: { info: params[:info],
                                             source_id: params[:source_id],
-                                            user: user })
+                                            admin: current_user.try(:is_admin_or_staff?) })
   end
 
   # Load works from ids listed in query string, use type parameter if present

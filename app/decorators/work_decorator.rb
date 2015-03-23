@@ -15,10 +15,8 @@ class WorkDecorator < Draper::Decorator
     return context[:source_ids] if context[:source_ids]
 
     collection = Source
-    collection = collection.where(name: context[:source_id]) \
-      if context[:source_id]
-    collection = collection.where("private = ?", false) \
-      if context[:user] == "2"
+    collection = collection.where(name: context[:source_id]) if context[:source_id]
+    collection = collection.where(private: false) unless context[:admin]
     collection = collection.order("name").pluck(:id)
   end
 
