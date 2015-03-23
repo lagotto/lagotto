@@ -17,9 +17,9 @@ module Authenticable
     def authenticate_user_from_token!
       user_token = params[:api_key].presence
       if user_token
-        user = User.where(authentication_token: user_token.to_s).first
-        if user
-          sign_in user, store: false
+        resource = User.where(authentication_token: user_token.to_s).first
+        if resource
+          sign_in resource, store: false
         else
           render json: { error: "wrong API key." }, status: 401
         end
@@ -38,7 +38,9 @@ module Authenticable
     end
 
     def create_alert(exception, options = {})
-      Alert.create(exception: exception, status: options[:status])
+      Alert.where(message: exception.message).where(unresolved: true).first_or_create(
+        exception: exception,
+        status: options[:status])
     end
 
     def cors_set_access_control_headers
@@ -81,6 +83,7 @@ module Authenticable
 
     rescue_from NoMethodError do |exception|
       create_alert(exception, status: 422)
+
       render json: { error: exception.message }, status: 422
     end
   end
