@@ -81,22 +81,25 @@ describe PmcEuropeData, type: :model, vcr: true do
     it "should report that there are no events if the pmid is missing" do
       work = FactoryGirl.build(:work, :pmid => "")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      result.extend Hashie::Extensions::DeepFetch
+      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, extra: nil)
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'pmc_europe_data_nil.json')
       result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'pmc_europe_data.json')
       result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { "EMBL" => 10, "UNIPROT" => 21700 }, :events_by_day=>[], :events_by_month=>[], event_count: 21710, events_url: "http://europepmc.org/abstract/MED/#{work.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 21710, total: 21710 })
+      expect(response).to eq(events: { "EMBL" => 10, "UNIPROT" => 21700 }, :events_by_day=>[], :events_by_month=>[], event_count: 21710, events_url: "http://europepmc.org/abstract/MED/#{work.pmid}#fragment-related-bioentities", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 21710, total: 21710 }, extra: nil)
     end
 
     it "should catch timeout errors with the PMC Europe API" do
@@ -111,15 +114,17 @@ describe PmcEuropeData, type: :model, vcr: true do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => "", :pmid => "")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      result.extend Hashie::Extensions::DeepFetch
+      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, extra: nil)
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "")
       body = File.read(fixture_path + 'pmc_europe_data_nil.xml')
       result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
@@ -132,14 +137,12 @@ describe PmcEuropeData, type: :model, vcr: true do
       expect(response[:events_url]).to be_nil
 
       event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Ha.", "given"=>"Piwowar"}])
-      expect(event[:event_csl]['title']).to eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
-      expect(event[:event_csl]['container-title']).to eq("PLoS One")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
-      expect(event[:event_csl]['type']).to eq("article-journal")
-
-      expect(event[:event_url]).to eq("http://europepmc.org/abstract/MED/21765886")
+      expect(event['author']).to eq([{"family"=>"Ha.", "given"=>"Piwowar"}])
+      expect(event['title']).to eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
+      expect(event['container-title']).to eq("PLoS One")
+      expect(event['issued']).to eq("date-parts"=>[[2011]])
+      expect(event['type']).to eq("article-journal")
+      expect(event['URL']).to eq("http://europepmc.org/abstract/MED/21765886")
     end
   end
 end

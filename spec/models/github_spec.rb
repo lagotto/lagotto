@@ -46,7 +46,7 @@ describe Github, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: {} } }
 
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
@@ -63,9 +63,9 @@ describe Github, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Github API" do
       body = File.read(fixture_path + 'github_nil.json')
       result = JSON.parse(body)
-      events = { "stargazers_count"=>0, "stargazers_url"=>"https://api.github.com/repos/articlemetrics/pyalm/stargazers", "forks_count"=>0, "forks_url"=>"https://api.github.com/repos/articlemetrics/pyalm/forks" }
+      extra = { "stargazers_count"=>0, "stargazers_url"=>"https://api.github.com/repos/articlemetrics/pyalm/stargazers", "forks_count"=>0, "forks_url"=>"https://api.github.com/repos/articlemetrics/pyalm/forks" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>events, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: extra)
     end
 
     it "should report if there are events and event_count returned by the Github API" do

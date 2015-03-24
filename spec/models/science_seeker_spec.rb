@@ -56,14 +56,12 @@ describe ScienceSeeker, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => "")
       result = {}
-      result.extend Hashie::Extensions::DeepFetch
       expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_nil.xml')
       result = Hash.from_xml(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: nil)
     end
@@ -71,7 +69,6 @@ describe ScienceSeeker, type: :model, vcr: true do
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, events_url: nil)
     end
@@ -80,7 +77,6 @@ describe ScienceSeeker, type: :model, vcr: true do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
       body = File.read(fixture_path + 'science_seeker.xml')
       result = Hash.from_xml(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(3)
       expect(response[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
@@ -91,22 +87,18 @@ describe ScienceSeeker, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2012, month: 5, total: 3)
 
       event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Duncan", "given"=>""}])
-      expect(event[:event_csl]['title']).to eq("Web analytics: Numbers speak louder than words")
-      expect(event[:event_csl]['container-title']).to eq("O'Really?")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2012, 5, 18]])
-      expect(event[:event_csl]['type']).to eq("post")
-
-      expect(event[:event_time]).to eq("2012-05-18T07:58:34Z")
-      expect(event[:event_url]).to eq(event[:event]['link']['href'])
+      expect(event['URL']).to eq("http://duncan.hull.name/2012/05/18/two-ton/")
+      expect(event['author']).to eq([{"family"=>"Duncan", "given"=>""}])
+      expect(event['title']).to eq("Web analytics: Numbers speak louder than words")
+      expect(event['container-title']).to eq("O'Really?")
+      expect(event['issued']).to eq("date-parts"=>[[2012, 5, 18]])
+      expect(event['type']).to eq("post")
     end
 
     it "should report if there is one event returned by the ScienceSeeker API" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0035869", published_on: "2012-05-03")
       body = File.read(fixture_path + 'science_seeker_one.xml')
       result = Hash.from_xml(body)
-      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:event_count]).to eq(1)
       expect(response[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
@@ -117,15 +109,12 @@ describe ScienceSeeker, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2012, month: 5, total: 1)
 
       event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Duncan", "given"=>""}])
-      expect(event[:event_csl]['title']).to eq("Web analytics: Numbers speak louder than words")
-      expect(event[:event_csl]['container-title']).to eq("O'Really?")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2012, 5, 18]])
-      expect(event[:event_csl]['type']).to eq("post")
-
-      expect(event[:event_time]).to eq("2012-05-18T07:58:34Z")
-      expect(event[:event_url]).to eq(event[:event]['link']['href'])
+      expect(event['URL']).to eq("http://duncan.hull.name/2012/05/18/two-ton/")
+      expect(event['author']).to eq([{"family"=>"Duncan", "given"=>""}])
+      expect(event['title']).to eq("Web analytics: Numbers speak louder than words")
+      expect(event['container-title']).to eq("O'Really?")
+      expect(event['issued']).to eq("date-parts"=>[[2012, 5, 18]])
+      expect(event['type']).to eq("post")
     end
 
     it "should catch timeout errors with the ScienceSeeker API" do

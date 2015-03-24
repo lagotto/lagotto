@@ -47,7 +47,7 @@ describe RelativeMetric, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{:start_date=>"2009-01-01T00:00:00Z", :end_date=>"2009-12-31T00:00:00Z", :subject_areas=>[]}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0} } }
+    let(:null_response) { { events: [], extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }, events_by_day: [], events_by_month: [], events_url: nil, total: 0, event_metrics: {:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0} } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil, :published_on => Date.new(2009, 5, 19))
@@ -66,7 +66,7 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events]).to eq(
+      expect(response[:extra]).to eq(
         :start_date => "2009-01-01T00:00:00Z",
         :end_date => "2009-12-31T00:00:00Z",
         :subject_areas => [
@@ -89,7 +89,7 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric_nodata.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events]).to eq(:start_date => "2009-01-01T00:00:00Z",
+      expect(response[:extra]).to eq(:start_date => "2009-01-01T00:00:00Z",
                                   :end_date => "2009-12-31T00:00:00Z",
                                   :subject_areas => [])
       expect(response[:event_metrics]).to eq(:pdf => nil,

@@ -21,13 +21,13 @@ describe ArticleCoverage, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq(error: "Article not found", status: 404)
     end
 
-    it "should report if there are no events and event_count returned by the Article Coverage API" do
+    it "should report if there are no events returned by the Article Coverage API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008775")
       response = subject.get_data(work)
       expect(subject.get_data(work)).to eq(error: "Article not found", status: 404)
     end
 
-    it "should report if there are events and event_count returned by the Article Coverage API" do
+    it "should report if there are events returned by the Article Coverage API" do
       response = subject.get_data(work)
       expect(response["doi"]).to eq(work.doi)
       expect(response["referrals"].length).to eq(8)
@@ -52,7 +52,7 @@ describe ArticleCoverage, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0}, :extra=>nil)
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
@@ -61,14 +61,14 @@ describe ArticleCoverage, type: :model, vcr: true do
       expect(response).to eq(result)
     end
 
-    it "should report if there are no events and event_count returned by the Article Coverage API" do
+    it "should report if there are no events returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0}, :extra=>nil)
     end
 
-    it "should report if there are events and event_count returned by the Article Coverage API" do
+    it "should report if there are events returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
@@ -79,19 +79,15 @@ describe ArticleCoverage, type: :model, vcr: true do
       expect(response[:events_by_month].length).to eq(1)
       expect(response[:events_by_month].first).to eq(year: 2013, month: 11, total: 2)
 
-      expect(response[:event_count]).to eq(2)
+      expect(response[:total]).to eq(2)
       event = response[:events].first
-      event_data = event[:event]
-      expect(event_data['referral']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
-      expect(event_data['language']).to eq("English")
-      expect(event_data['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
-      expect(event_data['type']).to eq("Blog")
-      expect(event_data['publication']).to eq("The Huffington Post")
-      expect(event_data['published_on']).to eq("2013-11-20T00:00:00Z")
-      expect(event_data['link_state']).to eq("APPROVED")
-
-      expect(event[:event_time]).to eq("2013-11-20T00:00:00Z")
-      expect(event[:event_url]).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+      expect(event['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+      expect(event['author']).to be_nil
+      expect(event['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
+      expect(event['container-title']).to eq("The Huffington Post")
+      expect(event['issued']).to eq("date-parts"=>[[2013, 11, 20]])
+      expect(event['timestamp']).to eq("2013-11-20T00:00:00Z")
+      expect(event['type']).to eq("post")
     end
 
     it "should catch timeout errors with the Article Coverage API" do

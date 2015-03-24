@@ -91,7 +91,7 @@ describe Mendeley, :type => :model do
   end
 
   context "get_data" do
-    it "should report if there are events and event_count returned by the Mendeley API" do
+    it "should report if there are events returned by the Mendeley API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
       body = File.read(fixture_path + 'mendeley.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
@@ -100,7 +100,7 @@ describe Mendeley, :type => :model do
       expect(stub).to have_been_requested
     end
 
-    it "should report no events and event_count if the Mendeley API returns incomplete response" do
+    it "should report no events if the Mendeley API returns incomplete response" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'mendeley_incomplete.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
@@ -110,7 +110,7 @@ describe Mendeley, :type => :model do
       expect(Alert.count).to eq(0)
     end
 
-    it "should report no events and event_count if the Mendeley API returns malformed response" do
+    it "should report no events if the Mendeley API returns malformed response" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'mendeley_nil.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body, :status => 404)
@@ -119,7 +119,7 @@ describe Mendeley, :type => :model do
       expect(Alert.count).to eq(0)
     end
 
-    it "should report no events and event_count if the Mendeley API returns not found error" do
+    it "should report no events if the Mendeley API returns not found error" do
       work = FactoryGirl.build(:work)
       body = File.read(fixture_path + 'mendeley_error.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body, :status => 404)
@@ -145,7 +145,7 @@ describe Mendeley, :type => :model do
 
   context "parse_data" do
     let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
-    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 } } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :readers=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 }, extra: {} } }
 
     it "should report if the doi, pmid, mendeley uuid and title are missing" do
       result = {}
@@ -153,17 +153,17 @@ describe Mendeley, :type => :model do
       expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
-    it "should report if there are events and event_count returned by the Mendeley API" do
+    it "should report if there are events returned by the Mendeley API" do
       body = File.read(fixture_path + 'mendeley.json')
       result = { "data" => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:events]).not_to be_nil
       expect(response[:events_url]).not_to be_nil
-      expect(response[:event_count]).to eq(34)
+      expect(response[:total]).to eq(34)
     end
 
-    it "should report no events and event_count if the Mendeley API returns incomplete response" do
+    it "should report no events if the Mendeley API returns incomplete response" do
       body = File.read(fixture_path + 'mendeley_incomplete.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -171,7 +171,7 @@ describe Mendeley, :type => :model do
       expect(Alert.count).to eq(0)
     end
 
-    it "should report no events and event_count if the Mendeley API returns malformed response" do
+    it "should report no events if the Mendeley API returns malformed response" do
       body = File.read(fixture_path + 'mendeley_nil.json')
       result = { 'data' => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
@@ -179,7 +179,7 @@ describe Mendeley, :type => :model do
       expect(Alert.count).to eq(0)
     end
 
-    it "should report no events and event_count if the Mendeley API returns not found error" do
+    it "should report no events if the Mendeley API returns not found error" do
       body = File.read(fixture_path + 'mendeley_error.json')
       result = { error: JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
@@ -190,7 +190,6 @@ describe Mendeley, :type => :model do
     it "should catch timeout errors with the Mendeley API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{work.mendeley_uuid}", status: 408 }
-      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response).to eq(result)
     end

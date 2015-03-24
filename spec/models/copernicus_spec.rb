@@ -61,7 +61,7 @@ describe Copernicus, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 } } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :html=>0, :pdf=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 }, :extra=>{} } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)

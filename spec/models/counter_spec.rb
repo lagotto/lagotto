@@ -99,7 +99,7 @@ describe Counter, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the Counter API" do
+    it "should report if there are no events returned by the Counter API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'counter_nil.xml')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
@@ -109,7 +109,7 @@ describe Counter, type: :model, vcr: true do
       expect(stub).to have_been_requested
     end
 
-    it "should report if there are events and event_count returned by the Counter API" do
+    it "should report if there are events returned by the Counter API" do
       response = subject.get_data(work)
       expect(response["rest"]["response"]["criteria"]).to eq("year"=>"all", "month"=>"all", "journal"=>"all", "doi"=>work.doi)
       expect(response["rest"]["response"]["results"]["total"]["total"]).to eq("5514")
@@ -130,7 +130,7 @@ describe Counter, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], total: 0, html: 0, pdf: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: [] } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
@@ -146,7 +146,7 @@ describe Counter, type: :model, vcr: true do
       expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
-    it "should report if there are no events and event_count returned by the Counter API" do
+    it "should report if there are no events returned by the Counter API" do
       body = File.read(fixture_path + 'counter_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -154,16 +154,16 @@ describe Counter, type: :model, vcr: true do
       expect(response).to eq(null_response)
     end
 
-    it "should report if there are events and event_count returned by the Counter API" do
+    it "should report if there are events returned by the Counter API" do
       body = File.read(fixture_path + 'counter.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(37)
+      expect(response[:extra].length).to eq(37)
       expect(response[:events_by_month].length).to eq(37)
-      expect(response[:events_by_month].first).to eq(month: 1, year: 2010, html: 299, pdf: 90)
+      expect(response[:events_by_month].first).to eq(month: 1, year: 2010, html: 299, pdf: 90, total: 390)
       expect(response[:events_url]).to be_nil
-      expect(response[:event_count]).to eq(3387)
+      expect(response[:total]).to eq(3387)
       expect(response[:event_metrics]).to eq(pdf: 447, html: 2919, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 3387)
     end
 

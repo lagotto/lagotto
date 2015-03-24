@@ -23,13 +23,13 @@ describe Wordpress, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the Wordpress API" do
+    it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294")
       response = subject.get_data(work)
       expect(response).to eq("data"=>"null")
     end
 
-    it "should report if there are events and event_count returned by the Wordpress API" do
+    it "should report if there are events returned by the Wordpress API" do
       response = subject.get_data(work)
       expect(response["data"].length).to eq(1)
       data = response["data"].first
@@ -55,17 +55,17 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, extra: nil)
     end
 
-    it "should report if there are no events and event_count returned by the Wordpress API" do
+    it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, extra: nil)
     end
 
-    it "should report if there are events and event_count returned by the Wordpress API" do
+    it "should report if there are events returned by the Wordpress API" do
       body = File.read(fixture_path + 'wordpress.json', encoding: 'UTF-8')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
@@ -77,15 +77,12 @@ describe Wordpress, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2007, month: 7, total: 1)
 
       event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Piwowar", "given"=>"Heather"}])
-      expect(event[:event_csl]['title']).to eq("Presentation on Citation Rate for Shared Data")
-      expect(event[:event_csl]['container-title']).to eq("")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2007, 7, 12]])
-      expect(event[:event_csl]['type']).to eq("post")
-
-      expect(event[:event_time]).to eq("2007-07-12T15:36:38Z")
-      expect(event[:event_url]).to eq(event[:event]['link'])
+      expect(event['URL']).to eq("http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/")
+      expect(event['author']).to eq([{"family"=>"Piwowar", "given"=>"Heather"}])
+      expect(event['title']).to eq("Presentation on Citation Rate for Shared Data")
+      expect(event['container-title']).to be_nil
+      expect(event['issued']).to eq("date-parts"=>[[2007, 7, 12]])
+      expect(event['type']).to eq("post")
     end
 
     it "should catch timeout errors with the Wordpress API" do

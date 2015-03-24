@@ -11,7 +11,7 @@ describe Twitter, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the Twitter API" do
+    it "should report if there are no events returned by the Twitter API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
@@ -20,7 +20,7 @@ describe Twitter, type: :model, vcr: true do
       expect(stub).to have_been_requested
     end
 
-    it "should report if there are events and event_count returned by the Twitter API" do
+    it "should report if there are events returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
@@ -42,18 +42,18 @@ describe Twitter, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    it "should report if there are no events and event_count returned by the Twitter API" do
+    it "should report if there are no events returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0})
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0}, extra: nil)
     end
 
-    it "should report if there are events and event_count returned by the Twitter API" do
+    it "should report if there are events returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(2)
+      expect(response[:total]).to eq(2)
 
       expect(response[:events_by_day].length).to eq(2)
       expect(response[:events_by_day].first).to eq(year: 2012, month: 5, day: 20, total: 1)
@@ -62,14 +62,13 @@ describe Twitter, type: :model, vcr: true do
 
       event = response[:events].first
 
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Regrum", "given"=>""}])
-      expect(event[:event_csl]['title']).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
-      expect(event[:event_csl]['container-title']).to eq("Twitter")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2012, 5, 20]])
-      expect(event[:event_csl]['type']).to eq("personal_communication")
-
-      expect(event[:event_url]).to eq("http://twitter.com/regrum/status/204270013081849857")
-      expect(event[:event_time]).to eq("2012-05-20T17:59:00Z")
+      expect(event['author']).to eq([{"family"=>"Regrum", "given"=>""}])
+      expect(event['title']).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
+      expect(event['container-title']).to eq("Twitter")
+      expect(event['issued']).to eq("date-parts"=>[[2012, 5, 20]])
+      expect(event['type']).to eq("personal_communication")
+      expect(event['URL']).to eq("http://twitter.com/regrum/status/204270013081849857")
+      expect(event['timestamp']).to eq("2012-05-20T17:59:00Z")
       event_data = event[:event]
 
       expect(event_data[:id]).to eq("204270013081849857")

@@ -112,15 +112,13 @@ describe TwitterSearch, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2014, month: 1, total: 8)
 
       event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])
-      expect(event[:event_csl]['title']).to eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
-      expect(event[:event_csl]['container-title']).to eq("Twitter")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2014, 1, 11]])
-      expect(event[:event_csl]['type']).to eq("personal_communication")
-
-      expect(event[:event_url]).to eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
-      expect(event[:event_time]).to eq("2014-01-11T16:17:43Z")
+      expect(event['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])
+      expect(event['title']).to eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
+      expect(event['container-title']).to eq("Twitter")
+      expect(event['issued']).to eq("date-parts"=>[[2014, 1, 11]])
+      expect(event['type']).to eq("personal_communication")
+      expect(event['URL']).to eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
+      expect(event['timestamp']).to eq("2014-01-11T16:17:43Z")
     end
 
     it "should catch timeout errors with the Twitter Search API" do

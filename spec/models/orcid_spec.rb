@@ -11,13 +11,13 @@ describe Orcid, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the ORCID API" do
+    it "should report if there are no events returned by the ORCID API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       response = subject.get_data(work)
       expect(response).to eq("message-version"=>"1.1", "orcid-search-results"=>{"orcid-search-result"=>[], "num-found"=>0})
     end
 
-    it "should report if there are events and event_count returned by the ORCID API" do
+    it "should report if there are events returned by the ORCID API" do
       response = subject.get_data(work)
       expect(response["orcid-search-results"]["num-found"]).to eq(1)
       profile = response["orcid-search-results"]["orcid-search-result"].first
@@ -39,30 +39,38 @@ describe Orcid, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 } } }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: nil } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
+      result.extend Hashie::Extensions::DeepFetch
       expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
-    it "should report if there are no events and event_count returned by the ORCID API" do
+    it "should report if there are no events returned by the ORCID API" do
       body = File.read(fixture_path + 'orcid_nil.json')
       result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response).to eq(null_response)
     end
 
-    it "should report if there are events and event_count returned by the ORCID API" do
+    it "should report if there are events returned by the ORCID API" do
       body = File.read(fixture_path + 'orcid.json')
       result = JSON.parse(body)
+      result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(1)
+      expect(response[:total]).to eq(1)
 
       event = response[:events].first
-      expect(event[:event_url]).to eq("http://orcid.org/0000-0002-0159-2197")
-      expect(event[:event]["orcid-bio"]["personal-details"]).to eq("given-names"=>{"value"=>"Jonathan A."}, "family-name"=>{"value"=>"Eisen"})
+      expect(event['URL']).to eq("http://orcid.org/0000-0002-0159-2197")
+      expect(event['author']).to eq([{"family"=>"Eisen", "given"=>"Jonathan A."}])
+      expect(event['title']).to eq("ORCID profile")
+      expect(event['container-title']).to be_nil
+      expect(event['issued']).to eq("date-parts"=>[[]])
+      expect(event['timestamp']).to be_nil
+      expect(event['type']).to eq("entry")
     end
   end
 end

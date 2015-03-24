@@ -9,13 +9,13 @@ describe Openedition, type: :model, vcr: true do
       expect(subject.get_data(work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the Openedition API" do
+    it "should report if there are no events returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
       response = subject.get_data(work)
       expect(response["RDF"]["item"]).to be_nil
     end
 
-    it "should report if there are events and event_count returned by the Openedition API" do
+    it "should report if there are events returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.2307/683422")
       response = subject.get_data(work)
       expect(response["RDF"]["item"]).to eq("link"=>"http://ruedesfacs.hypotheses.org/?p=1666", "title"=>"Saartjie Baartman : la Vénus Hottentote", "date"=>"2013-05-27", "creator"=>"ruedesfacs", "isPartOf"=>"Rue des facs", "description"=>"\n\n ... , no 3 (1 septembre 2000): 606 607. doi:<em>10.2307</em>/<em>683422</em>. « The Hottentot Venus Is Going Home ». The Journal of Blacks in Higher Education no 35 (1 avril 2002): 63. doi:<em>10.2307</em>/3133845. Vous trouverez toutes\n ... \n\n", "about"=>"http://ruedesfacs.hypotheses.org/?p=1666")
@@ -37,16 +37,16 @@ describe Openedition, type: :model, vcr: true do
 
   context "parse_data" do
     let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001") }
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil)
     end
 
-    it "should report if there are no events and event_count returned by the Openedition API" do
+    it "should report if there are no events returned by the Openedition API" do
       body = File.read(fixture_path + 'openedition_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -54,13 +54,13 @@ describe Openedition, type: :model, vcr: true do
       expect(response).to eq(null_response)
     end
 
-    it "should report if there are events and event_count returned by the Openedition API" do
+    it "should report if there are events returned by the Openedition API" do
       work = FactoryGirl.build(:work, :doi => "10.2307/683422", published_on: "2013-05-03")
       body = File.read(fixture_path + 'openedition.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(1)
+      expect(response[:total]).to eq(1)
       expect(response[:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
 
       expect(response[:events_by_day].length).to eq(1)

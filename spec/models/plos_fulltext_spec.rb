@@ -34,7 +34,7 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(response["response"]["numFound"]).to eq(0)
     end
 
-    it "should report if there are events and event_count returned by the PLOS Search API" do
+    it "should report if there are events returned by the PLOS Search API" do
       response = subject.get_data(work)
       expect(response["response"]["numFound"]).to eq(1)
       doc = response["response"]["docs"].first
@@ -55,7 +55,7 @@ describe PlosFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :extra=>nil } }
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")
@@ -63,18 +63,18 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(subject.parse_data(result, work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the PLOS Search API" do
+    it "should report if there are no events returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_fulltext_nil.json')
       result = JSON.parse(body)
       expect(subject.parse_data(result, work)).to eq(null_response)
     end
 
-    it "should report if there are events and event_count returned by the PLOS Search API" do
+    it "should report if there are events returned by the PLOS Search API" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(1)
+      expect(response[:total]).to eq(1)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1, total: 1)
 
       expect(response[:events_by_day]).to be_empty
@@ -82,15 +82,13 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2014, month: 9, total: 1)
 
       event = response[:events].last
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Rougier", "given"=>"Nicolas P."}, {"family"=>"Droettboom", "given"=>"Michael"}, {"family"=>"Bourne", "given"=>"Philip E."}])
-      expect(event[:event_csl]['title']).to eq("Ten Simple Rules for Better Figures")
-      expect(event[:event_csl]['container-title']).to eq("PLOS Computational Biology")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2014, 9, 11]])
-      expect(event[:event_csl]['type']).to eq("article-journal")
-      expect(event[:event_csl]['url']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
-
-      expect(event[:event_time]).to eq("2014-09-11T00:00:00Z")
+      expect(event['author']).to eq([{"family"=>"Rougier", "given"=>"Nicolas P."}, {"family"=>"Droettboom", "given"=>"Michael"}, {"family"=>"Bourne", "given"=>"Philip E."}])
+      expect(event['title']).to eq("Ten Simple Rules for Better Figures")
+      expect(event['container-title']).to eq("PLOS Computational Biology")
+      expect(event['issued']).to eq("date-parts"=>[[2014, 9, 11]])
+      expect(event['type']).to eq("article-journal")
+      expect(event['URL']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
+      expect(event['timestamp']).to eq("2014-09-11T00:00:00Z")
     end
 
     it "should catch timeout errors with the PLOS Search API" do
