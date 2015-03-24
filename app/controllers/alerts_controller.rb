@@ -36,7 +36,7 @@ class AlertsController < ApplicationController
 
   def create
     exception = env["action_dispatch.exception"]
-    @alert = Alert.where(message: exception.message).where(unresolved: true).first_or_inititalize(
+    @alert = Alert.where(message: exception.message).where(unresolved: true).first_or_initialize(
       :exception => exception,
       :request => request)
 
