@@ -222,6 +222,10 @@ class Source < ActiveRecord::Base
     end
   end
 
+  def get_extra(result)
+    nil
+  end
+
   def request_options
     {}
   end
