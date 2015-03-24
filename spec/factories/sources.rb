@@ -341,7 +341,7 @@ FactoryGirl.define do
     name "plos_comments"
     display_name "PLOS Comments"
     state_event "activate"
-    url_private "http://example.org?doi={doi}"
+    url_private "http://api.plosjournals.org/v1/articles/%{doi}?comments="
 
     group
 

@@ -1,13 +1,16 @@
 {
   "responseHeader": {
     "status": 0,
-    "QTime": 2
+    "QTime": 1
   },
   "response": {
     "numFound": 1,
     "start": 0,
     "docs": [
       {
+        "datacentre_symbol": "CDL.DRYAD",
+        "datacentre": "CDL.DRYAD - Dryad",
+        "prefix": "10.5061",
         "doi": "10.5061/DRYAD.8515",
         "relatedIdentifier": [
           "HasPart:DOI:10.5061/DRYAD.8515/1",
@@ -29,7 +32,8 @@
         "title": [
           "Data from: A new malaria agent in African hominids."
         ],
-        "publicationYear": "2011"
+        "publicationYear": "2011",
+        "resourceTypeGeneral": "Dataset"
       }
     ]
   }

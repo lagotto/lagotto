@@ -129,7 +129,7 @@ FactoryGirl.define do
   end
 
   factory :retrieval_status do
-    event_count 50
+    total 50
     event_metrics do
       { :pdf => nil,
         :html => nil,
@@ -275,8 +275,8 @@ FactoryGirl.define do
 
   factory :api_response do
     duration 200
-    event_count 10
-    previous_count 5
+    total 10
+    previous_total 5
     update_interval 7
     unresolved 1
     source_id 1
