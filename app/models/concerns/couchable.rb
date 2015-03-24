@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module Couchable
   extend ActiveSupport::Concern
 
@@ -88,9 +86,6 @@ module Couchable
 
     def put_lagotto_database
       put_lagotto_data(ENV['COUCHDB_URL'])
-      filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
-      put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/filter", data: filter)
-
       reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
       put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/reports", data: reports)
     end
