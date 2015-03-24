@@ -27,8 +27,10 @@ ActiveSupport::Notifications.subscribe "api_response.get" do |name, start, finis
     api_response.source_id = payload[:source_id]
     api_response.retrieval_status_id = payload[:retrieval_status_id]
     api_response.skipped = payload[:skipped]
-    api_response.event_count = payload[:event_count]
-    api_response.previous_count = payload[:previous_count]
+    api_response.total = payload[:total]
+    api_response.previous_total = payload[:previous_total]
+    api_response.html = payload[:html]
+    api_response.pdf = payload[:pdf]
     api_response.update_interval = payload[:update_interval]
     api_response.duration = (finish - start) * 1000
   end
