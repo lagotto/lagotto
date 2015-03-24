@@ -248,15 +248,20 @@ class Source < ActiveRecord::Base
     [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
 
+  # fields with urls, not user-configurable
+  def url_fields
+    config_fields.select { |field| field =~ /url\z/ }
+  end
+
   # fields with publisher-specific settings such as API keys,
   # i.e. everything that is not a URL
   def publisher_fields
-    config_fields.select { |field| field !~ /url\z/ }
+    config_fields.select { |field| field !~ /url/ }
   end
 
   # all other fields
-  def url_fields
-    config_fields.select { |field| field != /url\z/ }
+  def other_fields
+    config_fields.select { |field| field =~ /\Aurl.+/ }
   end
 
   # all publisher-specific configurations
