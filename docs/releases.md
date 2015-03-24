@@ -3,9 +3,9 @@ layout: card_list
 title: "Releases"
 ---
 
-## Lagotto 3.19 (March 23, 2015)
+## Lagotto 3.19 (March 24, 2015)
 
-[Lagotto 3.19](https://github.com/articlemetrics/lagotto/releases/tag/v.3.19) was released on March 23, 2015 with the following changes:
+[Lagotto 3.19](https://github.com/articlemetrics/lagotto/releases/tag/v.3.19) was released on March 24, 2015 with the following changes:
 
 * allow user configuration of signposts, summaries of the most important metrics ([#263](https://github.com/articlemetrics/lagotto/issues/263))
 * support `published_id` when creating works via the v4 API ([#264](https://github.com/articlemetrics/lagotto/issues/264))
