@@ -17,6 +17,7 @@ title: "Releases"
 * switched from `jasmine_rails` to `teaspoon` for running javascript `jasmine` unit tests ([#276](https://github.com/articlemetrics/lagotto/issues/276))
 * only create one alert per message ([#277](https://github.com/articlemetrics/lagotto/issues/277))
 * fixed bug in generating report with mendeley, pmc or counter data ([#279](https://github.com/articlemetrics/lagotto/issues/279))
+* added data migrations, making it easier to update data, e.g. when the database schema changes ([#280](https://github.com/articlemetrics/lagotto/issues/280))
 
 To customize the signposts, add/uncomment the following ENV variables in your `.env` file, separating multiple sources via comma:
 
