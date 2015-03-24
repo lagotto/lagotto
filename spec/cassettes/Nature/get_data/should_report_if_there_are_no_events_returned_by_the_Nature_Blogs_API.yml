@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://blogs.nature.com/posts.json?doi=10.1371/journal.pone.0008776
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 3.19 - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 503
+      message: ''
+    headers:
+      Server:
+      - nginx/1.0.0
+      Date:
+      - Tue, 24 Mar 2015 14:18:57 GMT
+      Content-Type:
+      - text/html; charset=iso-8859-1
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '323'
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>503 Service Temporarily Unavailable</title>
+        </head><body>
+        <h1>Service Temporarily Unavailable</h1>
+        <p>The server is temporarily unable to service your
+        request due to maintenance downtime or capacity
+        problems. Please try again later.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Tue, 24 Mar 2015 14:18:57 GMT
+recorded_with: VCR 2.9.3
