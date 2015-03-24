@@ -3,12 +3,12 @@ SITE
   specs:
     7-zip (1.0.2)
       windows (>= 1.2.2)
-    apt (2.6.1)
+    apt (2.7.0)
     ark (0.9.0)
       7-zip (>= 0.0.0)
       windows (>= 0.0.0)
     aws (2.6.5)
-    build-essential (2.2.0)
+    build-essential (2.2.1)
     chef-sugar (3.0.1)
     chef_handler (1.1.6)
     chocolatey (0.2.0)
@@ -81,9 +81,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/dotenv-cookbook.git
   ref: master
-  sha: 6af99d90f302ba74a460a5337bcdd5a5b7505ff5
+  sha: 587ea3bde012ade57c4d14647e5b8db14e26415d
   specs:
-    dotenv (0.2.0)
+    dotenv (0.2.1)
 
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
