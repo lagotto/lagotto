@@ -256,7 +256,7 @@ class Source < ActiveRecord::Base
 
   # all other fields
   def url_fields
-    config_field - publisher_fields
+    config_fields - publisher_fields
   end
 
   # all publisher-specific configurations
