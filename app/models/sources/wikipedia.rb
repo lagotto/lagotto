@@ -69,27 +69,23 @@ class Wikipedia < Source
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
       events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(citations: total) }
+      total: total,
+      event_metrics: get_event_metrics(citations: total),
+      extra: nil }
   end
 
   def get_events(result, work)
     result.values.flatten.map do |item|
-      event_time = item.fetch("timestamp", nil)
+      timestamp = item.fetch("timestamp", nil)
       url = item.fetch("url", nil)
 
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          "title" => item.fetch("title", ""),
-          "container-title" => "Wikipedia",
-          "issued" => get_date_parts(event_time),
-          "url" => url,
-          "type" => "entry-encyclopedia" }
-      }
+      { "author" => nil,
+        "title" => item.fetch("title", ""),
+        "container-title" => "Wikipedia",
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => url,
+        "type" => "entry-encyclopedia" }
     end
   end
 

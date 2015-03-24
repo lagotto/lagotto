@@ -33,7 +33,7 @@ class Work < ActiveRecord::Base
   scope :query, ->(query) { where("doi like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :has_events, -> { includes(:retrieval_statuses)
-    .where("retrieval_statuses.event_count > ?", 0)
+    .where("retrieval_statuses.total > ?", 0)
     .references(:retrieval_statuses) }
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
@@ -84,7 +84,7 @@ class Work < ActiveRecord::Base
   end
 
   def events_count
-    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
+    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -169,7 +169,7 @@ class Work < ActiveRecord::Base
   end
 
   def signposts
-    @signposts ||= sources.pluck(:name, :event_count, :events_url)
+    @signposts ||= sources.pluck(:name, :total, :events_url)
   end
 
   def events_urls

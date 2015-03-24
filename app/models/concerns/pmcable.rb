@@ -38,8 +38,9 @@ module Pmcable
         events_by_day: [],
         events_by_month: [],
         events_url: events_url,
-        event_count: total,
-        event_metrics: get_event_metrics(citations: total) }
+        total: total,
+        event_metrics: get_event_metrics(citations: total),
+        extra: nil }
     end
 
     def get_events(result, work)
@@ -49,20 +50,14 @@ module Pmcable
         url = doi ? "http://dx.doi.org/#{doi}" : "http://europepmc.org/abstract/MED/#{pmid}"
         author_string = item.fetch("authorString", "").chomp(".")
 
-        { event: item,
-          event_url: url,
-
-          # the rest is CSL (citation style language)
-          event_csl: {
-            "author" => get_authors(author_string.split(", "), reversed: true),
-            "title" => item.fetch("title", "").chomp("."),
-            "container-title" => item.fetch(container_title_key, nil),
-            "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
-            "doi" => doi,
-            "pmid" => pmid,
-            "url" => url,
-            "type" => "article-journal" }
-        }
+        { "author" => get_authors(author_string.split(", "), reversed: true),
+          "title" => item.fetch("title", "").chomp("."),
+          "container-title" => item.fetch(container_title_key, nil),
+          "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
+          "DOI" => doi,
+          "PMID" => pmid,
+          "URL" => url,
+          "type" => "article-journal" }
       end
     end
   end

@@ -23,9 +23,9 @@ class RetrievalStatus < ActiveRecord::Base
   delegate :display_name, :to => :source
   delegate :group, :to => :source
 
-  scope :with_events, -> { where("event_count > ?", 0) }
-  scope :without_events, -> { where("event_count = ?", 0) }
-  scope :most_cited, -> { with_events.order("event_count desc").limit(25) }
+  scope :with_events, -> { where("total > ?", 0) }
+  scope :without_events, -> { where("total = ?", 0) }
+  scope :most_cited, -> { with_events.order("total desc").limit(25) }
 
   scope :last_x_days, ->(duration) { where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
@@ -54,7 +54,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def data
-    @data ||= event_count > 0 ? get_lagotto_data("#{source.name}:#{work.pid_escaped}") : nil
+    @data ||= total > 0 ? get_lagotto_data("#{source.name}:#{work.pid_escaped}") : nil
   end
 
   def events
@@ -82,10 +82,6 @@ class RetrievalStatus < ActiveRecord::Base
           total: v.reduce(0) { |sum, hash| sum + hash['total'].to_i } }
       end
     end
-  end
-
-  def events_csl
-    @events_csl ||= events.is_a?(Array) ? events.map { |event| event['event_csl'] }.compact : []
   end
 
   def metrics

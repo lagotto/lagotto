@@ -44,7 +44,7 @@ class NatureOpensearch < Source
       events_by_day: [],
       events_by_month: [],
       events_url: events_url,
-      event_count: total,
+      total: total,
       event_metrics: get_event_metrics(citations: total) }
   end
 
@@ -57,20 +57,17 @@ class NatureOpensearch < Source
       doi = item.fetch("prism:doi", nil)
       url = item.fetch("prism:url", nil)
       author_string = item.fetch("authorString", "").chomp(".")
+      timestamp = item.fetch("prism:publicationDate", nil)
+      timestamp = "#{timestamp}T00:00:00Z"
 
-      { event: item,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          "author" => get_authors(item.fetch("dc:creator", [])),
-          "title" => item.fetch("dc:title", ""),
-          "container-title" => item.fetch("prism:publicationName", nil),
-          "issued" => get_date_parts(item.fetch("prism:publicationDate", nil)),
-          "doi" => doi,
-          "url" => url,
-          "type" => "article-journal" }
-      }
+      { "author" => get_authors(item.fetch("dc:creator", [])),
+        "title" => item.fetch("dc:title", ""),
+        "container-title" => item.fetch("prism:publicationName", nil),
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "DOI" => doi,
+        "URL" => url,
+        "type" => "article-journal" }
     end
   end
 

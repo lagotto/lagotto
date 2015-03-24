@@ -15,29 +15,24 @@ class Reddit < Source
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
       events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(comments: comments, likes: likes, total: total) }
+      total: total,
+      event_metrics: get_event_metrics(comments: comments, likes: likes, total: total),
+      extra: nil }
   end
 
   def get_events(result)
     result.map do |item|
-      data = item['data']
-      event_time = get_iso8601_from_epoch(data['created_utc'])
-      url = data['url']
+      data = item.fetch('data', {})
+      timestamp = get_iso8601_from_epoch(data.fetch('created_utc', nil))
+      url = data.fetch('url', nil)
 
-      { event: data,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([data.fetch('author', "")]),
-          'title' => data.fetch('title', ""),
-          'container-title' => 'Reddit',
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'personal_communication' }
-      }
+      { 'author' => get_authors([data.fetch('author', "")]),
+        'title' => data.fetch('title', ""),
+        'container-title' => 'Reddit',
+        'issued' => get_date_parts(timestamp),
+        'timestamp' => timestamp,
+        'URL' => url,
+        'type' => 'personal_communication' }
     end
   end
 

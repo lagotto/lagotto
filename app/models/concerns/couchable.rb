@@ -86,8 +86,6 @@ module Couchable
 
     def put_lagotto_database
       put_lagotto_data(ENV['COUCHDB_URL'])
-      reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
-      put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/reports", data: reports)
     end
 
     def delete_lagotto_database

@@ -44,7 +44,7 @@ class PmcEuropeData < Source
           "title" => item.fetch('title', nil),
           "container-title" => item.fetch('journalTitle', nil),
           "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
-          "url" => url,
+          "URL" => url,
           "type" => 'article-journal' }
       end
     else

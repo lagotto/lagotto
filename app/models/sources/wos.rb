@@ -24,7 +24,7 @@ class Wos < Source
     return { error: error_status } if error_status
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
-    event_count = values[0].to_i
+    total = values[0].to_i
 
     # store Web of Science ID if we haven't done this already
     unless work.wos.present?
@@ -33,15 +33,16 @@ class Wos < Source
     end
 
     # fix for parsing error
-    event_count = 0 if event_count > 100000
+    total = 0 if total > 100000
     events_url = values[2]
 
-    { events: {},
+    { events: [],
       events_by_day: [],
       events_by_month: [],
       events_url: events_url,
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+      total: total,
+      event_metrics: get_event_metrics(citations: total),
+      extra: nil }
   end
 
   def check_error_status(result, work)

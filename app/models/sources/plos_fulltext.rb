@@ -25,8 +25,9 @@ class PlosFulltext < Source
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
       events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(citations: total) }
+      total: total,
+      event_metrics: get_event_metrics(citations: total),
+      extra: nil }
   end
 
   def get_events(result, work)

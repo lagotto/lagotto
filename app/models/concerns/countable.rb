@@ -7,11 +7,11 @@ module Countable
     end
 
     def event_count
-      cache_read("event_count", retrieval_statuses.sum(:event_count))
+      cache_read("event_count", retrieval_statuses.sum(:total))
     end
 
     def event_count=
-      cache_write("event_count", retrieval_statuses.sum(:event_count))
+      cache_write("event_count", retrieval_statuses.sum(:total))
     end
 
     def work_count

@@ -15,7 +15,7 @@ class Bitbucket < Source
       events_by_day: [],
       events_by_month: [],
       events_url: events_url,
-      event_count: total,
+      total: total,
       event_metrics: get_event_metrics(shares: shares, likes: likes, total: total) }
   end
 

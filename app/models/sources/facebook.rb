@@ -34,23 +34,24 @@ class Facebook < Source
     # workaround for Facebook getting confused about the canonical URL
     if total > count_limit.to_i
       shares, comments, likes, total = 0, 0, 0, 0
-      events = {}
+      extra = {}
     elsif url_linkstat.blank?
       shares, comments, likes = 0, 0, 0
-      events = result
+      extra = result
     else
       shares = result.deep_fetch('data', 0, 'share_count') { 0 }
       comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
-      events = result['data'] || {}
+      extra = result['data'] || {}
     end
 
-    { events: events,
+    { events: [],
       events_by_day: [],
       events_by_month: [],
       events_url: nil,
-      event_count: total,
-      event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
+      total: total,
+      event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total),
+      extra: extra }
   end
 
   def get_access_token(options={})

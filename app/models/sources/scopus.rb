@@ -17,7 +17,7 @@ class Scopus < Source
     events = result.deep_fetch('search-results', 'entry', 0) { {} }
 
     if events["link"]
-      event_count = events['citedby-count'].to_i
+      total = events['citedby-count'].to_i
       link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
       events_url = link["@href"]
 
@@ -27,7 +27,7 @@ class Scopus < Source
         work.update_attributes(:scp => scp[10..-1]) if scp.present?
       end
     else
-      event_count = 0
+      total = 0
       events_url = nil
     end
 
@@ -35,8 +35,8 @@ class Scopus < Source
       events_by_day: [],
       events_by_month: [],
       events_url: events_url,
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+      total: total,
+      event_metrics: get_event_metrics(citations: total) }
   end
 
   def config_fields

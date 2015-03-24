@@ -4,7 +4,7 @@ class Status < ActiveRecord::Base
 
   RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
-  before_create :collect_status_info, if: proc { Rails.env != "test" }
+  before_create :collect_status_info
 
   default_scope { order("status.created_at DESC") }
 

@@ -11,27 +11,31 @@ class Pmc < Source
 
     return result if result[:error]
 
-    events = Array(result["views"])
-
-    pdf = get_sum(events, 'pdf')
-    html = get_sum(events, 'full-text')
-    total = pdf + html
+    extra = Array(result["views"])
+    html = get_sum(extra, 'full-text')
+    pdf = get_sum(extra, 'pdf')
+    total = html + pdf
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { events: events,
+    { events: [],
       events_by_day: [],
-      events_by_month: get_events_by_month(events),
+      events_by_month: get_events_by_month(extra),
       events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+      total: total,
+      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total),
+      extra: extra }
   end
 
-  def get_events_by_month(events)
-    events.map do |event|
+  def get_events_by_month(extra)
+    extra.map do |event|
+      html = event['full-text'].to_i
+      pdf = event['pdf'].to_i
+
       { month: event['month'].to_i,
         year: event['year'].to_i,
-        html: event['full-text'].to_i,
-        pdf: event['pdf'].to_i }
+        html: html,
+        pdf: pdf,
+        total: html + pdf }
     end
   end
 

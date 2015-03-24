@@ -25,17 +25,18 @@ class CrossRef < Source
     events = get_events(result)
 
     if work.publisher
-      event_count = events.length
+      total = events.length
     else
-      event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
+      total = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
     end
 
     { events: events,
       events_by_day: [],
       events_by_month: [],
       events_url: nil,
-      event_count: event_count.to_i,
-      event_metrics: get_event_metrics(citations: event_count) }
+      total: total.to_i,
+      event_metrics: get_event_metrics(citations: total),
+      extra: nil }
   end
 
   def get_events(result)
@@ -62,7 +63,7 @@ class CrossRef < Source
           "volume" => item.fetch("volume", nil),
           "issue" => item.fetch("issue", nil),
           "page" => item.fetch("first_page", nil),
-          "type" => 'article-journal' }
+          "type" => "article-journal" }
       end
     end.compact
   end

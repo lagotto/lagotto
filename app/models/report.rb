@@ -35,7 +35,7 @@ class Report < ActiveRecord::Base
   def self.from_sql(options = {})
     sql = "SELECT w.pid_type, w.pid, w.published_on, w.title"
     options[:sources].each do |source|
-      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.event_count END) AS #{source.name}"
+      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.total END) AS #{source.name}"
     end
     sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
     sanitized_sql = sanitize_sql_for_conditions(sql)

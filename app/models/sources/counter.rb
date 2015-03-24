@@ -45,10 +45,15 @@ class Counter < Source
 
   def get_events_by_month(events)
     events.map do |event|
+      html = event[:html_views].to_i
+      pdf = event[:pdf_views].to_i
+      xml = event[:xml_views].to_i
+
       { month: event[:month].to_i,
         year: event[:year].to_i,
-        html: event[:html_views].to_i,
-        pdf: event[:pdf_views].to_i }
+        html: html,
+        pdf: pdf,
+        total: html + pdf + xml }
     end
   end
 

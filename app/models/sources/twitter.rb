@@ -22,6 +22,32 @@ class Twitter < Source
         user_profile_image = data["user"]["profile_image_url"]
       end
 
+      timestamp = get_iso8601_from_time(data['created_at'])
+      url = "http://twitter.com/#{user}/status/#{data['id_str']}"
+
+      { "author" => get_authors([user_name]),
+        "title" => data.fetch('text') { '' },
+        "container-title" => 'Twitter',
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => url,
+        "type" => 'personal_communication' }
+    end
+  end
+
+  def get_extra(result)
+    Array(result['rows']).map do |item|
+      data = item['value']
+      if data.key?("from_user")
+        user = data["from_user"]
+        user_name = data["from_user_name"]
+        user_profile_image = data["profile_image_url"]
+      else
+        user = data["user"]["screen_name"]
+        user_name = data["user"]["name"]
+        user_profile_image = data["user"]["profile_image_url"]
+      end
+
       event_time = get_iso8601_from_time(data['created_at'])
       url = "http://twitter.com/#{user}/status/#{data['id_str']}"
 
@@ -32,18 +58,7 @@ class Twitter < Source
                  user_name: user_name,
                  user_profile_image: user_profile_image },
         event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([user_name]),
-          'title' => data.fetch('text') { '' },
-          'container-title' => 'Twitter',
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'personal_communication'
-        }
-      }
+        event_url: url }
     end
   end
 
