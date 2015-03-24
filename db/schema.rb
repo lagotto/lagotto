@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150208170323) do
+ActiveRecord::Schema.define(version: 20150324071740) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -73,6 +73,10 @@ ActiveRecord::Schema.define(version: 20150208170323) do
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
   add_index "api_responses", ["event_count"], name: "index_api_responses_on_event_count", using: :btree
   add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
+
+  create_table "data_migrations", force: :cascade do |t|
+    t.string "version", limit: 255
+  end
 
   create_table "events", force: :cascade do |t|
     t.integer  "work_id",          limit: 4, null: false
