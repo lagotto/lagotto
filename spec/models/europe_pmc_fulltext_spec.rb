@@ -56,7 +56,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, extra: nil } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, extra: nil } }
 
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
@@ -69,7 +69,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       body = File.read(fixture_path + 'europe_pmc_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(13)
+      expect(response[:total]).to eq(13)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 13, total: 13)
       expect(response[:events_by_day]).to be_empty
       expect(response[:events_by_month]).to be_empty

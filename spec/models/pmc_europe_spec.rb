@@ -49,25 +49,25 @@ describe PmcEurope, type: :model, vcr: true do
       work = FactoryGirl.build(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'pmc_europe_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], total: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'pmc_europe.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(23)
+      expect(response[:timestamp]).to eq(23)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23)
       expect(response[:events_by_day]).to be_empty
       expect(response[:events_by_month]).to be_empty
 
       event = response[:events].last
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
-      expect(event[:event_csl]['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
-      expect(event[:event_csl]['container-title']).to eq("BMC Bioinformatics")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2012]])
-      expect(event[:event_csl]['type']).to eq("article-journal")
-      expect(event[:event_csl]['url']).to eq("http://europepmc.org/abstract/MED/22823405")
+      expect(event['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
+      expect(event['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
+      expect(event['container-title']).to eq("BMC Bioinformatics")
+      expect(event['issued']).to eq("date-parts"=>[[2012]])
+      expect(event['URL']).to eq("http://europepmc.org/abstract/MED/22823405")
+      expect(event['type']).to eq("article-journal")
     end
 
     it "should catch timeout errors with the PMC Europe API" do

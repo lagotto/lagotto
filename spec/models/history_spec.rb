@@ -18,7 +18,7 @@ describe History, :type => :model do
     end
 
     it "should respond to an error" do
-      expect(subject.to_hash).to eq(total: nil, html: nil, pdf: nil, previous_total: 50, skipped: true, update_interval: update_interval)
+      expect(subject.to_hash).to eq(total: 0, html: nil, pdf: nil, previous_total: 50, skipped: true, update_interval: update_interval)
     end
   end
 
@@ -67,7 +67,7 @@ describe History, :type => :model do
 
       it "should generate events by day for recent works" do
         events_by_day = nil
-        expect(subject.get_events_by_day).to eq([{ 'year' => today.year, 'month' => today.month, 'day' => today.day, 'total' => data[:total] }])
+        expect(subject.get_events_by_day).to eq([{ year: today.year, month: today.month, day: today.day, total: data[:total] }])
       end
 
       it "should add to events by day for recent works" do
@@ -78,7 +78,7 @@ describe History, :type => :model do
 
       it "should update events by day for recent works" do
         events_by_day = [{ 'year' => today.year, 'month' => today.month, 'day' => today.day, 'total' => 3 }]
-        expect(subject.get_events_by_day(events_by_day)).to eq([{ 'year' => today.year, 'month' => today.month, 'day' => today.day, 'total' => data[:total] }])
+        expect(subject.get_events_by_day(events_by_day)).to eq([{ year: today.year, month: today.month, 'day' => today.day, 'total' => data[:total] }])
       end
     end
 

@@ -93,7 +93,7 @@ describe TwitterSearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: "https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], total: 0, events_url: "https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 }, extra: nil)
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
@@ -102,7 +102,7 @@ describe TwitterSearch, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:events].length).to eq(8)
-      expect(response[:event_count]).to eq(8)
+      expect(response[:ttoal]).to eq(8)
       expect(response[:event_metrics][:comments]).to eq(8)
       expect(response[:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
 

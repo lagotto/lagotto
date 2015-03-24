@@ -79,7 +79,7 @@ describe Copernicus, type: :model, vcr: true do
       body = File.read(fixture_path + 'copernicus.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(83)
+      expect(response[:total]).to eq(83)
       events = response[:events]
       expect(events["counter"]).not_to be_nil
       expect(events["counter"]["AbstractViews"].to_i).to eq(72)

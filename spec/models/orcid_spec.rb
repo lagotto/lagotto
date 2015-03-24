@@ -14,7 +14,7 @@ describe Orcid, type: :model, vcr: true do
     it "should report if there are no events returned by the ORCID API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
       response = subject.get_data(work)
-      expect(response).to eq("message-version"=>"1.1", "orcid-search-results"=>{"orcid-search-result"=>[], "num-found"=>0})
+      expect(response).to eq("message-version"=>"", "orcid-search-results"=>{"orcid-search-result"=>[], "num-found"=>0})
     end
 
     it "should report if there are events returned by the ORCID API" do

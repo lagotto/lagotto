@@ -54,7 +54,7 @@ describe PlosComments, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0 }, :extra=>nil } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :comments=>0, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0 }, :extra=>nil } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
@@ -85,7 +85,7 @@ describe PlosComments, type: :model, vcr: true do
       body = File.read(fixture_path + 'plos_comments.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(31)
+      expect(response[:total]).to eq(31)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: 31, likes: nil, citations: nil, total: 31)
 
       expect(response[:events_by_day].length).to eq(2)

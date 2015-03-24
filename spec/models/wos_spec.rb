@@ -5,7 +5,7 @@ describe Wos, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.build(:work, doi: "10.1371/journal.pone.0043007", wos: nil) }
 
-  it "should generate a proper XMl request" do
+  it "should generate a proper XML request" do
     work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0043007")
     request = File.read(fixture_path + 'wos_request.xml')
     expect(subject.get_xml_request(work)).to eq(request)

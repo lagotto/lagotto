@@ -46,7 +46,7 @@ describe Bitbucket, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
+    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
 
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
@@ -65,14 +65,14 @@ describe Bitbucket, type: :model, vcr: true do
       result = JSON.parse(body)
       events = { "followers_count"=>0, "forks_count"=>0, "description"=>"Exemplos da Aula 1 do curso de Desenvolvimento Web com Ruby on Rails do ruby+web\r\n\r\nhttp://rubymaisweb.ning.com", "utc_created_on"=>"2012-01-13 14:47:01+00:00" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: events, events_by_day: [], events_by_month: [], events_url: nil, event_count: 0, event_metrics: {:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
+      expect(response).to eq(events: events, events_by_day: [], events_by_month: [], events_url: nil, total: 0, event_metrics: {:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
     end
 
     it "should report if there are events and event_count returned by the Bitbucket API" do
       body = File.read(fixture_path + 'bitbucket.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(434)
+      expect(response[:total]).to eq(434)
       expect(response[:events_url]).to eq("https://bitbucket.org/galaxy/galaxy-central")
       expect(response[:events]["followers_count"]).to eq(162)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 272, groups: nil, comments: nil, likes: 162, citations: nil, total: 434)

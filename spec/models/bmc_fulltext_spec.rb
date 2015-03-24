@@ -55,7 +55,7 @@ describe BmcFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")
@@ -74,7 +74,7 @@ describe BmcFulltext, type: :model, vcr: true do
       body = File.read(fixture_path + 'bmc_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(16)
+      expect(response[:total]).to eq(16)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 16, total: 16)
 
       expect(response[:events_by_day]).to be_empty
@@ -82,15 +82,14 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2013, month: 1, total: 1)
 
       event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
-      expect(event[:event_csl]['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")
-      expect(event[:event_csl]['container-title']).to eq("Plant Methods")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2014, 12, 30]])
-      expect(event[:event_csl]['type']).to eq("article-journal")
-      expect(event[:event_csl]['url']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
-
-      expect(event[:event_time]).to eq("2014-12-30T00:00:00Z")
+      expect(event['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
+      expect(event['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")
+      expect(event['container-title']).to eq("Plant Methods")
+      expect(event['issued']).to eq("date-parts"=>[[2014, 12, 30]])
+      expect(event['type']).to eq("article-journal")
+      expect(event['DOI']).to eq("10.1186/s13007-014-0041-7")
+      expect(event['URL']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
+      expect(event['timestamp']).to eq("2014-12-30T00:00:00Z")
     end
 
     it "should catch timeout errors with the BMC Search API" do

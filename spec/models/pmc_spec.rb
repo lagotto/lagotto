@@ -183,7 +183,7 @@ describe Pmc, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0 }], :events_url=>nil, total: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }])
+      expect(response).to eq(events: [], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0, total: 0 }], :events_url=>nil, total: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }])
     end
 
     it "should report if there are events returned by the PMC API" do

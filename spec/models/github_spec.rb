@@ -46,7 +46,7 @@ describe Github, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: {} } }
+    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: {} } }
 
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
@@ -65,16 +65,16 @@ describe Github, type: :model, vcr: true do
       result = JSON.parse(body)
       extra = { "stargazers_count"=>0, "stargazers_url"=>"https://api.github.com/repos/articlemetrics/pyalm/stargazers", "forks_count"=>0, "forks_url"=>"https://api.github.com/repos/articlemetrics/pyalm/forks" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: extra)
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: extra)
     end
 
     it "should report if there are events and event_count returned by the Github API" do
       body = File.read(fixture_path + 'github.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(7)
+      expect(response[:total]).to eq(7)
       expect(response[:events_url]).to eq("https://github.com/ropensci/alm")
-      expect(response[:events]["stargazers_count"]).to eq(5)
+      expect(response[:extra]["stargazers_count"]).to eq(5)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 2, groups: nil, comments: nil, likes: 5, citations: nil, total: 7)
     end
 

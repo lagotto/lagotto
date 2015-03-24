@@ -39,12 +39,12 @@ describe Datacite, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 } } }
+    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, :extra=>nil } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, event_count: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, :extra=>nil)
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
@@ -57,7 +57,7 @@ describe Datacite, type: :model, vcr: true do
       body = File.read(fixture_path + 'datacite.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(1)
+      expect(response[:total]).to eq(1)
       expect(response[:events_url]).to eq("http://search.datacite.org/ui?q=relatedIdentifier:#{work.doi_escaped}")
 
       event = response[:events].first
