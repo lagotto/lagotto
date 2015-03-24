@@ -11,6 +11,7 @@ class SourcesController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.js
       format.rss do
         if params[:days]
           @retrieval_statuses = @source.retrieval_statuses.most_cited
@@ -33,6 +34,10 @@ class SourcesController < ApplicationController
   end
 
   def edit
+    @doc = Doc.find(@source.name)
+    if current_user && current_user.publisher && @source.by_publisher?
+      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
+    end
     render :show
   end
 

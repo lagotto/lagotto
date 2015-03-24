@@ -19,7 +19,7 @@ class PublisherOptionsController < ApplicationController
   protected
 
   def load_source
-    @source = Source.where(name: params[:source_id]).first
+    @source = Source.where(name: params[:source_name]).first
     @publisher_option = PublisherOption.where(publisher_id: params[:id], source_id: @source.id).first_or_create
 
     # raise error if publisher_option wasn't found

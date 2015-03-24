@@ -256,7 +256,7 @@ class Source < ActiveRecord::Base
 
   # all other fields
   def url_fields
-    config_fields - publisher_fields
+    config_fields.select { |field| field != /url\z/ }
   end
 
   # all publisher-specific configurations
