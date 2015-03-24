@@ -14,23 +14,15 @@ class ScienceSeeker < Source
     events = [events] if events.is_a?(Hash)
     Array(events).map do |item|
       item.extend Hashie::Extensions::DeepFetch
-      event_time = get_iso8601_from_time(item["updated"])
-      url = item['link']['href']
+      timestamp = get_iso8601_from_time(item.fetch("updated", nil))
 
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([item.fetch('author', {}).fetch('name', "")]),
-          'title' => item.fetch('title', ""),
-          'container-title' => item.fetch('source', {}).fetch('title', ""),
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'post'
-        }
-      }
+      { "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
+        "title" => item.fetch('title', nil),
+        "container-title" => item.fetch('source', {}).fetch('title', ""),
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => item.fetch("link", {}).fetch("href", nil),
+        "type" => 'post' }
     end
   end
 

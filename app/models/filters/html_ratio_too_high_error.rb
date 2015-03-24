@@ -1,27 +1,30 @@
-# encoding: UTF-8
-
 class HtmlRatioTooHighError < Filter
   def run_filter(state)
-    source = Source.where(name: "counter").first
-    first_response = ApiResponse.filter(state[:id]).first
-    responses = first_response.get_html_ratio
+    responses = ApiResponse.filter(state[:id]).slow(limit)
 
     if responses.count > 0
-      responses = responses.map do |response|
-        doi = response['id'] && response['id'][8..-1]
-        work = Work.where(doi: doi).first
-        work_id = work && work.id
-        date = Time.zone.now.to_date.to_formatted_s(:short)
-
-        { source_id: source.id,
-          work_id: work_id,
+      responses = responses.to_a.map do |response|
+        { source_id: response.source_id,
+          work_id: response.work_id,
           level: Alert::INFO,
-          message: "HTML/PDF ratio is #{response['value']['ratio']} with #{response['value']['html']} HTML views on #{date}" }
+          message: "HTML/PDF ratio is #{response.html / response.pdf} with #{response.html} views" }
       end
       raise_alerts(responses)
     end
 
     responses.count
+  end
+
+  def get_config_fields
+    [{ field_name: "limit", field_type: "text_field", field_hint: "Raise an error if html to pdf ratio is higher than the specified value." }]
+  end
+
+  def limit
+    config.limit || 50
+  end
+
+  def source_ids
+    config.source_ids || Source.active.joins(:group).where("groups.name" => 'viewed').pluck(:id)
   end
 end
 

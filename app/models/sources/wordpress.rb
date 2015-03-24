@@ -1,24 +1,16 @@
 class Wordpress < Source
   def get_events(result)
     result['data'] = nil if result['data'].is_a?(String)
-    Array(result['data']).map do |item|
-      event_time = get_iso8601_from_epoch(item["epoch_time"])
-      url = item['link']
+    Array(result.fetch("data", nil)).map do |item|
+      timestamp = get_iso8601_from_epoch(item.fetch("epoch_time", nil))
 
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([item.fetch('author', "")]),
-          'title' => item.fetch('title') { '' },
-          'container-title' => '',
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'post'
-        }
-      }
+      { "author" => get_authors([item.fetch('author', "")]),
+        "title" => item.fetch("title", nil),
+        "container-title" => nil,
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => item.fetch("link", nil),
+        "type" => 'post' }
     end
   end
 

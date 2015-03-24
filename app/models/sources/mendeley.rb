@@ -9,12 +9,14 @@ class Mendeley < Source
     total = readers + groups
     events_url = result.fetch("link", nil)
 
-    { events: result,
+    { events: [],
       events_by_day: [],
       events_by_month: [],
       events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
+      readers: readers,
+      total: total,
+      event_metrics: get_event_metrics(shares: readers, groups: groups, total: total),
+      extra: result }
   end
 
   def get_query_url(work)

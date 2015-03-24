@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Citeulike < Source
   def request_options
     { content_type: 'xml' }
@@ -22,13 +20,20 @@ class Citeulike < Source
   end
 
   def get_events(result)
-    events = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
+    events = result["posts"] && result.fetch("posts", {}).fetch("post", [])
     events = [events] if events.is_a?(Hash)
-    events ||= nil
     Array(events).map do |item|
-      { event: item,
-        event_time: get_iso8601_from_time(item["post_time"]),
-        event_url: item['link']['url'] }
+      timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
+      author = get_authors([item.fetch("post", {}).fetch("username", nil)].reject(&:blank?))
+
+      { "author" => author.presence || nil,
+        "title" => "CiteULike bookmark",
+        "container-title" => nil,
+        "publisher" => "CiteULike",
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => item.fetch("link", {}).fetch("url", nil),
+        "type" => "entry" }
     end
   end
 

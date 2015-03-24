@@ -189,14 +189,16 @@ class Source < ActiveRecord::Base
     metrics = options[:metrics] || :citations
 
     events = get_events(result)
+    extra = get_extra(result)
     events_url = events.length > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
       events_url: events_url,
-      event_count: events.length,
-      event_metrics: get_event_metrics(metrics => events.length) }
+      total: events.length,
+      event_metrics: get_event_metrics(metrics => events.length),
+      extra: extra }
   end
 
   def get_events_by_day(events, work)

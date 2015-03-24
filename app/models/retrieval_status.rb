@@ -10,6 +10,8 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :work, :touch => true
   belongs_to :source
+  has_many :months
+  has_many :days
   has_many :retrieval_histories
 
   before_destroy :delete_couchdb_document
@@ -60,11 +62,11 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def by_day
-    @by_day ||= (data.blank? || data[:error]) ? [] : data["events_by_day"]
+    days.map { |day| day.metrics }
   end
 
   def by_month
-    @by_month ||= (data.blank? || data[:error]) ? [] : data["events_by_month"]
+    months.map { |month| month.metrics }
   end
 
   def by_year

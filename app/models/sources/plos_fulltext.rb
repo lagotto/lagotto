@@ -31,22 +31,17 @@ class PlosFulltext < Source
 
   def get_events(result, work)
     result.fetch("response", {}).fetch("docs", []).map do |item|
-      event_time = get_iso8601_from_time(item.fetch("publication_date", nil))
-      doi = item.fetch("id")
+      timestamp = get_iso8601_from_time(item.fetch("publication_date", nil))
+      doi = item.fetch("id", nil)
 
-      { event: item,
-        event_time: event_time,
-        event_url: "http://dx.doi.org/#{doi}",
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          "author" => get_authors(item.fetch("author_display", [])),
-          "title" => item.fetch("title", ""),
-          "container-title" => item.fetch("cross_published_journal_name", []).first,
-          "issued" => get_date_parts(event_time),
-          "url" => "http://dx.doi.org/#{doi}",
-          "type" => "article-journal" }
-      }
+      { "author" => get_authors(item.fetch("author_display", [])),
+        "title" => item.fetch("title", ""),
+        "container-title" => item.fetch("cross_published_journal_name", []).first,
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "DOI" => doi,
+        "URL" => "http://dx.doi.org/#{doi}",
+        "type" => "article-journal" }
     end
   end
 

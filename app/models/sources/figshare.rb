@@ -10,20 +10,25 @@ class Figshare < Source
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    events = Array(result["items"])
+    extra = result.fetch("items", [])
 
-    views = get_sum(events, 'stats', 'page_views')
-    downloads = get_sum(events, 'stats', 'downloads')
-    likes = get_sum(events, 'stats', 'likes')
-
+    views = get_sum(extra, 'stats', 'page_views')
+    downloads = get_sum(extra, 'stats', 'downloads')
+    likes = get_sum(extra, 'stats', 'likes')
     total = views + downloads + likes
 
-    { events: events,
+    extra = nil if extra.blank?
+
+    { events: [],
       events_by_day: [],
       events_by_month: [],
       events_url: nil,
-      event_count: total,
-      event_metrics: get_event_metrics(pdf: downloads, html: views, likes: likes, total: total) }
+      pdf: downloads,
+      html: views,
+      likes: likes,
+      total: total,
+      event_metrics: get_event_metrics(pdf: downloads, html: views, likes: likes, total: total),
+      extra: extra }
   end
 
   def config_fields

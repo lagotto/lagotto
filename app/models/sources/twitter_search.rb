@@ -17,17 +17,45 @@ class TwitterSearch < Source
     return result if result[:error]
 
     events = get_events(result)
-    events = update_events(work, events)
+    extra = get_extra(result)
+    extra = update_extra(work, extra)
 
     { events: events,
       events_by_day: get_events_by_day(events, work),
       events_by_month: get_events_by_month(events),
       events_url: get_events_url(work),
-      event_count: events.length,
-      event_metrics: get_event_metrics(:comments => events.length) }
+      comments: events.length,
+      total: events.length,
+      event_metrics: get_event_metrics(:comments => events.length),
+      extra: extra }
   end
 
   def get_events(result)
+    Array(result['statuses']).map do |item|
+      if item.key?("from_user")
+        user = item["from_user"]
+        user_name = item["from_user_name"]
+        user_profile_image = item["profile_image_url"]
+      else
+        user = item["user"]["screen_name"]
+        user_name = item["user"]["name"]
+        user_profile_image = item["user"]["profile_image_url"]
+      end
+
+      timestamp = get_iso8601_from_time(item['created_at'])
+      url = "http://twitter.com/#{user}/status/#{item['id_str']}"
+
+      { "author" => get_authors([user_name]),
+        "title" => item.fetch('text', ""),
+        "container-title" => "Twitter",
+        "issued" => get_date_parts(timestamp),
+        "URL" => url,
+        "timestamp" => timestamp,
+        "type" => "personal_communication" }
+    end
+  end
+
+  def get_extra(result)
     Array(result['statuses']).map do |item|
       if item.key?("from_user")
         user = item["from_user"]
@@ -49,29 +77,18 @@ class TwitterSearch < Source
                  user_name: user_name,
                  user_profile_image: user_profile_image },
         event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([user_name]),
-          'title' => item.fetch('text', ""),
-          'container-title' => 'Twitter',
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'personal_communication'
-        }
-      }
+        event_url: url }
     end
   end
 
   # check whether we have stored additional tweets in the past
   # merge with new tweets, using tweet URL as unique key
   # we need hash with indifferent access to compare string and symbol keys
-  def update_events(work, events)
+  def update_extra(work, extra)
     data = HashWithIndifferentAccess.new(get_lagotto_data("twitter_search:#{work.doi_escaped}"))
 
-    merged_events = Array(data['events']) | events
-    merged_events.group_by { |event| event[:event][:id] }.map { |_, v| v.first }
+    merged_extra = Array(data['extra']) | extra
+    merged_extra.group_by { |event| event[:event][:id] }.map { |_, v| v.first }
   end
 
   def get_access_token(options={})

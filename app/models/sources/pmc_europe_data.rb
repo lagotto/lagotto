@@ -15,41 +15,37 @@ class PmcEuropeData < Source
 
   def parse_data(result, work, options={})
     return result if result[:error]
-    result = result["responseWrapper"] || result
+    result = result.fetch("responseWrapper", nil) || result
 
-    event_count = (result["hitCount"]).to_i
+    total = result.fetch("hitCount", nil).to_i
     events = get_events(result)
-    events_url = event_count > 0 ? get_events_url(work) : nil
+    events_url = total > 0 ? get_events_url(work) : nil
 
     { events: events,
       events_by_day: [],
       events_by_month: [],
       events_url: events_url,
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+      total: total,
+      event_metrics: get_event_metrics(citations: total),
+      extra: nil }
   end
 
   def get_events(result)
-    if result["dbCountList"]
+    if result.fetch("dbCountList", nil)
       result["dbCountList"]["db"].reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
-    elsif result["resultList"]
+    elsif result.fetch("resultList", nil)
       result.extend Hashie::Extensions::DeepFetch
       events = result.deep_fetch('resultList', 'result') { nil }
       events = [events] if events.is_a?(Hash)
       Array(events).map do |item|
-        url = item['pmid'] ? "http://europepmc.org/abstract/MED/#{item['pmid']}" : nil
-        { event: item,
-          event_url: url,
+        url = item['pmid'].nil? ? nil : "http://europepmc.org/abstract/MED/#{item['pmid']}"
 
-          # the rest is CSL (citation style language)
-          event_csl: {
-            'author' => get_authors([item.fetch('authorString', "")]),
-            'title' => item.fetch('title', ""),
-            'container-title' => item.fetch('journalTitle', ""),
-            'issued' => get_date_parts_from_parts((item['pubYear']).to_i),
-            'url' => url,
-            'type' => 'article-journal' }
-        }
+        { "author" => get_authors([item.fetch('authorString', "")]),
+          "title" => item.fetch('title', nil),
+          "container-title" => item.fetch('journalTitle', nil),
+          "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
+          "url" => url,
+          "type" => 'article-journal' }
       end
     else
       []

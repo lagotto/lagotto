@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class EventCountIncreasingTooFastError < Filter
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).increasing(limit, source_ids)
@@ -9,7 +7,7 @@ class EventCountIncreasingTooFastError < Filter
         { source_id: response.source_id,
           work_id: response.work_id,
           level: Alert::INFO,
-          message: "Event count increased by #{response.event_count - response.previous_count} in #{response.update_interval} day(s)" }
+          message: "Event count increased by #{response.total - response.previous_total} in #{response.update_interval} day(s)" }
       end
       raise_alerts(responses)
     end

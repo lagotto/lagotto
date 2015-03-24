@@ -2,15 +2,15 @@ require "cgi"
 
 class History
   # we can get data_from_source in 3 different formats
-  # - hash with event_count = 0: SUCCESS NO DATA
-  # - hash with event_count > 0: SUCCESS
-  # - hash with error          : ERROR
+  # - hash with total == 0:         SUCCESS NO DATA
+  # - hash with total >  0:         SUCCESS
+  # - hash with total nil or error: ERROR
   #
   # SUCCESS NO DATA
-  # The source knows about the work identifier, but returns an event_count of 0
+  # The source knows about the work identifier, but returns an total of 0
   #
   # SUCCESS
-  # The source knows about the work identifier, and returns an event_count > 0
+  # The source knows about the work identifier, and returns an total > 0
   #
   # ERROR
   # An error occured, typically 408 (Request Timeout), 403 (Too Many Requests) or 401 (Unauthorized)
@@ -18,143 +18,128 @@ class History
   # We don't update retrieval status and set skipped to true,
   # so that the request is repeated later. We could get stuck, but we see this in alerts
   #
-  # This class returns a hash in the format event_count: 12, previous_count: 8, skipped: false, update_interval: 31
+  # This class returns a hash in the format total: 12, previous_total: 8, skipped: false, update_interval: 31
   # This hash can be used to track API responses, e.g. when event counts go down
 
   # include HTTP request helpers
   include Networkable
 
-  # include CouchDB helpers
-  include Couchable
-
   # include metrics helpers
   include Measurable
 
-  attr_accessor :retrieval_status, :events, :event_count, :previous_count, :previous_retrieved_at, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :couchdb_id, :rs_rev, :rh_rev, :data
+  attr_accessor :retrieval_status, :works, :total, :pdf, :html, :readers, :comments, :likes, :extra, :previous_total, :previous_retrieved_at, :event_metrics, :events_by_day, :events_by_month, :events_url, :status, :rs_rev, :rh_rev, :data
 
   def initialize(rs_id, data = {})
     @retrieval_status = RetrievalStatus.find(rs_id)
-    @previous_count = retrieval_status.event_count
+    @previous_total = retrieval_status.total
     @previous_retrieved_at = retrieval_status.retrieved_at
 
     @status = case
-              when data[:error] then :error
-              when data[:event_count].nil? then :error
-              when data[:event_count] > 0 then :success
-              when data[:event_count] == 0 then :success_no_data
+              when data[:error] || data[:total].nil? then :error
+              when data[:total] > 0 then :success
+              when data[:total] == 0 then :success_no_data
               end
 
-    @event_count = data[:event_count]
+    @pdf = data.fetch(:pdf, nil)
+    @html = data.fetch(:html, nil)
+    @readers = data.fetch(:readers, nil)
+    @comments = data.fetch(:comments, nil)
+    @likes = data.fetch(:likes, nil)
+    @total = data.fetch(:total, nil).to_i
+
+    @extra = data.fetch(:extra, nil)
 
     if not_error?
       @event_metrics = data[:event_metrics] || get_event_metrics(citations: 0)
       @events_url = data[:events_url]
 
-      save_to_mysql
+      save_to_retrieval_statuses
     end
 
     if success?
-      @events = data[:events]
-      @events_by_day = data[:events_by_day]
-      @events_by_month = data[:events_by_month]
+      @works = Array(data[:events])
 
-      save_to_couchdb
+      @events_by_day = data[:events_by_day]
+      @events_by_day = get_events_by_day if events_by_day.blank?
+
+      @events_by_month = data[:events_by_month]
+      @events_by_month = get_events_by_month if events_by_month.blank?
+
+      save_to_works
+      save_to_days
+      save_to_months
     end
   end
 
-  def save_to_mysql
+  def save_to_retrieval_statuses
     # save data to retrieval_status table
     retrieval_status.update_attributes(retrieved_at: retrieved_at,
                                        scheduled_at: retrieval_status.stale_at,
                                        queued_at: nil,
-                                       event_count: event_count,
+                                       total: total,
+                                       pdf: pdf,
+                                       html: html,
+                                       readers: readers,
+                                       comments: comments,
+                                       likes: likes,
                                        event_metrics: event_metrics,
-                                       events_url: events_url)
+                                       events_url: events_url,
+                                       extra: extra)
   end
 
-  def save_to_couchdb
-    if events_by_day.blank? || events_by_month.blank?
-      # check for existing couchdb document
-      data_rev = get_lagotto_rev(couchdb_id)
-
-      if data_rev.present?
-        previous_data = get_lagotto_data(couchdb_id)
-        previous_data = {} if previous_data.nil? || previous_data[:error]
-      else
-        previous_data = {}
-      end
-
-      @events_by_day = get_events_by_day(previous_data['events_by_day']) if events_by_day.blank?
-      @events_by_month = get_events_by_month(previous_data['events_by_month']) if events_by_month.blank?
-
-      options = { data: data.clone }
-      options[:source_id] = retrieval_status.source_id
-
-      if data_rev.present?
-        options[:data][:_id] = "#{couchdb_id}"
-        options[:data][:_rev] = data_rev
-      end
-
-      @rs_rev = put_lagotto_data("#{ENV['COUCHDB_URL']}/#{couchdb_id}", options)
-    else
-      # only save the data to couchdb
-      @rs_rev = save_lagotto_data(couchdb_id, data: data.clone, source_id: retrieval_status.source_id)
-    end
+  def save_to_works
+    works.map { |item| Work.find_or_create(item) }
   end
 
-  def get_events_by_day(event_arr = nil)
-    event_arr = Array(event_arr)
+  def save_to_days
+    Array(events_by_day).map { |item| Day.where(retrieval_status_id: retrieval_status.id,
+                                                day: item[:day],
+                                                month: item[:month],
+                                                year: item[:year]).first_or_create(
+                                                work_id: retrieval_status.work_id,
+                                                source_id: retrieval_status.source_id,
+                                                total: item[:total],
+                                                pdf: item[:pdf],
+                                                html: item[:html],
+                                                readers: item[:readers],
+                                                comments: item[:comments],
+                                                likes: item[:likes]) }
+  end
 
+  def save_to_months
+    Array(events_by_month).map { |item| Month.where(retrieval_status_id: retrieval_status.id,
+                                                    month: item[:month],
+                                                    year: item[:year]).first_or_create(
+                                                    work_id: retrieval_status.work_id,
+                                                    source_id: retrieval_status.source_id,
+                                                    total: item[:total],
+                                                    pdf: item[:pdf],
+                                                    html: item[:html],
+                                                    readers: item[:readers],
+                                                    comments: item[:comments],
+                                                    likes: item[:likes]) }
+  end
+
+  def get_events_by_day
     # track daily events only the first 30 days after publication
-    # return entry for older works
-    return event_arr if today - retrieval_status.work.published_on > 30
+    return nil if today - retrieval_status.work.published_on > 30
 
-    # count entries not including the current day
-    event_arr.delete_if { |item| item['day'] == today.day && item['month'] == today.month && item['year'] == today.year }
-
-    if ['counter', 'pmc', 'copernicus', 'figshare'].include?(retrieval_status.source.name)
-      html = event_metrics[:html] - event_arr.reduce(0) { |sum, item| sum + item['html'] }
-      pdf = event_metrics[:pdf] - event_arr.reduce(0) { |sum, item| sum + item['pdf'] }
-
-      item = { 'year' => today.year,
-               'month' => today.month,
-               'day' => today.day,
-               'html' => html,
-               'pdf' => pdf }
-    else
-      total = event_count - event_arr.reduce(0) { |sum, item| sum + item['total'] }
-      item = { 'year' => today.year,
-               'month' => today.month,
-               'day' => today.day,
-               'total' => total }
-    end
-
-    event_arr << item
+    hsh = get_new_events(retrieval_status.days.past)
+    [hsh.merge(year: today.year, month: today.month, day: today.day)]
   end
 
-  def get_events_by_month(event_arr = nil)
-    event_arr = Array(event_arr)
+  def get_events_by_month
+    hsh = get_new_events(retrieval_status.months.past)
+    [hsh.merge(year: today.year, month: today.month)]
+  end
 
-    # count entries not including the current month
-    event_arr.delete_if { |item| item['month'] == today.month && item['year'] == today.year }
-
-    if ['copernicus', 'figshare'].include?(retrieval_status.source.name)
-      html = event_metrics[:html] - event_arr.reduce(0) { |sum, item| sum + item['html'] }
-      pdf = event_metrics[:pdf] - event_arr.reduce(0) { |sum, item| sum + item['pdf'] }
-
-      item = { 'year' => today.year,
-               'month' => today.month,
-               'html' => html,
-               'pdf' => pdf }
-    else
-      total = event_count - event_arr.reduce(0) { |sum, item| sum + item['total'] }
-
-      item = { 'year' => today.year,
-               'month' => today.month,
-               'total' => total }
-    end
-
-    event_arr << item
+  def get_new_events(rows)
+    { pdf: pdf.nil? ? nil : pdf - rows.sum(:pdf),
+      html: html.nil? ? nil : html - rows.sum(:html),
+      readers: readers.nil? ? nil : readers - rows.sum(:readers),
+      comments: comments.nil? ? nil : comments - rows.sum(:comments),
+      likes: likes.nil? ? nil : likes - rows.sum(:likes),
+      total: total.nil? ? nil : total - rows.sum(:total) }.compact
   end
 
   def not_error?
@@ -163,11 +148,6 @@ class History
 
   def success?
     status == :success
-  end
-
-  def couchdb_id
-    pid = CGI.escape(retrieval_status.work.pid)
-    "#{retrieval_status.source.name}:#{pid}"
   end
 
   def skipped
@@ -191,21 +171,11 @@ class History
     Time.zone.now
   end
 
-  def data
-    { pid: retrieval_status.work.pid,
-      retrieved_at: retrieved_at,
-      source: retrieval_status.source.name,
-      events: events,
-      events_url: events_url,
-      event_metrics: event_metrics,
-      events_by_day: events_by_day,
-      events_by_month: events_by_month,
-      doc_type: "current" }
-  end
-
   def to_hash
-    { event_count: event_count,
-      previous_count: previous_count,
+    { total: total,
+      html: html,
+      pdf: pdf,
+      previous_total: previous_total,
       skipped: skipped,
       update_interval: update_interval }
   end

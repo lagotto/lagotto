@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class CitationMilestoneAlert < Filter
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).citation_milestone(limit, source_ids)
@@ -9,7 +7,7 @@ class CitationMilestoneAlert < Filter
         { source_id: response.source_id,
           work_id: response.work_id,
           level: Alert::INFO,
-          message: "Work has been cited #{response.event_count} times" }
+          message: "Work has been cited #{response.total} times" }
       end
       raise_alerts(responses)
     end
