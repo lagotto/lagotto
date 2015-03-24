@@ -64,7 +64,7 @@ class Api::V5::WorksController < Api::BaseController
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
       collection = Work.joins(:retrieval_statuses)
                    .where("retrieval_statuses.source_id = ?", source.id)
-                   .where("retrieval_statuses.event_count > 0")
+                   .where("retrieval_statuses.total > 0")
     else
       collection = Work
     end
@@ -80,15 +80,15 @@ class Api::V5::WorksController < Api::BaseController
     end
   end
 
-  # sort by source event_count
+  # sort by source total
   # we can't filter and sort by two different sources
   def get_order(collection, params, source)
     if params[:order] && source && params[:order] == params[:source_id]
-      collection = collection.order("retrieval_statuses.event_count DESC")
+      collection = collection.order("retrieval_statuses.total DESC")
     elsif params[:order] && !source && order = Source.where(name: params[:order]).first
       collection = collection.joins(:retrieval_statuses)
         .where("retrieval_statuses.source_id = ?", order.id)
-        .order("retrieval_statuses.event_count DESC")
+        .order("retrieval_statuses.total DESC")
     else
       collection = collection.order("published_on DESC")
     end
