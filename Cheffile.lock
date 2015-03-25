@@ -67,7 +67,7 @@ SITE
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
-    yum-mysql-community (0.1.14)
+    yum-mysql-community (0.1.16)
       yum (>= 3.0)
 
 GIT
@@ -81,9 +81,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/dotenv-cookbook.git
   ref: master
-  sha: 587ea3bde012ade57c4d14647e5b8db14e26415d
+  sha: 3818435f4506f80a45f5a924ef880a3b371e0798
   specs:
-    dotenv (0.2.1)
+    dotenv (0.2.2)
 
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
