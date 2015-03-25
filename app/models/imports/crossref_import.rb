@@ -64,7 +64,7 @@ class CrossrefImport < Import
     Array(items).map do |item|
       doi = item.fetch("DOI", nil)
       canonical_url = item.fetch("URL", nil)
-      date_parts = item["issued"]["date-parts"][0]
+      date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
       title = case item["title"].length
