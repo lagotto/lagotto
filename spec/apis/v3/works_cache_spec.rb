@@ -30,7 +30,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
     end
@@ -40,7 +40,7 @@ describe "/api/v3/articles", :type => :api do
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}?api_key=#{api_key}" }
       let(:key) { "jbuilder/v3/#{WorkDecorator.decorate(work).cache_key}" }
       let(:title) { "Foo" }
-      let(:event_count) { 75 }
+      let(:total) { 75 }
 
       it "can cache an work" do
         expect(Rails.cache.exist?(key)).not_to be true
@@ -55,7 +55,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -113,7 +113,7 @@ describe "/api/v3/articles", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(event_count: event_count)
+        work.retrieval_statuses.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
@@ -160,8 +160,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
 
         summary_uri = "#{uri}&info=summary"

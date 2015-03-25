@@ -27,7 +27,7 @@ describe "/api/v5/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -53,7 +53,7 @@ describe "/api/v5/articles", :type => :api do
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{work.doi_escaped}&api_key=#{api_key}" }
       let(:key) { "jbuilder/v5/#{work.decorate(:context => { source: 'citeulike' }).cache_key}" }
       let(:title) { "Foo" }
-      let(:event_count) { 75 }
+      let(:total) { 75 }
 
       it "does not use a stale cache when a work is updated" do
         expect(Rails.cache.exist?(key)).to be false
@@ -94,7 +94,7 @@ describe "/api/v5/articles", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(event_count: event_count)
+        work.retrieval_statuses.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
@@ -115,7 +115,7 @@ describe "/api/v5/articles", :type => :api do
         sleep 1
 
         response = Rails.cache.read(key)
-        expect(response["sources"].size).to eq(1)
+        expect(response["sources"].size).to eq(2)
 
         source_uri = "#{uri}&source_id=crossref"
         get source_uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -146,8 +146,8 @@ describe "/api/v5/articles", :type => :api do
         expect(data["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
 
         response_source = data["sources"][0]
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(response_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(response_source["events"]).not_to be_nil
 
         summary_uri = "#{uri}&info=summary"

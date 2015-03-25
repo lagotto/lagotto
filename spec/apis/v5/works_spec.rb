@@ -53,8 +53,8 @@ describe "/api/v5/articles", :type => :api do
         expect(item["doi"]).to eq(work.doi)
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
@@ -71,8 +71,8 @@ describe "/api/v5/articles", :type => :api do
         expect(item["doi"]).to eq(work.doi)
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
@@ -124,8 +124,8 @@ describe "/api/v5/articles", :type => :api do
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
 
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["events"]).not_to be_nil
         expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
@@ -144,8 +144,8 @@ describe "/api/v5/articles", :type => :api do
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
 
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.totl)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["events"]).not_to be_nil
         expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
@@ -169,8 +169,8 @@ describe "/api/v5/articles", :type => :api do
         expect(item["doi"]).to eq(work.doi)
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
@@ -189,8 +189,8 @@ describe "/api/v5/articles", :type => :api do
         expect(item["doi"]).to eq(work.doi)
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
