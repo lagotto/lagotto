@@ -12,7 +12,7 @@ json.data @works do |work|
         json.cache! ['v5', rs, params[:info]], skip_digest: true do
           json.(rs, :name, :display_name, :group_name, :events_url, :by_day, :by_month, :by_year, :update_date)
           json.metrics rs.new_metrics
-          json.(rs, :events, :events_csl) if params[:info] == "detail"
+          json.events rs.events if params[:info] == "detail"
         end
       end
     end

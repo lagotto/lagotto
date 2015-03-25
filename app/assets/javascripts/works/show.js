@@ -24,7 +24,7 @@ function eventViz(data) {
   d3.select("#loading-events").remove();
 
   var data = data[0]['sources'];
-  data = data.map( function(d) { return d.events_csl; });
+  data = data.map( function(d) { return d.events; });
   data = d3.merge(data);
 
   if (data.length === 0) {
