@@ -40,12 +40,12 @@ class History
               when data[:total] == 0 then :success_no_data
               end
 
-    @pdf = data.fetch(:pdf, nil)
-    @html = data.fetch(:html, nil)
-    @readers = data.fetch(:readers, nil)
-    @comments = data.fetch(:comments, nil)
-    @likes = data.fetch(:likes, nil)
-    @total = data.fetch(:total, nil).to_i
+    @pdf = data.fetch(:pdf, 0)
+    @html = data.fetch(:html, 0)
+    @readers = data.fetch(:readers, 0)
+    @comments = data.fetch(:comments, 0)
+    @likes = data.fetch(:likes, 0)
+    @total = data.fetch(:total, 0)
 
     @extra = data.fetch(:extra, nil)
 
@@ -57,13 +57,11 @@ class History
     end
 
     if success?
-      @works = Array(data[:events])
-
       @events_by_day = data[:events_by_day]
-      @events_by_day = get_events_by_day if events_by_day.blank?
+      @events_by_day = [get_events_current_day].compact if events_by_day.blank?
 
       @events_by_month = data[:events_by_month]
-      @events_by_month = get_events_by_month if events_by_month.blank?
+      @events_by_month = [get_events_current_month] if events_by_month.blank?
 
       save_to_works
       save_to_days
@@ -87,6 +85,41 @@ class History
                                        extra: extra)
   end
 
+  def works
+    return [] if data.nil?
+
+    Array(data.fetch(:events, nil)).map do |item|
+      doi = item.fetch("DOI", nil)
+      canonical_url = item.fetch("URL", nil)
+      date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
+      year, month, day = date_parts[0], date_parts[1], date_parts[2]
+      type = item.fetch("type", nil)
+      work_type_id = WorkType.where(name: type).pluck(:id).first
+
+      csl = {
+        "issued" => item.fetch("issued", []),
+        "author" => item.fetch("author", []),
+        "container-title" => item.fetch("container-title", nil),
+        "page" => item.fetch("page", nil),
+        "issue" => item.fetch("issue", nil),
+        "title" => item.fetch("title", nil),
+        "type" => item.fetch("type", nil),
+        "DOI" => doi,
+        "URL" => canonical_url,
+        "volume" => item.fetch("volume", nil) }
+
+      { doi: doi,
+        title: title,
+        year: year,
+        month: month,
+        day: day,
+        publisher_id: publisher_id,
+        work_type_id: work_type_id,
+        tracked: false,
+        csl: csl }
+    end
+  end
+
   def save_to_works
     works.map { |item| Work.find_or_create(item) }
   end
@@ -98,12 +131,12 @@ class History
                                                 year: item[:year]).first_or_create(
                                                 work_id: retrieval_status.work_id,
                                                 source_id: retrieval_status.source_id,
-                                                total: item[:total],
-                                                pdf: item[:pdf],
-                                                html: item[:html],
-                                                readers: item[:readers],
-                                                comments: item[:comments],
-                                                likes: item[:likes]) }
+                                                total: item.fetch(:total, 0),
+                                                pdf: item.fetch(:pdf, nil),
+                                                html: item.fetch(:html, nil),
+                                                readers: item.fetch(:readers, nil),
+                                                comments: item.fetch(:comments, nil),
+                                                likes: item.fetch(:likes, nil)) }
   end
 
   def save_to_months
@@ -112,34 +145,94 @@ class History
                                                     year: item[:year]).first_or_create(
                                                     work_id: retrieval_status.work_id,
                                                     source_id: retrieval_status.source_id,
-                                                    total: item[:total],
-                                                    pdf: item[:pdf],
-                                                    html: item[:html],
-                                                    readers: item[:readers],
-                                                    comments: item[:comments],
-                                                    likes: item[:likes]) }
+                                                    total: item.fetch(:total, 0),
+                                                    pdf: item.fetch(:pdf, nil),
+                                                    html: item.fetch(:html, nil),
+                                                    readers: item.fetch(:readers, nil),
+                                                    comments: item.fetch(:comments, nil),
+                                                    likes: item.fetch(:likes, nil)) }
   end
 
-  def get_events_by_day
-    # track daily events only the first 30 days after publication
+  def get_events_previous_day
+    row = retrieval_status.days.last
+
+    if row.nil?
+      # first record
+      { pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 0 }
+    elsif [row.year, row.month, row.day] == [today.year, today.month, today.day]
+      # update today's record
+      { pdf: retrieval_status.pdf - row.pdf,
+        html: retrieval_status.html - row.html,
+        readers: retrieval_status.readers - row.readers,
+        comments: retrieval_status.comments - row.comments,
+        likes: retrieval_status.likes - row.likes,
+        total: retrieval_status.total - row.total }
+    else
+      # add record
+      { pdf: retrieval_status.pdf,
+        html: retrieval_status.html,
+        readers: retrieval_status.readers,
+        comments: retrieval_status.comments,
+        likes: retrieval_status.likes,
+        total: retrieval_status.total }
+    end
+  end
+
+  # calculate events for current day based on past numbers
+  # track daily events only the first 30 days after publication
+  def get_events_current_day
     return nil if today - retrieval_status.work.published_on > 30
 
-    hsh = get_new_events(retrieval_status.days.past)
-    [hsh.merge(year: today.year, month: today.month, day: today.day)]
+    row = get_events_previous_day
+
+    { year: today.year,
+      month: today.month,
+      day: today.day,
+      pdf: pdf - row.fetch(:pdf, 0),
+      html: html - row.fetch(:html, 0),
+      readers: readers - row.fetch(:readers, 0),
+      comments: comments - row.fetch(:comments, 0),
+      likes: likes - row.fetch(:likes, 0),
+      total: total - row.fetch(:total, 0) }
   end
 
-  def get_events_by_month
-    hsh = get_new_events(retrieval_status.months.past)
-    [hsh.merge(year: today.year, month: today.month)]
+  def get_events_previous_month
+    row = retrieval_status.months.last
+
+    if row.nil?
+      # first record
+      { pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 0 }
+    elsif [row.year, row.month] == [today.year, today.month]
+      # update this month's record
+      { pdf: retrieval_status.pdf - row.pdf,
+        html: retrieval_status.html - row.html,
+        readers: retrieval_status.readers - row.readers,
+        comments: retrieval_status.comments - row.comments,
+        likes: retrieval_status.likes - row.likes,
+        total: retrieval_status.total - row.total }
+    else
+      # add record
+      { pdf: retrieval_status.pdf,
+        html: retrieval_status.html,
+        readers: retrieval_status.readers,
+        comments: retrieval_status.comments,
+        likes: retrieval_status.likes,
+        total: retrieval_status.total }
+    end
   end
 
-  def get_new_events(rows)
-    { pdf: pdf.nil? ? nil : pdf - rows.sum(:pdf),
-      html: html.nil? ? nil : html - rows.sum(:html),
-      readers: readers.nil? ? nil : readers - rows.sum(:readers),
-      comments: comments.nil? ? nil : comments - rows.sum(:comments),
-      likes: likes.nil? ? nil : likes - rows.sum(:likes),
-      total: total.nil? ? nil : total - rows.sum(:total) }.compact
+  # calculate events for current month based on past numbers
+  def get_events_current_month
+    row = get_events_previous_month
+
+    { year: today.year,
+      month: today.month,
+      pdf: pdf - row.fetch(:pdf, 0),
+      html: html - row.fetch(:html, 0),
+      readers: readers - row.fetch(:readers, 0),
+      comments: comments - row.fetch(:comments, 0),
+      likes: likes - row.fetch(:likes, 0),
+      total: total - row.fetch(:total, 0) }
   end
 
   def not_error?

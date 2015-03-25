@@ -131,13 +131,13 @@ FactoryGirl.define do
   factory :retrieval_status do
     total 50
     event_metrics do
-      { :pdf => nil,
-        :html => nil,
+      { :pdf => 0,
+        :html => 0,
         :shares => 50,
-        :groups => nil,
-        :comments => nil,
-        :likes => nil,
-        :citations => nil,
+        :groups => 0,
+        :comments => 0,
+        :likes => 0,
+        :citations => 0,
         :total => 50 }
     end
     retrieved_at { Time.zone.now - 1.month }
@@ -176,6 +176,81 @@ FactoryGirl.define do
       association :source, factory: :crossref
     end
 
+    trait(:with_counter_last_day) do
+      association :source, factory: :counter
+      after :create do |rs|
+        last_day = Time.zone.now.to_date - 1.day
+        FactoryGirl.create(:day, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: last_day.year,
+                                   month: last_day.month,
+                                   day: last_day.day,
+                                   html: rs.html,
+                                   pdf: rs.pdf,
+                                   total: rs.total)
+      end
+    end
+
+    trait(:with_counter_current_day) do
+      association :source, factory: :counter
+      after :create do |rs|
+        FactoryGirl.create(:day, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: Time.zone.now.to_date.year,
+                                   month: Time.zone.now.to_date.month,
+                                   day: Time.zone.now.to_date.day,
+                                   html: rs.html,
+                                   pdf: rs.pdf,
+                                   total: rs.total)
+      end
+    end
+
+    trait(:with_crossref_last_month) do
+      association :source, factory: :crossref
+      after :create do |rs|
+        last_month = Time.zone.now.to_date - 1.month
+        FactoryGirl.create(:month, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: last_month.year,
+                                   month: last_month.month,
+                                   total: rs.total)
+      end
+    end
+
+    trait(:with_crossref_current_month) do
+      association :source, factory: :crossref
+      after :create do |rs|
+        FactoryGirl.create(:month, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: Time.zone.now.to_date.year,
+                                   month: Time.zone.now.to_date.month,
+                                   total: rs.total)
+      end
+    end
+
+    trait(:with_crossref_current_and_last_month) do
+      association :source, factory: :crossref
+      after :create do |rs|
+        last_month = Time.zone.now.to_date - 1.month
+        FactoryGirl.create(:month, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: last_month.year,
+                                   month: last_month.month,
+                                   total: rs.total - 3)
+        FactoryGirl.create(:month, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: Time.zone.now.to_date.year,
+                                   month: Time.zone.now.to_date.month,
+                                   total: 3)
+      end
+    end
+
     trait(:with_crossref_histories) do
       before(:create) do |retrieval_status|
         FactoryGirl.create_list(:retrieval_history, 20, retrieval_status: retrieval_status,
@@ -185,6 +260,14 @@ FactoryGirl.define do
     end
 
     initialize_with { RetrievalStatus.where(work_id: work.id, source_id: source.id).first_or_initialize }
+  end
+
+  factory :day do
+
+  end
+
+  factory :month do
+
   end
 
   factory :report do

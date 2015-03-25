@@ -3,9 +3,7 @@ class Day < ActiveRecord::Base
   belongs_to :work
   belongs_to :retrieval_status
 
-  scope :past, -> { where.not(year: Time.zone.now.year,
-                              month: Time.zone.now.month,
-                              day: Time.zone.now.day) }
+  default_scope { order("year, month, day") }
 
   # summary metrics, removing nil
   def metrics
