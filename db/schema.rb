@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324071740) do
+ActiveRecord::Schema.define(version: 20150325124452) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -88,13 +88,13 @@ ActiveRecord::Schema.define(version: 20150324071740) do
     t.integer  "month",               limit: 4,             null: false
     t.integer  "day",                 limit: 4,             null: false
     t.integer  "total",               limit: 4, default: 0, null: false
-    t.integer  "html",                limit: 4
-    t.integer  "pdf",                 limit: 4
-    t.integer  "comments",            limit: 4
-    t.integer  "likes",               limit: 4
+    t.integer  "html",                limit: 4, default: 0, null: false
+    t.integer  "pdf",                 limit: 4, default: 0, null: false
+    t.integer  "comments",            limit: 4, default: 0, null: false
+    t.integer  "likes",               limit: 4, default: 0, null: false
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
-    t.integer  "readers",             limit: 4
+    t.integer  "readers",             limit: 4, default: 0, null: false
   end
 
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
@@ -131,13 +131,13 @@ ActiveRecord::Schema.define(version: 20150324071740) do
     t.integer  "year",                limit: 4,             null: false
     t.integer  "month",               limit: 4,             null: false
     t.integer  "total",               limit: 4, default: 0, null: false
-    t.integer  "html",                limit: 4
-    t.integer  "pdf",                 limit: 4
-    t.integer  "comments",            limit: 4
-    t.integer  "likes",               limit: 4
+    t.integer  "html",                limit: 4, default: 0, null: false
+    t.integer  "pdf",                 limit: 4, default: 0, null: false
+    t.integer  "comments",            limit: 4, default: 0, null: false
+    t.integer  "likes",               limit: 4, default: 0, null: false
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
-    t.integer  "readers",             limit: 4
+    t.integer  "readers",             limit: 4, default: 0, null: false
   end
 
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
@@ -210,18 +210,18 @@ ActiveRecord::Schema.define(version: 20150324071740) do
     t.integer  "source_id",     limit: 4,                                     null: false
     t.datetime "queued_at"
     t.datetime "retrieved_at",                default: '1970-01-01 00:00:00', null: false
-    t.integer  "total",         limit: 4,     default: 0
+    t.integer  "total",         limit: 4,     default: 0,                     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "scheduled_at",                default: '1970-01-01 00:00:00', null: false
     t.text     "events_url",    limit: 65535
     t.string   "event_metrics", limit: 255
     t.text     "extra",         limit: 65535
-    t.integer  "pdf",           limit: 4
-    t.integer  "html",          limit: 4
-    t.integer  "readers",       limit: 4
-    t.integer  "comments",      limit: 4
-    t.integer  "likes",         limit: 4
+    t.integer  "pdf",           limit: 4,     default: 0,                     null: false
+    t.integer  "html",          limit: 4,     default: 0,                     null: false
+    t.integer  "readers",       limit: 4,     default: 0,                     null: false
+    t.integer  "comments",      limit: 4,     default: 0,                     null: false
+    t.integer  "likes",         limit: 4,     default: 0,                     null: false
   end
 
   add_index "retrieval_statuses", ["source_id", "queued_at", "scheduled_at"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree

@@ -37,7 +37,7 @@ describe "filter:all" do
   context "report decreasing event count errors" do
 
     before do
-      FactoryGirl.create(:api_response, previous_count: 12)
+      FactoryGirl.create(:api_response, previous_total: 12)
       FactoryGirl.create(:decreasing_event_count_error)
     end
 
@@ -51,7 +51,7 @@ describe "filter:all" do
   context "report increasing event count errors" do
 
     before do
-      FactoryGirl.create(:api_response, event_count: 3600)
+      FactoryGirl.create(:api_response, total: 3600)
       FactoryGirl.create(:increasing_event_count_error)
     end
 
@@ -79,7 +79,7 @@ describe "filter:all" do
   context "report work not updated errors" do
 
     before do
-      FactoryGirl.create(:api_response, event_count: nil, update_interval: 42)
+      FactoryGirl.create(:api_response, total: 0, update_interval: 42)
       FactoryGirl.create(:work_not_updated_error)
     end
 
