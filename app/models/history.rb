@@ -40,12 +40,12 @@ class History
               when data[:total] == 0 then :success_no_data
               end
 
-    @pdf = data.fetch(:pdf, 0)
-    @html = data.fetch(:html, 0)
-    @readers = data.fetch(:readers, 0)
-    @comments = data.fetch(:comments, 0)
-    @likes = data.fetch(:likes, 0)
-    @total = data.fetch(:total, 0)
+    @pdf = data.fetch(:pdf, 0).to_i
+    @html = data.fetch(:html, 0).to_i
+    @readers = data.fetch(:readers, 0).to_i
+    @comments = data.fetch(:comments, 0).to_i
+    @likes = data.fetch(:likes, 0).to_i
+    @total = data.fetch(:total, 0).to_i
 
     @extra = data.fetch(:extra, nil)
 
@@ -132,11 +132,11 @@ class History
                                                 work_id: retrieval_status.work_id,
                                                 source_id: retrieval_status.source_id,
                                                 total: item.fetch(:total, 0),
-                                                pdf: item.fetch(:pdf, nil),
-                                                html: item.fetch(:html, nil),
-                                                readers: item.fetch(:readers, nil),
-                                                comments: item.fetch(:comments, nil),
-                                                likes: item.fetch(:likes, nil)) }
+                                                pdf: item.fetch(:pdf, 0),
+                                                html: item.fetch(:html, 0),
+                                                readers: item.fetch(:readers, 0),
+                                                comments: item.fetch(:comments, 0),
+                                                likes: item.fetch(:likes, 0)) }
   end
 
   def save_to_months
@@ -146,11 +146,11 @@ class History
                                                     work_id: retrieval_status.work_id,
                                                     source_id: retrieval_status.source_id,
                                                     total: item.fetch(:total, 0),
-                                                    pdf: item.fetch(:pdf, nil),
-                                                    html: item.fetch(:html, nil),
-                                                    readers: item.fetch(:readers, nil),
-                                                    comments: item.fetch(:comments, nil),
-                                                    likes: item.fetch(:likes, nil)) }
+                                                    pdf: item.fetch(:pdf, 0),
+                                                    html: item.fetch(:html, 0),
+                                                    readers: item.fetch(:readers, 0),
+                                                    comments: item.fetch(:comments, 0),
+                                                    likes: item.fetch(:likes, 0)) }
   end
 
   def get_events_previous_day

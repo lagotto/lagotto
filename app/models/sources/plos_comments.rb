@@ -9,7 +9,7 @@ class PlosComments < Source
     return result if result[:error]
 
     events = get_events(result, work)
-    replies = get_sum(events, :event, 'totalNumReplies')
+    replies = get_sum(result.fetch('data', []), 'totalNumReplies')
     total = events.length + replies
 
     { events: events,

@@ -42,15 +42,15 @@ class TwitterSearch < Source
         user_profile_image = item["user"]["profile_image_url"]
       end
 
-      timestamp = get_iso8601_from_time(item['created_at'])
-      url = "http://twitter.com/#{user}/status/#{item['id_str']}"
+      timestamp = get_iso8601_from_time(item.fetch('created_at', nil))
+      url = "http://twitter.com/#{user}/status/#{item.fetch('id_str', '')}"
 
       { "author" => get_authors([user_name]),
         "title" => item.fetch('text', ""),
         "container-title" => "Twitter",
         "issued" => get_date_parts(timestamp),
-        "URL" => url,
         "timestamp" => timestamp,
+        "URL" => url,
         "type" => "personal_communication" }
     end
   end
