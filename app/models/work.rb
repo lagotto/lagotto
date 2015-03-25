@@ -18,6 +18,8 @@ class Work < ActiveRecord::Base
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts, :dependent => :destroy
   has_many :api_responses
+  has_many :events
+  has_many :citations, :through => :events
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true

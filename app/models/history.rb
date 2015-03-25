@@ -121,7 +121,13 @@ class History
   end
 
   def save_to_works
-    works.map { |item| Work.find_or_create(item) }
+    works.map do |item|
+      work = Work.find_or_create(item)
+      relation_type_id = RelationType.where(name: "IsCitedBy").first
+      rs.work.events.create(citation_id: work.id,
+                            source_id: rs.source_id,
+                            relation_type_id: relation_type_id)
+    end
   end
 
   def save_to_days
