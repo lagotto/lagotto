@@ -46,7 +46,7 @@ describe Twitter, type: :model, vcr: true do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0}, extra: nil)
+      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>nil, :citations=>nil, :total=>0}, extra: [])
     end
 
     it "should report if there are events returned by the Twitter API" do
@@ -61,7 +61,6 @@ describe Twitter, type: :model, vcr: true do
       expect(response[:events_by_month].first).to eq(year: 2012, month: 5, total: 2)
 
       event = response[:events].first
-
       expect(event['author']).to eq([{"family"=>"Regrum", "given"=>""}])
       expect(event['title']).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
       expect(event['container-title']).to eq("Twitter")
@@ -69,14 +68,15 @@ describe Twitter, type: :model, vcr: true do
       expect(event['type']).to eq("personal_communication")
       expect(event['URL']).to eq("http://twitter.com/regrum/status/204270013081849857")
       expect(event['timestamp']).to eq("2012-05-20T17:59:00Z")
-      event_data = event[:event]
 
-      expect(event_data[:id]).to eq("204270013081849857")
-      expect(event_data[:text]).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
-      expect(event_data[:created_at]).to eq("2012-05-20T17:59:00Z")
-      expect(event_data[:user]).to eq("regrum")
-      expect(event_data[:user_name]).to eq("regrum")
-      expect(event_data[:user_profile_image]).to eq("http://a0.twimg.com/profile_images/61215276/regmanic2_normal.JPG")
+      extra = response[:extra].first
+      extra = extra[:event]
+      expect(extra[:id]).to eq("204270013081849857")
+      expect(extra[:text]).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
+      expect(extra[:created_at]).to eq("2012-05-20T17:59:00Z")
+      expect(extra[:user]).to eq("regrum")
+      expect(extra[:user_name]).to eq("regrum")
+      expect(extra[:user_profile_image]).to eq("http://a0.twimg.com/profile_images/61215276/regmanic2_normal.JPG")
     end
 
     it "should catch timeout errors with the Twitter API" do

@@ -83,13 +83,13 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
 
       expect(response[:total]).to eq(15)
 
-      event = response[:events].first
-      expect(event['URL']).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
+      event = response[:events].second
+      expect(event['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
       expect(event['author']).to be_nil
-      expect(event['title']).to eq("Project Description @ Belly Button Biodiversity")
-      expect(event['container-title']).to be_blank
-      expect(event['issued']).to eq("date_parts" => [[]])
-      expect(event['timestamp']).to eq("date_parts" => [[]])
+      expect(event['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
+      expect(event['container-title']).to eq("The Huffington Post")
+      expect(event['issued']).to eq("date-parts"=>[[2013, 11, 20]])
+      expect(event['timestamp']).to eq("2013-11-20T00:00:00Z")
       expect(event['type']).to eq("post")
     end
 

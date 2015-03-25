@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 15:52:32 GMT
+      - Wed, 25 Mar 2015 17:06:39 GMT
       Server:
       - Apache-Coyote/1.1
       Content-Type:
@@ -30,5 +30,5 @@ http_interactions:
       encoding: UTF-8
       string: "[]"
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 15:52:32 GMT
+  recorded_at: Wed, 25 Mar 2015 17:03:43 GMT
 recorded_with: VCR 2.9.3

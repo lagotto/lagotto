@@ -85,8 +85,8 @@ describe PlosComments, type: :model, vcr: true do
       body = File.read(fixture_path + 'plos_comments.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(31)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: 31, likes: nil, citations: nil, total: 31)
+      expect(response[:total]).to eq(36)
+      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: 31, likes: nil, citations: nil, total: 36)
 
       expect(response[:events_by_day].length).to eq(2)
       expect(response[:events_by_day].first).to eq(year: 2009, month: 3, day: 30, total: 7)

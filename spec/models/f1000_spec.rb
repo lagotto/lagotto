@@ -92,11 +92,11 @@ describe F1000, type: :model, vcr: true do
       response = subject.parse_data(result, work)
       expect(response[:total]).to eq(2)
       expect(response[:events_url]).to eq("http://f1000.com/prime/718293874")
-
-      expect(response[:events_by_month].length).to eq(1)
-      expect(response[:events_by_month].first).to eq(month: 4, year: 2014, total: 2)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 2, total: 2)
-      expect(response[:extra]['classifications']).to eq(["confirmation", "good_for_teaching"])
+
+      extra = response[:extra].first
+      expect(extra[:event]).to eq("year"=>2014, "month"=>4, "doi"=>"10.1371/journal.ppat.1003959", "f1000_id"=>"718293874", "url"=>"http://f1000.com/prime/718293874", "score"=>2, "classifications"=>["confirmation", "good_for_teaching"], "updated_at"=>"2014-04-27T17:25:41Z")
+      expect(extra[:event_url]).to eq("http://f1000.com/prime/718293874")
     end
 
     it "should catch timeout errors with f1000" do

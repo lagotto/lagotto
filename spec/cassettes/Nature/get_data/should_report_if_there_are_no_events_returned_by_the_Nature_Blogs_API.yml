@@ -8,36 +8,38 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
     status:
-      code: 503
+      code: 200
       message: ''
     headers:
       Server:
       - nginx/1.0.0
       Date:
-      - Tue, 24 Mar 2015 14:18:57 GMT
+      - Wed, 25 Mar 2015 17:02:59 GMT
       Content-Type:
-      - text/html; charset=iso-8859-1
+      - application/json; charset=utf-8
       Connection:
       - keep-alive
       Content-Length:
-      - '323'
+      - '2'
+      Status:
+      - '200'
+      X-Powered-By:
+      - Phusion Passenger (mod_rails/mod_rack) 3.0.21
+      X-Runtime:
+      - '2'
+      Cache-Control:
+      - private, max-age=0, must-revalidate
+      Set-Cookie:
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlYzQ4ZmEwZTRkYWE4YTM3MGIwZjU3YzAyMTQyODY3ZjM%3D--af91fac7ee37b5bb10b4295478b0cee3d6fe0f11;
+        path=/; HttpOnly
     body:
       encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>503 Service Temporarily Unavailable</title>
-        </head><body>
-        <h1>Service Temporarily Unavailable</h1>
-        <p>The server is temporarily unable to service your
-        request due to maintenance downtime or capacity
-        problems. Please try again later.</p>
-        </body></html>
+      string: "[]"
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:18:57 GMT
+  recorded_at: Wed, 25 Mar 2015 17:00:03 GMT
 recorded_with: VCR 2.9.3

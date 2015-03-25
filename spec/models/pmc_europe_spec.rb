@@ -56,7 +56,7 @@ describe PmcEurope, type: :model, vcr: true do
       body = File.read(fixture_path + 'pmc_europe.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:timestamp]).to eq(23)
+      expect(response[:total]).to eq(23)
       expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23)
       expect(response[:events_by_day]).to be_empty
       expect(response[:events_by_month]).to be_empty

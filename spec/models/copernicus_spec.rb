@@ -80,9 +80,9 @@ describe Copernicus, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:total]).to eq(83)
-      events = response[:events]
-      expect(events["counter"]).not_to be_nil
-      expect(events["counter"]["AbstractViews"].to_i).to eq(72)
+      extra = response[:extra]
+      expect(extra["counter"]).not_to be_nil
+      expect(extra["counter"]["AbstractViews"].to_i).to eq(72)
     end
 
     it "should catch timeout errors with the Copernicus API" do

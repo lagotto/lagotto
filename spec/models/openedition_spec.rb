@@ -62,15 +62,19 @@ describe Openedition, type: :model, vcr: true do
       response = subject.parse_data(result, work)
       expect(response[:total]).to eq(1)
       expect(response[:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
-
       expect(response[:events_by_day].length).to eq(1)
       expect(response[:events_by_day].first).to eq(year: 2013, month: 5, day: 27, total: 1)
       expect(response[:events_by_month].length).to eq(1)
       expect(response[:events_by_month].first).to eq(year: 2013, month: 5, total: 1)
 
       event = response[:events].first
-      expect(event[:event_time]).to eq("2013-05-27T00:00:00Z")
-      expect(event[:event_url]).to eq(event[:event]['link'])
+      expect(event['URL']).to eq("http://ruedesfacs.hypotheses.org/?p=1666")
+      expect(event['author']).to eq([{"family"=>"Ruedesfacs", "given"=>""}])
+      expect(event['title']).to eq("Saartjie Baartman : la Vénus Hottentote")
+      expect(event['container-title']).to be_nil
+      expect(event['issued']).to eq("date-parts"=>[[2013, 5, 27]])
+      expect(event['timestamp']).to eq("2013-05-27T00:00:00Z")
+      expect(event['type']).to eq("post")
     end
 
     it "should catch timeout errors with the OpenEdition APi" do

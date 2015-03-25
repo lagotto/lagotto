@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.0.0
       Date:
-      - Tue, 24 Mar 2015 14:18:58 GMT
+      - Wed, 25 Mar 2015 17:02:59 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -31,11 +31,11 @@ http_interactions:
       X-Powered-By:
       - Phusion Passenger (mod_rails/mod_rack) 3.0.21
       X-Runtime:
-      - '45'
+      - '29'
       Cache-Control:
       - private, max-age=0, must-revalidate
       Set-Cookie:
-      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlNGVhYzdmODIyMDBiOTE5NDE2MmVmNzQzMGQ1YjI1MjE%3D--0de2f9a7f7e3dfb1899f895c226619fa8003ca1a;
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlMjU5MWU4Yjg2ZjI2OTllZWZhNGFiYTlmMTcxY2Y5ZDA%3D--263163e4d490bd1ee0330f7bd2773dc4ed801204;
         path=/; HttpOnly
     body:
       encoding: UTF-8
@@ -74,5 +74,5 @@ http_interactions:
         world of science blogging. \u00a0Much of the context here relates to openness.
         \u00a0Yet as far as I can tell, the data collected that make up t...","updated_at":"2012-05-19T13:55:29Z","flesch":-559.625,"url":"feedproxy.google.com/~r/TheTreeOfLife/~3/et-NrG_KTQA/oh-irony-new-openaccess-plosone-paper.html","blog_id":76,"id":734008,"hashed_id":"602855d91588a0722bcf9e36915eaa96e1f2315045f8305b78b77511fa3648c1","num_words":1776,"published_at":"2012-05-12T07:24:00Z","fog":243.602}}]'
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:18:58 GMT
+  recorded_at: Wed, 25 Mar 2015 17:00:03 GMT
 recorded_with: VCR 2.9.3

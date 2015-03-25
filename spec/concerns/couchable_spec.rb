@@ -75,7 +75,7 @@ describe Source do
       new_rev = subject.put_lagotto_data(url, data: data)
       expect(Alert.count).to eq(1)
       alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPBadRequest")
+      expect(alert.class_name).to eq("Net::HTTPConflict")
       expect(alert.status).to eq(409)
     end
 

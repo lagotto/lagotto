@@ -133,12 +133,12 @@ FactoryGirl.define do
     event_metrics do
       { :pdf => 0,
         :html => 0,
-        :shares => 50,
+        :shares => total,
         :groups => 0,
         :comments => 0,
         :likes => 0,
         :citations => 0,
-        :total => 50 }
+        :total => total }
     end
     retrieved_at { Time.zone.now - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
@@ -154,7 +154,7 @@ FactoryGirl.define do
     trait(:queued) { queued_at 1.hour.ago }
     trait(:refreshed) { scheduled_at 1.month.from_now }
     trait(:staleness) { association :source, factory: :citeulike }
-    trait(:with_errors) { event_count 0 }
+    trait(:with_errors) { total 0 }
     trait(:with_private) { association :source, private: true }
     trait(:with_crossref) { association :source, factory: :crossref }
     trait(:with_mendeley) { association :source, factory: :mendeley }
@@ -177,6 +177,9 @@ FactoryGirl.define do
     end
 
     trait(:with_counter_last_day) do
+      total 500
+      html 400
+      pdf 100
       association :source, factory: :counter
       after :create do |rs|
         last_day = Time.zone.now.to_date - 1.day
@@ -193,6 +196,9 @@ FactoryGirl.define do
     end
 
     trait(:with_counter_current_day) do
+      total 250
+      html 200
+      pdf 50
       association :source, factory: :counter
       after :create do |rs|
         FactoryGirl.create(:day, retrieval_status: rs,
@@ -207,7 +213,37 @@ FactoryGirl.define do
       end
     end
 
+    trait(:with_crossref_last_day) do
+      total 25
+      association :source, factory: :crossref
+      after :create do |rs|
+        last_day = Time.zone.now.to_date - 1.day
+        FactoryGirl.create(:day, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: last_day.year,
+                                   month: last_day.month,
+                                   day: last_day.day,
+                                   total: rs.total)
+      end
+    end
+
+    trait(:with_crossref_current_day) do
+      total 20
+      association :source, factory: :crossref
+      after :create do |rs|
+        FactoryGirl.create(:day, retrieval_status: rs,
+                                   work: rs.work,
+                                   source: rs.source,
+                                   year: Time.zone.now.to_date.year,
+                                   month: Time.zone.now.to_date.month,
+                                   day: Time.zone.now.to_date.day,
+                                   total: rs.total)
+      end
+    end
+
     trait(:with_crossref_last_month) do
+      total 25
       association :source, factory: :crossref
       after :create do |rs|
         last_month = Time.zone.now.to_date - 1.month
@@ -221,6 +257,7 @@ FactoryGirl.define do
     end
 
     trait(:with_crossref_current_month) do
+      total 20
       association :source, factory: :crossref
       after :create do |rs|
         FactoryGirl.create(:month, retrieval_status: rs,
@@ -229,25 +266,6 @@ FactoryGirl.define do
                                    year: Time.zone.now.to_date.year,
                                    month: Time.zone.now.to_date.month,
                                    total: rs.total)
-      end
-    end
-
-    trait(:with_crossref_current_and_last_month) do
-      association :source, factory: :crossref
-      after :create do |rs|
-        last_month = Time.zone.now.to_date - 1.month
-        FactoryGirl.create(:month, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
-                                   year: last_month.year,
-                                   month: last_month.month,
-                                   total: rs.total - 3)
-        FactoryGirl.create(:month, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
-                                   year: Time.zone.now.to_date.year,
-                                   month: Time.zone.now.to_date.month,
-                                   total: 3)
       end
     end
 

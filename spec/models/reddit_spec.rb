@@ -14,7 +14,7 @@ describe Reddit, type: :model, vcr: true do
     it "should report if there are no events returned by the Reddit API" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0044294", canonical_url: "")
       response = subject.get_data(work)
-      expect(response).to eq({})
+      expect(response).to eq("kind"=>"Listing", "data"=>{"modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
     end
 
     it "should report if there are events returned by the Reddit API" do
@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :comments=>0, :likes=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>0, :citations=>nil, :total=>0}, extra: nil)
+      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>0, :likes=>0, :citations=>nil, :total=>0}, extra: nil)
     end
 
     it "should report if there are no events returned by the Reddit API" do
