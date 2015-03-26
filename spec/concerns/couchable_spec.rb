@@ -16,10 +16,6 @@ describe Source do
     let(:data) { { "name" => "Fred"} }
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
 
-    it "put filter views" do
-      # data = subject.get_lagotto_data("_design/filter/_view/html_ratio")
-    end
-
     it "get database info" do
       rev = subject.put_lagotto_data(url, data: data)
 
@@ -83,9 +79,6 @@ describe Source do
       get_response = subject.get_lagotto_data(id)
       expect(get_response).to eq(error: "not_found", status: 404)
       expect(Alert.count).to eq(0)
-      alert = Alert.first
-
-      expect(alert.message).to eq("the server responded with status 400 for http://localhost:5984/lagotto/_design/reports")
     end
   end
 end
