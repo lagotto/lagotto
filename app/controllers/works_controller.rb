@@ -65,6 +65,6 @@ class WorksController < ApplicationController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :year, :month, :day, :publisher_id, :work_type_id, :scp, :wos, :ark)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :year, :month, :day, :publisher_id, :work_type_id, :scp, :wos, :ark, :tracked)
   end
 end
