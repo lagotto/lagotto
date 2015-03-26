@@ -7,10 +7,10 @@
       <%= link_to status.source.display_name, source_path(status.source) %>
       <% unless status.events_url.nil? %>| <%= link_to "Further Information", status.events_url, :target => "_blank" %><% end %>
     </h4>
-    <% unless status.events.blank? %>
-      <% if status.events.is_a?(Array) %>
+    <% unless status.extra.blank? %>
+      <% if status.extra.is_a?(Array) %>
         <ul>
-          <% status.events.each do |ed| %>
+          <% status.extra.each do |ed| %>
             <li>
               <% if ed.has_key?("event_url") %>
                 <%= link_to ed["event"], ed["event_url"] %>
@@ -20,8 +20,8 @@
             </li>
           <% end %>
           </ul>
-      <% elsif status.events.is_a?(Hash) %>
-        <%= status.events %>
+      <% elsif status.extra.is_a?(Hash) %>
+        <%= status.extra %>
       <% end %>
     <% end %>
   </div>
