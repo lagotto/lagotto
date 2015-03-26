@@ -7,14 +7,13 @@ json.data @works do |work|
   json.cache! ['v5', work], skip_digest: true do
     json.(work, :id, :title, :issued, :container_title, :volume, :page, :issue, :publisher_id, :doi, :url, :pmid, :pmcid, :scp, :wos, :ark, :viewed, :saved, :discussed, :cited, :update_date)
 
-    unless params[:info] == "summary"
+    if params[:info] != "summary" && work.tracked
       json.sources work.filtered_retrieval_statuses do |rs|
         json.cache! ['v5', rs, params[:info]], skip_digest: true do
-          json.(rs, :name, :display_name, :group_name, :events_url, :by_day, :by_month, :by_year, :update_date)
-          json.metrics rs.new_metrics
-          json.events rs.events if params[:info] == "detail"
+          json.(rs, :name, :display_name, :group_name, :events_url, :by_day, :by_month, :by_year, :metrics, :update_date)
         end
       end
+      json.(work, :events)  if params[:info] == "detail"
     end
   end
 end

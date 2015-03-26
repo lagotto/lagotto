@@ -27,6 +27,7 @@
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order("title").map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
         <% end %>
+        <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
         <%= f.input :published_on, label: "Publication Date" do %>
           <%= f.input_field :day, as: :day %>
           <%= f.input_field :month, as: :month %>
@@ -107,32 +108,34 @@
   </div>
 </div>
 
-<% if can?(:read, Alert) %>
-  <div id="alert-error-message">
-    <%= render :partial => 'alert_message' %>
+<% if @work.tracked %>
+  <% if can?(:read, Alert) %>
+    <div id="alert-error-message">
+      <%= render :partial => 'alert_message' %>
+    </div>
+  <% end %>
+
+  <ul class="nav nav-pills">
+    <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
+    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    <% if can?(:read, Alert) %>
+      <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="metrics">
+      <%= render :partial => 'metrics' %>
+    </div>
+    <div class="tab-pane" id="events">
+      <%= render :partial => 'events' %>
+    </div>
+    <div class="tab-pane" id="more">
+      <%= render :partial => 'more' %>
+    </div>
+    <div class="tab-pane" id="alert">
+      <%= render :partial => 'alert' %>
+    </div>
   </div>
 <% end %>
-
-<ul class="nav nav-pills">
-  <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
-  <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
-  <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
-  <% if can?(:read, Alert) %>
-    <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
-  <% end %>
-</ul>
-
-<div class="tab-content">
-  <div class="tab-pane active" id="metrics">
-    <%= render :partial => 'metrics' %>
-  </div>
-  <div class="tab-pane" id="events">
-    <%= render :partial => 'events' %>
-  </div>
-  <div class="tab-pane" id="more">
-    <%= render :partial => 'more' %>
-  </div>
-  <div class="tab-pane" id="alert">
-    <%= render :partial => 'alert' %>
-  </div>
-</div>
