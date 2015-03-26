@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module Statable
   extend ActiveSupport::Concern
 

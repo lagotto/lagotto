@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 namespace :couchdb do
   namespace :histories do
     desc "delete CouchDB history documents"

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Doc
   attr_reader :title, :layout, :content, :content_list, :updated_at, :update_date, :cache_key
 

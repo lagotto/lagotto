@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # Load groups
 viewed = Group.where(name: 'viewed').first_or_create(display_name: 'Viewed')
 saved = Group.where(name: 'saved').first_or_create(display_name: 'Saved')

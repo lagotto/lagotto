@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 namespace :queue do
 
   desc "Queue stale works"

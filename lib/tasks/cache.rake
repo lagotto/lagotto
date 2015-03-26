@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 namespace :cache do
 
   desc "Update cached API responses for admin dashboard"

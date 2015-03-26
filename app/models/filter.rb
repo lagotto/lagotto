@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Filter < ActiveRecord::Base
   extend ActionView::Helpers::NumberHelper
   extend ActionView::Helpers::TextHelper

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class PubMed < Source
   def get_query_url(work)
     return nil unless url.present? && work.get_ids && work.pmid.present?

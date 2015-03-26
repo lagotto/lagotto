@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 namespace :mailer do
   desc "Send error report"
   task :error_report => :environment do

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # Load reports
 error_report = Report.where(name: 'error_report').first_or_create(
                 :display_name => 'Error Report',

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class RetrievalHistory < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable

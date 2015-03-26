@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Scopus < Source
   def request_options
     { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }

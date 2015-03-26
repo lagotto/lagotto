@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class ScienceSeeker < Source
   def request_options
     { content_type: 'xml' }
