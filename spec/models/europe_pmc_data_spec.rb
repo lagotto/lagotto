@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe PmcEuropeData, type: :model, vcr: true do
-  subject { FactoryGirl.create(:pmc_europe_data) }
+describe EuropePmcData, type: :model, vcr: true do
+  subject { FactoryGirl.create(:europe_pmc_data) }
 
   let(:work) { FactoryGirl.build(:work, :pmid => "14624247") }
 
@@ -47,7 +47,7 @@ describe PmcEuropeData, type: :model, vcr: true do
   #   it "should report if there are no events and event_count returned by the PMC Europe API" do
   #     subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
   #     work = FactoryGirl.build(:work, :pmid => "20098740")
-  #     body = File.read(fixture_path + 'pmc_europe_data_nil.xml')
+  #     body = File.read(fixture_path + 'europe_pmc_data_nil.xml')
   #     stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
   #     response = subject.get_data(work)
   #     expect(response).to eq(Hash.from_xml(body))
@@ -56,7 +56,7 @@ describe PmcEuropeData, type: :model, vcr: true do
 
   #   it "should report if there are events and event_count returned by the PMC Europe API" do
   #     subject.url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:%{doi}"
-  #     body = File.read(fixture_path + 'pmc_europe_data.xml')
+  #     body = File.read(fixture_path + 'europe_pmc_data.xml')
   #     stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
   #     response = subject.get_data(work)
   #     expect(response).to eq(Hash.from_xml(body))
@@ -87,7 +87,7 @@ describe PmcEuropeData, type: :model, vcr: true do
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "20098740")
-      body = File.read(fixture_path + 'pmc_europe_data_nil.json')
+      body = File.read(fixture_path + 'europe_pmc_data_nil.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
@@ -95,7 +95,7 @@ describe PmcEuropeData, type: :model, vcr: true do
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
-      body = File.read(fixture_path + 'pmc_europe_data.json')
+      body = File.read(fixture_path + 'europe_pmc_data.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
@@ -120,7 +120,7 @@ describe PmcEuropeData, type: :model, vcr: true do
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "")
-      body = File.read(fixture_path + 'pmc_europe_data_nil.xml')
+      body = File.read(fixture_path + 'europe_pmc_data_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
@@ -129,7 +129,7 @@ describe PmcEuropeData, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "")
-      body = File.read(fixture_path + 'pmc_europe_data.xml')
+      body = File.read(fixture_path + 'europe_pmc_data.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)

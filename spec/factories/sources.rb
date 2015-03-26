@@ -132,26 +132,26 @@ FactoryGirl.define do
     initialize_with { PubMed.where(name: name).first_or_initialize }
   end
 
-  factory :pmc_europe, class: PmcEurope do
-    type "PmcEurope"
-    name "pmc_europe"
+  factory :europe_pmc, class: EuropePmc do
+    type "EuropePmc"
+    name "europe_pmc"
     display_name "PMC Europe Citations"
     state_event "activate"
 
     group
 
-    initialize_with { PmcEurope.where(name: name).first_or_initialize }
+    initialize_with { EuropePmc.where(name: name).first_or_initialize }
   end
 
-  factory :pmc_europe_data, class: PmcEuropeData do
-    type "PmcEuropeData"
-    name "pmc_europe_data"
+  factory :europe_pmc_data, class: EuropePmcData do
+    type "EuropePmcData"
+    name "europe_pmc_data"
     display_name "PMC Europe Database Citations"
     state_event "activate"
 
     group
 
-    initialize_with { PmcEuropeData.where(name: name).first_or_initialize }
+    initialize_with { EuropePmcData.where(name: name).first_or_initialize }
   end
 
   factory :europe_pmc_fulltext, class: EuropePmcFulltext do

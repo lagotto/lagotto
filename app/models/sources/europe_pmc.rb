@@ -1,4 +1,4 @@
-class PmcEurope < Source
+class EuropePmc < Source
   # include common methods for Europe PMC
   include Pmcable
 

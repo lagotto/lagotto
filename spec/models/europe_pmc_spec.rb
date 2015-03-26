@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe PmcEurope, type: :model, vcr: true do
-  subject { FactoryGirl.create(:pmc_europe) }
+describe EuropePmc, type: :model, vcr: true do
+  subject { FactoryGirl.create(:europe_pmc) }
 
   let(:work) { FactoryGirl.build(:work, :pmid => "15723116") }
 
@@ -47,13 +47,13 @@ describe PmcEurope, type: :model, vcr: true do
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.build(:work, :pmid => "20098740")
-      body = File.read(fixture_path + 'pmc_europe_nil.json')
+      body = File.read(fixture_path + 'europe_pmc_nil.json')
       result = JSON.parse(body)
       expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], total: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
-      body = File.read(fixture_path + 'pmc_europe.json')
+      body = File.read(fixture_path + 'europe_pmc.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:total]).to eq(23)

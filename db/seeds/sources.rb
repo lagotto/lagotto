@@ -40,13 +40,13 @@ datacite = Datacite.where(name: 'datacite').first_or_create(
   :group_id => cited.id)
 
 # These sources are not installed by default
-pmc_europe = PmcEurope.where(name: 'pmceurope').first_or_create(
-  :display_name => 'Europe PubMed Central',
+europe_pmc = EuropePmc.where(name: 'europe_pmc').first_or_create(
+  :display_name => 'Europe PMC',
   :description => 'Europe PubMed Central (Europe PMC) is an archive of life ' \
                   'sciences journal literature.',
   :group_id => cited.id)
-pmc_europe_data = PmcEuropeData.where(name: 'pmceuropedata').first_or_create(
-  :display_name => 'Europe PubMed Central Database Citations',
+europe_pmc_data = EuropePmcData.where(name: 'europe_pmc_data').first_or_create(
+  :display_name => 'Europe PMC Database Citations',
   :description => 'Europe PubMed Central (Europe PMC) Database is an archive of ' \
                   'life sciences journal data.',
   :group_id => cited.id)
