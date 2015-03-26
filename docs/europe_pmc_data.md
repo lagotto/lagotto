@@ -9,7 +9,7 @@ Europe PubMed Central ([Europe PMC](http://europepmc.org/)) is an archive of lif
 <tbody>
 <tr>
 <td valign="top" width=20%><strong>ALM Name</strong></td>
-<td valign="top" width=80%>pmceuropedata</td>
+<td valign="top" width=80%>europe_pmc_data</td>
 </tr>
 <tr>
 <td valign="top" width=20%><strong>ALM Configuration</strong></td>
@@ -243,7 +243,7 @@ Europe PubMed Central ([Europe PMC](http://europepmc.org/)) is an archive of lif
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/pmc_europe_data.rb).
+The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/europe_pmc_data.rb).
 
 ## API Documentation
 * [PMC Europe RESTful Web Service](http://europepmc.org/RestfulWebService)

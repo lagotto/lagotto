@@ -1,6 +1,4 @@
-# encoding: UTF-8
-
-class PmcEuropeData < Source
+class EuropePmcData < Source
   def get_query_url(work)
     if url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/MED/")
       return nil unless url.present? && work.get_ids && work.pmid.present?

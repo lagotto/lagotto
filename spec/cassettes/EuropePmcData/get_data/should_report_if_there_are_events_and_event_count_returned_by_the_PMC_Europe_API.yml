@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/MED/14624247/databaseLinks//1/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=F2B93FB570681DA7D3D2A65F23237D0C; Path=/europepmc/webservices
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Thu, 26 Mar 2015 09:08:42 GMT
+    body:
+      encoding: UTF-8
+      string: '{"version":"4.1","hitCount":27737,"request":{"id":"14624247","source":"MED","semanticType":"","page":1},"dbCountList":{"db":[{"dbName":"EMBL","count":5986},{"dbName":"UNIPROT","count":21751}]},"dbCrossReferenceList":{"dbCrossReference":[{"dbName":"EMBL","dbCount":5986,"dbCrossReferenceInfo":[{"info1":"CAAC03000923","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c009300659.Contig1","info3":"113323","info4":"5986"},{"info1":"CAAC03003175","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c009801405.Contig2","info3":"26878","info4":"5986"},{"info1":"CAAC03000619","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c012700727.Contig2","info3":"27890","info4":"5986"},{"info1":"CAAC03001441","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c006901252.Contig1","info3":"14576","info4":"5986"},{"info1":"CAAC03005035","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c005001605.Contig1","info3":"2212","info4":"5986"},{"info1":"CAAC03003183","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c003201044.Contig1","info3":"15531","info4":"5986"},{"info1":"CAAC03000914","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c002601478.Contig1","info3":"9860","info4":"5986"},{"info1":"CAAC03001620","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c004701178.Contig1","info3":"8848","info4":"5986"},{"info1":"CAAC03001178","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c011001951.Contig1","info3":"1036","info4":"5986"},{"info1":"CAAC03002902","info2":"Caenorhabditis
+        briggsae AF16 WGS project CAAC03000000 data, contig c014301270.Contig1","info3":"2708","info4":"5986"}]},{"dbName":"UNIPROT","dbCount":21751,"dbCrossReferenceInfo":[{"info1":"A8XFT2","info2":"Non-specific
+        protein-tyrosine kinase","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WKF9","info2":"Protein
+        argonaute","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8XJS5","info2":"Chloride
+        channel protein","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WMF5","info2":"Protein
+        CBG00186","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WMH1","info2":"Serpentine
+        receptor class gamma","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WT99","info2":"Protein
+        CBR-RSP-2","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTA1","info2":"Protein
+        CBG02889","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTB4","info2":"Protein
+        CBG02875","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTC7","info2":"Protein
+        CBG02861","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTE5","info2":"Protein
+        CBR-RPN-12","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTE9","info2":"Protein
+        CBG02834","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTF1","info2":"Protein
+        CBG02832","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTH2","info2":"Protein
+        CBR-MAX-2","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8X4D2","info2":"Protein
+        CBR-TAG-299","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8X4D9","info2":"Protein
+        CBR-DSC-1","info3":"Caenorhabditis briggsae","info4":"UniProt"}]}]}}'
+    http_version: 
+  recorded_at: Thu, 26 Mar 2015 08:54:52 GMT
+recorded_with: VCR 2.9.3
