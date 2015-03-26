@@ -17,7 +17,7 @@ class RetrievalStatus < ActiveRecord::Base
   before_destroy :delete_couchdb_document
 
   serialize :event_metrics
-  serialize :other, OpenStruct
+  serialize :extra, OpenStruct
 
   delegate :name, :to => :source
   delegate :display_name, :to => :source
@@ -53,14 +53,6 @@ class RetrievalStatus < ActiveRecord::Base
     history.to_hash
   end
 
-  def data
-    @data ||= total > 0 ? get_lagotto_data("#{source.name}:#{work.pid_escaped}") : nil
-  end
-
-  def events
-    @events ||= (data.blank? || data[:error]) ? [] : data["events"]
-  end
-
   def by_day
     days.map { |day| day.metrics }
   end
@@ -85,16 +77,24 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def metrics
-    @metrics ||= event_metrics.present? ? event_metrics : get_event_metrics(total: 0)
+    @metrics ||= { pdf: pdf,
+                   html: html,
+                   readers: readers,
+                   comments: comments,
+                   likes: likes,
+                   total: total }
   end
 
-  def new_metrics
-    @new_metrics ||= { :pdf => metrics[:pdf],
-                       :html => metrics[:html],
-                       :readers => metrics[:shares],
-                       :comments => metrics[:comments],
-                       :likes => metrics[:likes],
-                       :total => metrics[:total] }
+  # for backwards compatibility with v3 API
+  def old_metrics
+    @old_metrics ||= { pdf: pdf,
+                       html: html,
+                       shares: readers,
+                       groups: readers > 0 ? total - readers : 0,
+                       comments: comments,
+                       likes: likes,
+                       citations: pdf + html + readers + comments + likes > 0 ? 0 : total,
+                       total: total }
   end
 
   def get_past_events_by_month
