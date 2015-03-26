@@ -50,6 +50,22 @@
           <dt>Publisher</dt>
           <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.member_id) %></dd>
         <% end %>
+        <% if @work.author.present? %>
+          <dt><%= "Author".pluralize(@work.author.length) %></dt>
+          <dd><%= author_format(@work.author) %></dd>
+        <% end %>
+        <% if @work.volume.present? %>
+          <dt>Volume</dt>
+          <dd><%= h(@work.volume) %></dd>
+        <% end %>
+        <% if @work.issue.present? %>
+          <dt>Issue</dt>
+          <dd><%= h(@work.issue) %></dd>
+        <% end %>
+        <% if @work.page.present? %>
+          <dt>Pages</dt>
+          <dd><%= h(@work.page) %></dd>
+        <% end %>
         <% if @work.doi.present? %>
           <dt>DOI</dt>
           <dd class="doi" %><%= link_to h(@work.doi), @work.doi_as_url %></dd>

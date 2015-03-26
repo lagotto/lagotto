@@ -242,6 +242,26 @@ class Work < ActiveRecord::Base
     end
   end
 
+  def author
+    csl["author"]
+  end
+
+  def container_title
+    csl["container-title"]
+  end
+
+  def volume
+    csl["volume"]
+  end
+
+  def page
+    csl["page"]
+  end
+
+  def issue
+    csl["issue"]
+  end
+
   def update_date_parts
     return nil unless published_on
 
