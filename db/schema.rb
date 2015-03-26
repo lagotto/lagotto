@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325124452) do
+ActiveRecord::Schema.define(version: 20150326113124) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -61,15 +61,15 @@ ActiveRecord::Schema.define(version: 20150325124452) do
     t.integer  "work_id",             limit: 4
     t.integer  "source_id",           limit: 4
     t.integer  "retrieval_status_id", limit: 4
-    t.integer  "total",               limit: 4
+    t.integer  "total",               limit: 4,  default: 0,     null: false
     t.integer  "previous_total",      limit: 4
     t.float    "duration",            limit: 24
     t.datetime "created_at"
     t.integer  "update_interval",     limit: 4
     t.boolean  "unresolved",          limit: 1,  default: true
     t.boolean  "skipped",             limit: 1,  default: false
-    t.integer  "html",                limit: 4
-    t.integer  "pdf",                 limit: 4
+    t.integer  "html",                limit: 4,  default: 0,     null: false
+    t.integer  "pdf",                 limit: 4,  default: 0,     null: false
   end
 
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
@@ -320,13 +320,6 @@ ActiveRecord::Schema.define(version: 20150325124452) do
     t.string   "name",       limit: 255, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-  end
-
-  create_table "workers", force: :cascade do |t|
-    t.integer  "identifier", limit: 4,   null: false
-    t.string   "queue",      limit: 255, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "works", force: :cascade do |t|
