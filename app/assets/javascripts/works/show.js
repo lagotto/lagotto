@@ -23,9 +23,7 @@ if (query) {
 function eventViz(data) {
   d3.select("#loading-events").remove();
 
-  var data = data[0]['sources'];
-  data = data.map( function(d) { return d.events; });
-  data = d3.merge(data);
+  data = data[0].events;
 
   if (data.length === 0) {
     d3.select("#content").text("")
@@ -37,9 +35,6 @@ function eventViz(data) {
 
   d3.select("#content").insert("div")
     .attr("id", "results");
-
-  // remove duplicate events based on URL
-  data = _.uniq(data, "url");
 
   // generate iso8601 datetime for sorting, year for nesting
   data = data.map(function(d) {

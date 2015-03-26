@@ -36,6 +36,10 @@ class WorkDecorator < Draper::Decorator
     mendeley_uuid
   end
 
+  def events
+    model.events
+  end
+
   def cache_key
     { work_id: id,
       update_date: update_date,
