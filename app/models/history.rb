@@ -80,7 +80,6 @@ class History
                                        readers: readers,
                                        comments: comments,
                                        likes: likes,
-                                       event_metrics: event_metrics,
                                        events_url: events_url,
                                        extra: extra)
   end
@@ -124,9 +123,10 @@ class History
     works.map do |item|
       work = Work.find_or_create(item)
       relation_type_id = RelationType.where(name: "IsCitedBy").first
-      rs.work.events.create(citation_id: work.id,
+      event = Event.create!(citation_id: work.id,
                             source_id: rs.source_id,
                             relation_type_id: relation_type_id)
+      rs.work.events << event
     end
   end
 
