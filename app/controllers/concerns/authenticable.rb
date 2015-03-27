@@ -14,10 +14,23 @@ module Authenticable
       end
     end
 
-    def authenticate_user_from_token!
+    def authenticate_user_from_token_param!
       user_token = params[:api_key].presence
       user = user_token && User.where(authentication_token: user_token.to_s).first
       sign_in user, store: false if user
+    end
+
+    # looking for header "Authorization: Token token=12345"
+    def authenticate_user_from_token!
+      authenticate_with_http_token do |token, options|
+        user = token && User.where(authentication_token: token).first
+
+        if user && Devise.secure_compare(user.authentication_token, token)
+          sign_in user, store: false
+        else
+          current_user = false
+        end
+      end
     end
 
     def create_alert(exception, options = {})
