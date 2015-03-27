@@ -1,4 +1,4 @@
-class Api::V6::DocsController < Api::V6::BaseController
+class Api::V6::DocsController < Api::BaseController
   def index
     docs = Doc.all_files
     @docs = DocDecorator.decorate(docs)
