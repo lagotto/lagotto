@@ -6,16 +6,18 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var pid_type = params.attr('data-pid_type');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + pid + "&type=" + pid_type + "&info=detail");
+  var query = encodeURI("/api/v6/works?ids=" + pid + "&type=" + pid_type + "&info=detail");
 }
 
 // load the data from the Lagotto API
 if (query) {
-  d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); }
-    var data = json.data;
+  d3.json(query)
+    .header("Authorization", "Token token=" + api_key)
+    .get(function(error, json) {
+      if (error) { return console.warn(error); }
+      var data = json.work;
 
-    eventViz(data);
+      eventViz(data);
   });
 }
 

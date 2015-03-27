@@ -13,7 +13,7 @@ if (!params.empty()) {
   var order = params.attr('data-order');
   var model = params.attr('data-model');
 
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key);
+  var query = encodeURI("/api/v6/works");
   if (page !== "") { query += "&page=" + page; }
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (q !== "") { query += "&q=" + q; }
@@ -26,16 +26,18 @@ if (!params.empty()) {
 
 // load the data from the Lagotto API
 if (query) {
-  d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); }
-    worksViz(json);
-    paginate(json);
+  d3.json(query)
+    .header("Authorization", "Token token=" + api_key)
+    .get(function(error, json) {
+      if (error) { return console.warn(error); }
+      worksViz(json);
+      paginate(json);
   });
 }
 
 // add data to page
 function worksViz(json) {
-  data = json.data;
+  data = json.works;
 
   json.href = "?page={{number}}";
   if (q !== "") { json.href += "&q=" + q; }

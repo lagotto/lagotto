@@ -20,11 +20,11 @@ var options = {
   },
   vizDiv: "#panel-metrics",
   showTitle: false,
-  groups: [{ name: "viewed", display_name: "Viewed" },
-           { name: "cited", display_name: "Cited" },
-           { name: "saved", display_name: "Saved" },
-           { name: "discussed", display_name: "Discussed" },
-           { name: "recommended", display_name: "Recommended" }]
+  groups: [{ name: "viewed", title: "Viewed" },
+           { name: "cited", title: "Cited" },
+           { name: "saved", title: "Saved" },
+           { name: "discussed", title: "Discussed" },
+           { name: "recommended", title: "Recommended" }]
 };
 
 var params = d3.select("#api_key");
@@ -32,16 +32,18 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var pid_type = params.attr('data-pid_type');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + pid + "&type=" + pid_type);
+  var query = encodeURI("/api/v6/works?ids=" + pid + "&type=" + pid_type);
 }
 
 // load the data from the ALM API
 if (query) {
-  d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); }
-    options.almStatsJson = json.data;
-    var almviz = new AlmViz(options);
-    almviz.initViz();
+  d3.json(query)
+    .header("Authorization", "Token token=" + api_key)
+    .get(function(error, json) {
+      if (error) { return console.warn(error); }
+      options.almStatsJson = json.data;
+      var almviz = new AlmViz(options);
+      almviz.initViz();
   });
 }
 
@@ -157,13 +159,13 @@ function AlmViz(options) {
       // Some sources have multiple data
       if (source.group_name === "viewed") {
         if (source.metrics.html > 0) {
-          addSource_(source, source.display_name + " HTML", source.metrics.html, group, "html", $groupRow);
+          addSource_(source, source.title + " HTML", source.metrics.html, group, "html", $groupRow);
         }
         if (source.metrics.pdf > 0) {
-          addSource_(source, source.display_name + " PDF", source.metrics.pdf, group, "pdf", $groupRow);
+          addSource_(source, source.title + " PDF", source.metrics.pdf, group, "pdf", $groupRow);
         }
       } else {
-        var label = source.display_name;
+        var label = source.title;
         addSource_(source, label, total, group, "total", $groupRow);
       }
     });

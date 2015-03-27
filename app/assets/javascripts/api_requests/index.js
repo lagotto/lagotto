@@ -8,7 +8,7 @@ if (!params.empty()) {
     var api_key = params.attr('data-api_key');
     var q = params.attr('data-query');
     var key = params.attr('data-key');
-    var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
+    var query = encodeURI("/api/v6/api_requests");
     if (q !== "") {
       query += "&q=" + q;
     } else if (key !== "") {
@@ -18,11 +18,13 @@ if (!params.empty()) {
 
 // load the data from the Lagotto API
 if (query) {
-  d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); }
-    var data = json.data;
+  d3.json(query)
+    .header("Authorization", "Token token=" + api_key)
+    .get(function(error, json) {
+      if (error) { return console.warn(error); }
+      var data = json.apiRequests;
 
-    crossfilterViz(data);
+      crossfilterViz(data);
   });
 }
 
@@ -57,10 +59,10 @@ function crossfilterViz(data) {
       dates = date.group(),
       hour = request.dimension(function(d) { return d.date.getUTCHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
-      db_duration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
-      db_durations = db_duration.group(function(d) { return Math.floor(d / 10) * 10; }),
-      view_duration = request.dimension(function(d) { return Math.min(1999, d.view_duration); }),
-      view_durations = view_duration.group(function(d) { return Math.floor(d / 50) * 50; });
+      dbDuration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.dbDuration)); }),
+      dbDurations = dbDuration.group(function(d) { return Math.floor(d / 10) * 10; }),
+      viewDuration = request.dimension(function(d) { return Math.min(1999, d.viewDuration); }),
+      viewDurations = viewDuration.group(function(d) { return Math.floor(d / 50) * 50; });
 
   var charts = [
       barChart()
@@ -71,15 +73,15 @@ function crossfilterViz(data) {
         .rangeRound([0, 10 * 30])),
 
       barChart()
-        .dimension(db_duration)
-        .group(db_durations)
+        .dimension(dbDuration)
+        .group(dbDurations)
         .x(d3.scale.linear()
         .domain([0, 6000])
         .rangeRound([0, 10 * 30])),
 
       barChart()
-        .dimension(view_duration)
-        .group(view_durations)
+        .dimension(viewDuration)
+        .group(viewDurations)
         .x(d3.scale.linear()
         .domain([0, 6000])
         .rangeRound([0, 10 * 30]))
@@ -153,19 +155,19 @@ function crossfilterViz(data) {
 
       requestEnter.append("div")
         .attr("class", "duration")
-        .text(function(d) { return formatFixed(d.db_duration) + " ms"; });
+        .text(function(d) { return formatFixed(d.dbDuration) + " ms"; });
 
       requestEnter.append("div")
         .attr("class", "duration")
-        .classed("fast", function(d) { return d.view_duration < 100; })
-        .classed("slow", function(d) { return d.view_duration >= 1000; })
-        .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
+        .classed("fast", function(d) { return d.viewDuration < 100; })
+        .classed("slow", function(d) { return d.viewDuration >= 1000; })
+        .text(function(d) { return formatFixed(d.viewDuration) + " ms"; });
 
       requestEnter.append("div")
         .attr("class", "source")
         .append("a")
-        .attr("href", function(d) { return "/users?query=" + d.api_key; })
-        .text(function(d) { return d.api_key.substr(0,20); });
+        .attr("href", function(d) { return "/users?query=" + d.apiKey; })
+        .text(function(d) { return d.apiKey.substr(0,20); });
 
       requestEnter.append("div")
         .attr("class", "info")
@@ -211,8 +213,8 @@ function crossfilterViz(data) {
 
       // Create the skeletal chart.
       if (g.empty()) {
-        reset_text = div.attr("id");
-        d3.select("#reset-" + reset_text).append("a")
+        resetText = div.attr("id");
+        d3.select("#reset-" + resetText).append("a")
             .attr("href", "javascript:reset(" + id + ")")
             .attr("class", "reset")
             .text("reset")
@@ -254,8 +256,8 @@ function crossfilterViz(data) {
       if (brushDirty) {
         brushDirty = false;
         g.selectAll(".brush").call(brush);
-        reset_text = div.attr("id");
-        d3.select("#reset-" + reset_text + " a").style("display", brush.empty() ? "none" : null);
+        resetText = div.attr("id");
+        d3.select("#reset-" + resetText + " a").style("display", brush.empty() ? "none" : null);
         if (brush.empty()) {
           g.selectAll("#clip-" + id + " rect")
             .attr("x", 0)
@@ -301,8 +303,8 @@ function crossfilterViz(data) {
 
     brush.on("brushstart.req-chart", function() {
       var div = d3.select(this.parentNode.parentNode.parentNode);
-      reset_text = div.attr("id");
-      d3.select("#reset-" + reset_text + " a").style("display", null);
+      resetText = div.attr("id");
+      d3.select("#reset-" + resetText + " a").style("display", null);
     });
 
     brush.on("brush.req-chart", function() {
@@ -323,8 +325,8 @@ function crossfilterViz(data) {
     brush.on("brushend.req-chart", function() {
         if (brush.empty()) {
             var div = d3.select(this.parentNode.parentNode.parentNode);
-            reset_text = div.attr("id");
-            d3.select("#reset-" + reset_text + " a").style("display", "none");
+            resetText = div.attr("id");
+            d3.select("#reset-" + resetText + " a").style("display", "none");
             div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
             dimension.filterAll();
         }
