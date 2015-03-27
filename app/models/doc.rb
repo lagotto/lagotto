@@ -1,13 +1,30 @@
 class Doc
-  attr_reader :title, :layout, :content, :content_list, :updated_at, :update_date, :cache_key
+  attr_reader :id, :title, :layout, :content, :content_list, :updated_at, :update_date, :cache_key
 
   def self.all
-    Dir.entries(Rails.root.join("docs"))
+    Dir.entries(Rails.root.join("docs")).select { |doc| doc.match(/\.[md|html]/i) }
+  end
+
+  def self.all_files
+    all.map do |doc|
+      file = IO.read(Rails.root.join("docs/#{doc}"))
+
+      if File.extname(doc) == ".html"
+        title = "Style Guide"
+      elsif (md = file.match(/^(?<metadata>---\s*\n.*?\n?)^(---\s*$)/m))
+        metadata = YAML.load(md[:metadata])
+        title = metadata["title"]
+      end
+
+      { id: File.basename(doc, ".*"),
+        title: title,
+        update_date: File.mtime(Rails.root.join("docs/#{doc}")) }
+    end
   end
 
   def self.find(param)
     # search for .md and .html files in docs folder
-    name = all.find { |doc| doc.match(/#{param}\.[md|html]/i) }
+    name = all.find { |doc| doc.match(/\A#{param}/i) }
     if name.present?
       new(name)
     else
@@ -29,6 +46,7 @@ class Doc
       layout = metadata["layout"]
     end
 
+    @id = File.basename(name, ".*")
     @content = content || ""
     @title = title || "No title"
     @layout = layout || "page"
@@ -67,6 +85,6 @@ class Doc
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key [title, update_date]
+    ActiveSupport::Cache.expand_cache_key [name, update_date]
   end
 end

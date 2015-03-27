@@ -24,7 +24,7 @@ module ApplicationHelper
     formatter = Rouge::Formatters::HTML.new(:css_class => 'hll')
     lexer = Rouge::Lexers::Shell.new
 
-    doc = Nokogiri::HTML(html)
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
     doc.search("//pre").each { |pre| pre.replace formatter.format(lexer.lex(pre.text)) }
     doc.to_s
   end
@@ -63,7 +63,7 @@ module ApplicationHelper
   end
 
   def sources
-    Source.order("group_id, display_name")
+    Source.order("group_id, title")
   end
 
   def publishers
