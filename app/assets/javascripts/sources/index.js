@@ -1,6 +1,6 @@
 /*global d3 */
 
-var query = encodeURI("/api/v5/sources");
+var query = encodeURI("/api/v6/sources");
 
 // load the data from the Lagotto API
 d3.json(query, function(error, json) {

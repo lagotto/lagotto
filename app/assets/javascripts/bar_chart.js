@@ -126,7 +126,7 @@ function hBarViz(data, name) {
       .range([1, w]);
   }
   var y = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.display_name; }))
+    .domain(data.map(function(d) { return d.title; }))
     .rangeBands([0, (h + 2 * s) * data.length]);
   var z = d3.scale.ordinal()
     .domain(data.map(function(d) { return d.group; }))
@@ -136,22 +136,22 @@ function hBarViz(data, name) {
     .data(data)
     .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
     .attr("x", 0)
-    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("y", function(d) { return y(d.title) + y.rangeBand() / 2; })
     .attr("dx", 0 - l) // padding-right
     .attr("dy", ".18em") // vertical-align: middle
-    .text(function(d) { return d.display_name; });
+    .text(function(d) { return d.title; });
   chart.selectAll("rect")
     .data(data)
     .enter().append("rect")
     .attr("fill", function(d) { return z(d.group); })
-    .attr("y", function(d) { return y(d.display_name); })
+    .attr("y", function(d) { return y(d.title); })
     .attr("height", h)
     .attr("width", function(d) { return x(d.work_count); });
   chart.selectAll("text.values")
     .data(data)
     .enter().append("text")
     .attr("x", function(d) { return x(d.work_count); })
-    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("y", function(d) { return y(d.title) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
     .attr("dy", ".18em") // vertical-align: middle
     .text(function(d) { return numberWithDelimiter(d.work_count); });

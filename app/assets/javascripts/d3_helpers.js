@@ -132,7 +132,7 @@ function signpostsToString(work, source_id, order) {
     if (order !== "") { var name = order }
     if (source_id !== "") { var name = source_id }
     var s = work.sources.filter(function(d) { return d.name === name; })[0];
-    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
+    var a = [s.title + ": " + formatFixed(s.metrics.total)];
   }
 
   var b = [];
