@@ -1,4 +1,4 @@
-class Api::V6::GroupsController < Api::V6::BaseController
+class Api::V6::GroupsController < Api::BaseController
 
   def show
     group = Group.where(name: params[:id]).first
