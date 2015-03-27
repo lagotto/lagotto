@@ -44,7 +44,7 @@ class Alert < ActiveRecord::Base
 
   def send_fatal_error_report
     report = Report.where(name: 'fatal_error_report').first_or_create(
-                          display_name: 'Fatal Error Report',
+                          title: 'Fatal Error Report',
                           description: 'Reports when a fatal error has occured',
                           interval: 0,
                           private: true)

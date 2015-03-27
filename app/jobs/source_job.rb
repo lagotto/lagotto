@@ -30,7 +30,7 @@ class SourceJob < ActiveJob::Base
     rs_ids.each do |rs_id|
       # check for failed queries and rate-limiting
       source.work_after_check
-      fail SourceInactiveError, "#{source.display_name} is not in working state" unless source.working?
+      fail SourceInactiveError, "#{source.title} is not in working state" unless source.working?
 
       # observe rate-limiting settings
       sleep source.wait_time

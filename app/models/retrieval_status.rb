@@ -20,7 +20,7 @@ class RetrievalStatus < ActiveRecord::Base
   serialize :extra, OpenStruct
 
   delegate :name, :to => :source
-  delegate :display_name, :to => :source
+  delegate :title, :to => :source
   delegate :group, :to => :source
 
   scope :with_events, -> { where("total > ?", 0) }
@@ -38,7 +38,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   scope :by_source, ->(source_id) { where(:source_id => source_id) }
   scope :by_name, ->(source) { joins(:source).where("sources.name = ?", source) }
-  scope :with_sources, -> { joins(:source).where("sources.state > ?", 0).order("group_id, display_name") }
+  scope :with_sources, -> { joins(:source).where("sources.state > ?", 0).order("group_id, title") }
 
   def perform_get_data
     result = source.get_data(work, timeout: source.timeout, work_id: work_id, source_id: source_id)
@@ -103,6 +103,10 @@ class RetrievalStatus < ActiveRecord::Base
 
   def group_name
     @group_name ||= group.name
+  end
+
+  def display_name
+    @display_name ||= source.title
   end
 
   def update_date

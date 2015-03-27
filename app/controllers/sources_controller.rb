@@ -30,7 +30,7 @@ class SourcesController < ApplicationController
   def index
     @doc = Doc.find("sources")
 
-    @groups = Group.includes(:sources).order("groups.id, sources.display_name")
+    @groups = Group.includes(:sources).order("groups.id, sources.title")
   end
 
   def edit
@@ -47,12 +47,12 @@ class SourcesController < ApplicationController
     @source.update_attributes(safe_params)
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
-      flash.now[:alert] = "Please configure source #{@source.display_name}: #{error_messages}"
+      flash.now[:alert] = "Please configure source #{@source.title}: #{error_messages}"
       @flash = flash
     end
 
     if params[:state_event]
-      @groups = Group.includes(:sources).order("groups.id, sources.display_name")
+      @groups = Group.includes(:sources).order("groups.id, sources.title")
       render :index
     else
       render :show
@@ -71,7 +71,7 @@ class SourcesController < ApplicationController
   private
 
   def safe_params
-    params.require(:source).permit(:display_name,
+    params.require(:source).permit(:title,
                                    :group_id,
                                    :state_event,
                                    :private,

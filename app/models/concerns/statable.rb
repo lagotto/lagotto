@@ -50,10 +50,10 @@ module Statable
       after_transition any - [:disabled] => :disabled do |source|
         if source.check_for_rate_limits
           class_name = "Net::HTTPTooManyRequests"
-          message = "#{source.display_name} has exceeded the rate-limiting of requests. Disabling the source."
+          message = "#{source.title} has exceeded the rate-limiting of requests. Disabling the source."
         else
           class_name = "TooManyErrorsBySourceError"
-          message = "#{source.display_name} has exceeded maximum failed queries. Disabling the source."
+          message = "#{source.title} has exceeded maximum failed queries. Disabling the source."
         end
         Alert.where(message: message).where(unresolved: true).first_or_create(
           exception: "",
