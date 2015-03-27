@@ -343,9 +343,9 @@ namespace :db do
       sources.each do |source|
         source.activate
         if source.waiting?
-          puts "Source #{source.display_name} has been activated and is now waiting."
+          puts "Source #{source.title} has been activated and is now waiting."
         else
-          puts "Source #{source.display_name} could not be activated."
+          puts "Source #{source.title} could not be activated."
         end
       end
     end
@@ -366,9 +366,9 @@ namespace :db do
       sources.each do |source|
         source.inactivate
         if source.inactive?
-          puts "Source #{source.display_name} has been inactivated."
+          puts "Source #{source.title} has been inactivated."
         else
-          puts "Source #{source.display_name} could not be inactivated."
+          puts "Source #{source.title} could not be inactivated."
         end
       end
     end
@@ -389,9 +389,9 @@ namespace :db do
       sources.each do |source|
         source.install
         unless source.available?
-          puts "Source #{source.display_name} has been installed."
+          puts "Source #{source.title} has been installed."
         else
-          puts "Source #{source.display_name} could not be installed."
+          puts "Source #{source.title} could not be installed."
         end
       end
     end
@@ -413,11 +413,11 @@ namespace :db do
       sources.each do |source|
         source.uninstall
         if source.available?
-          puts "Source #{source.display_name} has been uninstalled."
+          puts "Source #{source.title} has been uninstalled."
         elsif source.retired?
-          puts "Source #{source.display_name} has been retired."
+          puts "Source #{source.title} has been retired."
         else
-          puts "Source #{source.display_name} could not be uninstalled."
+          puts "Source #{source.title} could not be uninstalled."
         end
       end
     end

@@ -124,7 +124,7 @@ describe("urlForWork", function() {
 
 describe("signpostsToString", function() {
   var work = { "cited": 10, "saved": 20, "discussed": 30, "viewed": 40,
-               "sources": [{ "name": "citeulike", "display_name": "CiteULike", "metrics": { "total": 100 }}] },
+               "sources": [{ "name": "citeulike", "title": "CiteULike", "metrics": { "total": 100 }}] },
       source_id = "",
       order = "";
 
@@ -142,13 +142,13 @@ describe("signpostsToString", function() {
 
   it("show signposts only citations", function() {
     work = { "cited": 10, "saved": 0, "discussed": 0, "viewed": 0,
-             "sources": [{ "name": "citeulike", "display_name": "CiteULike", "metrics": { "total": 10 }}] };
+             "sources": [{ "name": "citeulike", "title": "CiteULike", "metrics": { "total": 10 }}] };
     expect(signpostsToString(work, source_id, order)).toEqual("Cited: 10");
   });
 
   it("show signposts no events", function() {
     work = { "cited": 0, "saved": 0, "discussed": 0, "viewed": 0,
-             "sources": [{ "name": "citeulike", "display_name": "CiteULike", "metrics": { "total": 0 }}] };
+             "sources": [{ "name": "citeulike", "title": "CiteULike", "metrics": { "total": 0 }}] };
     expect(signpostsToString(work, source_id, order)).toEqual("");
   });
 });

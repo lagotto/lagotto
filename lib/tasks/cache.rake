@@ -7,7 +7,7 @@ namespace :cache do
 
     Source.visible.each do |source|
       CacheJob.perform_later(source)
-      puts "Cache update for source #{source.display_name} has been queued."
+      puts "Cache update for source #{source.title} has been queued."
     end
 
     Publisher.all.each do |publisher|

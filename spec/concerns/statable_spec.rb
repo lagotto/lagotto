@@ -29,7 +29,7 @@ describe Source do
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("TooManyErrorsBySourceError")
-        expect(alert.message).to eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
+        expect(alert.message).to eq("#{subject.title} has exceeded maximum failed queries. Disabling the source.")
         expect(alert.source_id).to eq(subject.id)
       end
     end
@@ -51,7 +51,7 @@ describe Source do
         expect(Alert.count).to eq(1)
         alert = Alert.first
         expect(alert.class_name).to eq("TooManyErrorsBySourceError")
-        expect(alert.message).to eq("#{subject.display_name} has exceeded maximum failed queries. Disabling the source.")
+        expect(alert.message).to eq("#{subject.title} has exceeded maximum failed queries. Disabling the source.")
         expect(alert.source_id).to eq(subject.id)
       end
 

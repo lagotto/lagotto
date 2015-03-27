@@ -290,7 +290,7 @@ FactoryGirl.define do
 
   factory :report do
     name 'error_report'
-    display_name 'Error Report'
+    title 'Error Report'
     description 'Reports error summary'
 
     factory :error_report_with_admin_user do
@@ -299,35 +299,35 @@ FactoryGirl.define do
 
     factory :status_report_with_admin_user do
       name 'status_report'
-      display_name 'Status Report'
+      title 'Status Report'
       description 'Reports application status'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :work_statistics_report_with_admin_user do
       name 'work_statistics_report'
-      display_name 'Article Statistics Report'
+      title 'Article Statistics Report'
       description 'Generates CSV file with ALM for all works'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :fatal_error_report_with_admin_user do
       name 'fatal_error_report'
-      display_name 'Fatal Error Report'
+      title 'Fatal Error Report'
       description 'Reports when a fatal error has occured'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :stale_source_report_with_admin_user do
       name 'stale_source_report'
-      display_name 'Stale Source Report'
+      title 'Stale Source Report'
       description 'Reports when a source has not been updated'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
 
     factory :missing_workers_report_with_admin_user do
       name 'missing_workers_report'
-      display_name 'Missing Workers Report'
+      title 'Missing Workers Report'
       description 'Reports when workers are not running'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
@@ -437,7 +437,7 @@ FactoryGirl.define do
   factory :html_ratio_too_high_error, class: HtmlRatioTooHighError do
     type "HtmlRatioTooHighError"
     name "HtmlRatioTooHighError"
-    display_name "html ratio too high error"
+    title "html ratio too high error"
     active true
 
     initialize_with { HtmlRatioTooHighError.where(name: name).first_or_initialize }
@@ -446,7 +446,7 @@ FactoryGirl.define do
   factory :work_not_updated_error, aliases: [:filter], class: WorkNotUpdatedError do
     type "WorkNotUpdatedError"
     name "WorkNotUpdatedError"
-    display_name "work not updated error"
+    title "work not updated error"
     active true
 
     initialize_with { WorkNotUpdatedError.where(name: name).first_or_initialize }
@@ -455,7 +455,7 @@ FactoryGirl.define do
   factory :decreasing_event_count_error, class: EventCountDecreasingError do
     type "EventCountDecreasingError"
     name "EventCountDecreasingError"
-    display_name "decreasing event count error"
+    title "decreasing event count error"
     source_ids [1]
     active true
 
@@ -465,7 +465,7 @@ FactoryGirl.define do
   factory :increasing_event_count_error, class: EventCountIncreasingTooFastError do
     type "EventCountIncreasingTooFastError"
     name "EventCountIncreasingTooFastError"
-    display_name "increasing event count error"
+    title "increasing event count error"
     source_ids [1]
     active true
 
@@ -475,7 +475,7 @@ FactoryGirl.define do
   factory :api_too_slow_error, class: ApiResponseTooSlowError do
     type "ApiResponseTooSlowError"
     name "ApiResponseTooSlowError"
-    display_name "API too slow error"
+    title "API too slow error"
     active true
 
     initialize_with { ApiResponseTooSlowError.where(name: name).first_or_initialize }
@@ -484,7 +484,7 @@ FactoryGirl.define do
   factory :source_not_updated_error, class: SourceNotUpdatedError do
     type "SourceNotUpdatedError"
     name "SourceNotUpdatedError"
-    display_name "source not updated error"
+    title "source not updated error"
     active true
 
     initialize_with { SourceNotUpdatedError.where(name: name).first_or_initialize }
