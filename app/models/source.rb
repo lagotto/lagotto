@@ -50,7 +50,7 @@ class Source < ActiveRecord::Base
   serialize :config, OpenStruct
 
   validates :name, :presence => true, :uniqueness => true
-  validates :display_name, :presence => true
+  validates :title, :presence => true
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -63,18 +63,18 @@ class Source < ActiveRecord::Base
   # filter sources by state
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :by_states, ->(state) { where("state > ?", state) }
-  scope :order_by_name, -> { order("group_id, sources.display_name") }
+  scope :order_by_title, -> { order("group_id, sources.title") }
 
-  scope :available, -> { by_state(0).order_by_name }
-  scope :retired, -> { by_state(1).order_by_name }
-  scope :inactive, -> { by_state(2).order_by_name }
-  scope :disabled, -> { by_state(3).order_by_name }
-  scope :waiting, -> { by_state(5).order_by_name }
-  scope :working, -> { by_state(6).order_by_name }
+  scope :available, -> { by_state(0).order_by_title }
+  scope :retired, -> { by_state(1).order_by_title }
+  scope :inactive, -> { by_state(2).order_by_title }
+  scope :disabled, -> { by_state(3).order_by_title }
+  scope :waiting, -> { by_state(5).order_by_title }
+  scope :working, -> { by_state(6).order_by_title }
 
-  scope :installed, -> { by_states(0).order_by_name }
-  scope :visible, -> { by_states(1).order_by_name }
-  scope :active, -> { by_states(2).order_by_name }
+  scope :installed, -> { by_states(0).order_by_title }
+  scope :visible, -> { by_states(1).order_by_title }
+  scope :active, -> { by_states(2).order_by_title }
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
   scope :queueable, -> { active.where("queueable = ?", true) }

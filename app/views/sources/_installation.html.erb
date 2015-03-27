@@ -1,8 +1,8 @@
 <% if @groups.size > 0 %>
   <% @groups.with_sources.each do |group| %>
     <div class="panel panel-default">
-      <div class="panel-heading"><%= group.display_name %></div>
-      <table class="table" id="<%= group.display_name %>Table">
+      <div class="panel-heading"><%= group.title %></div>
+      <table class="table" id="<%= group.title %>Table">
         <thead>
           <tr>
             <th class="name">Source</th>
@@ -16,7 +16,7 @@
         <tbody>
           <% group.sources.each do |source| %>
             <tr>
-              <td><%= link_to_if source.installed?, source.display_name, source_path(source) %></td>
+              <td><%= link_to_if source.installed?, source.title, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td><%= h(source.description) %></td>
               <% if can?(:manage, Alert) %>

@@ -3,7 +3,7 @@
     <% @reports.each do |report| %>
       <div class="panel <%= report.users.exists?(@user) ? 'panel-info' : 'panel-default' %>">
         <div class="panel-heading panel-title panel-list">
-          <%= link_to report.display_name, "#report_#{report.id}", :class => "accordion-toggle", :id => "link_#{report.id}", :data => { :toggle => "collapse", :parent => "#report" }, :href => "#report_#{report.id}" %>
+          <%= link_to report.title, "#report_#{report.id}", :class => "accordion-toggle", :id => "link_#{report.id}", :data => { :toggle => "collapse", :parent => "#report" }, :href => "#report_#{report.id}" %>
           <% if report.users.exists?(@user) %><span class="label label-report pull-right">subscribed</span><% end %>
         </div>
         <div id="report_<%= report.id %>" class="panel-collapse collapse">

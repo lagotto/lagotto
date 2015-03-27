@@ -22,7 +22,7 @@
                     <% if field[:field_name] == "source_ids" %>
                       <%= f.input :source_ids, :as => :check_boxes,
                                                 collection: Source.active.where("name != ?", 'relativemetric'),
-                                                label_method: :display_name,
+                                                label_method: :title,
                                                 value_method: :id,
                                                 label: "Sources",
                                                 :selected => @filter.source_ids %>

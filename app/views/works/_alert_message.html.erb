@@ -3,7 +3,7 @@
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4>Alerts</h4>
     <% @work.alerts.limit(20).each do |alert| %>
-      <%= alert.message %><%= alert.source.nil? ? "" : " (#{alert.source.display_name})" %></br>
+      <%= alert.message %><%= alert.source.nil? ? "" : " (#{alert.source.title})" %></br>
     <% end %>
   </div>
 <% end %>

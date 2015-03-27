@@ -1,8 +1,8 @@
 <% unless Source.visible.empty? %>
   <% @groups.visible.each do |group| %>
     <div class="panel panel-default">
-      <div class="panel-heading"><%= group.display_name %></div>
-      <table class="table" id="<%= group.display_name %>Table">
+      <div class="panel-heading"><%= group.title %></div>
+      <table class="table" id="<%= group.title %>Table">
         <thead>
           <tr>
             <th class="name">Source</th>
@@ -14,7 +14,7 @@
         <tbody>
           <% group.sources.visible.each do |source| %>
             <tr>
-              <td><%= link_to source.display_name, source_path(source) %></td>
+              <td><%= link_to source.title, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td class="number" id="queued_count_<%= source.name %>"><%= number_hiding_zero(source.queued_count) %></td>
               <td class="number" id="stale_count_<%= source.name %>"><%= number_hiding_zero(source.stale_count) %></td>

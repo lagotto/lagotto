@@ -2,7 +2,7 @@ The following sources have not been updated for 24 hours as of <%= Time.zone.now
 
 <% unless @sources.empty? -%>
 <% @sources.each do |source| -%>
-<%= source.display_name %>
+<%= source.title %>
 <% end -%>
 <% else -%>
 No stale source found.

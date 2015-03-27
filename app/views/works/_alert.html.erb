@@ -37,7 +37,7 @@
             <p class="class_name"><%= h(alert.class_name) %></p>
             <% unless alert.source_id.blank? %>
               <h5>Source</h5>
-              <%= link_to alert.source.display_name, alerts_path(source_id: alert.source_id) %>
+              <%= link_to alert.source.title, alerts_path(source_id: alert.source_id) %>
             <% end %>
 
             <h5>Time</h5>
