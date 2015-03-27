@@ -1,3 +1,4 @@
+json.key_format! :underscore
 json.total @works.total_entries
 json.total_pages (@works.total_entries.to_f / @works.per_page).ceil
 json.page @works.total_entries > 0 ? @works.current_page : 0
