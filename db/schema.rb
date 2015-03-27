@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326113124) do
+ActiveRecord::Schema.define(version: 20150327124315) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -109,19 +109,21 @@ ActiveRecord::Schema.define(version: 20150326113124) do
   end
 
   create_table "filters", force: :cascade do |t|
-    t.string  "type",         limit: 255,                  null: false
-    t.string  "name",         limit: 255,                  null: false
-    t.string  "display_name", limit: 255,                  null: false
-    t.text    "description",  limit: 65535
-    t.boolean "active",       limit: 1,     default: true
-    t.text    "config",       limit: 65535
+    t.string   "type",        limit: 255,                  null: false
+    t.string   "name",        limit: 255,                  null: false
+    t.string   "title",       limit: 255,                  null: false
+    t.text     "description", limit: 65535
+    t.boolean  "active",      limit: 1,     default: true
+    t.text     "config",      limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string   "name",         limit: 255, null: false
+    t.string   "name",       limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "display_name", limit: 255
+    t.string   "title",      limit: 255
   end
 
   create_table "months", force: :cascade do |t|
@@ -173,13 +175,13 @@ ActiveRecord::Schema.define(version: 20150326113124) do
   end
 
   create_table "reports", force: :cascade do |t|
-    t.string   "name",         limit: 255
+    t.string   "name",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "display_name", limit: 255
-    t.text     "description",  limit: 65535
-    t.text     "config",       limit: 65535
-    t.boolean  "private",      limit: 1,     default: true
+    t.string   "title",       limit: 255
+    t.text     "description", limit: 65535
+    t.text     "config",      limit: 65535
+    t.boolean  "private",     limit: 1,     default: true
   end
 
   create_table "reports_users", id: false, force: :cascade do |t|
@@ -250,20 +252,20 @@ ActiveRecord::Schema.define(version: 20150326113124) do
   add_index "reviews", ["state_id"], name: "index_reviews_on_state_id", using: :btree
 
   create_table "sources", force: :cascade do |t|
-    t.string   "type",         limit: 255,                                   null: false
-    t.string   "name",         limit: 255,                                   null: false
-    t.string   "display_name", limit: 255,                                   null: false
-    t.datetime "run_at",                     default: '1970-01-01 00:00:00', null: false
-    t.text     "config",       limit: 65535
-    t.integer  "group_id",     limit: 4,                                     null: false
-    t.boolean  "private",      limit: 1,     default: false
+    t.string   "type",        limit: 255,                                   null: false
+    t.string   "name",        limit: 255,                                   null: false
+    t.string   "title",       limit: 255,                                   null: false
+    t.datetime "run_at",                    default: '1970-01-01 00:00:00', null: false
+    t.text     "config",      limit: 65535
+    t.integer  "group_id",    limit: 4,                                     null: false
+    t.boolean  "private",     limit: 1,     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "description",  limit: 65535
-    t.integer  "state",        limit: 4,     default: 0
-    t.boolean  "queueable",    limit: 1,     default: true
-    t.string   "state_event",  limit: 255
-    t.datetime "cached_at",                  default: '1970-01-01 00:00:00', null: false
+    t.text     "description", limit: 65535
+    t.integer  "state",       limit: 4,     default: 0
+    t.boolean  "queueable",   limit: 1,     default: true
+    t.string   "state_event", limit: 255
+    t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
   end
 
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
