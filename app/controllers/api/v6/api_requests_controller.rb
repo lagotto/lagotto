@@ -1,4 +1,4 @@
-class Api::V5::ApiRequestsController < Api::BaseController
+class Api::V6::ApiRequestsController < Api::BaseController
   before_filter :authenticate_user_from_token!
   load_and_authorize_resource
 
@@ -7,7 +7,7 @@ class Api::V5::ApiRequestsController < Api::BaseController
   swagger_api :index do
     summary "Returns all API requests"
     notes "Authentication with a valid API key with staff or admin permissions is required. Returns 1,000 results per page."
-    param :query, :api_key, :string, :required, "API key"
+    param :query, :apiKey, :string, :required, "API key"
     param :query, :key, :string, :optional, "Key, either a specific API key or one of internal, external, or other"
     param :query, :page, :integer, :optional, "Page number"
     response :ok

@@ -1,5 +1,5 @@
-class Api::V5::WorksController < Api::BaseController
-  before_filter :authenticate_user_from_token_param!, :load_work, only: [:show]
+class Api::V6::WorksController < Api::BaseController
+  before_filter :authenticate_user_from_token!, :load_work, only: [:show, :update, :destroy]
 
   swagger_controller :works, "Works"
 
@@ -49,6 +49,39 @@ class Api::V5::WorksController < Api::BaseController
     @works = collection.decorate(context: { info: params[:info],
                                             source_id: params[:source_id],
                                             admin: current_user.try(:is_admin_or_staff?) })
+  end
+
+  def create
+    @work = Work.new(safe_params)
+    authorize! :create, @work
+
+    if @work.save
+      @success = "Work created."
+      render "show", :status => :created
+    else
+      render json: { error: @work.errors }, status: :bad_request
+    end
+  end
+
+  def update
+    authorize! :update, @work
+
+    if @work.update_attributes(safe_params)
+      @success = "Work updated."
+      render "show", :status => :ok
+    else
+      render json: { error: @work.errors }, status: :bad_request
+    end
+  end
+
+  def destroy
+    authorize! :destroy, @work
+
+    if @work.destroy
+      render json: { success: "Work deleted." }, :status => :ok
+    else
+      render json: { error: "An error occured." }, status: :bad_request
+    end
   end
 
   # Load works from ids listed in query string, use type parameter if present
@@ -103,5 +136,11 @@ class Api::V5::WorksController < Api::BaseController
     when publisher then publisher.work_count
     else Work.count_all
     end
+  end
+
+  private
+
+  def safe_params
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
   end
 end

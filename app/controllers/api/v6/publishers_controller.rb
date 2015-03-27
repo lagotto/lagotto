@@ -1,4 +1,4 @@
-class Api::V5::PublishersController < Api::BaseController
+class Api::V6::PublishersController < Api::BaseController
   swagger_controller :publishers, "Publishers"
 
   swagger_api :index do
@@ -11,6 +11,7 @@ class Api::V5::PublishersController < Api::BaseController
   end
 
   def index
-    @publishers = Publisher.order(:name).paginate(:page => params[:page]).all
+    publishers = Publisher.order(:name).paginate(:page => params[:page]).all
+    @publishers = publishers.decorate
   end
 end
