@@ -1,7 +1,7 @@
 Swagger::Docs::Config.register_apis(
   "v6" => {
     api_file_path: "public",
-    base_api_controller: "Api::V6::BaseController",
+    base_api_controller: "Api::BaseController",
     base_path: "http://#{ENV['SERVERNAME']}",
     :attributes => {
       :info => {
