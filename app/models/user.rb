@@ -82,10 +82,7 @@ class User < ActiveRecord::Base
 
   def set_first_user
     # The first user we create has an admin role and uses the configuration API key
-    if User.count == 0 && !Rails.env.test?
-      self.role = "admin"
-      self.authentication_token = ENV['API_KEY']
-    end
+    self.role = "admin" if User.count == 0 && !Rails.env.test?
   end
 
   # Don't require email or password, as we also use OAuth
@@ -135,9 +132,11 @@ class User < ActiveRecord::Base
   private
 
   def generate_authentication_token
+    # use specific token for first user
+    token = ENV['API_KEY']
     loop do
-      token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
+      token = Devise.friendly_token
     end
   end
 end
