@@ -36,17 +36,23 @@ Lagotto::Application.routes.draw do
       resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:index, :show]
     end
 
-    namespace :v4 do
-      resources :alerts, :constraints => { :format=> false }
-      resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:create, :update, :destroy, :show]
-    end
-
     namespace :v5 do
       resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
       resources :sources, only: [:index, :show], param: :name
       resources :status, only: [:index]
       resources :api_requests, only: [:index]
       resources :publishers, only: [:index], param: :member_id
+    end
+
+    namespace :v6 do
+      resources :alerts
+      resources :api_requests, only: [:index]
+      resources :docs, only: [:index, :show]
+      resources :groups, only: [:index, :show]
+      resources :publishers, only: [:index], param: :member_id
+      resources :sources, only: [:index, :show], param: :name
+      resources :status, only: [:index]
+      resources :works, constraints: { :id => /.+?/ }
     end
   end
 
