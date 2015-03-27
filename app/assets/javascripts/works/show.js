@@ -15,7 +15,7 @@ if (query) {
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
-      var data = json.work;
+      var data = json.works;
 
       eventViz(data);
   });

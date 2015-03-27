@@ -41,7 +41,7 @@ if (query) {
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
-      options.almStatsJson = json.data;
+      options.almStatsJson = json.works;
       var almviz = new AlmViz(options);
       almviz.initViz();
   });
@@ -143,9 +143,9 @@ function AlmViz(options) {
 
     // Loop through sources to add statistics data to the group.
     data[0]["sources"].forEach(function(source) {
-      if (source.group_name !== group.name) { return; }
+      if (source.groupName !== group.name) { return; }
 
-      var total = source.metrics.total;
+      var total = source.total;
       if (total === 0) { return; }
 
       // Only add the group row the first time
@@ -157,12 +157,12 @@ function AlmViz(options) {
       metricsFound_ = true;
 
       // Some sources have multiple data
-      if (source.group_name === "viewed") {
-        if (source.metrics.html > 0) {
-          addSource_(source, source.title + " HTML", source.metrics.html, group, "html", $groupRow);
+      if (source.groupName === "viewed") {
+        if (source.html > 0) {
+          addSource_(source, source.title + " HTML", source.html, group, "html", $groupRow);
         }
-        if (source.metrics.pdf > 0) {
-          addSource_(source, source.title + " PDF", source.metrics.pdf, group, "pdf", $groupRow);
+        if (source.pdf > 0) {
+          addSource_(source, source.title + " PDF", source.pdf, group, "pdf", $groupRow);
         }
       } else {
         var label = source.title;
@@ -210,15 +210,15 @@ function AlmViz(options) {
     $countLabel = $row.append("div")
       .attr("class", "alm-label " + group.name);
 
-    if (source.events_url) {
-      // if there is an events_url, we can link to it from the count
+    if (source.eventsUrl) {
+      // if there is an eventsUrl, we can link to it from the count
       $count = $countLabel.append("p")
         .attr("class", "alm-count")
         .attr("id", "alm-count-" + source.name + "-" + group.name)
         .append("a")
-        .attr("href", function() { return source.events_url; });
+        .attr("href", function() { return source.eventsUrl; });
     } else {
-      // if no events_url, we just put in the count
+      // if no eventsUrl, we just put in the count
       $count = $countLabel.append("p")
         .attr("class", "alm-count")
         .attr("id", "alm-count-" + source.name + "-" + group.name);
@@ -246,7 +246,7 @@ function AlmViz(options) {
       var showMonthly = false;
       var showYearly = false;
 
-      if (source.by_year) {
+      if (source.byYear) {
         var level_data = getData_('year', source);
         var yearTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numYears = d3.time.year.utc.range(pub_date, new Date()).length;
@@ -258,7 +258,7 @@ function AlmViz(options) {
         }
       }
 
-      if (source.by_month) {
+      if (source.byMonth) {
         var level_data = getData_('month', source);
         var monthTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
@@ -270,7 +270,7 @@ function AlmViz(options) {
         }
       }
 
-      if (source.by_day){
+      if (source.byDay){
         var level_data = getData_('day', source);
         var dayTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numDays = d3.time.day.utc.range(pub_date, new Date()).length;
@@ -411,11 +411,11 @@ function AlmViz(options) {
   var getData_ = function(level, source) {
     switch (level) {
       case 'year':
-        return source.by_year;
+        return source.byYear;
       case 'month':
-        return source.by_month;
+        return source.byMonth;
       case 'day':
-        return source.by_day;
+        return source.byDay;
     }
   };
 

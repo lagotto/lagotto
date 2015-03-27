@@ -5,6 +5,7 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var page = params.attr('data-page');
+  if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
@@ -13,8 +14,7 @@ if (!params.empty()) {
   var order = params.attr('data-order');
   var model = params.attr('data-model');
 
-  var query = encodeURI("/api/v6/works");
-  if (page !== "") { query += "&page=" + page; }
+  var query = encodeURI("/api/v6/works?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (q !== "") { query += "&q=" + q; }
   if (class_name !== "") { query += "&class_name=" + class_name; }
