@@ -5,8 +5,7 @@ class User < ActiveRecord::Base
   belongs_to :publisher, primary_key: :member_id
   has_and_belongs_to_many :reports
 
-  before_save :ensure_authentication_token
-  before_create :set_first_user
+  before_save :ensure_authentication_token, :set_first_user
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -81,7 +80,7 @@ class User < ActiveRecord::Base
   protected
 
   def set_first_user
-    # The first user we create has an admin role and uses the configuration API key
+    # The first user we create has an admin role
     self.role = "admin" if User.count == 0 && !Rails.env.test?
   end
 

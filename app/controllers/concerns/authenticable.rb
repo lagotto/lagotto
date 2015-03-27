@@ -16,25 +16,8 @@ module Authenticable
 
     def authenticate_user_from_token!
       user_token = params[:api_key].presence
-      if user_token
-        resource = User.where(authentication_token: user_token.to_s).first
-        if resource
-          sign_in resource, store: false
-        else
-          render json: { error: "wrong API key." }, status: 401
-        end
-      end
-    end
-
-    def authenticate_user_via_basic_authentication!
-      authenticate_or_request_with_http_basic do |email, password|
-        resource = User.where(email: email).first
-        if resource && resource.valid_password?(password)
-          sign_in :user, resource
-        else
-          render json: { error: "You are not authorized to access this page." }, status: 401
-        end
-      end
+      user = user_token && User.where(authentication_token: user_token.to_s).first
+      sign_in user, store: false if user
     end
 
     def create_alert(exception, options = {})
