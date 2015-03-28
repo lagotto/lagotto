@@ -46,6 +46,7 @@ function worksViz(json) {
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
   if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
+  if (reference_id !== "") { json.href += "&reference_id=" + reference_id; }
   if (order !== "") { json.href += "&order=" + order; }
 
   d3.select("#loading-results").remove();

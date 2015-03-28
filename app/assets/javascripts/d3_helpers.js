@@ -61,44 +61,19 @@ function formattedDate(date, len) {
   }
 }
 
-// pagination for events
-function paginateEvents(data, page) {
-  if (data.length > 50) {
-    var total = Math.ceil(data.length/50);
-    var max_visible = 10;
-    var href = "#events?page={{number}}";
-    var prev = (page > 1) ? "«" : null;
-    var next = (page < total) ? "»" : null;
-
-    d3.select("#results").append("div")
-      .attr("id", "paginator");
-
-    $('#paginator').bootpag({
-      total: total,
-      page: page,
-      maxVisible: max_visible,
-      href: href,
-      leaps: false,
-      prev: prev,
-      next: next
-    }).on("page", function(event, num) {
-      showEvents(data, num);
-    });
-  }
-}
 // pagination
 function paginate(json) {
-  if ((page !== "") && json.total_pages > 1) {
-    var prev = (json.page > 1) ? "«" : null;
-    var next = (json.page < json.total_pages) ? "»" : null;
+  if ((json.meta.page !== "") && json.meta.totalPages > 1) {
+    var prev = (json.meta.page > 1) ? "«" : null;
+    var next = (json.meta.page < json.meta.totalPages) ? "»" : null;
 
     d3.select("#content").append("div")
       .attr("id", "paginator")
       .attr("class", "text-center");
 
     $('#paginator').bootpag({
-      total: json.total_pages,
-      page: json.page,
+      total: json.meta.totalPages,
+      page: json.meta.page,
       maxVisible: 10,
       href: json.href,
       leaps: false,

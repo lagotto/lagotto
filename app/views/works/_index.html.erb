@@ -37,7 +37,7 @@
         </div>
       <% end %>
     </div>
-    <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
+    <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
       Works
     </h1>
 
