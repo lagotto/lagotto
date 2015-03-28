@@ -3,7 +3,8 @@
 var endDate = new Date(),
     startDate = d3.time.day.offset(endDate, -29),
     endTime = endDate.setHours(23),
-    startTime = d3.time.hour.offset(endTime, -23);
+    startTime = d3.time.hour.offset(endTime, -23),
+    colors = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#f1c40f"]);
 
 // construct query string
 var params = d3.select("#api_key");
@@ -59,6 +60,6 @@ if (query) {
       barViz(by_hour, "#chart_requests", "requests_count", "hours");
       barViz(by_hour, "#chart_average", "requests_average", "hours");
 
-      donutViz(sources, "#chart_sources", sources_title, "active");
+      donutViz(sources, "#chart_sources", sources_title, "active", colors);
   });
 }

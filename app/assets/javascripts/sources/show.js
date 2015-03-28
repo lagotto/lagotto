@@ -1,7 +1,9 @@
 /*global d3 */
 
 // construct query string
-var params = d3.select("#api_key");
+var params = d3.select("#api_key"),
+    colors = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]);
+
 if (!params.empty()) {
   var source_id = params.attr('data-name');
   var query = encodeURI("/api/v6/sources/" + source_id);
@@ -20,8 +22,8 @@ if (query) {
     var byDayTitle = formatPercent(data.byDay.with_events / d3.sum(byDay, function(g) { return g.value; }));
     var byMonthTitle = formatPercent(data.byMonth.with_events / d3.sum(byMonth, function(g) { return g.value; }));
 
-    donutViz(status, "div#chart_status", status_title, "refreshed");
-    donutViz(byDay, "div#chart_day", byDayTitle, "with events");
-    donutViz(byMonth, "div#chart_month", byMonthTitle, "with events");
+    donutViz(status, "div#chart_status", status_title, "refreshed", colors);
+    donutViz(byDay, "div#chart_day", byDayTitle, "with events", colors);
+    donutViz(byMonth, "div#chart_month", byMonthTitle, "with events", colors);
   });
 }
