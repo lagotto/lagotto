@@ -1,7 +1,7 @@
 <div class="content markdown">
   <% if @doc.title && @doc.title != "Home" %>
     <div class="page-header">
-      <h1><%= @doc.title %></h1>
+      <h1 id="api_key" data-id="<%= @doc.id %>"><%= @doc.title %></h1>
     </div>
   <% end %>
 
