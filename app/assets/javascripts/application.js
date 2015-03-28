@@ -12,19 +12,15 @@
 //= require ember-data
 //= require bootstrap-sprockets
 //
-// Load Lodash
-//= require lodash
-//
-// Load the D3 visualization library
-//= require d3
-//
-// Load the Crossfilter library
-//= require crossfilter
+//= require d3/d3.js
+//= require crossfilter/crossfilter.js
+//= require lodash/dist/lodash.js
 //
 // Load common d3 helper functions
 //= require bar_chart
 //= require donut_chart
 //= require d3_helpers
+//
 //= require_self
 //= require ./lagotto
 
