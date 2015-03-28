@@ -54,11 +54,7 @@ gem 'sass-rails', '~> 4.0.4'
 gem "jquery-rails", "~> 3.1.2"
 gem 'bootstrap-sass', '~> 3.3.3'
 gem 'font-awesome-sass', '= 4.3.0'
-gem "d3_rails", "~> 3.4.1"
-gem "crossfilter-rails", "~> 1.3.5"
-gem 'coffee-rails', '~> 4.1.0'
 gem "uglifier", "~> 2.5.3"
-gem 'lodash-rails', '~> 3.3.0'
 gem "ember-rails", "0.17.0"
 gem "ember-source", "1.10.0"
 
