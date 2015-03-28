@@ -25,5 +25,9 @@
 //= require ./lagotto
 
 // for more details see: http://emberjs.com/guides/application/
-Lagotto = Ember.Application.create();
-
+Lagotto = Ember.Application.create({
+  // rootElement: '#lagotto',
+  LOG_TRANSITIONS: true,
+  LOG_TRANSITIONS_INTERNAL: true,
+  LOG_VIEW_LOOKUPS: true
+});

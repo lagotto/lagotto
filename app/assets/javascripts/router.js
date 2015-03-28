@@ -1,5 +1,10 @@
-// For more information see: http://emberjs.com/guides/routing/
+var inflector = Ember.Inflector.inflector;
+inflector.uncountable('status');
 
 Lagotto.Router.map(function() {
-  // this.resource('posts');
+  this.resource('works', function() { });
+  this.resource('sources', function() { });
+  this.resource('docs', function() { });
+  this.resource('status', function() { });
+  this.resource('apiRequests', function() { });
 });

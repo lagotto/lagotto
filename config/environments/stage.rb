@@ -55,4 +55,6 @@ Lagotto::Application.configure do
   # for devise
   # TODO: Must set it with correct value!!
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
+
+  config.ember.variant = :production
 end
