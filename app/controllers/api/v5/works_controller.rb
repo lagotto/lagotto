@@ -1,25 +1,6 @@
 class Api::V5::WorksController < Api::BaseController
   before_filter :authenticate_user_from_token_param!, :load_work, only: [:show]
 
-  swagger_controller :works, "Works"
-
-  swagger_api :index do
-    summary "Returns list of works either by ID, or all"
-    notes "The API endpoint is /articles for legacy reasons. If no ids are provided in the query, all works are returned, 50 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
-    param :query, :ids, :string, :optional, "Work IDs"
-    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, or url)"
-    param :query, :info, :string, :optional, "Response type (one of summary, detail, or left empty)"
-    param :query, :source_id, :string, :optional, "Source ID"
-    param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :order, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
-    param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page, defaults to 50"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-    response :internal_server_error
-  end
-
   def show
     @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
       .decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })

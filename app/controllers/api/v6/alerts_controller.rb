@@ -2,6 +2,24 @@ class Api::V6::AlertsController < Api::BaseController
   before_filter :authenticate_user_from_token!
   load_and_authorize_resource
 
+  swagger_controller :alerts, "Alerts"
+
+  swagger_api :index do
+    summary "Returns all API alerts"
+    notes "Authentication with a valid API key with staff or admin permissions is required."
+    param :query, :unresolved, :boolean, :optional, "Return only unresolved alerts"
+    param :query, :source_id, :string, :optional, "Source ID"
+    param :query, :class_name, :string, :optional, "Class name of alert"
+    param :query, :level, :integer, :optional, "Error level"
+    param :query, :q, :string, :optional, "Query message or class name"
+    param :query, :page, :integer, :optional, "Page number"
+    response :ok
+    response :unauthorized
+    response :unprocessable_entity
+    response :not_found
+    response :internal_server_error
+  end
+
   def index
     collection = Alert.unscoped.order("alerts.created_at DESC")
     collection = collection.where(unresolved: true) if params[:unresolved]
