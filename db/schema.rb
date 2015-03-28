@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327124315) do
+ActiveRecord::Schema.define(version: 20150328070747) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -266,6 +266,7 @@ ActiveRecord::Schema.define(version: 20150327124315) do
     t.boolean  "queueable",   limit: 1,     default: true
     t.string   "state_event", limit: 255
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
+    t.boolean  "eventable",   limit: 1,     default: true
   end
 
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree

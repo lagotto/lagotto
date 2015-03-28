@@ -78,6 +78,7 @@ class Source < ActiveRecord::Base
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
   scope :queueable, -> { active.where("queueable = ?", true) }
+  scope :eventable, -> { visible.where("eventable = ?", true) }
 
   # some sources cannot be redistributed
   scope :public_sources, -> { where(private: false) }
