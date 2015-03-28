@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid_type="<%= @work.pid_type %>" data-pid="<%= @work.pid %>">
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid_type="<%= @work.pid_type %>" data-pid="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source_id="<%= @source.present? ? @source.name : "" %>" data-order="" data-publisher_id="">
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
@@ -116,8 +116,8 @@
   <% end %>
 
   <ul class="nav nav-pills">
-    <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
-    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li class="active"><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
     <% if can?(:read, Alert) %>
       <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
@@ -125,11 +125,11 @@
   </ul>
 
   <div class="tab-content">
-    <div class="tab-pane active" id="metrics">
-      <%= render :partial => 'metrics' %>
-    </div>
-    <div class="tab-pane" id="events">
+    <div class="tab-pane active" id="events">
       <%= render :partial => 'events' %>
+    </div>
+    <div class="tab-pane" id="metrics">
+      <%= render :partial => 'metrics' %>
     </div>
     <div class="tab-pane" id="more">
       <%= render :partial => 'more' %>

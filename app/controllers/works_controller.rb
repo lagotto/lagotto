@@ -17,6 +17,8 @@ class WorksController < ApplicationController
     format_options = params.slice :events, :source
 
     @groups = Group.order("id")
+    @page = params[:page] || 1
+    @source = Source.visible.where(name: params[:source_id]).first
     render :show
   end
 

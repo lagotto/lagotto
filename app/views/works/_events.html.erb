@@ -1,5 +1,22 @@
-<div class="content" id="content">
-  <div class="text-muted" id="loading-events">Loading … <%= image_tag "spinner.gif" %></div>
+<div class="work">&nbsp;
+  <div class="btn-toolbar pull-left">
+    <div class="btn-group btn-group-sm" id="work-source">
+      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : h(@source.title) %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "All Sources", work_path(@work) %></li>
+        <% Group.order("id").each do |group| %>
+          <% group.sources.eventable.each_with_index do |source, i| %>
+            <%= '<li class="divider"></li>'.html_safe if i == 0 %>
+            <li><%= link_to "Filter by #{source.title}", work_path(@work, source_id: source.name) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>
 
-<%= javascript_include_tag 'works/show' %>
+<div id="content">
+  <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+</div>
+
+<%= javascript_include_tag 'works/index' %>

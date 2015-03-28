@@ -11,6 +11,7 @@ if (!params.empty()) {
   var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
   var source_id = params.attr('data-source_id');
+  var reference_id = params.attr('data-pid');
   var order = params.attr('data-order');
   var model = params.attr('data-model');
 
@@ -20,6 +21,7 @@ if (!params.empty()) {
   if (class_name !== "") { query += "&class_name=" + class_name; }
   if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
+  if (reference_id !== "") { query += "&reference_id=" + reference_id; }
   if (order !== "") { query += "&order=" + order; }
   if (source_id === "" && order === "") { query += "&info=summary"; }
 }
