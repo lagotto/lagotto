@@ -36,12 +36,11 @@ gem 'omniauth', '~> 1.2.2'
 gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
-gem "draper", "~> 1.4.0"
-gem "jbuilder", "~> 2.2.4"
+gem 'draper', '~> 2.1.0'
+gem 'jbuilder', '~> 2.2.12'
 gem "swagger-docs", "~> 0.1.9"
 gem 'swagger-ui_rails', '~> 0.1.7'
 gem "dalli", "~> 2.7.0"
-gem "turbolinks", "~> 2.5.1"
 gem 'will_paginate', '3.0.7'
 gem "will_paginate-bootstrap", "~> 1.0.1"
 gem "simple_form", "~> 3.1.0"
@@ -60,6 +59,8 @@ gem "crossfilter-rails", "~> 1.3.5"
 gem 'coffee-rails', '~> 4.1.0'
 gem "uglifier", "~> 2.5.3"
 gem 'lodash-rails', '~> 3.3.0'
+gem "ember-rails", "0.17.0"
+gem "ember-source", "1.10.0"
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'

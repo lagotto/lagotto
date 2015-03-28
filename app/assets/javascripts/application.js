@@ -7,9 +7,10 @@
 // Load jQuery
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-sprockets
 //= require jquery.bootpag.min.js
-//= require turbolinks
+//= require ember
+//= require ember-data
+//= require bootstrap-sprockets
 //
 // Load Lodash
 //= require lodash
@@ -24,3 +25,9 @@
 //= require bar_chart
 //= require donut_chart
 //= require d3_helpers
+//= require_self
+//= require ./lagotto
+
+// for more details see: http://emberjs.com/guides/application/
+Lagotto = Ember.Application.create();
+

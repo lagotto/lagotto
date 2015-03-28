@@ -8,8 +8,8 @@ SITE
       7-zip (>= 0.0.0)
       windows (>= 0.0.0)
     aws (2.6.5)
-    build-essential (2.2.1)
-    chef-sugar (3.0.1)
+    build-essential (2.2.2)
+    chef-sugar (3.1.0)
     chef_handler (1.1.6)
     chocolatey (0.2.0)
       windows (~> 1.31)
@@ -88,9 +88,9 @@ GIT
 GIT
   remote: git@github.com:articlemetrics/lagotto-cookbook.git
   ref: master
-  sha: 69a5a1d74e705a297b30d2165d1c626009ca713a
+  sha: c39ed44045e03dbfc56e0bc6c2e633ccf3e4c5da
   specs:
-    lagotto (4.4.12)
+    lagotto (4.5.0)
       apt (>= 0.0.0)
       capistrano (~> 0.8.0)
       couchdb (>= 0.0.0)
