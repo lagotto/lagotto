@@ -345,10 +345,10 @@ ActiveRecord::Schema.define(version: 20150328074906) do
     t.string   "pid",           limit: 255,                  null: false
     t.text     "csl",           limit: 65535
     t.integer  "work_type_id",  limit: 4
+    t.boolean  "tracked",       limit: 1,     default: true
     t.string   "scp",           limit: 255
     t.string   "wos",           limit: 255
     t.string   "ark",           limit: 255
-    t.boolean  "tracked",       limit: 1,     default: true
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree

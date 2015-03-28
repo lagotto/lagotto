@@ -28,7 +28,7 @@ class Doc
     if name.present?
       new(name)
     else
-      OpenStruct.new(title: nil, layout: nil, content: nil)
+      OpenStruct.new(id: nil, title: nil, layout: nil, content: nil, update_date: nil)
     end
   end
 

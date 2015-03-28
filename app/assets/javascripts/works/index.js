@@ -56,7 +56,7 @@ function worksViz(json) {
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no works");
-    if (page === "") { d3.select("div#rss").remove(); }
+    if (model === "source") { d3.select("div#rss").remove(); }
     return;
   }
 

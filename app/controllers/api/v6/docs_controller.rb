@@ -23,6 +23,7 @@ class Api::V6::DocsController < Api::BaseController
 
   def show
     doc = Doc.find(params[:id])
+    render json: { error: "No documentation for #{params[:id]} found" }, status: 404 if doc.id.nil?
     @doc = DocDecorator.decorate(doc)
   end
 end
