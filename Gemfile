@@ -52,6 +52,7 @@ gem 'dotiw', '~> 2.0'
 gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'
 gem "uglifier", "~> 2.5.3"
+gem 'coffee-rails', '~> 4.1.0'
 gem "ember-cli-rails"
 
 group :development do
