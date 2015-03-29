@@ -31,8 +31,6 @@ Lagotto::Application.configure do
 
   # for devise
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
-
-  config.ember.variant = :development
 end
 
 BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']

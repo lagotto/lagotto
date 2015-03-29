@@ -42,6 +42,4 @@ Lagotto::Application.configure do
   config.active_support.deprecation = :stder
 
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
-
-  config.ember.variant = :development
 end
