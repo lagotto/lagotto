@@ -56,7 +56,7 @@ gem 'bootstrap-sass', '~> 3.3.3'
 gem 'font-awesome-sass', '= 4.3.0'
 gem "uglifier", "~> 2.5.3"
 gem "ember-rails", "0.17.0"
-gem "ember-source", "1.11.0"
+gem "ember-source", "1.10.0"
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'
