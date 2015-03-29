@@ -9,7 +9,8 @@ Lagotto::Application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
 
-  root :to => "docs#index"
+  root :to => "ember#index"
+  get '/docs/*path' => 'ember#index'
 
   # constraints is added to allow dot in the url (doi is used to show article)
   resources :works, constraints: { :id => /.+?/, :format => /html|js/ }
@@ -18,7 +19,7 @@ Lagotto::Application.routes.draw do
   end
   resources :users
   resources :publishers, param: :member_id
-  resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
+  # resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :alerts
   resources :api_requests
   resources :filters

@@ -84,7 +84,7 @@
                 <% if document == "-" %>
                   <li class="divider"></li>
                 <% else %>
-                  <li><%= link_to h(document.tr('-', ' ')), doc_path(document.downcase) %></li>
+                  <li><%= link_to h(document.tr('-', ' ')), "/docs/#{document.downcase}" %></li>
                 <% end %>
               <% end %>
               <li class="divider"></li>
