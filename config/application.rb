@@ -74,5 +74,8 @@ module Lagotto
 
     # set Active Job queueing backend
     config.active_job.queue_adapter = :sidekiq
+
+    # Minimum Sass number precision required by bootstrap-sass
+    #::Sass::Script::Value::Number.precision = [8, ::Sass::Script::Value::Number.precision].max
   end
 end
