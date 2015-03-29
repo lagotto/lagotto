@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Lagotto::Application.routes.draw do
-  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
+  # mount EmberCLI::Engine => "ember-tests" if Rails.env.development?
 
   authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
