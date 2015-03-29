@@ -19,5 +19,4 @@
 //= require donut_chart
 //= require d3_helpers
 //
-//= require lagotto
 //= require_self

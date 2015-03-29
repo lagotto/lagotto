@@ -15,9 +15,9 @@ capybara-*.html
 .rspec
 /.bundle
 /.capistrano
+/frontend/bower_components/*
 /vendor/bundle/*
 /vendor/cookbooks/*
-/vendor/assets/bower_components
 /log/*
 /data/*
 /tmp/*

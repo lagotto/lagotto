@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.0.0",
-  "description": "Small description for frontend goes here",
+  "description": "Ember frontend for Lagotto",
   "private": true,
   "directories": {
     "doc": "doc",
