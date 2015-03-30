@@ -6,7 +6,11 @@ var app = new EmberApp();
 
 // Use `app.import` to add additional libraries to the generated
 // output files.
-//
+
+// Bootstrap & Font Awesome
+app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap.js');
+app.import("bower_components/font-awesome/scss/font-awesome.scss");
+
 // If you need to use different assets in different
 // environments, specify an object as the first parameter. That
 // object's keys should be the environment name and the values
