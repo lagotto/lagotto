@@ -24,7 +24,7 @@
         <%= f.input :scp, :label => 'Scopus', :disabled => @work.pid_type == "scp" %>
         <%= f.input :ark, :label => 'Ark', :disabled => @work.pid_type == "ark" %>
         <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
-        <%= f.association :work_type, :include_blank => false %>
+        <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order("title").map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
         <% end %>
@@ -61,7 +61,7 @@
         <% end %>
         <% if @work.author.present? %>
           <dt><%= "Author".pluralize(@work.author.length) %></dt>
-          <dd><%= author_format(@work.author) %></dd>
+          <dd><%= author_format(@work.author).html_safe %></dd>
         <% end %>
         <% if @work.volume.present? %>
           <dt>Volume</dt>
