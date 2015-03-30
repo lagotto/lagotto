@@ -7,19 +7,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def group
-    model.group.name
-  end
-
-  def group_id
-    model.group.name
-  end
-
-  def display_name
-    title
-  end
-
-  def id
-    name
+    object.group.name
   end
 
   def responses
@@ -29,7 +17,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def status
-    { "refreshed" => refreshed_count,
+    { "refreshed" => works_count - (stale_count + queued_count),
       "queued" => queued_count,
       "stale" => stale_count }
   end
@@ -37,12 +25,12 @@ class SourceDecorator < Draper::Decorator
   def by_day
     { "with_events" => with_events_by_day_count,
       "without_events" => without_events_by_day_count,
-      "not_updated" => not_updated_by_day_count }
+      "not_updated" => works_count - (with_events_by_day_count + without_events_by_day_count) }
   end
 
   def by_month
     { "with_events" => with_events_by_month_count,
       "without_events" => without_events_by_month_count,
-      "not_updated" => not_updated_by_month_count }
+      "not_updated" => works_count - (with_events_by_month_count + without_events_by_month_count) }
   end
 end
