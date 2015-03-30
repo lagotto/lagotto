@@ -15,7 +15,9 @@ capybara-*.html
 .rspec
 /.bundle
 /.capistrano
+/frontend/node_modules/*
 /frontend/bower_components/*
+/frontend/npm-debug.log
 /vendor/bundle/*
 /vendor/cookbooks/*
 /log/*
@@ -29,7 +31,6 @@ capybara-*.html
 /public/api-docs.json
 /public/assets
 /coverage/
-/node_modules
 /spec/tmp/
 /config/data_bags/*
 **.orig
