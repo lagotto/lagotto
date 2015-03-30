@@ -91,7 +91,6 @@ namespace :deploy do
     end
   end
 
-  before :updated, "bower:install"
   after :publishing, :restart
   after :publishing, "data:migrate"
   after :publishing, "swagger:docs"
