@@ -56,7 +56,7 @@ module Lagotto
 
     # Configure sensitive parameters which will be filtered from the log file.
     # TODO: do I need to add salt here?
-    config.filter_parameters += [:password]
+    config.filter_parameters += [:password, :authentication_token]
 
     # Use a different cache store
     # dalli uses ENV['MEMCACHE_SERVERS']
