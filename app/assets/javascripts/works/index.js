@@ -11,7 +11,7 @@ if (!params.empty()) {
   var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
   var source_id = params.attr('data-source_id');
-  var reference_id = params.attr('data-pid');
+  var parent_id = params.attr('data-pid');
   var order = params.attr('data-order');
   var model = params.attr('data-model');
 
@@ -21,7 +21,7 @@ if (!params.empty()) {
   if (class_name !== "") { query += "&class_name=" + class_name; }
   if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (reference_id !== "") { query += "&reference_id=" + reference_id; }
+  if (parent_id !== "") { query += "&parent_id=" + parent_id; }
   if (order !== "") { query += "&order=" + order; }
   if (source_id === "" && order === "") { query += "&info=summary"; }
 }
@@ -46,7 +46,7 @@ function worksViz(json) {
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
   if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (reference_id !== "") { json.href += "&reference_id=" + reference_id; }
+  if (parent_id !== "") { json.href += "&parent_id=" + parent_id; }
   if (order !== "") { json.href += "&order=" + order; }
 
   d3.select("#loading-results").remove();

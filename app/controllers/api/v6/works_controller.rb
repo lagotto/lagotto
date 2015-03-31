@@ -31,7 +31,7 @@ class Api::V6::WorksController < Api::BaseController
   def index
     source = Source.where(name: params[:source_id]).first
     publisher = Publisher.where(member_id: params[:publisher_id]).first
-    reference = Work.where(pid: params[:reference_id]).first
+    parent = Work.where(pid: params[:parent_id]).first
     collection = get_ids(params)
     collection = get_class_name(collection, params) if params[:class_name]
     collection = get_order(collection, params, source)
@@ -40,13 +40,13 @@ class Api::V6::WorksController < Api::BaseController
       collection = collection.where(publisher_id: params[:publisher_id])
     end
 
-    if params[:reference_id] && reference
+    if params[:parent_id] && parent
       collection = collection.includes(:events).references(:events)
-      collection = collection.where("events.work_id = ?", reference.id)
+      collection = collection.where("events.work_id = ?", parent.id)
     end
 
     per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
-    total_entries = get_total_entries(params, source, publisher, reference)
+    total_entries = get_total_entries(params, source, publisher, parent)
 
     collection = collection.paginate(per_page: per_page,
                                      page: params[:page],
@@ -135,13 +135,13 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   # use cached counts for total number of results
-  def get_total_entries(params, source, publisher, reference)
+  def get_total_entries(params, source, publisher, parent)
     case
     when params[:ids] || params[:q] || params[:class_name] then nil # can't be cached
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
-    when reference then reference.events.size
+    when parent then parent.events.size
     else Work.count_all
     end
   end
