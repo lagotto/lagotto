@@ -15,7 +15,7 @@ json.works @works do |work|
     if work.tracked
       json.sources work.filtered_retrieval_statuses do |rs|
         json.cache! ['v5', rs, params[:info]], skip_digest: true do
-          json.(rs, :name, :display_name, :group_name, :events_url, :by_day, :by_month, :by_year, :metrics, :update_date)
+          json.(rs, :name, :title, :group_name, :events_url, :by_day, :by_month, :by_year, :metrics, :update_date)
           json.events rs.events if params[:info] == "detail"
         end
       end
