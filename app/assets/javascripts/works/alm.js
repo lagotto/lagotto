@@ -150,7 +150,7 @@ function AlmViz(options) {
 
     // Loop through sources to add statistics data to the group.
     data[0]["sources"].forEach(function(source) {
-      if (source.groupName !== group.name) { return; }
+      if (source.group_name !== group.name) { return; }
 
       var total = source.total;
       if (total === 0) { return; }
@@ -164,7 +164,7 @@ function AlmViz(options) {
       metricsFound_ = true;
 
       // Some sources have multiple data
-      if (source.groupName === "viewed") {
+      if (source.group_name === "viewed") {
         if (source.html > 0) {
           addSource_(source, source.title + " HTML", source.html, group, "html", $groupRow);
         }
@@ -217,13 +217,13 @@ function AlmViz(options) {
     $countLabel = $row.append("div")
       .attr("class", "alm-label " + group.name);
 
-    if (source.eventsUrl) {
+    if (source.events_url) {
       // if there is an eventsUrl, we can link to it from the count
       $count = $countLabel.append("p")
         .attr("class", "alm-count")
         .attr("id", "alm-count-" + source.name + "-" + group.name)
         .append("a")
-        .attr("href", function() { return source.eventsUrl; });
+        .attr("href", function() { return source.events_url; });
     } else {
       // if no eventsUrl, we just put in the count
       $count = $countLabel.append("p")
@@ -253,7 +253,7 @@ function AlmViz(options) {
       var showMonthly = false;
       var showYearly = false;
 
-      if (source.byYear) {
+      if (source.by_year) {
         var level_data = getData_('year', source);
         var yearTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numYears = d3.time.year.utc.range(pub_date, new Date()).length;
@@ -265,7 +265,7 @@ function AlmViz(options) {
         }
       }
 
-      if (source.byMonth) {
+      if (source.by_month) {
         var level_data = getData_('month', source);
         var monthTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
@@ -277,7 +277,7 @@ function AlmViz(options) {
         }
       }
 
-      if (source.byDay){
+      if (source.by_day){
         var level_data = getData_('day', source);
         var dayTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numDays = d3.time.day.utc.range(pub_date, new Date()).length;
@@ -418,11 +418,11 @@ function AlmViz(options) {
   var getData_ = function(level, source) {
     switch (level) {
       case 'year':
-        return source.byYear;
+        return source.by_year;
       case 'month':
-        return source.byMonth;
+        return source.by_month;
       case 'day':
-        return source.byDay;
+        return source.by_day;
     }
   };
 
