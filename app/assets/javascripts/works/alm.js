@@ -30,9 +30,8 @@ var options = {
 var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
-  var pid_type = params.attr('data-pid_type');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/metrics?ids=" + pid + "&type=" + pid_type);
+  var query = encodeURI("/api/metrics?ids=" + pid);
 }
 
 // load the data from the Lagotto API

@@ -22,7 +22,8 @@ class Api::V6::MetricsController < Api::BaseController
   end
 
   def show
-    @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
+    work = Work.where(pid: params[:pid])
+    @work = work.includes(:retrieval_statuses).references(:retrieval_statuses)
       .decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })
 
     fresh_when last_modified: @work.updated_at
@@ -95,10 +96,7 @@ class Api::V6::MetricsController < Api::BaseController
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "wos", "scp", "url"].find { |t| t == params[:type] } || "doi"
-      type = "canonical_url" if type == "url"
-      ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
-      collection = Work.where(works: { type => ids })
+      collection = Work.where("pid in (?)", params[:ids])
     elsif params[:q]
       collection = Work.query(params[:q])
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first

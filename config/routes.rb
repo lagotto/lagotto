@@ -52,7 +52,7 @@ Lagotto::Application.routes.draw do
       resources :docs, only: [:index, :show]
       resources :events, only: [:index, :show]
       resources :groups, only: [:index, :show]
-      resources :metrics, only: [:index, :show]
+      resources :metrics, only: [:index, :show], param: :pid
       resources :publishers, only: [:index, :show], param: :member_id
       resources :sources, only: [:index, :show], param: :name
       resources :status, only: [:index], param: :uuid
