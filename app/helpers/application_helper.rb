@@ -100,7 +100,7 @@ module ApplicationHelper
     case authors.length
     when 0, 1, 2 then authors.join(" & ")
     when 3, 4 then authors[0..-2].join(", ") + " & " + authors.last
-    else (authors[0..3].join(", ") + ", <em>et al</em>").html_safe
+    else authors[0..3].join(", ") + ", <em>et al</em>"
     end
   end
 
