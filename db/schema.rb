@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150328074906) do
+ActiveRecord::Schema.define(version: 20150401094916) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150328074906) do
     t.integer  "work_id",      limit: 4
     t.integer  "level",        limit: 4,        default: 3
     t.string   "hostname",     limit: 255
+    t.string   "uuid",         limit: 255
   end
 
   add_index "alerts", ["class_name"], name: "index_alerts_on_class_name", using: :btree
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 20150328074906) do
     t.string   "source",        limit: 255
     t.text     "ids",           limit: 65535
     t.float    "duration",      limit: 24
+    t.string   "uuid",          limit: 255
   end
 
   add_index "api_requests", ["api_key", "created_at"], name: "index_api_requests_api_key_created_at", using: :btree
@@ -289,6 +291,7 @@ ActiveRecord::Schema.define(version: 20150328074906) do
     t.string   "current_version",        limit: 255
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
+    t.string   "uuid",                   limit: 255
   end
 
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree
