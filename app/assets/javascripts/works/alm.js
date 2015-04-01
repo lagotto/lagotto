@@ -47,8 +47,8 @@ d3.json(encodeURI("/api/sources"))
     options.sources = json.sources;
 });
 
-console.log(groups);
-console.log(sources);
+console.log(options.groups);
+console.log(options.sources);
 
 if (query) {
   d3.json(query)
