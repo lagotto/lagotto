@@ -36,22 +36,12 @@ if (!params.empty()) {
 }
 
 // load the data from the Lagotto API
-d3.json(encodeURI("/api/groups"))
-  .header("Accept", "application/vnd.lagotto+json; version=6")
-  .get(function(error, json) {
-    if (error) { return console.warn(error); }
-    options.groups = json.groups;
-});
-
-d3.json(encodeURI("/api/sources"))
-  .header("Accept", "application/vnd.lagotto+json; version=6")
-  .get(function(error, json) {
-    if (error) { return console.warn(error); }
-    options.sources = json.sources;
-});
-
-console.log(options.groups);
-console.log(options.sources);
+// d3.json(encodeURI("/api/groups"))
+//   .header("Accept", "application/vnd.lagotto+json; version=6")
+//   .get(function(error, json) {
+//     if (error) { return console.warn(error); }
+//     options.groups = json.groups;
+// });
 
 if (query) {
   d3.json(query)
