@@ -10,9 +10,9 @@ if (!params.empty()) {
     var key = params.attr('data-key');
     var query = encodeURI("/api/api_requests");
     if (q !== "") {
-      query += "&q=" + q;
+      query += "?q=" + q;
     } else if (key !== "") {
-      query += "&key=" + key;
+      query += "?key=" + key;
     }
 }
 
@@ -60,9 +60,9 @@ function crossfilterViz(data) {
       dates = date.group(),
       hour = request.dimension(function(d) { return d.date.getUTCHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
-      dbDuration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.dbDuration)); }),
+      dbDuration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
       dbDurations = dbDuration.group(function(d) { return Math.floor(d / 10) * 10; }),
-      viewDuration = request.dimension(function(d) { return Math.min(1999, d.viewDuration); }),
+      viewDuration = request.dimension(function(d) { return Math.min(1999, d.view_duration); }),
       viewDurations = viewDuration.group(function(d) { return Math.floor(d / 50) * 50; });
 
   var charts = [
@@ -156,19 +156,19 @@ function crossfilterViz(data) {
 
       requestEnter.append("div")
         .attr("class", "duration")
-        .text(function(d) { return formatFixed(d.dbDuration) + " ms"; });
+        .text(function(d) { return formatFixed(d.db_duration) + " ms"; });
 
       requestEnter.append("div")
         .attr("class", "duration")
-        .classed("fast", function(d) { return d.viewDuration < 100; })
-        .classed("slow", function(d) { return d.viewDuration >= 1000; })
-        .text(function(d) { return formatFixed(d.viewDuration) + " ms"; });
+        .classed("fast", function(d) { return d.view_duration < 100; })
+        .classed("slow", function(d) { return d.view_duration >= 1000; })
+        .text(function(d) { return formatFixed(d.view_duration) + " ms"; });
 
       requestEnter.append("div")
         .attr("class", "source")
         .append("a")
-        .attr("href", function(d) { return "/users?query=" + d.apiKey; })
-        .text(function(d) { return d.apiKey.substr(0,20); });
+        .attr("href", function(d) { return "/users?query=" + d.api_key; })
+        .text(function(d) { return d.api_key.substr(0,20); });
 
       requestEnter.append("div")
         .attr("class", "info")
