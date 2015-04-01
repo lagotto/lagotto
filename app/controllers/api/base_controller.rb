@@ -20,7 +20,7 @@ class Api::BaseController < ActionController::Base
     key, value = id_hash.first
     @work = Work.where(key => value).first
 
-    render json: { error: "Work not found." }.to_json, status: :not_found if @work.nil?
+    render json: { meta: { status: "error", error: "Work not found." } }.to_json, status: :not_found if @work.nil?
   end
 
   private

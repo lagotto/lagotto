@@ -6,6 +6,10 @@ class AlertDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
+  def id
+    to_param
+  end
+
   def level
     model.human_level_name
   end

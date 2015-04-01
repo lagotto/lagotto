@@ -5,16 +5,15 @@ class Api::V6::WorksController < Api::BaseController
 
   swagger_api :index do
     summary "Returns list of works either by ID, or all"
-    notes "If no ids are provided in the query, all works are returned, 50 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
+    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
     param :query, :ids, :string, :optional, "Work IDs"
     param :query, :q, :string, :optional, "Query for ids"
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
-    param :query, :info, :string, :optional, "Response type (one of summary, detail, or left empty)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :order, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page, defaults to 50"
+    param :query, :per_page, :integer, :optional, "Results per page (0-500), defaults to 500"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -45,7 +44,7 @@ class Api::V6::WorksController < Api::BaseController
       collection = collection.where("events.work_id = ?", parent.id)
     end
 
-    per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
+    per_page = params[:per_page] && (0..500).include?(params[:per_page].to_i) ? params[:per_page].to_i : 500
     total_entries = get_total_entries(params, source, publisher, parent)
 
     collection = collection.paginate(per_page: per_page,
@@ -63,10 +62,10 @@ class Api::V6::WorksController < Api::BaseController
     authorize! :create, @work
 
     if @work.save
-      @success = "Work created."
+      @status = "created"
       render "show", :status => :created
     else
-      render json: { error: @work.errors }, status: :bad_request
+      render json: { meta: { status: "error", error: @work.errors }, work: {}}, status: :bad_request
     end
   end
 
@@ -74,10 +73,10 @@ class Api::V6::WorksController < Api::BaseController
     authorize! :update, @work
 
     if @work.update_attributes(safe_params)
-      @success = "Work updated."
+      @status = "updated"
       render "show", :status => :ok
     else
-      render json: { error: @work.errors }, status: :bad_request
+      render json: { meta: { status: "error", error: @work.errors }, work: {}}, status: :bad_request
     end
   end
 
@@ -85,9 +84,9 @@ class Api::V6::WorksController < Api::BaseController
     authorize! :destroy, @work
 
     if @work.destroy
-      render json: { success: "Work deleted." }, :status => :ok
+      render json: { success: "deleted" }, :status => :ok
     else
-      render json: { error: "An error occured." }, status: :bad_request
+      render json: { meta: { status: "error", error: "An error occured." }, work: {}}, status: :bad_request
     end
   end
 
@@ -149,6 +148,6 @@ class Api::V6::WorksController < Api::BaseController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :member_id, :year, :month, :day, :tracked)
   end
 end

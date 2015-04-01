@@ -60,27 +60,27 @@ module Authenticable
     end
 
     rescue_from CanCan::AccessDenied do |exception|
-      render json: { error: exception.message }, status: 401
+      render json: { meta: { status: "error", error: exception.message }}, status: 401
     end
 
     rescue_from ActiveRecord::RecordNotFound do |exception|
-      render json: { error: exception.message }, status: 404
+      render json: { meta: { status: "error", error: exception.message }}, status: 404
     end
 
     rescue_from ActionController::ParameterMissing do |exception|
       create_alert(exception, status: 400)
-      render json: { error: exception.message }, status: 400
+      render json: { meta: { status: "error", error: exception.message }}, status: 400
     end
 
     rescue_from ActiveModel::ForbiddenAttributesError do |exception|
       create_alert(exception, status: 422)
-      render json: { error: exception.message }, status: 422
+      render json: { meta: { status: "error", error: exception.message }}, status: 422
     end
 
     rescue_from NoMethodError do |exception|
       create_alert(exception, status: 422)
 
-      render json: { error: exception.message }, status: 422
+      render json: { meta: { status: "error", error: exception.message }}, status: 422
     end
   end
 end

@@ -40,6 +40,11 @@ class WorkDecorator < Draper::Decorator
     model.events
   end
 
+  def metrics
+    # or to_h in Ruby 2.1, ignore nil and 0
+    Hash[*model.metrics.flatten].reject { |k,v| v.to_i == 0 }
+  end
+
   def cache_key
     { work_id: id,
       update_date: update_date,
