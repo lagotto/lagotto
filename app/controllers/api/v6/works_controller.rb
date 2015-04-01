@@ -20,6 +20,17 @@ class Api::V6::WorksController < Api::BaseController
     response :internal_server_error
   end
 
+  swagger_api :show do
+    summary "Returns list of works either by ID, or all"
+    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
+    param :path, :id, :string, :required, "Work ID"
+    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    response :ok
+    response :unprocessable_entity
+    response :not_found
+    response :internal_server_error
+  end
+
   def show
     @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
       .decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })

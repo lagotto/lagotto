@@ -10,7 +10,7 @@ class Api::V6::DocsController < Api::BaseController
 
   swagger_api :show do
     summary 'Returns document by id'
-    param :query, :id, :string, :required, "Document ID"
+    param :path, :id, :string, :required, "Document ID"
     response :ok
     response :unprocessable_entity
     response :not_found

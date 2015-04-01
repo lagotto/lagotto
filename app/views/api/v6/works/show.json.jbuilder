@@ -1,6 +1,7 @@
 json.meta do
   json.status @status || "ok"
   json.message_type "work"
+  json.message_version "6.0.0"
 end
 
 json.work do

@@ -1,6 +1,7 @@
 json.meta do
   json.status "ok"
   json.message_type "status-list"
+  json.message_version "6.0.0"
   json.total @status.total_entries
   json.total_pages @status.per_page > 0 ? @status.total_pages : 1
   json.page @status.total_entries > 0 ? @status.current_page : 0

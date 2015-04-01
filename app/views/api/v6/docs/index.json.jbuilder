@@ -1,6 +1,7 @@
 json.meta do
   json.status "ok"
   json.message_type "doc-list"
+  json.message_version "6.0.0"
   json.total @docs.size
 end
 

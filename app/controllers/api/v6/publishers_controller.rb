@@ -12,6 +12,7 @@ class Api::V6::PublishersController < Api::BaseController
 
   swagger_api :show do
     summary 'Returns publisher by member ID'
+    param :path, :id, :string, :required, "Member ID"
     response :ok
     response :not_found
     response :unprocessable_entity

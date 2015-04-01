@@ -10,7 +10,7 @@ class Api::V6::SourcesController < Api::BaseController
 
   swagger_api :show do
     summary 'Returns source by name'
-    param :query, :name, :string, :required, "Source name"
+    param :path, :name, :string, :required, "Source name"
     response :ok
     response :unprocessable_entity
     response :not_found

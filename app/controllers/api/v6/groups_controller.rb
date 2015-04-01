@@ -10,7 +10,7 @@ class Api::V6::GroupsController < Api::BaseController
 
   swagger_api :show do
     summary 'Returns group by id'
-    param :query, :id, :string, :required, "Group ID"
+    param :path, :id, :string, :required, "Group ID"
     response :ok
     response :unprocessable_entity
     response :not_found
