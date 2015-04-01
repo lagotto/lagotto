@@ -4,7 +4,7 @@ class Alert < ActiveRecord::Base
   belongs_to :source
   belongs_to :work
 
-  before_create :collect_env_info
+  before_create :collect_env_info, :create_uuid
   after_create :send_fatal_error_report, if: proc { level == 4 }
 
   default_scope { where("unresolved = ?", true).order("alerts.created_at DESC") }
@@ -27,6 +27,10 @@ class Alert < ActiveRecord::Base
 
   def self.per_page
     15
+  end
+
+  def to_param
+    uuid
   end
 
   def public_message
@@ -53,6 +57,10 @@ class Alert < ActiveRecord::Base
 
   def create_date
     created_at.utc.iso8601
+  end
+
+  def create_uuid
+    write_attribute(:uuid, SecureRandom.uuid)
   end
 
   private

@@ -4,12 +4,16 @@ class Status < ActiveRecord::Base
 
   RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
-  before_create :collect_status_info
+  before_create :collect_status_info, :create_uuid
 
   default_scope { order("status.created_at DESC") }
 
   def self.per_page
     1000
+  end
+
+  def to_param
+    uuid
   end
 
   def collect_status_info
@@ -58,5 +62,9 @@ class Status < ActiveRecord::Base
 
   def cache_key
     "status/#{update_date}"
+  end
+
+  def create_uuid
+    write_attribute(:uuid, SecureRandom.uuid)
   end
 end

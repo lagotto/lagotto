@@ -5,6 +5,10 @@ class ApiRequest < ActiveRecord::Base
     1000
   end
 
+  def to_param
+    uuid
+  end
+
   def date
     created_at.utc.iso8601
   end
