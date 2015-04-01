@@ -1,14 +1,10 @@
-json.success @success
-json.error nil
+json.meta do
+  json.status @status || "ok"
+  json.message_type "work"
+end
 
 json.work do
-  json.(@work, :id, :doi, :title, :issued, :publisher_id, :canonical_url, :pmid, :pmcid, :scp, :wos, :ark, :viewed, :saved, :discussed, :cited, :update_date)
-
-  unless params[:info] == "summary"
-    json.sources @work.retrieval_statuses do |rs|
-      json.(rs, :name, :title, :group_name, :events_url, :by_day, :by_month, :by_year, :update_date)
-      json.metrics rs.new_metrics
-      json.events rs.events if params[:info] == "detail"
-    end
+  json.cache! ['v6', @work], skip_digest: true do
+    json.(@work, :id, :title, :issued, :container_title, :volume, :page, :issue, :publisher_id, :doi, :url, :pmid, :pmcid, :scp, :wos, :ark, :metrics, :update_date)
   end
 end

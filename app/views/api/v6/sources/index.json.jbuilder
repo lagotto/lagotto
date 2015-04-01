@@ -1,4 +1,6 @@
 json.meta do
+  json.status "ok"
+  json.message_type "source-list"
   json.total @sources.size
 end
 
