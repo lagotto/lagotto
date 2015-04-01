@@ -8,7 +8,7 @@ if (!params.empty()) {
     var api_key = params.attr('data-api_key');
     var q = params.attr('data-query');
     var key = params.attr('data-key');
-    var query = encodeURI("/api/v6/api_requests");
+    var query = encodeURI("/api/api_requests");
     if (q !== "") {
       query += "&q=" + q;
     } else if (key !== "") {
@@ -19,6 +19,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query)
+    .header("Accept", "application/vnd.lagotto+json; version=6")
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }

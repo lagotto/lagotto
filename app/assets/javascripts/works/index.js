@@ -15,7 +15,7 @@ if (!params.empty()) {
   var order = params.attr('data-order');
   var model = params.attr('data-model');
 
-  var query = encodeURI("/api/v6/works?page=" + page);
+  var query = encodeURI("/api/works?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (q !== "") { query += "&q=" + q; }
   if (class_name !== "") { query += "&class_name=" + class_name; }
@@ -29,6 +29,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query)
+    .header("Accept", "application/vnd.lagotto+json; version=6")
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }

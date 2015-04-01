@@ -32,12 +32,13 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var pid_type = params.attr('data-pid_type');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/v6/works?ids=" + pid + "&type=" + pid_type);
+  var query = encodeURI("/api/works?ids=" + pid + "&type=" + pid_type);
 }
 
 // load the data from the ALM API
 if (query) {
   d3.json(query)
+    .header("Accept", "application/vnd.lagotto+json; version=6")
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }

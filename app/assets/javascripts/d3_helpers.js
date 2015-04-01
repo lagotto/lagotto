@@ -63,16 +63,16 @@ function formattedDate(date, len) {
 
 // pagination
 function paginate(json) {
-  if ((json.meta.page !== "") && json.meta.totalPages > 1) {
+  if ((json.meta.page !== "") && json.meta.total_pages > 1) {
     var prev = (json.meta.page > 1) ? "«" : null;
-    var next = (json.meta.page < json.meta.totalPages) ? "»" : null;
+    var next = (json.meta.page < json.meta.total_pages) ? "»" : null;
 
     d3.select("#content").append("div")
       .attr("id", "paginator")
       .attr("class", "text-center");
 
     $('#paginator').bootpag({
-      total: json.meta.totalPages,
+      total: json.meta.total_pages,
       page: json.meta.page,
       maxVisible: 10,
       href: json.href,
@@ -93,8 +93,8 @@ function urlForWork(work) {
     return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work.pmcid;
   } else if (!!work.ark) {
     return "http://n2t.net/" + work.ark;
-  } else if (!!work.canonical_url) {
-    return work.canonical_url;
+  } else if (!!work.URL) {
+    return work.url;
   } else {
     return "";
   }
@@ -106,8 +106,7 @@ function signpostsToString(work, source_id, order) {
   } else {
     if (order !== "") { var name = order }
     if (source_id !== "") { var name = source_id }
-    var s = work.sources.filter(function(d) { return d.name === name; })[0];
-    var a = [s.title + ": " + formatFixed(s.total)];
+    var a = [name + ": " + formatFixed(work.metrics[name])];
   }
 
   var b = [];

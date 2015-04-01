@@ -10,12 +10,13 @@ var endDate = new Date(),
 var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
-  var query = encodeURI("/api/v6/status");
+  var query = encodeURI("/api/status");
 }
 
 // load the data from the Lagotto API
 if (query) {
   d3.json(query)
+    .header("Accept", "application/vnd.lagotto+json; version=6")
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
@@ -23,28 +24,28 @@ if (query) {
 
       // aggregate status by day
       var day_data = data.filter(function(status) {
-        return Date.parse(status.updateDate) >= startDate;
+        return Date.parse(status.update_date) >= startDate;
       });
       var by_day = d3.nest()
-        .key(function(d) { return d.updateDate.substr(0,10); })
+        .key(function(d) { return d.update_date.substr(0,10); })
         .rollup(function(leaves) {
-          return { "works_count": d3.max(leaves, function(d) { return d.worksNewCount;}),
-                   "events_count": d3.max(leaves, function(d) { return d.eventsCount;}),
-                   "alerts_count": d3.max(leaves, function(d) { return d.alertsCount;}),
-                   "db_size": d3.max(leaves, function(d) { return d.dbSize;}),
+          return { "works_count": d3.max(leaves, function(d) { return d.works_new_count;}),
+                   "events_count": d3.max(leaves, function(d) { return d.events_count;}),
+                   "alerts_count": d3.max(leaves, function(d) { return d.alerts_count;}),
+                   "db_size": d3.max(leaves, function(d) { return d.db_size;}),
                   };})
         .entries(day_data);
 
       // aggregate status by hour
       var hour_data = data.filter(function(status) {
-        return Date.parse(status.updateDate) >= startTime;
+        return Date.parse(status.update_date) >= startTime;
       });
       var by_hour = d3.nest()
-        .key(function(d) { return d.updateDate.substr(0,13); })
+        .key(function(d) { return d.update_date.substr(0,13); })
         .rollup(function(leaves) {
-          return { "responses_count": d3.max(leaves, function(d) { return d.responsesCount;}),
-                   "requests_count": d3.max(leaves, function(d) { return d.requestsCount;}),
-                   "requests_average": d3.mean(leaves, function(d) { return d.requestsAverage;}),
+          return { "responses_count": d3.max(leaves, function(d) { return d.responses_count;}),
+                   "requests_count": d3.max(leaves, function(d) { return d.requests_count;}),
+                   "requests_average": d3.mean(leaves, function(d) { return d.requests_average;}),
                   };})
         .entries(hour_data);
 
