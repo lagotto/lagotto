@@ -20,11 +20,8 @@ var options = {
   },
   vizDiv: "#panel-metrics",
   showTitle: false,
-  groups: [{ name: "viewed", title: "Viewed" },
-           { name: "cited", title: "Cited" },
-           { name: "saved", title: "Saved" },
-           { name: "discussed", title: "Discussed" },
-           { name: "recommended", title: "Recommended" }]
+  groups: [],
+  sources: []
 };
 
 var params = d3.select("#api_key");
@@ -32,10 +29,27 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var pid_type = params.attr('data-pid_type');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/works?ids=" + pid + "&type=" + pid_type);
+  var query = encodeURI("/api/metrics?ids=" + pid + "&type=" + pid_type);
 }
 
-// load the data from the ALM API
+// load the data from the Lagotto API
+d3.json(encodeURI("/api/groups")
+  .header("Accept", "application/vnd.lagotto+json; version=6")
+  .get(function(error, json) {
+    if (error) { return console.warn(error); }
+    options.groups = json.groups;
+});
+
+d3.json(encodeURI("/api/sources")
+  .header("Accept", "application/vnd.lagotto+json; version=6")
+  .get(function(error, json) {
+    if (error) { return console.warn(error); }
+    options.sources = json.sources;
+});
+
+console.log(groups);
+console.log(sources);
+
 if (query) {
   d3.json(query)
     .header("Accept", "application/vnd.lagotto+json; version=6")
