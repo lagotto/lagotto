@@ -35,6 +35,7 @@ class RetrievalStatus < ActiveRecord::Base
   scope :not_queued, -> { where("queued_at is NULL") }
   scope :stale, -> { not_queued.where("scheduled_at < ?", Time.zone.now).order("scheduled_at") }
   scope :published, -> { joins(:work).not_queued.where("works.published_on <= ?", Time.zone.now.to_date) }
+  scope :tracked, -> { joins(:work).where("tracked = ?", true) }
 
   scope :by_source, ->(source_id) { where(:source_id => source_id) }
   scope :by_name, ->(source) { joins(:source).where("sources.name = ?", source) }
@@ -51,6 +52,10 @@ class RetrievalStatus < ActiveRecord::Base
     data = source.parse_data(result, work, work_id: work_id, source_id: source_id)
     history = History.new(id, data)
     history.to_hash
+  end
+
+  def events
+    []
   end
 
   def by_day
@@ -117,6 +122,10 @@ class RetrievalStatus < ActiveRecord::Base
     "#{id}/#{update_date}"
   end
 
+  def rs_id
+    "#{source.name}:#{work.pid}"
+  end
+
   # calculate datetime when retrieval_status should be updated, adding random interval
   # sources that are not queueable use a fixed date
   def stale_at
@@ -144,7 +153,6 @@ class RetrievalStatus < ActiveRecord::Base
   private
 
   def delete_couchdb_document
-    couchdb_id = "#{source.name}:#{work.pid}"
-    remove_lagotto_data(couchdb_id)
+    remove_lagotto_data(rs_id)
   end
 end

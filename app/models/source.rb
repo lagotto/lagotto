@@ -96,8 +96,9 @@ class Source < ActiveRecord::Base
   def queue_all_works(options = {})
     return 0 unless active?
 
-    # find works that need to be updated. Not queued currently, scheduled_at doesn't matter
-    rs = retrieval_statuses
+    # find works that need to be updated.
+    # Tracked, not queued currently, scheduled_at doesn't matter
+    rs = retrieval_statuses.tracked
 
     # optionally limit to works scheduled_at in the past
     rs = rs.stale unless options[:all]
