@@ -5,7 +5,7 @@ class Api::V6::WorksController < Api::BaseController
 
   swagger_api :index do
     summary "Returns list of works either by ID, or all"
-    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
+    notes "If no ids are provided in the query, all works are returned, 1000 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
     param :query, :ids, :string, :optional, "Work IDs"
     param :query, :q, :string, :optional, "Query for ids"
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
@@ -13,7 +13,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :order, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page (0-500), defaults to 500"
+    param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 500"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -55,7 +55,7 @@ class Api::V6::WorksController < Api::BaseController
       collection = collection.where("events.work_id = ?", parent.id)
     end
 
-    per_page = params[:per_page] && (0..500).include?(params[:per_page].to_i) ? params[:per_page].to_i : 500
+    per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     total_entries = get_total_entries(params, source, publisher, parent)
 
     collection = collection.paginate(per_page: per_page,

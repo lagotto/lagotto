@@ -20,8 +20,11 @@ var options = {
   },
   vizDiv: "#panel-metrics",
   showTitle: false,
-  groups: [],
-  sources: []
+  groups: [{ name: "viewed", display_name: "Viewed" },
+           { name: "cited", display_name: "Cited" },
+           { name: "saved", display_name: "Saved" },
+           { name: "discussed", display_name: "Discussed" },
+           { name: "recommended", display_name: "Recommended" }]
 };
 
 var params = d3.select("#api_key");
