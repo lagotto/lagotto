@@ -9,6 +9,6 @@ end
 
 json.metrics @retrieval_statuses do |rs|
   json.cache! ['v6', rs, params[:work_id], params[:source_id]], skip_digest: true do
-    json.(rs, :source_id, :work_id, :html, :pdf, :readers, :comments, :likes, :total, :events_url, :by_day, :by_month, :by_year, :update_date)
+    json.(rs, :source_id, :work_id, :pdf, :html, :readers, :comments, :likes, :total, :events_url, :by_day, :by_month, :by_year, :update_date)
   end
 end

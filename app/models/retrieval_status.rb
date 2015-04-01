@@ -23,8 +23,6 @@ class RetrievalStatus < ActiveRecord::Base
   delegate :title, :to => :source
   delegate :group, :to => :source
 
-  default_scope { order("updated_at DESC") }
-
   scope :with_events, -> { where("total > ?", 0) }
   scope :without_events, -> { where("total = ?", 0) }
   scope :most_cited, -> { with_events.order("total desc").limit(25) }

@@ -23,7 +23,6 @@ if (!params.empty()) {
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (parent_id !== "") { query += "&parent_id=" + parent_id; }
   if (order !== "") { query += "&order=" + order; }
-  if (source_id === "" && order === "") { query += "&info=summary"; }
 }
 
 // load the data from the Lagotto API
