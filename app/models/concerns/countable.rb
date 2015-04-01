@@ -3,6 +3,7 @@ module Countable
 
   included do
     def works_count
+      Status.create(current_version: Lagotto::VERSION) if Status.count == 0
       Status.first.works_count
     end
 

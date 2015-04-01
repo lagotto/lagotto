@@ -21,7 +21,7 @@ describe EuropePmcData, type: :model, vcr: true do
       response = subject.get_data(work)
       expect(response["hitCount"]).to eq(27737)
       cross_reference = response["dbCrossReferenceList"]["dbCrossReference"].first
-      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03005225")
+      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03000923")
     end
 
     it "should catch errors with the PMC Europe API" do

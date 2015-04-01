@@ -6,7 +6,7 @@ describe Source, :type => :model do
   it { is_expected.to have_many(:retrieval_statuses).dependent(:destroy) }
 
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:display_name) }
+  it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:timeout).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:max_failed_queries).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:rate_limiting).is_greater_than(0).only_integer.with_message("must be greater than 0") }

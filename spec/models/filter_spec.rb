@@ -69,7 +69,7 @@ describe Filter, :type => :model do
     subject { FactoryGirl.create(:filter) }
 
     it { is_expected.to validate_uniqueness_of(:name) }
-    it { is_expected.to validate_presence_of(:display_name) }
+    it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to respond_to(:raise_alerts) }
   end
 
@@ -111,18 +111,8 @@ describe Filter, :type => :model do
       end
     end
 
-    context "skipped" do
+    context "skipped because of errors" do
       let(:api_response) { FactoryGirl.create(:api_response, total: 0, skipped: true) }
-      let(:options) { { id: api_response.id } }
-
-      it "should not raise errors" do
-        expect(subject.run_filter(options)).to eq(0)
-        expect(Alert.count).to eq(0)
-      end
-    end
-
-    context "API errors" do
-      let(:api_response) { FactoryGirl.create(:api_response, total: nil) }
       let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do
@@ -219,7 +209,7 @@ describe Filter, :type => :model do
     subject { FactoryGirl.create(:work_not_updated_error) }
 
     let(:days) { 42 }
-    let(:api_response) { FactoryGirl.create(:api_response, total: nil, update_interval: days) }
+    let(:api_response) { FactoryGirl.create(:api_response, total: 0, skipped: true, update_interval: days) }
     let(:options) { { id: api_response.id } }
 
     it "should raise errors" do

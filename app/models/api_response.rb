@@ -15,7 +15,7 @@ class ApiResponse < ActiveRecord::Base
   scope :increasing, ->(number, source_ids) { where("update_interval IS NOT NULL").where("((total - previous_total) / update_interval) >= ?", number).where(source_id: source_ids) }
   scope :slow, ->(number) { where("duration >= ?", number * 1000).where(skipped: false) }
   scope :ratio, ->(number) { where("if(pdf, html / pdf, 0) >= ?", number).where(skipped: false) }
-  scope :work_not_updated, ->(number) { where("total IS NULL").where("update_interval >= ?", number) }
+  scope :work_not_updated, ->(number) { where("skipped = ?", true).where("update_interval >= ?", number) }
   scope :source_not_updated, ->(number) { where("update_interval >= ?", number) }
 
   # we need integer division, which is handled differently by MySQL and Postgres. Workaround is to use FLOOR.

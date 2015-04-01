@@ -120,12 +120,15 @@ class History
   end
 
   def save_to_works
-    works.map do |item|
+    works.each do |item|
       work = Work.find_or_create(item)
+      next if work.nil?
+
       relation_type_id = RelationType.where(name: "IsCitedBy").first
-      event = Event.create!(citation_id: work.id,
-                            source_id: rs.source_id,
-                            relation_type_id: relation_type_id)
+      event = Event.create(work_id: rs.work.id,
+                           child_id: work.id,
+                           source_id: rs.source_id,
+                           relation_type_id: relation_type_id)
       rs.work.events << event
     end
   end
