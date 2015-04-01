@@ -21,7 +21,7 @@ Lagotto::Application.routes.draw do
   resources :users
   resources :publishers, param: :member_id
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
-  resources :alerts
+  resources :alerts, param: :uuid
   resources :api_requests
   resources :filters
   resources :status, :only => [:index]
@@ -33,7 +33,7 @@ Lagotto::Application.routes.draw do
 
   get "/api", to: "api/index#index"
 
-  namespace :api, defaults: { format: "json" } do
+  namespace :api, defaults: { format: "lagotto_json" } do
     namespace :v3 do
       resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:index, :show]
     end
@@ -46,21 +46,19 @@ Lagotto::Application.routes.draw do
       resources :publishers, only: [:index], param: :member_id
     end
 
-    namespace :v6 do
-      resources :alerts
-      resources :api_requests, only: [:index]
+    scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
+      resources :alerts, param: :uuid
+      resources :api_requests, only: [:index], param: :uuid
       resources :docs, only: [:index, :show]
+      resources :events, only: [:index, :show]
       resources :groups, only: [:index, :show]
-      resources :publishers, only: [:index], param: :member_id
+      resources :metrics, only: [:index, :show]
+      resources :publishers, only: [:index, :show], param: :member_id
       resources :sources, only: [:index, :show], param: :name
-      resources :status, only: [:index]
+      resources :status, only: [:index], param: :uuid
       resources :works, constraints: { :id => /.+?/ }
     end
   end
-
-  # redirect from old admin namespace
-  get "/admin/:name", to: redirect("/%{name}")
-  get "/admin/", to: redirect("/status")
 
   # rescue routing errors
   match "*path", to: "alerts#routing_error", via: [:get, :post]
