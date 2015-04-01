@@ -9,12 +9,12 @@ json.meta do
 end
 
 json.works @works do |work|
-  json.cache! ['v5', work], skip_digest: true do
+  json.cache! ['v61', work], skip_digest: true do
     json.(work, :id, :issued, :update_date)
 
     if work.tracked
       json.sources work.filtered_retrieval_statuses do |rs|
-        json.cache! ['v5', rs, params[:info]], skip_digest: true do
+        json.cache! ['v6', rs], skip_digest: true do
           json.(rs, :name, :title, :group_name, :events_url, :by_day, :by_month, :by_year, :metrics, :update_date)
           json.events rs.events if params[:info] == "detail"
         end
