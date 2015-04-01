@@ -1,15 +1,12 @@
 require "rails_helper"
 
 describe "/api/v5/articles", :type => :api do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:api_key) { user.authentication_token }
-
   context "index" do
 
     context "more than 50 works in query" do
       let(:works) { FactoryGirl.create_list(:work_with_events, 55) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/v5/articles?ids=#{work_list}&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{work_list}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -41,7 +38,7 @@ describe "/api/v5/articles", :type => :api do
 
     context "default information" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -81,7 +78,7 @@ describe "/api/v5/articles", :type => :api do
 
     context "summary information" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&info=summary&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&info=summary" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -111,7 +108,7 @@ describe "/api/v5/articles", :type => :api do
 
     context "detail information" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&info=detail&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&info=detail" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -144,7 +141,7 @@ describe "/api/v5/articles", :type => :api do
         expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
 
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.totl)
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
         expect(item_source["events"]).not_to be_nil
         expect(item_source["by_day"]).not_to be_nil
@@ -156,7 +153,7 @@ describe "/api/v5/articles", :type => :api do
     context "by publisher" do
       let(:works) { FactoryGirl.create_list(:work_with_events, 10, publisher_id: 340) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/v5/articles?ids=#{work_list}&publisher=340&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=#{work_list}&publisher=340" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'

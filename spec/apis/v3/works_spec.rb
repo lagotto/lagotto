@@ -2,14 +2,13 @@ require "rails_helper"
 
 describe "/api/v3/articles", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
-  let(:api_key) { user.authentication_token }
 
   context "index" do
     let(:works) { FactoryGirl.create_list(:work_with_events, 55) }
 
     context "more than 50 works in query" do
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{work_list}&type=doi" }
+      let(:uri) { "/api/v3/articles?ids=#{work_list}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -42,13 +41,13 @@ describe "/api/v3/articles", :type => :api do
 
     context "show summary information" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{work.doi_escaped}&type=doi&info=summary" }
+      let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=summary" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         expect(last_response.status).to eql(200)
 
-        response = JSON.parse(last_response.body)[0]
+        response = JSON.parse(last_response.body)
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
         expect(response["sources"]).to be_nil
@@ -59,7 +58,7 @@ describe "/api/v3/articles", :type => :api do
         expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])[0]
+        response = JSON.parse(last_response.body[6...-1])
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
         expect(response["sources"]).to be_nil
@@ -68,13 +67,13 @@ describe "/api/v3/articles", :type => :api do
 
     context "show detail information" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{work.doi_escaped}&info=detail" }
+      let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=detail" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         expect(last_response.status).to eql(200)
 
-        response = JSON.parse(last_response.body)[0]
+        response = JSON.parse(last_response.body)
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
@@ -88,7 +87,7 @@ describe "/api/v3/articles", :type => :api do
         expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])[0]
+        response = JSON.parse(last_response.body[6...-1])
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
@@ -100,13 +99,13 @@ describe "/api/v3/articles", :type => :api do
 
     context "show event information" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles?api_key=#{api_key}&ids=#{work.doi_escaped}&info=event" }
+      let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=event" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
         expect(last_response.status).to eql(200)
 
-        response = JSON.parse(last_response.body)[0]
+        response = JSON.parse(last_response.body)
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
@@ -120,7 +119,7 @@ describe "/api/v3/articles", :type => :api do
         expect(last_response.status).to eql(200)
 
         # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])[0]
+        response = JSON.parse(last_response.body[6...-1])
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)

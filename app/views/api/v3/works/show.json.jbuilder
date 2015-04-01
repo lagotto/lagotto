@@ -1,4 +1,5 @@
-json.key_format! :underscore
+json.ignore_nil! false
+
 json.cache! ['v3', @work], skip_digest: true do
   json.(@work, :doi, :title, :url, :mendeley, :pmid, :pmcid, :publication_date, :update_date, :views, :shares, :bookmarks, :citations)
 
