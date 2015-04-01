@@ -80,13 +80,13 @@
       <div class="panel panel-default">
         <div class="panel-heading panel-title panel-list">
           <% if alert.level != 3 %><span class="pull-right"><%= level_label(alert.level).html_safe %></span><% end %>
-          <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "alert_#{alert.id}-link", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
+          <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.uuid}", :class => "accordion-toggle", :id => "alert_#{alert.uuid}-link", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.uuid}" %>
         </div>
-        <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
+        <div class="panel-collapse collapse" id="alert_<%= alert.uuid %>">
           <div class="panel-body alert-inner">
             <% if can?(:destroy, Alert) %>
               <div class="btn-group btn-group-sm pull-right">
-                <a class="btn btn-default dropdown-toggle" id="alert_<%= alert.id %>-delete" data-toggle="dropdown" href="#">
+                <a class="btn btn-default dropdown-toggle" id="alert_<%= alert.uuid %>-delete" data-toggle="dropdown" href="#">
                   <%= icon("trash") %> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -99,7 +99,7 @@
                                                                   method: :delete,
                                                                   data: { :confirm => 'Are you sure?' },
                                                                   remote: true,
-                                                                  id: "alert_#{alert.id}-delete-message" %></li>
+                                                                  id: "alert_#{alert.uuid}-delete-message" %></li>
                   <li><%= link_to "by Class", alert_path(alert, q: params[:q],
                                                                 source_id: params[:source_id],
                                                                 level: params[:level],
@@ -110,7 +110,7 @@
                                                                 method: :delete,
                                                                 data: { :confirm => 'Are you sure?' },
                                                                 remote: true,
-                                                                id: "alert_#{alert.id}-delete-class" %></li>
+                                                                id: "alert_#{alert.uuid}-delete-class" %></li>
                   <% unless alert.source_id.nil? %>
                     <li><%= link_to "by Source", alert_path(alert, q: params[:q],
                                                                    source_id: params[:source_id],
@@ -122,7 +122,7 @@
                                                                    method: :delete,
                                                                    data: { :confirm => 'Are you sure?' },
                                                                    remote: true,
-                                                                   id: "alert_#{alert.id}-delete-source" %></li>
+                                                                   id: "alert_#{alert.uuid}-delete-source" %></li>
                   <% end %>
                 </ul>
               </div>

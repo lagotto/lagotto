@@ -82,7 +82,7 @@ class Work < ActiveRecord::Base
   end
 
   def to_param
-    "#{pid_type}/#{pid}"
+    pid
   end
 
   def events_count
@@ -227,6 +227,10 @@ class Work < ActiveRecord::Base
   alias_method :discussed, :shares
   alias_method :cited, :citations
 
+  def metrics
+    sources.pluck(:name, :total)
+  end
+
   def issued
     { "date-parts" => [[year, month, day].reject(&:blank?)] }
   end
@@ -311,19 +315,19 @@ class Work < ActiveRecord::Base
   # pid is required, use doi, pmid, pmcid, wos, scp or canonical url in that order
   def set_pid
     if doi.present?
-      write_attribute(:pid, doi)
+      write_attribute(:pid, "doi:#{doi}")
       write_attribute(:pid_type, "doi")
     elsif pmid.present?
-      write_attribute(:pid, pmid)
+      write_attribute(:pid, "pmid:#{pmid}")
       write_attribute(:pid_type, "pmid")
     elsif pmcid.present?
-      write_attribute(:pid, "PMC#{pmcid}")
+      write_attribute(:pid, "pmcid:PMC#{pmcid}")
       write_attribute(:pid_type, "pmcid")
     elsif wos.present?
-      write_attribute(:pid, wos)
+      write_attribute(:pid, "wos:#{wos}")
       write_attribute(:pid_type, "wos")
     elsif scp.present?
-      write_attribute(:pid, scp)
+      write_attribute(:pid, "scp:#{scp}")
       write_attribute(:pid_type, "scp")
     elsif ark.present?
       write_attribute(:pid, ark)
