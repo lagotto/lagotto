@@ -1,206 +1,167 @@
 require "rails_helper"
 
 describe "/api/v6/works", :type => :api do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:headers) do
-    { "HTTP_ACCEPT" => "application/json",
-      "Authorization" => "Token token=#{user.api_key}" }
-  end
-  let(:jsonp_headers) do
-    { "HTTP_ACCEPT" => "application/javascript",
-      "Authorization" => "Token token=#{user.api_key}" }
-  end
+  let(:headers) { { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6" } }
 
   context "index" do
+    let(:works) { FactoryGirl.create_list(:work_with_events, 50) }
 
-    context "more than 50 works in query" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 55) }
-      let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/v6/works?ids=#{work_list}" }
+    context "works found via DOI" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=doi"
+      end
 
-      it "JSON" do
-        get uri, nil, headers
+      it "no format" do
+        get @uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["works"]
         expect(data.length).to eq(50)
         expect(data.any? do |work|
           work["doi"] == works[0].doi
-          work["issued"]["date-parts"][0] == [works[0].year, works[0].month, works[0].day]
+          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end
 
-      it "JSONP" do
-        get "#{uri}&callback=_func", nil, jsonp_headers
-        expect(last_response.status).to eql(200)
+      it "JSON" do
+        get @uri, nil, headers
+        expect(last_response.status).to eq(200)
 
-        # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])
-        data = response["data"]
+        response = JSON.parse(last_response.body)
+        data = response["works"]
         expect(data.length).to eq(50)
         expect(data.any? do |work|
           work["doi"] == works[0].doi
-          work["issued"]["date-parts"][0] == [works[0].year, works[0].month, works[0].day]
+          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end
     end
 
-    context "default information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v6/works?ids=#{work.doi_escaped}" }
+    context "works found via PMID" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.pmid}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=pmid"
+      end
 
       it "JSON" do
-        get uri, nil, headers
+        get @uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["total"]).to eq(1)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-        item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["by_day"]).not_to be_nil
-        expect(item_source["by_month"]).not_to be_nil
-        expect(item_source["by_year"]).not_to be_nil
-      end
-
-      it "JSONP" do
-        get "#{uri}&callback=_func", nil, jsonp_headers
-        expect(last_response.status).to eql(200)
-
-        # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])
-        expect(response["total"]).to eq(1)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-        item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["by_day"]).not_to be_nil
-        expect(item_source["by_month"]).not_to be_nil
-        expect(item_source["by_year"]).not_to be_nil
+        data = response["works"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["pmid"] == works[0].pmid
+        end).to be true
       end
     end
 
-    context "summary information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v6/works?ids=#{work.doi_escaped}&info=summary" }
+    context "works found via PMCID" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.pmcid}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=pmcid"
+      end
 
       it "JSON" do
-        get uri, nil, headers
+        get @uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["total"]).to eq(1)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-        expect(item["sources"]).to be_nil
-      end
-
-      it "JSONP" do
-        get "#{uri}&callback=_func", nil, jsonp_headers
-        expect(last_response.status).to eql(200)
-
-        # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])
-        expect(response["total"]).to eq(1)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-        expect(item["sources"]).to be_nil
+        data = response["works"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["pmcid"] == works[0].pmcid
+        end).to be true
       end
     end
 
-    context "detail information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v6/works?ids=#{work.doi_escaped}&info=detail" }
+    context "works found via wos" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.wos}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=wos"
+      end
 
       it "JSON" do
-        get uri, nil, headers
+        get @uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["total"]).to eq(1)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-
-        item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["events"]).not_to be_nil
-        expect(item_source["by_day"]).not_to be_nil
-        expect(item_source["by_month"]).not_to be_nil
-        expect(item_source["by_year"]).not_to be_nil
-      end
-
-      it "JSONP" do
-        get "#{uri}&callback=_func", nil, jsonp_headers
-        expect(last_response.status).to eql(200)
-
-        # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])
-        expect(response["total"]).to eq(1)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-
-        item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.totl)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["events"]).not_to be_nil
-        expect(item_source["by_day"]).not_to be_nil
-        expect(item_source["by_month"]).not_to be_nil
-        expect(item_source["by_year"]).not_to be_nil
+        data = response["works"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["wos"] == works[0].wos
+        end).to be true
       end
     end
 
-    context "by publisher" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 10, publisher_id: 340) }
-      let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/v6/works?ids=#{work_list}&publisher=340" }
+    context "works found via scp" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.scp}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=scp"
+      end
 
       it "JSON" do
-        get uri, nil, headers
-        work = works.first
+        get @uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["total"]).to eq(10)
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-        item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["by_day"]).not_to be_nil
-        expect(item_source["by_month"]).not_to be_nil
-        expect(item_source["by_year"]).not_to be_nil
+        data = response["works"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["scp"] == works[0].scp
+        end).to be true
+      end
+    end
+
+    context "works found via URL" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.canonical_url}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=url"
       end
 
-      it "JSONP" do
-        get "#{uri}&callback=_func", nil, jsonp_headers
-        work = works.first
-        expect(last_response.status).to eql(200)
+      it "JSON" do
+        get @uri, nil, headers
+        expect(last_response.status).to eq(200)
 
-        # remove jsonp wrapper
-        response = JSON.parse(last_response.body[6...-1])
-        expect(response["total"]).to eq(10)
-        item = response["data"].first
-        item = response["data"].first
-        expect(item["doi"]).to eq(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eq([work.year, work.month, work.day])
-        item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
-        expect(item_source["by_day"]).not_to be_nil
-        expect(item_source["by_month"]).not_to be_nil
-        expect(item_source["by_year"]).not_to be_nil
+        response = JSON.parse(last_response.body)
+        data = response["works"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["url"] == works[0].canonical_url
+        end).to be true
+      end
+    end
+
+    context "no identifiers" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
+        @uri = "/api/works"
+      end
+
+      it "JSON" do
+        get @uri, nil, headers
+        response = JSON.parse(last_response.body)
+        expect(last_response.status).to eq(200)
+
+        data = response["works"]
+        expect(data.length).to eq(50)
+        expect(data.any? do |work|
+          work["doi"] == works[0].doi
+          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
+        end).to be true
+      end
+    end
+
+    context "no records found" do
+      let(:uri) { "/api/works?ids=xxx" }
+      let(:nothing_found) { { "meta" => { "status" => "ok", "message_type" => "work-list", "total" => 0, "total_pages" => 1, "page" => 0 }, "works" => [] } }
+
+      it "JSON" do
+        get uri, nil, headers
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq(nothing_found.to_json)
       end
     end
   end

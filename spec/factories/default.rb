@@ -14,6 +14,7 @@ FactoryGirl.define do
     month { Time.zone.now.to_date.month }
     day { Time.zone.now.to_date.day }
     publisher_id 340
+    csl {{}}
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -22,8 +23,8 @@ FactoryGirl.define do
 
     factory :work_with_events do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, work: work)
-        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work)
+        FactoryGirl.create(:retrieval_status, work: work, readers: 50)
+        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work, readers: 50)
       end
     end
 
@@ -130,16 +131,7 @@ FactoryGirl.define do
 
   factory :retrieval_status do
     total 50
-    event_metrics do
-      { :pdf => 0,
-        :html => 0,
-        :shares => total,
-        :groups => 0,
-        :comments => 0,
-        :likes => 0,
-        :citations => 0,
-        :total => total }
-    end
+    readers 50
     retrieved_at { Time.zone.now - 1.month }
     sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 

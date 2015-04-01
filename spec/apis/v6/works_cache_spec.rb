@@ -3,7 +3,7 @@ require "rails_helper"
 describe "/api/v6/works", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/json",
+    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
       "Authorization" => "Token token=#{user.api_key}" }
   end
 
@@ -12,7 +12,7 @@ describe "/api/v6/works", :type => :api do
     context "index" do
       let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "http://#{ENV['HOSTNAME']}/api/v6/works?ids=#{work_list}&type=doi" }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work_list}&type=doi" }
 
       it "can cache works" do
         works.all? do |work|
@@ -53,7 +53,7 @@ describe "/api/v6/works", :type => :api do
 
     context "work is updated" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "http://#{ENV['HOSTNAME']}/api/v6/works?ids=#{work.doi_escaped}" }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work.doi_escaped}" }
       let(:key) { "jbuilder/v6/#{work.decorate(:context => { source: 'citeulike' }).cache_key}" }
       let(:title) { "Foo" }
       let(:total) { 75 }
@@ -126,7 +126,7 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         expect(response["total"]).to eq(1)
-        item = response["data"].first
+        item = response["works"].first
         expect(item["doi"]).to eql(work.doi)
         expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
         expect(item["sources"]).to be_empty
@@ -144,7 +144,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"][0]
+        data = response["works"][0]
         expect(data["doi"]).to eql(work.doi)
         expect(data["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
 
@@ -158,7 +158,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"][0]
+        data = response["works"][0]
         expect(data["sources"]).to be_nil
         expect(data["doi"]).to eql(work.doi)
         expect(data["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])

@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe "/api/v6/alerts", :type => :api do
   let(:error) { { "error" => "You are not authorized to access this page."} }
+  let(:user) { FactoryGirl.create(:admin_user) }
   let(:headers) do
     { "HTTP_ACCEPT" => "application/json",
       "Authorization" => "Token token=#{user.api_key}" }
@@ -9,26 +10,23 @@ describe "/api/v6/alerts", :type => :api do
 
   context "index" do
     context "most recent articles" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts" }
-
-      before(:each) { FactoryGirl.create_list(:alert, 55) }
+      let!(:alert) { FactoryGirl.create_list(:alert, 55) }
 
       it "JSON" do
         get uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(50)
-        alert = data.first
-        expect(alert["level"]).to eq ("WARN")
-        expect(alert["message"]).to eq ("The request timed out.")
+        item = data.first
+        expect(item["level"]).to eq ("WARN")
+        expect(item["message"]).to eq ("The request timed out.")
       end
     end
 
     context "only unresolved alerts" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts?unresolved=1" }
 
       before(:each) do
@@ -41,7 +39,7 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(1)
         alert = data.first
         expect(alert["unresolved"]).to be true
@@ -49,7 +47,6 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with source" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts?source_id=citeulike" }
 
       before(:each) do
@@ -62,7 +59,7 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(1)
         alert = data.first
         expect(alert["source"]).to eq ("citeulike")
@@ -70,7 +67,6 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with class_name" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts?class_name=nomethoderror" }
 
       before(:each) do
@@ -83,7 +79,7 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(1)
         alert = data.first
         expect(alert["class_name"]).to eq ("NoMethodError")
@@ -91,7 +87,6 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with level ERROR" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts?level=error" }
 
       before(:each) do
@@ -104,7 +99,7 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(1)
         alert = data.first
         expect(alert["level"]).to eq ("ERROR")
@@ -112,7 +107,6 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with query" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts?q=nomethod" }
 
       before(:each) do
@@ -125,7 +119,7 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(1)
         alert = data.first
         expect(alert["class_name"]).to eq ("NoMethodError")
@@ -133,7 +127,6 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with pagination" do
-      let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/v6/alerts?page=2" }
 
       before(:each) { FactoryGirl.create_list(:alert, 55) }
@@ -143,8 +136,21 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
+        data = response["alerts"]
         expect(data.length).to eq(5)
+      end
+    end
+
+    context "as staff user" do
+      let(:user) { FactoryGirl.create(:user, :role => "staff") }
+      let(:uri) { "/api/v6/alerts" }
+
+      it "JSON" do
+        get uri, nil, headers
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        expect(response).to eq (error)
       end
     end
 
