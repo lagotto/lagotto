@@ -23,6 +23,8 @@ class RetrievalStatus < ActiveRecord::Base
   delegate :title, :to => :source
   delegate :group, :to => :source
 
+  default_scope { order("updated_at DESC") }
+
   scope :with_events, -> { where("total > ?", 0) }
   scope :without_events, -> { where("total = ?", 0) }
   scope :most_cited, -> { with_events.order("total desc").limit(25) }
@@ -52,6 +54,10 @@ class RetrievalStatus < ActiveRecord::Base
     data = source.parse_data(result, work, work_id: work_id, source_id: source_id)
     history = History.new(id, data)
     history.to_hash
+  end
+
+  def to_param
+    "#{source.name}:#{work.pid}"
   end
 
   def events
@@ -87,7 +93,7 @@ class RetrievalStatus < ActiveRecord::Base
                    readers: readers,
                    comments: comments,
                    likes: likes,
-                   total: total }
+                   total: total }.reject { |k,v| v.to_i == 0 }
   end
 
   # for backwards compatibility with v3 API
@@ -120,10 +126,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   def cache_key
     "#{id}/#{update_date}"
-  end
-
-  def rs_id
-    "#{source.name}:#{work.pid}"
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval

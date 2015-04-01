@@ -8,5 +8,5 @@ json.meta do
 end
 
 json.api_requests @api_requests do |api_request|
-  json.(api_request, :api_key, :info, :source, :ids, :db_duration, :view_duration, :duration, :date)
+  json.(api_request, :id, :api_key, :info, :source, :ids, :db_duration, :view_duration, :duration, :date)
 end

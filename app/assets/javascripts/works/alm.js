@@ -48,7 +48,7 @@ if (query) {
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
-      options.almStatsJson = json.works;
+      options.almStatsJson = json.metrics;
       var almviz = new AlmViz(options);
       almviz.initViz();
   });
