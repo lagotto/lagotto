@@ -54,8 +54,10 @@ Lagotto::Application.routes.draw do
       resources :groups, only: [:index, :show]
       resources :metrics, only: [:index, :show], param: :pid
       resources :publishers, only: [:index, :show], param: :member_id
+      resources :relation_types, only: [:index, :show], param: :name
       resources :sources, only: [:index, :show], param: :name
       resources :status, only: [:index], param: :uuid
+      resources :work_types, only: [:index, :show], param: :name
       resources :works, constraints: { :id => /.+?/ }
     end
   end
