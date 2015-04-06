@@ -18,8 +18,8 @@ class Work < ActiveRecord::Base
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts, :dependent => :destroy
   has_many :api_responses
-  has_many :events
-  has_many :citations, :through => :events
+  has_many :relations
+  has_many :related_works, :through => :relations
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
@@ -123,7 +123,7 @@ class Work < ActiveRecord::Base
 
   def get_url
     return true if canonical_url.present?
-    return false if doi.blank?
+    return false unless doi.present?
 
     url = get_canonical_url(doi_as_url, work_id: id)
 
