@@ -70,3 +70,7 @@ treaty = WorkType.where(name: 'treaty').first_or_create(
   title: 'Treaty')
 webpage = WorkType.where(name: 'webpage').first_or_create(
   title: 'Webpage', container: 'Website')
+
+# custom work type, will be added to CSL spec
+computer_program = WorkType.where(name: 'computer_program').first_or_create(
+  title: 'Computer Program')

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401094916) do
+ActiveRecord::Schema.define(version: 20150403115959) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -101,15 +101,6 @@ ActiveRecord::Schema.define(version: 20150401094916) do
 
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
 
-  create_table "events", force: :cascade do |t|
-    t.integer  "work_id",          limit: 4, null: false
-    t.integer  "citation_id",      limit: 4, null: false
-    t.integer  "source_id",        limit: 4
-    t.integer  "relation_type_id", limit: 4, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
   create_table "filters", force: :cascade do |t|
     t.string   "type",        limit: 255,                  null: false
     t.string   "name",        limit: 255,                  null: false
@@ -171,9 +162,20 @@ ActiveRecord::Schema.define(version: 20150401094916) do
   add_index "publishers", ["member_id"], name: "index_publishers_on_member_id", unique: true, using: :btree
 
   create_table "relation_types", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",          limit: 255, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "title",         limit: 255
+    t.string   "inverse_title", limit: 255
+  end
+
+  create_table "relations", force: :cascade do |t|
+    t.integer  "work_id",          limit: 4, null: false
+    t.integer  "related_work_id",  limit: 4, null: false
+    t.integer  "source_id",        limit: 4
+    t.integer  "relation_type_id", limit: 4, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "reports", force: :cascade do |t|
@@ -268,7 +270,7 @@ ActiveRecord::Schema.define(version: 20150401094916) do
     t.boolean  "queueable",   limit: 1,     default: true
     t.string   "state_event", limit: 255
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.boolean  "eventable",   limit: 1,     default: true
+    t.boolean  "workable",    limit: 1,     default: true
   end
 
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
