@@ -1,18 +1,17 @@
 class Wos < Source
   def get_query_url(work)
-    return nil unless work.doi.present?
+    return {} unless work.doi.present?
 
     url_private
   end
 
   def get_data(work, options={})
     query_url = get_query_url(work)
-    if query_url.nil?
-      result = {}
-    else
-      data = get_xml_request(work)
-      result = get_result(query_url, options.merge(content_type: 'xml', data: data))
-    end
+    return query_url if query_url.is_a?(Hash)
+
+    data = get_xml_request(work)
+    result = get_result(query_url, options.merge(content_type: 'xml', data: data))
+
     result.extend Hashie::Extensions::DeepFetch
   end
 
@@ -36,13 +35,11 @@ class Wos < Source
     total = 0 if total > 100000
     events_url = values[2]
 
-    { events: [],
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(citations: total),
-      extra: nil }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url } }
   end
 
   def check_error_status(result, work)

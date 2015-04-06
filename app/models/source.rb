@@ -78,7 +78,7 @@ class Source < ActiveRecord::Base
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
   scope :queueable, -> { active.where("queueable = ?", true) }
-  scope :eventable, -> { visible.where("eventable = ?", true) }
+  scope :workable, -> { visible.where("workable = ?", true) }
 
   # some sources cannot be redistributed
   scope :public_sources, -> { where(private: false) }
@@ -164,14 +164,12 @@ class Source < ActiveRecord::Base
 
   def get_data(work, options={})
     query_url = get_query_url(work)
-    if query_url.nil?
-      result = {}
-    else
-      result = get_result(query_url, options.merge(request_options))
+    return query_url if query_url.is_a?(Hash)
 
-      # make sure we return a hash
-      result = { 'data' => result } unless result.is_a?(Hash)
-    end
+    result = get_result(query_url, options.merge(request_options))
+
+    # make sure we return a hash
+    result = { 'data' => result } unless result.is_a?(Hash)
 
     # extend hash fetch method to nested hashes
     result.extend Hashie::Extensions::DeepFetch
@@ -187,20 +185,28 @@ class Source < ActiveRecord::Base
     # return early if an error occured that is not a not_found error
     return result if result[:error]
 
-    options.merge!(response_options)
-    metrics = options[:metrics] || :citations
-
-    events = get_events(result)
+    related_works = get_related_works(result, work)
     extra = get_extra(result)
-    events_url = events.length > 0 ? get_events_url(work) : nil
+    events_url = related_works.length > 0 ? get_events_url(work) : nil
 
-    { events: events,
-      events_by_day: get_events_by_day(events, work),
-      events_by_month: get_events_by_month(events),
-      events_url: events_url,
-      total: events.length,
-      event_metrics: get_event_metrics(metrics => events.length),
-      extra: extra }
+    options.merge!(response_options)
+    options[:metrics] ||= :total
+    metrics = get_metrics(options[:metrics] => related_works.length)
+
+    { works: related_works,
+      metrics: {
+        source: name,
+        work: work.pid,
+        pdf: metrics[:pdf],
+        html: metrics[:html],
+        readers: metrics[:readers],
+        comments: metrics[:comments],
+        likes: metrics[:likes],
+        total: metrics[:total],
+        events_url: events_url,
+        extra: extra,
+        days: get_events_by_day(related_works, work),
+        months: get_events_by_month(related_works) }.compact }
   end
 
   def get_events_by_day(events, work)
@@ -237,21 +243,25 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(work, options = {})
+    return { error: "Source url is missing." } unless url.present?
+
     query_string = get_query_string(work)
-    return nil unless url.present? && query_string.present?
+    return query_string if query_string.is_a?(Hash)
 
     url % { query_string: query_string }
   end
 
   def get_events_url(work)
+    return { error: "Source events_url is missing." } unless events_url.present?
+
     query_string = get_query_string(work)
-    return nil unless events_url.present? && query_string.present?
+    return query_string if query_string.is_a?(Hash)
 
     events_url % { query_string: query_string }
   end
 
   def get_query_string(work)
-    return nil unless work.get_url || work.doi.present?
+    return {} unless work.get_url || work.doi.present?
 
     [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end

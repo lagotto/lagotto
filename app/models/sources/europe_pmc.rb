@@ -3,7 +3,7 @@ class EuropePmc < Source
   include Pmcable
 
   def get_query_url(work, options = {})
-    return nil unless url.present? && work.get_ids && work.pmid.present?
+    return {} unless work.get_ids && work.pmid.present?
 
     page = options[:page] || 1
 

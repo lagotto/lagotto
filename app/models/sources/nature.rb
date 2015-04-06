@@ -1,9 +1,11 @@
 class Nature < Source
   def get_query_string(work)
+    return {} unless work.doi.present?
+
     work.doi_escaped
   end
 
-  def get_events(result)
+  def get_related_works(result, work)
     Array(result['data']).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       timestamp = get_iso8601_from_time(item.fetch("post", {}).fetch("created_at", nil))
@@ -16,7 +18,10 @@ class Nature < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => url,
-        "type" => 'post' }
+        "type" => 'post',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

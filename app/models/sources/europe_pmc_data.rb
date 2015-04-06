@@ -1,11 +1,11 @@
 class EuropePmcData < Source
   def get_query_url(work)
     if url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/MED/")
-      return nil unless url.present? && work.get_ids && work.pmid.present?
+      return {} unless work.get_ids && work.pmid.present?
 
       url % { :pmid => work.pmid }
     elsif url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/search/query")
-      return nil unless work.doi.present?
+      return {} unless work.doi.present?
 
       url % { :doi => work.doi }
     end
@@ -16,38 +16,41 @@ class EuropePmcData < Source
     result = result.fetch("responseWrapper", nil) || result
 
     total = result.fetch("hitCount", nil).to_i
-    events = get_events(result)
+    related_works = get_related_works(result, work)
+    extra = get_extra(result, work)
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(citations: total),
-      extra: nil }
+    { works: related_works,
+      metrics: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url,
+        extra: extra } }
   end
 
-  def get_events(result)
-    if result.fetch("dbCountList", nil)
-      result["dbCountList"]["db"].reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
-    elsif result.fetch("resultList", nil)
-      result.extend Hashie::Extensions::DeepFetch
-      events = result.deep_fetch('resultList', 'result') { nil }
-      events = [events] if events.is_a?(Hash)
-      Array(events).map do |item|
-        url = item['pmid'].nil? ? nil : "http://europepmc.org/abstract/MED/#{item['pmid']}"
+  def get_related_works(result, work)
+    result.extend Hashie::Extensions::DeepFetch
+    related_works = result.deep_fetch('resultList', 'result') { nil }
+    related_works = [related_works] if related_works.is_a?(Hash)
+    Array(related_works).map do |item|
+      url = item['pmid'].nil? ? nil : "http://europepmc.org/abstract/MED/#{item['pmid']}"
 
-        { "author" => get_authors([item.fetch('authorString', "")]),
-          "title" => item.fetch('title', nil),
-          "container-title" => item.fetch('journalTitle', nil),
-          "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
-          "URL" => url,
-          "type" => 'article-journal' }
-      end
-    else
-      []
+      { "author" => get_authors([item.fetch('authorString', "")]),
+        "title" => item.fetch('title', nil),
+        "container-title" => item.fetch('journalTitle', nil),
+        "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
+        "URL" => url,
+        "type" => 'article-journal',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "cites" }] }
     end
+  end
+
+  def get_extra(result, work)
+    result = result.deep_fetch('dbCountList', 'db') { [] }
+    result.reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
   end
 
   def get_events_url(work)

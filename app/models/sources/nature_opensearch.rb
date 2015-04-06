@@ -1,7 +1,7 @@
 class NatureOpensearch < Source
   def get_query_url(work, options = {})
     query_string = get_query_string(work)
-    return nil unless url.present? && query_string.present?
+    return {} unless query_string.present?
 
     start_record = options[:start_record] || 1
 
@@ -10,22 +10,20 @@ class NatureOpensearch < Source
 
   def get_data(work, options={})
     query_url = get_query_url(work, options)
-    if query_url.nil?
-      result = {}
-    else
-      result = get_result(query_url, options)
-      total = (result.fetch("feed", {}).fetch("opensearch:totalResults", nil)).to_i
+    return query_url if query_url.is_a?(Hash)
 
-      if total > rows
-        # walk through paginated results
-        total_pages = (total.to_f / rows).ceil
+    result = get_result(query_url, options)
+    total = (result.fetch("feed", {}).fetch("opensearch:totalResults", nil)).to_i
 
-        (2..total_pages).each do |page|
-          options[:start_record] = page * 25 + 1
-          query_url = get_query_url(work, options)
-          paged_result = get_result(query_url, options)
-          result["feed"]["entry"] = result["feed"]["entry"] | paged_result.fetch("feed", {}).fetch("entry", [])
-        end
+    if total > rows
+      # walk through paginated results
+      total_pages = (total.to_f / rows).ceil
+
+      (2..total_pages).each do |page|
+        options[:start_record] = page * 25 + 1
+        query_url = get_query_url(work, options)
+        paged_result = get_result(query_url, options)
+        result["feed"]["entry"] = result["feed"]["entry"] | paged_result.fetch("feed", {}).fetch("entry", [])
       end
     end
 
@@ -36,19 +34,21 @@ class NatureOpensearch < Source
   def parse_data(result, work, options={})
     return result if result[:error] || result["feed"].nil?
 
-    events = get_events(result, work)
-    total = events.length
+    related_works = get_related_works(result, work)
+    total = related_works.length
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(citations: total) }
+    { works: related_works,
+      metrics: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url,
+        days: get_events_by_day(related_works, work),
+        months: get_events_by_month(related_works) } }
   end
 
-  def get_events(result, work)
+  def get_related_works(result, work)
     # result.deep_fetch("sru:recordData", "pam:message", "pam:article", "xhtml:head") { nil }
     result.fetch("feed", {}).fetch("entry", []).map do |item|
       item.extend Hashie::Extensions::DeepFetch
@@ -67,7 +67,10 @@ class NatureOpensearch < Source
         "timestamp" => timestamp,
         "DOI" => doi,
         "URL" => url,
-        "type" => "article-journal" }
+        "type" => "article-journal",
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "cites" }] }
     end
   end
 

@@ -10,11 +10,6 @@ describe CrossRef, type: :model, vcr: true do
     expect(subject.get_data(work)).to eq({})
   end
 
-  it "should report that there are no events if work was published on the same day" do
-    work = FactoryGirl.build(:work, :published_on => Time.zone.today)
-    expect(subject.get_data(work)).to eq({})
-  end
-
   context "publisher_configs" do
     it "all publisher_configs" do
       config = subject.publisher_configs.first[1]
@@ -36,7 +31,7 @@ describe CrossRef, type: :model, vcr: true do
 
     it "without password" do
       crossref = FactoryGirl.create(:crossref_without_password)
-      expect(crossref.get_query_url(work)).to be_nil
+      expect(crossref.get_query_url(work)).to eq(error: "CrossRef username or password is missing.")
     end
 
     it "without publisher" do
@@ -115,13 +110,13 @@ describe CrossRef, type: :model, vcr: true do
   end
 
   context "parse_data from the CrossRef API" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :extra=>nil } }
+    let(:null_response) { { works: [], metrics: { source: "crossref", work: work.pid, total: 0 } } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      result = {}
+      result = { error: "DOI is missing." }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(error: "DOI is missing.")
     end
 
     it "should report if there are no events returned by the CrossRef API" do
@@ -137,10 +132,10 @@ describe CrossRef, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(31)
-      expect(response[:total]).to eq(31)
+      expect(response[:works].length).to eq(31)
+      expect(response[:metrics][:total]).to eq(31)
 
-      event = response[:events].first
+      event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
       expect(event["URL"]).to eq("http://dx.doi.org/10.3758/s13423-011-0070-4")
       expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
@@ -151,6 +146,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(event['issue']).to eq("3")
       expect(event['page']).to eq("429")
       expect(event['type']).to eq("article-journal")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
     end
 
     it "should report if there is one event returned by the CrossRef API" do
@@ -158,10 +154,10 @@ describe CrossRef, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(1)
-      expect(response[:total]).to eq(1)
+      expect(response[:works].length).to eq(1)
+      expect(response[:metrics][:total]).to eq(1)
 
-      event = response[:events].first
+      event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
       expect(event["URL"]).to eq("http://dx.doi.org/10.3758/s13423-011-0070-4")
       expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
@@ -169,6 +165,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(event['container-title']).to eq("Psychonomic Bulletin & Review")
       expect(event['issued']).to eq("date-parts"=>[[2011]])
       expect(event['type']).to eq("article-journal")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
     end
 
     it "should catch timeout errors with the CrossRef API" do
@@ -180,7 +177,7 @@ describe CrossRef, type: :model, vcr: true do
 
   context "parse_data from the CrossRef OpenURL API" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/work/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil) }
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :extra=>nil } }
+    let(:null_response) { { works: [], metrics: { source: "crossref", work: work.pid, total: 0 } } }
 
     it "should report if the doi is missing" do
       result = {}
@@ -201,7 +198,7 @@ describe CrossRef, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(13)
+      expect(response[:metrics][:total]).to eq(13)
     end
 
     it "should catch timeout errors with the CrossRef OpenURL API" do

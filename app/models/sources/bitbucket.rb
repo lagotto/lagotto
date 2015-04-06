@@ -5,18 +5,20 @@ class Bitbucket < Source
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    shares = result.fetch("forks_count", 0)
+    readers = result.fetch("forks_count", 0)
     likes = result.fetch("followers_count", 0)
-    total = shares + likes
-    events = result.slice("followers_count", "forks_count", "description", "utc_created_on")
+    total = readers + likes
+    extra = result.slice("followers_count", "forks_count", "description", "utc_created_on")
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(shares: shares, likes: likes, total: total) }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        readers: readers,
+        likes: likes,
+        total: total,
+        events_url: events_url,
+        extra: extra } }
   end
 
   def config_fields

@@ -4,10 +4,10 @@ class TwitterSearch < Source
   end
 
   def get_query_url(work, options = {})
-    return nil unless get_access_token
-
     query_string = get_query_string(work)
-    return nil unless url.present? && query_string.present?
+    return {} unless query_string.present?
+
+    return { error: "No access token." } unless get_access_token
 
     url % { query_string: query_string }
   end
@@ -16,21 +16,21 @@ class TwitterSearch < Source
     # return early if an error occured
     return result if result[:error]
 
-    events = get_events(result)
+    related_works = get_related_works(result, work)
     extra = get_extra(result)
     extra = update_extra(work, extra)
 
-    { events: events,
-      events_by_day: get_events_by_day(events, work),
-      events_by_month: get_events_by_month(events),
-      events_url: get_events_url(work),
-      comments: events.length,
-      total: events.length,
-      event_metrics: get_event_metrics(:comments => events.length),
-      extra: extra }
+    { works: related_works,
+      metrics: {
+        comments: related_works.length,
+        total: related_works.length,
+        events_url: get_events_url(work),
+        extra: extra,
+        days: get_events_by_day(related_works, work),
+        months: get_events_by_month(related_works) } }
   end
 
-  def get_events(result)
+  def get_related_works(result, work)
     Array(result['statuses']).map do |item|
       if item.key?("from_user")
         user = item["from_user"]
@@ -51,7 +51,10 @@ class TwitterSearch < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => url,
-        "type" => "personal_communication" }
+        "type" => "personal_communication",
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

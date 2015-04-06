@@ -4,13 +4,13 @@ class Citeulike < Source
   end
 
   def response_options
-    { metrics: :shares }
+    { metrics: :readers }
   end
 
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+
+    url % { doi: work.doi_escaped }
   end
 
   def get_events_url(work)
@@ -19,10 +19,10 @@ class Citeulike < Source
     end
   end
 
-  def get_events(result)
-    events = result["posts"] && result.fetch("posts", {}).fetch("post", [])
-    events = [events] if events.is_a?(Hash)
-    Array(events).map do |item|
+  def get_related_works(result, work)
+    related_works = result["posts"] && result.fetch("posts", {}).fetch("post", [])
+    related_works = [related_works] if related_works.is_a?(Hash)
+    Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
       author = get_authors([item.fetch("post", {}).fetch("username", nil)].reject(&:blank?))
 
@@ -33,7 +33,10 @@ class Citeulike < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => item.fetch("link", {}).fetch("url", nil),
-        "type" => "entry" }
+        "type" => "entry",
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "bookmarks" }] }
     end
   end
 

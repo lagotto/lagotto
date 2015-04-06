@@ -1,8 +1,9 @@
 class Pmc < Source
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+    return { error: "Source url is missing." } if url.present?
+
+    url % { doi: work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
@@ -17,13 +18,15 @@ class Pmc < Source
     total = html + pdf
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { events: [],
-      events_by_day: [],
-      events_by_month: get_events_by_month(extra),
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total),
-      extra: extra }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        pdf: pdf,
+        html: html,
+        total: total,
+        events_url: events_url,
+        extra: extra,
+        months: get_events_by_month(extra) } }
   end
 
   def get_events_by_month(extra)

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:bmc_fulltext) }
 
-  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -24,14 +24,14 @@ describe BmcFulltext, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events returned by the BMC Search API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work)
-      expect(response["entries"].length).to eq(0)
+      expect(response).to eq({})
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
@@ -55,10 +55,8 @@ describe BmcFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
-
     it "should report that there are no events if the doi has the wrong prefix" do
-      work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
       expect(subject.parse_data(result, work)).to eq({})
     end
@@ -66,22 +64,23 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the BMC Search API" do
       body = File.read(fixture_path + 'bmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "bmc_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", published_on: "2009-03-15")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", published_on: "2009-03-15")
       body = File.read(fixture_path + 'bmc_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(16)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 16, total: 16)
+      expect(response[:works].length).to eq(16)
+      expect(response[:metrics][:total]).to eq(16)
+      expect(response[:metrics][:events_url]).to eq("http://www.biomedcentral.com/search/results?terms=https://github.com/najoshi/sickle")
+      expect(response[:metrics][:days].length).to eq(9)
+      expect(response[:metrics][:days].first).to eq(year: 2013, month: 1, day: 30, total: 1)
+      expect(response[:metrics][:months].length).to eq(11)
+      expect(response[:metrics][:months].first).to eq(year: 2013, month: 1, total: 1)
 
-      expect(response[:events_by_day]).to be_empty
-      expect(response[:events_by_month].length).to eq(11)
-      expect(response[:events_by_month].first).to eq(year: 2013, month: 1, total: 1)
-
-      event = response[:events].first
+      event = response[:works].first
       expect(event['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
       expect(event['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")
       expect(event['container-title']).to eq("Plant Methods")

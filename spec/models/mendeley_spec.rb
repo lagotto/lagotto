@@ -75,7 +75,7 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
              .to_return(:body => "Credentials are required to access this resource.", :status => 401)
-      expect(subject.get_data(work, options = { :source_id => subject.id })).to eq({})
+      expect(subject.get_data(work, options = { :source_id => subject.id })).to eq(error: "No access token.")
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -145,7 +145,7 @@ describe Mendeley, :type => :model do
 
   context "parse_data" do
     let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :readers=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>0, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 }, extra: {} } }
+    let(:null_response) { { metrics: { source: "mendeley", work: "doi:10.1371/journal.pone.0008776", readers: 0, total: 0, events_url: nil, extra: {} } } }
 
     it "should report if the doi, pmid, mendeley uuid and title are missing" do
       result = {}
@@ -158,9 +158,14 @@ describe Mendeley, :type => :model do
       result = { "data" => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events]).not_to be_nil
-      expect(response[:events_url]).not_to be_nil
-      expect(response[:total]).to eq(34)
+      expect(response[:metrics][:total]).to eq(34)
+      expect(response[:metrics][:readers]).to eq(34)
+      expect(response[:metrics][:events_url]).to eq("http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence")
+
+      extra = response[:metrics][:extra]
+      expect(extra["reader_count"]).to eq(34)
+      expect(extra["group_count"]).to eq(0)
+      expect(extra["reader_count_by_country"]).to eq("Portugal"=>2, "United States"=>3, "Mexico"=>1, "Brazil"=>2, "United Kingdom"=>1)
     end
 
     it "should report no events if the Mendeley API returns incomplete response" do

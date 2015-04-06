@@ -1,8 +1,9 @@
 class F1000 < Source
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+    return { error: "Source url is missing." } if url.blank?
+
+    url % { doi: work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
@@ -22,13 +23,12 @@ class F1000 < Source
       events_url = event.fetch("url", nil)
     end
 
-    { events: [],
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(citations: total),
-      extra: extra }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url,
+        extra: extra } }
   end
 
   def get_extra(result)

@@ -7,7 +7,7 @@ describe PubMed, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the doi and pmid are missing" do
-      work = FactoryGirl.build(:work, doi: nil, pmid: nil)
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
@@ -38,10 +38,10 @@ describe PubMed, type: :model, vcr: true do
 
   context "parse_data" do
     it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.build(:work, :pmid => "")
+      work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0}, :extra=>nil)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
@@ -50,7 +50,7 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], total: 0, :events_by_day=>[], :events_by_month=>[], events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0}, :extra=>nil)
+      expect(response).to eq(works: [], metrics: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do
@@ -58,10 +58,11 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(13)
-      expect(response[:total]).to eq(13)
-      event = response[:events].first
-      expect(event[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
+      expect(response[:works].length).to eq(13)
+      expect(response[:metrics][:total]).to eq(13)
+
+      event = response[:works].first
+      expect(event["URL"]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3292175")
     end
 
     it "should report if there is a single event returned by the PubMed API" do
@@ -69,10 +70,11 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(1)
-      expect(response[:total]).to eq(1)
-      event = response[:events].first
-      expect(event[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + event[:event])
+      expect(response[:works].length).to eq(1)
+      expect(response[:metrics][:total]).to eq(1)
+
+      event = response[:works].first
+      expect(event["URL"]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3292175")
     end
 
     it "should catch timeout errors with the PubMed API" do

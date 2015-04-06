@@ -46,18 +46,17 @@ describe Github, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: {} } }
-
+    let(:extra) { { "stargazers_count"=>0, "stargazers_url"=>"https://api.github.com/repos/articlemetrics/pyalm/stargazers", "forks_count"=>0, "forks_url"=>"https://api.github.com/repos/articlemetrics/pyalm/forks" } }
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(metrics: { source: "github", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report that there are no events if the canonical_url is not a Github URL" do
       work = FactoryGirl.build(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(metrics: { source: "github", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report if there are no events and event_count returned by the Github API" do
@@ -65,17 +64,18 @@ describe Github, type: :model, vcr: true do
       result = JSON.parse(body)
       extra = { "stargazers_count"=>0, "stargazers_url"=>"https://api.github.com/repos/articlemetrics/pyalm/stargazers", "forks_count"=>0, "forks_url"=>"https://api.github.com/repos/articlemetrics/pyalm/forks" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0}, extra: extra)
+      expect(response).to eq(metrics: { source: "github", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: extra })
     end
 
     it "should report if there are events and event_count returned by the Github API" do
       body = File.read(fixture_path + 'github.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(7)
-      expect(response[:events_url]).to eq("https://github.com/ropensci/alm")
-      expect(response[:extra]["stargazers_count"]).to eq(5)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 2, groups: nil, comments: nil, likes: 5, citations: nil, total: 7)
+      expect(response[:metrics][:total]).to eq(7)
+      expect(response[:metrics][:readers]).to eq(2)
+      expect(response[:metrics][:likes]).to eq(5)
+      expect(response[:metrics][:events_url]).to eq("https://github.com/ropensci/alm")
+      expect(response[:metrics][:extra]["stargazers_count"]).to eq(5)
     end
 
     it "should catch timeout errors with the github API" do

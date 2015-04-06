@@ -76,7 +76,7 @@ describe Pmc, type: :model, vcr: true do
   end
 
   it "should report that there are no events if the doi is missing" do
-    work = FactoryGirl.build(:work, :doi => nil)
+    work = FactoryGirl.create(:work, :doi => nil)
     expect(subject.get_data(work)).to eq({})
   end
 
@@ -133,7 +133,7 @@ describe Pmc, type: :model, vcr: true do
     end
 
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       expect(subject.get_data(work)).to eq({})
     end
 
@@ -171,10 +171,10 @@ describe Pmc, type: :model, vcr: true do
 
   context "parse_data" do
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0}, extra: [])
+      expect(subject.parse_data(result, work)).to eq(metrics: { source: "pmc", work: work.pid, pdf: 0, html: 0, total: 0, events_url: nil, extra: [], months: [] })
     end
 
     it "should report if there are no events returned by the PMC API" do
@@ -183,7 +183,7 @@ describe Pmc, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: [], :events_by_day=>[], events_by_month: [{ month: 10, year: 2013, html: 0, pdf: 0, total: 0 }], :events_url=>nil, total: 0, event_metrics: { pdf: 0, html: 0, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: [{ "unique-ip" => "0", "full-text" => "0", "pdf" => "0", "abstract" => "0", "scanned-summary" => "0", "scanned-page-browse" => "0", "figure" => "0", "supp-data" => "0", "cited-by" => "0", "year" => "2013", "month" => "10" }])
+      expect(response).to eq(metrics: { source: "pmc", work: work.pid, :pdf=>0, :html=>0, :total=>0, :events_url=>nil, :extra=>[{"unique-ip"=>"0", "full-text"=>"0", "pdf"=>"0", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2013", "month"=>"10"}], :months=>[{:month=>10, :year=>2013, :html=>0, :pdf=>0, :total=>0}]})
     end
 
     it "should report if there are events returned by the PMC API" do
@@ -192,9 +192,12 @@ describe Pmc, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:extra].length).to eq(2)
-      expect(response[:total]).to eq(13)
-      expect(response[:event_metrics]).to eq(pdf: 4, html: 9, shares: nil, groups: nil, comments: nil, likes: nil, citations: nil, total: 13)
+      expect(response[:metrics][:extra].length).to eq(2)
+      expect(response[:metrics][:total]).to eq(13)
+      expect(response[:metrics][:pdf]).to eq(4)
+      expect(response[:metrics][:html]).to eq(9)
+      expect(response[:metrics][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}")
+      expect(response[:metrics][:months]).to eq([{:month=>9, :year=>2013, :html=>3, :pdf=>2, :total=>5}, {:month=>10, :year=>2013, :html=>6, :pdf=>2, :total=>8}])
     end
 
     it "should catch timeout errors with the PMC API" do

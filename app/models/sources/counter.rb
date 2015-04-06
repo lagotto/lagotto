@@ -1,6 +1,6 @@
 class Counter < Source
   def get_query_url(work)
-    return nil unless work.doi =~ /^10.1371/
+    return {} unless work.doi =~ /^10.1371/
 
     url_private % { :doi => work.doi_escaped }
   end
@@ -19,14 +19,14 @@ class Counter < Source
     xml = get_sum(extra, :xml_views)
     total = pdf + html + xml
 
-    { events: [],
-      events_by_day: [],
-      events_by_month: get_events_by_month(extra),
-      pdf: pdf,
-      html: html,
-      total: total,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total),
-      extra: extra }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        pdf: pdf,
+        html: html,
+        total: total,
+        extra: extra,
+        months: get_events_by_month(extra) } }
   end
 
   def get_extra(result)
@@ -41,14 +41,14 @@ class Counter < Source
     end
   end
 
-  def get_events_by_month(events)
-    events.map do |event|
-      html = event[:html_views].to_i
-      pdf = event[:pdf_views].to_i
-      xml = event[:xml_views].to_i
+  def get_events_by_month(extra)
+    extra.map do |e|
+      html = e[:html_views].to_i
+      pdf = e[:pdf_views].to_i
+      xml = e[:xml_views].to_i
 
-      { month: event[:month].to_i,
-        year: event[:year].to_i,
+      { month: e[:month].to_i,
+        year: e[:year].to_i,
         html: html,
         pdf: pdf,
         total: html + pdf + xml }

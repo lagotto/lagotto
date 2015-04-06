@@ -3,16 +3,16 @@ require 'rails_helper'
 describe Citeulike, type: :model, vcr: true do
   subject { FactoryGirl.create(:citeulike) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0115074", published_on: "2006-06-01") }
+  let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0115074", published_on: "2006-06-01") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events returned by the CiteULike API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0116034")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
       response = subject.get_data(work)
       expect(response).to eq("posts"=>nil)
     end
@@ -46,12 +46,12 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: nil } }
+    let(:null_response) { { works: [], metrics: { source: "citeulike", work: work.pid, readers: 0, total: 0, days: [], months: [] } } }
 
     it "should report if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
-      result = {}
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], events_url: nil, total: 0, event_metrics: { pdf: nil, html: nil, shares: 0, groups: nil, comments: nil, likes: nil, citations: nil, total: 0 }, extra: nil)
+      work = FactoryGirl.create(:work, :doi => nil)
+      result = { error: "query_url is nil." }
+      expect(subject.parse_data(result, work)).to eq(error: "query_url is nil.")
     end
 
     it "should report if there are no events returned by the CiteULike API" do
@@ -71,12 +71,14 @@ describe Citeulike, type: :model, vcr: true do
       result = Hash.from_xml(body)
 
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(25)
-      expect(response[:events_by_month].length).to eq(21)
-      expect(response[:events_by_month].first).to eq(year: 2006, month: 6, total: 2)
-      expect(response[:events_url]).to eq(subject.get_events_url(work))
-      expect(response[:total]).to eq(25)
-      event = response[:events].first
+      expect(response[:works].length).to eq(25)
+      expect(response[:metrics][:total]).to eq(25)
+      expect(response[:metrics][:readers]).to eq(25)
+      expect(response[:metrics][:events_url]).to eq(subject.get_events_url(work))
+      expect(response[:metrics][:months].length).to eq(21)
+      expect(response[:metrics][:months].first).to eq(year: 2006, month: 6, total: 2)
+
+      event = response[:works].first
       expect(event['URL']).to eq("http://www.citeulike.org/user/dbogartoit/article/694959")
       expect(event['author']).to be_nil
       expect(event['title']).to eq("CiteULike bookmark")
@@ -84,6 +86,7 @@ describe Citeulike, type: :model, vcr: true do
       expect(event['issued']).to eq("date-parts"=>[[2006, 6, 13]])
       expect(event['type']).to eq("entry")
       expect(event["timestamp"]).to eq("2006-06-13T16:14:19Z")
+      expect(event["related_works"]).to eq([{"related_work"=> work.pid, "source"=>"citeulike", "relation_type"=>"bookmarks"}])
     end
 
     it "should report if there is one event returned by the CiteULike API" do
@@ -91,12 +94,14 @@ describe Citeulike, type: :model, vcr: true do
       result = Hash.from_xml(body)
 
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(1)
-      expect(response[:events_by_month].length).to eq(1)
-      expect(response[:events_by_month].first).to eq(year: 2006, month: 6, total: 1)
-      expect(response[:events_url]).to eq(subject.get_events_url(work))
-      expect(response[:total]).to eq(1)
-      event = response[:events].first
+      expect(response[:works].length).to eq(1)
+      expect(response[:metrics][:total]).to eq(1)
+      expect(response[:metrics][:readers]).to eq(1)
+      expect(response[:metrics][:events_url]).to eq(subject.get_events_url(work))
+      expect(response[:metrics][:months].length).to eq(1)
+      expect(response[:metrics][:months].first).to eq(year: 2006, month: 6, total: 1)
+
+      event = response[:works].first
       expect(event['URL']).to eq("http://www.citeulike.org/user/dbogartoit/article/694959")
       expect(event['author']).to be_nil
       expect(event['title']).to eq("CiteULike bookmark")
@@ -104,6 +109,7 @@ describe Citeulike, type: :model, vcr: true do
       expect(event['issued']).to eq("date-parts"=>[[2006, 6, 13]])
       expect(event['type']).to eq("entry")
       expect(event["timestamp"]).to eq("2006-06-13T16:14:19Z")
+      expect(event["related_works"]).to eq([{"related_work"=> work.pid, "source"=>"citeulike", "relation_type"=>"bookmarks"}])
     end
 
     it "should catch timeout errors with the CiteULike API" do

@@ -1,13 +1,15 @@
 class Orcid < Source
   def response_options
-    { metrics: :shares }
+    { metrics: :readers }
   end
 
   def get_query_string(work)
+    return {} unless work.doi.present?
+
     work.doi_escaped
   end
 
-  def get_events(result)
+  def get_related_works(result, work)
     Array(result.fetch("orcid-search-results", {}).fetch("orcid-search-result", nil)).map do |item|
       personal_details = item.fetch("orcid-profile", {}).fetch("orcid-bio", {}).fetch("personal-details", {})
       author = { "family" => personal_details.fetch("family-name", {}).fetch("value", nil),
@@ -20,7 +22,10 @@ class Orcid < Source
         "issued" => { "date-parts" => [[]] },
         "timestamp" => nil,
         "URL" => url,
-        "type" => 'entry' }
+        "type" => 'entry',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "bookmarks" }] }
     end
   end
 

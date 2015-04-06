@@ -4,12 +4,12 @@ describe Wikipedia, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:wikipedia) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294") }
+  let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294") }
 
   context "query_url" do
-    it "should return nil if the doi and canonical_url are missing" do
+    it "should return empty hash if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, :doi => nil, canonical_url: nil)
-      expect(subject.get_query_url(work)).to be_nil
+      expect(subject.get_query_url(work)).to eq({})
     end
 
     it "should return a query without doi if the doi is missing" do
@@ -64,34 +64,31 @@ describe Wikipedia, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, extra: nil } }
-
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       result = { "en"=>[] }
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008776", published_on: "2007-07-01")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008776", published_on: "2007-07-01")
       body = File.read(fixture_path + 'wikipedia.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(637)
-      expect(response[:total]).to eq(637)
-      expect(response[:event_metrics][:citations]).to eq(637)
-      expect(response[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
+      expect(response[:works].length).to eq(637)
+      expect(response[:metrics][:total]).to eq(637)
+      expect(response[:metrics][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
+      expect(response[:metrics][:days].length).to eq(87)
+      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
+      expect(response[:metrics][:months].length).to eq(29)
+      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 5)
 
-      expect(response[:events_by_day].length).to eq(0)
-      expect(response[:events_by_month].length).to eq(29)
-      expect(response[:events_by_month].first).to eq(year: 2012, month: 5, total: 5)
-
-      event = response[:events].first
+      event = response[:works].first
       expect(event['author']).to be_nil
       expect(event['title']).to eq("Lobatus costatus")
       expect(event['container-title']).to eq("Wikipedia")
@@ -99,23 +96,23 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event['timestamp']).to eq("2013-03-21T09:51:18Z")
       expect(event['URL']).to eq("http://en.wikipedia.org/wiki/Lobatus_costatus")
       expect(event['type']).to eq("entry-encyclopedia")
+      expect(event['related_works']).to eq([{"related_work"=>work.pid, "source"=>"wikipedia", "relation_type"=>"references"}])
     end
 
     it "should report if there are events and event_count returned by the Wikimedia Commons API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044271", published_on: "2007-07-01")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044271", published_on: "2007-07-01")
       body = File.read(fixture_path + 'wikipedia_commons.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(10)
-      expect(response[:total]).to eq(10)
-      expect(response[:event_metrics][:citations]).to eq(10)
-      expect(response[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
+      expect(response[:works].length).to eq(10)
+      expect(response[:metrics][:total]).to eq(10)
+      expect(response[:metrics][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
+      expect(response[:metrics][:days].length).to eq(1)
+      expect(response[:metrics][:days].first).to eq(year: 2013, month: 8, day: 29, total: 6)
+      expect(response[:metrics][:months].length).to eq(3)
+      expect(response[:metrics][:months].first).to eq(year: 2013, month: 8, total: 6)
 
-      expect(response[:events_by_day].length).to eq(0)
-      expect(response[:events_by_month].length).to eq(3)
-      expect(response[:events_by_month].first).to eq(year: 2013, month: 8, total: 6)
-
-      event = response[:events].first
+      event = response[:works].first
       expect(event['author']).to be_nil
       expect(event['title']).to eq("Lesula")
       expect(event['container-title']).to eq("Wikipedia")
@@ -123,13 +120,14 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event['timestamp']).to eq("2014-05-24T12:54:07Z")
       expect(event['URL']).to eq("http://en.wikipedia.org/wiki/Lesula")
       expect(event['type']).to eq("entry-encyclopedia")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"wikipedia", "relation_type"=>"references"}])
     end
 
     it "should catch errors with the Wikipedia API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { "en"=>[] }
       response = subject.parse_data(result, work)
-      expect(response).to eq(null_response)
+      expect(response).to eq(works: [], metrics: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
   end
 end

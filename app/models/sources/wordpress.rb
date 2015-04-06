@@ -1,5 +1,5 @@
 class Wordpress < Source
-  def get_events(result)
+  def get_related_works(result, work)
     result['data'] = nil if result['data'].is_a?(String)
     Array(result.fetch("data", nil)).map do |item|
       timestamp = get_iso8601_from_epoch(item.fetch("epoch_time", nil))
@@ -10,7 +10,10 @@ class Wordpress < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => item.fetch("link", nil),
-        "type" => 'post' }
+        "type" => 'post',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

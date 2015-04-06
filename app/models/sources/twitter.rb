@@ -1,6 +1,6 @@
 class Twitter < Source
   def get_query_url(work)
-    return nil unless work.doi =~ /^10.1371/
+    return {} unless work.doi =~ /^10.1371/
 
     url_private % { :doi => work.doi_escaped }
   end
@@ -9,7 +9,7 @@ class Twitter < Source
     { :metrics => :comments }
   end
 
-  def get_events(result)
+  def get_related_works(result, work)
     Array(result['rows']).map do |item|
       data = item['value']
       if data.key?("from_user")
@@ -31,7 +31,10 @@ class Twitter < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => url,
-        "type" => 'personal_communication' }
+        "type" => 'personal_communication',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

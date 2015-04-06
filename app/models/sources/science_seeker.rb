@@ -4,13 +4,15 @@ class ScienceSeeker < Source
   end
 
   def get_query_string(work)
+    return {} unless work.doi.present?
+
     work.doi_escaped
   end
 
-  def get_events(result)
-    events = result['feed'] && result.deep_fetch('feed', 'entry') { nil }
-    events = [events] if events.is_a?(Hash)
-    Array(events).map do |item|
+  def get_related_works(result, work)
+    related_works = result.fetch('feed', nil) && result.deep_fetch('feed', 'entry') { nil }
+    related_works = [related_works] if related_works.is_a?(Hash)
+    Array(related_works).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       timestamp = get_iso8601_from_time(item.fetch("updated", nil))
 
@@ -20,7 +22,10 @@ class ScienceSeeker < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => item.fetch("link", {}).fetch("href", nil),
-        "type" => 'post' }
+        "type" => 'post',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

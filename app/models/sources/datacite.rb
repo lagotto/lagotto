@@ -1,8 +1,8 @@
 class Datacite < Source
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+
+    url % { doi: work.doi_escaped }
   end
 
   def get_events_url(work)
@@ -11,7 +11,7 @@ class Datacite < Source
     end
   end
 
-  def get_events(result)
+  def get_related_works(result, work)
     result["response"] ||= {}
     Array(result["response"]["docs"]).map do |item|
       doi = item.fetch("doi", nil)
@@ -24,7 +24,10 @@ class Datacite < Source
         "issued" => get_date_parts_from_parts(item.fetch("publicationYear", nil)),
         "DOI" => doi,
         "URL" => get_url_from_doi(doi),
-        "type" => type }
+        "type" => type,
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "cites" }] }
     end.compact
   end
 

@@ -1,6 +1,6 @@
 class PubMed < Source
   def get_query_url(work)
-    return nil unless url.present? && work.get_ids && work.pmid.present?
+    return {} unless work.get_ids && work.pmid.present?
 
     url % { :pmid => work.pmid }
   end
@@ -9,12 +9,16 @@ class PubMed < Source
     { content_type: 'xml' }
   end
 
-  def get_events(result)
-    events = result.deep_fetch('PubMedToPMCcitingformSET', 'REFORM', 'PMCID') { nil }
-    events = [events] if events.is_a?(Hash)
-    Array(events).map do |item|
-      { :event => item,
-        :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item }
+  def get_related_works(result, work)
+    related_works = result.deep_fetch('PubMedToPMCcitingformSET', 'REFORM', 'PMCID') { nil }
+    related_works = [related_works] if related_works.is_a?(Hash)
+    Array(related_works).map do |item|
+      { "PMCID" => item,
+        "URL" => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item,
+        "type" => "article-journal",
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "cites" }] }
     end
   end
 

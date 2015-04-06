@@ -4,24 +4,24 @@ class Scopus < Source
   end
 
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+
+    url % { doi: work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    events = result.deep_fetch('search-results', 'entry', 0) { {} }
+    extra = result.deep_fetch('search-results', 'entry', 0) { {} }
 
-    if events["link"]
-      total = events['citedby-count'].to_i
-      link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
+    if extra["link"]
+      total = extra['citedby-count'].to_i
+      link = extra["link"].find { |link| link["@ref"] == "scopus-citedby" }
       events_url = link["@href"]
 
       # store Scopus ID if we haven't done this already
       unless work.scp.present?
-        scp = events['dc:identifier']
+        scp = extra['dc:identifier']
         work.update_attributes(:scp => scp[10..-1]) if scp.present?
       end
     else
@@ -29,12 +29,12 @@ class Scopus < Source
       events_url = nil
     end
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      total: total,
-      event_metrics: get_event_metrics(citations: total) }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url,
+        extra: extra } }
   end
 
   def config_fields

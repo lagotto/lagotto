@@ -4,22 +4,20 @@ module Pmcable
   included do
     def get_data(work, options={})
       query_url = get_query_url(work, options)
-      if query_url.nil?
-        result = {}
-      else
-        result = get_result(query_url, options)
-        total = (result.fetch("hitCount", nil)).to_i
+      return query_url if query_url.is_a?(Hash)
 
-        if total > rows
-          # walk through paginated results
-          total_pages = (total.to_f / rows).ceil
+      result = get_result(query_url, options)
+      total = (result.fetch("hitCount", nil)).to_i
 
-          (2..total_pages).each do |page|
-            options[:page] = page
-            query_url = get_query_url(work, options)
-            paged_result = get_result(query_url, options)
-            result["#{result_key}List"][result_key] = result["#{result_key}List"][result_key] | paged_result.fetch("#{result_key}List", {}).fetch(result_key, [])
-          end
+      if total > rows
+        # walk through paginated results
+        total_pages = (total.to_f / rows).ceil
+
+        (2..total_pages).each do |page|
+          options[:page] = page
+          query_url = get_query_url(work, options)
+          paged_result = get_result(query_url, options)
+          result["#{result_key}List"][result_key] = result["#{result_key}List"][result_key] | paged_result.fetch("#{result_key}List", {}).fetch(result_key, [])
         end
       end
 
@@ -30,20 +28,21 @@ module Pmcable
     def parse_data(result, work, options={})
       return result if result[:error] || result["#{result_key}List"].nil?
 
-      events = get_events(result, work)
-      total = events.length
+      related_works = get_related_works(result, work)
+      total = related_works.length
       events_url = total > 0 ? get_events_url(work) : nil
 
-      { events: events,
-        events_by_day: [],
-        events_by_month: [],
-        events_url: events_url,
+    { works: related_works,
+      metrics: {
+        source: name,
+        work: work.pid,
         total: total,
-        event_metrics: get_event_metrics(citations: total),
-        extra: nil }
+        events_url: events_url,
+        days: get_events_by_day(related_works, work),
+        months: get_events_by_month(related_works) } }
     end
 
-    def get_events(result, work)
+    def get_related_works(result, work)
       result.fetch("#{result_key}List", {}).fetch(result_key, []).map do |item|
         doi = item.fetch("doi", nil)
         pmid = item.fetch(pmid_key, nil)
@@ -57,7 +56,10 @@ module Pmcable
           "DOI" => doi,
           "PMID" => pmid,
           "URL" => url,
-          "type" => "article-journal" }
+          "type" => "article-journal",
+          "related_works" => [{ "related_work" => work.pid,
+                                "source" => name,
+                                "relation_type" => "cites" }] }
       end
     end
   end

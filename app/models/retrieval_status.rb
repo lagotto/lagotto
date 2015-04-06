@@ -153,6 +153,6 @@ class RetrievalStatus < ActiveRecord::Base
   private
 
   def delete_couchdb_document
-    remove_lagotto_data(rs_id)
+    remove_lagotto_data(to_param)
   end
 end

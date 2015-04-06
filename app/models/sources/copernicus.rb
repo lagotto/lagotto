@@ -1,6 +1,6 @@
 class Copernicus < Source
   def get_query_url(work)
-    return nil unless work.doi =~ /^10.5194/
+    return {} unless work.doi =~ /^10.5194/
 
     url_private % { :doi => work.doi }
   end
@@ -20,15 +20,13 @@ class Copernicus < Source
 
     extra = result['data'] ? {} : result
 
-    { events: [],
-      events_by_day: [],
-      events_by_month: [],
-      events_url: nil,
-      pdf: pdf,
-      html: html,
-      total: total,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total),
-      extra: extra }
+    { metrics: {
+        source: name,
+        work: work.pid,
+        pdf: pdf,
+        html: html,
+        total: total,
+        extra: extra } }
   end
 
   def config_fields

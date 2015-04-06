@@ -57,12 +57,16 @@ describe NatureOpensearch, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
+    it "should report if the doi and canonical_url are missing" do
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
+      result = {}
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "nature_opensearch", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+    end
 
     it "should report if there are no events and event_count returned by the Nature OpenSearch API" do
       body = File.read(fixture_path + 'nature_opensearch_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "nature_opensearch", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
@@ -70,12 +74,13 @@ describe NatureOpensearch, type: :model, vcr: true do
       body = File.read(fixture_path + 'nature_opensearch.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(7)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 7, total: 7)
-      expect(response[:events_by_day]).to be_empty
-      expect(response[:events_by_month]).to be_empty
+      expect(response[:works].length).to eq(7)
+      expect(response[:metrics][:total]).to eq(7)
+      expect(response[:metrics][:days].length).to eq(0)
+      expect(response[:metrics][:months].length).to eq(5)
+      expect(response[:metrics][:months].first).to eq(year: 2013, month: 8, total: 1)
 
-      event = response[:events].last
+      event = response[:works].last
       expect(event['author']).to eq([{"family"=>"Patro", "given"=>"Rob"}, {"family"=>"Mount", "given"=>"Stephen M"}, {"family"=>"Kingsford", "given"=>"Carl"}])
       expect(event['title']).to eq("Sailfish enables alignment-free isoform quantification from RNA-seq reads using lightweight algorithms")
       expect(event['container-title']).to eq("Nature Biotechnology")

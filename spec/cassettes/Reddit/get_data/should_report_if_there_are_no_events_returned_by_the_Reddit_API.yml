@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -23,13 +23,13 @@ http_interactions:
       Location:
       - http://dx.plos.org/10.1371/journal.pone.0044294
       Expires:
-      - Wed, 25 Mar 2015 13:49:23 GMT
+      - Tue, 07 Apr 2015 07:52:54 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '180'
       Date:
-      - Tue, 24 Mar 2015 14:19:11 GMT
+      - Mon, 06 Apr 2015 21:52:43 GMT
     body:
       encoding: UTF-8
       string: |2-
@@ -37,7 +37,7 @@ http_interactions:
         <HTML><HEAD><TITLE>Handle Redirect</TITLE></HEAD>
         <BODY><A HREF="http://dx.plos.org/10.1371/journal.pone.0044294">http://dx.plos.org/10.1371/journal.pone.0044294</A></BODY></HTML>
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:11 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:51 GMT
 - request:
     method: get
     uri: http://dx.plos.org/10.1371/journal.pone.0044294
@@ -46,7 +46,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -55,7 +55,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:12 GMT
+      - Mon, 06 Apr 2015 21:52:20 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Location:
@@ -67,7 +67,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=iso-8859-1
       Set-Cookie:
-      - Coyote-2-95144509=95144510:0; path=/
+      - Coyote-2-95144509=9514450f:0; path=/
     body:
       encoding: UTF-8
       string: |
@@ -81,7 +81,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at dx.plos.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:12 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:52 GMT
 - request:
     method: get
     uri: http://dx.plos.org/ambra-doi-resolver/10.1371/journal.pone.0044294
@@ -90,7 +90,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -99,7 +99,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:13 GMT
+      - Mon, 06 Apr 2015 21:52:20 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Location:
@@ -111,12 +111,12 @@ http_interactions:
       Content-Type:
       - text/plain; charset=UTF-8
       Set-Cookie:
-      - Coyote-2-95144509=9514450f:0; path=/
+      - Coyote-2-95144509=95144510:0; path=/
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:13 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:52 GMT
 - request:
     method: get
     uri: http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0044294
@@ -125,7 +125,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -134,18 +134,18 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:14 GMT
+      - Mon, 06 Apr 2015 21:52:21 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Set-Cookie:
-      - plos-device-detected=desktop; path=120; domain=.www.plosone.org; expires=Tue,
-        24-Mar-2015 15:39:14 GMT, Coyote-2-95144509=95144510:0; path=/
+      - plos-device-detected=desktop; path=120; domain=.www.plosone.org; expires=Mon,
+        06-Apr-2015 23:12:21 GMT, Coyote-2-95144509=9514450f:0; path=/
       Location:
       - http://journals.plos.org//article?id=10.1371/journal.pone.0044294
       Cache-Control:
       - max-age=1
       Expires:
-      - Tue, 24 Mar 2015 14:19:15 GMT
+      - Mon, 06 Apr 2015 21:52:22 GMT
       Content-Length:
       - '330'
       Connection:
@@ -165,7 +165,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at www.plosone.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:14 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:53 GMT
 - request:
     method: get
     uri: http://journals.plos.org//article?id=10.1371/journal.pone.0044294
@@ -174,7 +174,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -183,18 +183,18 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:15 GMT
+      - Mon, 06 Apr 2015 21:52:21 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Set-Cookie:
-      - plos-device-detected=desktop; path=120; domain=.journals.plos.org; expires=Tue,
-        24-Mar-2015 15:39:15 GMT, Coyote-2-95144509=9514450f:0; path=/
+      - plos-device-detected=desktop; path=120; domain=.journals.plos.org; expires=Mon,
+        06-Apr-2015 23:12:21 GMT, Coyote-2-95144509=9514450f:0; path=/
       Location:
       - http://www.plosjournals.org/
       Cache-Control:
       - max-age=1
       Expires:
-      - Tue, 24 Mar 2015 14:19:16 GMT
+      - Mon, 06 Apr 2015 21:52:22 GMT
       Content-Length:
       - '295'
       Connection:
@@ -214,7 +214,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at journals.plos.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:15 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:53 GMT
 - request:
     method: get
     uri: http://www.plosjournals.org/
@@ -223,7 +223,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -232,7 +232,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:16 GMT
+      - Mon, 06 Apr 2015 21:52:22 GMT
       Server:
       - Apache/2.2.3 (CentOS)
       Location:
@@ -258,7 +258,7 @@ http_interactions:
         <address>Apache/2.2.3 (CentOS) Server at www.plosjournals.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:16 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:54 GMT
 - request:
     method: get
     uri: http://www.plos.org/journals/index.php
@@ -267,7 +267,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -276,7 +276,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:16 GMT
+      - Mon, 06 Apr 2015 21:52:23 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Location:
@@ -288,7 +288,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=iso-8859-1
       Set-Cookie:
-      - Coyote-2-9514450c=95144522:0; path=/
+      - Coyote-2-9514450c=95144521:0; path=/
     body:
       encoding: UTF-8
       string: |
@@ -302,7 +302,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at www.plos.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:17 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:55 GMT
 - request:
     method: get
     uri: http://www.plos.org/publications/journals/
@@ -311,7 +311,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -320,124 +320,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:17 GMT
-      Server:
-      - Apache/2.2.15 (CentOS)
-      X-Powered-By:
-      - PHP/5.3.3
-      X-Pingback:
-      - http://www.plos.org/xmlrpc.php
-      Location:
-      - http://www.plos.org/publications/journals/
-      Content-Length:
-      - '0'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=UTF-8
-      Set-Cookie:
-      - Coyote-2-9514450c=95144522:0; path=/
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:17 GMT
-- request:
-    method: get
-    uri: http://www.plos.org/publications/journals/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
-      Accept:
-      - text/html; charset=UTF-8
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 24 Mar 2015 14:19:18 GMT
-      Server:
-      - Apache/2.2.15 (CentOS)
-      X-Powered-By:
-      - PHP/5.3.3
-      X-Pingback:
-      - http://www.plos.org/xmlrpc.php
-      Location:
-      - http://www.plos.org/publications/journals/
-      Content-Length:
-      - '0'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=UTF-8
-      Set-Cookie:
-      - Coyote-2-9514450c=95144522:0; path=/
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:18 GMT
-- request:
-    method: get
-    uri: http://www.plos.org/publications/journals/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
-      Accept:
-      - text/html; charset=UTF-8
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 24 Mar 2015 14:19:19 GMT
-      Server:
-      - Apache/2.2.15 (CentOS)
-      X-Powered-By:
-      - PHP/5.3.3
-      X-Pingback:
-      - http://www.plos.org/xmlrpc.php
-      Location:
-      - http://www.plos.org/publications/journals/
-      Content-Length:
-      - '0'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=UTF-8
-      Set-Cookie:
-      - Coyote-2-9514450c=95144522:0; path=/
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:19 GMT
-- request:
-    method: get
-    uri: http://www.plos.org/publications/journals/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
-      Accept:
-      - text/html; charset=UTF-8
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 24 Mar 2015 14:19:20 GMT
+      - Mon, 06 Apr 2015 21:52:23 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Powered-By:
@@ -458,16 +341,133 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:20 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:55 GMT
 - request:
     method: get
-    uri: http://www.reddit.com/search.json?limit=100&q=%2210.1371/journal.pone.0044294%22%20OR%20%22%22
+    uri: http://www.plos.org/publications/journals/
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Date:
+      - Mon, 06 Apr 2015 21:52:24 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      X-Powered-By:
+      - PHP/5.3.3
+      X-Pingback:
+      - http://www.plos.org/xmlrpc.php
+      Location:
+      - http://www.plos.org/publications/journals/
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=UTF-8
+      Set-Cookie:
+      - Coyote-2-9514450c=9514451d:0; path=/
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 06 Apr 2015 21:47:56 GMT
+- request:
+    method: get
+    uri: http://www.plos.org/publications/journals/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Date:
+      - Mon, 06 Apr 2015 21:52:24 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      X-Powered-By:
+      - PHP/5.3.3
+      X-Pingback:
+      - http://www.plos.org/xmlrpc.php
+      Location:
+      - http://www.plos.org/publications/journals/
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=UTF-8
+      Set-Cookie:
+      - Coyote-2-9514450c=95144522:0; path=/
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 06 Apr 2015 21:47:56 GMT
+- request:
+    method: get
+    uri: http://www.plos.org/publications/journals/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Date:
+      - Mon, 06 Apr 2015 21:52:25 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      X-Powered-By:
+      - PHP/5.3.3
+      X-Pingback:
+      - http://www.plos.org/xmlrpc.php
+      Location:
+      - http://www.plos.org/publications/journals/
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=UTF-8
+      Set-Cookie:
+      - Coyote-2-9514450c=9514451d:0; path=/
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 06 Apr 2015 21:47:57 GMT
+- request:
+    method: get
+    uri: http://www.reddit.com/search.json?limit=100&q=%2210.1371/journal.pone.0044294%22
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -476,7 +476,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 24 Mar 2015 14:19:21 GMT
+      - Mon, 06 Apr 2015 21:52:25 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -484,8 +484,8 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dcf6e982848d192f8fceba1b429b27dc81427206761; expires=Wed, 23-Mar-16
-        14:19:21 GMT; path=/; domain=.reddit.com; HttpOnly
+      - __cfduid=dfc58cf12dfea46b4855f96d2e45386161428357145; expires=Tue, 05-Apr-16
+        21:52:25 GMT; path=/; domain=.reddit.com; HttpOnly
       X-Ua-Compatible:
       - IE=edge
       X-Frame-Options:
@@ -496,8 +496,10 @@ http_interactions:
       - 1; mode=block
       Access-Control-Allow-Origin:
       - "*"
+      Access-Control-Expose-Headers:
+      - X-Reddit-Tracking, X-Moose
       X-Reddit-Tracking:
-      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=EB1Ohjq4nlMsTwOwrN1Zlf%2BP387%2FDnZ%2FIhvfDBkZAfYKA9W8QiV6xgfMp6s2tE909Np1rnZVrMk%3D
+      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=AXR%2Ferw0bdDdsBkZI2BTP7x23frCpSQz1YdE6Fgw3GnsZFYJe4oa5SK7xbBjs8PdVfdJ8s30nUc%3D
       X-Moose:
       - majestic
       Cache-Control:
@@ -507,11 +509,11 @@ http_interactions:
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 1cc302b12a0e1201-SJC
+      - 1d30b83e6f910c95-AMS
     body:
       encoding: UTF-8
       string: '{"kind": "Listing", "data": {"modhash": "", "children": [], "after":
         null, "before": null}}'
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:21 GMT
+  recorded_at: Mon, 06 Apr 2015 21:47:57 GMT
 recorded_with: VCR 2.9.3

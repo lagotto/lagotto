@@ -55,18 +55,16 @@ describe PlosFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :total=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 }, :extra=>nil } }
-
-    it "should report that there are no events if the doi has the wrong prefix" do
+     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
-      expect(subject.parse_data(result, work)).to eq({})
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events returned by the PLOS Search API" do
@@ -74,14 +72,13 @@ describe PlosFulltext, type: :model, vcr: true do
       body = File.read(fixture_path + 'plos_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(1)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 1, total: 1)
+      expect(response[:works].length).to eq(1)
+      expect(response[:metrics][:total]).to eq(1)
+      expect(response[:metrics][:days]).to be_empty
+      expect(response[:metrics][:months].length).to eq(1)
+      expect(response[:metrics][:months].first).to eq(year: 2014, month: 9, total: 1)
 
-      expect(response[:events_by_day]).to be_empty
-      expect(response[:events_by_month].length).to eq(1)
-      expect(response[:events_by_month].first).to eq(year: 2014, month: 9, total: 1)
-
-      event = response[:events].last
+      event = response[:works].last
       expect(event['author']).to eq([{"family"=>"Rougier", "given"=>"Nicolas P."}, {"family"=>"Droettboom", "given"=>"Michael"}, {"family"=>"Bourne", "given"=>"Philip E."}])
       expect(event['title']).to eq("Ten Simple Rules for Better Figures")
       expect(event['container-title']).to eq("PLOS Computational Biology")

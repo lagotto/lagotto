@@ -3,16 +3,16 @@ require 'rails_helper'
 describe EuropePmc, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc) }
 
-  let(:work) { FactoryGirl.build(:work, :pmid => "15723116") }
+  let(:work) { FactoryGirl.create(:work, :pmid => "15723116") }
 
   context "get_data" do
     it "should report that there are no events if the pmid and doi are missing" do
-      work = FactoryGirl.build(:work, doi: nil, :pmid => nil)
+      work = FactoryGirl.create(:work, doi: nil, :pmid => nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
-      work = FactoryGirl.build(:work, :pmid => "20098740")
+      work = FactoryGirl.create(:work, :pmid => "20098740")
       response = subject.get_data(work)
       expect(response["hitCount"]).to eq(0)
     end
@@ -40,28 +40,28 @@ describe EuropePmc, type: :model, vcr: true do
 
   context "parse_data" do
     it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.build(:work, :pmid => nil)
+      work = FactoryGirl.create(:work, :pmid => nil)
       result = {}
       expect(subject.parse_data(result, work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
-      work = FactoryGirl.build(:work, :pmid => "20098740")
+      work = FactoryGirl.create(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'europe_pmc_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], total: 0, events_url: nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 }, extra: nil)
+      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "europe_pmc", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'europe_pmc.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:total]).to eq(23)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 23, total: 23)
-      expect(response[:events_by_day]).to be_empty
-      expect(response[:events_by_month]).to be_empty
+      expect(response[:works].length).to eq(23)
+      expect(response[:metrics][:total]).to eq(23)
+      expect(response[:metrics][:days]).to be_empty
+      expect(response[:metrics][:months]).to be_empty
 
-      event = response[:events].last
+      event = response[:works].last
       expect(event['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
       expect(event['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
       expect(event['container-title']).to eq("BMC Bioinformatics")
