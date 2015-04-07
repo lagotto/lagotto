@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe DataoneImport, type: :model, vcr: true do
 
-  before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2014, 9, 5)) }
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2014, 9, 5)) }
 
   context "query_url" do
     it "should have total_results" do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ArticleCoverageCurated, type: :model, vcr: true do
-  before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   subject { FactoryGirl.create(:article_coverage_curated) }
 

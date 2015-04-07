@@ -9,7 +9,7 @@ describe "pmc:update" do
   let(:output) { "PMC Usage stats for month #{month} and year #{year} have been saved\nPMC Usage stats for month #{month} and year #{year} have been parsed\n" }
 
   before(:each) do
-    allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5))
+    allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
     pmc.put_lagotto_data(pmc.url)
   end
 

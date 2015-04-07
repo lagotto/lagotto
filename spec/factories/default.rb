@@ -64,8 +64,19 @@ FactoryGirl.define do
     end
 
     factory :work_published_today do
-      year { Time.zone.now.year }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.now)] }
+      date = Time.zone.now
+      year { date.year }
+      month { date.month }
+      day { date.day }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: date)] }
+    end
+
+    factory :work_published_last_week do
+      date = Time.zone.now - 7.days
+      year { date.year }
+      month { date.month }
+      day { date.day }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: date)] }
     end
 
     factory :work_with_errors do
@@ -172,6 +183,8 @@ FactoryGirl.define do
       total 500
       html 400
       pdf 100
+      readers 0
+      association :work, factory: :work_published_last_week
       association :source, factory: :counter
       after :create do |rs|
         last_day = Time.zone.now.to_date - 1.day
@@ -183,6 +196,7 @@ FactoryGirl.define do
                                    day: last_day.day,
                                    html: rs.html,
                                    pdf: rs.pdf,
+                                   readers: rs.readers,
                                    total: rs.total)
       end
     end
@@ -191,6 +205,8 @@ FactoryGirl.define do
       total 250
       html 200
       pdf 50
+      readers 0
+      association :work, factory: :work_published_last_week
       association :source, factory: :counter
       after :create do |rs|
         FactoryGirl.create(:day, retrieval_status: rs,
@@ -201,12 +217,15 @@ FactoryGirl.define do
                                    day: Time.zone.now.to_date.day,
                                    html: rs.html,
                                    pdf: rs.pdf,
+                                   readers: rs.readers,
                                    total: rs.total)
       end
     end
 
     trait(:with_crossref_last_day) do
+      readers 0
       total 25
+      association :work, factory: :work_published_last_week
       association :source, factory: :crossref
       after :create do |rs|
         last_day = Time.zone.now.to_date - 1.day
@@ -216,12 +235,15 @@ FactoryGirl.define do
                                    year: last_day.year,
                                    month: last_day.month,
                                    day: last_day.day,
-                                   total: rs.total)
+                                   total: rs.total,
+                                   readers: rs.readers)
       end
     end
 
     trait(:with_crossref_current_day) do
+      readers 0
       total 20
+      association :work, factory: :work_published_last_week
       association :source, factory: :crossref
       after :create do |rs|
         FactoryGirl.create(:day, retrieval_status: rs,
@@ -230,11 +252,13 @@ FactoryGirl.define do
                                    year: Time.zone.now.to_date.year,
                                    month: Time.zone.now.to_date.month,
                                    day: Time.zone.now.to_date.day,
-                                   total: rs.total)
+                                   total: rs.total,
+                                   readers: rs.readers)
       end
     end
 
     trait(:with_crossref_last_month) do
+      readers 0
       total 25
       association :source, factory: :crossref
       after :create do |rs|
@@ -244,11 +268,13 @@ FactoryGirl.define do
                                    source: rs.source,
                                    year: last_month.year,
                                    month: last_month.month,
-                                   total: rs.total)
+                                   total: rs.total,
+                                   readers: rs.readers)
       end
     end
 
     trait(:with_crossref_current_month) do
+      readers 0
       total 20
       association :source, factory: :crossref
       after :create do |rs|
@@ -257,15 +283,8 @@ FactoryGirl.define do
                                    source: rs.source,
                                    year: Time.zone.now.to_date.year,
                                    month: Time.zone.now.to_date.month,
-                                   total: rs.total)
-      end
-    end
-
-    trait(:with_crossref_histories) do
-      before(:create) do |retrieval_status|
-        FactoryGirl.create_list(:retrieval_history, 20, retrieval_status: retrieval_status,
-                                                        work: retrieval_status.work,
-                                                        source: retrieval_status.source)
+                                   total: rs.total,
+                                   readers: rs.readers)
       end
     end
 

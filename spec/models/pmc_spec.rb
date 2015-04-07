@@ -5,7 +5,7 @@ describe Pmc, type: :model, vcr: true do
   subject { FactoryGirl.create(:pmc) }
 
   context "CSV report" do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it "should provide a date range" do
       # array of hashes for the 10 last months, excluding the current month

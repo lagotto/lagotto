@@ -7,7 +7,7 @@ describe Counter, type: :model, vcr: true do
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776") }
 
   context "CSV report" do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it "should provide a date range" do
       # array of hashes for the 10 last months, including the current month

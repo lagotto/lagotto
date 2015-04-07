@@ -104,7 +104,7 @@ describe Work, type: :model, vcr: true do
   end
 
   context "validate date " do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it 'validate date' do
       work = FactoryGirl.build(:work)

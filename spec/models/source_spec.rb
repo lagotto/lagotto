@@ -16,7 +16,7 @@ describe Source, :type => :model do
   it { is_expected.to validate_numericality_of(:staleness_all).is_greater_than(0).only_integer.with_message("must be greater than 0") }
 
   describe "get_events_by_day" do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.ppat.1000446", published_on: "2013-08-05") }
 
@@ -42,7 +42,7 @@ describe Source, :type => :model do
   end
 
   describe "get_events_by_month" do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it "should handle events" do
       time = Time.zone.now - 1.month
@@ -64,7 +64,7 @@ describe Source, :type => :model do
   end
 
   describe "wait_time" do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     subject { FactoryGirl.create(:source) }
 
@@ -120,7 +120,7 @@ describe Source, :type => :model do
   describe "background jobs" do
     include ActiveJob::TestHelper
 
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     subject { FactoryGirl.create(:source, run_at: Time.zone.now) }
 

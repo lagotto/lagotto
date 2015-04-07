@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe SciencetoolboxImport, :type => :model do
 
-  before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   context "total_results" do
     it "should have total_results" do

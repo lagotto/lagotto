@@ -5,7 +5,7 @@ describe Mendeley, :type => :model do
   subject { FactoryGirl.create(:mendeley) }
 
   context "CSV report" do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     let(:url) { "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley" }
 
@@ -33,7 +33,7 @@ describe Mendeley, :type => :model do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.client_id, subject.client_secret) }
 
     it "should make the right API call" do
-      allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5))
+      allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
       subject.access_token = nil
       subject.expires_at = Time.now
       stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
@@ -75,8 +75,9 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
              .to_return(:body => "Credentials are required to access this resource.", :status => 401)
-      expect(subject.get_data(work, options = { :source_id => subject.id })).to eq(error: "No access token.")
+      expect { subject.get_data(work, options = { :source_id => subject.id }) }.to raise_error(ArgumentError, "No Mendeley access token.")
       expect(stub).to have_been_requested
+
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("Net::HTTPUnauthorized")
