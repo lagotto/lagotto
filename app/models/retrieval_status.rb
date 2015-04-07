@@ -10,9 +10,8 @@ class RetrievalStatus < ActiveRecord::Base
 
   belongs_to :work, :touch => true
   belongs_to :source
-  has_many :months
-  has_many :days
-  has_many :retrieval_histories
+  has_many :months, :dependent => :destroy
+  has_many :days, :dependent => :destroy
 
   before_destroy :delete_couchdb_document
 
@@ -42,16 +41,129 @@ class RetrievalStatus < ActiveRecord::Base
   scope :with_sources, -> { joins(:source).where("sources.state > ?", 0).order("group_id, title") }
 
   def perform_get_data
-    result = source.get_data(work, timeout: source.timeout, work_id: work_id, source_id: source_id)
+    data = source.get_data(work, timeout: source.timeout, work_id: work_id, source_id: source_id)
 
     if ENV["LOGSTASH_PATH"].present?
       # write API response from external source to log/agent.log, using source name and work pid as tags
       AGENT_LOGGER.tagged(source.name, work.pid) { AGENT_LOGGER.info "#{result.inspect}" }
     end
 
-    data = source.parse_data(result, work, work_id: work_id, source_id: source_id)
-    history = History.new(id, data)
-    history.to_hash
+    skipped = data[:error].present?
+    previous_total = total
+    update_interval = retrieved_days_ago
+
+    # only update database if no error
+    unless skipped
+      data = source.parse_data(data, work, work_id: work_id, source_id: source_id)
+      data[:days] = data.fetch(:metrics, {}).fetch(:days, [])
+      data[:days] = [get_events_current_day].compact if data[:days].blank?
+      data[:months] = data.fetch(:metrics, {}).fetch(:months, [])
+      data[:months] = [get_events_current_month] if data[:months].blank?
+      data[:metrics] = data[:metrics].except(:days, :months)
+
+      update_data(data.fetch(:metrics, {}))
+      update_works(data.fetch(:works, []))
+      update_days(data.fetch(:days, []))
+      update_months(data.fetch(:months, []))
+    end
+
+    { total: data.fetch(:metrics, {}).fetch(:total, 0),
+      html: data.fetch(:metrics, {}).fetch(:html, 0),
+      pdf: data.fetch(:metrics, {}).fetch(:pdf, 0),
+      previous_total: previous_total,
+      skipped: skipped,
+      update_interval: update_interval }
+  end
+
+  def update_data(data)
+    update_attributes(retrieved_at: Time.zone.now,
+                      scheduled_at: stale_at,
+                      queued_at: nil,
+                      total: data.fetch(:total, 0),
+                      pdf: data.fetch(:pdf, 0),
+                      html: data.fetch(:html, 0),
+                      readers: data.fetch(:readers, 0),
+                      comments: data.fetch(:comments, 0),
+                      likes: data.fetch(:likes, 0),
+                      events_url: data.fetch(:events_url, nil),
+                      extra: data.fetch(:extra, nil))
+  end
+
+  def update_works(data)
+    data.map do |item|
+      doi = item.fetch("DOI", nil)
+      canonical_url = item.fetch("URL", nil)
+      title = item.fetch("title", nil)
+      date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
+      year, month, day = date_parts[0], date_parts[1], date_parts[2]
+      type = item.fetch("type", nil)
+      work_type_id = WorkType.where(name: type).pluck(:id).first
+      related_works = item.fetch("related_works", [])
+
+      csl = {
+        "issued" => item.fetch("issued", []),
+        "author" => item.fetch("author", []),
+        "container-title" => item.fetch("container-title", nil),
+        "page" => item.fetch("page", nil),
+        "issue" => item.fetch("issue", nil),
+        "title" => title,
+        "type" => item.fetch("type", nil),
+        "DOI" => doi,
+        "URL" => canonical_url,
+        "volume" => item.fetch("volume", nil) }
+
+      i = {
+        doi: doi,
+        canonical_url: canonical_url,
+        title: title,
+        year: year,
+        month: month,
+        day: day,
+        work_type_id: work_type_id,
+        tracked: false,
+        csl: csl,
+        related_works: related_works }
+
+      w = Work.find_or_create(i)
+      w ? w.pid : nil
+    end
+  end
+
+  def update_days(data)
+    data.map { |item| Day.where(retrieval_status_id: id,
+                                day: item[:day],
+                                month: item[:month],
+                                year: item[:year]).first_or_create(
+                                  work_id: work_id,
+                                  source_id: source_id,
+                                  total: item.fetch(:total, 0),
+                                  pdf: item.fetch(:pdf, 0),
+                                  html: item.fetch(:html, 0),
+                                  readers: item.fetch(:readers, 0),
+                                  comments: item.fetch(:comments, 0),
+                                  likes: item.fetch(:likes, 0)) }
+  end
+
+  def update_months(data)
+    data.map { |item| Month.where(retrieval_status_id: id,
+                                  month: item[:month],
+                                  year: item[:year]).first_or_create(
+                                    work_id: work_id,
+                                    source_id: source_id,
+                                    total: item.fetch(:total, 0),
+                                    pdf: item.fetch(:pdf, 0),
+                                    html: item.fetch(:html, 0),
+                                    readers: item.fetch(:readers, 0),
+                                    comments: item.fetch(:comments, 0),
+                                    likes: item.fetch(:likes, 0)) }
+  end
+
+  def retrieved_days_ago
+    if [Date.new(1970, 1, 1), today].include?(retrieved_at.to_date)
+      1
+    else
+      (today - retrieved_at.to_date).to_i
+    end
   end
 
   def to_param
@@ -60,6 +172,11 @@ class RetrievalStatus < ActiveRecord::Base
 
   def events
     []
+  end
+
+  # dates via utc time are more accurate than Date.today
+  def today
+    Time.zone.now.to_date
   end
 
   def by_day
@@ -85,6 +202,88 @@ class RetrievalStatus < ActiveRecord::Base
     end
   end
 
+  def get_events_previous_day
+    row = days.last
+
+    if row.nil?
+      # first record
+      { pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 0 }
+    elsif [row.year, row.month, row.day] == [today.year, today.month, today.day]
+      # update today's record
+      { pdf: pdf - row.pdf,
+        html: html - row.html,
+        readers: readers - row.readers,
+        comments: comments - row.comments,
+        likes: likes - row.likes,
+        total: total - row.total }
+    else
+      # add record
+      { pdf: row.pdf,
+        html: row.html,
+        readers: row.readers,
+        comments: row.comments,
+        likes: row.likes,
+        total: row.total }
+    end
+  end
+
+  # calculate events for current day based on past numbers
+  # track daily events only the first 30 days after publication
+  def get_events_current_day
+    return nil if today - work.published_on > 30
+
+    row = get_events_previous_day
+
+    { year: today.year,
+      month: today.month,
+      day: today.day,
+      pdf: pdf - row.fetch(:pdf, 0),
+      html: html - row.fetch(:html, 0),
+      readers: readers - row.fetch(:readers, 0),
+      comments: comments - row.fetch(:comments, 0),
+      likes: likes - row.fetch(:likes, 0),
+      total: total - row.fetch(:total, 0) }
+  end
+
+  def get_events_previous_month
+    row = months.last
+
+    if row.nil?
+      # first record
+      { pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 0 }
+    elsif [row.year, row.month] == [today.year, today.month]
+      # update this month's record
+      { pdf: pdf - row.pdf,
+        html: html - row.html,
+        readers: readers - row.readers,
+        comments: comments - row.comments,
+        likes: likes - row.likes,
+        total: total - row.total }
+    else
+      # add record
+      { pdf: row.pdf,
+        html: row.html,
+        readers: row.readers,
+        comments: row.comments,
+        likes: row.likes,
+        total: row.total }
+    end
+  end
+
+  # calculate events for current month based on past numbers
+  def get_events_current_month
+    row = get_events_previous_month
+
+    { year: today.year,
+      month: today.month,
+      pdf: pdf - row.fetch(:pdf, 0),
+      html: html - row.fetch(:html, 0),
+      readers: readers - row.fetch(:readers, 0),
+      comments: comments - row.fetch(:comments, 0),
+      likes: likes - row.fetch(:likes, 0),
+      total: total - row.fetch(:total, 0) }
+  end
+
   def metrics
     @metrics ||= { pdf: pdf,
                    html: html,
@@ -104,10 +303,6 @@ class RetrievalStatus < ActiveRecord::Base
                        likes: likes,
                        citations: pdf + html + readers + comments + likes > 0 ? 0 : total,
                        total: total }
-  end
-
-  def get_past_events_by_month
-    retrieval_histories.group_by { |item| item.retrieved_at.strftime("%Y-%m") }.sort.map { |k, v| { :year => k[0..3].to_i, :month => k[5..6].to_i, :total => v.last.event_count } }
   end
 
   def group_name
