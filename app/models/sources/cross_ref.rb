@@ -5,11 +5,11 @@ class CrossRef < Source
     if work.publisher_id.present?
       # check that we have publisher-specific configuration
       pc = publisher_config(work.publisher_id)
-      return { error: "CrossRef username or password is missing." } if pc.username.nil? || pc.password.nil?
+      fail ArgumentError, "CrossRef username or password is missing." if pc.username.nil? || pc.password.nil?
 
       url % { :username => pc.username, :password => pc.password, :doi => work.doi_escaped }
     else
-      return { error: "CrossRef OpenURL username is missing." } if openurl_username.nil?
+      fail ArgumentError, "CrossRef OpenURL username is missing." if openurl_username.nil?
 
       openurl % { :openurl_username => openurl_username, :doi => work.doi_escaped }
     end

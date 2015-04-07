@@ -21,7 +21,7 @@ class Mendeley < Source
   def get_query_url(work)
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
     return {} unless work.doi.present? || work.pmid.present? || work.scp.present?
-    return { error: "No access token." } unless get_access_token
+    fail ArgumentError, "No Mendeley access token." unless get_access_token
 
     if work.doi.present?
       query_string = "doi=#{work.doi}"

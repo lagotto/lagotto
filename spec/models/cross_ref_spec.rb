@@ -31,7 +31,7 @@ describe CrossRef, type: :model, vcr: true do
 
     it "without password" do
       crossref = FactoryGirl.create(:crossref_without_password)
-      expect(crossref.get_query_url(work)).to eq(error: "CrossRef username or password is missing.")
+      expect { crossref.get_query_url(work) }.to raise_error(ArgumentError, "CrossRef username or password is missing.")
     end
 
     it "without publisher" do

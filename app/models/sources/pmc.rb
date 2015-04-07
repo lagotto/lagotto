@@ -1,7 +1,7 @@
 class Pmc < Source
   def get_query_url(work)
     return {} unless work.doi.present?
-    return { error: "Source url is missing." } if url.present?
+    fail ArgumentError, "Source url is missing." if url.blank?
 
     url % { doi: work.doi_escaped }
   end

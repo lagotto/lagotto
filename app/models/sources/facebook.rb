@@ -1,6 +1,6 @@
 class Facebook < Source
   def get_query_url(work, options = {})
-    return { error: "No access token." } unless get_access_token
+    fail ArgumentError, "No Facebook access token." unless get_access_token
     return {} unless work.get_url
 
     # use depreciated v2.0 API if url_linkstat is used

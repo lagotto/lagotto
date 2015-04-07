@@ -45,25 +45,23 @@ class Wos < Source
   def check_error_status(result, work)
     status = result.deep_fetch('response', 'fn', 'rc') { 'OK' }
 
-    if status.casecmp('OK') == 0
-      false
+    return false if status.casecmp('OK') == 0
+
+    if status == 'Server.authentication'
+      class_name = 'Net::HTTPUnauthorized'
+      status_code = 401
     else
-      if status == 'Server.authentication'
-        class_name = 'Net::HTTPUnauthorized'
-        status_code = 401
-      else
-        class_name = 'Net::HTTPNotFound'
-        status_code = 404
-      end
-      error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
-      message = "Web of Science error #{status}: '#{error}' for work #{work.doi}"
-      Alert.where(message: message).where(unresolved: true).first_or_create(
-        exception: "",
-        class_name: class_name,
-        status: status_code,
-        source_id: id)
-      message
+      class_name = 'Net::HTTPNotFound'
+      status_code = 404
     end
+    error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
+    message = "Web of Science error #{status}: '#{error}' for work #{work.doi}"
+    Alert.where(message: message).where(unresolved: true).first_or_create(
+      exception: "",
+      class_name: class_name,
+      status: status_code,
+      source_id: id)
+    message
   end
 
   def get_xml_request(work)

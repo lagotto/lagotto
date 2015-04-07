@@ -243,7 +243,7 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(work, options = {})
-    return { error: "Source url is missing." } unless url.present?
+    fail ArgumentError, "Source url is missing." if url.blank?
 
     query_string = get_query_string(work)
     return query_string if query_string.is_a?(Hash)
@@ -252,7 +252,8 @@ class Source < ActiveRecord::Base
   end
 
   def get_events_url(work)
-    return { error: "Source events_url is missing." } unless events_url.present?
+    return nil unless has_attribute?(:events_url)
+    fail ArgumentError, "Source events_url is missing." if events_url.blank?
 
     query_string = get_query_string(work)
     return query_string if query_string.is_a?(Hash)

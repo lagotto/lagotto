@@ -6,8 +6,7 @@ class TwitterSearch < Source
   def get_query_url(work, options = {})
     query_string = get_query_string(work)
     return {} unless query_string.present?
-
-    return { error: "No access token." } unless get_access_token
+    fail ArgumentError, "No access token." unless get_access_token
 
     url % { query_string: query_string }
   end
