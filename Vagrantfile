@@ -135,7 +135,7 @@ Vagrant.configure("2") do |config|
       override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
       override.ssh.username = "ubuntu"
       digital_ocean.region = 'nyc2'
-      digital_ocean.image = '14.04 x64'
+      digital_ocean.image = 'ubuntu-14-04-x64'
     end
 
     machine.vm.hostname = ENV.fetch('HOSTNAME')
