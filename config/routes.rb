@@ -47,18 +47,29 @@ Lagotto::Application.routes.draw do
     end
 
     scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
-      resources :alerts, param: :uuid
-      resources :api_requests, only: [:index], param: :uuid
+      concern :workable do
+        resources :works, constraints: { :id => /.+?/ }
+      end
+
+      concern :measurable do
+        resources :metrics
+      end
+
+      resources :alerts
+      resources :api_requests, only: [:index]
       resources :docs, only: [:index, :show]
-      resources :events, only: [:index, :show]
       resources :groups, only: [:index, :show]
-      resources :metrics, only: [:index, :show], param: :pid
-      resources :publishers, only: [:index, :show], param: :member_id
-      resources :relation_types, only: [:index, :show], param: :name
-      resources :sources, only: [:index, :show], param: :name
-      resources :status, only: [:index], param: :uuid
-      resources :work_types, only: [:index, :show], param: :name
-      resources :works, constraints: { :id => /.+?/ }
+      resources :metrics
+      resources :publishers, concerns: [:workable, :measurable]
+      resources :relation_types, only: [:index, :show]
+      resources :sources, concerns: [:workable, :measurable]
+      resources :status, only: [:index]
+      resources :work_types, only: [:index, :show]
+      resources :works, constraints: { :id => /.+?/, :format=> false } do
+        resources :events
+        resources :references
+        resources :metrics
+      end
     end
   end
 
