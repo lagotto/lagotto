@@ -58,9 +58,11 @@ Lagotto::Application.routes.draw do
       resources :alerts
       resources :api_requests, only: [:index]
       resources :docs, only: [:index, :show]
+      resources :events
       resources :groups, only: [:index, :show]
       resources :metrics
       resources :publishers, concerns: [:workable, :measurable]
+      resources :references
       resources :relation_types, only: [:index, :show]
       resources :sources, concerns: [:workable, :measurable]
       resources :status, only: [:index]

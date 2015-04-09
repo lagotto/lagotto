@@ -7,8 +7,8 @@ class Api::V6::ReferencesController < Api::BaseController
   swagger_controller :references, "References"
 
   swagger_api :index do
-    summary "Returns list of references for a particular work"
-    param :query, :work_id, :string, :required, "Work ID"
+    summary "Returns list of references for a particular work, source and/or relation_type"
+    param :query, :work_id, :string, :optional, "Work ID"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
@@ -20,7 +20,8 @@ class Api::V6::ReferencesController < Api::BaseController
   end
 
   def index
-    collection = Relation.includes(:work, :related_work).where("work_id = ?", @work.id)
+    collection = Relation.includes(:work, :related_work)
+    collection = collection.where(work_id: @work.id) if @work
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)
@@ -45,7 +46,8 @@ class Api::V6::ReferencesController < Api::BaseController
   protected
 
   def load_work
-    # Load one work given query params
+    return nil unless params[:work_id].present?
+
     id_hash = get_id_hash(params[:work_id])
     if id_hash.respond_to?("key")
       key, value = id_hash.first
