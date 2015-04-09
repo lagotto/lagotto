@@ -12,6 +12,7 @@
 //= require jquery-bootpag/lib/jquery.bootpag.js
 //= require d3/d3.js
 //= require crossfilter/crossfilter.js
+//= require queue-async/queue.js
 //= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
 //
 // Load common d3 helper functions

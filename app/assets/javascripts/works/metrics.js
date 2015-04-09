@@ -19,40 +19,45 @@ var options = {
     minDaysForDaily: 1
   },
   vizDiv: "#panel-metrics",
-  showTitle: false,
-  groups: [{ name: "viewed", display_name: "Viewed" },
-           { name: "cited", display_name: "Cited" },
-           { name: "saved", display_name: "Saved" },
-           { name: "discussed", display_name: "Discussed" },
-           { name: "recommended", display_name: "Recommended" }]
+  work: {},
+  sources: [],
+  groups: []
 };
 
 var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
-  var pid = params.attr('data-pid');
-  var query = encodeURI("/api/metrics?ids=" + pid);
+  var work_id = params.attr('data-pid');
+  var query = encodeURI("/api/works/" + work_id + "/metrics");
 }
 
-// load the data from the Lagotto API
-// d3.json(encodeURI("/api/groups"))
-//   .header("Accept", "application/vnd.lagotto+json; version=6")
-//   .get(function(error, json) {
-//     if (error) { return console.warn(error); }
-//     options.groups = json.groups;
-// });
+// asynchronously load data from the Lagotto API
+queue()
+  .defer(d3.json, encodeURI("/api/works/" + work_id))
+  .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, encodeURI("/api/groups"))
+  .defer(d3.json, query)
+  .await(function(error, w, s, g, m) {
+    if (error) { return console.warn(error); }
+    options.work = w.work;
+    options.sources = s.sources;
+    options.groups = g.groups;
+    options.almStatsJson = m.metrics;
+    var almviz = new AlmViz(options);
+    almviz.initViz();
+});
 
-if (query) {
-  d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
-    .header("Authorization", "Token token=" + api_key)
-    .get(function(error, json) {
-      if (error) { return console.warn(error); }
-      options.almStatsJson = json.metrics;
-      var almviz = new AlmViz(options);
-      almviz.initViz();
-  });
-}
+// if (query) {
+//   d3.json(query)
+//     .header("Accept", "application/vnd.lagotto+json; version=6")
+//     .header("Authorization", "Token token=" + api_key)
+//     .get(function(error, json) {
+//       if (error) { return console.warn(error); }
+//       options.almStatsJson = json.metrics;
+//       var almviz = new AlmViz(options);
+//       almviz.initViz();
+//   });
+// }
 
 function AlmViz(options) {
   // allow jQuery object to be passed in
@@ -60,7 +65,9 @@ function AlmViz(options) {
   $ = options.jQuery || $;
 
   // Init data
+  var work_ = options.work;
   var groups_ = options.groups;
+  var sources_ = options.sources;
   var data = options.almStatsJson;
 
   // Abort if data are missing
@@ -69,34 +76,15 @@ function AlmViz(options) {
     return null;
   }
 
-  var additionalStats = options.additionalStatsJson;
-  if (additionalStats) {
-    data[0].sources.push(additionalStats);
-  }
-
   // Init basic options
   var baseUrl_ = options.baseUrl;
   var minItems_ = options.minItemsToShowGraph;
-  var showTitle = options.showTitle;
   var formatNumber_ = d3.format(",d");
 
   // extract publication date
-
   // Construct date object from date parts, using "1" for missing day and month
-  var date_parts = data[0]["issued"]["date-parts"][0];
-  var len = date_parts.length;
-  while (date_parts.length < 3) { date_parts.push(1); }
-
-  // turn numbers to strings and pad with 0
-  for (var i = 0; i < date_parts.length; ++i) {
-    if (date_parts[i] < 10) {
-      date_parts[i] = "0" + date_parts[i];
-    } else {
-      date_parts[i] = "" + date_parts[i];
-    }
-  }
-  var timestamp = Date.parse(date_parts.join('-'));
-  var pub_date  = new Date(timestamp);
+  var date_parts = work_["issued"]["date-parts"][0];
+  var pub_date = datePartsToDate(date_parts);
 
   var vizDiv;
   // Get the Div where the viz should go (default to one with ID "alm')
@@ -119,16 +107,9 @@ function AlmViz(options) {
   this.initViz = function() {
     vizDiv.select("#loading").remove();
 
-    if (showTitle) {
-      vizDiv.append("a")
-        .attr('href', 'http://dx.doi.org/' + data[0].doi)
-        .attr("class", "title")
-        .text(data[0].title);
-    }
-
     // loop through groups
     groups_.forEach(function(group) {
-      addGroup_(vizDiv, group, data);
+      addGroup_(vizDiv, group, sources_, data);
     });
 
     if (!metricsFound_) {
@@ -145,15 +126,15 @@ function AlmViz(options) {
    * @param {Object} data Statistics.
    * @return {JQueryObject|boolean}
    */
-  var addGroup_ = function(canvas, group, data) {
+  var addGroup_ = function(canvas, group, sources_, data) {
     var $groupRow = false;
 
     // Loop through sources to add statistics data to the group.
-    data[0]["sources"].forEach(function(source) {
-      if (source.group_name !== group.name) { return; }
+    sources_.forEach(function(source) {
+      if (source.group_id !== group.id) { return; }
 
-      var total = source.total;
-      if (total === 0) { return; }
+      metrics = data.filter(function(d) { return d.source_id === source.id; })[0];
+      if (metrics.total === 0) { return; }
 
       // Only add the group row the first time
       if (!$groupRow) {
@@ -164,16 +145,16 @@ function AlmViz(options) {
       metricsFound_ = true;
 
       // Some sources have multiple data
-      if (source.group_name === "viewed") {
-        if (source.html > 0) {
-          addSource_(source, source.title + " HTML", source.html, group, "html", $groupRow);
+      if (source.group_id === "viewed") {
+        if (metrics.html > 0) {
+          addSource_(source, source.title + " HTML", metrics, metrics.html, group, "html", $groupRow);
         }
-        if (source.pdf > 0) {
-          addSource_(source, source.title + " PDF", source.pdf, group, "pdf", $groupRow);
+        if (metrics.pdf > 0) {
+          addSource_(source, source.title + " PDF", metrics, metrics.pdf, group, "pdf", $groupRow);
         }
       } else {
         var label = source.title;
-        addSource_(source, label, total, group, "total", $groupRow);
+        addSource_(source, label, metrics, metrics.total, group, "total", $groupRow);
       }
     });
   };
@@ -192,7 +173,7 @@ function AlmViz(options) {
     // Build group html objects.
     groupRow = canvas.append("div")
       .attr("class", "alm-group")
-      .attr("id", "group-" + group.name);
+      .attr("id", "group-" + group.id);
 
     return groupRow;
   };
@@ -206,41 +187,41 @@ function AlmViz(options) {
    * @param {JQueryObject} $groupRow
    * @return {JQueryObject}
    */
-  var addSource_ = function(source, label, sourceTotalValue, group, subgroup, $groupRow) {
+  var addSource_ = function(source, label, metrics, sourceTotalValue, group, subgroup, $groupRow) {
     var $row, $countLabel, $count,
         total = sourceTotalValue;
 
     $row = $groupRow
       .append("div")
       .attr("class", "alm-source")
-      .attr("id", "source-" + source.name + "-" + subgroup);
+      .attr("id", "source-" + source.id + "-" + subgroup);
     $countLabel = $row.append("div")
-      .attr("class", "alm-label " + group.name);
+      .attr("class", "alm-label " + group.id);
 
-    if (source.events_url) {
+    if (metrics.events_url) {
       // if there is an eventsUrl, we can link to it from the count
       $count = $countLabel.append("p")
         .attr("class", "alm-count")
-        .attr("id", "alm-count-" + source.name + "-" + group.name)
+        .attr("id", "alm-count-" + source.id + "-" + group.id)
         .append("a")
-        .attr("href", function() { return source.events_url; });
+        .attr("href", function() { return metrics.events_url; });
     } else {
       // if no eventsUrl, we just put in the count
       $count = $countLabel.append("p")
         .attr("class", "alm-count")
-        .attr("id", "alm-count-" + source.name + "-" + group.name);
+        .attr("id", "alm-count-" + source.id + "-" + group.id);
     }
 
     $count
       .text(formatNumber_(total));
 
-    if (source.name === 'pkpTimedViews') {
+    if (source.id === 'pkpTimedViews') {
       $countLabel.append("p")
         .text(label);
     } else {
       // link the source name
       $countLabel.append("p").append("a")
-        .attr("href", baseUrl_ + "/sources/" + source.name)
+        .attr("href", baseUrl_ + "/sources/" + source.id)
         .text(label);
     }
 
@@ -253,8 +234,8 @@ function AlmViz(options) {
       var showMonthly = false;
       var showYearly = false;
 
-      if (source.by_year) {
-        var level_data = getData_('year', source);
+      if (metrics.by_year) {
+        var level_data = getData_('year', metrics);
         var yearTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numYears = d3.time.year.utc.range(pub_date, new Date()).length;
 
@@ -265,8 +246,8 @@ function AlmViz(options) {
         }
       }
 
-      if (source.by_month) {
-        var level_data = getData_('month', source);
+      if (metrics.by_month) {
+        var level_data = getData_('month', metrics);
         var monthTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
 
@@ -277,8 +258,8 @@ function AlmViz(options) {
         }
       }
 
-      if (source.by_day){
-        var level_data = getData_('day', source);
+      if (metrics.by_day){
+        var level_data = getData_('day', metrics);
         var dayTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numDays = d3.time.day.utc.range(pub_date, new Date()).length;
 
@@ -300,7 +281,7 @@ function AlmViz(options) {
         var $chartDiv = $row.append("div")
           .attr("class", "alm-chart");
 
-        var viz = getViz_($chartDiv, source, group, subgroup);
+        var viz = getViz_($chartDiv, source, group, subgroup, metrics);
         loadData_(viz, level);
 
         var update_controls = function(control) {
@@ -415,14 +396,14 @@ function AlmViz(options) {
    * @param {Object} source
    * @return {Array} Metrics
    */
-  var getData_ = function(level, source) {
+  var getData_ = function(level, metrics) {
     switch (level) {
       case 'year':
-        return source.by_year;
+        return metrics.by_year;
       case 'month':
-        return source.by_month;
+        return metrics.by_month;
       case 'day':
-        return source.by_day;
+        return metrics.by_day;
     }
   };
 
@@ -449,7 +430,7 @@ function AlmViz(options) {
    * @param {Array} group The group for 86 chart
    * @return {Object}
    */
-  var getViz_ = function(chartDiv, source, group, subgroup) {
+  var getViz_ = function(chartDiv, source, group, subgroup, metrics) {
     var viz = {};
 
     // size parameters
@@ -464,9 +445,10 @@ function AlmViz(options) {
     viz.group = group;
     viz.subgroup = subgroup;
     viz.source = source;
+    viz.metrics = metrics;
 
     // just for record keeping
-    viz.name = source.name + '-' + group.name + '-' + viz.subgroup;
+    viz.name = source.id + '-' + group.id + '-' + viz.subgroup;
 
     viz.x = d3.time.scale();
     viz.x.range([0, viz.width]);
@@ -475,7 +457,7 @@ function AlmViz(options) {
     viz.y.range([viz.height, 0]);
 
     viz.z = d3.scale.ordinal();
-    viz.z.range([group.name, group.name + '-alt']);
+    viz.z.range([group.id, group.id + '-alt']);
 
     // the chart
     viz.svg = viz.chartDiv.append("svg")
@@ -509,7 +491,7 @@ function AlmViz(options) {
   var loadData_ = function(viz, level) {
     var group = viz.group;
     var subgroup = viz.subgroup;
-    var level_data = getData_(level, viz.source);
+    var level_data = getData_(level, viz.metrics);
     var timeInterval = getTimeInterval_(level);
 
     var end_date = new Date();

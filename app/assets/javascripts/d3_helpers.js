@@ -93,20 +93,25 @@ function urlForWork(work) {
     return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work.pmcid;
   } else if (!!work.ark) {
     return "http://n2t.net/" + work.ark;
-  } else if (!!work.URL) {
+  } else if (!!work.url) {
     return work.url;
   } else {
     return "";
   }
 }
 
-function signpostsToString(work, source_id, order) {
-  if (source_id === "" && order === "") {
-    var a = [];
-  } else {
-    if (order !== "") { var name = order }
-    if (source_id !== "") { var name = source_id }
+function signpostsToString(work, source_id, sort) {
+  var name = "";
+  if (typeof source_id !== "undefined" && source_id !== "") {
+    name = source_id;
+  } else if (typeof sort !== "undefined" && sort !== "") {
+    name = sort;
+  }
+
+  if (name !== "") {
     var a = [name + ": " + formatFixed(work.metrics[name])];
+  } else {
+    var a = [];
   }
 
   var b = [];

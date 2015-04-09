@@ -1,30 +1,20 @@
 /*global d3 */
 
-var params = d3.select("#content");
+var params = d3.select("#api_key");
 
 if (!params.empty()) {
+  var event_id = params.attr('data-pid');
   var api_key = params.attr('data-api_key');
   var page = params.attr('data-page');
   if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
-  var q = params.attr('data-q');
-  var class_name = params.attr('data-class_name');
-  var publisher_id = params.attr('data-publisher_id');
   var source_id = params.attr('data-source_id');
-  var related_work_id = params.attr('data-related_work_id');
-  var work_id = params.attr('data-work_id');
-  var order = params.attr('data-order');
-  var model = params.attr('data-model');
+  var sort = params.attr('data-sort');
 
-  var query = encodeURI("/api/works?page=" + page);
+  var query = encodeURI("/api/works/" + event_id + "/events?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
-  if (q !== "") { query += "&q=" + q; }
-  if (class_name !== "") { query += "&class_name=" + class_name; }
-  if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (related_work_id !== "") { query += "&related_work_id=" + related_work_id; }
-  if (work_id !== "") { query += "&work_id=" + work_id; }
-  if (order !== "") { query += "&order=" + order; }
+  if (sort !== "") { query += "&sort=" + sort; }
 }
 
 // load the data from the Lagotto API
@@ -34,36 +24,30 @@ if (query) {
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
-      worksViz(json);
-      paginate(json);
+        eventsViz(json);
+        paginate(json);
   });
 }
 
 // add data to page
-function worksViz(json) {
-  data = json.works;
+function eventsViz(json) {
+  data = json.events;
 
   json.href = "?page={{number}}";
-  if (q !== "") { json.href += "&q=" + q; }
-  if (class_name !== "") { json.href += "&class_name=" + class_name; }
-  if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (related_work_id !== "") { json.href += "&related_work_id=" + related_work_id; }
-  if (work_id !== "") { json.href += "&work_id=" + work_id; }
-  if (order !== "") { json.href += "&order=" + order; }
+  if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
 
   if (typeof data === "undefined" || data.length === 0) {
-    d3.select("#content").text("")
+    d3.select("#content-events").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("There are currently no works");
-    if (model === "source") { d3.select("div#rss").remove(); }
+      .text("There are currently no events");
     return;
   }
 
-  d3.select("#content").insert("div")
+  d3.select("#content-events").insert("div")
     .attr("id", "results");
 
   for (var i=0; i<data.length; i++) {
@@ -83,6 +67,6 @@ function worksViz(json) {
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work, source_id, order));
+      .text(signpostsToString(work));
   }
 }
