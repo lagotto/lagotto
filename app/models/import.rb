@@ -63,7 +63,7 @@ class Import
   def import_data(items)
     Array(items).map do |item|
       work = Work.find_or_create(item)
-      work ? work.id : nil
+      work ? work.pid : nil
     end
   end
 end
