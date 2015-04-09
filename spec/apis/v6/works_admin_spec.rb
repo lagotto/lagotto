@@ -110,7 +110,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "with missing title and year params" do
-      before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
       let(:params) do
         { "work" => { "doi" => "10.1371/journal.pone.0036790",
@@ -262,7 +262,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "with missing title and year params" do
-      before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
       let(:params) { { "work" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
 

@@ -10,16 +10,16 @@ FactoryGirl.define do
     sequence(:canonical_url) { |n| "http://www.plosone.org/article/info:doi/10.1371/journal.pone.00000#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    year { Time.zone.now.to_date.year - 1 }
-    month { Time.zone.now.to_date.month }
-    day { Time.zone.now.to_date.day }
+    date = Time.zone.now.to_date - 1.year
+    year { date.year }
+    month { date.month }
+    day { date.day }
     publisher_id 340
     csl {{}}
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
-    trait(:missing_mendeley) { mendeley_uuid nil }
 
     factory :work_with_events do
       after :create do |work|
@@ -54,29 +54,20 @@ FactoryGirl.define do
     end
 
     factory :work_for_feed do
-      date = Time.zone.now - 1.day
-      year { date.year }
-      month { date.month }
-      day { date.day }
+      published_on { Time.zone.now.to_date - 1.day }
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: date, work: work)
+        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: published_on, work: work)
       end
     end
 
     factory :work_published_today do
-      date = Time.zone.now
-      year { date.year }
-      month { date.month }
-      day { date.day }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: date)] }
+      published_on { Time.zone.now.to_date }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: published_on)] }
     end
 
     factory :work_published_last_week do
-      date = Time.zone.now - 7.days
-      year { date.year }
-      month { date.month }
-      day { date.day }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: date)] }
+      published_on { Time.zone.now.to_date - 7.days }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: published_on)] }
     end
 
     factory :work_with_errors do
@@ -159,7 +150,6 @@ FactoryGirl.define do
     trait(:staleness) { association :source, factory: :citeulike }
     trait(:with_errors) { total 0 }
     trait(:with_private) { association :source, private: true }
-    trait(:with_crossref) { association :source, factory: :crossref }
     trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
@@ -167,7 +157,6 @@ FactoryGirl.define do
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
-    trait(:with_counter) { association :source, factory: :counter }
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
     trait(:with_work_published_today) { association :work, factory: :work_published_today }
     trait(:with_counter_and_work_published_today) do
@@ -177,6 +166,15 @@ FactoryGirl.define do
     trait(:with_crossref_and_work_published_today) do
       association :work, factory: :work_published_today
       association :source, factory: :crossref
+    end
+
+    trait(:with_counter) do
+      total 500
+      html 400
+      pdf 100
+      readers 0
+      association :work, factory: :work_published_last_week
+      association :source, factory: :counter
     end
 
     trait(:with_counter_last_day) do
@@ -222,6 +220,13 @@ FactoryGirl.define do
       end
     end
 
+    trait(:with_crossref) do
+      readers 0
+      total 25
+      association :work, factory: :work_published_last_week
+      association :source, factory: :crossref
+    end
+
     trait(:with_crossref_last_day) do
       readers 0
       total 25
@@ -235,7 +240,7 @@ FactoryGirl.define do
                                    year: last_day.year,
                                    month: last_day.month,
                                    day: last_day.day,
-                                   total: rs.total,
+                                   total: 20,
                                    readers: rs.readers)
       end
     end
@@ -268,7 +273,7 @@ FactoryGirl.define do
                                    source: rs.source,
                                    year: last_month.year,
                                    month: last_month.month,
-                                   total: rs.total,
+                                   total: 20,
                                    readers: rs.readers)
       end
     end
@@ -342,17 +347,6 @@ FactoryGirl.define do
       description 'Reports when workers are not running'
       users { [FactoryGirl.create(:user, role: "admin")] }
     end
-  end
-
-  factory :retrieval_history do
-    sequence(:retrieved_at) do |n|
-      Time.zone.now - n.weeks
-    end
-    sequence(:event_count) { |n| 1000 - 10 * n }
-
-    retrieval_status
-    work
-    source
   end
 
   factory :alert do
@@ -505,6 +499,14 @@ FactoryGirl.define do
     name "article-journal"
 
     initialize_with { WorkType.where(name: name).first_or_initialize }
+  end
+
+  factory :relation_type do
+    name "cites"
+    title "Cites"
+    inverse_title "Is cited by"
+
+    initialize_with { RelationType.where(name: name).first_or_initialize }
   end
 
   factory :status do
