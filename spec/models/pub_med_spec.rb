@@ -20,7 +20,7 @@ describe PubMed, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the PubMed API" do
       response = subject.get_data(work)
       expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(16)
-      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].first).to eq("1976277")
+      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].first).to eq("2464333")
     end
 
     it "should catch errors with the PubMed API" do
@@ -62,7 +62,9 @@ describe PubMed, type: :model, vcr: true do
       expect(response[:metrics][:total]).to eq(13)
 
       event = response[:works].first
+      expect(event["DOI"]).to eq("10.3389/fendo.2012.00005")
       expect(event["URL"]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3292175")
+      expect(event["title"]).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
     end
 
     it "should report if there is a single event returned by the PubMed API" do
@@ -74,7 +76,9 @@ describe PubMed, type: :model, vcr: true do
       expect(response[:metrics][:total]).to eq(1)
 
       event = response[:works].first
+      expect(event["DOI"]).to eq("10.3389/fendo.2012.00005")
       expect(event["URL"]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3292175")
+      expect(event["title"]).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
     end
 
     it "should catch timeout errors with the PubMed API" do

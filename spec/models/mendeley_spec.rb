@@ -41,7 +41,7 @@ describe Mendeley, :type => :model do
       expect(subject.get_access_token).not_to be false
       expect(stub).to have_been_requested
       expect(subject.access_token).to eq("MSwxMzk0OTg1MDcyMDk0LCwxOCwsLElEeF9XU256OWgzMDNlMmc4V0JaVkMyVnFtTQ")
-      expect(subject.expires_at).to eq(Time.now + 3600.seconds)
+      expect(subject.expires_at).to eq(Time.zone.now + 3600.seconds)
     end
 
     it "should look up access token if blank" do

@@ -81,10 +81,14 @@ module Resolvable
       end
     end
 
-    def get_persistent_identifiers(doi, options = { timeout: 120 })
+    def get_persistent_identifiers(id, idtype, options = { timeout: 120 })
+      return {} if id.blank?
+
       conn = faraday_conn('json')
-      params = { 'ids' => doi,
-                 'idtype' => "doi",
+      params = { 'tool' => "Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}",
+                 'email' => ENV['ADMIN_EMAIL'],
+                 'ids' => id,
+                 'idtype' => idtype,
                  'format' => 'json' }
       url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?" + params.to_query
 
@@ -93,8 +97,24 @@ module Resolvable
 
       if is_json?(response.body)
         json = JSON.parse(response.body)
-        json.extend Hashie::Extensions::DeepFetch
-        json.deep_fetch('records', 0) { { error: 'not found' } }
+        json.fetch("records", {}).first
+      else
+        { error: 'not found' }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_metadata(doi, options = {})
+      return {} if doi.blank?
+
+      conn = faraday_conn('json')
+      url = "http://api.crossref.org/works/" + doi
+      response = conn.get url, {}, options[:headers]
+
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+        json.fetch("message", {})
       else
         { error: 'not found' }
       end
@@ -114,13 +134,14 @@ module Resolvable
       case
       when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
       when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
-      when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
+      when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
       when id.starts_with?("10.")                then { doi: CGI.unescape(id) }
       when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
-      when id.starts_with?("info:pmid/")         then { pmid: id[10..-1] }
-      when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
-      when id.starts_with?("info:pmcid/PMC")     then { pmcid: id[14..-1] }
+      when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid:")             then { pmcid: id[6..-1] }
+      when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
+      when id.starts_with?("pmcid:PMC")          then { pmcid: id[9..-1] }
+      when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("PMC")                then { pmcid: id[3..-1] }
       when id.starts_with?("wos:")               then { wos: id[4..-1] }
       when id.starts_with?("scp:")               then { scp: id[4..-1] }

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?format=json&ids=&idtype=doi
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=&idtype=doi&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 26 Mar 2015 09:09:11 GMT
+      - Thu, 09 Apr 2015 22:02:27 GMT
       Server:
       - Apache
       Content-Type:
@@ -32,9 +32,9 @@ http_interactions:
         {
          "status": "error",
          "message": "Parameter 'ids' should not be empty",
-         "responseDate": "2015-03-26 05:09:11",
-         "request": "format=json;ids=;idtype=doi"
+         "responseDate": "2015-04-09 18:02:27",
+         "request": "email=info%40example.org;format=json;ids=;idtype=doi;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local"
         }
     http_version: 
-  recorded_at: Thu, 26 Mar 2015 08:55:21 GMT
+  recorded_at: Thu, 09 Apr 2015 21:48:40 GMT
 recorded_with: VCR 2.9.3

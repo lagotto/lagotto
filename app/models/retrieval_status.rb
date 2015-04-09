@@ -93,6 +93,8 @@ class RetrievalStatus < ActiveRecord::Base
   def update_works(data)
     data.map do |item|
       doi = item.fetch("DOI", nil)
+      pmid = item.fetch("PMID", nil)
+      pmcid = item.fetch("PMCID", nil)
       canonical_url = item.fetch("URL", nil)
       title = item.fetch("title", nil)
       date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
@@ -110,11 +112,15 @@ class RetrievalStatus < ActiveRecord::Base
         "title" => title,
         "type" => item.fetch("type", nil),
         "DOI" => doi,
+        "PMID" => pmid,
+        "PMCID" => pmcid,
         "URL" => canonical_url,
         "volume" => item.fetch("volume", nil) }
 
       i = {
         doi: doi,
+        pmid: pmid,
+        pmcid: pmcid,
         canonical_url: canonical_url,
         title: title,
         year: year,

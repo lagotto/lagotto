@@ -8,32 +8,30 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.12 - http://lagotto-bugfixes.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - application/xml
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Date:
-      - Thu, 01 Jan 2015 17:55:55 GMT
+      - Thu, 09 Apr 2015 23:25:06 GMT
       Server:
       - Apache
       Expires:
-      - Thu, 01 Jan 2015 17:55:56 GMT
+      - Thu, 09 Apr 2015 23:25:07 GMT
       Content-Type:
       - text/html; charset=ISO-8859-1
       Vary:
       - Accept-Encoding
       X-Ua-Compatible:
       - IE=Edge
-      Transfer-Encoding:
-      - chunked
     body:
       encoding: UTF-8
       string: "<!DOCTYPE PubMedToPMCcitingformSET PUBLIC \"-//NCBI//DTD PubMedToPMCreformSET,
         16th January 2002//EN\" \"entrez2pmcciting.dtd\">\n\n<PubMedToPMCcitingformSET>\n\t<REFORM>\n\t\t<PMID>1897483599</PMID>\n\t</REFORM>\n\n</PubMedToPMCcitingformSET>\n"
     http_version: 
-  recorded_at: Thu, 01 Jan 2015 17:53:53 GMT
+  recorded_at: Thu, 09 Apr 2015 23:25:06 GMT
 recorded_with: VCR 2.9.3

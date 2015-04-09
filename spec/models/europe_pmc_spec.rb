@@ -66,8 +66,12 @@ describe EuropePmc, type: :model, vcr: true do
       expect(event['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
       expect(event['container-title']).to eq("BMC Bioinformatics")
       expect(event['issued']).to eq("date-parts"=>[[2012]])
+      expect(event['DOI']).to eq("10.1186/1471-2105-13-174")
+      expect(event['PMID']).to eq("22823405")
+      expect(event['PMCID']).to eq("3443659")
       expect(event['URL']).to eq("http://europepmc.org/abstract/MED/22823405")
       expect(event['type']).to eq("article-journal")
+      expect(event['related_works']).to eq([{"related_work"=>work.pid, "source"=>"europe_pmc", "relation_type"=>"cites"}])
     end
 
     it "should catch timeout errors with the PMC Europe API" do

@@ -44,9 +44,13 @@ module Pmcable
 
     def get_related_works(result, work)
       result.fetch("#{result_key}List", {}).fetch(result_key, []).map do |item|
-        doi = item.fetch("doi", nil)
         pmid = item.fetch(pmid_key, nil)
-        url = doi ? "http://dx.doi.org/#{doi}" : "http://europepmc.org/abstract/MED/#{pmid}"
+        ids = get_persistent_identifiers(pmid, "pmid")
+        ids = {} unless ids.is_a?(Hash)
+        doi = ids.fetch("doi", nil)
+        pmcid = ids.fetch("pmcid", nil)
+        pmcid = pmcid[3..-1] if pmcid
+        url = pmid ? "http://europepmc.org/abstract/MED/#{pmid}" : nil
         author_string = item.fetch("authorString", "").chomp(".")
 
         { "author" => get_authors(author_string.split(", "), reversed: true),
@@ -55,6 +59,7 @@ module Pmcable
           "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
           "DOI" => doi,
           "PMID" => pmid,
+          "PMCID" => pmcid,
           "URL" => url,
           "type" => "article-journal",
           "related_works" => [{ "related_work" => work.pid,

@@ -160,16 +160,18 @@ class Work < ActiveRecord::Base
     missing_ids = ids.reject { |k, v| v.present? }
     return true if missing_ids.empty?
 
-    result = get_persistent_identifiers(doi)
+    key, value = missing_ids.first
+
+    result = get_persistent_identifiers(value, key)
 
     if result.present? && result.is_a?(Hash)
       # remove PMC prefix
       result['pmcid'] = result['pmcid'][3..-1] if result['pmcid']
 
-      new_ids = missing_ids.reduce({}) do |hash, (k, v)|
+      new_ids = missing_ids.reduce({}) do |hsh, (k, v)|
         val = result[k.to_s]
-        hash[k] = val if val.present? && val != "0"
-        hash
+        hsh[k] = val if val.present? && val != "0"
+        hsh
       end
       update_attributes(new_ids)
     else

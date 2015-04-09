@@ -53,6 +53,6 @@ function referencesViz(json, sources, relation_types) {
     d3.select("#results").append("p")
       .text(signpostsToString(work, sources));
     d3.select("#results").append("p")
-      .text(relationToString(work, sources, relation_types, true));
+      .text(relationToString(work, sources, relation_types, true).join(" "));
   }
 }

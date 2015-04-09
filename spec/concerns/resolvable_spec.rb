@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Work do
+describe Work, type: :model, vcr: true do
 
   context "HTTP" do
     let(:work) { FactoryGirl.create(:work_with_events) }
@@ -147,24 +147,36 @@ describe Work do
 
     context "persistent identifiers" do
       let(:work) { FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030") }
-      let(:pubmed_url) { "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json" }
 
       it "get_persistent_identifiers" do
-        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
-        stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers.json'))
-        response = subject.get_persistent_identifiers(work.doi)
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
+        response = subject.get_persistent_identifiers(work.doi, "doi")
         expect(response).to include(ids)
         expect(response).not_to include("errmsg")
-        expect(stub).to have_been_requested
       end
 
       it "get_persistent_identifiers with not found error" do
-        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030" }
-        stub = stub_request(:get, pubmed_url).to_return(:body => File.read(fixture_path + 'persistent_identifiers_nil.json'))
-        response = subject.get_persistent_identifiers(work.doi)
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
+        response = subject.get_persistent_identifiers("#{work.doi}x", "doi")
         expect(response).not_to include(ids)
         expect(response).to include("errmsg")
-        expect(stub).to have_been_requested
+      end
+    end
+
+    context "metadata" do
+      let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030") }
+
+      it "get_metadata" do
+        response = subject.get_metadata(work.doi)
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"].first).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
+        expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
+      end
+
+      it "get_metadata with not found error" do
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
+        response = subject.get_metadata("#{work.doi}x")
+        expect(response).to eq(error: "Resource not found.", status: 404)
       end
     end
   end
