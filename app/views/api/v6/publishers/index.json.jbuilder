@@ -4,7 +4,7 @@ json.meta do
   json.message_version "6.0.0"
   json.total @publishers.total_entries
   json.total_pages @publishers.per_page > 0 ? @publishers.total_pages : 1
-  json.page @publishers.total_entries > 0 ? @publishers.current_page : 0
+  json.page @publishers.total_entries > 0 ? @publishers.current_page : 1
 end
 
 json.publishers @publishers do |publisher|

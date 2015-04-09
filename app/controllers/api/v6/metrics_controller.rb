@@ -7,7 +7,8 @@ class Api::V6::MetricsController < Api::BaseController
     summary "Returns list of metrics by work IDs and/or source names"
     notes "If no work ids or source names are provided in the query, all metrics are returned, 1000 per page and sorted by update date."
     param :query, :work_ids, :string, :optional, "Work IDs"
-    param :query, :source_ids, :string, :optional, "Source names"
+    param :query, :source_id, :string, :optional, "Source name"
+    param :query, :sort, :string, :optional, "Sort by event count (pdf, html, readers, comments, likes or total) descending, or by update date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page, defaults to 1000"
     response :ok
@@ -17,28 +18,32 @@ class Api::V6::MetricsController < Api::BaseController
   end
 
   def index
-    collection = RetrievalStatus
-
-    if params[:work_ids]
-      collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])
+    if params[:work_id]
+      collection = RetrievalStatus.joins(:work).where("works.pid = ?", params[:work_id])
+    elsif params[:work_ids]
+      collection = RetrievalStatus.joins(:work).where("works.pid IN (?)", params[:work_ids])
+    elsif params[:source_id]
+      collection = RetrievalStatus.joins(:source).where("sources.name = ?", params[:source_id])
+    elsif params[:publisher_id]
+      collection = RetrievalStatus.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
+    else
+      collection = RetrievalStatus
     end
 
-    if params[:source_ids]
-      collection = collection.joins(:source).where("sources.name IN (?)", params[:source_ids])
-    end
-
-    if params[:order]
-      order = ["pdf", "html", "readers", "comments", "likes", "total"].find { |t| t == params[:order] } || "total"
-      collection = collection.order("? DESC", order)
+    if params[:sort]
+      sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
+      collection = collection.order(sort.to_sym => :desc)
     else
       collection = collection.order("retrieval_statuses.updated_at DESC")
     end
+
+    collection = collection.includes(:work, :source, :days, :months)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     collection = collection.paginate(per_page: per_page, :page => params[:page])
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @retrieval_statuses = collection.decorate
+    @metrics = collection.decorate
   end
 end

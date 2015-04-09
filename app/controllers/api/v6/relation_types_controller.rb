@@ -17,11 +17,11 @@ class Api::V6::RelationTypesController < Api::BaseController
   end
 
   def show
-    relation_type = RelationType.where(name: params[:name]).first
+    relation_type = RelationType.where(name: params[:id]).first
     if relation_type.present?
       @relation_type = relation_type.decorate
     else
-      render json: { meta: { status: "error", error: "Relation type #{params[:name]} not found." } }.to_json, status: :not_found
+      render json: { meta: { status: "error", error: "Relation type #{params[:id]} not found." } }.to_json, status: :not_found
     end
   end
 

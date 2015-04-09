@@ -11,6 +11,7 @@ class WorksController < ApplicationController
     @publisher = Publisher.where(member_id: params[:publisher_id]).first
     @source = Source.visible.where(name: params[:source_id]).first
     @order = Source.visible.where(name: params[:order]).first
+    @relation_type = RelationType.where(name: params[:relation_type_id]).first
   end
 
   def show
@@ -19,6 +20,7 @@ class WorksController < ApplicationController
     @groups = Group.order("id")
     @page = params[:page] || 1
     @source = Source.visible.where(name: params[:source_id]).first
+    @relation_type = RelationType.where(name: params[:relation_type_id]).first
     render :show
   end
 

@@ -4,7 +4,7 @@ json.meta do
   json.message_version "6.0.0"
   json.total @status.total_entries
   json.total_pages @status.per_page > 0 ? @status.total_pages : 1
-  json.page @status.total_entries > 0 ? @status.current_page : 0
+  json.page @status.total_entries > 0 ? @status.current_page : 1
 end
 
 json.status @status do |status|

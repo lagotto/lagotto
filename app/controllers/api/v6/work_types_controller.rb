@@ -17,11 +17,11 @@ class Api::V6::WorkTypesController < Api::BaseController
   end
 
   def show
-    work_type = WorkType.where(name: params[:name]).first
+    work_type = WorkType.where(name: params[:id]).first
     if work_type.present?
       @work_type = work_type.decorate
     else
-      render json: { meta: { status: "error", error: "Work type #{params[:name]} not found." } }.to_json, status: :not_found
+      render json: { meta: { status: "error", error: "Work type #{params[:id]} not found." } }.to_json, status: :not_found
     end
   end
 

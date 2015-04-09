@@ -1,4 +1,7 @@
 class Api::V6::WorksController < Api::BaseController
+  # include helper module for DOI resolution
+  include Resolvable
+
   before_filter :authenticate_user_from_token!, :load_work, only: [:show, :update, :destroy]
 
   swagger_controller :works, "Works"
@@ -11,7 +14,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :order, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
+    param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 500"
     response :ok
@@ -32,41 +35,66 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   def show
-    @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
-      .decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })
+    @work = @work.decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })
 
     fresh_when last_modified: @work.updated_at
   end
 
   def index
-    source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.where(member_id: params[:publisher_id]).first
-    parent = Work.where(pid: params[:parent_id]).first
-    collection = get_ids(params)
-    collection = get_class_name(collection, params) if params[:class_name]
-    collection = get_order(collection, params, source)
-
-    if params[:publisher_id] && publisher
-      collection = collection.where(publisher_id: params[:publisher_id])
-    end
-
-    if params[:parent_id] && parent
-      collection = collection.includes(:events).references(:events)
-      collection = collection.where("events.work_id = ?", parent.id)
+    if params[:ids]
+      collection = Work.where("works.pid IN (?)", params[:work_ids])
+    elsif params[:work_id] && work = Work.where(pid: params[:work_id]).first
+      collection = Work.joins(:relations)
+                   .where("relations.related_work_id = ?", work.id)
+    elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
+      collection = Work.joins(:retrieval_statuses)
+                     .where("retrieval_statuses.source_id = ?", source.id)
+                     .where("retrieval_statuses.total > 0")
+    elsif params[:publisher_id]
+      collection = Work.where(publisher_id: params[:publisher_id])
+    else
+      collection = Work
     end
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
-    total_entries = get_total_entries(params, source, publisher, parent)
+    #total_entries = get_total_entries(params, source, publisher, related_work, work)
 
     collection = collection.paginate(per_page: per_page,
-                                     page: params[:page],
-                                     total_entries: total_entries)
+                                     page: params[:page])
 
     fresh_when last_modified: collection.maximum(:updated_at)
+
     @works = collection.decorate(context: { info: params[:info],
                                             source_id: params[:source_id],
                                             admin: current_user.try(:is_admin_or_staff?) })
   end
+
+  # def index
+  #   source = Source.where(name: params[:source_id]).first
+  #   publisher = Publisher.where(member_id: params[:publisher_id]).first
+  #   related_work = Work.where(pid: params[:related_work_id]).first
+  #   work = Work.where(pid: params[:work_id]).first
+
+  #   collection = get_ids(params)
+  #   collection = get_class_name(collection, params) if params[:class_name]
+  #   collection = get_sort(collection, params, source)
+
+  #   if params[:publisher_id] && publisher
+  #     collection = collection.where(publisher_id: params[:publisher_id])
+  #   end
+
+  #   per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
+  #   total_entries = get_total_entries(params, source, publisher, related_work, work)
+
+  #   collection = collection.paginate(per_page: per_page,
+  #                                    page: params[:page],
+  #                                    total_entries: total_entries)
+
+  #   fresh_when last_modified: collection.maximum(:updated_at)
+  #   @works = collection.decorate(context: { info: params[:info],
+  #                                           source_id: params[:source_id],
+  #                                           admin: current_user.try(:is_admin_or_staff?) })
+  # end
 
   def create
     @work = Work.new(safe_params)
@@ -115,6 +143,12 @@ class Api::V6::WorksController < Api::BaseController
       collection = Work.joins(:retrieval_statuses)
                    .where("retrieval_statuses.source_id = ?", source.id)
                    .where("retrieval_statuses.total > 0")
+    elsif params[:related_work_id] && related_work = Work.where(pid: params[:related_work_id]).first
+      collection = Work.joins(:relations)
+                   .where("relations.related_work_id = ?", related_work.id)
+    elsif params[:work_id] && work = Work.where(pid: params[:work_id]).first
+      collection = Work.joins(:relations)
+                   .where("relations.work_id = ?", work.id)
     else
       collection = Work
     end
@@ -132,12 +166,12 @@ class Api::V6::WorksController < Api::BaseController
 
   # sort by source total
   # we can't filter and sort by two different sources
-  def get_order(collection, params, source)
-    if params[:order] && source && params[:order] == params[:source_id]
+  def get_sort(collection, params, source)
+    if params[:sort] && source && params[:sort] == params[:source_id]
       collection = collection.order("retrieval_statuses.total DESC")
-    elsif params[:order] && !source && order = Source.where(name: params[:order]).first
+    elsif params[:sort] && !source && sort = Source.where(name: params[:sort]).first
       collection = collection.joins(:retrieval_statuses)
-        .where("retrieval_statuses.source_id = ?", order.id)
+        .where("retrieval_statuses.source_id = ?", sort.id)
         .order("retrieval_statuses.total DESC")
     else
       collection = collection.order("published_on DESC")
@@ -145,14 +179,28 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   # use cached counts for total number of results
-  def get_total_entries(params, source, publisher, parent)
+  def get_total_entries(params, source, publisher, related_work, work)
     case
     when params[:ids] || params[:q] || params[:class_name] then nil # can't be cached
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
-    when parent then parent.events.size
+    when related_work then related_work.relations.size
+    when work then work.relations.size
     else Work.count_all
+    end
+  end
+
+  protected
+
+  def load_work
+    # Load one work given query params
+    id_hash = get_id_hash(params[:id])
+    if id_hash.respond_to?("key")
+      key, value = id_hash.first
+      @work = Work.where(key => value).first
+    else
+      fail ActiveRecord::RecordNotFound
     end
   end
 

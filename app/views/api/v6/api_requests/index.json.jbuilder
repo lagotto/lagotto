@@ -4,7 +4,7 @@ json.meta do
   json.message_version "6.0.0"
   json.total @api_requests.total_entries
   json.total_pages @api_requests.per_page > 0 ? @api_requests.total_pages : 1
-  json.page @api_requests.total_entries > 0 ? @api_requests.current_page : 0
+  json.page @api_requests.total_entries > 0 ? @api_requests.current_page : 1
 end
 
 json.api_requests @api_requests do |api_request|

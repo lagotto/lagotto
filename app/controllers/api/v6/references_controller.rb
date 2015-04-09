@@ -1,4 +1,4 @@
-class Api::V6::EventsController < Api::BaseController
+class Api::V6::ReferencesController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
@@ -24,7 +24,7 @@ class Api::V6::EventsController < Api::BaseController
   end
 
   def index
-    collection = Relation.includes(:work, :related_work).where("related_work_id = ?", @work.id)
+    collection = Relation.includes(:work, :related_work).where("work_id = ?", @work.id)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 
@@ -33,9 +33,9 @@ class Api::V6::EventsController < Api::BaseController
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @events = collection.decorate(context: { info: params[:info],
-                                             source_id: params[:source_id],
-                                             admin: current_user.try(:is_admin_or_staff?) })
+    @references = collection.decorate(context: { info: params[:info],
+                                                    source_id: params[:source_id],
+                                                    admin: current_user.try(:is_admin_or_staff?) })
   end
 
   protected
