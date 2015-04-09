@@ -57,7 +57,7 @@ class CrossRef < Source
           "container-title" => item.fetch("journal_title", nil),
           "issued" => get_date_parts_from_parts(item.fetch("year", nil)),
           "DOI" => doi,
-          "URL" => get_url_from_doi(doi),
+          "URL" => nil,
           "volume" => item.fetch("volume", nil),
           "issue" => item.fetch("issue", nil),
           "page" => item.fetch("first_page", nil),
