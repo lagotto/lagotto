@@ -32,7 +32,7 @@ class Work < ActiveRecord::Base
   before_validation :sanitize_title, :normalize_url, :set_pid
   after_create :create_retrievals, if: :tracked
 
-  scope :query, ->(query) { where("doi like ?", "#{query}%") }
+  scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :has_events, -> { includes(:retrieval_statuses)
     .where("retrieval_statuses.total > ?", 0)

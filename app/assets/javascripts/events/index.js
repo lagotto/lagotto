@@ -3,16 +3,17 @@
 var params = d3.select("#api_key");
 
 if (!params.empty()) {
-  var event_id = params.attr('data-pid');
   var api_key = params.attr('data-api_key');
   var page = params.attr('data-page');
   if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
+  var q = params.attr('data-q');
   var source_id = params.attr('data-source_id');
   var relation_type_id = params.attr('data-relation_type_id');
 
-  var query = encodeURI("/api/works/" + event_id + "/events?page=" + page);
+  var query = encodeURI("/api/events?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
+  if (q !== "") { query += "&q=" + q; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (relation_type_id !== "") { query += "&relation_type_id=" + relation_type_id; }
 }
@@ -33,26 +34,28 @@ function eventsViz(json, sources, relation_types) {
   data = json.events;
 
   json.href = "?page={{number}}";
+  if (q !== "") { json.href += "&q=" + q; }
   if (relation_type_id !== "") { json.href += "&relation_type_id=" + relation_type_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
 
   d3.select("#loading-results").remove();
 
   if (typeof data === "undefined" || data.length === 0) {
-    d3.select("#content-events").text("")
+    d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no events");
     return;
   }
 
-  d3.select("#content-events").insert("div")
+  d3.select("#content").insert("div")
     .attr("id", "results");
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
     var date_parts = work["issued"]["date-parts"][0];
     var date = datePartsToDate(date_parts);
+    var relation = relationToString(work, sources, relation_types);
 
     d3.select("#results").append("h4")
       .attr("class", "work")
@@ -67,7 +70,12 @@ function eventsViz(json, sources, relation_types) {
       .text(urlForWork(work));
     d3.select("#results").append("p")
       .text(signpostsToString(work, sources));
-    d3.select("#results").append("p")
-      .text(relationToString(work, sources, relation_types).join(" "));
+    d3.select("#results").append("span")
+      .text(relation[0] + " ")
+      .append("a")
+      .attr("href", function() { return "/works/" + work.event_id; })
+      .html(work.event_id);
+    d3.select("#results").append("span")
+      .text(relation[1]);
   }
 }

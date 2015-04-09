@@ -7,24 +7,26 @@ Lagotto::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
-
   #root :to => "ember#index"
   #get '/docs/*path' => 'ember#index'
   root :to => "docs#index"
 
-  # constraints is added to allow dot in the url (doi is used to show article)
-  resources :works, constraints: { :id => /.+?/, :format => /html|js/ }
+  resources :alerts, param: :uuid
+  resources :api_requests
+  resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
+  resources :events
+  resources :filters
+  resources :publishers, param: :member_id
   resources :sources, param: :name do
     resources :publisher_options, only: [:show, :edit, :update]
   end
-  resources :users
-  resources :publishers, param: :member_id
-  resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
-  resources :alerts, param: :uuid
-  resources :api_requests
-  resources :filters
   resources :status, :only => [:index]
+  resources :users
+
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
+
+  # constraints is added to allow dot in the url (doi is used to show article)
+  resources :works, constraints: { :id => /.+?/, :format => /html|js/ }
 
   get "heartbeat", to: "heartbeat#show", defaults: { format: "json" }
   get "oembed", to: "oembed#show"

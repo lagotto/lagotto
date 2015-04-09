@@ -5,8 +5,6 @@ class AddRelationTypeTitle < ActiveRecord::Migration
 
     rename_table :events, :relations
     rename_column :relations, :citation_id, :related_work_id
-
-    rename_column :sources, :eventable, :workable
   end
 
   def down
@@ -15,7 +13,5 @@ class AddRelationTypeTitle < ActiveRecord::Migration
 
     rename_column :relations, :related_work_id, :citation_id
     rename_table :relations, :events
-
-    rename_column :sources, :workable, :eventable
   end
 end

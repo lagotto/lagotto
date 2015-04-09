@@ -9,6 +9,7 @@ class Api::V6::EventsController < Api::BaseController
   swagger_api :index do
     summary "Returns list of events for a particular work, source and/or relation_type"
     param :query, :work_id, :string, :optional, "Work ID"
+    param :query, :q, :string, :optional, "Query for ids"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
@@ -22,6 +23,10 @@ class Api::V6::EventsController < Api::BaseController
   def index
     collection = Relation.includes(:work, :related_work)
     collection = collection.where(related_work_id: @work.id) if @work
+
+    if params[:q]
+      collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
+    end
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)

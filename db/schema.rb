@@ -255,7 +255,7 @@ ActiveRecord::Schema.define(version: 20150407164404) do
     t.boolean  "queueable",   limit: 1,     default: true
     t.string   "state_event", limit: 255
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.boolean  "workable",    limit: 1,     default: true
+    t.boolean  "eventable",    limit: 1,     default: true
   end
 
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
