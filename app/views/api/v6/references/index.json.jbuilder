@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
-  json.message_type "reference-list"
-  json.message_version "6.0.0"
+  json.set! :"message-type", "reference-list"
+  json.set! :"message-version", "6.0.0"
   json.total @references.total_entries
   json.total_pages @references.per_page > 0 ? @references.total_pages : 1
   json.page @references.total_entries > 0 ? @references.current_page : 1

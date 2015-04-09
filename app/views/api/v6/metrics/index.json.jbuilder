@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
-  json.message_type "metrics-list"
-  json.message_version "6.0.0"
+  json.set! :"message-type", "metrics-list"
+  json.set! :"message-version", "6.0.0"
   json.total @metrics.total_entries
   json.total_pages @metrics.per_page > 0 ? @metrics.total_pages : 1
   json.page @metrics.total_entries > 0 ? @metrics.current_page : 1

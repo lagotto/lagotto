@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
-  json.message_type "api_request-list"
-  json.message_version "6.0.0"
+  json.set! :"message-type", "api_request-list"
+  json.set! :"message-version", "6.0.0"
   json.total @api_requests.total_entries
   json.total_pages @api_requests.per_page > 0 ? @api_requests.total_pages : 1
   json.page @api_requests.total_entries > 0 ? @api_requests.current_page : 1

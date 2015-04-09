@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
-  json.message_type "publisher"
-  json.message_version "6.0.0"
+  json.set! :"message-type", "publisher"
+  json.set! :"message-version", "6.0.0"
 end
 
 json.publisher do

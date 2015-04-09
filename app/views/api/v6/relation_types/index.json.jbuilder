@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
-  json.message_type "relation_type-list"
-  json.message_version "6.0.0"
+  json.set! :"message-type", "relation_type-list"
+  json.set! :"message-version", "6.0.0"
   json.total @relation_types.size
 end
 

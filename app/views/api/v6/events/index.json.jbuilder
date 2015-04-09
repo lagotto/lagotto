@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
-  json.message_type "event-list"
-  json.message_version "6.0.0"
+  json.set! :"message-type", "event-list"
+  json.set! :"message-version", "6.0.0"
   json.total @events.total_entries
   json.total_pages @events.per_page > 0 ? @events.total_pages : 1
   json.page @events.total_entries > 0 ? @events.current_page : 1
