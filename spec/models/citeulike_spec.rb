@@ -81,8 +81,8 @@ describe Citeulike, type: :model, vcr: true do
       event = response[:works].first
       expect(event['URL']).to eq("http://www.citeulike.org/user/dbogartoit/article/694959")
       expect(event['author']).to be_nil
-      expect(event['title']).to eq("CiteULike bookmark")
-      expect(event['container-title']).to be_nil
+      expect(event['title']).to eq("CiteULike bookmark for DOI #{work.doi}")
+      expect(event['container-title']).to eq("CiteULike")
       expect(event['issued']).to eq("date-parts"=>[[2006, 6, 13]])
       expect(event['type']).to eq("entry")
       expect(event["timestamp"]).to eq("2006-06-13T16:14:19Z")
@@ -104,8 +104,8 @@ describe Citeulike, type: :model, vcr: true do
       event = response[:works].first
       expect(event['URL']).to eq("http://www.citeulike.org/user/dbogartoit/article/694959")
       expect(event['author']).to be_nil
-      expect(event['title']).to eq("CiteULike bookmark")
-      expect(event['container-title']).to be_nil
+      expect(event['title']).to eq("CiteULike bookmark for DOI #{work.doi}")
+      expect(event['container-title']).to eq("CiteULike")
       expect(event['issued']).to eq("date-parts"=>[[2006, 6, 13]])
       expect(event['type']).to eq("entry")
       expect(event["timestamp"]).to eq("2006-06-13T16:14:19Z")

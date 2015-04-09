@@ -27,9 +27,8 @@ class Citeulike < Source
       author = get_authors([item.fetch("post", {}).fetch("username", nil)].reject(&:blank?))
 
       { "author" => author.presence || nil,
-        "title" => "CiteULike bookmark",
-        "container-title" => nil,
-        "publisher" => "CiteULike",
+        "title" => "CiteULike bookmark for DOI #{work.doi}",
+        "container-title" => "CiteULike",
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "URL" => item.fetch("link", {}).fetch("url", nil),
