@@ -21,7 +21,7 @@ class Api::V6::SourcesController < Api::BaseController
   end
 
   def show
-    @source = Source.where(name: params[:name]).first
+    @source = Source.where(name: params[:id]).first
     @source = SourceDecorator.decorate(@source)
   end
 end
