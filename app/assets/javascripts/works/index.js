@@ -11,8 +11,6 @@ if (!params.empty()) {
   var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
   var source_id = params.attr('data-source_id');
-  var related_work_id = params.attr('data-related_work_id');
-  var work_id = params.attr('data-work_id');
   var sort = params.attr('data-sort');
   var model = params.attr('data-model');
 
@@ -22,8 +20,6 @@ if (!params.empty()) {
   if (class_name !== "") { query += "&class_name=" + class_name; }
   if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (related_work_id !== "") { query += "&related_work_id=" + related_work_id; }
-  if (work_id !== "") { query += "&work_id=" + work_id; }
   if (sort !== "") { query += "&sort=" + sort; }
 }
 
@@ -46,8 +42,6 @@ function worksViz(json, sources) {
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
   if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (related_work_id !== "") { json.href += "&related_work_id=" + related_work_id; }
-  if (work_id !== "") { json.href += "&work_id=" + work_id; }
   if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();

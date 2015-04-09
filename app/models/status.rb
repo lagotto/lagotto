@@ -17,8 +17,8 @@ class Status < ActiveRecord::Base
   end
 
   def collect_status_info
-    self.works_count = Work.count
-    self.works_new_count = Work.last_x_days(0).count
+    self.works_count = Work.tracked.count
+    self.works_new_count = Work.tracked.last_x_days(0).count
     self.events_count = RetrievalStatus.joins(:source).where("state > ?", 0)
       .where("name != ?", "relativemetric").sum(:total)
     self.responses_count = ApiResponse.total(1).count

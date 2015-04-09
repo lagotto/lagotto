@@ -41,23 +41,23 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   def index
+    source = Source.where(name: params[:source_id]).first
+    publisher = Publisher.where(member_id: params[:publisher_id]).first
+
     if params[:ids]
       collection = Work.where("works.pid IN (?)", params[:work_ids])
-    elsif params[:work_id] && work = Work.where(pid: params[:work_id]).first
-      collection = Work.joins(:relations)
-                   .where("relations.related_work_id = ?", work.id)
-    elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
+    elsif source
       collection = Work.joins(:retrieval_statuses)
                      .where("retrieval_statuses.source_id = ?", source.id)
                      .where("retrieval_statuses.total > 0")
     elsif params[:publisher_id]
       collection = Work.where(publisher_id: params[:publisher_id])
     else
-      collection = Work
+      collection = Work.trackable
     end
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
-    #total_entries = get_total_entries(params, source, publisher, related_work, work)
+    total_entries = get_total_entries(params, source, publisher)
 
     collection = collection.paginate(per_page: per_page,
                                      page: params[:page])
@@ -179,14 +179,12 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   # use cached counts for total number of results
-  def get_total_entries(params, source, publisher, related_work, work)
+  def get_total_entries(params, source, publisher)
     case
     when params[:ids] || params[:q] || params[:class_name] then nil # can't be cached
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
-    when related_work then related_work.relations.size
-    when work then work.relations.size
     else Work.count_all
     end
   end
