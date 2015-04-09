@@ -211,6 +211,17 @@ FactoryGirl.define do
     initialize_with { Datacite.where(name: name).first_or_initialize }
   end
 
+  factory :datacite_data, class: Datacite do
+    type "DataciteData"
+    name "datacite_data"
+    title "DataCite Data"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataciteData.where(name: name).first_or_initialize }
+  end
+
   factory :wordpress, class: Wordpress do
     type "Wordpress"
     name "wordpress"
