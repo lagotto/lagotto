@@ -19,7 +19,7 @@ class Work < ActiveRecord::Base
   has_many :alerts, :dependent => :destroy
   has_many :api_responses
   has_many :relations
-  has_many :related_works, :through => :relations
+  has_many :related_works, :through => :relations, :foreign_key => 'parent_id'
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
@@ -44,17 +44,21 @@ class Work < ActiveRecord::Base
 
   # this is faster than first_or_create
   def self.find_or_create(params)
-    self.create!(params)
+    work = self.create!(params.except(:related_works))
+    work.update_relations(params[:related_works])
+    work
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     # update title and/or date if work exists
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.start_with?("Validation failed: Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      work.update_attributes(params.except(:canonical_url)) unless work.nil?
+      work.update_attributes(params.except(:doi)) unless work.nil?
+      work.update_relations(params[:related_works])
       work
     elsif e.message.start_with?("Validation failed: Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       work.update_attributes(params.except(:canonical_url)) unless work.nil?
+      work.update_relations(params[:related_works])
       work
     else
       if params[:doi].present?
@@ -70,6 +74,20 @@ class Work < ActiveRecord::Base
         :class_name => "ActiveRecord::RecordInvalid",
         :target_url => target_url)
       nil
+    end
+  end
+
+  def update_relations(data)
+    Array(data).map do |item|
+      related_work = Work.where(pid: item.fetch("related_work")).first
+      source = Source.where(name: item.fetch("source")).first
+      relation_type = RelationType.where(name: item.fetch("relation_type")).first
+      #next unless related_work.present? && source.present? && relation_type.present?
+
+      Relation.where(work_id: id,
+                     related_work_id: related_work.id,
+                     source_id: source.id).first_or_create(
+                       relation_type_id: relation_type.id)
     end
   end
 

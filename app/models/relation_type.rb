@@ -1,5 +1,5 @@
 class RelationType < ActiveRecord::Base
-  has_many :work_types
+  has_many :relations
 
   def to_param
     name
