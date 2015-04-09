@@ -53,7 +53,7 @@ class Api::V6::WorksController < Api::BaseController
     elsif params[:publisher_id]
       collection = Work.where(publisher_id: params[:publisher_id])
     else
-      collection = Work.trackable
+      collection = Work.tracked
     end
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000

@@ -39,6 +39,7 @@ class Work < ActiveRecord::Base
     .references(:retrieval_statuses) }
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
+  scope :tracked, -> { where(tracked: true) }
 
   serialize :csl, JSON
 
