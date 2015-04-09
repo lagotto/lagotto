@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid_type="" data-pid="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source_id="<%= @source.present? ? @source.name : "" %>" data-order="" data-publisher_id="">
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-source_id="<%= @source.present? ? @source.name : "" %>" data-sort="">
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
@@ -122,19 +122,29 @@
       <%= render :partial => 'alert_message' %>
     </div>
   <% end %>
+<% end %>
 
-  <ul class="nav nav-pills">
+<ul class="nav nav-pills">
+  <% if @work.tracked %>
     <li class="active"><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#references" data-toggle="tab" title="References">References</a></li>
     <li><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
     <% if can?(:read, Alert) %>
       <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
     <% end %>
-  </ul>
+  <% else %>
+   <li class="active"><a href="#references" data-toggle="tab" title="References">References</a></li>
+  <% end %>
+</ul>
 
-  <div class="tab-content">
+<div class="tab-content">
+  <% if @work.tracked %>
     <div class="tab-pane active" id="events">
       <%= render :partial => 'events' %>
+    </div>
+    <div class="tab-pane" id="references">
+      <%= render :partial => 'references' %>
     </div>
     <div class="tab-pane" id="metrics">
       <%= render :partial => 'metrics' %>
@@ -145,5 +155,9 @@
     <div class="tab-pane" id="alert">
       <%= render :partial => 'alert' %>
     </div>
-  </div>
-<% end %>
+  <% else %>
+    <div class="tab-pane active" id="references">
+      <%= render :partial => 'references' %>
+    </div>
+  <% end %>
+</div>
