@@ -37,6 +37,10 @@ datacite = Datacite.where(name: 'datacite').first_or_create(
   :title => 'DataCite',
   :description => 'Helping you to find, access, and reuse research data.',
   :group_id => cited.id)
+datacite_data = DataciteData.where(name: 'datacite_data').first_or_create(
+  :title => 'DataCite Data',
+  :description => 'Helping you to find, access, and reuse research data.',
+  :group_id => cited.id)
 
 # These sources are not installed by default
 europe_pmc = EuropePmc.where(name: 'europe_pmc').first_or_create(
