@@ -253,7 +253,6 @@ class Source < ActiveRecord::Base
   end
 
   def get_events_url(work)
-    return nil unless has_attribute?(:events_url)
     fail ArgumentError, "Source events_url is missing." if events_url.blank?
 
     query_string = get_query_string(work)

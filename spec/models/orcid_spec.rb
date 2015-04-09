@@ -66,10 +66,10 @@ describe Orcid, type: :model, vcr: true do
       event = response[:works].first
       expect(event['URL']).to eq("http://orcid.org/0000-0002-0159-2197")
       expect(event['author']).to eq([{"family"=>"Eisen", "given"=>"Jonathan A."}])
-      expect(event['title']).to eq("ORCID profile")
-      expect(event['container-title']).to be_nil
-      expect(event['issued']).to eq("date-parts"=>[[]])
-      expect(event['timestamp']).to be_nil
+      expect(event['title']).to eq("ORCID profile for Jonathan A. Eisen")
+      expect(event['container-title']).to eq("ORCID Registry")
+      expect(event['issued']).to eq("date-parts"=>[[2015, 4, 9]])
+      expect(event['timestamp']).to eq("2015-04-09T00:00:00Z")
       expect(event['type']).to eq("entry")
     end
   end

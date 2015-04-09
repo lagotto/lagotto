@@ -24,14 +24,16 @@ class Citeulike < Source
     related_works = [related_works] if related_works.is_a?(Hash)
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
-      author = get_authors([item.fetch("post", {}).fetch("username", nil)].reject(&:blank?))
+      url = item.fetch("link", {}).fetch("url", nil)
+      path = URI.split(url)[5].split("/")
+      author = path[2]
 
-      { "author" => author.presence || nil,
-        "title" => "CiteULike bookmark by user #{author} for DOI #{work.doi}",
+      { "author" => author,
+        "title" => "CiteULike bookmark by #{path[1]} #{author} for DOI #{work.doi}",
         "container-title" => "CiteULike",
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
-        "URL" => item.fetch("link", {}).fetch("url", nil),
+        "URL" => url,
         "type" => "entry",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
