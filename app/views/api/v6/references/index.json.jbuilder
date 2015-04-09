@@ -8,7 +8,7 @@ json.meta do
 end
 
 json.references @references do |reference|
-  json.cache! ['v6', reference, params[:work_id]], skip_digest: true do
+  json.cache! ['v6', "reference", reference, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
 
     json.(reference.related_work, :id, :title, :issued, :container_title, :volume, :page, :issue, :publisher_id, :doi, :url, :pmid, :pmcid, :scp, :wos, :ark, :metrics)
     json.(reference, :reference_id, :source_id, :relation_type_id, :update_date)

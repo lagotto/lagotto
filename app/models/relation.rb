@@ -7,4 +7,8 @@ class Relation < ActiveRecord::Base
   def update_date
     updated_at.utc.iso8601
   end
+
+  def cache_key
+    "#{id}/#{update_date}"
+  end
 end

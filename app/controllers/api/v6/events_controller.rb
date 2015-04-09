@@ -31,16 +31,15 @@ class Api::V6::EventsController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
+    collection = collection.order("relations.updated_at DESC")
+
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 
-    collection = collection.paginate(per_page: per_page,
-                                     page: params[:page])
+    collection = collection.paginate(per_page: per_page, page: params[:page])
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @events = collection.decorate(context: { info: params[:info],
-                                             source_id: params[:source_id],
-                                             admin: current_user.try(:is_admin_or_staff?) })
+    @events = collection.decorate
   end
 
   protected

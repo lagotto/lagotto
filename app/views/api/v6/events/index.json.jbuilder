@@ -8,7 +8,7 @@ json.meta do
 end
 
 json.events @events do |event|
-  json.cache! ['v6', event, params[:work_id]], skip_digest: true do
+  json.cache! ['v6', "event", event, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
 
     json.(event.work, :id, :title, :issued, :container_title, :volume, :page, :issue, :publisher_id, :doi, :url, :pmid, :pmcid, :scp, :wos, :ark, :metrics)
     json.(event, :source_id, :event_id, :relation_type_id, :update_date)
