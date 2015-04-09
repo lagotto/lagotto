@@ -37,7 +37,7 @@
         </div>
       <% end %>
     </div>
-    <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-order="<%= @order.present? ? h(@order.name) : nil %>">
+    <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.member_id : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-sort="<%= @sort.present? ? h(@sort.name) : nil %>">
       Works
     </h1>
 
@@ -58,12 +58,12 @@
         <div class="btn-group btn-group-sm" id="work-alerts">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Works" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to "All Works", works_path(:q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], order: params[:order]) %></li>
+            <li><%= link_to "All Works", works_path(:q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
             <li class="divider"></li>
-            <li><%= link_to "All Alerts", works_path(:class_name => "All Alerts", :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], order: params[:order]) %></li>
+            <li><%= link_to "All Alerts", works_path(:class_name => "All Alerts", :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
             <li class="divider"></li>
             <% work_alerts.each do |alert| %>
-              <li><%= link_to h(alert), works_path(:class_name => alert, :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], order: params[:order]) %></li>
+              <li><%= link_to h(alert), works_path(:class_name => alert, :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
             <% end %>
           </ul>
         </div>
@@ -72,10 +72,10 @@
         <div class="btn-group btn-group-sm" id="work-publishers">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @publisher.nil? ? "All Publishers" : h(@publisher.title) %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><%= link_to "All Publishers", works_path(:q => params[:q], class_name: params[:class_name], source_id: params[:source_id], order: params[:order]) %></li>
+            <li><%= link_to "All Publishers", works_path(:q => params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: params[:sort]) %></li>
             <li class="divider"></li>
             <% publishers.each do |publisher| %>
-              <li><%= link_to publisher.title, works_path(:publisher_id => publisher.member_id, :q => params[:q], class_name: params[:class_name], source_id: params[:source_id], order: params[:order]) %></li>
+              <li><%= link_to publisher.title, works_path(:publisher_id => publisher.member_id, :q => params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: params[:sort]) %></li>
             <% end %>
           </ul>
         </div>
@@ -83,7 +83,7 @@
       <div class="btn-group btn-group-sm" id="work-source">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : h(@source.title) %> <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><%= link_to "All Sources", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher_id], order: params[:order]) %></li>
+          <li><%= link_to "All Sources", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher_id], sort: params[:sort]) %></li>
           <% Group.order("id").each do |group| %>
             <% group.sources.visible.each_with_index do |source, i| %>
               <%= '<li class="divider"></li>'.html_safe if i == 0 %>
@@ -94,20 +94,20 @@
       </div>
     </div>
     <div class="btn-toolbar pull-right">
-      <div class="btn-group btn-group-sm" id="work-order">
-        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @order.nil? ? "Sort by Date" : "Sort by #{@order.title}" %> <span class="caret"></span></a>
+      <div class="btn-group btn-group-sm" id="work-sort">
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
           <li><%= link_to "Sort by Date", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher_id], source_id: params[:source_id]) %></li>
           <% if @source.nil? %>
             <% Group.order("id").each do |group| %>
               <% group.sources.visible.each_with_index do |source, i| %>
                 <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-                <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher], source_id: params[:source_id], order: source.name) %></li>
+                <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher], source_id: params[:source_id], sort: source.name) %></li>
               <% end %>
             <% end %>
           <% else %>
             <li class="divider"></li>
-            <li><%= link_to "Sort by #{@source.title}", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher_id], source_id: @source.name, order: @source.name) %></li>
+            <li><%= link_to "Sort by #{@source.title}", works_path(q: params[:q], class_name: params[:class_name], publisher_id: params[:publisher_id], source_id: @source.name, sort: @source.name) %></li>
           <% end %>
         </ul>
       </div>

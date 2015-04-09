@@ -7,18 +7,18 @@ if (!params.empty()) {
   var query = encodeURI("/api/works/" + reference_id + "/references");
 }
 
-// load the data from the Lagotto API
-if (query) {
-  d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
-    .get(function(error, json) {
-      if (error) { return console.warn(error); }
-      referencesViz(json);
-  });
-}
+// asynchronously load data from the Lagotto API
+queue()
+  .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, encodeURI("/api/relation_types"))
+  .defer(d3.json, query)
+  .await(function(error, s, rt, r) {
+    if (error) { return console.warn(error); }
+    referencesViz(r, s.sources, rt.relation_types);
+});
 
 // add data to page
-function referencesViz(json) {
+function referencesViz(json, sources, relation_types) {
   data = json.references;
 
   d3.select("#loading-results").remove();
@@ -51,6 +51,8 @@ function referencesViz(json) {
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work));
+      .text(signpostsToString(work, sources));
+    d3.select("#results").append("p")
+      .text(relationToString(work, sources, relation_types, true));
   }
 }

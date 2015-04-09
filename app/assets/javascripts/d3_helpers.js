@@ -100,7 +100,7 @@ function urlForWork(work) {
   }
 }
 
-function signpostsToString(work, source_id, sort) {
+function signpostsToString(work, sources, source_id, sort) {
   var name = "";
   if (typeof source_id !== "undefined" && source_id !== "") {
     name = source_id;
@@ -109,16 +109,19 @@ function signpostsToString(work, source_id, sort) {
   }
 
   if (name !== "") {
-    var a = [name + ": " + formatFixed(work.metrics[name])];
+    var source = sources.filter(function(d) { return d.id === name; })[0];
+    var a = [source.title + ": " + formatFixed(work.metrics[name])];
   } else {
     var a = [];
   }
 
-  var b = [];
-  if (work.viewed > 0) { b.push("Viewed: " + formatFixed(work.viewed)); }
-  if (work.cited > 0) { b.push("Cited: " + formatFixed(work.cited)); }
-  if (work.saved > 0) { b.push("Saved: " + formatFixed(work.saved)); }
-  if (work.discussed > 0) { b.push("Discussed: " + formatFixed(work.discussed)); }
+  var b = [],
+      signposts = signpostsFromWork(work);
+
+  if (signposts.viewed > 0) { b.push("Viewed: " + formatFixed(signposts.viewed)); }
+  if (signposts.cited > 0) { b.push("Cited: " + formatFixed(signposts.cited)); }
+  if (signposts.saved > 0) { b.push("Saved: " + formatFixed(signposts.saved)); }
+  if (signposts.discussed > 0) { b.push("Discussed: " + formatFixed(signposts.discussed)); }
   if (b.length > 0) {
     a.push(b.join(" • "));
     return a.join(" | ");
@@ -126,6 +129,25 @@ function signpostsToString(work, source_id, sort) {
     return a;
   } else {
     return "";
+  }
+}
+
+function signpostsFromWork(work) {
+  var viewed = (work.metrics.counter || 0) + (work.metrics.pmc || 0);
+  var cited = work.metrics.crossref;
+  var saved = (work.metrics.citeulike || 0) + (work.metrics.mendeley || 0);
+  var discussed = (work.metrics.facebook || 0) + (work.metrics.twitter || 0) + (work.metrics.twitter_search || 0);
+
+  return { "viewed": viewed, "cited": cited, "saved": saved, "discussed": discussed };
+}
+
+function relationToString(work, sources, relation_types, is_reference) {
+  var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
+  var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
+  if (typeof is_reference !== "undefined") {
+    return relation_type.title + " via " + source.title;
+  } else {
+    return relation_type.inverse_title + " via " + source.title;
   }
 }
 

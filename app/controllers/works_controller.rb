@@ -10,7 +10,7 @@ class WorksController < ApplicationController
     @class_name = params[:class_name]
     @publisher = Publisher.where(member_id: params[:publisher_id]).first
     @source = Source.visible.where(name: params[:source_id]).first
-    @order = Source.visible.where(name: params[:order]).first
+    @sort = Source.visible.where(name: params[:sort]).first
     @relation_type = RelationType.where(name: params[:relation_type_id]).first
   end
 

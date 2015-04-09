@@ -13,7 +13,7 @@ if (!params.empty()) {
   var source_id = params.attr('data-source_id');
   var related_work_id = params.attr('data-related_work_id');
   var work_id = params.attr('data-work_id');
-  var order = params.attr('data-order');
+  var sort = params.attr('data-sort');
   var model = params.attr('data-model');
 
   var query = encodeURI("/api/works?page=" + page);
@@ -24,23 +24,21 @@ if (!params.empty()) {
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (related_work_id !== "") { query += "&related_work_id=" + related_work_id; }
   if (work_id !== "") { query += "&work_id=" + work_id; }
-  if (order !== "") { query += "&order=" + order; }
+  if (sort !== "") { query += "&sort=" + sort; }
 }
 
-// load the data from the Lagotto API
-if (query) {
-  d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
-    .header("Authorization", "Token token=" + api_key)
-    .get(function(error, json) {
-      if (error) { return console.warn(error); }
-      worksViz(json);
-      paginate(json);
-  });
-}
+// asynchronously load data from the Lagotto API
+queue()
+  .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, query)
+  .await(function(error, s, w) {
+    if (error) { return console.warn(error); }
+    worksViz(w, s.sources);
+    paginate(w);
+});
 
 // add data to page
-function worksViz(json) {
+function worksViz(json, sources) {
   data = json.works;
 
   json.href = "?page={{number}}";
@@ -50,7 +48,7 @@ function worksViz(json) {
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
   if (related_work_id !== "") { json.href += "&related_work_id=" + related_work_id; }
   if (work_id !== "") { json.href += "&work_id=" + work_id; }
-  if (order !== "") { json.href += "&order=" + order; }
+  if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
 
@@ -83,6 +81,6 @@ function worksViz(json) {
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work, source_id, order));
+      .text(signpostsToString(work, sources, source_id, sort));
   }
 }

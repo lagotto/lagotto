@@ -4,17 +4,13 @@ class Api::V6::ReferencesController < Api::BaseController
 
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :related_works, "Related Works"
+  swagger_controller :references, "References"
 
   swagger_api :index do
-    summary "Returns list of works either by ID, or all"
-    notes "If no ids are provided in the query, all works are returned, 1000 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
-    param :query, :ids, :string, :optional, "Work IDs"
-    param :query, :q, :string, :optional, "Query for ids"
-    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    summary "Returns list of references for a particular work"
+    param :query, :work_id, :string, :required, "Work ID"
+    param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
-    param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 500"
     response :ok
@@ -25,6 +21,14 @@ class Api::V6::ReferencesController < Api::BaseController
 
   def index
     collection = Relation.includes(:work, :related_work).where("work_id = ?", @work.id)
+
+    if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
+      collection = collection.where(relation_type_id: relation_type.id)
+    end
+
+    if params[:source_id] && source = Source.where(name: params[:source_id]).first
+      collection = collection.where(source_id: source.id)
+    end
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 

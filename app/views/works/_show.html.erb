@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-source_id="<%= @source.present? ? @source.name : "" %>" data-sort="">
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-source_id="<%= @source.present? ? @source.name : "" %>" data-relation_type_id="<%= @relation_type.present? ? @relation_type.name : "" %>" data-sort="">
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">

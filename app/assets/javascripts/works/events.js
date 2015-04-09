@@ -9,28 +9,29 @@ if (!params.empty()) {
   if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
   var source_id = params.attr('data-source_id');
+  var relation_type_id = params.attr('data-relation_type_id');
   var sort = params.attr('data-sort');
 
   var query = encodeURI("/api/works/" + event_id + "/events?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
+  if (relation_type_id !== "") { query += "&relation_type_id=" + relation_type_id; }
   if (sort !== "") { query += "&sort=" + sort; }
 }
 
-// load the data from the Lagotto API
-if (query) {
-  d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
-    .header("Authorization", "Token token=" + api_key)
-    .get(function(error, json) {
-      if (error) { return console.warn(error); }
-        eventsViz(json);
-        paginate(json);
-  });
-}
+// asynchronously load data from the Lagotto API
+queue()
+  .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, encodeURI("/api/relation_types"))
+  .defer(d3.json, query)
+  .await(function(error, s, r, w) {
+    if (error) { return console.warn(error); }
+    eventsViz(w, s.sources, r.relation_types);
+    paginate(w);
+});
 
 // add data to page
-function eventsViz(json) {
+function eventsViz(json, sources, relation_types) {
   data = json.events;
 
   json.href = "?page={{number}}";
@@ -67,6 +68,8 @@ function eventsViz(json) {
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work));
+      .text(signpostsToString(work, sources));
+    d3.select("#results").append("p")
+      .text(relationToString(work, sources, relation_types));
   }
 }
