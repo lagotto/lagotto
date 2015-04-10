@@ -84,11 +84,21 @@ class Work < ActiveRecord::Base
     Array(data).map do |item|
       related_work = Work.where(pid: item.fetch("related_work")).first
       source = Source.where(name: item.fetch("source")).first
-      relation_type = RelationType.where(name: item.fetch("relation_type")).first
+      relation_name = item.fetch("relation_type", nil)
+      # inverse relation
+      if relation_name.to_s[0] == "_"
+        work_id = related_work.id
+        related_work_id = id
+        relation_type = RelationType.where(name: relation_name[1..-1]).first
+      else
+        work_id = id
+        related_work_id = related_work.id
+        relation_type = RelationType.where(name: relation_name).first
+      end
       #next unless related_work.present? && source.present? && relation_type.present?
 
-      Relation.where(work_id: id,
-                     related_work_id: related_work.id,
+      Relation.where(work_id: work_id,
+                     related_work_id: related_work_id,
                      source_id: source.id).first_or_create(
                        relation_type_id: relation_type.id)
     end

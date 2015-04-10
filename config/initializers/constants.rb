@@ -7,6 +7,12 @@ NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
                           NoMethodError,
                           TypeError]
 
+RESCUABLE_EXCEPTIONS = [ActiveRecord::RecordNotFound,
+                        CanCan::AccessDenied,
+                        ActionController::ParameterMissing,
+                        ActiveModel::ForbiddenAttributesError,
+                        NoMethodError]
+
 # Format used for DOI validation
 # The prefix is 10.x where x is 4-5 digits. The suffix can be anything, but can"t be left off
 DOI_FORMAT = %r(\A10\.\d{4,5}/.+)
@@ -91,4 +97,33 @@ MEDIACURATION_TYPE_TRANSLATIONS = {
   "Podcast/Video" => "broadcast",
   "Lab website/homepage" => "webpage",
   "University page" => "webpage"
+}
+
+# DataCite relationType from DataCite metadata schema: http://dx.doi.org/10.5438/0010
+DATACITE_RELATION_TYPE_TRANSLATIONS = {
+  "Cites" => "cites",
+  "IsCitedBy" => "_cites",
+  "Supplements" => "supplements",
+  "IsSupplementTo" => "_supplements",
+  "Continues" => "continues",
+  "IsContinuedBy" => "_continues",
+  "IsMetadataFor" => "is_metadata_for",
+  "HasMetadata" => "_is_metadata_for",
+  "isNewVersionOf" => "is_new_version_of",
+  "isPreviousVersionOf" => "_is_new_version_of",
+  "IsPartOf" => "is_part_of",
+  "IsPartOf" => "_is_part_of",
+  "References" => "references",
+  "IsReferencedBy" => "_references",
+  "Documents" => "documents",
+  "IsDocumentedBy" => "_documents",
+  "Compiles" => "compiles",
+  "IsCompiledBy" => "_compiles",
+  "IsVariantFormOf" => "is_variant_form_of",
+  "IsOriginalFormOf" => "_is_variant_form_of",
+  "IsIdenticalTo" => "is_identical_to",
+  "Reviews" => "reviews",
+  "IsReviewedBy" => "_reviews",
+  "IsDerivedFrom" => "is_derived_from",
+  "IsSourceOf" => "_is_derived_from"
 }
