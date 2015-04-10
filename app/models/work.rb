@@ -18,8 +18,10 @@ class Work < ActiveRecord::Base
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts, :dependent => :destroy
   has_many :api_responses
-  has_many :relations, :dependent => :destroy
-  has_many :related_works, :through => :relations, :foreign_key => 'pelated_work_id'
+  has_many :events, :class_name => "Relation", :foreign_key => "related_work_id", :dependent => :destroy
+  has_many :references, :class_name => "Relation", :dependent => :destroy
+  has_many :related_works, :through => :events
+  has_many :referenced_works, :through => :references, :source => :work
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
