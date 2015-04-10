@@ -61,13 +61,12 @@ describe Datacite, type: :model, vcr: true do
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.5061/DRYAD.8515")
-      expect(event["URL"]).to eq("http://dx.doi.org/10.5061/DRYAD.8515")
       expect(event['author']).to eq([{"family"=>"Ollomo", "given"=>"Benjamin"}, {"family"=>"Durand", "given"=>"Patrick"}, {"family"=>"Prugnolle", "given"=>"Franck"}, {"family"=>"Douzery", "given"=>"Emmanuel J. P."}, {"family"=>"Arnathau", "given"=>"Céline"}, {"family"=>"Nkoghe", "given"=>"Dieudonné"}, {"family"=>"Leroy", "given"=>"Eric"}, {"family"=>"Renaud", "given"=>"François"}])
       expect(event['title']).to eq("Data from: A new malaria agent in African hominids")
       expect(event['container-title']).to be_nil
       expect(event['issued']).to eq("date-parts"=>[[2011]])
       expect(event['type']).to eq("dataset")
-      expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"cites"}])
+      expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"_references"}])
     end
 
     it "should catch timeout errors with the Datacite API" do

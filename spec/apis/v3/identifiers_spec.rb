@@ -97,7 +97,7 @@ describe "/api/v3/articles", :type => :api do
 
     context "PMID" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmid/#{work.pmid}?api_key=#{api_key}" }
+      let(:uri) { "/api/v3/articles/pmid/#{work.pmid}?api_key=#{api_key}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -110,7 +110,7 @@ describe "/api/v3/articles", :type => :api do
 
     context "PMCID" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{work.pmcid}?api_key=#{api_key}" }
+      let(:uri) { "/api/v3/articles/pmcid/PMC#{work.pmcid}?api_key=#{api_key}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'

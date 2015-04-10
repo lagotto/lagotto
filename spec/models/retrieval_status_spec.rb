@@ -160,8 +160,8 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
       expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
 
-      expect(work.relations.length).to eq(1)
-      expect(work.relations.first.relation_type.name).to eq(relation_type.name)
+      expect(work.events.length).to eq(1)
+      expect(work.events.first.relation_type.name).to eq(relation_type.name)
 
       expect(work.related_works.length).to eq(1)
       expect(work.related_works.first).to eq(related_work)

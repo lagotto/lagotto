@@ -156,7 +156,7 @@ describe "/api/v6/works", :type => :api do
 
     context "no records found" do
       let(:uri) { "/api/works?ids=xxx" }
-      let(:nothing_found) { { "meta" => { "status" => "ok", "message_type" => "work-list", "total" => 0, "total_pages" => 1, "page" => 0 }, "works" => [] } }
+      let(:nothing_found) { { "meta" => { "status" => "ok", "message-type" => "work-list", "message-version" => "6.0.0", "total" => 0, "total_pages" => 1, "page" => 0 }, "works" => [] } }
 
       it "JSON" do
         get uri, nil, headers
