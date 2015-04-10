@@ -213,6 +213,39 @@ describe Source do
       end
     end
 
+    context "redirect requests" do
+      let(:redirect_url) { "http://www.example.org" }
+
+      it "redirect" do
+        stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+        stub_request(:get, redirect_url).to_return(status: 200, body: "Test")
+        response = subject.get_result(url)
+        expect(response).to eq("Test")
+        expect(Alert.count).to eq(0)
+      end
+
+      it "redirect four times" do
+        stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+        stub_request(:get, redirect_url).to_return(status: 301, headers: { location: redirect_url + "/x" })
+        stub_request(:get, redirect_url+ "/x").to_return(status: 301, headers: { location: redirect_url + "/y" })
+        stub_request(:get, redirect_url+ "/y").to_return(status: 301, headers: { location: redirect_url + "/z" })
+        stub_request(:get, redirect_url + "/z").to_return(status: 200, body: "Test")
+        response = subject.get_result(url)
+        expect(response).to eq("Test")
+        expect(Alert.count).to eq(0)
+      end
+
+      it "too many requests" do
+        stub = stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+        response = subject.get_result(url, limit: 0)
+        expect(response).to eq(error: "too many redirects; last one to: #{redirect_url} for #{url}", status: nil)
+        expect(Alert.count).to eq(1)
+        alert = Alert.first
+        expect(alert.class_name).to eq("FaradayMiddleware::RedirectLimitReached")
+        expect(alert.status).to eq(nil)
+      end
+    end
+
     context "store source_id with error" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])

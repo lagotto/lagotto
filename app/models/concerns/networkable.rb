@@ -9,7 +9,7 @@ module Networkable
 
   included do
     def get_result(url, options = { content_type: 'json' })
-      conn = faraday_conn(options[:content_type])
+      conn = faraday_conn(options[:content_type], options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.authorization :Bearer, options[:bearer] if options[:bearer]
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
@@ -33,7 +33,7 @@ module Networkable
     end
 
     def save_to_file(url, filename = "tmpdata", options = { content_type: 'xml' })
-      conn = faraday_conn(options[:content_type])
+      conn = faraday_conn(options[:content_type], options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
       response = conn.get url
@@ -61,18 +61,19 @@ module Networkable
       create_alert(exception, options)
     end
 
-    def faraday_conn(content_type = 'json')
+    def faraday_conn(content_type = 'json', options = {})
       accept_header =
         case content_type
         when 'html' then 'text/html; charset=UTF-8'
         when 'xml' then 'application/xml'
         else 'application/json'
         end
+      limit = options[:limit] || 10
 
       Faraday.new do |c|
         c.headers['Accept'] = accept_header
         c.headers['User-Agent'] = "Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}"
-        c.use      FaradayMiddleware::FollowRedirects, limit: 10, cookie: :all
+        c.use      FaradayMiddleware::FollowRedirects, limit: limit, cookie: :all
         c.request  :multipart
         c.request  :json if accept_header == 'application/json'
         c.use      Faraday::Response::RaiseError

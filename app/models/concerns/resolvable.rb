@@ -4,7 +4,7 @@ module Resolvable
   included do
 
     def get_canonical_url(url, options = { timeout: 120 })
-      conn = faraday_conn('html')
+      conn = faraday_conn('html', options)
 
       conn.options[:timeout] = options[:timeout]
       response = conn.get url, {}, options[:headers]
@@ -84,7 +84,7 @@ module Resolvable
     def get_persistent_identifiers(id, idtype, options = { timeout: 120 })
       return {} if id.blank?
 
-      conn = faraday_conn('json')
+      conn = faraday_conn('json', options)
       params = { 'tool' => "Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}",
                  'email' => ENV['ADMIN_EMAIL'],
                  'ids' => id,
@@ -108,7 +108,7 @@ module Resolvable
     def get_metadata(doi, options = {})
       return {} if doi.blank?
 
-      conn = faraday_conn('json')
+      conn = faraday_conn('json', options)
       url = "http://api.crossref.org/works/" + doi
       response = conn.get url, {}, options[:headers]
 
