@@ -10,10 +10,9 @@ FactoryGirl.define do
     sequence(:canonical_url) { |n| "http://www.plosone.org/article/info:doi/10.1371/journal.pone.00000#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
-    date = Time.zone.now.to_date - 1.year
-    year { date.year }
-    month { date.month }
-    day { date.day }
+    year { Time.zone.now.to_date.year - 1 }
+    month { Time.zone.now.to_date.month }
+    day { Time.zone.now.to_date.day }
     publisher_id 340
     csl {{}}
 
@@ -54,20 +53,26 @@ FactoryGirl.define do
     end
 
     factory :work_for_feed do
-      published_on { Time.zone.now.to_date - 1.day }
+      year { Time.zone.now.to_date.year }
+      month { Time.zone.now.to_date.month }
+      day { Time.zone.now.to_date.day - 1 }
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: published_on, work: work)
+        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: Time.zone.now - 1.day, work: work)
       end
     end
 
     factory :work_published_today do
-      published_on { Time.zone.now.to_date }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: published_on)] }
+      year { Time.zone.now.to_date.year }
+      month { Time.zone.now.to_date.month }
+      day { Time.zone.now.to_date.day }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.now)] }
     end
 
-    factory :work_published_last_week do
-      published_on { Time.zone.now.to_date - 7.days }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: published_on)] }
+    factory :work_published_last_day do
+      year { Time.zone.now.to_date.year }
+      month { Time.zone.now.to_date.month }
+      day { Time.zone.now.to_date.day - 1 }
+      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.now - 1.day)] }
     end
 
     factory :work_with_errors do
@@ -173,7 +178,7 @@ FactoryGirl.define do
       html 400
       pdf 100
       readers 0
-      association :work, factory: :work_published_last_week
+      association :work, factory: :work_published_last_day
       association :source, factory: :counter
     end
 
@@ -182,7 +187,7 @@ FactoryGirl.define do
       html 400
       pdf 100
       readers 0
-      association :work, factory: :work_published_last_week
+      association :work, factory: :work_published_last_day
       association :source, factory: :counter
       after :create do |rs|
         last_day = Time.zone.now.to_date - 1.day
@@ -204,7 +209,7 @@ FactoryGirl.define do
       html 200
       pdf 50
       readers 0
-      association :work, factory: :work_published_last_week
+      association :work, factory: :work_published_last_day
       association :source, factory: :counter
       after :create do |rs|
         FactoryGirl.create(:day, retrieval_status: rs,
@@ -223,14 +228,14 @@ FactoryGirl.define do
     trait(:with_crossref) do
       readers 0
       total 25
-      association :work, factory: :work_published_last_week
+      association :work, factory: :work_published_last_day
       association :source, factory: :crossref
     end
 
     trait(:with_crossref_last_day) do
       readers 0
       total 25
-      association :work, factory: :work_published_last_week
+      association :work, factory: :work_published_last_day
       association :source, factory: :crossref
       after :create do |rs|
         last_day = Time.zone.now.to_date - 1.day
@@ -248,7 +253,7 @@ FactoryGirl.define do
     trait(:with_crossref_current_day) do
       readers 0
       total 20
-      association :work, factory: :work_published_last_week
+      association :work, factory: :work_published_last_day
       association :source, factory: :crossref
       after :create do |rs|
         FactoryGirl.create(:day, retrieval_status: rs,

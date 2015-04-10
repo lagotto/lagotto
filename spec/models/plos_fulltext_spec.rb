@@ -3,14 +3,12 @@ require 'rails_helper'
 describe PlosFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:plos_fulltext) }
 
-  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
-      #lookup_stub = stub_request(:get, work.doi_as_url).to_return(:status => 404)
       response = subject.get_data(work)
-      #expect(lookup_stub).to have_been_requested
     end
 
     it "should not look up canonical URL if there is work url" do
@@ -24,12 +22,12 @@ describe PlosFulltext, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work)
       expect(response["response"]["numFound"]).to eq(0)
     end
@@ -56,7 +54,7 @@ describe PlosFulltext, type: :model, vcr: true do
 
   context "parse_data" do
      it "should report that there are no events if the doi has the wrong prefix" do
-      work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124")
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
       expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
@@ -68,7 +66,7 @@ describe PlosFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are events returned by the PLOS Search API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)

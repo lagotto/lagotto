@@ -137,7 +137,6 @@ describe CrossRef, type: :model, vcr: true do
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event["URL"]).to eq("http://dx.doi.org/10.3758/s13423-011-0070-4")
       expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(event['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(event['container-title']).to eq("Psychonomic Bulletin & Review")
@@ -159,7 +158,6 @@ describe CrossRef, type: :model, vcr: true do
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event["URL"]).to eq("http://dx.doi.org/10.3758/s13423-011-0070-4")
       expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(event['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(event['container-title']).to eq("Psychonomic Bulletin & Review")

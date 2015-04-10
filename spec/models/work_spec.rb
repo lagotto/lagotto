@@ -237,7 +237,7 @@ describe Work, type: :model, vcr: true do
 
   it 'viewed' do
     work = FactoryGirl.create(:work_with_counter_citations)
-    expect(work.viewed).to eq(50)
+    expect(work.viewed).to eq(500)
   end
 
   it 'discussed' do
@@ -252,7 +252,7 @@ describe Work, type: :model, vcr: true do
 
   it 'cited' do
     work = FactoryGirl.create(:work_with_crossref_citations)
-    expect(work.cited).to eq(50)
+    expect(work.cited).to eq(25)
   end
 
   it "events count" do
@@ -288,7 +288,6 @@ describe Work, type: :model, vcr: true do
 
   it 'should get_ids' do
     work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: nil)
-    pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json"
     expect(work.get_ids).to be true
     expect(work.pmid).to eq("17183658")
   end

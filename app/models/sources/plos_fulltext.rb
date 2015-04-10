@@ -1,8 +1,10 @@
 class PlosFulltext < Source
   def get_query_url(work, options = {})
-    return {} unless work.doi =~ /^10.1371/
+    # don't query if work is PLOS article
+    return {} if work.doi =~ /^10.1371/
 
     query_string = get_query_string(work)
+    return {} unless query_string.present?
 
     url % { query_string: query_string }
   end
@@ -12,7 +14,7 @@ class PlosFulltext < Source
   end
 
   def parse_data(result, work, options={})
-    return result if result[:error] || result["response"].nil?
+    return result if result[:error]
 
     related_works = get_related_works(result, work)
     total = related_works.length

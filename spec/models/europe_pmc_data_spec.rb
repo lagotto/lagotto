@@ -6,8 +6,8 @@ describe EuropePmcData, type: :model, vcr: true do
   let(:work) { FactoryGirl.create(:work, :pmid => "14624247") }
 
   context "get_data" do
-    it "should report that there are no events if the doi and pmid are missing" do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
+    it "should report that there are no events if the doi, pmid and pmcid are missing" do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
@@ -21,7 +21,7 @@ describe EuropePmcData, type: :model, vcr: true do
       response = subject.get_data(work)
       expect(response["hitCount"]).to eq(27737)
       cross_reference = response["dbCrossReferenceList"]["dbCrossReference"].first
-      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03000923")
+      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03004303")
     end
 
     it "should catch errors with the PMC Europe API" do

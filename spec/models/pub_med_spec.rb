@@ -6,8 +6,8 @@ describe PubMed, type: :model, vcr: true do
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001", :pmid => "17183631", :pmcid => "1762328") }
 
   context "get_data" do
-    it "should report that there are no events if the doi and pmid are missing" do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
+    it "should report that there are no events if the doi, pmid and pmcid are missing" do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
@@ -60,11 +60,21 @@ describe PubMed, type: :model, vcr: true do
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(13)
       expect(response[:metrics][:total]).to eq(13)
+      expect(response[:metrics][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3389/fendo.2012.00005")
-      expect(event["URL"]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3292175")
-      expect(event["title"]).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
+      expect(event["PMID"]).to eq("22389645")
+      expect(event["PMCID"]).to eq("3292175")
+      expect(event['author']).to eq([{"family"=>"Morrison", "given"=>"Shaun F."}, {"family"=>"Madden", "given"=>"Christopher J."}, {"family"=>"Tupone", "given"=>"Domenico"}])
+      expect(event['title']).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
+      expect(event['container-title']).to eq("Front. Endocrin.")
+      expect(event['issued']).to eq("date-parts"=>[[2012]])
+      expect(event['volume']).to eq("3")
+      expect(event['issue']).to be_nil
+      expect(event['page']).to be_nil
+      expect(event['type']).to eq("article-journal")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"pub_med", "relation_type"=>"cites"}])
     end
 
     it "should report if there is a single event returned by the PubMed API" do
@@ -74,11 +84,21 @@ describe PubMed, type: :model, vcr: true do
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
       expect(response[:metrics][:total]).to eq(1)
+      expect(response[:metrics][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3389/fendo.2012.00005")
-      expect(event["URL"]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3292175")
-      expect(event["title"]).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
+      expect(event["PMID"]).to eq("22389645")
+      expect(event["PMCID"]).to eq("3292175")
+      expect(event['author']).to eq([{"family"=>"Morrison", "given"=>"Shaun F."}, {"family"=>"Madden", "given"=>"Christopher J."}, {"family"=>"Tupone", "given"=>"Domenico"}])
+      expect(event['title']).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
+      expect(event['container-title']).to eq("Front. Endocrin.")
+      expect(event['issued']).to eq("date-parts"=>[[2012]])
+      expect(event['volume']).to eq("3")
+      expect(event['issue']).to be_nil
+      expect(event['page']).to be_nil
+      expect(event['type']).to eq("article-journal")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"pub_med", "relation_type"=>"cites"}])
     end
 
     it "should catch timeout errors with the PubMed API" do

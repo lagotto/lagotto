@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title,cross_published_journal_name,author_display&fq=doc_type:full&q=everything:%22https://github.com/rougier/ten-rules%22&rows=1000&wt=json
+    uri: http://api.plos.org/search?fl=id,publication_date,title,cross_published_journal_name,author_display&fq=doc_type:full&q=&rows=1000&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -33,7 +33,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"response":{"numFound":1,"start":0,"docs":[{"id":"10.1371/journal.pcbi.1003833","cross_published_journal_name":["PLOS Computational Biology","PLOS Collections"],"publication_date":"2014-09-11T00:00:00Z","author_display":["Nicolas P. Rougier","Michael Droettboom","Philip E. Bourne"],"title":"Ten Simple Rules for Better Figures"}]}}
+        {"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
   recorded_at: Fri, 10 Apr 2015 06:55:27 GMT
 recorded_with: VCR 2.9.3

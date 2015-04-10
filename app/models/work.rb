@@ -129,7 +129,7 @@ class Work < ActiveRecord::Base
   end
 
   def pmcid_as_url
-    "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{pmcid}" if pmcid.present?
+    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}/" if pmcid.present?
   end
 
   def ark_as_url
@@ -160,8 +160,8 @@ class Work < ActiveRecord::Base
     missing_ids = ids.reject { |k, v| v.present? }
     return true if missing_ids.empty?
 
-    key, value = missing_ids.first
-
+    existing_ids = ids.select { |k, v| v.present? }
+    key, value = existing_ids.first
     result = get_persistent_identifiers(value, key)
 
     if result.present? && result.is_a?(Hash)

@@ -31,7 +31,7 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report if there are no events returned by the BMC Search API" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work)
-      expect(response).to eq({})
+      expect(response).to eq("entries"=>[])
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do

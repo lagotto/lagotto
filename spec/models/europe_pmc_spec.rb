@@ -6,8 +6,8 @@ describe EuropePmc, type: :model, vcr: true do
   let(:work) { FactoryGirl.create(:work, :pmid => "15723116") }
 
   context "get_data" do
-    it "should report that there are no events if the pmid and doi are missing" do
-      work = FactoryGirl.create(:work, doi: nil, :pmid => nil)
+    it "should report that there are no events if the pmid, doi and pmcid are missing" do
+      work = FactoryGirl.create(:work, doi: nil, :pmid => nil, pmcid: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
@@ -69,7 +69,6 @@ describe EuropePmc, type: :model, vcr: true do
       expect(event['DOI']).to eq("10.1186/1471-2105-13-174")
       expect(event['PMID']).to eq("22823405")
       expect(event['PMCID']).to eq("3443659")
-      expect(event['URL']).to eq("http://europepmc.org/abstract/MED/22823405")
       expect(event['type']).to eq("article-journal")
       expect(event['related_works']).to eq([{"related_work"=>work.pid, "source"=>"europe_pmc", "relation_type"=>"cites"}])
     end

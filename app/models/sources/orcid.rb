@@ -15,7 +15,7 @@ class Orcid < Source
       author = { "family" => personal_details.fetch("family-name", {}).fetch("value", nil),
                  "given" => personal_details.fetch("given-names", {}).fetch("value", nil) }
       url = item.fetch("orcid-profile", {}).fetch("orcid-identifier", {}).fetch("uri", nil)
-      timestamp = get_iso8601_from_time(Time.zone.now.to_date.to_s)
+      timestamp = Time.zone.now.utc.iso8601
 
       { "author" => [author],
         "title" => "ORCID profile for #{author.fetch('given', '')} #{author.fetch('family', '')}",

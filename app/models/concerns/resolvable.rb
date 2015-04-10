@@ -132,21 +132,23 @@ module Resolvable
       id = id.gsub(/(http|https|ftp):\//, '\1://')
 
       case
-      when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
       when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
-      when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
-      when id.starts_with?("10.")                then { doi: CGI.unescape(id) }
       when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
-      when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
+      when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }
       when id.starts_with?("pmcid:")             then { pmcid: id[6..-1] }
+      when id.starts_with?("wos:")               then { wos: id[4..-1] }
+      when id.starts_with?("scp:")               then { scp: id[4..-1] }
+      when id.starts_with?("ark:")               then { ark: id }
+
+      when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
+      when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
+      when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
+      when id.starts_with?("10.")                then { doi: CGI.unescape(id) }
+      when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
       when id.starts_with?("pmcid:PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("PMC")                then { pmcid: id[3..-1] }
-      when id.starts_with?("wos:")               then { wos: id[4..-1] }
-      when id.starts_with?("scp:")               then { scp: id[4..-1] }
-      when id.starts_with?("ark:")               then { ark: id }
-      when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }
       else { doi: id }
       end
     end

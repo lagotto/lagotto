@@ -8,6 +8,10 @@ module Coverable
       url_private % { :doi => work.doi_escaped }
     end
 
+    def get_events_url(work)
+      nil
+    end
+
     def response_options
       { metrics: :comments }
     end

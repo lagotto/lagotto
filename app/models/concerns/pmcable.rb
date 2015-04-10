@@ -50,7 +50,6 @@ module Pmcable
         doi = ids.fetch("doi", nil)
         pmcid = ids.fetch("pmcid", nil)
         pmcid = pmcid[3..-1] if pmcid
-        url = pmid ? "http://europepmc.org/abstract/MED/#{pmid}" : nil
         author_string = item.fetch("authorString", "").chomp(".")
 
         { "author" => get_authors(author_string.split(", "), reversed: true),
@@ -60,7 +59,6 @@ module Pmcable
           "DOI" => doi,
           "PMID" => pmid,
           "PMCID" => pmcid,
-          "URL" => url,
           "type" => "article-journal",
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,

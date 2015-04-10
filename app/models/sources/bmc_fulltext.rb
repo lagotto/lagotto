@@ -1,8 +1,10 @@
 class BmcFulltext < Source
   def get_query_url(work, options = {})
-    return {} unless work.doi =~ /^10.1186/
+    # don't query if work is BMC article
+    return {} if work.doi =~ /^10.1186/
 
     query_string = get_query_string(work)
+    return {} unless query_string.present?
 
     url % { query_string: query_string }
   end

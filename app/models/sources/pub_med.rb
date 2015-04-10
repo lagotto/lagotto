@@ -38,7 +38,6 @@ class PubMed < Source
         "DOI" => doi,
         "PMID" => pmid,
         "PMCID" => item,
-        "URL" => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item,
         "type" => "article-journal",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,

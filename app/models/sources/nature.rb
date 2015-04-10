@@ -5,6 +5,10 @@ class Nature < Source
     work.doi_escaped
   end
 
+  def get_events_url(work)
+    nil
+  end
+
   def get_related_works(result, work)
     Array(result['data']).map do |item|
       item.extend Hashie::Extensions::DeepFetch

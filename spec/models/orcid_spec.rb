@@ -55,6 +55,8 @@ describe Orcid, type: :model, vcr: true do
     end
 
     it "should report if there are events returned by the ORCID API" do
+      allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
+
       body = File.read(fixture_path + 'orcid.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
@@ -68,9 +70,10 @@ describe Orcid, type: :model, vcr: true do
       expect(event['author']).to eq([{"family"=>"Eisen", "given"=>"Jonathan A."}])
       expect(event['title']).to eq("ORCID profile for Jonathan A. Eisen")
       expect(event['container-title']).to eq("ORCID Registry")
-      expect(event['issued']).to eq("date-parts"=>[[2015, 4, 9]])
-      expect(event['timestamp']).to eq("2015-04-09T00:00:00Z")
+      expect(event['issued']).to eq("date-parts"=>[[2013, 9, 5]])
+      expect(event['timestamp']).to eq("2013-09-05T00:00:00Z")
       expect(event['type']).to eq("entry")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"orcid", "relation_type"=>"bookmarks"}])
     end
   end
 end

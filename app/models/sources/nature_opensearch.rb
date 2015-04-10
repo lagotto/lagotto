@@ -32,7 +32,7 @@ class NatureOpensearch < Source
   end
 
   def parse_data(result, work, options={})
-    return result if result[:error] || result["feed"].nil?
+    return result if result[:error]
 
     related_works = get_related_works(result, work)
     total = related_works.length

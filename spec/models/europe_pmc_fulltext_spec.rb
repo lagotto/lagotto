@@ -78,7 +78,6 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       expect(event['container-title']).to eq("PLoS Genet")
       expect(event['issued']).to eq("date-parts"=>[[2012]])
       expect(event['type']).to eq("article-journal")
-      expect(event['URL']).to eq("http://dx.doi.org/10.1371/journal.pgen.1003129")
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do
