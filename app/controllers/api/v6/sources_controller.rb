@@ -17,11 +17,12 @@ class Api::V6::SourcesController < Api::BaseController
   end
 
   def index
-    @sources = SourceDecorator.decorate_collection(Source.visible)
+    collection = Source.visible.includes(:group)
+    @sources = collection.decorate
   end
 
   def show
-    @source = Source.where(name: params[:id]).first
-    @source = SourceDecorator.decorate(@source)
+    source = Source.where(name: params[:id]).first
+    @source = source.decorate
   end
 end

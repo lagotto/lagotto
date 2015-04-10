@@ -60,13 +60,12 @@ class Api::V6::WorksController < Api::BaseController
     total_entries = get_total_entries(params, source, publisher)
 
     collection = collection.paginate(per_page: per_page,
-                                     page: params[:page])
+                                     page: params[:page],
+                                     total_entries: total_entries)
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @works = collection.decorate(context: { info: params[:info],
-                                            source_id: params[:source_id],
-                                            admin: current_user.try(:is_admin_or_staff?) })
+    @works = collection.decorate(context: { admin: current_user.try(:is_admin_or_staff?) })
   end
 
   # def index

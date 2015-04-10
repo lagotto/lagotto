@@ -59,28 +59,35 @@ module Authenticable
       request.env["devise.skip_trackable"] = true
     end
 
-    rescue_from CanCan::AccessDenied do |exception|
-      render json: { meta: { status: "error", error: exception.message }}, status: 401
-    end
+    rescue_from *RESCUABLE_EXCEPTIONS do |exception|
+      status = case exception.class.to_s
+               when "CanCan::AccessDenied" then 401
+               when "ActiveRecord::RecordNotFound" then 404
+               when "ActiveModel::ForbiddenAttributesError", "NoMethodError" then 422
+               else 400
+               end
 
-    rescue_from ActiveRecord::RecordNotFound do |exception|
-      render json: { meta: { status: "error", error: exception.message }}, status: 404
-    end
+      if status == 404
+        message = "The page you are looking for doesn't exist."
+      else
+        create_alert(exception, status: status)
+        message = exception.message
+      end
 
-    rescue_from ActionController::ParameterMissing do |exception|
-      create_alert(exception, status: 400)
-      render json: { meta: { status: "error", error: exception.message }}, status: 400
-    end
-
-    rescue_from ActiveModel::ForbiddenAttributesError do |exception|
-      create_alert(exception, status: 422)
-      render json: { meta: { status: "error", error: exception.message }}, status: 422
-    end
-
-    rescue_from NoMethodError do |exception|
-      create_alert(exception, status: 422)
-
-      render json: { meta: { status: "error", error: exception.message }}, status: 422
+      respond_to do |format|
+        format.html do
+          if /(jpe?g|png|gif|css)/i == request.path
+            render text: message, status: status
+          else
+            @alert = Alert.where(message: message).where(unresolved: true).first_or_initialize(
+              status: status)
+            render "alerts/show", status: status
+          end
+        end
+        format.xml { render xml: { error: message }.to_xml, status: status }
+        format.rss { render :show, status: status, layout: false }
+        format.all { render json: { meta: { status: "error", error: message }}, status: status }
+      end
     end
   end
 end

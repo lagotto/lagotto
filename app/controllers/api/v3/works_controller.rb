@@ -34,6 +34,10 @@ class Api::V3::WorksController < Api::BaseController
     @work = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: { error: exception.message }, status: 404
+  end
+
   protected
 
   # Filter by source parameter, filter out private sources unless admin
