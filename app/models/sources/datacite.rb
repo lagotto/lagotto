@@ -1,15 +1,6 @@
 class Datacite < Source
-  def get_query_url(work)
-    return {} unless work.doi.present?
-
-    url % { doi: work.doi_escaped }
-  end
-
-  def get_events_url(work)
-    if events_url.present? && work.doi.present?
-      events_url % { doi: work.doi_escaped }
-    end
-  end
+  # include common methods for DataCite
+  include Datacitable
 
   def get_related_works(result, work)
     result["response"] ||= {}
@@ -18,21 +9,22 @@ class Datacite < Source
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS.fetch(type, nil) if type
 
+      related_identifier = item.fetch("relatedIdentifier", []).reduce(nil) do |sum, i|
+        ri = i.split(":",3 )
+        sum = ri.last.casecmp(work.doi) == 0 ? ri.first : sum
+      end
+      relation_type = DATACITE_RELATION_TYPE_TRANSLATIONS.fetch(related_identifier, nil) if related_identifier
+
       { "author" => get_authors(item.fetch('creator', []), reversed: true, sep: ", "),
         "title" => item.fetch("title", []).first.chomp("."),
         "container-title" => item.fetch("journal_title", nil),
         "issued" => get_date_parts_from_parts(item.fetch("publicationYear", nil)),
         "DOI" => doi,
-        "URL" => get_url_from_doi(doi),
         "type" => type,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
-                              "relation_type" => "cites" }] }
+                              "relation_type" => relation_type }] }
     end.compact
-  end
-
-  def config_fields
-    [:url, :events_url]
   end
 
   def url
