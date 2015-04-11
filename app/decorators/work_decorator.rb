@@ -32,8 +32,28 @@ class WorkDecorator < Draper::Decorator
     canonical_url
   end
 
+  def DOI
+    model.doi
+  end
+
+  def URL
+    model.canonical_url
+  end
+
+  def PMID
+    model.pmid
+  end
+
+  def PMCID
+    model.pmcid
+  end
+
   def mendeley
     mendeley_uuid
+  end
+
+  def timestamp
+    model.update_date
   end
 
   def events

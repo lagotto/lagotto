@@ -6,6 +6,6 @@ end
 
 json.work_type do
   json.cache! ['v6', @work_type], skip_digest: true do
-    json.(@work_type, :id, :title, :container, :update_date)
+    json.(@work_type, :id, :title, :container, :timestamp)
   end
 end

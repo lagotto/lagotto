@@ -9,8 +9,11 @@ end
 
 json.references @references do |reference|
   json.cache! ['v6', "reference", reference, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
-
-    json.(reference.related_work, :id, :title, :issued, :container_title, :volume, :page, :issue, :publisher_id, :doi, :url, :pmid, :pmcid, :scp, :wos, :ark, :metrics)
-    json.(reference, :reference_id, :source_id, :relation_type_id, :update_date)
+    json.(reference.related_work, :id, :publisher_id)
+    json.(reference, :reference_id, :source_id, :relation_type_id)
+    json.(reference.related_work, :title, :issued)
+    json.set! :"container-title", reference.related_work.container_title
+    json.(reference.related_work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :scp, :wos, :ark, :metrics)
+    json.(reference, :timestamp)
   end
 end

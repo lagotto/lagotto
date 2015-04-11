@@ -22,4 +22,8 @@ class RelationDecorator < Draper::Decorator
   def source_id
     model.source.name
   end
+
+  def timestamp
+    model.update_date
+  end
 end

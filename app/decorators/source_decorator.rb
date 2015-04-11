@@ -22,6 +22,10 @@ class SourceDecorator < Draper::Decorator
     name
   end
 
+  def timestamp
+    model.update_date
+  end
+
   def responses
     { "count" => response_count,
       "average" => average_count,

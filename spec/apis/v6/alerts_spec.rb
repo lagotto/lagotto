@@ -1,16 +1,20 @@
 require "rails_helper"
 
 describe "/api/v6/alerts", :type => :api do
-  let(:error) { { "error" => "You are not authorized to access this page."} }
-  let(:user) { FactoryGirl.create(:admin_user) }
+  let(:error) { { "meta"=> { "status"=>"error", "error"=>"You are not authorized to access this page." } } }
+  let(:user) { FactoryGirl.create(:user) }
   let(:headers) do
     { "HTTP_ACCEPT" => "application/json",
+      "Authorization" => "Token token=#{user.api_key}" }
+  end
+  let(:jsonp_headers) do
+    { "HTTP_ACCEPT" => "application/javascript",
       "Authorization" => "Token token=#{user.api_key}" }
   end
 
   context "index" do
     context "most recent articles" do
-      let(:uri) { "/api/v6/alerts" }
+      let(:uri) { "/api/alerts" }
       let!(:alert) { FactoryGirl.create_list(:alert, 55) }
 
       it "JSON" do
@@ -27,7 +31,7 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "only unresolved alerts" do
-      let(:uri) { "/api/v6/alerts?unresolved=1" }
+      let(:uri) { "/api/alerts?unresolved=1" }
 
       before(:each) do
         FactoryGirl.create_list(:alert, 2, unresolved: false)
@@ -47,7 +51,7 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with source" do
-      let(:uri) { "/api/v6/alerts?source_id=citeulike" }
+      let(:uri) { "/api/alerts?source_id=citeulike" }
 
       before(:each) do
         FactoryGirl.create_list(:alert, 2)
@@ -67,7 +71,7 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with class_name" do
-      let(:uri) { "/api/v6/alerts?class_name=nomethoderror" }
+      let(:uri) { "/api/alerts?class_name=nomethoderror" }
 
       before(:each) do
         FactoryGirl.create_list(:alert, 2)
@@ -87,7 +91,7 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with level ERROR" do
-      let(:uri) { "/api/v6/alerts?level=error" }
+      let(:uri) { "/api/alerts?level=error" }
 
       before(:each) do
         FactoryGirl.create_list(:alert, 2)
@@ -107,7 +111,7 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with query" do
-      let(:uri) { "/api/v6/alerts?q=nomethod" }
+      let(:uri) { "/api/alerts?q=nomethod" }
 
       before(:each) do
         FactoryGirl.create_list(:alert, 2)
@@ -127,7 +131,7 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "with pagination" do
-      let(:uri) { "/api/v6/alerts?page=2" }
+      let(:uri) { "/api/alerts?page=2" }
 
       before(:each) { FactoryGirl.create_list(:alert, 55) }
 
@@ -143,7 +147,7 @@ describe "/api/v6/alerts", :type => :api do
 
     context "as staff user" do
       let(:user) { FactoryGirl.create(:user, :role => "staff") }
-      let(:uri) { "/api/v6/alerts" }
+      let(:uri) { "/api/alerts" }
 
       it "JSON" do
         get uri, nil, headers
@@ -156,7 +160,7 @@ describe "/api/v6/alerts", :type => :api do
 
     context "as regular user" do
       let(:user) { FactoryGirl.create(:user, :role => "user") }
-      let(:uri) { "/api/v6/alerts" }
+      let(:uri) { "/api/alerts" }
 
       it "JSON" do
         get uri, nil, headers

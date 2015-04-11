@@ -7,6 +7,6 @@ end
 
 json.docs @docs do |doc|
   json.cache! ['v6', @doc], skip_digest: true do
-    json.(doc, :id, :title, :update_date)
+    json.(doc, :id, :title, :timestamp)
   end
 end

@@ -21,4 +21,8 @@ class AlertDecorator < Draper::Decorator
   def work
     work_id ? model.work.to_param : nil
   end
+
+  def timestamp
+    model.create_date
+  end
 end

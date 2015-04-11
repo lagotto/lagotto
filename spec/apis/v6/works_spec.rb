@@ -2,27 +2,15 @@ require "rails_helper"
 
 describe "/api/v6/works", :type => :api do
   let(:headers) { { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6" } }
+  let(:jsonp_headers) { { "HTTP_ACCEPT" => "application/javascript" } }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work_with_events, 50) }
+    let(:works) { FactoryGirl.create_list(:work_with_events, 10) }
 
-    context "works found via DOI" do
+    context "works found via pid" do
       before(:each) do
-        work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
-        @uri = "/api/works?ids=#{work_list}&type=doi"
-      end
-
-      it "no format" do
-        get @uri, nil, headers
-        expect(last_response.status).to eq(200)
-
-        response = JSON.parse(last_response.body)
-        data = response["works"]
-        expect(data.length).to eq(50)
-        expect(data.any? do |work|
-          work["doi"] == works[0].doi
-          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
-        end).to be true
+        work_list = works.map { |work| "#{work.pid}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}"
       end
 
       it "JSON" do
@@ -31,7 +19,27 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
+        expect(data.any? do |work|
+          work["doi"] == works[0].doi
+          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
+        end).to be true
+      end
+    end
+
+    context "works found via DOI" do
+      before(:each) do
+        work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
+        @uri = "/api/works?ids=#{work_list}&type=doi"
+      end
+
+      it "JSON" do
+        get @uri, nil, headers
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        data = response["works"]
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["doi"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
@@ -51,7 +59,7 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["pmid"] == works[0].pmid
         end).to be true
@@ -70,7 +78,7 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["pmcid"] == works[0].pmcid
         end).to be true
@@ -89,7 +97,7 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["wos"] == works[0].wos
         end).to be true
@@ -108,7 +116,7 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["scp"] == works[0].scp
         end).to be true
@@ -127,7 +135,7 @@ describe "/api/v6/works", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["url"] == works[0].canonical_url
         end).to be true
@@ -146,7 +154,44 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(200)
 
         data = response["works"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
+        expect(data.any? do |work|
+          work["doi"] == works[0].doi
+          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
+        end).to be true
+      end
+    end
+
+    context "by publisher" do
+      let(:publisher) { FactoryGirl.create(:publisher) }
+      let(:works) { FactoryGirl.create_list(:work_with_events, 10, publisher_id: publisher.member_id) }
+      let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
+      let(:uri) { "/api/works?publisher_id=#{publisher.member_id}" }
+
+      it "JSON" do
+        get uri, nil, headers
+        work = works.first
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+         expect(response).to eq(10)
+        data = response["works"]
+        expect(data.length).to eq(10)
+        expect(data.any? do |work|
+          work["doi"] == works[0].doi
+          expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
+        end).to be true
+      end
+
+      it "JSONP" do
+        get "#{uri}&callback=_func", nil, jsonp_headers
+        work = works.first
+        expect(last_response.status).to eql(200)
+
+        # remove jsonp wrapper
+        response = JSON.parse(last_response.body[6...-1])
+        data = response["works"]
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["doi"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
@@ -156,7 +201,7 @@ describe "/api/v6/works", :type => :api do
 
     context "no records found" do
       let(:uri) { "/api/works?ids=xxx" }
-      let(:nothing_found) { { "meta" => { "status" => "ok", "message-type" => "work-list", "message-version" => "6.0.0", "total" => 0, "total_pages" => 1, "page" => 0 }, "works" => [] } }
+      let(:nothing_found) { { "meta" => { "status" => "ok", "message-type" => "work-list", "message-version" => "6.0.0", "total" => 0, "total_pages" => 1, "page" => 1 }, "works" => [] } }
 
       it "JSON" do
         get uri, nil, headers
