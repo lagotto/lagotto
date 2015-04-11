@@ -6,7 +6,6 @@ module Resolvable
     def get_canonical_url(url, options = { timeout: 120 })
       conn = faraday_conn('html', options)
 
-      conn.options[:timeout] = options[:timeout]
       response = conn.get url, {}, options[:headers]
 
       # Priority to find URL:

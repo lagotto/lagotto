@@ -8,8 +8,8 @@ class ApiResponse < ActiveRecord::Base
   belongs_to :source
   belongs_to :retrieval_status
 
-  scope :unresolved, -> { where("unresolved = ?", true) }
-  scope :filter, ->(id) { where("unresolved = ?", true).where("id <= ?", id) }
+  scope :unresolved, -> { where(unresolved: true) }
+  scope :filter, ->(id) { where(unresolved: true).where("id <= ?", id) }
   scope :total, ->(duration) { where(created_at: (Time.zone.now.beginning_of_hour - duration.hours)..Time.zone.now.beginning_of_hour) }
   scope :decreasing, ->(source_ids) { where("total < previous_total").where(skipped: false).where(source_id: source_ids) }
   scope :increasing, ->(number, source_ids) { where("update_interval IS NOT NULL").where("((total - previous_total) / update_interval) >= ?", number).where(source_id: source_ids) }

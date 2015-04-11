@@ -62,12 +62,10 @@ module Networkable
     end
 
     def faraday_conn(content_type = 'json', options = {})
-      accept_header =
-        case content_type
-        when 'html' then 'text/html; charset=UTF-8'
-        when 'xml' then 'application/xml'
-        else 'application/json'
-        end
+      content_types = { "html" => 'text/html; charset=UTF-8',
+                        "xml" => 'application/xml',
+                        "json" => 'application/json' }
+      accept_header = content_types.fetch(content_type, 'application/json')
       limit = options[:limit] || 10
 
       Faraday.new do |c|
