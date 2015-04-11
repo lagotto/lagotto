@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Source do
+describe Source, type: :model, vcr: true do
 
   context "HTTP" do
     let(:work) { FactoryGirl.create(:work_with_events) }
@@ -243,6 +243,13 @@ describe Source do
         alert = Alert.first
         expect(alert.class_name).to eq("FaradayMiddleware::RedirectLimitReached")
         expect(alert.status).to eq(nil)
+      end
+
+      it "redirect work" do
+        work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030")
+        response = subject.get_result(work.doi_as_url, content_type: "html", limit: 10)
+        expect(response).to eq("Test")
+        expect(Alert.count).to eq(0)
       end
     end
 

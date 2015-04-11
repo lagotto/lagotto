@@ -9,17 +9,24 @@ describe Work, type: :model, vcr: true do
     let(:post_data) { { "name" => "Jack" } }
 
     context "canonical URL" do
-
       it "get_canonical_url" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
-        stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
+        url = "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0000030"
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
         expect(Alert.count).to eq(0)
-        expect(stub).to have_been_requested
       end
+
+      # it "get_canonical_url with redirects" do
+      #   stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+      #   stub_request(:get, redirect_url).to_return(status: 301, headers: { location: redirect_url + "/x" })
+      #   stub_request(:get, redirect_url+ "/x").to_return(status: 301, headers: { location: redirect_url + "/y" })
+      #   stub_request(:get, redirect_url+ "/y").to_return(status: 301, headers: { location: redirect_url + "/z" })
+      #   stub_request(:get, redirect_url + "/z").to_return(status: 200, body: "Test")
+      #   response = subject.get_result(url)
+      #   expect(response).to eq("Test")
+      #   expect(Alert.count).to eq(0)
+      # end
 
       it "get_canonical_url with trailing slash" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
