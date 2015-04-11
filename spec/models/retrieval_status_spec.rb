@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RetrievalStatus, type: :model, vcr: true do
-  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
 
   it { is_expected.to belong_to(:work) }
   it { is_expected.to belong_to(:source) }
@@ -93,17 +93,17 @@ describe RetrievalStatus, type: :model, vcr: true do
   describe "get_events_current_day" do
     it "no days" do
       subject = FactoryGirl.create(:retrieval_status, :with_crossref)
-      expect(subject.get_events_current_day).to eq(year: 2013, month: 9, day: 5, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 25)
+      expect(subject.get_events_current_day).to eq(year: 2015, month: 4, day: 8, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 25)
     end
 
     it "current day" do
       subject = FactoryGirl.create(:retrieval_status, :with_crossref_current_day)
-      expect(subject.get_events_current_day).to eq(year: 2013, month: 9, day: 5, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 20)
+      expect(subject.get_events_current_day).to eq(year: 2015, month: 4, day: 8, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 20)
     end
 
     it "last day" do
       subject = FactoryGirl.create(:retrieval_status, :with_crossref_last_day)
-      expect(subject.get_events_current_day).to eq(year: 2013, month: 9, day: 5, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 5)
+      expect(subject.get_events_current_day).to eq(year: 2015, month: 4, day: 8, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 5)
     end
   end
 
@@ -127,17 +127,17 @@ describe RetrievalStatus, type: :model, vcr: true do
   describe "get_events_current_month" do
     it "no days" do
       subject = FactoryGirl.create(:retrieval_status, :with_crossref)
-      expect(subject.get_events_current_month).to eq(year: 2013, month: 9, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 25)
+      expect(subject.get_events_current_month).to eq(year: 2015, month: 4, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 25)
     end
 
     it "current month" do
       subject = FactoryGirl.create(:retrieval_status, :with_crossref_current_month)
-      expect(subject.get_events_current_month).to eq(year: 2013, month: 9, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 20)
+      expect(subject.get_events_current_month).to eq(year: 2015, month: 4, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 20)
     end
 
     it "last month" do
       subject = FactoryGirl.create(:retrieval_status, :with_crossref_last_month)
-      expect(subject.get_events_current_month).to eq(year: 2013, month: 9, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 5)
+      expect(subject.get_events_current_month).to eq(year: 2015, month: 4, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: 5)
     end
   end
 
@@ -160,142 +160,97 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
       expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
 
-      expect(work.events.length).to eq(1)
-      expect(work.events.first.relation_type.name).to eq(relation_type.name)
+      expect(work.references.length).to eq(1)
+      expect(work.references.first.relation_type.name).to eq(relation_type.name)
 
-      expect(work.related_works.length).to eq(1)
-      expect(work.related_works.first).to eq(related_work)
+      expect(work.referenced_works.length).to eq(1)
+      expect(work.referenced_works.first).to eq(related_work)
     end
   end
 
-  # context "perform_get_data with error" do
-  #   let(:data) { { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{retrieval_status.work.doi_escaped}" } }
-  #   let(:update_interval) { 30 }
-  #   subject { let(:retrieval_status) { FactoryGirl.create(:retrieval_status) } }
+  context "perform_get_data" do
+    let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
+    let!(:relation_type) { FactoryGirl.create(:relation_type, name: "bookmarks") }
+    subject { FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work) }
 
-  #   it "should have status error" do
-  #     expect(subject.status).to eq(:error)
-  #   end
+    it "success" do
+      expect(subject.months.count).to eq(0)
+      expect(subject.perform_get_data).to eq(total: 4, html: 0, pdf: 0, previous_total: 2, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(4)
+      expect(subject.readers).to eq(4)
+      expect(subject.months.count).to eq(2)
+      expect(subject.days.count).to eq(2)
 
-  #   it "should respond to an error" do
-  #     expect(subject.to_hash).to eq(total: 0, html: 0, pdf: 0, previous_total: 50, skipped: true, update_interval: update_interval)
-  #   end
-  # end
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(1)
+      expect(month.total).to eq(2)
+      expect(month.readers).to eq(2)
 
-  # context "success no data" do
-  #   let(:data) { { total: 0 } }
-  #   let(:update_interval) { 30 }
-  #   subject { History.new(retrieval_status.id, data) }
+      day = subject.days.last
+      expect(day.year).to eq(2014)
+      expect(day.month).to eq(12)
+      expect(day.day).to eq(30)
+      expect(day.total).to eq(1)
+      expect(day.readers).to eq(1)
 
-  #   it "should have status success no data" do
-  #     expect(subject.status).to eq(:success_no_data)
-  #   end
+      expect(Relation.count).to eq(4)
+      relation = Relation.first
+      expect(relation.relation_type.name).to eq("bookmarks")
+      expect(relation.source.name).to eq("citeulike")
+      expect(relation.related_work.pid).to eq(work.pid)
+    end
 
-  #   it "should respond to success with no data" do
-  #     expect(subject.to_hash).to eq(total: 0, html: 0, pdf: 0, previous_total: 50, skipped: false, update_interval: update_interval)
-  #   end
-  # end
+    it "success counter" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
+      source = FactoryGirl.create(:counter)
+      subject = FactoryGirl.create(:retrieval_status, total: 50, pdf: 10, html: 40, work: work, source: source)
 
-  # context "success" do
-  #   let(:data) { { total: 25, events_by_day: [], events_by_month: [] } }
-  #   let(:update_interval) { 30 }
-  #   subject { History.new(retrieval_status.id, data) }
+      expect(subject.months.count).to eq(0)
+      expect(subject.perform_get_data).to eq(total: 148, html: 116, pdf: 22, previous_total: 50, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(148)
+      expect(subject.pdf).to eq(22)
+      expect(subject.html).to eq(116)
+      expect(subject.months.count).to eq(5)
+      expect(subject.days.count).to eq(0)
+      expect(subject.extra.length).to eq(5)
 
-  #   it "should have status success" do
-  #     expect(subject.status).to eq(:success)
-  #   end
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(4)
+      expect(month.total).to eq(1)
+      expect(month.pdf).to eq(0)
+      expect(month.html).to eq(1)
 
-  #   it "should respond to success" do
-  #     expect(subject.to_hash).to eq(total: 25, html: 0, pdf: 0, previous_total: 50, skipped: false, update_interval: update_interval)
-  #   end
-  # end
+      extra = subject.extra.last
+      expect(extra).to eq("month"=>"4", "year"=>"2015", "pdf_views"=>0, "xml_views"=>0, "html_views"=>"1")
+    end
 
-  # context "events_current_day" do
-  #   let(:today) { Time.zone.now.to_date }
-  #   let(:yesterday) { Time.zone.now.to_date - 1.day }
-  #   let(:data) { { total: 25, events_by_day: nil } }
-  #   subject { History.new(retrieval_status.id, data) }
+    it "success no data" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
+      subject = FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work)
 
-  #   context "recent works from crossref" do
-  #     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_and_work_published_today) }
+      expect(subject.months.count).to eq(0)
+      expect(subject.perform_get_data).to eq(total: 0, html: 0, pdf: 0, previous_total: 2, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(0)
+      expect(subject.readers).to eq(0)
+      expect(subject.months.count).to eq(1)
 
-  #     it "should generate events by day for recent works" do
-  #       expect(subject.get_events_current_day).to eq(year: today.year, month: today.month, day: today.day, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(4)
+      expect(month.total).to eq(2)
+      expect(month.readers).to eq(2)
 
-  #     it "should add to events by day for recent works" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_crossref_last_day)
-  #       expect(subject.get_events_current_day).to eq(year: today.year, month: today.month, day: today.day, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total] - 25)
-  #     end
+      expect(Relation.count).to eq(0)
+    end
 
-  #     it "should update events by day for recent works" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_crossref_current_day)
-  #       expect(subject.get_events_current_day).to eq(year: today.year, month: today.month, day: today.day, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-  #   end
-
-  #   context "recent works from counter" do
-  #     let(:data) { { total: 750, html: 600, pdf: 150, events_by_day: nil } }
-  #     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_counter_and_work_published_today) }
-
-  #     it "should generate events by day for recent works" do
-  #       expect(subject.get_events_current_day).to eq(year: today.year, month: today.month, day: today.day, html: data[:html], pdf: data[:pdf], readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-
-  #     it "should add to events by day for recent works" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_counter_last_day)
-  #       pp subject.get_events_previous_day
-  #       expect(subject.get_events_current_day).to eq(year: today.year, month: today.month, day: today.day, html: 200, pdf: 50, readers: 0, comments: 0, likes: 0, total: 250)
-  #     end
-
-  #     it "should update events by day for recent works" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_counter_current_day)
-  #       expect(subject.get_events_current_day).to eq(year: today.year, month: today.month, day: today.day, html: data[:html], pdf: data[:pdf], readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-  #   end
-
-  #   context "old works" do
-  #     it "should return an empty array for old works" do
-  #       expect(subject.get_events_current_day).to be_nil
-  #     end
-  #   end
-  # end
-
-  # context "events_current_month" do
-  #   let(:data) { { total: 30, events_by_month: nil } }
-  #   let(:today) { Time.zone.now.to_date }
-  #   let(:last_month) { Time.zone.now.to_date - 1.month }
-  #   subject { History.new(retrieval_status.id, data) }
-
-  #   context "recent works from crossref" do
-  #     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref_and_work_published_today) }
-
-  #     it "should generate events by month" do
-  #       expect(subject.get_events_current_month).to eq(year: today.year, month: today.month, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-
-  #     it "should update events by month" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_crossref_current_month)
-  #       expect(subject.get_events_current_month).to eq(year: today.year, month: today.month, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-  #   end
-
-  #   context "older works from crossref" do
-  #     let(:retrieval_status) { FactoryGirl.create(:retrieval_status, :with_crossref) }
-
-  #     it "should generate events by month" do
-  #       expect(subject.get_events_current_month).to eq(year: today.year, month: today.month, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-
-  #     it "should add to events by month" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_crossref_last_month)
-  #       expect(subject.get_events_current_month).to eq(year: today.year, month: today.month, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total] - 25)
-  #     end
-
-  #     it "should update events by month" do
-  #       retrieval_status = FactoryGirl.create(:retrieval_status, :with_crossref_current_month)
-  #       expect(subject.get_events_current_month).to eq(year: today.year, month: today.month, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, total: data[:total])
-  #     end
-  #   end
-  # end
+    it "error" do
+      stub = stub_request(:get, subject.source.get_query_url(subject.work)).to_return(:status => [408])
+      expect(subject.perform_get_data).to eq(total: 2, html: 0, pdf: 0, previous_total: 2, skipped: true, update_interval: 31)
+      expect(subject.total).to eq(2)
+      expect(subject.readers).to eq(2)
+      expect(subject.months.count).to eq(0)
+    end
+  end
 end

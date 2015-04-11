@@ -10,12 +10,12 @@ module Measurable
       options = Hash[options.map { |key, value| [key.to_sym, value.to_i] }]
       options[:total] ||= options.values.sum
 
-      { :pdf => options[:pdf],
-        :html => options[:html],
-        :readers => options[:readers],
-        :comments => options[:comments],
-        :likes => options[:likes],
-        :total => options[:total] }
+      { :pdf => options.fetch(:pdf, nil),
+        :html => options.fetch(:html, nil),
+        :readers => options.fetch(:readers, nil),
+        :comments => options.fetch(:comments, nil),
+        :likes => options.fetch(:likes, nil),
+        :total => options.fetch(:total, 0) }
     end
 
     def get_sum(items, key, nested_key = nil)

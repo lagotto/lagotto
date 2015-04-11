@@ -21,7 +21,7 @@ class Work < ActiveRecord::Base
   has_many :events, :class_name => "Relation", :foreign_key => "related_work_id", :dependent => :destroy
   has_many :references, :class_name => "Relation", :dependent => :destroy
   has_many :related_works, :through => :events
-  has_many :referenced_works, :through => :references, :source => :work
+  has_many :referenced_works, :through => :references, :source => :related_work
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
@@ -41,7 +41,7 @@ class Work < ActiveRecord::Base
     .references(:retrieval_statuses) }
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
-  scope :tracked, -> { where(tracked: true) }
+  scope :tracked, -> { where("works.tracked = ?", true) }
 
   serialize :csl, JSON
 
@@ -129,7 +129,7 @@ class Work < ActiveRecord::Base
   end
 
   def doi_as_url
-    Addressable::URI.encode("http://dx.doi.org/#{doi}")  if doi.present?
+    Addressable::URI.encode("http://dx.doi.org/#{doi}") if doi.present?
   end
 
   def pmid_as_url

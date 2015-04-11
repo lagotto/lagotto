@@ -22,7 +22,7 @@ FactoryGirl.define do
 
     factory :work_with_events do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, work: work, readers: 50)
+        FactoryGirl.create(:retrieval_status, work: work, readers: 50, events_url: "http://www.citeulike.org/doi/#{work.doi}")
         FactoryGirl.create(:retrieval_status, :with_mendeley, work: work, readers: 50)
       end
     end
