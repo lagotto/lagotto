@@ -44,17 +44,9 @@ class Api::V6::WorksController < Api::BaseController
     source = Source.where(name: params[:source_id]).first
     publisher = Publisher.where(member_id: params[:publisher_id]).first
 
-    if params[:ids]
-      collection = Work.where("works.pid IN (?)", params[:work_ids])
-    elsif source
-      collection = Work.joins(:retrieval_statuses)
-                     .where("retrieval_statuses.source_id = ?", source.id)
-                     .where("retrieval_statuses.total > 0")
-    elsif params[:publisher_id]
-      collection = Work.where(publisher_id: params[:publisher_id])
-    else
-      collection = Work.tracked
-    end
+    collection = get_ids(params)
+    collection = get_class_name(collection, params) if params[:class_name]
+    collection = get_sort(collection, params, source)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     total_entries = get_total_entries(params, source, publisher)
@@ -67,33 +59,6 @@ class Api::V6::WorksController < Api::BaseController
 
     @works = collection.decorate(context: { admin: current_user.try(:is_admin_or_staff?) })
   end
-
-  # def index
-  #   source = Source.where(name: params[:source_id]).first
-  #   publisher = Publisher.where(member_id: params[:publisher_id]).first
-  #   related_work = Work.where(pid: params[:related_work_id]).first
-  #   work = Work.where(pid: params[:work_id]).first
-
-  #   collection = get_ids(params)
-  #   collection = get_class_name(collection, params) if params[:class_name]
-  #   collection = get_sort(collection, params, source)
-
-  #   if params[:publisher_id] && publisher
-  #     collection = collection.where(publisher_id: params[:publisher_id])
-  #   end
-
-  #   per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
-  #   total_entries = get_total_entries(params, source, publisher, related_work, work)
-
-  #   collection = collection.paginate(per_page: per_page,
-  #                                    page: params[:page],
-  #                                    total_entries: total_entries)
-
-  #   fresh_when last_modified: collection.maximum(:updated_at)
-  #   @works = collection.decorate(context: { info: params[:info],
-  #                                           source_id: params[:source_id],
-  #                                           admin: current_user.try(:is_admin_or_staff?) })
-  # end
 
   def create
     @work = Work.new(safe_params)
@@ -132,7 +97,7 @@ class Api::V6::WorksController < Api::BaseController
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "wos", "scp", "url"].find { |t| t == params[:type] } || "doi"
+      type = ["doi", "pmid", "pmcid", "wos", "scp", "ark", "url"].find { |t| t == params[:type] } || "pid"
       type = "canonical_url" if type == "url"
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
       collection = Work.where(works: { type => ids })
@@ -142,14 +107,10 @@ class Api::V6::WorksController < Api::BaseController
       collection = Work.joins(:retrieval_statuses)
                    .where("retrieval_statuses.source_id = ?", source.id)
                    .where("retrieval_statuses.total > 0")
-    elsif params[:related_work_id] && related_work = Work.where(pid: params[:related_work_id]).first
-      collection = Work.joins(:relations)
-                   .where("relations.related_work_id = ?", related_work.id)
-    elsif params[:work_id] && work = Work.where(pid: params[:work_id]).first
-      collection = Work.joins(:relations)
-                   .where("relations.work_id = ?", work.id)
+    elsif params[:publisher_id]
+      collection = Work.where(publisher_id: params[:publisher_id])
     else
-      collection = Work
+      collection = Work.tracked
     end
   end
 
