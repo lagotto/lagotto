@@ -16,13 +16,13 @@ class RetrievalStatus < ActiveRecord::Base
   before_destroy :delete_couchdb_document
 
   serialize :event_metrics
-  serialize :extra, OpenStruct
+  serialize :extra, JSON
 
   delegate :name, :to => :source
   delegate :title, :to => :source
   delegate :group, :to => :source
 
-  scope :tracked, -> { joins(:work).where("tracked = ?", true) }
+  scope :tracked, -> { joins(:work).where("works.tracked = ?", true) }
 
   scope :with_events, -> { where("total > ?", 0) }
   scope :without_events, -> { where("total = ?", 0) }
@@ -68,9 +68,9 @@ class RetrievalStatus < ActiveRecord::Base
       update_months(data.fetch(:months, []))
     end
 
-    { total: data.fetch(:metrics, {}).fetch(:total, 0),
-      html: data.fetch(:metrics, {}).fetch(:html, 0),
-      pdf: data.fetch(:metrics, {}).fetch(:pdf, 0),
+    { total: total,
+      html: html,
+      pdf: pdf,
       previous_total: previous_total,
       skipped: skipped,
       update_interval: update_interval }
