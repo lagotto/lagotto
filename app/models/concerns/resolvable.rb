@@ -134,6 +134,7 @@ module Resolvable
       when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
       when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
       when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }
+      when id.starts_with?("https:")             then { canonical_url: PostRank::URI.clean(id) }
       when id.starts_with?("pmcid:PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid:")             then { pmcid: id[6..-1] }
       when id.starts_with?("wos:")               then { wos: id[4..-1] }
