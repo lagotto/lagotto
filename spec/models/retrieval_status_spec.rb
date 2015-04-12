@@ -226,6 +226,32 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(extra).to eq("month"=>"4", "year"=>"2015", "pdf_views"=>0, "xml_views"=>0, "html_views"=>"1")
     end
 
+    it "success crossref" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
+      relation_type = FactoryGirl.create(:relation_type)
+      source = FactoryGirl.create(:crossref)
+      subject = FactoryGirl.create(:retrieval_status, total: 5,  work: work, source: source)
+      body = File.read(fixture_path + 'cross_ref.xml')
+      stub = stub_request(:get, subject.source.get_query_url(work)).to_return(:body => body)
+
+      expect(subject.months.count).to eq(0)
+      expect(subject.perform_get_data).to eq(total: 31, html: 0, pdf: 0, previous_total: 5, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(31)
+      expect(subject.months.count).to eq(1)
+      expect(subject.days.count).to eq(0)
+
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(4)
+      expect(month.total).to eq(31)
+
+      expect(Relation.count).to eq(31)
+      relation = Relation.first
+      expect(relation.relation_type.name).to eq("cites")
+      expect(relation.source.name).to eq("crossref")
+      expect(relation.related_work.pid).to eq(work.pid)
+    end
+
     it "success no data" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
       subject = FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work)
