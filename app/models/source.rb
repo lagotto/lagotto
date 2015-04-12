@@ -210,7 +210,7 @@ class Source < ActiveRecord::Base
         months: get_events_by_month(related_works, options) }.compact }
   end
 
-  def get_events_by_day(events, work, options)
+  def get_events_by_day(events, work, options={ metrics: :total })
     events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - work.published_on > 30 }
 
     events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
@@ -222,7 +222,7 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def get_events_by_month(events, options)
+  def get_events_by_month(events, options={ metrics: :total })
     events = events.reject { |event| event["timestamp"].nil? }
 
     events.group_by { |event| event["timestamp"][0..6] }.sort.map do |k, v|

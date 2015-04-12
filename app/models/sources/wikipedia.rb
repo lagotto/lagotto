@@ -24,7 +24,11 @@ class Wikipedia < Source
         host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
         namespace = (lang == "commons") ? "6" : "0"
         query_url = get_query_url(work, host: host, namespace: namespace)
-        result = get_result(query_url, options)
+        if query_url.is_a?(Hash)
+          result = {}
+        else
+          result = get_result(query_url, options)
+        end
 
         if result.is_a?(Hash)
           total = result.fetch("query", {}).fetch("searchinfo", {}).fetch("totalhits", nil).to_i
@@ -71,8 +75,8 @@ class Wikipedia < Source
         work: work.pid,
         total: total,
         events_url: events_url,
-        days: get_events_by_day(related_works, work),
-        months: get_events_by_month(related_works) } }
+        days: get_events_by_day(related_works, work, options),
+        months: get_events_by_month(related_works, options) } }
   end
 
   def get_related_works(result, work)

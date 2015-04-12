@@ -56,9 +56,9 @@ describe Twitter, type: :model, vcr: true do
       expect(response[:works].length).to eq(2)
       expect(response[:metrics][:total]).to eq(2)
       expect(response[:metrics][:days].length).to eq(2)
-      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 20, total: 1)
+      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 20, total: 1, comments: 1)
       expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 2)
+      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 2, comments: 2)
 
       event = response[:works].first
       expect(event['author']).to eq([{"family"=>"Regrum", "given"=>""}])

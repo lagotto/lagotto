@@ -79,7 +79,7 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(response[:metrics][:comments]).to eq(15)
       expect(response[:metrics][:days].length).to eq(0)
       expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2013, month: 11, total: 2)
+      expect(response[:metrics][:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
 
       event = response[:works].second
       expect(event['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")

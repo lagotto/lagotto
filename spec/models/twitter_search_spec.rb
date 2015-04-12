@@ -106,9 +106,9 @@ describe TwitterSearch, type: :model, vcr: true do
       expect(response[:metrics][:comments]).to eq(8)
       expect(response[:metrics][:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
       expect(response[:metrics][:days].length).to eq(6)
-      expect(response[:metrics][:days].first).to eq(year: 2014, month: 1, day: 6, total: 1)
+      expect(response[:metrics][:days].first).to eq(year: 2014, month: 1, day: 6, total: 1, comments: 1)
       expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2014, month: 1, total: 8)
+      expect(response[:metrics][:months].first).to eq(year: 2014, month: 1, total: 8, comments: 8)
 
       event = response[:works].first
       expect(event['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])
