@@ -23,20 +23,44 @@ module Repoable
     def parse_data(result, work, options={})
       return result if result[:error]
 
-      readers = result.fetch("forks_count", 0)
-      likes = result.fetch(likes_key, 0)
-      total = readers + likes
+      query_url = get_query_url(work)
+      result["stargazers"] = get_result(query_url + "/stargazers", options) unless query_url.is_a?(Hash)
+      related_works = get_related_works(result, work)
+      readers = related_works.count
+      total = readers + result.fetch("forks_count", 0)
       extra = result.slice(*events_key)
       events_url = total > 0 ? get_events_url(work) : nil
 
-      { metrics: {
+      { works: related_works,
+        metrics: {
           source: name,
           work: work.pid,
           readers: readers,
-          likes: likes,
           total: total,
           events_url: events_url,
-          extra: extra } }
+          extra: extra,
+          days: get_events_by_day(related_works, work, options.merge(metrics: :readers)),
+          months: get_events_by_month(related_works, options.merge(metrics: :readers)) }.compact }
+    end
+
+    def get_related_works(result, work)
+      result["stargazers"] = nil if result["stargazers"].is_a?(Hash)
+      Array(result.fetch("stargazers", nil)).map do |item|
+        author = item.fetch("login", nil)
+        timestamp = Time.zone.now.utc.iso8601
+        url = item.fetch("html_url", nil)
+
+        { "author" => get_authors([author]),
+          "title" => "#{title} user #{author}",
+          "container-title" => "#{title}",
+          "issued" => get_date_parts(timestamp),
+          "timestamp" => timestamp,
+          "URL" => url,
+          "type" => 'entry',
+          "related_works" => [{ "related_work" => work.pid,
+                                "source" => name,
+                                "relation_type" => "bookmarks" }] }
+      end
     end
   end
 end

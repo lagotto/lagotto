@@ -74,7 +74,6 @@ openedition = Openedition.where(name: 'openedition').first_or_create(
 github = Github.where(name: 'github').first_or_create(
   :title => 'Github',
   :description => 'GitHub is a web-based Git repository hosting service.',
-  :eventable => false,
   :group_id => saved.id)
 bitbucket = Bitbucket.where(name: 'bitbucket').first_or_create(
   :title => 'Bitbucket',
