@@ -5,7 +5,7 @@
 
   <ul class="nav nav-pills">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <li><a href="#events" data-toggle="tab">Events</a></li>
+    <li><a href="#most_cited" data-toggle="tab">Most-Cited</a></li>
     <li><a href="#metrics" data-toggle="tab">Metrics</a></li>
     <% if can?(:manage, @source) && @source.state > 0 %>
       <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
@@ -22,7 +22,7 @@
         <%= render :partial => 'summary_show', :locals => { :name => @source.name } %>
       </div>
     </div>
-    <div class="tab-pane" id="events">
+    <div class="tab-pane" id="most-cited">
       <%= render :partial => 'most_cited' %>
     </div>
     <div class="tab-pane" id="metrics">
