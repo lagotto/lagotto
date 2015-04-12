@@ -4,11 +4,11 @@ class Relation < ActiveRecord::Base
   belongs_to :relation_type
   belongs_to :source
 
-  def update_date
+  def timestamp
     updated_at.utc.iso8601
   end
 
   def cache_key
-    "#{id}/#{update_date}"
+    "#{id}/#{timestamp}"
   end
 end

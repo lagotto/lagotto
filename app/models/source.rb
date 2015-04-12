@@ -359,12 +359,12 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def cache_key
-    "#{name}/#{update_date}"
+  def timestamp
+    cached_at.utc.iso8601
   end
 
-  def update_date
-    cached_at.utc.iso8601
+  def cache_key
+    "#{name}/#{timestamp}"
   end
 
   def update_cache
@@ -374,7 +374,7 @@ class Source < ActiveRecord::Base
   def write_cache
     # update cache_key as last step so that we have the old version until we are done
     now = Time.zone.now
-    timestamp = now.utc.iso8601
+    time_stamp = now.utc.iso8601
 
     # loop through cached attributes we want to update
     [:event_count,
@@ -387,7 +387,7 @@ class Source < ActiveRecord::Base
      :with_events_by_day_count,
      :without_events_by_day_count,
      :with_events_by_month_count,
-     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=") }
+     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", time_stamp) }
 
     update_column(:cached_at, now)
   end

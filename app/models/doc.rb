@@ -1,5 +1,5 @@
 class Doc
-  attr_reader :id, :title, :layout, :content, :content_list, :updated_at, :update_date, :cache_key
+  attr_reader :id, :title, :layout, :content, :content_list, :updated_at, :timestamp, :cache_key
 
   def self.all
     Dir.entries(Rails.root.join("docs")).select { |doc| doc.match(/\.[md|html]/i) }
@@ -18,7 +18,7 @@ class Doc
 
       { id: File.basename(doc, ".*"),
         title: title,
-        update_date: File.mtime(Rails.root.join("docs/#{doc}")) }
+        timestamp: File.mtime(Rails.root.join("docs/#{doc}")) }
     end
   end
 
@@ -28,7 +28,7 @@ class Doc
     if name.present?
       new(name)
     else
-      OpenStruct.new(id: nil, title: nil, layout: nil, content: nil, update_date: nil)
+      OpenStruct.new(id: nil, title: nil, layout: nil, content: nil, timestamp: nil)
     end
   end
 
@@ -80,11 +80,11 @@ class Doc
     end
   end
 
-  def update_date
+  def timestamp
     updated_at.utc.iso8601
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key [id, update_date]
+    ActiveSupport::Cache.expand_cache_key [id, timestamp]
   end
 end

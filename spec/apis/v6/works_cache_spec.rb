@@ -93,7 +93,7 @@ describe "/api/v6/works", :type => :api do
 
         expect(Rails.cache.exist?(key)).to be true
         response = Rails.cache.read(key)
-        update_date = response["update_date"]
+        timestamp = response["timestamp"]
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
@@ -107,7 +107,7 @@ describe "/api/v6/works", :type => :api do
         expect(cache_key).not_to eql(key)
         expect(Rails.cache.exist?(cache_key)).to be true
         response = Rails.cache.read(cache_key)
-        expect(response["update_date"]).to be > update_date
+        expect(response["timestamp"]).to be > timestamp
       end
 
       it "does not use a stale cache when the source query parameter changes" do

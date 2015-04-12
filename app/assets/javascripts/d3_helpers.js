@@ -85,12 +85,12 @@ function paginate(json) {
 
 // link to individual work
 function urlForWork(work) {
-  if (!!work.doi) {
-    return "http://dx.doi.org/" + work.doi;
-  } else if (!!work.pmid) {
-    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work.pmid;
-  } else if (!!work.pmcid) {
-    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work.pmcid;
+  if (!!work["DOI"]) {
+    return "http://dx.doi.org/" + work["DOI"];
+  } else if (!!work["PMID"]) {
+    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["PMID"];
+  } else if (!!work["PMCID"]) {
+    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["PMCID"];
   } else if (!!work.ark) {
     return "http://n2t.net/" + work.ark;
   } else if (!!work.url) {

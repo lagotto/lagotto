@@ -56,12 +56,12 @@ class Status < ActiveRecord::Base
     Gem::Version.new(current_version) > Gem::Version.new(version)
   end
 
-  def update_date
+  def timestamp
     updated_at.utc.iso8601
   end
 
   def cache_key
-    "status/#{update_date}"
+    "status/#{timestamp}"
   end
 
   def create_uuid

@@ -5,7 +5,7 @@ class RelationType < ActiveRecord::Base
     name
   end
 
-  def update_date
+  def timestamp
     updated_at.utc.iso8601
   end
 end

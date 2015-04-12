@@ -24,10 +24,10 @@ if (query) {
 
       // aggregate status by day
       var day_data = data.filter(function(status) {
-        return Date.parse(status.update_date) >= startDate;
+        return Date.parse(status.timestamp) >= startDate;
       });
       var by_day = d3.nest()
-        .key(function(d) { return d.update_date.substr(0,10); })
+        .key(function(d) { return d.timestamp.substr(0,10); })
         .rollup(function(leaves) {
           return { "works_count": d3.max(leaves, function(d) { return d.works_new_count;}),
                    "events_count": d3.max(leaves, function(d) { return d.events_count;}),
@@ -38,10 +38,10 @@ if (query) {
 
       // aggregate status by hour
       var hour_data = data.filter(function(status) {
-        return Date.parse(status.update_date) >= startTime;
+        return Date.parse(status.timestamp) >= startTime;
       });
       var by_hour = d3.nest()
-        .key(function(d) { return d.update_date.substr(0,13); })
+        .key(function(d) { return d.timestamp.substr(0,13); })
         .rollup(function(leaves) {
           return { "responses_count": d3.max(leaves, function(d) { return d.responses_count;}),
                    "requests_count": d3.max(leaves, function(d) { return d.requests_count;}),

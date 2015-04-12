@@ -109,7 +109,7 @@ module Countable
 
     def cache_read(id, value)
       if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/#{id}/#{update_date}").to_i
+        Rails.cache.read("#{name}/#{id}/#{timestamp}").to_i
       else
         value
       end

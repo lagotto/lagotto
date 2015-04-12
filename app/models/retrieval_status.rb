@@ -319,12 +319,14 @@ class RetrievalStatus < ActiveRecord::Base
     @display_name ||= source.title
   end
 
-  def update_date
+  def timestamp
     updated_at.utc.iso8601
   end
 
+  alias_method :update_date, :timestamp
+
   def cache_key
-    "#{id}/#{update_date}"
+    "#{id}/#{timestamp}"
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval

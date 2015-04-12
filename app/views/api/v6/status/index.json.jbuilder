@@ -15,6 +15,6 @@ json.status @status do |status|
       json.(status, :alerts_count, :db_size)
     end
 
-    json.(status :timestamp)
+    json.(status, :timestamp)
   end
 end

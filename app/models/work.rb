@@ -307,9 +307,11 @@ class Work < ActiveRecord::Base
     write_attribute(:day, published_on.day)
   end
 
-  def update_date
+  def timestamp
     updated_at.nil? ? nil : updated_at.utc.iso8601
   end
+
+  alias_method :update_date, :timestamp
 
   private
 
