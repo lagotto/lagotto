@@ -257,6 +257,21 @@ namespace :db do
     end
   end
 
+  namespace :events do
+    desc "Delete events"
+    task :delete => :environment do
+      source = Source.visible.where("name = ?", ENV['SOURCE']).first
+      unless source.present?
+        puts "Please use SOURCE environment variable with name of available source. No event deleted."
+        exit
+      end
+
+      DeleteEventJob.perform_later(source)
+
+      puts "Started deleting all events for source #{ENV['SOURCE']} in the background..."
+    end
+  end
+
   namespace :alerts do
     desc "Resolve all alerts with level INFO and WARN"
     task :resolve => :environment do
