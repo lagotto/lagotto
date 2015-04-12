@@ -7,50 +7,35 @@ if (!params.empty()) {
   var page = params.attr('data-page');
   if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
-  var q = params.attr('data-q');
-  var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
   var source_id = params.attr('data-source_id');
-  var related_work_id = params.attr('data-related_work_id');
-  var work_id = params.attr('data-work_id');
-  var order = params.attr('data-order');
-  var model = params.attr('data-model');
+  var sort = params.attr('data-sort');
 
-  var query = encodeURI("/api/works?page=" + page);
+  var query = encodeURI("/api/publishers/" + publisher_id + "/works?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
-  if (q !== "") { query += "&q=" + q; }
-  if (class_name !== "") { query += "&class_name=" + class_name; }
-  if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (related_work_id !== "") { query += "&related_work_id=" + related_work_id; }
-  if (work_id !== "") { query += "&work_id=" + work_id; }
-  if (order !== "") { query += "&order=" + order; }
+  if (sort !== "") { query += "&sort=" + sort; }
 }
 
-// load the data from the Lagotto API
-if (query) {
-  d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
-    .header("Authorization", "Token token=" + api_key)
-    .get(function(error, json) {
-      if (error) { return console.warn(error); }
-      worksViz(json);
-      paginate(json);
-  });
-}
+// asynchronously load data from the Lagotto API
+queue()
+  .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, query)
+  .await(function(error, s, w) {
+    if (error) { return console.warn(error); }
+    worksViz(w, s.sources);
+    paginate(w);
+});
 
 // add data to page
-function worksViz(json) {
+function worksViz(json, sources) {
   data = json.works;
 
   json.href = "?page={{number}}";
   if (q !== "") { json.href += "&q=" + q; }
-  if (class_name !== "") { json.href += "&class_name=" + class_name; }
   if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (related_work_id !== "") { json.href += "&related_work_id=" + related_work_id; }
-  if (work_id !== "") { json.href += "&work_id=" + work_id; }
-  if (order !== "") { json.href += "&order=" + order; }
+  if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
 
@@ -83,6 +68,6 @@ function worksViz(json) {
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work, source_id, order));
+      .text(signpostsToString(work, sources, source_id, sort));
   }
 }

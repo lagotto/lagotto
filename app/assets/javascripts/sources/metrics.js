@@ -112,7 +112,9 @@ function AlmViz(options) {
     var $groupRow = false;
 
     if (source.group_id !== group.id) { return; }
-    if (source.event_count === 0) { return; }
+
+    var total = d3.sum(data, function(g) { return g.total; });
+    if (total === 0) { return; }
 
     // Only add the group row the first time
     if (!$groupRow) {
@@ -129,7 +131,6 @@ function AlmViz(options) {
       addSource_(source, "HTML", html, group, "html", $groupRow);
       addSource_(source, "PDF", pdf, group, "pdf", $groupRow);
     } else {
-      var total = d3.sum(data, function(g) { return g.total; });
       addSource_(source, "Total", total, group, "total", $groupRow);
     }
   };
@@ -177,8 +178,7 @@ function AlmViz(options) {
       .attr("id", "alm-count-" + source.id + "-" + group.id);
     $count
       .text(formatNumber_(total));
-    $countLabel.append("p").append("a")
-      .attr("href", baseUrl_ + "/sources/" + source.id)
+    $countLabel.append("p")
       .text(label);
 
     // Only add a chart if the browser supports SVG
