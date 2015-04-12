@@ -76,11 +76,11 @@ describe Citeulike, type: :model, vcr: true do
       expect(response[:metrics][:readers]).to eq(25)
       expect(response[:metrics][:events_url]).to eq(subject.get_events_url(work))
       expect(response[:metrics][:months].length).to eq(21)
-      expect(response[:metrics][:months].first).to eq(year: 2006, month: 6, total: 2)
+      expect(response[:metrics][:months].first).to eq(year: 2006, month: 6, total: 2, readers: 2)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://www.citeulike.org/user/dbogartoit/article/694959")
-      expect(event['author']).to eq("dbogartoit")
+      expect(event['author']).to eq([{"family"=>"Dbogartoit", "given"=>""}])
       expect(event['title']).to eq("CiteULike bookmark by user dbogartoit for DOI #{work.doi}")
       expect(event['container-title']).to eq("CiteULike")
       expect(event['issued']).to eq("date-parts"=>[[2006, 6, 13]])
@@ -99,11 +99,11 @@ describe Citeulike, type: :model, vcr: true do
       expect(response[:metrics][:readers]).to eq(1)
       expect(response[:metrics][:events_url]).to eq(subject.get_events_url(work))
       expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2006, month: 6, total: 1)
+      expect(response[:metrics][:months].first).to eq(year: 2006, month: 6, total: 1, readers: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://www.citeulike.org/user/dbogartoit/article/694959")
-      expect(event['author']).to eq("dbogartoit")
+      expect(event['author']).to eq([{"family"=>"Dbogartoit", "given"=>""}])
       expect(event['title']).to eq("CiteULike bookmark by user dbogartoit for DOI #{work.doi}")
       expect(event['container-title']).to eq("CiteULike")
       expect(event['issued']).to eq("date-parts"=>[[2006, 6, 13]])

@@ -28,7 +28,7 @@ class Citeulike < Source
       path = URI.split(url)[5].split("/")
       author = path[2]
 
-      { "author" => author,
+      { "author" => get_authors([author]),
         "title" => "CiteULike bookmark by #{path[1]} #{author} for DOI #{work.doi}",
         "container-title" => "CiteULike",
         "issued" => get_date_parts(timestamp),
