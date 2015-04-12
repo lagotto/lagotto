@@ -26,10 +26,12 @@ class Citeulike < Source
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
       url = item.fetch("link", {}).fetch("url", nil)
       path = URI.split(url)[5].split("/")
+      account = path[1]
       author = path[2]
+      url = "http://www.citeulike.org/" + path[1..2].join("/")
 
       { "author" => get_authors([author]),
-        "title" => "CiteULike bookmark by #{path[1]} #{author} for DOI #{work.doi}",
+        "title" => "CiteULike bookmarks for #{account} #{author}",
         "container-title" => "CiteULike",
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
