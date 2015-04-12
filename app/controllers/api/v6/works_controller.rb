@@ -158,8 +158,9 @@ class Api::V6::WorksController < Api::BaseController
       key, value = id_hash.first
       @work = Work.where(key => value).first
     else
-      fail ActiveRecord::RecordNotFound
+      @work = nil
     end
+    fail ActiveRecord::RecordNotFound unless @work.present?
   end
 
   private
