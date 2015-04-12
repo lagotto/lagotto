@@ -66,7 +66,9 @@ Lagotto::Application.routes.draw do
       resources :publishers, concerns: [:workable, :measurable]
       resources :references
       resources :relation_types, only: [:index, :show]
-      resources :sources, concerns: [:workable, :measurable]
+      resources :sources, concerns: [:workable, :measurable] do
+        resources :months
+      end
       resources :status, only: [:index]
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do

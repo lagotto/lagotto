@@ -93,8 +93,8 @@ function urlForWork(work) {
     return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["PMCID"];
   } else if (!!work.ark) {
     return "http://n2t.net/" + work.ark;
-  } else if (!!work.url) {
-    return work.url;
+  } else if (!!work["URL"]) {
+    return work["URL"];
   } else {
     return "";
   }
