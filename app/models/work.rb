@@ -280,23 +280,23 @@ class Work < ActiveRecord::Base
   end
 
   def author
-    csl["author"]
+    csl.present? ? csl["author"] : nil
   end
 
   def container_title
-    csl["container-title"]
+    csl.present? ? csl["container-title"] : nil
   end
 
   def volume
-    csl["volume"]
+    csl.present? ? csl["volume"] : nil
   end
 
   def page
-    csl["page"]
+    csl.present? ? csl["page"] : nil
   end
 
   def issue
-    csl["issue"]
+    csl.present? ? csl["issue"] : nil
   end
 
   def update_date_parts
