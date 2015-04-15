@@ -152,6 +152,7 @@ describe RetrievalStatus, type: :model, vcr: true do
     it "work from CrossRef" do
       related_work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007")
       relation_type = FactoryGirl.create(:relation_type)
+      inverse_relation_type = FactoryGirl.create(:relation_type, :inverse)
       data = [{"author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source"=>"crossref", "relation_type"=>"cites"}]}]
       expect(subject.update_works(data)).to eq(["doi:10.3758/s13423-011-0070-4"])
 
@@ -160,17 +161,18 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
       expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
 
-      expect(work.references.length).to eq(1)
-      expect(work.references.first.relation_type.name).to eq(relation_type.name)
+      expect(work.relationships.length).to eq(1)
+      expect(work.relationships.first.relation_type.name).to eq(relation_type.name)
 
-      expect(work.referenced_works.length).to eq(1)
-      expect(work.referenced_works.first).to eq(related_work)
+      expect(work.related_works.length).to eq(1)
+      expect(work.related_works.first).to eq(related_work)
     end
   end
 
   context "perform_get_data" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
     let!(:relation_type) { FactoryGirl.create(:relation_type, name: "bookmarks") }
+    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, name: "_bookmarks") }
     subject { FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work) }
 
     it "success" do
@@ -194,11 +196,12 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(day.total).to eq(1)
       expect(day.readers).to eq(1)
 
-      expect(Relation.count).to eq(4)
-      relation = Relation.first
-      expect(relation.relation_type.name).to eq("bookmarks")
-      expect(relation.source.name).to eq("citeulike")
-      expect(relation.related_work.pid).to eq(work.pid)
+      expect(Relationship.count).to eq(8)
+      relationship = Relationship.first
+      expect(relationship.relation_type.name).to eq("bookmarks")
+      expect(relationship.source.name).to eq("citeulike")
+      expect(relationship.work.pid).to eq("http://www.citeulike.org/user/shandar")
+      expect(relationship.related_work.pid).to eq(work.pid)
     end
 
     it "success counter" do
@@ -229,6 +232,7 @@ describe RetrievalStatus, type: :model, vcr: true do
     it "success crossref" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
       relation_type = FactoryGirl.create(:relation_type)
+      inverse_relation_type = FactoryGirl.create(:relation_type, :inverse)
       source = FactoryGirl.create(:crossref)
       subject = FactoryGirl.create(:retrieval_status, total: 5,  work: work, source: source)
       body = File.read(fixture_path + 'cross_ref.xml')
@@ -245,11 +249,12 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.month).to eq(4)
       expect(month.total).to eq(31)
 
-      expect(Relation.count).to eq(31)
-      relation = Relation.first
-      expect(relation.relation_type.name).to eq("cites")
-      expect(relation.source.name).to eq("crossref")
-      expect(relation.related_work.pid).to eq(work.pid)
+      expect(Relationship.count).to eq(62)
+      relationship = Relationship.first
+      expect(relationship.relation_type.name).to eq("cites")
+      expect(relationship.source.name).to eq("crossref")
+      expect(relationship.work.pid).to eq("doi:10.3758/s13423-011-0070-4")
+      expect(relationship.related_work.pid).to eq(work.pid)
     end
 
     it "success no data" do
@@ -268,7 +273,7 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.total).to eq(2)
       expect(month.readers).to eq(2)
 
-      expect(Relation.count).to eq(0)
+      expect(Relationship.count).to eq(0)
     end
 
     it "error" do

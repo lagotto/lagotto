@@ -234,7 +234,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq ("Work not found.")
+        expect(response["meta"]["error"]).to eq ("The page you are looking for doesn't exist.")
       end
     end
 
@@ -354,7 +354,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(404)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq ("Work not found.")
+        expect(response["meta"]["error"]).to eq ("The page you are looking for doesn't exist.")
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_nil
       end

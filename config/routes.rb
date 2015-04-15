@@ -11,12 +11,12 @@ Lagotto::Application.routes.draw do
   #get '/docs/*path' => 'ember#index'
   root :to => "docs#index"
 
-  resources :alerts, param: :uuid
+  resources :alerts
   resources :api_requests
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
-  resources :events
   resources :filters
   resources :publishers, param: :member_id
+  resources :related_works
   resources :sources, param: :name do
     resources :publisher_options, only: [:show, :edit, :update]
   end
@@ -53,8 +53,8 @@ Lagotto::Application.routes.draw do
         resources :works, constraints: { :id => /.+?/ }
       end
 
-      concern :measurable do
-        resources :metrics
+      concern :eventable do
+        resources :events
       end
 
       resources :alerts
@@ -62,19 +62,17 @@ Lagotto::Application.routes.draw do
       resources :docs, only: [:index, :show]
       resources :events
       resources :groups, only: [:index, :show]
-      resources :metrics
-      resources :publishers, concerns: [:workable, :measurable]
-      resources :references
+      resources :publishers, concerns: [:workable, :eventable]
+      resources :related_works
       resources :relation_types, only: [:index, :show]
-      resources :sources, concerns: [:workable, :measurable] do
+      resources :sources, concerns: [:workable, :eventable] do
         resources :months
       end
       resources :status, only: [:index]
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do
+        resources :related_works
         resources :events
-        resources :references
-        resources :metrics
       end
     end
   end

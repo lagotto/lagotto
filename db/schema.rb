@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407164404) do
+ActiveRecord::Schema.define(version: 20150414054657) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -169,13 +169,14 @@ ActiveRecord::Schema.define(version: 20150407164404) do
     t.string   "inverse_title", limit: 255
   end
 
-  create_table "relations", force: :cascade do |t|
-    t.integer  "work_id",          limit: 4, null: false
-    t.integer  "related_work_id",  limit: 4, null: false
+  create_table "relationships", force: :cascade do |t|
+    t.integer  "related_work_id",  limit: 4,             null: false
+    t.integer  "work_id",          limit: 4,             null: false
     t.integer  "source_id",        limit: 4
-    t.integer  "relation_type_id", limit: 4, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.integer  "relation_type_id", limit: 4,             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "level",            limit: 4, default: 1
   end
 
   create_table "reports", force: :cascade do |t|
@@ -195,6 +196,21 @@ ActiveRecord::Schema.define(version: 20150407164404) do
 
   add_index "reports_users", ["report_id", "user_id"], name: "index_reports_users_on_report_id_and_user_id", using: :btree
   add_index "reports_users", ["user_id"], name: "index_reports_users_on_user_id", using: :btree
+
+  create_table "retrieval_histories", force: :cascade do |t|
+    t.integer  "retrieval_status_id", limit: 4,               null: false
+    t.integer  "work_id",             limit: 4,               null: false
+    t.integer  "source_id",           limit: 4,               null: false
+    t.datetime "retrieved_at"
+    t.string   "status",              limit: 255
+    t.string   "msg",                 limit: 255
+    t.integer  "event_count",         limit: 4,   default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], name: "index_rh_on_id_and_retrieved_at", using: :btree
+  add_index "retrieval_histories", ["source_id", "status", "updated_at"], name: "index_retrieval_histories_on_source_id_and_status_and_updated", using: :btree
 
   create_table "retrieval_statuses", force: :cascade do |t|
     t.integer  "work_id",       limit: 4,                                     null: false
@@ -255,7 +271,7 @@ ActiveRecord::Schema.define(version: 20150407164404) do
     t.boolean  "queueable",   limit: 1,     default: true
     t.string   "state_event", limit: 255
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.boolean  "eventable",    limit: 1,     default: true
+    t.boolean  "eventable",   limit: 1,     default: true
   end
 
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree

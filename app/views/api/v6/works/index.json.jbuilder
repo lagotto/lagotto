@@ -11,6 +11,6 @@ json.works @works do |work|
   json.cache! ['v6', work], skip_digest: true do
     json.(work, :id, :publisher_id, :title, :issued)
     json.set! :"container-title", work.container_title
-    json.(work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :scp, :wos, :ark, :metrics, :timestamp)
+    json.(work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :scp, :wos, :ark, :events, :timestamp)
   end
 end

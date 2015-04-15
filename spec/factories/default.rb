@@ -511,6 +511,12 @@ FactoryGirl.define do
     title "Cites"
     inverse_title "Is cited by"
 
+    trait(:inverse) do
+      name "_cites"
+      title "Is cited by"
+      inverse_title "Cites"
+    end
+
     initialize_with { RelationType.where(name: name).first_or_initialize }
   end
 
