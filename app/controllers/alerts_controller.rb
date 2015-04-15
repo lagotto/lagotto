@@ -57,7 +57,7 @@ class AlertsController < ApplicationController
 
   def destroy
     @servers = ENV['SERVERS'].split(",")
-    @alert = Alert.where(uuid: params[:uuid]).first
+    @alert = Alert.where(uuid: params[:d]).first
     if params[:filter] == "class_name"
       Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source"

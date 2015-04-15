@@ -1,14 +1,15 @@
-class Api::V6::ReferencesController < Api::BaseController
+class Api::V6::RelatedWorksController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :references, "References"
+  swagger_controller :related_works, "Related Works"
 
   swagger_api :index do
-    summary "Returns list of references for a particular work, source and/or relation_type"
+    summary "Returns list of related works for a particular work, source and/or relation_type"
     param :query, :work_id, :string, :optional, "Work ID"
+    param :query, :q, :string, :optional, "Query for ids"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
@@ -20,8 +21,12 @@ class Api::V6::ReferencesController < Api::BaseController
   end
 
   def index
-    collection = Relation.includes(:work, :related_work)
-    collection = collection.where(work_id: @work.id) if @work
+    collection = Relationship.includes(:work, :related_work)
+    collection = @work.relationships if @work
+
+    if params[:q]
+      collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
+    end
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)
@@ -31,7 +36,7 @@ class Api::V6::ReferencesController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
-    collection = collection.order("relations.updated_at DESC")
+    collection = collection.order("relationships.updated_at DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 
@@ -39,7 +44,7 @@ class Api::V6::ReferencesController < Api::BaseController
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @references = collection.decorate
+    @relationships = collection.decorate
   end
 
   protected

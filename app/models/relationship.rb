@@ -1,6 +1,6 @@
-class Relation < ActiveRecord::Base
+class Relationship < ActiveRecord::Base
   belongs_to :work
-  belongs_to :related_work, class_name: "Work", foreign_key: "related_work_id"
+  belongs_to :related_work, class_name: "Work"
   belongs_to :relation_type
   belongs_to :source
 

@@ -1,4 +1,3 @@
 class Event < ActiveRecord::Base
-  belongs_to :work
-  belongs_to :citation, :class_name => "Work"
+  belongs_to :work, :primary_key => "parent_work_id"
 end

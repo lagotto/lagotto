@@ -104,18 +104,11 @@ class RetrievalStatus < ActiveRecord::Base
       related_works = item.fetch("related_works", [])
 
       csl = {
-        "issued" => item.fetch("issued", []),
         "author" => item.fetch("author", []),
         "container-title" => item.fetch("container-title", nil),
+        "volume" => item.fetch("volume", nil),
         "page" => item.fetch("page", nil),
-        "issue" => item.fetch("issue", nil),
-        "title" => title,
-        "type" => item.fetch("type", nil),
-        "DOI" => doi,
-        "PMID" => pmid,
-        "PMCID" => pmcid,
-        "URL" => canonical_url,
-        "volume" => item.fetch("volume", nil) }
+        "issue" => item.fetch("issue", nil) }
 
       i = {
         doi: doi,

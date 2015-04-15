@@ -110,7 +110,7 @@ function signpostsToString(work, sources, source_id, sort) {
 
   if (name !== "") {
     var source = sources.filter(function(d) { return d.id === name; })[0];
-    var a = [source.title + ": " + formatFixed(work.metrics[name])];
+    var a = [source.title + ": " + formatFixed(work.events[name])];
   } else {
     var a = [];
   }
@@ -133,22 +133,18 @@ function signpostsToString(work, sources, source_id, sort) {
 }
 
 function signpostsFromWork(work) {
-  var viewed = (work.metrics.counter || 0) + (work.metrics.pmc || 0);
-  var cited = work.metrics.crossref;
-  var saved = (work.metrics.citeulike || 0) + (work.metrics.mendeley || 0);
-  var discussed = (work.metrics.facebook || 0) + (work.metrics.twitter || 0) + (work.metrics.twitter_search || 0);
+  var viewed = (work.events.counter || 0) + (work.events.pmc || 0);
+  var cited = work.events.crossref;
+  var saved = (work.events.citeulike || 0) + (work.events.mendeley || 0);
+  var discussed = (work.events.facebook || 0) + (work.events.twitter || 0) + (work.events.twitter_search || 0);
 
   return { "viewed": viewed, "cited": cited, "saved": saved, "discussed": discussed };
 }
 
-function relationToString(work, sources, relation_types, is_reference) {
+function relationToString(work, sources, relation_types) {
   var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
   var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
-  if (typeof is_reference !== "undefined") {
-    return [relation_type.inverse_title, " via " + source.title];
-  } else {
-    return [relation_type.title, " via " + source.title];
-  }
+  return [relation_type.title, " via " + source.title];
 }
 
 // construct author object from author parts

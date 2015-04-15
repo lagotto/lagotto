@@ -1,19 +1,16 @@
 class Api::V6::EventsController < Api::BaseController
-  # include helper module for DOI resolution
-  include Resolvable
-
-  before_filter :authenticate_user_from_token!, :load_work
+  before_filter :authenticate_user_from_token!
 
   swagger_controller :events, "Events"
 
   swagger_api :index do
-    summary "Returns list of events for a particular work, source and/or relation_type"
-    param :query, :work_id, :string, :optional, "Work ID"
-    param :query, :q, :string, :optional, "Query for ids"
-    param :query, :relation_type_id, :string, :optional, "Relation_type ID"
-    param :query, :source_id, :string, :optional, "Source ID"
+    summary "Returns event counts by work IDs and/or source names"
+    notes "If no work ids or source names are provided in the query, all events are returned, 1000 per page and sorted by update date."
+    param :query, :work_ids, :string, :optional, "Work IDs"
+    param :query, :source_id, :string, :optional, "Source name"
+    param :query, :sort, :string, :optional, "Sort by event count (pdf, html, readers, comments, likes or total) descending, or by update date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 500"
+    param :query, :per_page, :integer, :optional, "Results per page, defaults to 1000"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -21,43 +18,32 @@ class Api::V6::EventsController < Api::BaseController
   end
 
   def index
-    collection = Relation.includes(:work, :related_work)
-    collection = collection.where(related_work_id: @work.id) if @work
-
-    if params[:q]
-      collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
+    if params[:work_id]
+      collection = RetrievalStatus.joins(:work).where("works.pid = ?", params[:work_id])
+    elsif params[:work_ids]
+      collection = RetrievalStatus.joins(:work).where("works.pid IN (?)", params[:work_ids])
+    elsif params[:source_id]
+      collection = RetrievalStatus.joins(:source).where("sources.name = ?", params[:source_id])
+    elsif params[:publisher_id]
+      collection = RetrievalStatus.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
+    else
+      collection = RetrievalStatus
     end
 
-    if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
-      collection = collection.where(relation_type_id: relation_type.id)
+    if params[:sort]
+      sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
+      collection = collection.order(sort.to_sym => :desc)
+    else
+      collection = collection.order("retrieval_statuses.updated_at DESC")
     end
 
-    if params[:source_id] && source = Source.where(name: params[:source_id]).first
-      collection = collection.where(source_id: source.id)
-    end
-
-    collection = collection.order("relations.updated_at DESC")
+    collection = collection.includes(:work, :source, :days, :months)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
-
-    collection = collection.paginate(per_page: per_page, page: params[:page])
+    collection = collection.paginate(per_page: per_page, :page => params[:page])
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
     @events = collection.decorate
-  end
-
-  protected
-
-  def load_work
-    return nil unless params[:work_id].present?
-
-    id_hash = get_id_hash(params[:work_id])
-    if id_hash.respond_to?("key")
-      key, value = id_hash.first
-      @work = Work.where(key => value).first
-    else
-      fail ActiveRecord::RecordNotFound
-    end
   end
 end
