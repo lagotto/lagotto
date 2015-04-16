@@ -84,8 +84,7 @@ class Source < ActiveRecord::Base
   scope :eventable, -> { visible.where(eventable: true) }
 
   # some sources cannot be redistributed
-  scope :public_sources, -> { where(private: false) }
-  scope :private_sources, -> { where(private: true) }
+  scope :accessible, ->(role) { where("private <= ?", role) }
 
   def to_param  # overridden, use name instead of id
     name
@@ -197,7 +196,7 @@ class Source < ActiveRecord::Base
     metrics = get_metrics(options[:metrics] => related_works.length)
 
     { works: related_works,
-      metrics: {
+      events: {
         source: name,
         work: work.pid,
         pdf: metrics[:pdf],
@@ -212,9 +211,10 @@ class Source < ActiveRecord::Base
         months: get_events_by_month(related_works, options) }.compact }
   end
 
-  def get_events_by_day(events, work, options={ metrics: :total })
+  def get_events_by_day(events, work, options={})
     events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - work.published_on > 30 }
 
+    options[:metrics] ||= :total
     events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
@@ -224,9 +224,10 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def get_events_by_month(events, options={ metrics: :total })
+  def get_events_by_month(events, options={})
     events = events.reject { |event| event["timestamp"].nil? }
 
+    options[:metrics] ||= :total
     events.group_by { |event| event["timestamp"][0..6] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
@@ -366,7 +367,7 @@ class Source < ActiveRecord::Base
   end
 
   def cache_key
-    "#{name}/#{timestamp}"
+    "source/#{name}/#{timestamp}"
   end
 
   def update_cache

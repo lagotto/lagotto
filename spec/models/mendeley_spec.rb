@@ -146,7 +146,7 @@ describe Mendeley, :type => :model do
 
   context "parse_data" do
     let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
-    let(:null_response) { { metrics: { source: "mendeley", work: "doi:10.1371/journal.pone.0008776", readers: 0, total: 0, events_url: nil, extra: {} } } }
+    let(:null_response) { { events: { source: "mendeley", work: "doi:10.1371/journal.pone.0008776", readers: 0, total: 0, events_url: nil, extra: {} } } }
 
     it "should report if the doi, pmid, mendeley uuid and title are missing" do
       result = {}
@@ -159,11 +159,11 @@ describe Mendeley, :type => :model do
       result = { "data" => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(34)
-      expect(response[:metrics][:readers]).to eq(34)
-      expect(response[:metrics][:events_url]).to eq("http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence")
+      expect(response[:events][:total]).to eq(34)
+      expect(response[:events][:readers]).to eq(34)
+      expect(response[:events][:events_url]).to eq("http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence")
 
-      extra = response[:metrics][:extra]
+      extra = response[:events][:extra]
       expect(extra["reader_count"]).to eq(34)
       expect(extra["group_count"]).to eq(0)
       expect(extra["reader_count_by_country"]).to eq("Portugal"=>2, "United States"=>3, "Mexico"=>1, "Brazil"=>2, "United Kingdom"=>1)

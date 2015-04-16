@@ -50,13 +50,13 @@ describe RelativeMetric, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil, :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
+      expect(subject.parse_data(result, work)).to eq(events: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012", :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
+      expect(subject.parse_data(result, work)).to eq(events: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
     end
 
     it "should get relative metric average usage data" do
@@ -64,8 +64,8 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(576895)
-      expect(response[:metrics][:extra]).to eq(
+      expect(response[:events][:total]).to eq(576895)
+      expect(response[:events][:extra]).to eq(
         :start_date => "2009-01-01T00:00:00Z",
         :end_date => "2009-12-31T00:00:00Z",
         :subject_areas => [
@@ -80,8 +80,8 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric_nodata.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(0)
-      expect(response[:metrics][:extra]).to eq(:start_date => "2009-01-01T00:00:00Z",
+      expect(response[:events][:total]).to eq(0)
+      expect(response[:events][:extra]).to eq(:start_date => "2009-01-01T00:00:00Z",
                                                :end_date => "2009-12-31T00:00:00Z",
                                                :subject_areas => [])
     end

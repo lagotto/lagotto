@@ -56,13 +56,13 @@ describe PlosFulltext, type: :model, vcr: true do
      it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events returned by the PLOS Search API" do
@@ -71,10 +71,10 @@ describe PlosFulltext, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:days]).to be_empty
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2014, month: 9, total: 1)
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:days]).to be_empty
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2014, month: 9, total: 1)
 
       event = response[:works].last
       expect(event['author']).to eq([{"family"=>"Rougier", "given"=>"Nicolas P."}, {"family"=>"Droettboom", "given"=>"Michael"}, {"family"=>"Bourne", "given"=>"Philip E."}])

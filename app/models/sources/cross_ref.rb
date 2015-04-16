@@ -31,7 +31,7 @@ class CrossRef < Source
     end
 
     { works: related_works,
-      metrics: {
+      events: {
         source: name,
         work: work.pid,
         total: total } }

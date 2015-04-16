@@ -50,7 +50,7 @@ describe Researchblogging, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "researchblogging", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "researchblogging", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the ResearchBlogging API" do
@@ -58,7 +58,7 @@ describe Researchblogging, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "researchblogging", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "researchblogging", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events returned by the ResearchBlogging API" do
@@ -68,12 +68,12 @@ describe Researchblogging, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(8)
-      expect(response[:metrics][:total]).to eq(8)
-      expect(response[:metrics][:events_url]).to eq(subject.get_events_url(work))
-      expect(response[:metrics][:days].length).to eq(7)
-      expect(response[:metrics][:days].first).to eq(year: 2009, month: 7, day: 6, total: 1)
-      expect(response[:metrics][:months].length).to eq(7)
-      expect(response[:metrics][:months].first).to eq(year: 2009, month: 7, total: 1)
+      expect(response[:events][:total]).to eq(8)
+      expect(response[:events][:events_url]).to eq(subject.get_events_url(work))
+      expect(response[:events][:days].length).to eq(7)
+      expect(response[:events][:days].first).to eq(year: 2009, month: 7, day: 6, total: 1)
+      expect(response[:events][:months].length).to eq(7)
+      expect(response[:events][:months].first).to eq(year: 2009, month: 7, total: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/")
@@ -91,12 +91,12 @@ describe Researchblogging, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:events_url]).to eq(subject.get_events_url(work))
-      expect(response[:metrics][:days].length).to eq(1)
-      expect(response[:metrics][:days].first).to eq(year: 2012, month: 10, day: 27, total: 1)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2012, month: 10, total: 1)
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:events_url]).to eq(subject.get_events_url(work))
+      expect(response[:events][:days].length).to eq(1)
+      expect(response[:events][:days].first).to eq(year: 2012, month: 10, day: 27, total: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2012, month: 10, total: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/")

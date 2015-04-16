@@ -46,7 +46,7 @@ describe Twitter, type: :model, vcr: true do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "twitter", work: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "twitter", work: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events returned by the Twitter API" do
@@ -54,11 +54,11 @@ describe Twitter, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(2)
-      expect(response[:metrics][:total]).to eq(2)
-      expect(response[:metrics][:days].length).to eq(2)
-      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 20, total: 1, comments: 1)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 2, comments: 2)
+      expect(response[:events][:total]).to eq(2)
+      expect(response[:events][:days].length).to eq(2)
+      expect(response[:events][:days].first).to eq(year: 2012, month: 5, day: 20, total: 1, comments: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2012, month: 5, total: 2, comments: 2)
 
       event = response[:works].first
       expect(event['author']).to eq([{"family"=>"Regrum", "given"=>""}])
@@ -70,7 +70,7 @@ describe Twitter, type: :model, vcr: true do
       expect(event['timestamp']).to eq("2012-05-20T17:59:00Z")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"twitter", "relation_type"=>"discusses"}])
 
-      extra = response[:metrics][:extra].first
+      extra = response[:events][:extra].first
       extra = extra[:event]
       expect(extra[:id]).to eq("204270013081849857")
       expect(extra[:text]).to eq("Don't be blinded by science http://t.co/YOWRhsXb")

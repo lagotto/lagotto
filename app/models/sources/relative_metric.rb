@@ -11,7 +11,7 @@ class RelativeMetric < Source
     extra = get_extra(result, work.published_on.year)
     total = extra[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         total: total,

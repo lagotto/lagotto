@@ -44,7 +44,7 @@ class Facebook < Source
       extra = result['data'] || {}
     end
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         readers: readers,

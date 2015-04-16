@@ -11,7 +11,7 @@ class Bitbucket < Source
     extra = result.slice("followers_count", "forks_count", "description", "utc_created_on")
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         readers: readers,

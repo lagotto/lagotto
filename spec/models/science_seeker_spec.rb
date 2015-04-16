@@ -57,7 +57,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "scienceseeker", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "scienceseeker", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
@@ -65,14 +65,14 @@ describe ScienceSeeker, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "scienceseeker", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "scienceseeker", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "scienceseeker", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "scienceseeker", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
@@ -82,12 +82,12 @@ describe ScienceSeeker, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(3)
-      expect(response[:metrics][:total]).to eq(3)
-      expect(response[:metrics][:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
-      expect(response[:metrics][:days].length).to eq(3)
-      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 11, total: 1)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 3)
+      expect(response[:events][:total]).to eq(3)
+      expect(response[:events][:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
+      expect(response[:events][:days].length).to eq(3)
+      expect(response[:events][:days].first).to eq(year: 2012, month: 5, day: 11, total: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2012, month: 5, total: 3)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://duncan.hull.name/2012/05/18/two-ton/")
@@ -106,12 +106,12 @@ describe ScienceSeeker, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
-      expect(response[:metrics][:days].length).to eq(1)
-      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 18, total: 1)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 1)
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
+      expect(response[:events][:days].length).to eq(1)
+      expect(response[:events][:days].first).to eq(year: 2012, month: 5, day: 18, total: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2012, month: 5, total: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://duncan.hull.name/2012/05/18/two-ton/")

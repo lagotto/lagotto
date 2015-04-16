@@ -41,7 +41,7 @@ describe PubMed, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
@@ -50,7 +50,7 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do
@@ -59,8 +59,8 @@ describe PubMed, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(13)
-      expect(response[:metrics][:total]).to eq(13)
-      expect(response[:metrics][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
+      expect(response[:events][:total]).to eq(13)
+      expect(response[:events][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3389/fendo.2012.00005")
@@ -83,8 +83,8 @@ describe PubMed, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3389/fendo.2012.00005")

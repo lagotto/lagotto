@@ -50,13 +50,13 @@ describe Github, type: :model, vcr: true do
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.create(:work, :canonical_url => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "github", work: work.pid, readers: 0, total: 0, extra: {}, days: [], months: []})
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "github", work: work.pid, readers: 0, total: 0, extra: {}, days: [], months: []})
     end
 
     it "should report that there are no events if the canonical_url is not a Github URL" do
       work = FactoryGirl.create(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "github", work: work.pid, readers: 0, total: 0, extra: {}, days: [], months: []})
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "github", work: work.pid, readers: 0, total: 0, extra: {}, days: [], months: []})
     end
 
     it "should report if there are no events and event_count returned by the Github API" do
@@ -66,7 +66,7 @@ describe Github, type: :model, vcr: true do
       result = JSON.parse(body)
       extra = { "stargazers_count"=>0, "stargazers_url"=>"https://api.github.com/repos/articlemetrics/pyalm/stargazers", "forks_count"=>0, "forks_url"=>"https://api.github.com/repos/articlemetrics/pyalm/forks" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "github", work: work.pid, readers: 0, total: 0, extra: extra, months: [], days: [] })
+      expect(response).to eq(works: [], events: { source: "github", work: work.pid, readers: 0, total: 0, extra: extra, months: [], days: [] })
     end
 
     it "should report if there are events and event_count returned by the Github API" do
@@ -76,12 +76,12 @@ describe Github, type: :model, vcr: true do
       body = File.read(fixture_path + 'github.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(10)
-      expect(response[:metrics][:readers]).to eq(7)
-      expect(response[:metrics][:events_url]).to eq("https://github.com/ropensci/alm")
-      expect(response[:metrics][:extra]["stargazers_count"]).to eq(7)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2013, month: 9, total: 7, readers: 7)
+      expect(response[:events][:total]).to eq(10)
+      expect(response[:events][:readers]).to eq(7)
+      expect(response[:events][:events_url]).to eq("https://github.com/ropensci/alm")
+      expect(response[:events][:extra]["stargazers_count"]).to eq(7)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2013, month: 9, total: 7, readers: 7)
 
       event = response[:works].first
       expect(event['URL']).to eq("https://github.com/sckott")

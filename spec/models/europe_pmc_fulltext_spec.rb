@@ -59,7 +59,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "europe_pmc_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "europe_pmc_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
@@ -68,9 +68,9 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(13)
-      expect(response[:metrics][:total]).to eq(13)
-      expect(response[:metrics][:days]).to be_empty
-      expect(response[:metrics][:months]).to be_empty
+      expect(response[:events][:total]).to eq(13)
+      expect(response[:events][:days]).to be_empty
+      expect(response[:events][:months]).to be_empty
 
       event = response[:works].last
       expect(event['author']).to eq([{"family"=>"Richardson", "given"=>"Mf"}, {"family"=>"Weinert", "given"=>"La"}, {"family"=>"Welch", "given"=>"Jj"}, {"family"=>"Linheiro", "given"=>"Rs"}, {"family"=>"Magwire", "given"=>"Mm"}, {"family"=>"Jiggins", "given"=>"Fm"}, {"family"=>"Bergman", "given"=>"Cm"}])

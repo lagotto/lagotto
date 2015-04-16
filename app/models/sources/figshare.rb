@@ -17,7 +17,7 @@ class Figshare < Source
 
     extra = nil if extra.blank?
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         pdf: downloads,

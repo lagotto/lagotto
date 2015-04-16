@@ -14,12 +14,12 @@ class Counter < Source
 
     extra = get_extra(result)
 
-    pdf = get_sum(extra, :pdf_views)
-    html = get_sum(extra, :html_views)
-    xml = get_sum(extra, :xml_views)
+    pdf = get_sum(extra, "pdf_views")
+    html = get_sum(extra, "html_views")
+    xml = get_sum(extra, "xml_views")
     total = pdf + html + xml
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         pdf: pdf,
@@ -33,22 +33,22 @@ class Counter < Source
     extra = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
     extra = [extra] if extra.is_a?(Hash)
     Array(extra).map do |item|
-      { month: item.fetch("month", nil),
-        year: item.fetch("year", nil),
-        pdf_views: item.fetch("get_pdf", 0),
-        xml_views: item.fetch("get_xml", 0),
-        html_views: item.fetch("get_document", 0) }
+      { "month" => item.fetch("month", nil),
+        "year" => item.fetch("year", nil),
+        "pdf_views" => item.fetch("get_pdf", 0),
+        "xml_views" => item.fetch("get_xml", 0),
+        "html_views" => item.fetch("get_document", 0) }
     end
   end
 
   def get_events_by_month(extra)
     extra.map do |e|
-      html = e[:html_views].to_i
-      pdf = e[:pdf_views].to_i
-      xml = e[:xml_views].to_i
+      html = e["html_views"].to_i
+      pdf = e["pdf_views"].to_i
+      xml = e["xml_views"].to_i
 
-      { month: e[:month].to_i,
-        year: e[:year].to_i,
+      { month: e["month"].to_i,
+        year: e["year"].to_i,
         html: html,
         pdf: pdf,
         total: html + pdf + xml }

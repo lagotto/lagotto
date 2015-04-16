@@ -18,7 +18,7 @@ class Pmc < Source
     total = html + pdf
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         pdf: pdf,

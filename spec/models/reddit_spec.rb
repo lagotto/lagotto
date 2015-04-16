@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, :days=>[], :months=>[] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, :days=>[], :months=>[] })
     end
 
     it "should report if there are no events returned by the Reddit API" do
@@ -50,7 +50,7 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, :days=>[], :months=>[] })
+      expect(response).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, :days=>[], :months=>[] })
     end
 
     it "should report if there are events returned by the Reddit API" do
@@ -60,14 +60,14 @@ describe Reddit, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(3)
-      expect(response[:metrics][:total]).to eq(1171)
-      expect(response[:metrics][:likes]).to eq(1013)
-      expect(response[:metrics][:comments]).to eq(158)
-      expect(response[:metrics][:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work)}")
-      expect(response[:metrics][:days].length).to eq(3)
-      expect(response[:metrics][:days].first).to eq(year: 2013, month: 5, day: 7, total: 1)
-      expect(response[:metrics][:months].length).to eq(2)
-      expect(response[:metrics][:months].first).to eq(year: 2013, month: 5, total: 2)
+      expect(response[:events][:total]).to eq(1171)
+      expect(response[:events][:likes]).to eq(1013)
+      expect(response[:events][:comments]).to eq(158)
+      expect(response[:events][:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work)}")
+      expect(response[:events][:days].length).to eq(3)
+      expect(response[:events][:days].first).to eq(year: 2013, month: 5, day: 7, total: 1)
+      expect(response[:events][:months].length).to eq(2)
+      expect(response[:events][:months].first).to eq(year: 2013, month: 5, total: 2)
 
       event = response[:works].first
       expect(event['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])

@@ -20,7 +20,7 @@ class Copernicus < Source
 
     extra = result['data'] ? {} : result
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         pdf: pdf,

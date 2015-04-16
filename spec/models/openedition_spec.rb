@@ -42,7 +42,7 @@ describe Openedition, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "openedition", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "openedition", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the Openedition API" do
@@ -50,7 +50,7 @@ describe Openedition, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "openedition", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "openedition", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events returned by the Openedition API" do
@@ -60,12 +60,12 @@ describe Openedition, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
-      expect(response[:metrics][:days].length).to eq(1)
-      expect(response[:metrics][:days].first).to eq(year: 2013, month: 5, day: 27, total: 1)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2013, month: 5, total: 1)
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
+      expect(response[:events][:days].length).to eq(1)
+      expect(response[:events][:days].first).to eq(year: 2013, month: 5, day: 27, total: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2013, month: 5, total: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://ruedesfacs.hypotheses.org/?p=1666")

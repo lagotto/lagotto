@@ -42,13 +42,13 @@ describe Datacite, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "datacite", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       body = File.read(fixture_path + 'datacite_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "datacite", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
@@ -56,8 +56,8 @@ describe Datacite, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:events_url]).to eq("http://search.datacite.org/ui?q=relatedIdentifier:#{work.doi_escaped}")
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:events_url]).to eq("http://search.datacite.org/ui?q=relatedIdentifier:#{work.doi_escaped}")
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.5061/DRYAD.8515")

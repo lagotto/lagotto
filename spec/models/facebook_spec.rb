@@ -152,7 +152,7 @@ describe Facebook, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "facebook", work: work.pid, readers: 0, comments: 0, likes: 0, total: 0, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(events: { source: "facebook", work: work.pid, readers: 0, comments: 0, likes: 0, total: 0, extra: {} })
     end
 
     it "should report if there are no events returned by the Facebook API" do
@@ -160,9 +160,9 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(0)
+      expect(response[:events][:total]).to eq(0)
 
-      extra = response[:metrics][:extra]
+      extra = response[:events][:extra]
       expect(extra["og_object"]).to eq("id"=>"318336314932679", "description"=>"PLOS ONE: an inclusive, peer-reviewed, open-access resource from the PUBLIC LIBRARY OF SCIENCE. Reports of well-performed scientific studies from all disciplines freely available to the whole world.", "title"=>"PLOS ONE: Neural Substrate of Cold-Seeking Behavior in Endotoxin Shock", "type"=>"website", "updated_time"=>"2013-01-11T22:07:49+0000", "url"=>"http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
       expect(extra["share"]).to eq("comment_count"=>0, "share_count"=>0)
     end
@@ -172,8 +172,8 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(9972)
-      extra = response[:metrics][:extra]
+      expect(response[:events][:total]).to eq(9972)
+      extra = response[:events][:extra]
       expect(extra["og_object"]).to eq("id"=>"119940294870426", "description"=>"PLOS Medicine is an open-access, peer-reviewed medical journal that publishes outstanding human studies that substantially enhance the understanding of human health and disease.", "title"=>"Why Most Published Research Findings Are False", "type"=>"article", "updated_time"=>"2014-10-24T15:34:04+0000", "url"=>"http://www.plosmedicine.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124")
       expect(extra["share"]).to eq("comment_count"=>0, "share_count"=>9972)
     end
@@ -194,11 +194,11 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>nil}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>"10150168740355926"}])
-      expect(response[:metrics][:total]).to eq(0)
-      expect(response[:metrics][:readers]).to eq(0)
-      expect(response[:metrics][:comments]).to eq(0)
-      expect(response[:metrics][:likes]).to eq(0)
+      expect(response[:events][:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>nil}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>"10150168740355926"}])
+      expect(response[:events][:total]).to eq(0)
+      expect(response[:events][:readers]).to eq(0)
+      expect(response[:events][:comments]).to eq(0)
+      expect(response[:events][:likes]).to eq(0)
     end
 
     it "should report if there are events returned by the Facebook API" do
@@ -206,11 +206,11 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150805897619922"}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150168740355926"}])
-      expect(response[:metrics][:total]).to eq(6745)
-      expect(response[:metrics][:readers]).to eq(3120)
-      expect(response[:metrics][:comments]).to eq(1910)
-      expect(response[:metrics][:likes]).to eq(1715)
+      expect(response[:events][:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150805897619922"}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150168740355926"}])
+      expect(response[:events][:total]).to eq(6745)
+      expect(response[:events][:readers]).to eq(3120)
+      expect(response[:events][:comments]).to eq(1910)
+      expect(response[:events][:likes]).to eq(1715)
     end
   end
 end

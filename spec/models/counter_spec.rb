@@ -134,14 +134,14 @@ describe Counter, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(events: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(events: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
     end
 
     it "should report if there are no events returned by the Counter API" do
@@ -149,7 +149,7 @@ describe Counter, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(metrics: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
+      expect(response).to eq(events: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
     end
 
     it "should report if there are events returned by the Counter API" do
@@ -157,13 +157,13 @@ describe Counter, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(3387)
-      expect(response[:metrics][:pdf]).to eq(447)
-      expect(response[:metrics][:html]).to eq(2919)
-      expect(response[:metrics][:extra].length).to eq(37)
-      expect(response[:metrics][:months].length).to eq(37)
-      expect(response[:metrics][:months].first).to eq(month: 1, year: 2010, html: 299, pdf: 90, total: 390)
-      expect(response[:metrics][:events_url]).to be_nil
+      expect(response[:events][:total]).to eq(3387)
+      expect(response[:events][:pdf]).to eq(447)
+      expect(response[:events][:html]).to eq(2919)
+      expect(response[:events][:extra].length).to eq(37)
+      expect(response[:events][:months].length).to eq(37)
+      expect(response[:events][:months].first).to eq(month: 1, year: 2010, html: 299, pdf: 90, total: 390)
+      expect(response[:events][:events_url]).to be_nil
     end
 
     it "should catch timeout errors with the Counter API" do

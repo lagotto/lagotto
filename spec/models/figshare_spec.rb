@@ -46,31 +46,31 @@ describe Figshare, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq( metrics: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
+      expect(subject.parse_data(result, work)).to eq( events: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
-      expect(subject.parse_data(result, work)).to eq( metrics: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
+      expect(subject.parse_data(result, work)).to eq( events: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
     end
 
     it "should report if there are no events returned by the figshare API" do
       body = File.read(fixture_path + 'figshare_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq( metrics: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
+      expect(response).to eq( events: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
     end
 
     it "should report if there are events returned by the figshare API" do
       body = File.read(fixture_path + 'figshare.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(14)
-      expect(response[:metrics][:pdf]).to eq(1)
-      expect(response[:metrics][:html]).to eq(13)
-      expect(response[:metrics][:likes]).to eq(0)
-      expect(response[:metrics][:extra].length).to eq(6)
+      expect(response[:events][:total]).to eq(14)
+      expect(response[:events][:pdf]).to eq(1)
+      expect(response[:events][:html]).to eq(13)
+      expect(response[:events][:likes]).to eq(0)
+      expect(response[:events][:extra].length).to eq(6)
     end
 
     it "should catch timeout errors with the figshare API" do

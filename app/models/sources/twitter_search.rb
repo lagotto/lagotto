@@ -4,7 +4,7 @@ class TwitterSearch < Source
   end
 
   def response_options
-    { :metrics => :comments }
+    { metrics: :comments }
   end
 
   def get_query_url(work, options = {})
@@ -24,7 +24,7 @@ class TwitterSearch < Source
     extra = update_extra(work, extra)
 
     { works: related_works,
-      metrics: {
+      events: {
         comments: related_works.length,
         total: related_works.length,
         events_url: get_events_url(work),

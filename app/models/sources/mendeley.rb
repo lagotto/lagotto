@@ -9,7 +9,7 @@ class Mendeley < Source
     total = readers + groups
     events_url = result.fetch("link", nil)
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         readers: readers,

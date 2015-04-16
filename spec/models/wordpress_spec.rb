@@ -55,14 +55,14 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "wordpress", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "wordpress", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "wordpress", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "wordpress", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events returned by the Wordpress API" do
@@ -70,12 +70,12 @@ describe Wordpress, type: :model, vcr: true do
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(10)
-      expect(response[:metrics][:total]).to eq(10)
-      expect(response[:metrics][:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post")
-      expect(response[:metrics][:days].length).to eq(6)
-      expect(response[:metrics][:days].first).to eq(year: 2007, month: 7, day: 12, total: 1)
-      expect(response[:metrics][:months].length).to eq(6)
-      expect(response[:metrics][:months].first).to eq(year: 2007, month: 7, total: 1)
+      expect(response[:events][:total]).to eq(10)
+      expect(response[:events][:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post")
+      expect(response[:events][:days].length).to eq(6)
+      expect(response[:events][:days].first).to eq(year: 2007, month: 7, day: 12, total: 1)
+      expect(response[:events][:months].length).to eq(6)
+      expect(response[:events][:months].first).to eq(year: 2007, month: 7, total: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/")

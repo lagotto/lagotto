@@ -60,7 +60,7 @@ describe Wos, type: :model, vcr: true do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(metrics: { source: "wos", work: work.pid, total: 0, events_url: nil })
+      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
     end
 
     it "should report if there are no events returned by the Wos API" do
@@ -68,7 +68,7 @@ describe Wos, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(metrics: { source: "wos", work: work.pid, total: 0, events_url: nil })
+      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
     end
 
     it "should report if there are events returned by the Wos API" do
@@ -76,8 +76,8 @@ describe Wos, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(1005)
-      expect(response[:metrics][:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
+      expect(response[:events][:total]).to eq(1005)
+      expect(response[:events][:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
       expect(work.wos).to eq("000237966900006")
     end
 

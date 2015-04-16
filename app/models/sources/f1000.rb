@@ -23,7 +23,7 @@ class F1000 < Source
       events_url = event.fetch("url", nil)
     end
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         total: total,

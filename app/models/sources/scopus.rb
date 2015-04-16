@@ -29,7 +29,7 @@ class Scopus < Source
       events_url = nil
     end
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         total: total,

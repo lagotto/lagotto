@@ -93,7 +93,7 @@ describe TwitterSearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { comments: 0, total: 0, events_url: "https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime", extra: [], days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { comments: 0, total: 0, events_url: "https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime", extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
@@ -102,13 +102,13 @@ describe TwitterSearch, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(8)
-      expect(response[:metrics][:total]).to eq(8)
-      expect(response[:metrics][:comments]).to eq(8)
-      expect(response[:metrics][:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
-      expect(response[:metrics][:days].length).to eq(6)
-      expect(response[:metrics][:days].first).to eq(year: 2014, month: 1, day: 6, total: 1, comments: 1)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2014, month: 1, total: 8, comments: 8)
+      expect(response[:events][:total]).to eq(8)
+      expect(response[:events][:comments]).to eq(8)
+      expect(response[:events][:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
+      expect(response[:events][:days].length).to eq(6)
+      expect(response[:events][:days].first).to eq(year: 2014, month: 1, day: 6, total: 1, comments: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2014, month: 1, total: 8, comments: 8)
 
       event = response[:works].first
       expect(event['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])

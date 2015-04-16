@@ -64,21 +64,21 @@ describe Copernicus, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "copernicus", work: work.pid, pdf: 0, html: 0, total: 0, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(events: { source: "copernicus", work: work.pid, pdf: 0, html: 0, total: 0, extra: {} })
     end
 
     it "should report if there are no events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work)).to eq(metrics: { source: "copernicus", work: work.pid, pdf: 0, html: 0, total: 0, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(events: { source: "copernicus", work: work.pid, pdf: 0, html: 0, total: 0, extra: {} })
     end
 
     it "should report if there are events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(83)
-      extra = response[:metrics][:extra]
+      expect(response[:events][:total]).to eq(83)
+      extra = response[:events][:extra]
       expect(extra["counter"]).not_to be_nil
       expect(extra["counter"]["AbstractViews"].to_i).to eq(72)
     end

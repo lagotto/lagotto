@@ -42,25 +42,25 @@ describe Nature, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "nature", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "nature", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "nature", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "nature", work: work.pid, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(10)
-      expect(response[:metrics][:days].length).to eq(10)
-      expect(response[:metrics][:days].first).to eq(year: 2009, month: 9, day: 18, total: 1)
-      expect(response[:metrics][:months].length).to eq(9)
-      expect(response[:metrics][:months].first).to eq(year: 2009, month: 9, total: 1)
+      expect(response[:events][:total]).to eq(10)
+      expect(response[:events][:days].length).to eq(10)
+      expect(response[:events][:days].first).to eq(year: 2009, month: 9, day: 18, total: 1)
+      expect(response[:events][:months].length).to eq(9)
+      expect(response[:events][:months].first).to eq(year: 2009, month: 9, total: 1)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://bjoern.brembs.net/news.php?item.854.5")

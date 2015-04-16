@@ -35,7 +35,7 @@ class Wos < Source
     total = 0 if total > 100000
     events_url = values[2]
 
-    { metrics: {
+    { events: {
         source: name,
         work: work.pid,
         total: total,

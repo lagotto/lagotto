@@ -67,12 +67,12 @@ describe Wikipedia, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       result = { "en"=>[] }
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
@@ -81,12 +81,12 @@ describe Wikipedia, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(637)
-      expect(response[:metrics][:total]).to eq(637)
-      expect(response[:metrics][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(response[:metrics][:days].length).to eq(88)
-      expect(response[:metrics][:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
-      expect(response[:metrics][:months].length).to eq(29)
-      expect(response[:metrics][:months].first).to eq(year: 2012, month: 5, total: 5)
+      expect(response[:events][:total]).to eq(637)
+      expect(response[:events][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
+      expect(response[:events][:days].length).to eq(89)
+      expect(response[:events][:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
+      expect(response[:events][:months].length).to eq(29)
+      expect(response[:events][:months].first).to eq(year: 2012, month: 5, total: 5)
 
       event = response[:works].first
       expect(event['author']).to be_nil
@@ -105,12 +105,12 @@ describe Wikipedia, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(10)
-      expect(response[:metrics][:total]).to eq(10)
-      expect(response[:metrics][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(response[:metrics][:days].length).to eq(1)
-      expect(response[:metrics][:days].first).to eq(year: 2013, month: 8, day: 29, total: 6)
-      expect(response[:metrics][:months].length).to eq(3)
-      expect(response[:metrics][:months].first).to eq(year: 2013, month: 8, total: 6)
+      expect(response[:events][:total]).to eq(10)
+      expect(response[:events][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
+      expect(response[:events][:days].length).to eq(1)
+      expect(response[:events][:days].first).to eq(year: 2013, month: 8, day: 29, total: 6)
+      expect(response[:events][:months].length).to eq(3)
+      expect(response[:events][:months].first).to eq(year: 2013, month: 8, total: 6)
 
       event = response[:works].first
       expect(event['author']).to be_nil
@@ -127,7 +127,7 @@ describe Wikipedia, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { "en"=>[] }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
   end
 end

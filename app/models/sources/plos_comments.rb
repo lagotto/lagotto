@@ -14,7 +14,7 @@ class PlosComments < Source
     events_url = related_works.length > 0 ? work.canonical_url : nil
 
     { works: related_works,
-      metrics: {
+      events: {
         source: name,
         work: work.pid,
         discussed: total,

@@ -43,7 +43,7 @@ describe Orcid, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "orcid", work: work.pid, readers: 0, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "orcid", work: work.pid, readers: 0, total: 0, days: [], months: [] })
     end
 
     it "should report if there are no events returned by the ORCID API" do
@@ -51,7 +51,7 @@ describe Orcid, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "orcid", work: work.pid, readers: 0, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "orcid", work: work.pid, readers: 0, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events returned by the ORCID API" do
@@ -62,8 +62,8 @@ describe Orcid, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
-      expect(response[:metrics][:events_url]).to eq("https://orcid.org/orcid-search/quick-search/?searchQuery=\"10.1371%2Fjournal.pone.0018011\"&rows=100")
+      expect(response[:events][:total]).to eq(1)
+      expect(response[:events][:events_url]).to eq("https://orcid.org/orcid-search/quick-search/?searchQuery=\"10.1371%2Fjournal.pone.0018011\"&rows=100")
 
       event = response[:works].first
       expect(event['URL']).to eq("http://orcid.org/0000-0002-0159-2197")

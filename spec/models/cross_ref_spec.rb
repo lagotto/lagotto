@@ -110,7 +110,7 @@ describe CrossRef, type: :model, vcr: true do
   end
 
   context "parse_data from the CrossRef API" do
-    let(:null_response) { { works: [], metrics: { source: "crossref", work: work.pid, total: 0 } } }
+    let(:null_response) { { works: [], events: { source: "crossref", work: work.pid, total: 0 } } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
@@ -133,7 +133,7 @@ describe CrossRef, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(31)
-      expect(response[:metrics][:total]).to eq(31)
+      expect(response[:events][:total]).to eq(31)
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
@@ -154,7 +154,7 @@ describe CrossRef, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(1)
-      expect(response[:metrics][:total]).to eq(1)
+      expect(response[:events][:total]).to eq(1)
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
@@ -175,7 +175,7 @@ describe CrossRef, type: :model, vcr: true do
 
   context "parse_data from the CrossRef OpenURL API" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/work/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil) }
-    let(:null_response) { { works: [], metrics: { source: "crossref", work: work.pid, total: 0 } } }
+    let(:null_response) { { works: [], events: { source: "crossref", work: work.pid, total: 0 } } }
 
     it "should report if the doi is missing" do
       result = {}
@@ -196,7 +196,7 @@ describe CrossRef, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(13)
+      expect(response[:events][:total]).to eq(13)
     end
 
     it "should catch timeout errors with the CrossRef OpenURL API" do

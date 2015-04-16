@@ -20,7 +20,7 @@ class BmcFulltext < Source
     events_url = related_works.length > 0 ? get_events_url(work) : nil
 
     { works: related_works,
-      metrics: {
+      events: {
         source: name,
         work: work.pid,
         total: related_works.length,

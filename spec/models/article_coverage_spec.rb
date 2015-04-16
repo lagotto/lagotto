@@ -52,7 +52,7 @@ describe ArticleCoverage, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "article_coverage", work: work.pid, comments: 0, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "article_coverage", work: work.pid, comments: 0, total: 0, days: [], months: [] })
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
@@ -65,7 +65,7 @@ describe ArticleCoverage, type: :model, vcr: true do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], metrics: { source: "article_coverage", work: work.pid, comments: 0, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "article_coverage", work: work.pid, comments: 0, total: 0, days: [], months: [] })
     end
 
     it "should report if there are events returned by the Article Coverage API" do
@@ -73,12 +73,12 @@ describe ArticleCoverage, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(2)
-      expect(response[:metrics][:total]).to eq(2)
-      expect(response[:metrics][:comments]).to eq(2)
-      expect(response[:metrics][:days].length).to eq(1)
-      expect(response[:metrics][:days].first).to eq(year: 2013, month: 11, day: 20, total: 2, comments: 2)
-      expect(response[:metrics][:months].length).to eq(1)
-      expect(response[:metrics][:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
+      expect(response[:events][:total]).to eq(2)
+      expect(response[:events][:comments]).to eq(2)
+      expect(response[:events][:days].length).to eq(1)
+      expect(response[:events][:days].first).to eq(year: 2013, month: 11, day: 20, total: 2, comments: 2)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
 
       event = response[:works].first
       expect(event['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")

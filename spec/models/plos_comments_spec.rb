@@ -57,13 +57,13 @@ describe PlosComments, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_comments", work: work.pid, discussed: 0, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_comments", work: work.pid, discussed: 0, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_comments", work: work.pid, discussed: 0, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_comments", work: work.pid, discussed: 0, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if the work was not found by the PLOS comments API" do
@@ -75,7 +75,7 @@ describe PlosComments, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work)).to eq(works: [], metrics: { source: "plos_comments", work: work.pid, discussed: 0, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_comments", work: work.pid, discussed: 0, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
@@ -84,11 +84,11 @@ describe PlosComments, type: :model, vcr: true do
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
       expect(response[:works].length).to eq(31)
-      expect(response[:metrics][:total]).to eq(36)
-      expect(response[:metrics][:days].length).to eq(2)
-      expect(response[:metrics][:days].first).to eq(year: 2009, month: 3, day: 30, total: 7)
-      expect(response[:metrics][:months].length).to eq(9)
-      expect(response[:metrics][:months].first).to eq(year: 2009, month: 3, total: 21)
+      expect(response[:events][:total]).to eq(36)
+      expect(response[:events][:days].length).to eq(2)
+      expect(response[:events][:days].first).to eq(year: 2009, month: 3, day: 30, total: 7)
+      expect(response[:events][:months].length).to eq(9)
+      expect(response[:events][:months].first).to eq(year: 2009, month: 3, total: 21)
 
       event = response[:works].last
       expect(event['author']).to eq([{"family"=>"Samigulina", "given"=>"Gulnara"}])

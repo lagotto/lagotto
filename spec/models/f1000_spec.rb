@@ -82,7 +82,7 @@ describe F1000, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { error: "not_found", status: 404 }
       response = subject.parse_data(result, work)
-      expect(response).to eq(metrics: { source: "f1000", work: work.pid, total: 0, events_url: nil, extra: [] })
+      expect(response).to eq(events: { source: "f1000", work: work.pid, total: 0, events_url: nil, extra: [] })
     end
 
     it "should report if there are events returned by f1000" do
@@ -90,10 +90,10 @@ describe F1000, type: :model, vcr: true do
       body = File.read(fixture_path + 'f1000.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:metrics][:total]).to eq(2)
-      expect(response[:metrics][:events_url]).to eq("http://f1000.com/prime/718293874")
+      expect(response[:events][:total]).to eq(2)
+      expect(response[:events][:events_url]).to eq("http://f1000.com/prime/718293874")
 
-      extra = response[:metrics][:extra].first
+      extra = response[:events][:extra].first
       expect(extra[:event]).to eq("year"=>2014, "month"=>4, "doi"=>"10.1371/journal.ppat.1003959", "f1000_id"=>"718293874", "url"=>"http://f1000.com/prime/718293874", "score"=>2, "classifications"=>["confirmation", "good_for_teaching"], "updated_at"=>"2014-04-27T17:25:41Z")
       expect(extra[:event_url]).to eq("http://f1000.com/prime/718293874")
     end
