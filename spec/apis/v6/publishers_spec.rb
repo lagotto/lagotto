@@ -5,18 +5,16 @@ describe "/api/v6/publishers", :type => :api do
     let(:user) { FactoryGirl.create(:admin_user) }
     let(:headers) do
       { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
-        "Authorization" => "Token token=#{user.api_key}" }
+        "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
     end
     let(:jsonp_headers) do
       { "HTTP_ACCEPT" => "application/javascript; version=6",
-        "Authorization" => "Token token=#{user.api_key}" }
+        "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
     end
     let(:uri) { "/api/publishers" }
 
     context "index" do
-      before(:each) do
-        @publisher = FactoryGirl.create(:publisher)
-      end
+      let!(:publisher) { FactoryGirl.create(:publisher) }
 
       it "JSON" do
         get uri, nil, headers
@@ -25,8 +23,8 @@ describe "/api/v6/publishers", :type => :api do
         response = JSON.parse(last_response.body)
         data = response["publishers"]
         item = data.first
-        expect(item["title"]).to eq(@publisher.title)
-        expect(item["id"]).to eq(@publisher.member_id)
+        expect(item["title"]).to eq(publisher.title)
+        expect(item["id"]).to eq(publisher.member_id)
         expect(item["other_names"]).to eq(["Public Library of Science",
                                        "Public Library of Science (PLoS)"])
         expect(item["prefixes"]).to eq(["10.1371"])
@@ -40,8 +38,8 @@ describe "/api/v6/publishers", :type => :api do
         response = JSON.parse(last_response.body[6...-1])
         data = response["publishers"]
         item = data.first
-        expect(item["title"]).to eq(@publisher.title)
-        expect(item["id"]).to eq(@publisher.member_id)
+        expect(item["title"]).to eq(publisher.title)
+        expect(item["id"]).to eq(publisher.member_id)
         expect(item["other_names"]).to eq(["Public Library of Science",
                                        "Public Library of Science (PLoS)"])
         expect(item["prefixes"]).to eq(["10.1371"])

@@ -5,12 +5,13 @@ describe "/api/v6/works", :type => :api do
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:headers) do
     { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
-      "Authorization" => "Token token=#{user.api_key}" }
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
   context "create" do
     let(:uri) { "/api/works" }
     let(:params) do
+
       { "work" => { "doi" => "10.1371/journal.pone.0036790",
                     "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                     "publisher_id" => 340,
@@ -22,18 +23,18 @@ describe "/api/v6/works", :type => :api do
     context "as admin user" do
       it "JSON" do
         post uri, params, headers
-        expect(last_response).to eq(201)
+        expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["status"]).to eq("ok")
+        expect(response["meta"]["status"]).to eq("created")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["work"]["doi"]).to eq (params["work"]["doi"])
+        expect(response["work"]["DOI"]).to eq (params["work"]["doi"])
         expect(response["work"]["publisher_id"]).to eq (params["work"]["publisher_id"])
       end
     end
 
     context "as staff user" do
-      let(:user) { FactoryGirl.create(:user, :role => "staff") }
+      let(:user) { FactoryGirl.create(:user, role: "staff") }
 
       it "JSON" do
         post uri, params, headers
@@ -45,7 +46,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:user, :role => "user") }
+      let(:user) { FactoryGirl.create(:user, role: "user") }
 
       it "JSON" do
         post uri, params, headers
@@ -56,8 +57,11 @@ describe "/api/v6/works", :type => :api do
       end
     end
 
-    context "with wrong password" do
-      let(:password) { 12345678 }
+    context "with wrong API key" do
+      let(:headers) do
+        { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+          "HTTP_AUTHORIZATION" => "Token token=12345678" }
+      end
 
       it "JSON" do
         post uri, params, headers
@@ -80,12 +84,12 @@ describe "/api/v6/works", :type => :api do
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response).to eq(400)
+        expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["error"]).to eq ({"doi"=>["has already been taken"], "pid"=>["has already been taken"]})
-        expect(response["success"]).to be_nil
-        expect(response["data"]).to be_nil
+        expect(response["meta"]["error"]).to eq ({"doi"=>["has already been taken"], "pid"=>["has already been taken"]})
+        expect(response["meta"]["status"]).to eq("error")
+        expect(response["work"]).to be_blank
       end
     end
 
@@ -119,12 +123,12 @@ describe "/api/v6/works", :type => :api do
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response).to eq(400)
+        expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
         expect(response["meta"]["error"]).to eq ({ "title"=>["can't be blank"], "year"=>["is not a number"], "published_on"=>["is before 1650"] })
-        expect(response["meta"]["status"]).to be_nil
-        expect(response["work"]).to be_empty
+        expect(response["meta"]["status"]).to eq("error")
+        expect(response["work"]).to be_blank
       end
     end
 
@@ -133,12 +137,12 @@ describe "/api/v6/works", :type => :api do
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response).to eq(400)
+        expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
         expect(response["meta"]["error"]).to eq("doi"=>["must provide at least one persistent identifier"], "pid_type"=>["can't be blank"], "pid"=>["can't be blank"], "title"=>["can't be blank"])
-        expect(response["meta"]["status"]).to be_nil
-        expect(response["work"]).to be_empty
+        expect(response["meta"]["status"]).to eq("error")
+        expect(response["work"]).to be_blank
 
         # expect(Alert.count).to eq(1)
         # alert = Alert.first
@@ -170,6 +174,7 @@ describe "/api/v6/works", :type => :api do
     let(:work) { FactoryGirl.create(:work) }
     let(:uri) { "/api/works/#{work.pid}" }
     let(:params) do
+
       { "work" => { "doi" => work.doi,
                     "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                     "year" => 2012,
@@ -178,20 +183,19 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "as admin user" do
-
       it "JSON" do
         put uri, params, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["status"]).to eq ("updated")
+        expect(response["meta"]["status"]).to eq("updated")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["meta"]["work"]["doi"]).to eq (work.doi)
+        expect(response["work"]["DOI"]).to eq(work.doi)
       end
     end
 
     context "as staff user" do
-      let(:user) { FactoryGirl.create(:user, :role => "staff") }
+      let(:user) { FactoryGirl.create(:user, role: "staff") }
 
       it "JSON" do
         put uri, params, headers
@@ -203,7 +207,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:user, :role => "user") }
+      let(:user) { FactoryGirl.create(:user, role: "user") }
 
       it "JSON" do
         put uri, params, headers
@@ -214,8 +218,11 @@ describe "/api/v6/works", :type => :api do
       end
     end
 
-    context "with wrong password" do
-      let(:password) { 12345678 }
+    context "with wrong API key" do
+      let(:headers) do
+        { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+          "HTTP_AUTHORIZATION" => "Token token=12345678" }
+      end
 
       it "JSON" do
         put uri, params, headers
@@ -286,7 +293,7 @@ describe "/api/v6/works", :type => :api do
     #     response = JSON.parse(last_response.body)
     #     #expect(response["error"]).to eq({ "foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"] })
     #     expect(response["success"]).to be_nil
-    #     expect(response["data"]).to be_empty
+    #     expect(response["data"]).to be_blank
 
     #     expect(Alert.count).to eq(1)
     #     alert = Alert.first
@@ -311,7 +318,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "as staff user" do
-      let(:user) { FactoryGirl.create(:user, :role => "staff") }
+      let(:user) { FactoryGirl.create(:user, role: "staff") }
 
       it "JSON" do
         delete uri, nil, headers
@@ -323,7 +330,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:user, :role => "user") }
+      let(:user) { FactoryGirl.create(:user, role: "user") }
 
       it "JSON" do
         delete uri, nil, headers
@@ -334,8 +341,11 @@ describe "/api/v6/works", :type => :api do
       end
     end
 
-    context "with wrong password" do
-      let(:password) { 12345678 }
+    context "with wrong API key" do
+      let(:headers) do
+        { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+          "HTTP_AUTHORIZATION" => "Token token=12345678" }
+      end
 
       it "JSON" do
         delete uri, nil, headers

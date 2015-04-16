@@ -41,7 +41,7 @@ describe "/api/v6/works", :type => :api do
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["doi"] == works[0].doi
+          work["DOI"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end
@@ -61,7 +61,7 @@ describe "/api/v6/works", :type => :api do
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["pmid"] == works[0].pmid
+          work["PMID"] == works[0].pmid
         end).to be true
       end
     end
@@ -80,7 +80,7 @@ describe "/api/v6/works", :type => :api do
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["pmcid"] == works[0].pmcid
+          work["PMCID"] == works[0].pmcid
         end).to be true
       end
     end
@@ -137,7 +137,7 @@ describe "/api/v6/works", :type => :api do
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["url"] == works[0].canonical_url
+          work["URL"] == works[0].canonical_url
         end).to be true
       end
     end
@@ -156,7 +156,7 @@ describe "/api/v6/works", :type => :api do
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["doi"] == works[0].doi
+          work["DOI"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end
@@ -165,7 +165,7 @@ describe "/api/v6/works", :type => :api do
     context "by publisher" do
       let(:publisher) { FactoryGirl.create(:publisher) }
       let(:works) { FactoryGirl.create_list(:work_with_events, 10, publisher_id: publisher.member_id) }
-      let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
+      let!(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
       let(:uri) { "/api/works?publisher_id=#{publisher.member_id}" }
 
       it "JSON" do
@@ -174,11 +174,10 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-         expect(response).to eq(10)
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["doi"] == works[0].doi
+          work["DOI"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end
@@ -193,7 +192,7 @@ describe "/api/v6/works", :type => :api do
         data = response["works"]
         expect(data.length).to eq(10)
         expect(data.any? do |work|
-          work["doi"] == works[0].doi
+          work["DOI"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end

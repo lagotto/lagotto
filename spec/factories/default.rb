@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :work do
+  factory :work, aliases: [:related_work] do
     sequence(:doi) { |n| "10.1371/journal.pone.00000#{n}" }
     sequence(:pmid) { |n| "1897483#{n}" }
     sequence(:pmcid) { |n| "256885#{n}" }
@@ -502,6 +502,8 @@ FactoryGirl.define do
 
   factory :work_type do
     name "article-journal"
+    title "Journal Article"
+    container "Journal"
 
     initialize_with { WorkType.where(name: name).first_or_initialize }
   end
@@ -509,15 +511,25 @@ FactoryGirl.define do
   factory :relation_type do
     name "cites"
     title "Cites"
-    inverse_title "Is cited by"
 
     trait(:inverse) do
       name "_cites"
       title "Is cited by"
-      inverse_title "Cites"
+      inverse true
     end
 
     initialize_with { RelationType.where(name: name).first_or_initialize }
+  end
+
+  factory :relationship do
+    association :work
+    association :related_work
+    association :source, factory: :crossref
+    association :relation_type
+
+    before :create do |relationship|
+      FactoryGirl.create(:relation_type, name: "_cited")
+    end
   end
 
   factory :status do

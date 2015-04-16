@@ -1,14 +1,14 @@
 require "rails_helper"
 
-describe "/api/v6/metrics", :type => :api do
+describe "/api/v6/events", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/json",
-      "Authorization" => "Token token=#{user.api_key}" }
+    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
   let(:jsonp_headers) do
-    { "HTTP_ACCEPT" => "application/javascript",
-      "Authorization" => "Token token=#{user.api_key}" }
+    { "HTTP_ACCEPT" => "application/javascript; version=6",
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
   context "index" do
@@ -16,16 +16,16 @@ describe "/api/v6/metrics", :type => :api do
       let(:works) { FactoryGirl.create_list(:work_with_events, 5) }
       let(:work) { works.first }
       let(:work_list) { works.map { |work| "#{work.pid}" }.join(",") }
-      let(:uri) { "/api/metrics?ids=#{work_list}" }
+      let(:uri) { "/api/events?ids=#{work_list}" }
 
       it "JSON" do
         get uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["metrics"].length).to eq(10)
+        expect(response["events"].length).to eq(10)
 
-        item = response["metrics"].find { |i| i["work_id"] == work.pid }
+        item = response["events"].find { |i| i["work_id"] == work.pid }
         expect(item["source_id"]).to eq("citeulike")
         expect(item["total"]).to eq(50)
         expect(item["readers"]).to eq(50)
@@ -41,9 +41,9 @@ describe "/api/v6/metrics", :type => :api do
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        expect(response["metrics"].length).to eq(10)
+        expect(response["events"].length).to eq(10)
 
-        item = response["metrics"].find { |i| i["work_id"] == work.pid }
+        item = response["events"].find { |i| i["work_id"] == work.pid }
         expect(item["source_id"]).to eq("citeulike")
         expect(item["work_id"]).to eq(work.pid)
         expect(item["total"]).to eq(50)
@@ -57,7 +57,7 @@ describe "/api/v6/metrics", :type => :api do
 
     context "show" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/works/#{work.pid}/metrics" }
+      let(:uri) { "/api/works/#{work.pid}/events" }
 
       it "JSON" do
         get uri, nil, headers
@@ -66,7 +66,7 @@ describe "/api/v6/metrics", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["total"]).to eq(2)
 
-        item = response["metrics"].first
+        item = response["events"].first
         expect(item["source_id"]).to eq("citeulike")
         expect(item["work_id"]).to eq(work.pid)
         expect(item["total"]).to eq(50)
@@ -85,7 +85,7 @@ describe "/api/v6/metrics", :type => :api do
         response = JSON.parse(last_response.body[6...-1])
         expect(response["meta"]["total"]).to eq(2)
 
-        item = response["metrics"].first
+        item = response["events"].first
         expect(item["source_id"]).to eq("citeulike")
         expect(item["work_id"]).to eq(work.pid)
         expect(item["total"]).to eq(50)

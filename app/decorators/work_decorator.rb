@@ -14,14 +14,22 @@ class WorkDecorator < Draper::Decorator
     # v3 API
     return context[:source_ids] if context[:source_ids]
 
-    collection = Source
+    collection = Source.accessible(context[:role]).order("name")
     collection = collection.where(name: context[:source_id]) if context[:source_id]
-    collection = collection.where(private: false) unless context[:admin]
-    collection = collection.order("name").pluck(:id)
+    collection = collection.pluck(:id)
   end
 
   def filtered_retrieval_statuses
     model.retrieval_statuses.select { |rs| source_ids.include?(rs.source_id) }
+  end
+
+  def filtered_sources
+    Source.accessible(context[:role]).pluck(:name)
+  end
+
+  def events
+    # or to_h in Ruby 2.1, ignore nil and 0
+    Hash[*model.metrics.flatten].select { |k,v| filtered_sources.include?(k) && v.to_i > 0 }
   end
 
   def publication_date
@@ -50,15 +58,6 @@ class WorkDecorator < Draper::Decorator
 
   def mendeley
     mendeley_uuid
-  end
-
-  def events
-    model.events
-  end
-
-  def events
-    # or to_h in Ruby 2.1, ignore nil and 0
-    Hash[*model.metrics.flatten].reject { |k,v| v.to_i == 0 }
   end
 
   def cache_key

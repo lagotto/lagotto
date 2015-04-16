@@ -17,10 +17,17 @@ class Api::BaseController < ActionController::Base
   def load_work
     # Load one work given query params
     id_hash = get_id_hash(params[:id])
-    key, value = id_hash.first
-    @work = Work.where(key => value).first
+    if id_hash.respond_to?("key")
+      key, value = id_hash.first
+      @work = Work.where(key => value).first
+    else
+      @work = nil
+    end
+    fail ActiveRecord::RecordNotFound unless @work.present?
+  end
 
-    render json: { meta: { status: "error", error: "Work not found." } }.to_json, status: :not_found if @work.nil?
+  def is_admin_or_staff?
+    current_user && current_user.is_admin_or_staff? ? 1 : 0
   end
 
   private

@@ -1,16 +1,14 @@
-class Api::V6::RelatedWorksController < Api::BaseController
+class Api::V6::SimilarWorksController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :authenticate_user_from_token!, :load_work
+  before_filter :load_work
 
-  swagger_controller :related_works, "Related Works"
+  swagger_controller :similar_works, "Similar Works"
 
   swagger_api :index do
-    summary "Returns list of related works for a particular work, source and/or relation_type"
-    param :query, :work_id, :string, :optional, "Work ID"
-    param :query, :work_ids, :string, :optional, "Work IDs"
-    param :query, :q, :string, :optional, "Query for ids"
+    summary "Returns list of works similar to a given work, optionally filtered by relation_type and/or source"
+    param :query, :work_id, :string, :required, "Work ID"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
@@ -22,16 +20,9 @@ class Api::V6::RelatedWorksController < Api::BaseController
   end
 
   def index
-    collection = Relationship.includes(:work, :related_work)
-    collection = @work.relationships if @work
-
-    if params[:work_ids]
-      collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])
-    end
-
-    if params[:q]
-      collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
-    end
+    collection = Relationship.includes(:work).where.not(work_id: @work.id)
+    related_work_ids = @work.related_works.pluck(:id)
+    collection = collection.where(related_work_id: related_work_ids)
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)
@@ -49,7 +40,7 @@ class Api::V6::RelatedWorksController < Api::BaseController
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @relationships = collection.decorate
+    @similars = collection.decorate
   end
 
   protected

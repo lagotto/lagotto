@@ -3,11 +3,11 @@ require "rails_helper"
 describe "/api/v6/status", :type => :api do
   let(:headers) do
     { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
-      "Authorization" => "Token token=#{user.api_key}" }
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
   let(:jsonp_headers) do
-    { "HTTP_ACCEPT" => "application/javascript",
-      "Authorization" => "Token token=#{user.api_key}" }
+    { "HTTP_ACCEPT" => "application/javascript; version=6",
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
   context "index" do

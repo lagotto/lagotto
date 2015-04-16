@@ -2,7 +2,8 @@ class Api::V6::WorksController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :authenticate_user_from_token!, :load_work, only: [:show, :update, :destroy]
+  prepend_before_filter :load_work, only: [:show, :update, :destroy]
+  before_filter :authenticate_user_from_token!
 
   swagger_controller :works, "Works"
 
@@ -16,7 +17,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 500"
+    param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -24,10 +25,40 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   swagger_api :show do
-    summary "Returns list of works either by ID, or all"
+    summary "Show a work"
     notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
     param :path, :id, :string, :required, "Work ID"
-    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    response :ok
+    response :unprocessable_entity
+    response :not_found
+    response :internal_server_error
+  end
+
+  swagger_api :create do
+    summary "Create a work"
+    notes "Authentication via API key is required"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    response :ok
+    response :unprocessable_entity
+    response :not_found
+    response :internal_server_error
+  end
+
+  swagger_api :update do
+    summary "Update a work"
+    notes "Authentication via API key is required"
+    param :path, :id, :string, :required, "Work ID"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    response :ok
+    response :unprocessable_entity
+    response :not_found
+    response :internal_server_error
+  end
+
+  swagger_api :destroy do
+    summary "Delete a work"
+    notes "Authentication via API key is required"
+    param :path, :id, :string, :required, "Work ID"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -35,7 +66,7 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   def show
-    @work = @work.decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })
+    @work = @work.decorate(context: { role: is_admin_or_staff? })
 
     fresh_when last_modified: @work.updated_at
   end
@@ -57,7 +88,7 @@ class Api::V6::WorksController < Api::BaseController
 
     fresh_when last_modified: collection.maximum(:updated_at)
 
-    @works = collection.decorate(context: { admin: current_user.try(:is_admin_or_staff?) })
+    @works = collection.decorate(context: { role: is_admin_or_staff? })
   end
 
   def create
@@ -66,6 +97,7 @@ class Api::V6::WorksController < Api::BaseController
 
     if @work.save
       @status = "created"
+      @work = @work.decorate
       render "show", :status => :created
     else
       render json: { meta: { status: "error", error: @work.errors }, work: {}}, status: :bad_request
@@ -76,6 +108,8 @@ class Api::V6::WorksController < Api::BaseController
     authorize! :update, @work
 
     if @work.update_attributes(safe_params)
+      @work = @work.decorate
+
       @status = "updated"
       render "show", :status => :ok
     else
@@ -87,7 +121,7 @@ class Api::V6::WorksController < Api::BaseController
     authorize! :destroy, @work
 
     if @work.destroy
-      render json: { success: "deleted" }, :status => :ok
+      render json: { meta: { status: "deleted" }, work: {} }, status: :ok
     else
       render json: { meta: { status: "error", error: "An error occured." }, work: {}}, status: :bad_request
     end
@@ -149,23 +183,9 @@ class Api::V6::WorksController < Api::BaseController
     end
   end
 
-  protected
-
-  def load_work
-    # Load one work given query params
-    id_hash = get_id_hash(params[:id])
-    if id_hash.respond_to?("key")
-      key, value = id_hash.first
-      @work = Work.where(key => value).first
-    else
-      @work = nil
-    end
-    fail ActiveRecord::RecordNotFound unless @work.present?
-  end
-
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :member_id, :year, :month, :day, :tracked)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
   end
 end

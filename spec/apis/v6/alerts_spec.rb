@@ -2,20 +2,20 @@ require "rails_helper"
 
 describe "/api/v6/alerts", :type => :api do
   let(:error) { { "meta"=> { "status"=>"error", "error"=>"You are not authorized to access this page." } } }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryGirl.create(:admin_user) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/json",
-      "Authorization" => "Token token=#{user.api_key}" }
+    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version 6",
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
   let(:jsonp_headers) do
-    { "HTTP_ACCEPT" => "application/javascript",
-      "Authorization" => "Token token=#{user.api_key}" }
+    { "HTTP_ACCEPT" => "application/javascript; version=6",
+      "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
   context "index" do
-    context "most recent articles" do
+    context "most recent alerts" do
       let(:uri) { "/api/alerts" }
-      let!(:alert) { FactoryGirl.create_list(:alert, 55) }
+      let!(:alert) { FactoryGirl.create_list(:alert, 10) }
 
       it "JSON" do
         get uri, nil, headers
@@ -23,7 +23,7 @@ describe "/api/v6/alerts", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["alerts"]
-        expect(data.length).to eq(50)
+        expect(data.length).to eq(10)
         item = data.first
         expect(item["level"]).to eq ("WARN")
         expect(item["message"]).to eq ("The request timed out.")
@@ -146,7 +146,8 @@ describe "/api/v6/alerts", :type => :api do
     end
 
     context "as staff user" do
-      let(:user) { FactoryGirl.create(:user, :role => "staff") }
+      let(:user) { FactoryGirl.create(:user, role: "staff") }
+      let!(:alert) { FactoryGirl.create_list(:alert, 10) }
       let(:uri) { "/api/alerts" }
 
       it "JSON" do
@@ -154,12 +155,16 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq (error)
+        data = response["alerts"]
+        expect(data.length).to eq(10)
+        item = data.first
+        expect(item["level"]).to eq ("WARN")
+        expect(item["message"]).to eq ("The request timed out.")
       end
     end
 
     context "as regular user" do
-      let(:user) { FactoryGirl.create(:user, :role => "user") }
+      let(:user) { FactoryGirl.create(:user, role: "user") }
       let(:uri) { "/api/alerts" }
 
       it "JSON" do

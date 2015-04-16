@@ -6,6 +6,7 @@ class Api::V6::EventsController < Api::BaseController
   swagger_api :index do
     summary "Returns event counts by work IDs and/or source names"
     notes "If no work ids or source names are provided in the query, all events are returned, 1000 per page and sorted by update date."
+    param :query, :work_id, :string, :optional, "Work ID"
     param :query, :work_ids, :string, :optional, "Work IDs"
     param :query, :source_id, :string, :optional, "Source name"
     param :query, :sort, :string, :optional, "Sort by event count (pdf, html, readers, comments, likes or total) descending, or by update date descending if left empty."
@@ -29,6 +30,8 @@ class Api::V6::EventsController < Api::BaseController
     else
       collection = RetrievalStatus
     end
+
+    collection = collection.joins(:source).where("private <= ?", is_admin_or_staff?)
 
     if params[:sort]
       sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
