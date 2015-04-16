@@ -85,6 +85,6 @@ class Doc
   end
 
   def cache_key
-    ActiveSupport::Cache.expand_cache_key [id, timestamp]
+    ActiveSupport::Cache.expand_cache_key ["doc", id, timestamp]
   end
 end
