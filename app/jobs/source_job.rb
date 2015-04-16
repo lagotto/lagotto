@@ -35,10 +35,11 @@ class SourceJob < ActiveJob::Base
       # observe rate-limiting settings
       sleep source.wait_time
 
-      rs = RetrievalStatus.find(rs_id)
+      rs = RetrievalStatus.where(id: rs_id).first
+      fail ActiveRecord::RecordNotFound unless rs.present?
 
       # store API response result and duration in api_responses table
-      response = { work_id: rs.work_id, source_id: rs.source_id, retrieval_status_id: rs_id }
+      response = { work_id: rs.work_id, source_id: rs.source_id, retrieval_status_id: rs.id }
       ActiveSupport::Notifications.instrument("api_response.get") do |payload|
         response.merge!(rs.perform_get_data)
         payload.merge!(response)
