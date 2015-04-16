@@ -6,7 +6,7 @@ json.meta do
 end
 
 json.docs @docs do |doc|
-  json.cache! ['v6', @doc], skip_digest: true do
+  json.cache! ['v6', doc], skip_digest: true do
     json.(doc, :id, :title, :timestamp)
   end
 end

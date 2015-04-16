@@ -72,6 +72,7 @@ Lagotto::Application.routes.draw do
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do
         resources :related_works
+        resources :similar_works
         resources :events
       end
     end
