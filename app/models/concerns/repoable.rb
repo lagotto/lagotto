@@ -32,7 +32,7 @@ module Repoable
       events_url = total > 0 ? get_events_url(work) : nil
 
       { works: related_works,
-        metrics: {
+        events: {
           source: name,
           work: work.pid,
           readers: readers,

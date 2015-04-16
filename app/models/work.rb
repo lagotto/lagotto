@@ -20,6 +20,7 @@ class Work < ActiveRecord::Base
   has_many :api_responses
   has_many :relationships, :dependent => :destroy
   has_many :related_works, :through => :relationships
+  has_many :similar_works, :through => :relationships
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true

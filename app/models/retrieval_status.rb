@@ -13,8 +13,6 @@ class RetrievalStatus < ActiveRecord::Base
   has_many :months, :dependent => :destroy
   has_many :days, :dependent => :destroy
 
-  before_destroy :delete_couchdb_document
-
   serialize :event_metrics
   serialize :extra, JSON
 
@@ -60,9 +58,9 @@ class RetrievalStatus < ActiveRecord::Base
       data[:days] = [get_events_current_day].compact if data[:days].blank?
       data[:months] = data.fetch(:metrics, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?
-      data[:metrics] = data[:metrics].except(:days, :months)
+      data[:events] = data[:events].except(:days, :months)
 
-      update_data(data.fetch(:metrics, {}))
+      update_data(data.fetch(:events, {}))
       update_works(data.fetch(:works, []))
       update_days(data.fetch(:days, []))
       update_months(data.fetch(:months, []))
@@ -319,7 +317,7 @@ class RetrievalStatus < ActiveRecord::Base
   alias_method :update_date, :timestamp
 
   def cache_key
-    "#{id}/#{timestamp}"
+    "event/#{id}/#{timestamp}"
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval
@@ -345,8 +343,6 @@ class RetrievalStatus < ActiveRecord::Base
   def random_time(duration)
     Time.zone.now + duration + rand(duration/10)
   end
-
-  private
 
   def delete_couchdb_document
     remove_lagotto_data(to_param)
