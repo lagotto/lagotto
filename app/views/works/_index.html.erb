@@ -31,6 +31,9 @@
 <% else %>
   <div class="page-header">
     <div class="btn-toolbar pull-right">
+      <div class="btn-group btn-group-sm">
+        <%= link_to "#{icon("link")} Related Works".html_safe, related_works_path, { id: "related_works", class: "btn btn-default" } %>
+      </div>
       <% if can?(:manage, Work) %>
         <div class="btn-group btn-group-sm">
           <%= link_to icon("plus").html_safe, new_work_path, { remote: true, id: "new-work", class: "btn btn-default" } %>

@@ -15,9 +15,9 @@ Lagotto::Application.routes.draw do
   resources :api_requests
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
-  resources :publishers, param: :member_id
+  resources :publishers
   resources :related_works
-  resources :sources, param: :name do
+  resources :sources do
     resources :publisher_options, only: [:show, :edit, :update]
   end
   resources :status, :only => [:index]
@@ -42,10 +42,10 @@ Lagotto::Application.routes.draw do
 
     namespace :v5 do
       resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
-      resources :sources, only: [:index, :show], param: :name
+      resources :sources, only: [:index, :show]
       resources :status, only: [:index]
       resources :api_requests, only: [:index]
-      resources :publishers, only: [:index], param: :member_id
+      resources :publishers, only: [:index]
     end
 
     scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do

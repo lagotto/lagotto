@@ -2,7 +2,7 @@
   <div class="btn-toolbar pull-right">
   </div>
   <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-relation_type_id="<%= @relation_type.present? ? @relation_type.name : "" %>" data-sort="">
-    Events
+    Related Works
   </h1>
 
   <%= form_tag(related_works_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
@@ -23,7 +23,7 @@
       <ul class="dropdown-menu">
         <li><%= link_to "All Relations", related_works_path(source_id: params[:source_id]) %></li>
         <% RelationType.order("name").each_with_index do |relation_type, i| %>
-          <%= '<li class="divider"></li>'.html_safe if i == 0 %>
+          <%= '<li class="divider"></li>'.html_safe if [0, 17].include?(i) %>
           <li><%= link_to "Filter by #{relation_type.title}", related_works_path(relation_type_id: relation_type.name, source_id: params[:source_id]) %></li>
         <% end %>
       </ul>

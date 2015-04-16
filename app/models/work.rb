@@ -83,25 +83,13 @@ class Work < ActiveRecord::Base
       related_work = Work.where(pid: item.fetch("related_work")).first
       source = Source.where(name: item.fetch("source")).first
       relation_name = item.fetch("relation_type", nil)
-      if relation_name.to_s[0] == "_"
-        inverse_relation_name = relation_name[1..-1]
-      else
-        inverse_relation_name = "_#{relation_name}"
-      end
       relation_type = RelationType.where(name: relation_name).first
-      inverse_relation_type = RelationType.where(name: inverse_relation_name).first
       #next unless related_work.present? && source.present? && relation_type.present?
 
       Relationship.where(work_id: id,
                          related_work_id: related_work.id,
                          source_id: source.id).first_or_create(
                            relation_type_id: relation_type.id)
-
-      # inverse relationship
-      Relationship.where(work_id: related_work.id,
-                         related_work_id: id,
-                         source_id: source.id).first_or_create(
-                           relation_type_id: inverse_relation_type.id)
     end
   end
 

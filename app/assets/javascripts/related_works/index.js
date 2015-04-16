@@ -74,7 +74,7 @@ function eventsViz(json, sources, relation_types) {
       .text(relation[0] + " ")
       .append("a")
       .attr("href", function() { return "/works/" + work.work_id; })
-      .html(work.event_id);
+      .html(work.work_id);
     d3.select("#results").append("span")
       .text(relation[1]);
   }
