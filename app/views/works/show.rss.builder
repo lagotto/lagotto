@@ -8,13 +8,13 @@ xml.rss :version => "2.0" do
       xml.title "Lagotto: events for work #{@work.pid}"
       xml.link work_url(@work)
 
-      @work.events.each do |event|
+      @work.relationships.each do |relationship|
         xml.item do
-          xml.title event.work.title
-          xml.description "#{event.relation_type.title} #{@work.pid} via #{event.source.title}"
-          xml.pubDate event.work.published_on.to_time.utc.to_s(:rfc822)
-          xml.link work_url(event.work)
-          xml.guid event.work.doi
+          xml.title relationship.work.title
+          xml.description "#{relationship.relation_type.title} #{@work.pid} via #{relationship.source.title}"
+          xml.pubDate relationship.work.published_on.to_time.utc.to_s(:rfc822)
+          xml.link work_url(relationship.work)
+          xml.guid relationship.work.doi
         end
       end
     end
