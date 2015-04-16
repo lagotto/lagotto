@@ -8,7 +8,7 @@ json.meta do
 end
 
 json.status @status do |status|
-  json.cache! ['v6', status, @user], skip_digest: true do
+  json.cache! ['v6', status, current_user], skip_digest: true do
     json.(status, :id, :works_count, :works_new_count, :sources, :events_count, :responses_count, :requests_count, :requests_average, :version)
 
     if current_user && current_user.is_admin_or_staff?

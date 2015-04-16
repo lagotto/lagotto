@@ -9,4 +9,8 @@ class StatusDecorator < Draper::Decorator
   def id
     to_param
   end
+
+  def cache_key
+    "status/#{context[:role]}/#{timestamp}"
+  end
 end

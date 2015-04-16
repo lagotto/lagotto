@@ -23,7 +23,7 @@ if (query) {
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
-      var data = json.apiRequests;
+      var data = json.api_requests;
 
       crossfilterViz(data);
   });
@@ -44,13 +44,13 @@ function crossfilterViz(data) {
 
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
-    .key(function(d) { return d3.time.day.utc(d.date); });
+    .key(function(d) { return d3.time.day.utc(d.timestamp); });
 
   // A little coercion, since the JSON is untyped.
   // expects date in iso8601 format, e.g. 2014-04-15T20:11:23Z
   data.forEach(function(d, i) {
     d.index = i;
-    d.date = new Date(d.date);
+    d.date = new Date(d.timestamp);
   });
 
   // Create the crossfilter for the relevant dimensions and groups.
@@ -60,10 +60,10 @@ function crossfilterViz(data) {
       dates = date.group(),
       hour = request.dimension(function(d) { return d.date.getUTCHours() + d.date.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
-      dbDuration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
-      dbDurations = dbDuration.group(function(d) { return Math.floor(d / 10) * 10; }),
-      viewDuration = request.dimension(function(d) { return Math.min(1999, d.view_duration); }),
-      viewDurations = viewDuration.group(function(d) { return Math.floor(d / 50) * 50; });
+      db_duration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
+      db_durations = db_duration.group(function(d) { return Math.floor(d / 10) * 10; }),
+      view_duration = request.dimension(function(d) { return Math.min(1999, d.view_duration); }),
+      view_durations = view_duration.group(function(d) { return Math.floor(d / 50) * 50; });
 
   var charts = [
       barChart()
@@ -74,15 +74,15 @@ function crossfilterViz(data) {
         .rangeRound([0, 10 * 30])),
 
       barChart()
-        .dimension(dbDuration)
-        .group(dbDurations)
+        .dimension(db_duration)
+        .group(db_durations)
         .x(d3.scale.linear()
         .domain([0, 6000])
         .rangeRound([0, 10 * 30])),
 
       barChart()
-        .dimension(viewDuration)
-        .group(viewDurations)
+        .dimension(view_duration)
+        .group(view_durations)
         .x(d3.scale.linear()
         .domain([0, 6000])
         .rangeRound([0, 10 * 30]))

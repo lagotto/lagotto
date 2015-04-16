@@ -1,10 +1,10 @@
 INTERNAL_PARAMS = %w(controller action format _method only_path)
 
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-  if payload[:params]["api_key"].present? && payload[:status].to_i < 400
+  if payload[:status].to_i < 400
     ApiRequest.create! do |api_request|
       api_request.uuid = SecureRandom.uuid
-      api_request.format = payload[:format] || "html"
+      api_request.format = payload[:format] || "json"
       api_request.view_duration = payload[:view_runtime]
       api_request.db_duration = payload[:db_runtime]
       api_request.duration = payload[:view_runtime].to_f + payload[:db_runtime].to_f

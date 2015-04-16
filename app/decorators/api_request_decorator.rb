@@ -1,6 +1,5 @@
 class ApiRequestDecorator < Draper::Decorator
   delegate_all
-  decorates_finders
 
   def self.collection_decorator_class
     PaginatingDecorator
@@ -8,5 +7,9 @@ class ApiRequestDecorator < Draper::Decorator
 
   def id
     to_param
+  end
+
+  def source
+    model.source
   end
 end

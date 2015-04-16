@@ -16,8 +16,6 @@ class Api::V6::StatusController < Api::BaseController
     Status.create unless Status.count > 0
 
     collection = Status.all.order("created_at DESC").paginate(:page => params[:page])
-    @status = collection.decorate
-
-    @user = current_user ? current_user.cache_key : "2"
+    @status = collection.decorate(context: { role: is_admin_or_staff? })
   end
 end

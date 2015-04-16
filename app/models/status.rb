@@ -60,10 +60,6 @@ class Status < ActiveRecord::Base
     updated_at.utc.iso8601
   end
 
-  def cache_key
-    "status/#{timestamp}"
-  end
-
   def create_uuid
     write_attribute(:uuid, SecureRandom.uuid)
   end
