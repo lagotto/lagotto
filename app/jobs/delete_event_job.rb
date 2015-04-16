@@ -3,7 +3,7 @@ class DeleteEventJob < ActiveJob::Base
 
   def perform(source)
     # only delete related works if they are not linked via other sources
-    work_ids = Relation.where(source_id: source.id).select(:work_id, :related_work_id).group(:work_id, :related_work_id).having("count(*) = 1").pluck(:work_id)
+    work_ids = Relationship.where(source_id: source.id).select(:work_id, :related_work_id).group(:work_id, :related_work_id).having("count(*) = 1").pluck(:work_id)
     Work.where(id: work_ids).destroy_all
     source.relationships.destroy_all
 
