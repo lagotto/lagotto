@@ -47,8 +47,6 @@ class Api::V6::RelatedWorksController < Api::BaseController
 
     collection = collection.paginate(per_page: per_page, page: params[:page])
 
-    fresh_when last_modified: collection.maximum(:updated_at)
-
     @relationships = collection.decorate
   end
 

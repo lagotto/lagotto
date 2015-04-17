@@ -38,8 +38,6 @@ class Api::V6::SimilarWorksController < Api::BaseController
 
     collection = collection.paginate(per_page: per_page, page: params[:page])
 
-    fresh_when last_modified: collection.maximum(:updated_at)
-
     @similars = collection.decorate
   end
 

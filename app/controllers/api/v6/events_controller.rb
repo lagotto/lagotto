@@ -45,8 +45,6 @@ class Api::V6::EventsController < Api::BaseController
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     collection = collection.paginate(per_page: per_page, :page => params[:page])
 
-    fresh_when last_modified: collection.maximum(:updated_at)
-
     @events = collection.decorate
   end
 end

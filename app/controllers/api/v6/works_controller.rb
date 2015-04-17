@@ -86,8 +86,6 @@ class Api::V6::WorksController < Api::BaseController
                                      page: params[:page],
                                      total_entries: total_entries)
 
-    fresh_when last_modified: collection.maximum(:updated_at)
-
     @works = collection.decorate(context: { role: is_admin_or_staff? })
   end
 
