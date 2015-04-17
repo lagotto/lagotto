@@ -5,7 +5,7 @@ xml.rss :version => "2.0" do
       xml.title "Lagotto: work not found"
       xml.link root_url
     else
-      xml.title "Lagotto: events for work #{@work.pid}"
+      xml.title "Lagotto: related works for work #{@work.pid}"
       xml.link work_url(@work)
 
       @work.relationships.each do |relationship|

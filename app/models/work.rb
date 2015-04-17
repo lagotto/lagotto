@@ -83,14 +83,31 @@ class Work < ActiveRecord::Base
     Array(data).map do |item|
       related_work = Work.where(pid: item.fetch("related_work")).first
       source = Source.where(name: item.fetch("source")).first
-      relation_name = item.fetch("relation_type", nil)
+      relation_name = item.fetch("relation_type", "cited")
       relation_type = RelationType.where(name: relation_name).first
-      #next unless related_work.present? && source.present? && relation_type.present?
+
+      next unless related_work.present? && source.present? && relation_type.present?
+
+      if relation_type.name.to_s[0] == "_"
+        inverse_relation_name = relation_type.name[1..-1]
+      else
+        inverse_relation_name = "_#{relation_type.name}"
+      end
+      inverse_relation_type = RelationType.where(name: inverse_relation_name).first
+      inverse_relation_type_id = inverse_relation_type ? inverse_relation_type.id : nil
+      level = (relation_type.name == "is_identical_to") ? 0 : 1
 
       Relationship.where(work_id: id,
                          related_work_id: related_work.id,
                          source_id: source.id).first_or_create(
-                           relation_type_id: relation_type.id)
+                           relation_type_id: relation_type.id,
+                           level: level)
+      if level > 0
+        Relationship.where(work_id: related_work.id,
+                           related_work_id: id,
+                           source_id: source.id).first_or_create(
+                             relation_type_id: inverse_relation_type_id)
+      end
     end
   end
 
