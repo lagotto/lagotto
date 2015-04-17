@@ -1,5 +1,8 @@
 class RelationType < ActiveRecord::Base
-  has_many :relations
+  has_many :relationships, dependent: :nullify
+
+  validates :name, :presence => true, :uniqueness => true
+  validates :title, :presence => true, :uniqueness => true
 
   def to_param
     name

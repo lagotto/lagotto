@@ -8,7 +8,7 @@ class RelationshipDecorator < Draper::Decorator
   end
 
   def work_id
-    model.related_work.pid
+    model.work.pid
   end
 
   def source_id

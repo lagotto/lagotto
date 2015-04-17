@@ -53,6 +53,7 @@ function eventsViz(json, sources, relation_types) {
     var work = data[i];
     var date_parts = work["issued"]["date-parts"][0];
     var date = datePartsToDate(date_parts);
+    var relation = relationToString(work, sources, relation_types);
 
     d3.select("#results").append("h4")
       .attr("class", "work")
@@ -67,8 +68,13 @@ function eventsViz(json, sources, relation_types) {
       .text(urlForWork(work));
     d3.select("#results").append("p")
       .text(signpostsToString(work, sources));
-    d3.select("#results").append("p")
-      .text(relationToString(work, sources, relation_types).join(" "));
+    d3.select("#results").append("span")
+      .text(relation[0] + " ")
+      .append("a")
+      .attr("href", function() { return "/works/" + work.work_id; })
+      .html(work.work_id);
+    d3.select("#results").append("span")
+      .text(relation[1]);
   }
 
   d3.select("div#rss").style("display", "inline");

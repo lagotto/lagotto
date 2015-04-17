@@ -3,7 +3,6 @@ class RenameRelationsColumns < ActiveRecord::Migration
     add_column :relations, :level, :integer, default: 1
     rename_table :relations, :relationships
     add_column :relation_types, :inverse, :boolean, default: false
-    remove_column :relation_types, :inverse_title
   end
 
   def down

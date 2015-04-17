@@ -162,11 +162,12 @@ ActiveRecord::Schema.define(version: 20150414054657) do
   add_index "publishers", ["member_id"], name: "index_publishers_on_member_id", unique: true, using: :btree
 
   create_table "relation_types", force: :cascade do |t|
-    t.string   "name",       limit: 255,                 null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "title",      limit: 255
-    t.boolean  "inverse",    limit: 1,   default: false
+    t.string   "name",          limit: 255,                 null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "title",         limit: 255
+    t.string   "inverse_title", limit: 255
+    t.boolean  "inverse",       limit: 1,   default: false
   end
 
   create_table "relationships", force: :cascade do |t|

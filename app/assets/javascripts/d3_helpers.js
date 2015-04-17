@@ -144,7 +144,7 @@ function signpostsFromWork(work) {
 function relationToString(work, sources, relation_types) {
   var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
   var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
-  return [relation_type.title, " via " + source.title];
+  return [relation_type.inverse_title, " via " + source.title];
 }
 
 // construct author object from author parts
