@@ -50,15 +50,15 @@ function crossfilterViz(data) {
   // expects date in iso8601 format, e.g. 2014-04-15T20:11:23Z
   data.forEach(function(d, i) {
     d.index = i;
-    d.date = new Date(d.timestamp);
+    d.timestamp = new Date(d.timestamp);
   });
 
   // Create the crossfilter for the relevant dimensions and groups.
   var request = crossfilter(data),
       all = request.groupAll(),
-      date = request.dimension(function(d) { return d3.time.day.utc(d.date); }),
+      date = request.dimension(function(d) { return d3.time.day.utc(d.timestamp); }),
       dates = date.group(),
-      hour = request.dimension(function(d) { return d.date.getUTCHours() + d.date.getMinutes() / 60; }),
+      hour = request.dimension(function(d) { return d.timestamp.getUTCHours() + d.timestamp.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
       db_duration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
       db_durations = db_duration.group(function(d) { return Math.floor(d / 10) * 10; }),
@@ -140,7 +140,7 @@ function crossfilterViz(data) {
         .attr("class", "date panel panel-default")
         .append("div")
         .attr("class", "panel-heading")
-        .text(function(d) { return formatDate(d.values[0].date); });
+        .text(function(d) { return formatDate(d.values[0].timestamp); });
 
       date.exit().remove();
 
@@ -152,7 +152,7 @@ function crossfilterViz(data) {
 
       requestEnter.append("div")
         .attr("class", "time")
-        .text(function(d) { return formatTime(d.date); });
+        .text(function(d) { return formatTime(d.timestamp); });
 
       requestEnter.append("div")
         .attr("class", "duration")
@@ -168,7 +168,7 @@ function crossfilterViz(data) {
         .attr("class", "source")
         .append("a")
         .attr("href", function(d) { return "/users?query=" + d.api_key; })
-        .text(function(d) { return d.api_key.substr(0,20); });
+        .text(function(d) { return (typeof d.api_key === "undefined") ? "" : d.api_key.substr(0,20); });
 
       requestEnter.append("div")
         .attr("class", "info")
