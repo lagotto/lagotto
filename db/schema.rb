@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414054657) do
+ActiveRecord::Schema.define(version: 20150417205503) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20150414054657) do
     t.integer  "readers",             limit: 4, default: 0, null: false
   end
 
+  add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
 
   create_table "publisher_options", force: :cascade do |t|
@@ -171,14 +172,16 @@ ActiveRecord::Schema.define(version: 20150414054657) do
   end
 
   create_table "relationships", force: :cascade do |t|
-    t.integer  "related_work_id",  limit: 4,             null: false
     t.integer  "work_id",          limit: 4,             null: false
+    t.integer  "related_work_id",  limit: 4,             null: false
     t.integer  "source_id",        limit: 4
     t.integer  "relation_type_id", limit: 4,             null: false
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.integer  "level",            limit: 4, default: 1
   end
+
+  add_index "relationships", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -197,21 +200,6 @@ ActiveRecord::Schema.define(version: 20150414054657) do
 
   add_index "reports_users", ["report_id", "user_id"], name: "index_reports_users_on_report_id_and_user_id", using: :btree
   add_index "reports_users", ["user_id"], name: "index_reports_users_on_user_id", using: :btree
-
-  create_table "retrieval_histories", force: :cascade do |t|
-    t.integer  "retrieval_status_id", limit: 4,               null: false
-    t.integer  "work_id",             limit: 4,               null: false
-    t.integer  "source_id",           limit: 4,               null: false
-    t.datetime "retrieved_at"
-    t.string   "status",              limit: 255
-    t.string   "msg",                 limit: 255
-    t.integer  "event_count",         limit: 4,   default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "retrieval_histories", ["retrieval_status_id", "retrieved_at"], name: "index_rh_on_id_and_retrieved_at", using: :btree
-  add_index "retrieval_histories", ["source_id", "status", "updated_at"], name: "index_retrieval_histories_on_source_id_and_status_and_updated", using: :btree
 
   create_table "retrieval_statuses", force: :cascade do |t|
     t.integer  "work_id",       limit: 4,                                     null: false
