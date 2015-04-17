@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 20150417205503) do
     t.integer  "readers",             limit: 4, default: 0, null: false
   end
 
+  add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
 
   create_table "filters", force: :cascade do |t|
@@ -135,6 +136,7 @@ ActiveRecord::Schema.define(version: 20150417205503) do
     t.integer  "readers",             limit: 4, default: 0, null: false
   end
 
+  add_index "months", ["retrieval_status_id", "year", "month"], name: "index_months_on_retrieval_status_id_and_year_and_month", using: :btree
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
 
