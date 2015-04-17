@@ -27,8 +27,8 @@ class Publisher < ActiveRecord::Base
     end
   end
 
-  def work_count=(time_stamp)
-    Rails.cache.write("publisher/#{member_id}/work_count/#{time_stamp}",
+  def work_count=
+    Rails.cache.write("publisher/#{member_id}/work_count/#{timestamp}",
                       works.size)
   end
 
@@ -40,8 +40,8 @@ class Publisher < ActiveRecord::Base
     end
   end
 
-  def work_count_by_source=(source_id, time_stamp)
-    Rails.cache.write("publisher/#{member_id}/#{source_id}/work_count/#{time_stamp}",
+  def work_count_by_source=(source_id)
+    Rails.cache.write("publisher/#{member_id}/#{source_id}/work_count/#{timestamp}",
                       works.has_events.by_source(source_id).size)
   end
 
@@ -56,10 +56,9 @@ class Publisher < ActiveRecord::Base
   def write_cache
     # update cache_key as last step so that we have the old version until we are done
     now = Time.zone.now
-    time_stamp = now.utc.iso8601
 
-    send("work_count=", time_stamp)
-    Source.visible.each { |source| send("work_count_by_source=", source.id, time_stamp) }
+    send("work_count=")
+    Source.visible.each { |source| send("work_count_by_source=", source.id) }
 
     update_column(:cached_at, now)
   end

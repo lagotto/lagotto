@@ -377,7 +377,6 @@ class Source < ActiveRecord::Base
   def write_cache
     # update cache_key as last step so that we have the old version until we are done
     now = Time.zone.now
-    time_stamp = now.utc.iso8601
 
     # loop through cached attributes we want to update
     [:event_count,

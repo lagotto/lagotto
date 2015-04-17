@@ -116,7 +116,7 @@ module Countable
     end
 
     def cache_write(id, value)
-      Rails.cache.write("#{name}/#{id}/#{Time.zone.now.utc.iso8601}", value)
+      Rails.cache.write("#{name}/#{id}/#{timestamp}", value)
     end
   end
 end
