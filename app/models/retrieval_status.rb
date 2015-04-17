@@ -54,16 +54,19 @@ class RetrievalStatus < ActiveRecord::Base
     # only update database if no error
     unless skipped
       data = source.parse_data(data, work, work_id: work_id, source_id: source_id)
-      data[:days] = data.fetch(:metrics, {}).fetch(:days, [])
-      data[:days] = [get_events_current_day].compact if data[:days].blank?
-      data[:months] = data.fetch(:metrics, {}).fetch(:months, [])
-      data[:months] = [get_events_current_month] if data[:months].blank?
-      data[:events] = data[:events].except(:days, :months)
 
-      update_data(data.fetch(:events, {}))
       update_works(data.fetch(:works, []))
-      update_days(data.fetch(:days, []))
-      update_months(data.fetch(:months, []))
+
+      data[:events] = data[:events].except(:days, :months)
+      update_data(data.fetch(:events))
+
+      data[:months] = data.fetch(:events, {}).fetch(:months, [])
+      data[:months] = [get_events_current_month] if data[:months].blank?
+      update_months(data.fetch(:months))
+
+      data[:days] = data.fetch(:events, {}).fetch(:days, [])
+      data[:days] = [get_events_current_day].compact if data[:days].blank?
+      update_days(data.fetch(:days))
     end
 
     { total: total,
@@ -234,12 +237,12 @@ class RetrievalStatus < ActiveRecord::Base
     { year: today.year,
       month: today.month,
       day: today.day,
-      pdf: pdf - row.fetch(:pdf, 0),
-      html: html - row.fetch(:html, 0),
-      readers: readers - row.fetch(:readers, 0),
-      comments: comments - row.fetch(:comments, 0),
-      likes: likes - row.fetch(:likes, 0),
-      total: total - row.fetch(:total, 0) }
+      pdf: pdf - row.fetch(:pdf),
+      html: html - row.fetch(:html),
+      readers: readers - row.fetch(:readers),
+      comments: comments - row.fetch(:comments),
+      likes: likes - row.fetch(:likes),
+      total: total - row.fetch(:total) }
   end
 
   def get_events_previous_month
@@ -273,12 +276,12 @@ class RetrievalStatus < ActiveRecord::Base
 
     { year: today.year,
       month: today.month,
-      pdf: pdf - row.fetch(:pdf, 0),
-      html: html - row.fetch(:html, 0),
-      readers: readers - row.fetch(:readers, 0),
-      comments: comments - row.fetch(:comments, 0),
-      likes: likes - row.fetch(:likes, 0),
-      total: total - row.fetch(:total, 0) }
+      pdf: pdf - row.fetch(:pdf),
+      html: html - row.fetch(:html),
+      readers: readers - row.fetch(:readers),
+      comments: comments - row.fetch(:comments),
+      likes: likes - row.fetch(:likes),
+      total: total - row.fetch(:total) }
   end
 
   def metrics

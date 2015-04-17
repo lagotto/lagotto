@@ -528,7 +528,8 @@ FactoryGirl.define do
     association :relation_type
 
     before :create do |relationship|
-      FactoryGirl.create(:relation_type, name: "_cited")
+      FactoryGirl.create(:relation_type)
+      FactoryGirl.create(:relation_type, :inverse)
     end
   end
 

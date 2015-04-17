@@ -143,6 +143,8 @@ describe RetrievalStatus, type: :model, vcr: true do
 
   describe "update_works" do
     subject { FactoryGirl.create(:retrieval_status, :with_crossref) }
+    let!(:relation_type) { FactoryGirl.create(:relation_type) }
+    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, :inverse) }
 
     it "no works" do
       data = []
@@ -151,8 +153,6 @@ describe RetrievalStatus, type: :model, vcr: true do
 
     it "work from CrossRef" do
       related_work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007")
-      relation_type = FactoryGirl.create(:relation_type)
-      inverse_relation_type = FactoryGirl.create(:relation_type, :inverse)
       data = [{"author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source"=>"crossref", "relation_type"=>"cites"}]}]
       expect(subject.update_works(data)).to eq(["doi:10.3758/s13423-011-0070-4"])
 
@@ -169,10 +169,57 @@ describe RetrievalStatus, type: :model, vcr: true do
     end
   end
 
+  describe "update_months" do
+    let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
+    subject { FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work) }
+
+    it "citeulike" do
+      data = subject.source.get_data(work, work_id: subject.work_id, source_id: subject.source_id)
+      data = subject.source.parse_data(data, subject.work, work_id: subject.work_id, source_id: subject.source_id)
+
+      data[:months] = data.fetch(:events, {}).fetch(:months, [])
+      subject.update_months(data.fetch(:months))
+      expect(subject.months.count).to eq(2)
+
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(1)
+      expect(month.total).to eq(2)
+      expect(month.readers).to eq(2)
+    end
+
+    it "mendeley" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
+      source = FactoryGirl.create(:mendeley)
+      subject = FactoryGirl.create(:retrieval_status, total: 0, readers: 0, work: work, source: source)
+      body = File.read(fixture_path + 'mendeley.json')
+      stub = stub_request(:get, subject.source.get_query_url(work)).to_return(:body => body)
+
+      data = subject.source.get_data(work, work_id: subject.work_id, source_id: subject.source_id)
+      data = subject.source.parse_data(data, subject.work, work_id: subject.work_id, source_id: subject.source_id)
+
+      subject.update_data(data.fetch(:events))
+
+      data[:months] = [subject.get_events_current_month]
+      subject.update_months(data.fetch(:months))
+      expect(subject.months.count).to eq(1)
+
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(4)
+      expect(month.total).to eq(34)
+      expect(month.readers).to eq(34)
+    end
+
+    it "counter" do
+
+    end
+  end
+
   context "perform_get_data" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
-    let!(:relation_type) { FactoryGirl.create(:relation_type, name: "bookmarks") }
-    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, name: "_bookmarks") }
+    let!(:relation_type) { FactoryGirl.create(:relation_type, name: "bookmarks", title: "Bookmakrs") }
+    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, name: "_bookmarks", title: "Is bookmarked by") }
     subject { FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work) }
 
     it "success" do
@@ -229,17 +276,37 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(extra).to eq("month"=>"4", "year"=>"2015", "pdf_views"=>0, "xml_views"=>0, "html_views"=>"1")
     end
 
+    it "success mendeley" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
+      source = FactoryGirl.create(:mendeley)
+      subject = FactoryGirl.create(:retrieval_status, total: 0, readers: 0, work: work, source: source)
+      body = File.read(fixture_path + 'mendeley.json')
+      stub = stub_request(:get, subject.source.get_query_url(work)).to_return(:body => body)
+
+      expect(subject.months.count).to eq(0)
+      expect(subject.perform_get_data).to eq(total: 34, html: 0, pdf: 0, previous_total: 0, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(34)
+      expect(subject.months.count).to eq(1)
+      expect(subject.days.count).to eq(0)
+      expect(Relationship.count).to eq(0)
+
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(4)
+      expect(month.total).to eq(34)
+    end
+
     it "success crossref" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
       relation_type = FactoryGirl.create(:relation_type)
       inverse_relation_type = FactoryGirl.create(:relation_type, :inverse)
       source = FactoryGirl.create(:crossref)
-      subject = FactoryGirl.create(:retrieval_status, total: 5,  work: work, source: source)
+      subject = FactoryGirl.create(:retrieval_status, total: 0, readers: 0, work: work, source: source)
       body = File.read(fixture_path + 'cross_ref.xml')
       stub = stub_request(:get, subject.source.get_query_url(work)).to_return(:body => body)
 
       expect(subject.months.count).to eq(0)
-      expect(subject.perform_get_data).to eq(total: 31, html: 0, pdf: 0, previous_total: 5, skipped: false, update_interval: 31)
+      expect(subject.perform_get_data).to eq(total: 31, html: 0, pdf: 0, previous_total: 0, skipped: false, update_interval: 31)
       expect(subject.total).to eq(31)
       expect(subject.months.count).to eq(1)
       expect(subject.days.count).to eq(0)
