@@ -10,11 +10,11 @@ xml.rss :version => "2.0" do
 
       @work.relationships.each do |relationship|
         xml.item do
-          xml.title relationship.work.title
-          xml.description "#{relationship.relation_type.title} #{@work.pid} via #{relationship.source.title}"
-          xml.pubDate relationship.work.published_on.to_time.utc.to_s(:rfc822)
-          xml.link work_url(relationship.work)
-          xml.guid relationship.work.doi
+          xml.title relationship.related_work.title
+          xml.description "#{relationship.relation_type.inverse_title} #{@work.pid} via #{relationship.source.title}"
+          xml.pubDate relationship.related_work.published_on.to_time.utc.to_s(:rfc822)
+          xml.link work_url(relationship.related_work)
+          xml.guid relationship.related_work.doi
         end
       end
     end
