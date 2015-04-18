@@ -4,4 +4,4 @@
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register_alias "text/html", :iphone
 
-Mime::Type.register 'application/vnd.lagotto+json', :json
+Mime::Type.register "application/json", :json, %w( text/x-json application/jsonrequest application/vnd.lagotto+json )
