@@ -166,7 +166,7 @@ class Api::V6::WorksController < Api::BaseController
         .where("retrieval_statuses.source_id = ?", sort.id)
         .order("retrieval_statuses.total DESC")
     else
-      collection #= collection.order("works.published_on DESC")
+      collection.order("works.published_on DESC")
     end
   end
 
