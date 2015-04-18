@@ -3,6 +3,8 @@ require 'sidekiq/web'
 Lagotto::Application.routes.draw do
   # mount EmberCLI::Engine => "ember-tests" if Rails.env.development?
 
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
+
   authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -22,8 +24,6 @@ Lagotto::Application.routes.draw do
   end
   resources :status, :only => [:index]
   resources :users
-
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
 
   # constraints is added to allow dot in the url (doi is used to show article)
   resources :works, constraints: { :id => /.+?/, :format => /html|js|rss/ }
@@ -50,7 +50,7 @@ Lagotto::Application.routes.draw do
 
     scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
       concern :workable do
-        resources :works, constraints: { :id => /.+?/ }
+        resources :works, constraints: { :id => /.+?/, format: false }
       end
 
       concern :eventable do
