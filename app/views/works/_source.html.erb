@@ -7,7 +7,7 @@
       <%= link_to status.source.title, source_path(status.source) %>
       <% unless status.events_url.nil? %>| <%= link_to "Further Information", status.events_url, :target => "_blank" %><% end %>
     </h4>
-    <% unless status.extra.blank? %>
+    <% if status.extra.present? %>
       <% if status.extra.is_a?(Array) %>
         <ul>
           <% status.extra.each do |ed| %>

@@ -23,13 +23,13 @@ http_interactions:
       Location:
       - http://dx.plos.org/10.1371/journal.pone.0000030
       Expires:
-      - Sat, 11 Apr 2015 21:32:16 GMT
+      - Sun, 19 Apr 2015 10:26:25 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '180'
       Date:
-      - Sat, 11 Apr 2015 06:30:44 GMT
+      - Sat, 18 Apr 2015 22:01:51 GMT
     body:
       encoding: UTF-8
       string: |2-
@@ -37,7 +37,7 @@ http_interactions:
         <HTML><HEAD><TITLE>Handle Redirect</TITLE></HEAD>
         <BODY><A HREF="http://dx.plos.org/10.1371/journal.pone.0000030">http://dx.plos.org/10.1371/journal.pone.0000030</A></BODY></HTML>
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:45 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:52 GMT
 - request:
     method: get
     uri: http://dx.plos.org/10.1371/journal.pone.0000030
@@ -55,7 +55,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:45 GMT
+      - Sat, 18 Apr 2015 22:01:52 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Location:
@@ -81,7 +81,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at dx.plos.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:45 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:52 GMT
 - request:
     method: get
     uri: http://dx.plos.org/ambra-doi-resolver/10.1371/journal.pone.0000030
@@ -99,7 +99,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:45 GMT
+      - Sat, 18 Apr 2015 22:01:53 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Location:
@@ -116,7 +116,7 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:46 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:53 GMT
 - request:
     method: get
     uri: http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0000030
@@ -134,18 +134,18 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:46 GMT
+      - Sat, 18 Apr 2015 22:01:53 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Set-Cookie:
       - plos-device-detected=desktop; path=120; domain=.www.plosone.org; expires=Sat,
-        11-Apr-2015 07:50:46 GMT, Coyote-2-95144509=9514450f:0; path=/
+        18-Apr-2015 23:21:53 GMT, Coyote-2-95144509=9514450f:0; path=/
       Location:
       - http://journals.plos.org//article?id=10.1371/journal.pone.0000030
       Cache-Control:
       - max-age=1
       Expires:
-      - Sat, 11 Apr 2015 06:30:47 GMT
+      - Sat, 18 Apr 2015 22:01:54 GMT
       Content-Length:
       - '330'
       Connection:
@@ -165,7 +165,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at www.plosone.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:46 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:53 GMT
 - request:
     method: get
     uri: http://journals.plos.org//article?id=10.1371/journal.pone.0000030
@@ -183,18 +183,18 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:46 GMT
+      - Sat, 18 Apr 2015 22:01:53 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Set-Cookie:
       - plos-device-detected=desktop; path=120; domain=.journals.plos.org; expires=Sat,
-        11-Apr-2015 07:50:46 GMT, Coyote-2-95144509=95144510:0; path=/
+        18-Apr-2015 23:21:53 GMT, Coyote-2-95144509=9514450f:0; path=/
       Location:
       - http://www.plosjournals.org/
       Cache-Control:
       - max-age=1
       Expires:
-      - Sat, 11 Apr 2015 06:30:47 GMT
+      - Sat, 18 Apr 2015 22:01:54 GMT
       Content-Length:
       - '295'
       Connection:
@@ -214,7 +214,7 @@ http_interactions:
         <address>Apache/2.2.15 (CentOS) Server at journals.plos.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:46 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:53 GMT
 - request:
     method: get
     uri: http://www.plosjournals.org/
@@ -232,7 +232,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:47 GMT
+      - Sat, 18 Apr 2015 22:01:54 GMT
       Server:
       - Apache/2.2.3 (CentOS)
       Location:
@@ -258,10 +258,54 @@ http_interactions:
         <address>Apache/2.2.3 (CentOS) Server at www.plosjournals.org Port 80</address>
         </body></html>
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:47 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:54 GMT
 - request:
     method: get
     uri: http://www.plos.org/journals/index.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 302
+      message: ''
+    headers:
+      Date:
+      - Sat, 18 Apr 2015 22:01:54 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      Location:
+      - https://www.plos.org/journals/index.php
+      Content-Length:
+      - '301'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=iso-8859-1
+      Set-Cookie:
+      - Coyote-2-9514450c=95144522:0; path=/
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>302 Found</title>
+        </head><body>
+        <h1>Found</h1>
+        <p>The document has moved <a href="https://www.plos.org/journals/index.php">here</a>.</p>
+        <hr>
+        <address>Apache/2.2.15 (CentOS) Server at www.plos.org Port 80</address>
+        </body></html>
+    http_version: 
+  recorded_at: Sat, 18 Apr 2015 22:01:54 GMT
+- request:
+    method: get
+    uri: https://www.plos.org/journals/index.php
     body:
       encoding: US-ASCII
       string: ''
@@ -276,13 +320,13 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:47 GMT
+      - Sat, 18 Apr 2015 22:01:55 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       Location:
-      - http://www.plos.org/publications/journals/
+      - https://www.plos.org:443/publications/journals/
       Content-Length:
-      - '328'
+      - '333'
       Connection:
       - close
       Content-Type:
@@ -297,15 +341,15 @@ http_interactions:
         <title>301 Moved Permanently</title>
         </head><body>
         <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.plos.org/publications/journals/">here</a>.</p>
+        <p>The document has moved <a href="http://www.plos.org:443/publications/journals/">here</a>.</p>
         <hr>
-        <address>Apache/2.2.15 (CentOS) Server at www.plos.org Port 80</address>
+        <address>Apache/2.2.15 (CentOS) Server at www.plos.org Port 443</address>
         </body></html>
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:47 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:55 GMT
 - request:
     method: get
-    uri: http://www.plos.org/publications/journals/
+    uri: https://www.plos.org/publications/journals/
     body:
       encoding: US-ASCII
       string: ''
@@ -320,93 +364,15 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:47 GMT
+      - Sat, 18 Apr 2015 22:01:56 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Powered-By:
       - PHP/5.3.3
       X-Pingback:
-      - http://www.plos.org/xmlrpc.php
+      - https://www.plos.org/xmlrpc.php
       Location:
-      - http://www.plos.org/publications/journals/
-      Content-Length:
-      - '0'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=UTF-8
-      Set-Cookie:
-      - Coyote-2-9514450c=95144521:0; path=/
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:47 GMT
-- request:
-    method: get
-    uri: http://www.plos.org/publications/journals/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
-      Accept:
-      - text/html; charset=UTF-8
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Sat, 11 Apr 2015 06:30:48 GMT
-      Server:
-      - Apache/2.2.15 (CentOS)
-      X-Powered-By:
-      - PHP/5.3.3
-      X-Pingback:
-      - http://www.plos.org/xmlrpc.php
-      Location:
-      - http://www.plos.org/publications/journals/
-      Content-Length:
-      - '0'
-      Connection:
-      - close
-      Content-Type:
-      - text/html; charset=UTF-8
-      Set-Cookie:
-      - Coyote-2-9514450c=95144521:0; path=/
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:48 GMT
-- request:
-    method: get
-    uri: http://www.plos.org/publications/journals/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
-      Accept:
-      - text/html; charset=UTF-8
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Sat, 11 Apr 2015 06:30:48 GMT
-      Server:
-      - Apache/2.2.15 (CentOS)
-      X-Powered-By:
-      - PHP/5.3.3
-      X-Pingback:
-      - http://www.plos.org/xmlrpc.php
-      Location:
-      - http://www.plos.org/publications/journals/
+      - https://www.plos.org/publications/journals/
       Content-Length:
       - '0'
       Connection:
@@ -419,10 +385,10 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:48 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:57 GMT
 - request:
     method: get
-    uri: http://www.plos.org/publications/journals/
+    uri: https://www.plos.org/publications/journals/
     body:
       encoding: US-ASCII
       string: ''
@@ -437,15 +403,54 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Apr 2015 06:30:49 GMT
+      - Sat, 18 Apr 2015 22:01:58 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Powered-By:
       - PHP/5.3.3
       X-Pingback:
-      - http://www.plos.org/xmlrpc.php
+      - https://www.plos.org/xmlrpc.php
       Location:
-      - http://www.plos.org/publications/journals/
+      - https://www.plos.org/publications/journals/
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=UTF-8
+      Set-Cookie:
+      - Coyote-2-9514450c=9514451d:0; path=/
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 18 Apr 2015 22:01:58 GMT
+- request:
+    method: get
+    uri: https://www.plos.org/publications/journals/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Date:
+      - Sat, 18 Apr 2015 22:01:59 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      X-Powered-By:
+      - PHP/5.3.3
+      X-Pingback:
+      - https://www.plos.org/xmlrpc.php
+      Location:
+      - https://www.plos.org/publications/journals/
       Content-Length:
       - '0'
       Connection:
@@ -458,5 +463,5 @@ http_interactions:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sat, 11 Apr 2015 06:30:49 GMT
+  recorded_at: Sat, 18 Apr 2015 22:01:59 GMT
 recorded_with: VCR 2.9.3

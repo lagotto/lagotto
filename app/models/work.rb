@@ -64,11 +64,11 @@ class Work < ActiveRecord::Base
       work
     else
       if params[:doi].present?
-        message = "#{e.message} for doi #{params[:doi]}."
         target_url = "http://dx.doi.org/#{params[:doi]}"
+        message = "#{e.message} for doi #{params[:doi]}."
       else
-        message = "#{e.message} for url #{target_url}."
         target_url = params[:canonical_url]
+        message = "#{e.message} for url #{target_url}."
       end
 
       Alert.where(message: message).where(unresolved: true).first_or_create(
