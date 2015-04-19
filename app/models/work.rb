@@ -52,14 +52,21 @@ class Work < ActiveRecord::Base
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     # update title and/or date if work exists
     # raise an error for other RecordInvalid errors such as missing title
-    if e.message.start_with?("Validation failed: Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
+    if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
       unless work.nil?
         work.update_attributes(params.except(:doi))
         work.update_relations(params.fetch(:related_works, []))
       end
       work
-    elsif e.message.start_with?("Validation failed: Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
+    elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
+      work = Work.where(pmid: params[:pmid]).first
+      unless work.nil?
+        work.update_attributes(params.except(:pmid))
+        work.update_relations(params.fetch(:related_works, []))
+      end
+      work
+    elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       unless work.nil?
         work.update_attributes(params.except(:canonical_url))
@@ -70,6 +77,9 @@ class Work < ActiveRecord::Base
       if params[:doi].present?
         target_url = "http://dx.doi.org/#{params[:doi]}"
         message = "#{e.message} for doi #{params[:doi]}."
+      elsif params[:pmid].present?
+        target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
+        message = "#{e.message} for pmid #{params[:pmid]}."
       else
         target_url = params[:canonical_url]
         message = "#{e.message} for url #{target_url}."
