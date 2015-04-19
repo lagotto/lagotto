@@ -54,13 +54,17 @@ class Work < ActiveRecord::Base
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.start_with?("Validation failed: Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      work.update_attributes(params.except(:doi)) unless work.nil?
-      work.update_relations(params.fetch(:related_works, []))
+      unless work.nil?
+        work.update_attributes(params.except(:doi))
+        work.update_relations(params.fetch(:related_works, []))
+      end
       work
     elsif e.message.start_with?("Validation failed: Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
-      work.update_attributes(params.except(:canonical_url)) unless work.nil?
-      work.update_relations(params.fetch(:related_works, []))
+      unless work.nil?
+        work.update_attributes(params.except(:canonical_url))
+        work.update_relations(params.fetch(:related_works, []))
+      end
       work
     else
       if params[:doi].present?
