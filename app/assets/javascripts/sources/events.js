@@ -125,14 +125,19 @@ function AlmViz(options) {
     metricsFound_ = true;
 
     // Some sources have multiple data
-    if (source.group_id === "viewed") {
-      var html = d3.sum(data, function(g) { return g.html; });
-      var pdf = d3.sum(data, function(g) { return g.pdf; });
-      addSource_(source, "HTML", html, group, "html", $groupRow);
-      addSource_(source, "PDF", pdf, group, "pdf", $groupRow);
-    } else {
-      addSource_(source, "Total", total, group, "total", $groupRow);
-    }
+    var html = d3.sum(data, function(g) { return g.html; });
+    var pdf = d3.sum(data, function(g) { return g.pdf; });
+    var readers = d3.sum(data, function(g) { return g.readers; });
+    var comments = d3.sum(data, function(g) { return g.comments; });
+    var likes = d3.sum(data, function(g) { return g.likes; });
+    var total = d3.sum(data, function(g) { return g.total; });
+
+    if (html > 0) { addSource_(source, "HTML", html, group, "html", $groupRow); }
+    if (pdf > 0) { addSource_(source, "PDF", pdf, group, "pdf", $groupRow); }
+    if (readers > 0) { addSource_(source, "Readers", readers, group, "readers", $groupRow); }
+    if (comments > 0) { addSource_(source, "Comments", comments, group, "comments", $groupRow); }
+    if (likes > 0) { addSource_(source, "Likes", likes, group, "likes", $groupRow); }
+    if (total > 0) { addSource_(source, "Total", total, group, "total", $groupRow); }
   };
 
 
@@ -191,7 +196,11 @@ function AlmViz(options) {
       var showYearly = false;
 
       var monthTotal = data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
-      var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
+      var end_date = new Date();
+      end_date = end_date.setMonth(end_date.getMonth() + 1);
+      var numMonths = d3.time.month.utc.range(pub_date, end_date).length;
+
+        console.log(numMonths)
 
       if (monthTotal >= minItems_.minEventsForMonthly &&
         numMonths >= minItems_.minMonthsForMonthly) {
