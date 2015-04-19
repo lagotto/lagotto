@@ -24,9 +24,9 @@ end
 
 ActiveSupport::Notifications.subscribe "api_response.get" do |name, start, finish, id, payload|
   ApiResponse.create! do |api_response|
-    api_response.work_id = payload.fetch(:work_id)
-    api_response.source_id = payload.fetch(:source_id)
-    api_response.retrieval_status_id = payload.fetch(:retrieval_status_id)
+    api_response.work_id = payload.fetch(:work_id, nil)
+    api_response.source_id = payload.fetch(:source_id, nil)
+    api_response.retrieval_status_id = payload.fetch(:retrieval_status_id, nil)
     api_response.skipped = payload.fetch(:skipped, false)
     api_response.total = payload.fetch(:total, 0)
     api_response.previous_total = payload.fetch(:previous_total, 0)

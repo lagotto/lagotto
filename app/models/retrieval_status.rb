@@ -16,6 +16,9 @@ class RetrievalStatus < ActiveRecord::Base
   serialize :event_metrics
   serialize :extra, JSON
 
+  validates :work_id, :source_id, presence: true
+  validates_associated :work, :source
+
   delegate :name, :to => :source
   delegate :title, :to => :source
   delegate :group, :to => :source
@@ -57,7 +60,7 @@ class RetrievalStatus < ActiveRecord::Base
 
       update_works(data.fetch(:works, []))
 
-      data[:events] = data[:events].except(:days, :months)
+      data[:events] = data.fetch(:events, {}).except(:days, :months)
       update_data(data.fetch(:events))
 
       data[:months] = data.fetch(:events, {}).fetch(:months, [])

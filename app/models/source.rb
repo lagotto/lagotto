@@ -166,7 +166,7 @@ class Source < ActiveRecord::Base
 
   def get_data(work, options={})
     query_url = get_query_url(work)
-    return query_url if query_url.is_a?(Hash)
+    return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
     result = get_result(query_url, options.merge(request_options))
 
@@ -178,14 +178,18 @@ class Source < ActiveRecord::Base
   end
 
   def parse_data(result, work, options = {})
-    # turn result into a hash for easier parsing later
-    result = { 'data' => result } unless result.is_a?(Hash)
-
-    # properly handle not found errors
-    result = { 'data' => [] } if result[:status] == 404
-
-    # return early if an error occured that is not a not_found error
-    return result if result[:error]
+    if !result.is_a?(Hash)
+      # make sure we have a hash
+      result = { 'data' => result }
+      result.extend Hashie::Extensions::DeepFetch
+    elsif result[:error]
+      # return early if an error occured that is not a not_found error
+      return result
+    elsif result[:status] == 404
+      # properly handle not found errors
+      result = { 'data' => [] }
+      result.extend Hashie::Extensions::DeepFetch
+    end
 
     related_works = get_related_works(result, work)
     extra = get_extra(result)

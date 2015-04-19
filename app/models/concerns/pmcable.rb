@@ -4,7 +4,7 @@ module Pmcable
   included do
     def get_data(work, options={})
       query_url = get_query_url(work, options)
-      return query_url if query_url.is_a?(Hash)
+      return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
       result = get_result(query_url, options)
       total = (result.fetch("hitCount", nil)).to_i
