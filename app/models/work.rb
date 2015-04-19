@@ -47,7 +47,7 @@ class Work < ActiveRecord::Base
   # this is faster than first_or_create
   def self.find_or_create(params)
     work = self.create!(params.except(:related_works))
-    work.update_relations(params[:related_works])
+    work.update_relations(params.fetch(:related_works, []))
     work
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     # update title and/or date if work exists
@@ -55,12 +55,12 @@ class Work < ActiveRecord::Base
     if e.message.start_with?("Validation failed: Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
       work.update_attributes(params.except(:doi)) unless work.nil?
-      work.update_relations(params[:related_works])
+      work.update_relations(params.fetch(:related_works, []))
       work
     elsif e.message.start_with?("Validation failed: Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       work.update_attributes(params.except(:canonical_url)) unless work.nil?
-      work.update_relations(params[:related_works])
+      work.update_relations(params.fetch(:related_works, []))
       work
     else
       if params[:doi].present?
