@@ -36,7 +36,7 @@ class SourceJob < ActiveJob::Base
       sleep source.wait_time
 
       rs = RetrievalStatus.where(id: rs_id).first
-      fail ActiveRecord::RecordNotFound unless rs.present?
+      fail ActiveRecord::RecordNotFound if rs.nil? || rs.work.nil?
 
       # store API response result and duration in api_responses table
       response = { work_id: rs.work_id, source_id: rs.source_id, retrieval_status_id: rs.id }

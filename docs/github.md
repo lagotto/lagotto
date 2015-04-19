@@ -7,7 +7,7 @@ Number of forks and stars for Github repos.
 
 ## Required configuration fields
 
-* **personal access token **: more info at https://github.com/blog/1509-personal-api-tokens
+* **personal access token**: more info at https://github.com/blog/1509-personal-api-tokens
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
