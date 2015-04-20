@@ -29,8 +29,8 @@ class TwitterSearch < Source
         total: related_works.length,
         events_url: get_events_url(work),
         extra: extra,
-        days: get_events_by_day(related_works, work, options),
-        months: get_events_by_month(related_works, options) } }
+        days: get_events_by_day(related_works, work, metrics: :comments),
+        months: get_events_by_month(related_works, metrics: :comments) } }
   end
 
   def get_related_works(result, work)

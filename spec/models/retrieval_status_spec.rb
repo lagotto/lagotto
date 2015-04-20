@@ -337,8 +337,8 @@ describe RetrievalStatus, type: :model, vcr: true do
       month = subject.months.last
       expect(month.year).to eq(2015)
       expect(month.month).to eq(4)
-      expect(month.total).to eq(2)
-      expect(month.readers).to eq(2)
+      expect(month.total).to eq(0)
+      expect(month.readers).to eq(0)
 
       expect(Relationship.count).to eq(0)
     end

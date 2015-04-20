@@ -60,8 +60,8 @@ class RetrievalStatus < ActiveRecord::Base
 
       update_works(data.fetch(:works, []))
 
-      data[:events] = data.fetch(:events, {}).except(:days, :months)
-      update_data(data.fetch(:events))
+      data[:events] = data.fetch(:events, {})
+      update_data(data.fetch(:events, {}).except(:days, :months))
 
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?

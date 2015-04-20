@@ -50,25 +50,25 @@ class Work < ActiveRecord::Base
     work.update_relations(params.fetch(:related_works, []))
     work
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
-    # update title and/or date if work exists
+    # update work if work exists
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      unless work.nil?
+      if work.present?
         work.update_attributes(params.except(:doi))
         work.update_relations(params.fetch(:related_works, []))
       end
       work
     elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
       work = Work.where(pmid: params[:pmid]).first
-      unless work.nil?
+      if work.present?
         work.update_attributes(params.except(:pmid))
         work.update_relations(params.fetch(:related_works, []))
       end
       work
     elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
-      unless work.nil?
+      if work.present?
         work.update_attributes(params.except(:canonical_url))
         work.update_relations(params.fetch(:related_works, []))
       end

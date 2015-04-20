@@ -182,13 +182,13 @@ class Source < ActiveRecord::Base
       # make sure we have a hash
       result = { 'data' => result }
       result.extend Hashie::Extensions::DeepFetch
-    elsif result[:error]
-      # return early if an error occured that is not a not_found error
-      return result
     elsif result[:status] == 404
       # properly handle not found errors
       result = { 'data' => [] }
       result.extend Hashie::Extensions::DeepFetch
+    elsif result[:error]
+      # return early if an error occured that is not a not_found error
+      return result
     end
 
     related_works = get_related_works(result, work)

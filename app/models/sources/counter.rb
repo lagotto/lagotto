@@ -42,13 +42,13 @@ class Counter < Source
   end
 
   def get_events_by_month(extra)
-    extra.map do |e|
-      html = e["html_views"].to_i
-      pdf = e["pdf_views"].to_i
-      xml = e["xml_views"].to_i
+    extra.map do |month|
+      html = month["html_views"].to_i
+      pdf = month["pdf_views"].to_i
+      xml = month["xml_views"].to_i
 
-      { month: e["month"].to_i,
-        year: e["year"].to_i,
+      { month: month["month"].to_i,
+        year: month["year"].to_i,
         html: html,
         pdf: pdf,
         total: html + pdf + xml }
