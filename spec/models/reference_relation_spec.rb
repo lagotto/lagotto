@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ReferenceRelation, :type => :model do
 
-  subject { FactoryGirl.create(:relationship) }
+  subject { FactoryGirl.create(:reference_relation) }
 
   it { is_expected.to belong_to(:work) }
   it { is_expected.to belong_to(:related_work) }

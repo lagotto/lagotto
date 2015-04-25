@@ -521,13 +521,13 @@ FactoryGirl.define do
     initialize_with { RelationType.where(name: name).first_or_initialize }
   end
 
-  factory :relationship do
+  factory :reference_relation do
     association :work
     association :related_work
     association :source, factory: :crossref
     association :relation_type
 
-    before :create do |relationship|
+    before :create do |reference_relation|
       FactoryGirl.create(:relation_type)
       FactoryGirl.create(:relation_type, :inverse)
     end

@@ -113,16 +113,16 @@ class Work < ActiveRecord::Base
       inverse_relation_type_id = inverse_relation_type ? inverse_relation_type.id : nil
       level = (relation_type.name == "is_identical_to") ? 0 : 1
 
-      Relationship.where(work_id: id,
-                         related_work_id: related_work.id,
-                         source_id: source.id).first_or_create(
-                           relation_type_id: relation_type.id,
-                           level: level)
+      ReferenceRelation.where(work_id: id,
+                              related_work_id: related_work.id,
+                              source_id: source.id).first_or_create(
+                                relation_type_id: relation_type.id,
+                                level: level)
       if level > 0
-        Relationship.where(work_id: related_work.id,
-                           related_work_id: id,
-                           source_id: source.id).first_or_create(
-                             relation_type_id: inverse_relation_type_id)
+        ReferenceRelation.where(work_id: related_work.id,
+                                related_work_id: id,
+                                source_id: source.id).first_or_create(
+                                  relation_type_id: inverse_relation_type_id)
       end
     end
   end
