@@ -8,6 +8,8 @@ class Relation < ActiveRecord::Base
   validates :related_work_id, :presence => true
   validates :relation_type_id, :presence => true
 
+  scope :referencable, -> { where("level > 0") }
+  scope :versionable, -> { where("level = 0") }
   scope :similar, ->(work_id) { where("total > ?", 0) }
 
   def timestamp

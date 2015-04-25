@@ -1,6 +1,6 @@
 class ReferencesController < ApplicationController
   def index
-    collection = ReferenceRelation.includes(:work, :related_work)
+    collection = Relation.referencable.includes(:work, :related_work)
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)

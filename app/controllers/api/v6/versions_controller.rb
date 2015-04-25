@@ -20,8 +20,7 @@ class Api::V6::VersionsController < Api::BaseController
   end
 
   def index
-    collection = Relation.includes(:work, :related_work)
-    collection = @work.version_relations if @work
+    collection = @work.version_relations
 
     if params[:work_ids]
       collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])

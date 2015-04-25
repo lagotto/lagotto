@@ -22,8 +22,11 @@ class Api::V6::ReferencesController < Api::BaseController
   end
 
   def index
-    collection = Relation.includes(:work, :related_work)
-    collection = @work.reference_relations if @work
+    if @work
+      collection = @work.reference_relations
+    else
+      collection = Relation.referencable
+    end
 
     if params[:work_ids]
       collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])
@@ -62,6 +65,5 @@ class Api::V6::ReferencesController < Api::BaseController
     else
       @work = nil
     end
-    fail ActiveRecord::RecordNotFound unless @work.present?
   end
 end
