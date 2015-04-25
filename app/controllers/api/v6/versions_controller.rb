@@ -20,7 +20,7 @@ class Api::V6::VersionsController < Api::BaseController
   end
 
   def index
-    collection = VersionRelation.includes(:work, :related_work)
+    collection = Relation.includes(:work, :related_work)
     collection = @work.version_relations if @work
 
     if params[:work_ids]

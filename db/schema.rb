@@ -164,7 +164,16 @@ ActiveRecord::Schema.define(version: 20150425020020) do
 
   add_index "publishers", ["member_id"], name: "index_publishers_on_member_id", unique: true, using: :btree
 
-  create_table "reference_relations", force: :cascade do |t|
+  create_table "relation_types", force: :cascade do |t|
+    t.string   "name",          limit: 255,             null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.string   "title",         limit: 255
+    t.string   "inverse_title", limit: 255
+    t.integer  "level",         limit: 4,   default: 1
+  end
+
+  create_table "relations", force: :cascade do |t|
     t.integer  "related_work_id",  limit: 4,             null: false
     t.integer  "work_id",          limit: 4,             null: false
     t.integer  "source_id",        limit: 4
@@ -174,17 +183,7 @@ ActiveRecord::Schema.define(version: 20150425020020) do
     t.integer  "level",            limit: 4, default: 1
   end
 
-  add_index "reference_relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
-
-  create_table "relation_types", force: :cascade do |t|
-    t.string   "name",                limit: 255,                 null: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "title",               limit: 255
-    t.string   "inverse_title",       limit: 255
-    t.boolean  "inverse",             limit: 1,   default: false
-    t.boolean  "describes_reference", limit: 1,   default: true
-  end
+  add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -331,16 +330,6 @@ ActiveRecord::Schema.define(version: 20150425020020) do
   add_index "users", ["authentication_token"], name: "index_users_authentication_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "version_relations", force: :cascade do |t|
-    t.integer  "work_id",          limit: 4,             null: false
-    t.integer  "related_work_id",  limit: 4,             null: false
-    t.integer  "source_id",        limit: 4
-    t.integer  "relation_type_id", limit: 4,             null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "level",            limit: 4, default: 1
-  end
 
   create_table "work_types", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false

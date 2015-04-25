@@ -22,7 +22,7 @@ class Api::V6::ReferencesController < Api::BaseController
   end
 
   def index
-    collection = ReferenceRelation.includes(:work, :related_work)
+    collection = Relation.includes(:work, :related_work)
     collection = @work.reference_relations if @work
 
     if params[:work_ids]

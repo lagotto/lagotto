@@ -20,7 +20,6 @@ describe "/api/v6/relation_types", :type => :api do
       item = data.first
       expect(item["id"]).to eq("cites")
       expect(item["title"]).to eq("Cites")
-      expect(item["inverse"]).to be false
     end
   end
 
@@ -35,7 +34,6 @@ describe "/api/v6/relation_types", :type => :api do
       item = response["relation_type"]
       expect(item["id"]).to eq("cites")
       expect(item["title"]).to eq("Cites")
-      expect(item["inverse"]).to be false
     end
   end
 end

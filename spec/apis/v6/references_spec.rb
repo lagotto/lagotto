@@ -10,7 +10,7 @@ describe "/api/v6/references", :type => :api do
 
   context "index" do
     context "JSON" do
-      let!(:relationships) { FactoryGirl.create_list(:relationship, 5) }
+      let!(:relations) { FactoryGirl.create_list(:relation, 5) }
       let(:uri) { "/api/references" }
 
       it "JSON" do
@@ -45,8 +45,8 @@ describe "/api/v6/references", :type => :api do
 
     context "show work_id" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let!(:relationship) { FactoryGirl.create(:relationship, work: work) }
-      let(:uri) { "/api/works/#{work.pid}/related_works" }
+      let!(:relation) { FactoryGirl.create(:relation, work: work) }
+      let(:uri) { "/api/works/#{work.pid}/references" }
 
       it "JSON" do
         get uri, nil, headers
@@ -55,7 +55,7 @@ describe "/api/v6/references", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["total"]).to eq(1)
 
-        item = response["related_works"].first
+        item = response["references"].first
         expect(item["source_id"]).to eq("crossref")
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})
@@ -69,7 +69,7 @@ describe "/api/v6/references", :type => :api do
         response = JSON.parse(last_response.body[6...-1])
         expect(response["meta"]["total"]).to eq(1)
 
-        item = response["related_works"].first
+        item = response["references"].first
         expect(item["source_id"]).to eq("crossref")
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})

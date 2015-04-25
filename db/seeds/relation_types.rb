@@ -9,7 +9,7 @@ continues = RelationType.where(name: 'continues').first_or_create(
 is_metadata_for = RelationType.where(name: 'is_metadata_for').first_or_create(
   title: 'Is metadata for', inverse_title: 'Has metadata')
 is_new_version_of = RelationType.where(name: 'is_new_version_of').first_or_create(
-  title: 'Is new version of', inverse_title: 'Is previous version of', describes_reference: false)
+  title: 'Is new version of', inverse_title: 'Is previous version of', level: 0)
 is_part_of = RelationType.where(name: 'is_part_of').first_or_create(
   title: 'Is part of', inverse_title: 'Has part')
 references = RelationType.where(name: 'references').first_or_create(
@@ -19,9 +19,9 @@ documents = RelationType.where(name: 'documents').first_or_create(
 compiles = RelationType.where(name: 'compiles').first_or_create(
   title: 'Compiles', inverse_title: 'Is compiled by')
 is_variant_form_of = RelationType.where(name: 'is_variant_form_of').first_or_create(
-  title: 'Is variant form of', inverse_title: 'Is original form of', describes_reference: false)
+  title: 'Is variant form of', inverse_title: 'Is original form of', level: 0)
 is_identical_to = RelationType.where(name: 'is_identical_to').first_or_create(
-  title: 'Is identical to', inverse_title: 'Is identical to', describes_reference: false)
+  title: 'Is identical to', inverse_title: 'Is identical to', level: 0)
 reviews = RelationType.where(name: 'reviews').first_or_create(
   title: 'Reviews', inverse_title: 'Is reviewed by')
 is_derived_from = RelationType.where(name: 'is_derived_from').first_or_create(
@@ -32,28 +32,30 @@ _is_supplement_to = RelationType.where(name: '_is_supplement_to').first_or_creat
   title: 'Is supplemented by', inverse_title: 'Supplements', inverse: true)
 _continues = RelationType.where(name: '_continues').first_or_create(
   title: 'Is continued by', inverse_title: 'Continues', inverse: true)
-is_metadata_for = RelationType.where(name: '_is_metadata_for').first_or_create(
+_is_metadata_for = RelationType.where(name: '_is_metadata_for').first_or_create(
   title: 'Has metadata', inverse_title: 'Is metadata of', inverse: true)
-is_new_version_of = RelationType.where(name: '_is_new_version_of').first_or_create(
-  title: 'Is previous version of', inverse_title: 'Is new version of', inverse: true, describes_reference: false)
-is_part_of = RelationType.where(name: '_is_part_of').first_or_create(
+_is_new_version_of = RelationType.where(name: '_is_new_version_of').first_or_create(
+  title: 'Is previous version of', inverse_title: 'Is new version of', inverse: true, level: 0)
+_is_part_of = RelationType.where(name: '_is_part_of').first_or_create(
   title: 'Has part', inverse_title: 'Is part of', inverse: true)
-references = RelationType.where(name: '_references').first_or_create(
+_references = RelationType.where(name: '_references').first_or_create(
   title: 'Is referenced by', inverse_title: 'References', inverse: true)
-documents = RelationType.where(name: '_documents').first_or_create(
+_documents = RelationType.where(name: '_documents').first_or_create(
   title: 'Is documented by', inverse_title: 'Documents', inverse: true)
-compiles = RelationType.where(name: '_compiles').first_or_create(
+_compiles = RelationType.where(name: '_compiles').first_or_create(
   title: 'Is compiled by', inverse_title: 'Compiles', inverse: true)
-is_variant_form_of = RelationType.where(name: '_is_variant_form_of').first_or_create(
-  title: 'Is original form of', inverse_title: 'Is variant form of', inverse: true, describes_reference: false)
-reviews = RelationType.where(name: '_reviews').first_or_create(
+_is_variant_form_of = RelationType.where(name: '_is_variant_form_of').first_or_create(
+  title: 'Is original form of', inverse_title: 'Is variant form of', inverse: true, level: 0)
+_is_identical_to = RelationType.where(name: '_is_identical_to').first_or_create(
+  title: 'Is identical to', inverse_title: 'Is identical to', inverse: true, level: 0)
+_reviews = RelationType.where(name: '_reviews').first_or_create(
   title: 'Is reviewed by', inverse_title: 'Reviews', inverse: true)
-is_derived_from = RelationType.where(name: '_is_derived_from').first_or_create(
+_is_derived_from = RelationType.where(name: '_is_derived_from').first_or_create(
   title: 'Is source of', inverse_title: 'Is derived from', inverse: true)
 
 # custom relation types needed for lagotto
 corrects = RelationType.where(name: 'corrects').first_or_create(
-  title: 'Corrects', inverse_title: 'Is corrected by', describes_reference: false)
+  title: 'Corrects', inverse_title: 'Is corrected by', level: 0)
 discusses = RelationType.where(name: 'discusses').first_or_create(
   title: 'Discusses', inverse_title: 'Is discussed by')
 bookmarks = RelationType.where(name: 'bookmarks').first_or_create(
@@ -61,7 +63,7 @@ bookmarks = RelationType.where(name: 'bookmarks').first_or_create(
 recommends = RelationType.where(name: 'recommends').first_or_create(
   title: 'Recommends', inverse_title: 'Is recommended by')
 corrects = RelationType.where(name: '_corrects').first_or_create(
-  title: 'Is corrected by', inverse_title: 'Corrects', inverse: true, describes_reference: false)
+  title: 'Is corrected by', inverse_title: 'Corrects', inverse: true, level: 0)
 discusses = RelationType.where(name: '_discusses').first_or_create(
   title: 'Is discussed by', inverse_title: 'Discusses', inverse: true)
 bookmarks = RelationType.where(name: '_bookmarks').first_or_create(

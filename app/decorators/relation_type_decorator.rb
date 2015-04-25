@@ -4,4 +4,8 @@ class RelationTypeDecorator < Draper::Decorator
   def id
     to_param
   end
+
+  def subgroup
+    level > 0 ? "reference" : "version"
+  end
 end

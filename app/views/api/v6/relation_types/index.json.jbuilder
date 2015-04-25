@@ -7,6 +7,6 @@ end
 
 json.relation_types @relation_types do |relation_type|
   json.cache! ['v6', relation_type], skip_digest: true do
-    json.(relation_type, :id, :title, :inverse_title, :inverse, :timestamp)
+    json.(relation_type, :id, :title, :inverse_title, :subgroup, :timestamp)
   end
 end

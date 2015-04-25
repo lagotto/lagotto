@@ -515,13 +515,12 @@ FactoryGirl.define do
     trait(:inverse) do
       name "_cites"
       title "Is cited by"
-      inverse true
     end
 
     initialize_with { RelationType.where(name: name).first_or_initialize }
   end
 
-  factory :reference_relation do
+  factory :relation do
     association :work
     association :related_work
     association :source, factory: :crossref

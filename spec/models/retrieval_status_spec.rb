@@ -161,11 +161,11 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
       expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
 
-      expect(work.relationships.length).to eq(1)
-      expect(work.relationships.first.relation_type.name).to eq(relation_type.name)
+      expect(work.relations.length).to eq(1)
+      expect(work.relations.first.relation_type.name).to eq(relation_type.name)
 
-      expect(work.related_works.length).to eq(1)
-      expect(work.related_works.first).to eq(related_work)
+      expect(work.references.length).to eq(1)
+      expect(work.references.first).to eq(related_work)
     end
   end
 
@@ -243,12 +243,12 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(day.total).to eq(1)
       expect(day.readers).to eq(1)
 
-      expect(ReferenceRelation.count).to eq(8)
-      relationship = ReferenceRelation.first
-      expect(relationship.relation_type.name).to eq("bookmarks")
-      expect(relationship.source.name).to eq("citeulike")
-      expect(relationship.work.pid).to eq("http://www.citeulike.org/user/shandar")
-      expect(relationship.related_work.pid).to eq(work.pid)
+      expect(Relation.count).to eq(8)
+      relation = Relation.first
+      expect(relation.relation_type.name).to eq("bookmarks")
+      expect(relation.source.name).to eq("citeulike")
+      expect(relation.work.pid).to eq("http://www.citeulike.org/user/shandar")
+      expect(relation.related_work.pid).to eq(work.pid)
     end
 
     it "success counter" do
@@ -288,7 +288,7 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(subject.total).to eq(34)
       expect(subject.months.count).to eq(1)
       expect(subject.days.count).to eq(0)
-      expect(ReferenceRelation.count).to eq(0)
+      expect(Relation.count).to eq(0)
 
       month = subject.months.last
       expect(month.year).to eq(2015)
@@ -316,12 +316,12 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.month).to eq(4)
       expect(month.total).to eq(31)
 
-      expect(ReferenceRelation.count).to eq(62)
-      relationship = ReferenceRelation.first
-      expect(relationship.relation_type.name).to eq("cites")
-      expect(relationship.source.name).to eq("crossref")
-      expect(relationship.work.pid).to eq("doi:10.3758/s13423-011-0070-4")
-      expect(relationship.related_work.pid).to eq(work.pid)
+      expect(Relation.count).to eq(62)
+      relation = Relation.first
+      expect(relation.relation_type.name).to eq("cites")
+      expect(relation.source.name).to eq("crossref")
+      expect(relation.work.pid).to eq("doi:10.3758/s13423-011-0070-4")
+      expect(relation.related_work.pid).to eq(work.pid)
     end
 
     it "success no data" do
@@ -340,7 +340,7 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.total).to eq(0)
       expect(month.readers).to eq(0)
 
-      expect(ReferenceRelation.count).to eq(0)
+      expect(Relation.count).to eq(0)
     end
 
     it "error" do

@@ -1,12 +1,11 @@
 class RelationType < ActiveRecord::Base
-  has_many :reference_relations, dependent: :nullify
-  has_many :version_relations, dependent: :nullify
+  has_many :relations, dependent: :nullify
 
   validates :name, :presence => true, :uniqueness => true
-  validates :title, :presence => true, :uniqueness => true
+  validates :title, :presence => true
 
-  scope :referencable, -> { where(describes_reference: true) }
-  scope :versionable, -> { where(describes_reference: false) }
+  scope :referencable, -> { where("level > 0") }
+  scope :versionable, -> { where("level = 0") }
 
   def to_param
     name

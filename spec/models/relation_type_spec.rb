@@ -4,12 +4,10 @@ describe RelationType, :type => :model do
 
   subject { FactoryGirl.create(:relation_type) }
 
-  it { is_expected.to have_many(:reference_relations).dependent(:nullify) }
-  it { is_expected.to have_many(:version_relations).dependent(:nullify) }
+  it { is_expected.to have_many(:relations).dependent(:nullify) }
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to validate_presence_of(:title) }
-  it { is_expected.to validate_uniqueness_of(:title) }
 
 end
