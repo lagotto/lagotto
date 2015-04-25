@@ -61,9 +61,10 @@ class WorkDecorator < Draper::Decorator
   end
 
   def cache_key
-    key = "work/#{pid}/#{timestamp}"
-    key += "/#{source_ids.join(",")}" if source_ids.present?
-    key += "/#{context[:info]}" if context[:info].present?
+    { work_id: id,
+      timestamp: timestamp,
+      source_ids: source_ids,
+      info: context[:info] }
   end
 
   def update_date
