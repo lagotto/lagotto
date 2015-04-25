@@ -47,7 +47,8 @@ class Source < ActiveRecord::Base
   has_many :publisher_options
   has_many :alerts
   has_many :api_responses
-  has_many :relationships
+  has_many :reference_relations
+  has_many :version_relations
   belongs_to :group
 
   serialize :config, OpenStruct

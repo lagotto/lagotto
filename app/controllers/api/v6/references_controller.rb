@@ -1,13 +1,13 @@
-class Api::V6::RelatedWorksController < Api::BaseController
+class Api::V6::ReferencesController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :related_works, "Related Works"
+  swagger_controller :references, "References"
 
   swagger_api :index do
-    summary "Returns list of related works for a particular work, source and/or relation_type"
+    summary "Returns list of references for a particular work, source and/or relation_type"
     param :query, :work_id, :string, :optional, "Work ID"
     param :query, :work_ids, :string, :optional, "Work IDs"
     param :query, :q, :string, :optional, "Query for ids"
@@ -22,8 +22,8 @@ class Api::V6::RelatedWorksController < Api::BaseController
   end
 
   def index
-    collection = Relationship.includes(:work, :related_work)
-    collection = @work.relationships if @work
+    collection = ReferenceRelation.includes(:work, :related_work)
+    collection = @work.reference_relations if @work
 
     if params[:work_ids]
       collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])
@@ -47,7 +47,7 @@ class Api::V6::RelatedWorksController < Api::BaseController
 
     collection = collection.paginate(per_page: per_page, page: params[:page])
 
-    @relationships = collection.decorate
+    @reference_relations = collection.decorate
   end
 
   protected

@@ -1,14 +1,14 @@
-class Api::V6::SimilarWorksController < Api::BaseController
+class Api::V6::VersionsController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :load_work
+  before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :similar_works, "Similar Works"
+  swagger_controller :versions, "Versions"
 
   swagger_api :index do
-    summary "Returns list of works similar to a given work, optionally filtered by relation_type and/or source"
-    param :query, :work_id, :string, :required, "Work ID"
+    summary "Returns list of versions of a particular work"
+    param :query, :work_id, :string, :optional, "Work ID"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
@@ -20,9 +20,16 @@ class Api::V6::SimilarWorksController < Api::BaseController
   end
 
   def index
-    collection = ReferenceRelation.includes(:work).where.not(work_id: @work.id)
-    related_work_ids = @work.references.pluck(:id)
-    collection = collection.where(related_work_id: related_work_ids)
+    collection = VersionRelation.includes(:work, :related_work)
+    collection = @work.version_relations if @work
+
+    if params[:work_ids]
+      collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])
+    end
+
+    if params[:q]
+      collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
+    end
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)
@@ -32,13 +39,13 @@ class Api::V6::SimilarWorksController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
-    collection = collection.order("reference_relations.updated_at DESC")
+    collection = collection.includes(:related_work).order("works.published_on DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 
     collection = collection.paginate(per_page: per_page, page: params[:page])
 
-    @similars = collection.decorate
+    @version_relations = collection.decorate
   end
 
   protected

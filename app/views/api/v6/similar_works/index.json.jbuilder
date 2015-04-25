@@ -8,7 +8,7 @@ json.meta do
 end
 
 json.similar_works @similars do |similar|
-  json.cache! ['v6', "similar_work", relationship, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
+  json.cache! ['v6', "similar_work", relation, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
     json.(similar.work, :id, :publisher_id)
     json.(similar, :work_id, :source_id, :relation_type_id)
     json.(similar.work, :title, :issued)

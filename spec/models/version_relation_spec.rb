@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Relationship, :type => :model do
+describe VersionRelation, :type => :model do
 
   subject { FactoryGirl.create(:relationship) }
 

@@ -11,7 +11,7 @@ if (!params.empty()) {
   var source_id = params.attr('data-source_id');
   var relation_type_id = params.attr('data-relation_type_id');
 
-  var query = encodeURI("/api/related_works?page=" + page);
+  var query = encodeURI("/api/references?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (q !== "") { query += "&q=" + q; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
@@ -31,7 +31,7 @@ queue()
 
 // add data to page
 function eventsViz(json, sources, relation_types) {
-  data = json.related_works;
+  data = json.references;
 
   json.href = "?page={{number}}";
   if (q !== "") { json.href += "&q=" + q; }
@@ -44,7 +44,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("There are currently no related works");
+      .text("There are currently no references");
     return;
   }
 

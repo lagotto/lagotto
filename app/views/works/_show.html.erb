@@ -111,6 +111,12 @@
           <dt>Mendeley</dt>
           <dd><%= link_to @work.mendeley_url, @work.mendeley_url %></dd>
         <% end %>
+        <% if @work.version_relations.present? %>
+          <% @work.version_relations.each do |relation| %>
+            <dt>relation.relation_type.title</dt>
+            <dd><%= link_to relation.related_work.pid, work_url(relation.related_work.pid) %></dd>
+          <% end %>
+        <% end %>
       </dl>
     <% end %>
   </div>
@@ -125,7 +131,7 @@
 <% end %>
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#related_works" data-toggle="tab" title="Related Works">Related Works</a></li>
+  <li class="active"><a href="#references" data-toggle="tab" title="References">References</a></li>
   <% if @work.tracked %>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
@@ -136,8 +142,8 @@
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane active" id="related_works">
-    <%= render :partial => 'related_works' %>
+  <div class="tab-pane active" id="references">
+    <%= render :partial => 'references' %>
   </div>
   <% if @work.tracked %>
     <div class="tab-pane" id="events">

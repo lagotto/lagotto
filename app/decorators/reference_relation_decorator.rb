@@ -1,4 +1,4 @@
-class RelationshipDecorator < Draper::Decorator
+class ReferenceRelationDecorator < Draper::Decorator
   delegate_all
   decorates_association :work
   decorates_association :related_work

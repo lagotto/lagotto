@@ -18,7 +18,7 @@ Lagotto::Application.routes.draw do
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
   resources :publishers
-  resources :related_works
+  resources :references
   resources :sources do
     resources :publisher_options, only: [:show, :edit, :update]
   end
@@ -63,7 +63,7 @@ Lagotto::Application.routes.draw do
       resources :events
       resources :groups, only: [:index, :show]
       resources :publishers, concerns: [:workable, :eventable]
-      resources :related_works
+      resources :references
       resources :relation_types, only: [:index, :show]
       resources :sources, concerns: [:workable, :eventable] do
         resources :months
@@ -71,7 +71,8 @@ Lagotto::Application.routes.draw do
       resources :status, only: [:index]
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do
-        resources :related_works
+        resources :references
+        resources :versions
         resources :similar_works
         resources :events
       end

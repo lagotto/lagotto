@@ -9,8 +9,8 @@ describe "/api/v6/works", :type => :api do
 
     context "index" do
       let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
-      let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work_list}&type=doi" }
+      let(:work_list) { works.map { |work| "#{work.pid}" }.join(",") }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work_list}" }
 
       it "can cache works" do
         works.all? do |work|
@@ -34,7 +34,7 @@ describe "/api/v6/works", :type => :api do
 
     context "work is updated" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work.doi_escaped}&type=doi" }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work.pid}" }
       let(:key) { "jbuilder/v6/#{work.decorate.cache_key}" }
       let(:title) { "Foo" }
       let(:total) { 75 }
@@ -43,6 +43,8 @@ describe "/api/v6/works", :type => :api do
         expect(Rails.cache.exist?(key)).to be false
         get uri, nil, headers
         expect(last_response.status).to eq(200)
+
+        pp key
 
         sleep 1
 
