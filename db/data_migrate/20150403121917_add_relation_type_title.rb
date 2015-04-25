@@ -29,31 +29,31 @@ class AddRelationTypeTitle < ActiveRecord::Migration
     is_derived_from = RelationType.where(name: 'is_derived_from').first_or_create(
       title: 'Is derived from', inverse_title: 'Is source of')
     _cites = RelationType.where(name: '_cites').first_or_create(
-      title: 'Is cited by', inverse_title: 'Cites', inverse: true)
+      title: 'Is cited by', inverse_title: 'Cites')
     _is_supplement_to = RelationType.where(name: '_is_supplement_to').first_or_create(
-      title: 'Is supplemented by', inverse_title: 'Supplements', inverse: true)
+      title: 'Is supplemented by', inverse_title: 'Supplements')
     _continues = RelationType.where(name: '_continues').first_or_create(
-      title: 'Is continued by', inverse_title: 'Continues', inverse: true)
+      title: 'Is continued by', inverse_title: 'Continues')
     _is_metadata_for = RelationType.where(name: '_is_metadata_for').first_or_create(
-      title: 'Has metadata', inverse_title: 'Is metadata of', inverse: true)
+      title: 'Has metadata', inverse_title: 'Is metadata of')
     _is_new_version_of = RelationType.where(name: '_is_new_version_of').first_or_create(
-      title: 'Is previous version of', inverse_title: 'Is new version of', inverse: true, level: 0)
+      title: 'Is previous version of', inverse_title: 'Is new version of', level: 0)
     _is_part_of = RelationType.where(name: '_is_part_of').first_or_create(
-      title: 'Has part', inverse_title: 'Is part of', inverse: true)
+      title: 'Has part', inverse_title: 'Is part of')
     _references = RelationType.where(name: '_references').first_or_create(
-      title: 'Is referenced by', inverse_title: 'References', inverse: true)
+      title: 'Is referenced by', inverse_title: 'References')
     _documents = RelationType.where(name: '_documents').first_or_create(
-      title: 'Is documented by', inverse_title: 'Documents', inverse: true)
+      title: 'Is documented by', inverse_title: 'Documents')
     _compiles = RelationType.where(name: '_compiles').first_or_create(
-      title: 'Is compiled by', inverse_title: 'Compiles', inverse: true)
+      title: 'Is compiled by', inverse_title: 'Compiles')
     _is_variant_form_of = RelationType.where(name: '_is_variant_form_of').first_or_create(
-      title: 'Is original form of', inverse_title: 'Is variant form of', inverse: true, level: 0)
+      title: 'Is original form of', inverse_title: 'Is variant form of', level: 0)
     _is_identical_to = RelationType.where(name: '_is_identical_to').first_or_create(
-      title: 'Is identical to', inverse_title: 'Is identical to', inverse: true, level: 0)
+      title: 'Is identical to', inverse_title: 'Is identical to', level: 0)
     _reviews = RelationType.where(name: '_reviews').first_or_create(
-      title: 'Is reviewed by', inverse_title: 'Reviews', inverse: true)
+      title: 'Is reviewed by', inverse_title: 'Reviews')
     _is_derived_from = RelationType.where(name: '_is_derived_from').first_or_create(
-      title: 'Is source of', inverse_title: 'Is derived from', inverse: true)
+      title: 'Is source of', inverse_title: 'Is derived from')
 
     computer_program = WorkType.where(name: 'computer_program').first_or_create(
       title: 'Computer Program')
