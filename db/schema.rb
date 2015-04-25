@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 20150425020020) do
     t.datetime "updated_at",                            null: false
     t.string   "title",         limit: 255
     t.string   "inverse_title", limit: 255
+    t.string   "inverse_name",  limit: 255
     t.integer  "level",         limit: 4,   default: 1
   end
 

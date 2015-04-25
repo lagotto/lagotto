@@ -103,15 +103,9 @@ class Work < ActiveRecord::Base
       relation_name = item.fetch("relation_type", "cited")
       relation_type = RelationType.where(name: relation_name).first
 
-      next unless related_work.present? && source.present? && relation_type.present?
-
-      if relation_type.name.to_s[0] == "_"
-        inverse_relation_name = relation_type.name[1..-1]
-      else
-        inverse_relation_name = "_#{relation_type.name}"
-      end
-      inverse_relation_type = RelationType.where(name: inverse_relation_name).first
-      next unless inverse_relation_type.present?
+      next unless relation_type.present?
+      inverse_relation_type = RelationType.where(name: relation_type.inverse_name).first
+      next unless related_work.present? && source.present? && inverse_relation_type.present?
 
       Relation.where(work_id: id,
                      related_work_id: related_work.id,
