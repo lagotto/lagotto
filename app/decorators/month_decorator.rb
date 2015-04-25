@@ -9,8 +9,4 @@ class MonthDecorator < Draper::Decorator
   def month
     model.month
   end
-
-  def cache_key
-    "#{source_id}/months/#{Time.zone.now.to_date}"
-  end
 end
