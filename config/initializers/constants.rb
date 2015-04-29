@@ -23,6 +23,9 @@ URL_FORMAT = %r(\A(http|https|ftp):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5
 # Format used for Ark validation
 ARK_FORMAT = %r(\Aark:\/[0-9]+\/.+\z)
 
+# Format used for ArXiV validation
+ARXIV_FORMAT = %r(\d{4}\.\d{4,5})
+
 # Form queue options
 QUEUE_OPTIONS = ["high", "default", "low"]
 

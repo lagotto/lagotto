@@ -36,7 +36,7 @@ class Api::V5::WorksController < Api::BaseController
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "wos", "scp", "url"].find { |t| t == params[:type] } || "doi"
+      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "url"].find { |t| t == params[:type] } || "doi"
       type = "canonical_url" if type == "url"
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
       collection = Work.where(works: { type => ids })

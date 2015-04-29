@@ -85,8 +85,8 @@ All dates and times with the exception of publication dates are in ISO 8601 form
 
 ## Additional Parameters
 
-### type=doi|pmid|pmcid|scp|wos|ark|url
-The API supports queries for DOI, PubMed ID, PubMed Central ID, Scopus ID, Web of Science ID, ark, and publisher URL. The pid is used if no type is given in the query. The following queries are all for the same work:
+### type=doi|pmid|pmcid|arxiv|scp|wos|ark|url
+The API supports queries for DOI, PubMed ID, PubMed Central ID, ArXiV ID, Scopus ID, Web of Science ID, ark, and publisher URL. The pid is used if no type is given in the query. The following queries are all for the same work:
 
 ```sh
 /api/works?ids=doi:10.1371%2Fjournal.pmed.1001361

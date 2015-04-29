@@ -20,6 +20,7 @@
         <%= f.input :canonical_url, :label => 'Canonical URL', :disabled => @work.pid_type == "url" %>
         <%= f.input :pmid, :label => 'PubMed', :disabled => @work.pid_type == "pmid" %>
         <%= f.input :pmcid, :label => 'PubMed Central', :disabled => @work.pid_type == "pmcid" %>
+        <%= f.input :wos, :label => 'ArXiV', :disabled => @work.pid_type == "arxiv" %>
         <%= f.input :wos, :label => 'Web of Science', :disabled => @work.pid_type == "wos" %>
         <%= f.input :scp, :label => 'Scopus', :disabled => @work.pid_type == "scp" %>
         <%= f.input :ark, :label => 'Ark', :disabled => @work.pid_type == "ark" %>

@@ -12,7 +12,7 @@ class Api::V6::WorksController < Api::BaseController
     notes "If no ids are provided in the query, all works are returned, 1000 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
     param :query, :ids, :string, :optional, "Work IDs"
     param :query, :q, :string, :optional, "Query for ids"
-    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
@@ -37,7 +37,7 @@ class Api::V6::WorksController < Api::BaseController
   swagger_api :create do
     summary "Create a work"
     notes "Authentication via API key is required"
-    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -48,7 +48,7 @@ class Api::V6::WorksController < Api::BaseController
     summary "Update a work"
     notes "Authentication via API key is required"
     param :path, :id, :string, :required, "Work ID"
-    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, wos, scp, ark, or url)"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -129,7 +129,7 @@ class Api::V6::WorksController < Api::BaseController
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "wos", "scp", "ark", "url"].find { |t| t == params[:type] } || "pid"
+      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "ark", "url"].find { |t| t == params[:type] } || "pid"
       type = "canonical_url" if type == "url"
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
       collection = Work.where(works: { type => ids })
@@ -184,6 +184,6 @@ class Api::V6::WorksController < Api::BaseController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
   end
 end

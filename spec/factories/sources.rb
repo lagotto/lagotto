@@ -370,6 +370,30 @@ FactoryGirl.define do
     initialize_with { PlosFulltext.where(name: name).first_or_initialize }
   end
 
+  factory :ads, class: Ads do
+    type "Ads"
+    name "ads"
+    title "ADS"
+    state_event "activate"
+    access_token "EXAMPLE"
+
+    group
+
+    initialize_with { Ads.where(name: name).first_or_initialize }
+  end
+
+  factory :ads_fulltext, class: AdsFulltext do
+    type "AdsFulltext"
+    name "ads_fulltext"
+    title "ADS Fulltext"
+    state_event "activate"
+    access_token "EXAMPLE"
+
+    group
+
+    initialize_with { AdsFulltext.where(name: name).first_or_initialize }
+  end
+
   factory :bmc_fulltext, class: BmcFulltext do
     type "BmcFulltext"
     name "bmc_fulltext"

@@ -13,7 +13,7 @@ json.similar_works @similars do |similar|
     json.(similar, :work_id, :source_id, :relation_type_id)
     json.(similar.work, :title, :issued)
     json.set! :"container-title", similar.work.container_title
-    json.(similar.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :scp, :wos, :ark, :events)
+    json.(similar.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :events)
     json.(similar, :timestamp)
   end
 end

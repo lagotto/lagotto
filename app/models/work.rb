@@ -29,7 +29,7 @@ class Work < ActiveRecord::Base
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
-  validates :pid, :pmid, :pmcid, :wos, :scp, uniqueness: true, allow_blank: true
+  validates :pid, :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
@@ -363,7 +363,7 @@ class Work < ActiveRecord::Base
     end
   end
 
-  # pid is required, use doi, pmid, pmcid, wos, scp or canonical url in that order
+  # pid is required, use doi, pmid, pmcid, arxiv, wos, scp or canonical url in that order
   def set_pid
     if doi.present?
       write_attribute(:pid, "doi:#{doi}")
@@ -374,6 +374,9 @@ class Work < ActiveRecord::Base
     elsif pmcid.present?
       write_attribute(:pid, "pmcid:PMC#{pmcid}")
       write_attribute(:pid_type, "pmcid")
+    elsif arxiv.present?
+      write_attribute(:pid, "arxiv:#{arxiv}")
+      write_attribute(:pid_type, "arxiv")
     elsif wos.present?
       write_attribute(:pid, "wos:#{wos}")
       write_attribute(:pid_type, "wos")

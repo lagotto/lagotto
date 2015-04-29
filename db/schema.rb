@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150427175535) do
+ActiveRecord::Schema.define(version: 20150429000556) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -347,10 +347,13 @@ ActiveRecord::Schema.define(version: 20150427175535) do
     t.string   "scp",           limit: 255
     t.string   "wos",           limit: 255
     t.string   "ark",           limit: 255
+    t.string   "arxiv",         limit: 255
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
   add_index "works", ["ark"], name: "index_works_on_ark", unique: true, using: :btree
+  add_index "works", ["arxiv", "published_on", "id"], name: "index_works_on_arxiv_published_on_id", using: :btree
+  add_index "works", ["arxiv"], name: "index_works_on_arxiv", unique: true, using: :btree
   add_index "works", ["canonical_url", "published_on", "id"], name: "index_works_on_url_published_on_id", length: {"canonical_url"=>100, "published_on"=>nil, "id"=>nil}, using: :btree
   add_index "works", ["canonical_url"], name: "index_works_on_url", length: {"canonical_url"=>100}, using: :btree
   add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree

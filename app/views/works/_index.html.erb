@@ -6,10 +6,11 @@
         <%= f.input :title, :input_html => { :rows => 2 } %>
         <%= f.input :doi, :label => 'DOI' %>
         <%= f.input :canonical_url, :label => 'Canonical URL' %>
-        <%= f.input :pmid, :label => 'PubMed ID' %>
-        <%= f.input :pmcid, :label => 'PubMed Central ID' %>
-        <%= f.input :wos, :label => 'Web of Science ID' %>
-        <%= f.input :scp, :label => 'Scopus ID' %>
+        <%= f.input :pmid, :label => 'PubMed' %>
+        <%= f.input :pmcid, :label => 'PubMed Central' %>
+        <%= f.input :arxiv, :label => 'ArXiV' %>
+        <%= f.input :wos, :label => 'Web of Science' %>
+        <%= f.input :scp, :label => 'Scopus' %>
         <%= f.input :ark, :label => 'Ark' %>
        <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
         <% if publishers.length > 1 %>
