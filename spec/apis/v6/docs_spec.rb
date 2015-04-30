@@ -17,8 +17,8 @@ describe "/api/v6/docs", :type => :api do
       expect(data.length).to eq(52)
 
       item = data.first
-      expect(item["id"]).to eq ("alerts")
-      expect(item["title"]).to eq ("Alerts")
+      expect(item["id"]).to eq ("ads")
+      expect(item["title"]).to eq ("ADS")
     end
   end
 
