@@ -7,11 +7,11 @@ SITE
     ark (0.9.0)
       7-zip (>= 0.0.0)
       windows (>= 0.0.0)
-    aws (2.6.5)
-    build-essential (2.2.2)
+    aws (2.7.0)
+    build-essential (2.2.3)
     chef-sugar (3.1.0)
     chef_handler (1.1.6)
-    chocolatey (0.2.0)
+    chocolatey (0.3.0)
       windows (~> 1.31)
     couchdb (2.5.2)
       erlang (>= 0.0.0)
@@ -23,12 +23,14 @@ SITE
       mysql-chef_gem (~> 0.0)
       postgresql (>= 1.0.0)
       xfs (>= 0.0.0)
-    erlang (1.5.7)
+    erlang (1.5.8)
       apt (>= 1.7.0)
       build-essential (>= 0.0.0)
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
       yum-erlang_solutions (>= 0.0.0)
+    homebrew (1.12.0)
+      build-essential (>= 2.1.2)
     memcached (1.7.2)
       runit (~> 1.0)
       yum (~> 3.0)
@@ -36,13 +38,15 @@ SITE
     mysql-chef_gem (0.0.5)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
-    nodejs (2.2.0)
+    nodejs (2.4.0)
       apt (>= 0.0.0)
       ark (>= 0.0.0)
       build-essential (>= 0.0.0)
+      homebrew (>= 0.0.0)
       yum-epel (>= 0.0.0)
     openssl (4.0.0)
       chef-sugar (>= 0.0.0)
+    packagecloud (0.0.17)
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
@@ -51,27 +55,25 @@ SITE
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (~> 4.0.0)
-    redisio (2.2.4)
+    redisio (2.3.0)
       build-essential (>= 0.0.0)
       ulimit (>= 0.1.2)
-    runit (1.5.18)
-      build-essential (>= 0.0.0)
-      yum (~> 3.0)
-      yum-epel (>= 0.0.0)
+    runit (1.6.0)
+      packagecloud (>= 0.0.0)
     ulimit (0.3.3)
     windows (1.36.6)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.5.3)
+    yum (3.6.0)
     yum-epel (0.6.0)
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
-    yum-mysql-community (0.1.16)
+    yum-mysql-community (0.1.17)
       yum (>= 3.0)
 
 GIT
-  remote: git@github.com:articlemetrics/capistrano-cookbook.git
+  remote: git@github.com:PLOS/capistrano-cookbook.git
   ref: master
   sha: 5b394cbe118c822244dafd0e52aec4847d237df4
   specs:
@@ -79,14 +81,14 @@ GIT
       ruby (~> 0.6.0)
 
 GIT
-  remote: git@github.com:articlemetrics/dotenv-cookbook.git
+  remote: git@github.com:PLOS/dotenv-cookbook.git
   ref: master
   sha: 3818435f4506f80a45f5a924ef880a3b371e0798
   specs:
     dotenv (0.2.2)
 
 GIT
-  remote: git@github.com:articlemetrics/lagotto-cookbook.git
+  remote: git@github.com:PLOS/lagotto-cookbook.git
   ref: master
   sha: 57d6090499d9f6fec96776e8ce1e500bff636b1a
   specs:
@@ -106,7 +108,7 @@ GIT
       ruby (~> 0.6.0)
 
 GIT
-  remote: git@github.com:articlemetrics/mysql.git
+  remote: git@github.com:PLOS/mysql.git
   ref: master
   sha: e306cddd572ca4c1906aa533c70092528bb77532
   specs:
@@ -114,7 +116,7 @@ GIT
       yum-mysql-community (>= 0.0.0)
 
 GIT
-  remote: git@github.com:articlemetrics/mysql_rails-cookbook.git
+  remote: git@github.com:PLOS/mysql_rails-cookbook.git
   ref: master
   sha: 30c6ea6346f4a86df1b95b4756299189911695a8
   specs:
@@ -124,7 +126,7 @@ GIT
       ruby (~> 0.6.0)
 
 GIT
-  remote: git@github.com:articlemetrics/passenger_nginx-cookbook.git
+  remote: git@github.com:PLOS/passenger_nginx-cookbook.git
   ref: master
   sha: 982440c212cfc6f7e282efe1377df5890f57f5c2
   specs:
@@ -133,7 +135,7 @@ GIT
       ruby (~> 0.6.0)
 
 GIT
-  remote: git@github.com:articlemetrics/ruby-cookbook.git
+  remote: git@github.com:PLOS/ruby-cookbook.git
   ref: master
   sha: 2356dc05ef1537f74b17f2c8d3d9e542a757e60f
   specs:
