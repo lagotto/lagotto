@@ -248,7 +248,7 @@ describe Source, type: :model, vcr: true do
       it "redirect work" do
         work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030")
         response = subject.get_result(work.doi_as_url, content_type: "html", limit: 10)
-        expect(response).to eq("Test")
+        expect(response).to include(work.doi)
         expect(Alert.count).to eq(0)
       end
     end

@@ -11,7 +11,7 @@ describe Work, type: :model, vcr: true do
     context "canonical URL" do
       it "get_canonical_url" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0000030"
+        url = "http://journals.plos.org/plosone/article?id=#{work.doi_escaped}"
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
         expect(Alert.count).to eq(0)
