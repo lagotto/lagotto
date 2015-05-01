@@ -17,4 +17,8 @@ class RetrievalStatusDecorator < Draper::Decorator
   def work_id
     work.pid
   end
+
+  def display_name
+    title
+  end
 end

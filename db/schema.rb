@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429000556) do
+ActiveRecord::Schema.define(version: 20150430043227) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -366,6 +366,7 @@ ActiveRecord::Schema.define(version: 20150429000556) do
   add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
   add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id", using: :btree
   add_index "works", ["scp"], name: "index_works_on_scp", unique: true, using: :btree
+  add_index "works", ["tracked", "published_on"], name: "index_works_on_tracked_published_on", using: :btree
   add_index "works", ["wos", "published_on", "id"], name: "index_works_on_wos_published_on_id", using: :btree
   add_index "works", ["wos"], name: "index_works_on_wos", unique: true, using: :btree
 

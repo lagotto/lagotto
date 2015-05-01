@@ -312,8 +312,8 @@ class RetrievalStatus < ActiveRecord::Base
     @group_name ||= group.name
   end
 
-  def display_name
-    @display_name ||= source.title
+  def title
+    @title ||= source.title
   end
 
   def timestamp
