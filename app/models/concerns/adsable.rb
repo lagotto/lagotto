@@ -2,6 +2,10 @@ module Adsable
   extend ActiveSupport::Concern
 
   included do
+  def request_options
+    { bearer: access_token }
+  end
+
     def get_query_url(work, options = {})
       fail ArgumentError, "API key is missing." unless access_token.present?
 
@@ -11,8 +15,7 @@ module Adsable
       params = { q: query_string,
                  start: 0,
                  rows: 100,
-                 fl: "author,title,pubdate,identifier,doi",
-                 access_token: access_token }
+                 fl: "author,title,pubdate,identifier,doi" }
       url +  URI.encode_www_form(params)
     end
 

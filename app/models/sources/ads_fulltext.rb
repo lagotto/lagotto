@@ -33,10 +33,10 @@ class AdsFulltext < Source
   end
 
   def url
-    "http://adsws-staging.elasticbeanstalk.com/v1/search/query?"
+    "https://api.adsabs.harvard.edu/v1/search/query?"
   end
 
   def events_url
-    "http://hourly.adslabs.org/#search/q=body:%{query_string}"
+    "https://ui.adsabs.harvard.edu/#search/q=body:%{query_string}"
   end
 end

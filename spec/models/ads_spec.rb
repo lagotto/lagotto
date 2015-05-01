@@ -33,7 +33,7 @@ describe Ads, type: :model, vcr: true do
     it "should catch errors with the ADS API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, options = { :source_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://adsws-staging.elasticbeanstalk.com/v1/search/query?q=%22doi%3A#{work.doi_escaped}%22&start=0&rows=100&fl=author%2Ctitle%2Cpubdate%2Cidentifier%2Cdoi&access_token=EXAMPLE", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for https://api.adsabs.harvard.edu/v1/search/query?q=%22doi%3A#{work.doi_escaped}%22&start=0&rows=100&fl=author%2Ctitle%2Cpubdate%2Cidentifier%2Cdoi", :status=>408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
@@ -69,12 +69,6 @@ describe Ads, type: :model, vcr: true do
       expect(event['URL']).to eq("http://arxiv.org/abs/1503.04201")
       expect(event['type']).to eq("article-journal")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"ads", "relation_type"=>"is_previous_version_of"}])
-    end
-
-    it "should catch timeout errors with the ADS API" do
-      result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
-      response = subject.parse_data(result, work)
-      expect(response).to eq(result)
     end
   end
 end
