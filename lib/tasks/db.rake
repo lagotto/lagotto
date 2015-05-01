@@ -190,6 +190,12 @@ namespace :db do
       end
     end
 
+    desc "Delete canonical url"
+    task :delete_url => :environment do
+      DeleteCanonicalUrlJob.perform_later
+      puts "Started deleting all canonical urls in the background..."
+    end
+
     desc "Add missing sources"
     task :add_sources, [:date] => :environment do |_, args|
       if args.date.nil?
