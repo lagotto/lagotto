@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430043227) do
+ActiveRecord::Schema.define(version: 20150502003421) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 20150430043227) do
     t.integer  "level",            limit: 4, default: 1
   end
 
+  add_index "relations", ["level", "work_id", "related_work_id"], name: "index_relations_on_level_work_related_work", using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
