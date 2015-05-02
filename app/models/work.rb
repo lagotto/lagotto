@@ -18,49 +18,74 @@ class Work < ActiveRecord::Base
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts, :dependent => :destroy
   has_many :api_responses
+  has_many :relations
+  has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation', :dependent => :destroy
+  has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
+  has_many :references, :through => :reference_relations
+  has_many :versions, :through => :version_relations
+  has_many :similar_works, :through => :reference_relations
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
-  validates :pid, :pmid, :pmcid, :wos, :scp, uniqueness: true, allow_blank: true
+  validates :pid, :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
   before_validation :sanitize_title, :normalize_url, :set_pid
-  after_create :create_retrievals
+  after_create :create_retrievals, if: :tracked
 
-  scope :query, ->(query) { where("doi like ?", "#{query}%") }
+  scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :has_events, -> { includes(:retrieval_statuses)
-    .where("retrieval_statuses.event_count > ?", 0)
+    .where("retrieval_statuses.total > ?", 0)
     .references(:retrieval_statuses) }
   scope :by_source, ->(source_id) { joins(:retrieval_statuses)
     .where("retrieval_statuses.source_id = ?", source_id) }
+  scope :tracked, -> { where("works.tracked = ?", true) }
 
   serialize :csl, JSON
 
   # this is faster than first_or_create
   def self.find_or_create(params)
-    self.create!(params)
+    work = self.create!(params.except(:related_works))
+    work.update_relations(params.fetch(:related_works, []))
+    work
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
-    # update title and/or date if work exists
+    # update work if work exists
     # raise an error for other RecordInvalid errors such as missing title
-    if e.message.start_with?("Validation failed: Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
+    if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      work.update_attributes(params.except(:canonical_url)) unless work.nil?
+      if work.present?
+        work.update_attributes(params.except(:doi, :related_works))
+        work.update_relations(params.fetch(:related_works, []))
+      end
       work
-    elsif e.message.start_with?("Validation failed: Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
+    elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
+      work = Work.where(pmid: params[:pmid]).first
+      if work.present?
+        work.update_attributes(params.except(:pmid, :related_works))
+        work.update_relations(params.fetch(:related_works, []))
+      end
+      work
+    elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
-      work.update_attributes(params.except(:canonical_url)) unless work.nil?
+      if work.present?
+        work.update_attributes(params.except(:canonical_url, :related_works))
+        work.update_relations(params.fetch(:related_works, []))
+      end
       work
     else
       if params[:doi].present?
-        message = "#{e.message} for doi #{params[:doi]}."
         target_url = "http://dx.doi.org/#{params[:doi]}"
+        message = "#{e.message} for doi #{params[:doi]}."
+      elsif params[:pmid].present?
+        target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
+        message = "#{e.message} for pmid #{params[:pmid]}."
       else
-        message = "#{e.message} for url #{target_url}."
         target_url = params[:canonical_url]
+        message = "#{e.message} for url #{target_url}."
       end
 
       Alert.where(message: message).where(unresolved: true).first_or_create(
@@ -68,6 +93,30 @@ class Work < ActiveRecord::Base
         :class_name => "ActiveRecord::RecordInvalid",
         :target_url => target_url)
       nil
+    end
+  end
+
+  def update_relations(data)
+    Array(data).map do |item|
+      related_work = Work.where(pid: item.fetch("related_work")).first
+      source = Source.where(name: item.fetch("source")).first
+      relation_name = item.fetch("relation_type", "cited")
+      relation_type = RelationType.where(name: relation_name).first
+
+      next unless relation_type.present?
+      inverse_relation_type = RelationType.where(name: relation_type.inverse_name).first
+      next unless related_work.present? && source.present? && inverse_relation_type.present?
+
+      Relation.where(work_id: id,
+                     related_work_id: related_work.id,
+                     source_id: source.id).first_or_create(
+                       relation_type_id: relation_type.id,
+                       level: relation_type.level)
+      Relation.where(work_id: related_work.id,
+                     related_work_id: id,
+                     source_id: source.id).first_or_create(
+                       relation_type_id: inverse_relation_type.id,
+                       level: inverse_relation_type.level)
     end
   end
 
@@ -80,11 +129,11 @@ class Work < ActiveRecord::Base
   end
 
   def to_param
-    "#{pid_type}/#{pid}"
+    pid
   end
 
   def events_count
-    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.event_count }
+    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -96,7 +145,7 @@ class Work < ActiveRecord::Base
   end
 
   def doi_as_url
-    Addressable::URI.encode("http://dx.doi.org/#{doi}")  if doi.present?
+    Addressable::URI.encode("http://dx.doi.org/#{doi}") if doi.present?
   end
 
   def pmid_as_url
@@ -108,7 +157,7 @@ class Work < ActiveRecord::Base
   end
 
   def pmcid_as_url
-    "http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{pmcid}" if pmcid.present?
+    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}/" if pmcid.present?
   end
 
   def ark_as_url
@@ -121,7 +170,7 @@ class Work < ActiveRecord::Base
 
   def get_url
     return true if canonical_url.present?
-    return false if doi.blank?
+    return false unless doi.present?
 
     url = get_canonical_url(doi_as_url, work_id: id)
 
@@ -139,16 +188,18 @@ class Work < ActiveRecord::Base
     missing_ids = ids.reject { |k, v| v.present? }
     return true if missing_ids.empty?
 
-    result = get_persistent_identifiers(doi)
+    existing_ids = ids.select { |k, v| v.present? }
+    key, value = existing_ids.first
+    result = get_persistent_identifiers(value, key)
 
     if result.present? && result.is_a?(Hash)
       # remove PMC prefix
       result['pmcid'] = result['pmcid'][3..-1] if result['pmcid']
 
-      new_ids = missing_ids.reduce({}) do |hash, (k, v)|
+      new_ids = missing_ids.reduce({}) do |hsh, (k, v)|
         val = result[k.to_s]
-        hash[k] = val if val.present? && val != "0"
-        hash
+        hsh[k] = val if val.present? && val != "0"
+        hsh
       end
       update_attributes(new_ids)
     else
@@ -169,7 +220,7 @@ class Work < ActiveRecord::Base
   end
 
   def signposts
-    @signposts ||= sources.pluck(:name, :event_count, :events_url)
+    @signposts ||= sources.pluck(:name, :total, :events_url)
   end
 
   def events_urls
@@ -225,6 +276,10 @@ class Work < ActiveRecord::Base
   alias_method :discussed, :shares
   alias_method :cited, :citations
 
+  def metrics
+    sources.pluck(:name, :total)
+  end
+
   def issued
     { "date-parts" => [[year, month, day].reject(&:blank?)] }
   end
@@ -240,6 +295,26 @@ class Work < ActiveRecord::Base
     end
   end
 
+  def author
+    csl.present? ? csl["author"] : nil
+  end
+
+  def container_title
+    csl.present? ? csl["container-title"] : nil
+  end
+
+  def volume
+    csl.present? ? csl["volume"] : nil
+  end
+
+  def page
+    csl.present? ? csl["page"] : nil
+  end
+
+  def issue
+    csl.present? ? csl["issue"] : nil
+  end
+
   def update_date_parts
     return nil unless published_on
 
@@ -248,9 +323,11 @@ class Work < ActiveRecord::Base
     write_attribute(:day, published_on.day)
   end
 
-  def update_date
+  def timestamp
     updated_at.nil? ? nil : updated_at.utc.iso8601
   end
+
+  alias_method :update_date, :timestamp
 
   private
 
@@ -286,22 +363,25 @@ class Work < ActiveRecord::Base
     end
   end
 
-  # pid is required, use doi, pmid, pmcid, wos, scp or canonical url in that order
+  # pid is required, use doi, pmid, pmcid, arxiv, wos, scp or canonical url in that order
   def set_pid
     if doi.present?
-      write_attribute(:pid, doi)
+      write_attribute(:pid, "doi:#{doi}")
       write_attribute(:pid_type, "doi")
     elsif pmid.present?
-      write_attribute(:pid, pmid)
+      write_attribute(:pid, "pmid:#{pmid}")
       write_attribute(:pid_type, "pmid")
     elsif pmcid.present?
-      write_attribute(:pid, "PMC#{pmcid}")
+      write_attribute(:pid, "pmcid:PMC#{pmcid}")
       write_attribute(:pid_type, "pmcid")
+    elsif arxiv.present?
+      write_attribute(:pid, "arxiv:#{arxiv}")
+      write_attribute(:pid_type, "arxiv")
     elsif wos.present?
-      write_attribute(:pid, wos)
+      write_attribute(:pid, "wos:#{wos}")
       write_attribute(:pid_type, "wos")
     elsif scp.present?
-      write_attribute(:pid, scp)
+      write_attribute(:pid, "scp:#{scp}")
       write_attribute(:pid_type, "scp")
     elsif ark.present?
       write_attribute(:pid, ark)

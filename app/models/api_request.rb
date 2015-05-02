@@ -5,7 +5,15 @@ class ApiRequest < ActiveRecord::Base
     1000
   end
 
-  def date
+  def to_param
+    uuid
+  end
+
+  def timestamp
     created_at.utc.iso8601
+  end
+
+  def cache_key
+    "api_request/#{uuid}/#{timestamp}"
   end
 end

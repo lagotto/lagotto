@@ -3,23 +3,23 @@ require 'rails_helper'
 describe Copernicus, type: :model, vcr: true do
   subject { FactoryGirl.create(:copernicus) }
 
-  let(:work) { FactoryGirl.build(:work, :doi => "10.5194/ms-2-175-2011") }
+  let(:work) { FactoryGirl.create(:work, :doi => "10.5194/ms-2-175-2011") }
 
   context "get_data" do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.username, subject.password) }
 
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pmed.0020124")
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Copernicus API" do
-      work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
+      work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       body = File.read(fixture_path + 'copernicus_nil.json')
       stub = stub_request(:get, "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:#{work.doi}").with(:headers => { :authorization => auth }).to_return(:body => body)
       response = subject.get_data(work)
@@ -61,28 +61,26 @@ describe Copernicus, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>0, :html=>0, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0 } } }
-
     it "should report if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(events: { source: "copernicus", work: work.pid, pdf: 0, html: 0, total: 0, extra: {} })
     end
 
     it "should report if there are no events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(events: { source: "copernicus", work: work.pid, pdf: 0, html: 0, total: 0, extra: {} })
     end
 
     it "should report if there are events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(83)
-      events = response[:events]
-      expect(events["counter"]).not_to be_nil
-      expect(events["counter"]["AbstractViews"].to_i).to eq(72)
+      expect(response[:events][:total]).to eq(83)
+      extra = response[:events][:extra]
+      expect(extra["counter"]).not_to be_nil
+      expect(extra["counter"]["AbstractViews"].to_i).to eq(72)
     end
 
     it "should catch timeout errors with the Copernicus API" do

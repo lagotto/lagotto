@@ -8,21 +8,24 @@ if (!params.empty()) {
     var api_key = params.attr('data-api_key');
     var q = params.attr('data-query');
     var key = params.attr('data-key');
-    var query = encodeURI("/api/v5/api_requests?api_key=" + api_key);
+    var query = encodeURI("/api/api_requests");
     if (q !== "") {
-      query += "&q=" + q;
+      query += "?q=" + q;
     } else if (key !== "") {
-      query += "&key=" + key;
+      query += "?key=" + key;
     }
 }
 
 // load the data from the Lagotto API
 if (query) {
-  d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); }
-    var data = json.data;
+  d3.json(query)
+    .header("Accept", "application/vnd.lagotto+json; version=6")
+    .header("Authorization", "Token token=" + api_key)
+    .get(function(error, json) {
+      if (error) { return console.warn(error); }
+      var data = json.api_requests;
 
-    crossfilterViz(data);
+      crossfilterViz(data);
   });
 }
 
@@ -41,21 +44,21 @@ function crossfilterViz(data) {
 
   // A nest operator, for grouping the request list.
   var nestByDate = d3.nest()
-    .key(function(d) { return d3.time.day.utc(d.date); });
+    .key(function(d) { return d3.time.day.utc(d.timestamp); });
 
   // A little coercion, since the JSON is untyped.
   // expects date in iso8601 format, e.g. 2014-04-15T20:11:23Z
   data.forEach(function(d, i) {
     d.index = i;
-    d.date = new Date(d.date);
+    d.timestamp = new Date(d.timestamp);
   });
 
   // Create the crossfilter for the relevant dimensions and groups.
   var request = crossfilter(data),
       all = request.groupAll(),
-      date = request.dimension(function(d) { return d3.time.day.utc(d.date); }),
+      date = request.dimension(function(d) { return d3.time.day.utc(d.timestamp); }),
       dates = date.group(),
-      hour = request.dimension(function(d) { return d.date.getUTCHours() + d.date.getMinutes() / 60; }),
+      hour = request.dimension(function(d) { return d.timestamp.getUTCHours() + d.timestamp.getMinutes() / 60; }),
       hours = hour.group(Math.floor),
       db_duration = request.dimension(function(d) { return Math.max(-60, Math.min(149, d.db_duration)); }),
       db_durations = db_duration.group(function(d) { return Math.floor(d / 10) * 10; }),
@@ -137,7 +140,7 @@ function crossfilterViz(data) {
         .attr("class", "date panel panel-default")
         .append("div")
         .attr("class", "panel-heading")
-        .text(function(d) { return formatDate(d.values[0].date); });
+        .text(function(d) { return formatDate(d.values[0].timestamp); });
 
       date.exit().remove();
 
@@ -149,7 +152,7 @@ function crossfilterViz(data) {
 
       requestEnter.append("div")
         .attr("class", "time")
-        .text(function(d) { return formatTime(d.date); });
+        .text(function(d) { return formatTime(d.timestamp); });
 
       requestEnter.append("div")
         .attr("class", "duration")
@@ -165,7 +168,7 @@ function crossfilterViz(data) {
         .attr("class", "source")
         .append("a")
         .attr("href", function(d) { return "/users?query=" + d.api_key; })
-        .text(function(d) { return d.api_key.substr(0,20); });
+        .text(function(d) { return (typeof d.api_key === "undefined") ? "" : d.api_key.substr(0,20); });
 
       requestEnter.append("div")
         .attr("class", "info")
@@ -211,8 +214,8 @@ function crossfilterViz(data) {
 
       // Create the skeletal chart.
       if (g.empty()) {
-        reset_text = div.attr("id");
-        d3.select("#reset-" + reset_text).append("a")
+        resetText = div.attr("id");
+        d3.select("#reset-" + resetText).append("a")
             .attr("href", "javascript:reset(" + id + ")")
             .attr("class", "reset")
             .text("reset")
@@ -254,8 +257,8 @@ function crossfilterViz(data) {
       if (brushDirty) {
         brushDirty = false;
         g.selectAll(".brush").call(brush);
-        reset_text = div.attr("id");
-        d3.select("#reset-" + reset_text + " a").style("display", brush.empty() ? "none" : null);
+        resetText = div.attr("id");
+        d3.select("#reset-" + resetText + " a").style("display", brush.empty() ? "none" : null);
         if (brush.empty()) {
           g.selectAll("#clip-" + id + " rect")
             .attr("x", 0)
@@ -301,8 +304,8 @@ function crossfilterViz(data) {
 
     brush.on("brushstart.req-chart", function() {
       var div = d3.select(this.parentNode.parentNode.parentNode);
-      reset_text = div.attr("id");
-      d3.select("#reset-" + reset_text + " a").style("display", null);
+      resetText = div.attr("id");
+      d3.select("#reset-" + resetText + " a").style("display", null);
     });
 
     brush.on("brush.req-chart", function() {
@@ -323,8 +326,8 @@ function crossfilterViz(data) {
     brush.on("brushend.req-chart", function() {
         if (brush.empty()) {
             var div = d3.select(this.parentNode.parentNode.parentNode);
-            reset_text = div.attr("id");
-            d3.select("#reset-" + reset_text + " a").style("display", "none");
+            resetText = div.attr("id");
+            d3.select("#reset-" + resetText + " a").style("display", "none");
             div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
             dimension.filterAll();
         }

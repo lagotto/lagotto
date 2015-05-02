@@ -4,7 +4,7 @@ class Status < ActiveRecord::Base
 
   RELEASES_URL = "https://api.github.com/repos/articlemetrics/lagotto/releases"
 
-  before_create :collect_status_info
+  before_create :collect_status_info, :create_uuid
 
   default_scope { order("status.created_at DESC") }
 
@@ -12,11 +12,15 @@ class Status < ActiveRecord::Base
     1000
   end
 
+  def to_param
+    uuid
+  end
+
   def collect_status_info
-    self.works_count = Work.count
-    self.works_new_count = Work.last_x_days(0).count
+    self.works_count = Work.tracked.count
+    self.works_new_count = Work.tracked.last_x_days(0).count
     self.events_count = RetrievalStatus.joins(:source).where("state > ?", 0)
-      .where("name != ?", "relativemetric").sum(:event_count)
+      .where("name != ?", "relativemetric").sum(:total)
     self.responses_count = ApiResponse.total(1).count
     self.requests_count = ApiRequest.total(1).count
     self.requests_average = ApiRequest.total(1).average("duration").to_i
@@ -52,11 +56,11 @@ class Status < ActiveRecord::Base
     Gem::Version.new(current_version) > Gem::Version.new(version)
   end
 
-  def update_date
+  def timestamp
     updated_at.utc.iso8601
   end
 
-  def cache_key
-    "status/#{update_date}"
+  def create_uuid
+    write_attribute(:uuid, SecureRandom.uuid)
   end
 end

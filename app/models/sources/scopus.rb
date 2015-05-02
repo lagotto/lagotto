@@ -1,42 +1,40 @@
-# encoding: UTF-8
-
 class Scopus < Source
   def request_options
     { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+
+    url % { doi: work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    events = result.deep_fetch('search-results', 'entry', 0) { {} }
+    extra = result.deep_fetch('search-results', 'entry', 0) { {} }
 
-    if events["link"]
-      event_count = events['citedby-count'].to_i
-      link = events["link"].find { |link| link["@ref"] == "scopus-citedby" }
+    if extra["link"]
+      total = extra['citedby-count'].to_i
+      link = extra["link"].find { |link| link["@ref"] == "scopus-citedby" }
       events_url = link["@href"]
 
       # store Scopus ID if we haven't done this already
       unless work.scp.present?
-        scp = events['dc:identifier']
+        scp = extra['dc:identifier']
         work.update_attributes(:scp => scp[10..-1]) if scp.present?
       end
     else
-      event_count = 0
+      total = 0
       events_url = nil
     end
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+    { events: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url,
+        extra: extra } }
   end
 
   def config_fields

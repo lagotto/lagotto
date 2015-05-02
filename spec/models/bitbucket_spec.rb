@@ -46,36 +46,35 @@ describe Bitbucket, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0} } }
-
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(events: { source: "bitbucket", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report that there are no events if the canonical_url is not a Bitbucket URL" do
       work = FactoryGirl.build(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(events: { source: "bitbucket", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report if there are no events and event_count returned by the Bitbucket API" do
       body = File.read(fixture_path + 'bitbucket_nil.json')
       result = JSON.parse(body)
-      events = { "followers_count"=>0, "forks_count"=>0, "description"=>"Exemplos da Aula 1 do curso de Desenvolvimento Web com Ruby on Rails do ruby+web\r\n\r\nhttp://rubymaisweb.ning.com", "utc_created_on"=>"2012-01-13 14:47:01+00:00" }
+      extra = { "followers_count"=>0, "forks_count"=>0, "description"=>"Exemplos da Aula 1 do curso de Desenvolvimento Web com Ruby on Rails do ruby+web\r\n\r\nhttp://rubymaisweb.ning.com", "utc_created_on"=>"2012-01-13 14:47:01+00:00" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: events, events_by_day: [], events_by_month: [], events_url: nil, event_count: 0, event_metrics: {:pdf=>nil, :html=>nil, :shares=>0, :groups=>nil, :comments=>nil, :likes=>0, :citations=>nil, :total=>0})
+      expect(response).to eq(events: { source: "bitbucket", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: extra })
     end
 
     it "should report if there are events and event_count returned by the Bitbucket API" do
       body = File.read(fixture_path + 'bitbucket.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(434)
-      expect(response[:events_url]).to eq("https://bitbucket.org/galaxy/galaxy-central")
-      expect(response[:events]["followers_count"]).to eq(162)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: 272, groups: nil, comments: nil, likes: 162, citations: nil, total: 434)
+      expect(response[:events][:total]).to eq(434)
+      expect(response[:events][:readers]).to eq(272)
+      expect(response[:events][:likes]).to eq(162)
+      expect(response[:events][:events_url]).to eq("https://bitbucket.org/galaxy/galaxy-central")
+      expect(response[:events][:extra]["followers_count"]).to eq(162)
     end
 
     it "should catch timeout errors with the Bitbucket API" do

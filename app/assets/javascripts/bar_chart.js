@@ -106,7 +106,7 @@ function hBarViz(data, name) {
   }
 
   // remove source not needed for the following visualizations
-  data = data.filter(function(d) { return d.name !== "relativemetric"; });
+  data = data.filter(function(d) { return d.id !== "relativemetric"; });
 
   // Works tab
   var chart = d3.select("div#" + name + "-body").append("svg")
@@ -116,45 +116,45 @@ function hBarViz(data, name) {
     .append("g")
     .attr("transform", "translate(" + l + "," + h + ")");
 
-  if (name === "works") {
+  if (name === "work") {
     var x = d3.scale.linear()
-      .domain([0, d3.max(data, function(d) { return d.work_count; })])
+      .domain([0, d3.max(data, function(d) { return d[name + "_count"]; })])
       .range([0, w]);
   } else {
     var x = d3.scale.log()
-      .domain([0.1, d3.max(data, function(d) { return d.event_count; })])
+      .domain([0.1, d3.max(data, function(d) { return d[name + "_count"]; })])
       .range([1, w]);
   }
   var y = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.display_name; }))
+    .domain(data.map(function(d) { return d.title; }))
     .rangeBands([0, (h + 2 * s) * data.length]);
   var z = d3.scale.ordinal()
-    .domain(data.map(function(d) { return d.group; }))
+    .domain(data.map(function(d) { return d.group_id; }))
     .range(colors);
 
   chart.selectAll("text.labels")
     .data(data)
-    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.name; }).append("text")
+    .enter().append("a").attr("xlink:href", function(d) { return "/sources/" + d.id; }).append("text")
     .attr("x", 0)
-    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("y", function(d) { return y(d.title) + y.rangeBand() / 2; })
     .attr("dx", 0 - l) // padding-right
     .attr("dy", ".18em") // vertical-align: middle
-    .text(function(d) { return d.display_name; });
+    .text(function(d) { return d.title; });
   chart.selectAll("rect")
     .data(data)
     .enter().append("rect")
-    .attr("fill", function(d) { return z(d.group); })
-    .attr("y", function(d) { return y(d.display_name); })
+    .attr("fill", function(d) { return z(d.group_id); })
+    .attr("y", function(d) { return y(d.title); })
     .attr("height", h)
-    .attr("width", function(d) { return x(d.work_count); });
+    .attr("width", function(d) { return x(d[name + "_count"]); });
   chart.selectAll("text.values")
     .data(data)
     .enter().append("text")
-    .attr("x", function(d) { return x(d.work_count); })
-    .attr("y", function(d) { return y(d.display_name) + y.rangeBand() / 2; })
+    .attr("x", function(d) { return x(d[name + "_count"]); })
+    .attr("y", function(d) { return y(d.title) + y.rangeBand() / 2; })
     .attr("dx", 5) // padding-right
     .attr("dy", ".18em") // vertical-align: middle
-    .text(function(d) { return numberWithDelimiter(d.work_count); });
+    .text(function(d) { return numberWithDelimiter(d[name + "_count"]); });
 
   d3.select("#" + name + "-loading").remove();
 }

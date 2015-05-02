@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class EventCountDecreasingError < Filter
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).decreasing(source_ids)
@@ -9,7 +7,7 @@ class EventCountDecreasingError < Filter
         { source_id: response.source_id,
           work_id: response.work_id,
           level: Alert::INFO,
-          message: "Event count decreased from #{response.previous_count} to #{response.event_count}" }
+          message: "Event count decreased from #{response.previous_total} to #{response.total}" }
       end
       raise_alerts(responses)
     end

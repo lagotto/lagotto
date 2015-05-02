@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.plosreports.org/services/rest?doi=10.1371/journal.pone.0116034&method=usage.stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 12 Apr 2015 00:27:08 GMT
+      Server:
+      - Apache/2.2.3 (CentOS)
+      X-Powered-By:
+      - PHP/5.1.6
+      Set-Cookie:
+      - SESS589b40f30a271771a6547f3dd5edad6a=1qdupd92t8rb8ih3vo2ga2tjv6; expires=Tue,
+        05 May 2015 04:00:28 GMT; path=/; domain=.plosreports.org
+      Expires:
+      - Sun, 19 Nov 1978 05:00:00 GMT
+      Last-Modified:
+      - Sun, 12 Apr 2015 00:27:08 GMT
+      Cache-Control:
+      - store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Content-Length:
+      - '843'
+      Connection:
+      - close
+      Content-Type:
+      - text/xml
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <rest generator="xml_writer" version="1.0"><status>success</status><response><criteria><year>all</year><month>all</month><journal>all</journal><doi>10.1371/journal.pone.0116034</doi></criteria><results><total><total>148</total></total><item id="0"><year>2014</year><month>12</month><get-document>70</get-document><get-pdf>11</get-pdf><get-xml>9</get-xml></item><item id="1"><year>2015</year><month>1</month><get-document>23</get-document><get-pdf>6</get-pdf><get-xml>1</get-xml></item><item id="2"><year>2015</year><month>2</month><get-document>7</get-document><get-pdf>2</get-pdf></item><item id="3"><year>2015</year><month>3</month><get-document>15</get-document><get-pdf>3</get-pdf></item><item id="4"><year>2015</year><month>4</month><get-document>1</get-document></item></results></response></rest>
+    http_version: 
+  recorded_at: Sat, 11 Apr 2015 17:50:09 GMT
+recorded_with: VCR 2.9.3

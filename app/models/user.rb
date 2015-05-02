@@ -5,9 +5,6 @@ class User < ActiveRecord::Base
   belongs_to :publisher, primary_key: :member_id
   has_and_belongs_to_many :reports
 
-  before_save :ensure_authentication_token
-  before_create :set_first_user
-
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:persona, :cas, :github, :orcid]
@@ -19,10 +16,7 @@ class User < ActiveRecord::Base
   scope :ordered, -> { order("current_sign_in_at DESC") }
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.name = auth.info.name
-    end
+    where(provider: auth.provider, uid: auth.uid).first_or_create(generate_user(auth))
   end
 
   # fetch additional user information for cas strategy
@@ -80,14 +74,6 @@ class User < ActiveRecord::Base
 
   protected
 
-  def set_first_user
-    # The first user we create has an admin role and uses the configuration API key
-    if User.count == 0 && !Rails.env.test?
-      self.role = "admin"
-      self.authentication_token = ENV['API_KEY']
-    end
-  end
-
   # Don't require email or password, as we also use OAuth
   def email_required?
     false
@@ -97,44 +83,25 @@ class User < ActiveRecord::Base
     false
   end
 
-  # Attempt to find a user by it's email. If a record is found, send new
-  # password instructions to it. If not user is found, returns a new user
-  # with an email not found error.
-  def self.send_reset_password_instructions(attributes={})
-    recoverable = find_recoverable_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
-    recoverable.send_reset_password_instructions if recoverable.persisted?
-    recoverable
-  end
-
-  def self.find_recoverable_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
-    (case_insensitive_keys || []).each { |k| attributes[k].try(:downcase!) }
-
-    attributes = attributes.slice(*required_attributes)
-    attributes.delete_if { |key, value| value.blank? }
-
-    if attributes.size == required_attributes.size
-      record = where(attributes).first
+  def self.generate_user(auth)
+    if User.count > 0 || Rails.env.test?
+      authentication_token = generate_authentication_token
+      role = "user"
+    else
+      # use admin role and specific token for first user
+      authentication_token = ENV['API_KEY']
+      role = "admin"
     end
 
-    unless record
-      record = new
-
-      required_attributes.each do |key|
-        value = attributes[key]
-        record.send("#{key}=", value)
-        record.errors.add(key, value.present? ? error : :blank)
-      end
-    end
-    record
-  end
-
-  def ensure_authentication_token
-    self.authentication_token = generate_authentication_token if authentication_token.blank?
+    { email: auth.info.email,
+      name: auth.info.name,
+      authentication_token: authentication_token,
+      role: role }
   end
 
   private
 
-  def generate_authentication_token
+  def self.generate_authentication_token
     loop do
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first

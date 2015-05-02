@@ -3,21 +3,21 @@ require 'rails_helper'
 describe Wos, type: :model, vcr: true do
   subject { FactoryGirl.create(:wos) }
 
-  let(:work) { FactoryGirl.build(:work, doi: "10.1371/journal.pone.0043007", wos: nil) }
+  let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007", wos: nil) }
 
-  it "should generate a proper XMl request" do
-    work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0043007")
+  it "should generate a proper XML request" do
+    work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
     request = File.read(fixture_path + 'wos_request.xml')
     expect(subject.get_xml_request(work)).to eq(request)
   end
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
-      work_without_doi = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_data(work_without_doi)).to eq({})
+      work = FactoryGirl.create(:work, :doi => nil)
+      expect(subject.get_data(work)).to eq({})
     end
 
-    it "should report if there are no events and event_count returned by the Wos API" do
+    it "should report if there are no events returned by the Wos API" do
       body = File.read(fixture_path + 'wos_nil.xml')
       stub = stub_request(:post, subject.get_query_url(work)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(work)
@@ -25,7 +25,7 @@ describe Wos, type: :model, vcr: true do
       expect(stub).to have_been_requested
     end
 
-    it "should report if there are events and event_count returned by the Wos API" do
+    it "should report if there are events returned by the Wos API" do
       body = File.read(fixture_path + 'wos.xml')
       stub = stub_request(:post, subject.get_query_url(work)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:body => body)
       response = subject.get_data(work)
@@ -56,28 +56,28 @@ describe Wos, type: :model, vcr: true do
 
   context "parse_data" do
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>{}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
     end
 
-    it "should report if there are no events and event_count returned by the Wos API" do
+    it "should report if there are no events returned by the Wos API" do
       body = File.read(fixture_path + 'wos_nil_alt.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events => {}, :events_by_day=>[], :events_by_month=>[], :event_count => 0, :events_url => nil, event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 0, total: 0 })
+      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
     end
 
-    it "should report if there are events and event_count returned by the Wos API" do
+    it "should report if there are events returned by the Wos API" do
       body = File.read(fixture_path + 'wos.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(1005)
-      expect(response[:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
+      expect(response[:events][:total]).to eq(1005)
+      expect(response[:events][:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
       expect(work.wos).to eq("000237966900006")
     end
 

@@ -7,11 +7,6 @@ describe User, type: :model, vcr: true do
 
   it { is_expected.to validate_presence_of(:name) }
 
-  it "requires an authentication token" do
-    subject = FactoryGirl.create(:user, authentication_token: nil)
-    expect(subject.authentication_token).not_to be_nil
-  end
-
   context "class methods" do
     it "from_omniauth" do
       auth = OmniAuth.config.mock_auth[:default]

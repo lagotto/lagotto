@@ -40,17 +40,21 @@ class Source < ActiveRecord::Base
                    "scopus" => [:insttoken] }
 
   has_many :retrieval_statuses, :dependent => :destroy
+  has_many :months
+  has_many :days
   has_many :works, :through => :retrieval_statuses
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
   has_many :alerts
   has_many :api_responses
+  has_many :reference_relations
+  has_many :version_relations
   belongs_to :group
 
   serialize :config, OpenStruct
 
   validates :name, :presence => true, :uniqueness => true
-  validates :display_name, :presence => true
+  validates :title, :presence => true
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -63,25 +67,25 @@ class Source < ActiveRecord::Base
   # filter sources by state
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :by_states, ->(state) { where("state > ?", state) }
-  scope :order_by_name, -> { order("group_id, sources.display_name") }
+  scope :order_by_title, -> { order("group_id, sources.title") }
 
-  scope :available, -> { by_state(0).order_by_name }
-  scope :retired, -> { by_state(1).order_by_name }
-  scope :inactive, -> { by_state(2).order_by_name }
-  scope :disabled, -> { by_state(3).order_by_name }
-  scope :waiting, -> { by_state(5).order_by_name }
-  scope :working, -> { by_state(6).order_by_name }
+  scope :available, -> { by_state(0).order_by_title }
+  scope :retired, -> { by_state(1).order_by_title }
+  scope :inactive, -> { by_state(2).order_by_title }
+  scope :disabled, -> { by_state(3).order_by_title }
+  scope :waiting, -> { by_state(5).order_by_title }
+  scope :working, -> { by_state(6).order_by_title }
 
-  scope :installed, -> { by_states(0).order_by_name }
-  scope :visible, -> { by_states(1).order_by_name }
-  scope :active, -> { by_states(2).order_by_name }
+  scope :installed, -> { by_states(0).order_by_title }
+  scope :visible, -> { by_states(1).order_by_title }
+  scope :active, -> { by_states(2).order_by_title }
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
-  scope :queueable, -> { active.where("queueable = ?", true) }
+  scope :queueable, -> { active.where(queueable: true) }
+  scope :eventable, -> { visible.where(eventable: true) }
 
   # some sources cannot be redistributed
-  scope :public_sources, -> { where(private: false) }
-  scope :private_sources, -> { where(private: true) }
+  scope :accessible, ->(role) { where("private <= ?", role) }
 
   def to_param  # overridden, use name instead of id
     name
@@ -95,8 +99,9 @@ class Source < ActiveRecord::Base
   def queue_all_works(options = {})
     return 0 unless active?
 
-    # find works that need to be updated. Not queued currently, scheduled_at doesn't matter
-    rs = retrieval_statuses
+    # find works that need to be updated.
+    # Tracked, not queued currently, scheduled_at doesn't matter
+    rs = retrieval_statuses.tracked
 
     # optionally limit to works scheduled_at in the past
     rs = rs.stale unless options[:all]
@@ -162,62 +167,82 @@ class Source < ActiveRecord::Base
 
   def get_data(work, options={})
     query_url = get_query_url(work)
-    if query_url.nil?
-      result = {}
-    else
-      result = get_result(query_url, options.merge(request_options))
+    return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
-      # make sure we return a hash
-      result = { 'data' => result } unless result.is_a?(Hash)
-    end
+    result = get_result(query_url, options.merge(request_options))
+
+    # make sure we return a hash
+    result = { 'data' => result } unless result.is_a?(Hash)
 
     # extend hash fetch method to nested hashes
     result.extend Hashie::Extensions::DeepFetch
   end
 
   def parse_data(result, work, options = {})
-    # turn result into a hash for easier parsing later
-    result = { 'data' => result } unless result.is_a?(Hash)
+    if !result.is_a?(Hash)
+      # make sure we have a hash
+      result = { 'data' => result }
+      result.extend Hashie::Extensions::DeepFetch
+    elsif result[:status] == 404
+      # properly handle not found errors
+      result = { 'data' => [] }
+      result.extend Hashie::Extensions::DeepFetch
+    elsif result[:error]
+      # return early if an error occured that is not a not_found error
+      return result
+    end
 
-    # properly handle not found errors
-    result = { 'data' => [] } if result[:status] == 404
-
-    # return early if an error occured that is not a not_found error
-    return result if result[:error]
+    related_works = get_related_works(result, work)
+    extra = get_extra(result)
+    events_url = related_works.length > 0 ? get_events_url(work) : nil
 
     options.merge!(response_options)
-    metrics = options[:metrics] || :citations
+    options[:metrics] ||= :total
+    metrics = get_metrics(options[:metrics] => related_works.length)
 
-    events = get_events(result)
-    events_url = events.length > 0 ? get_events_url(work) : nil
-
-    { events: events,
-      events_by_day: get_events_by_day(events, work),
-      events_by_month: get_events_by_month(events),
-      events_url: events_url,
-      event_count: events.length,
-      event_metrics: get_event_metrics(metrics => events.length) }
+    { works: related_works,
+      events: {
+        source: name,
+        work: work.pid,
+        pdf: metrics[:pdf],
+        html: metrics[:html],
+        readers: metrics[:readers],
+        comments: metrics[:comments],
+        likes: metrics[:likes],
+        total: metrics[:total],
+        events_url: events_url,
+        extra: extra,
+        days: get_events_by_day(related_works, work, options),
+        months: get_events_by_month(related_works, options) }.compact }
   end
 
-  def get_events_by_day(events, work)
-    events = events.reject { |event| event[:event_time].nil? || Date.iso8601(event[:event_time]) - work.published_on > 30 }
+  def get_events_by_day(events, work, options={})
+    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - work.published_on > 30 }
 
-    events.group_by { |event| event[:event_time][0..9] }.sort.map do |k, v|
+    options[:metrics] ||= :total
+    events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
         day: k[8..9].to_i,
+        options[:metrics] => v.length,
         total: v.length }
     end
   end
 
-  def get_events_by_month(events)
-    events = events.reject { |event| event[:event_time].nil? }
+  def get_events_by_month(events, options={})
+    events = events.reject { |event| event["timestamp"].nil? }
 
-    events.group_by { |event| event[:event_time][0..6] }.sort.map do |k, v|
+    options[:metrics] ||= :total
+    events.group_by { |event| event["timestamp"][0..6] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
+        options[:metrics] => v.length,
         total: v.length }
     end
+  end
+
+  def get_extra(result)
+    nil
   end
 
   def request_options
@@ -229,21 +254,25 @@ class Source < ActiveRecord::Base
   end
 
   def get_query_url(work, options = {})
+    fail ArgumentError, "Source url is missing." if url.blank?
+
     query_string = get_query_string(work)
-    return nil unless url.present? && query_string.present?
+    return query_string if query_string.is_a?(Hash)
 
     url % { query_string: query_string }
   end
 
   def get_events_url(work)
+    fail ArgumentError, "Source events_url is missing." if events_url.blank?
+
     query_string = get_query_string(work)
-    return nil unless events_url.present? && query_string.present?
+    return query_string if query_string.is_a?(Hash)
 
     events_url % { query_string: query_string }
   end
 
   def get_query_string(work)
-    return nil unless work.get_url || work.doi.present?
+    return {} unless work.get_url || work.doi.present?
 
     [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
@@ -338,12 +367,12 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def cache_key
-    "#{name}/#{update_date}"
+  def timestamp
+    cached_at.utc.iso8601
   end
 
-  def update_date
-    cached_at.utc.iso8601
+  def cache_key
+    "source/#{name}/#{timestamp}"
   end
 
   def update_cache
@@ -353,7 +382,6 @@ class Source < ActiveRecord::Base
   def write_cache
     # update cache_key as last step so that we have the old version until we are done
     now = Time.zone.now
-    timestamp = now.utc.iso8601
 
     # loop through cached attributes we want to update
     [:event_count,

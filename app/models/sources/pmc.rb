@@ -1,8 +1,9 @@
 class Pmc < Source
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+    fail ArgumentError, "Source url is missing." if url.blank?
+
+    url % { doi: work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
@@ -11,27 +12,33 @@ class Pmc < Source
 
     return result if result[:error]
 
-    events = Array(result["views"])
-
-    pdf = get_sum(events, 'pdf')
-    html = get_sum(events, 'full-text')
-    total = pdf + html
+    extra = Array(result["views"])
+    html = get_sum(extra, 'full-text')
+    pdf = get_sum(extra, 'pdf')
+    total = html + pdf
     events_url = total > 0 ? get_events_url(work) : nil
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: get_events_by_month(events),
-      events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+    { events: {
+        source: name,
+        work: work.pid,
+        pdf: pdf,
+        html: html,
+        total: total,
+        events_url: events_url,
+        extra: extra,
+        months: get_events_by_month(extra) } }
   end
 
-  def get_events_by_month(events)
-    events.map do |event|
+  def get_events_by_month(extra)
+    extra.map do |event|
+      html = event['full-text'].to_i
+      pdf = event['pdf'].to_i
+
       { month: event['month'].to_i,
         year: event['year'].to_i,
-        html: event['full-text'].to_i,
-        pdf: event['pdf'].to_i }
+        html: html,
+        pdf: pdf,
+        total: html + pdf }
     end
   end
 

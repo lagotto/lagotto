@@ -6,6 +6,10 @@ class AlertDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
+  def id
+    to_param
+  end
+
   def level
     model.human_level_name
   end
@@ -16,5 +20,9 @@ class AlertDecorator < Draper::Decorator
 
   def work
     work_id ? model.work.to_param : nil
+  end
+
+  def timestamp
+    model.create_date
   end
 end

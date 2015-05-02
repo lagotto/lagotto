@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.1/search/orcid-bio/?q=digital-object-ids:%2210.1371/journal.pone.0018011%22&rows=100
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.1.19
+      Vary:
+      - Accept-Encoding
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Thu, 09 Apr 2015 13:09:58 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=3EF693884E4817F6CBEBF09AB7491954; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"","orcid-search-results":{"orcid-search-result":[{"relevancy-score":{"value":0.6644728},"orcid-profile":{"orcid":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-0159-2197","path":"0000-0002-0159-2197","host":"orcid.org"},"orcid-bio":{"personal-details":{"given-names":{"value":"Jonathan
+        A."},"family-name":{"value":"Eisen"}},"biography":{"value":"","visibility":null},"researcher-urls":{"researcher-url":[{"url-name":{"value":"microBEnet"},"url":{"value":"http://microBE.net"}},{"url-name":{"value":"Tree
+        of Life Blog"},"url":{"value":"http://phylogenomics.blogspot.com"}},{"url-name":{"value":"Lab
+        Page"},"url":{"value":"http://phylogenomics.wordpress.com"}},{"url-name":{"value":"Twitter"},"url":{"value":"http://twitter.com/phylogenomics"}}],"visibility":null},"keywords":{"keyword":[{"value":"evolution,
+        genomics, microbiology, ecology, microbial diversity, citizen science, "}],"visibility":null},"external-identifiers":{"external-identifier":[{"external-id-common-name":{"value":"Scopus
+        Author ID"},"external-id-reference":{"value":"35247902700"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35247902700&partnerID=MN8TOARS"},"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"}}}],"visibility":null},"delegation":null,"applications":null,"scope":null},"type":null,"group-type":null,"client-type":null}}],"num-found":1}}'
+    http_version: 
+  recorded_at: Thu, 09 Apr 2015 13:09:57 GMT
+recorded_with: VCR 2.9.3

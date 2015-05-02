@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class WorkNotUpdatedError < Filter
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).work_not_updated(limit)

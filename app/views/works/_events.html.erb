@@ -1,5 +1,12 @@
-<div class="content" id="content">
-  <div class="text-muted" id="loading-events">Loading … <%= image_tag "spinner.gif" %></div>
-</div>
+<% if @work.retrieval_statuses.sum(:total) > 0 %>
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">Events <small class="pull-right" id="control-events"></small></div>
+    <div class="panel-body" id="panel-events">
+      <div class="text-muted" id="loading">Loading … <%= image_tag "spinner.gif" %></div>
 
-<%= javascript_include_tag 'works/show' %>
+      <%= javascript_include_tag 'works/events' %>
+    </div>
+  </div>
+<% else %>
+  <div class="alert alert-info">There are currently no events</div>
+<% end %>

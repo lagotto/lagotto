@@ -27,7 +27,7 @@ module Dateable
       year = iso8601_time[0..3].to_i
       month = iso8601_time[5..6].to_i
       day = iso8601_time[8..9].to_i
-      { 'date-parts' => [[year, month, day]] }
+      { 'date-parts' => [[year, month, day].reject { |part| part == 0 }] }
     end
 
     def get_date_parts_from_parts(year, month = nil, day = nil)

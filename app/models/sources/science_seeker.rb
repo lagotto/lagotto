@@ -1,36 +1,31 @@
-# encoding: UTF-8
-
 class ScienceSeeker < Source
   def request_options
     { content_type: 'xml' }
   end
 
   def get_query_string(work)
+    return {} unless work.doi.present?
+
     work.doi_escaped
   end
 
-  def get_events(result)
-    events = result['feed'] && result.deep_fetch('feed', 'entry') { nil }
-    events = [events] if events.is_a?(Hash)
-    Array(events).map do |item|
+  def get_related_works(result, work)
+    related_works = result.fetch('feed', nil) && result.deep_fetch('feed', 'entry') { nil }
+    related_works = [related_works] if related_works.is_a?(Hash)
+    Array(related_works).map do |item|
       item.extend Hashie::Extensions::DeepFetch
-      event_time = get_iso8601_from_time(item["updated"])
-      url = item['link']['href']
+      timestamp = get_iso8601_from_time(item.fetch("updated", nil))
 
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([item.fetch('author', {}).fetch('name', "")]),
-          'title' => item.fetch('title', ""),
-          'container-title' => item.fetch('source', {}).fetch('title', ""),
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'post'
-        }
-      }
+      { "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
+        "title" => item.fetch('title', nil),
+        "container-title" => item.fetch('source', {}).fetch('title', ""),
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => item.fetch("link", {}).fetch("href", nil),
+        "type" => 'post',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

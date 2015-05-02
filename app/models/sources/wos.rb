@@ -1,18 +1,17 @@
 class Wos < Source
   def get_query_url(work)
-    return nil unless work.doi.present?
+    return {} unless work.doi.present?
 
     url_private
   end
 
   def get_data(work, options={})
     query_url = get_query_url(work)
-    if query_url.nil?
-      result = {}
-    else
-      data = get_xml_request(work)
-      result = get_result(query_url, options.merge(content_type: 'xml', data: data))
-    end
+    return query_url if query_url.is_a?(Hash)
+
+    data = get_xml_request(work)
+    result = get_result(query_url, options.merge(content_type: 'xml', data: data))
+
     result.extend Hashie::Extensions::DeepFetch
   end
 
@@ -24,7 +23,7 @@ class Wos < Source
     return { error: error_status } if error_status
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
-    event_count = values[0].to_i
+    total = values[0].to_i
 
     # store Web of Science ID if we haven't done this already
     unless work.wos.present?
@@ -33,39 +32,36 @@ class Wos < Source
     end
 
     # fix for parsing error
-    event_count = 0 if event_count > 100000
+    total = 0 if total > 100000
     events_url = values[2]
 
-    { events: {},
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+    { events: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url } }
   end
 
   def check_error_status(result, work)
     status = result.deep_fetch('response', 'fn', 'rc') { 'OK' }
 
-    if status.casecmp('OK') == 0
-      false
+    return false if status.casecmp('OK') == 0
+
+    if status == 'Server.authentication'
+      class_name = 'Net::HTTPUnauthorized'
+      status_code = 401
     else
-      if status == 'Server.authentication'
-        class_name = 'Net::HTTPUnauthorized'
-        status_code = 401
-      else
-        class_name = 'Net::HTTPNotFound'
-        status_code = 404
-      end
-      error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
-      message = "Web of Science error #{status}: '#{error}' for work #{work.doi}"
-      Alert.where(message: message).where(unresolved: true).first_or_create(
-        exception: "",
-        class_name: class_name,
-        status: status_code,
-        source_id: id)
-      message
+      class_name = 'Net::HTTPNotFound'
+      status_code = 404
     end
+    error = result.deep_fetch('response', 'fn', 'error') { 'an error occured' }
+    message = "Web of Science error #{status}: '#{error}' for work #{work.doi}"
+    Alert.where(message: message).where(unresolved: true).first_or_create(
+      exception: "",
+      class_name: class_name,
+      status: status_code,
+      source_id: id)
+    message
   end
 
   def get_xml_request(work)

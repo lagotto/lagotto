@@ -1,8 +1,9 @@
 class F1000 < Source
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+    fail ArgumentError, "Source url is missing." if url.blank?
+
+    url % { doi: work.doi_escaped }
   end
 
   def parse_data(result, work, options={})
@@ -11,26 +12,26 @@ class F1000 < Source
 
     return result if result[:error]
 
-    events = get_events(result)
+    extra = get_extra(result)
 
-    if events.empty?
-      event_count = 0
+    if extra.empty?
+      total = 0
       events_url = nil
     else
-      event = events.last[:event]
-      event_count = event['score']
-      events_url = event['url']
+      event = extra.last[:event]
+      total = event.fetch("score", 0)
+      events_url = event.fetch("url", nil)
     end
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: get_events_by_month(events),
-      events_url: events_url,
-      event_count: event_count,
-      event_metrics: get_event_metrics(citations: event_count) }
+    { events: {
+        source: name,
+        work: work.pid,
+        total: total,
+        events_url: events_url,
+        extra: extra } }
   end
 
-  def get_events(result)
+  def get_extra(result)
     result['recommendations'] ||= {}
     Array(result['recommendations']).map do |item|
       { :event => item,

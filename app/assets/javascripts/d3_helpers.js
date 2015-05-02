@@ -61,44 +61,19 @@ function formattedDate(date, len) {
   }
 }
 
-// pagination for events
-function paginateEvents(data, page) {
-  if (data.length > 50) {
-    var total = Math.ceil(data.length/50);
-    var max_visible = 10;
-    var href = "#events?page={{number}}";
-    var prev = (page > 1) ? "«" : null;
-    var next = (page < total) ? "»" : null;
-
-    d3.select("#results").append("div")
-      .attr("id", "paginator");
-
-    $('#paginator').bootpag({
-      total: total,
-      page: page,
-      maxVisible: max_visible,
-      href: href,
-      leaps: false,
-      prev: prev,
-      next: next
-    }).on("page", function(event, num) {
-      showEvents(data, num);
-    });
-  }
-}
 // pagination
 function paginate(json) {
-  if ((page !== "") && json.total_pages > 1) {
-    var prev = (json.page > 1) ? "«" : null;
-    var next = (json.page < json.total_pages) ? "»" : null;
+  if ((json.meta.page !== "") && json.meta.total_pages > 1) {
+    var prev = (json.meta.page > 1) ? "«" : null;
+    var next = (json.meta.page < json.meta.total_pages) ? "»" : null;
 
     d3.select("#content").append("div")
       .attr("id", "paginator")
       .attr("class", "text-center");
 
     $('#paginator').bootpag({
-      total: json.total_pages,
-      page: json.page,
+      total: json.meta.total_pages,
+      page: json.meta.page,
       maxVisible: 10,
       href: json.href,
       leaps: false,
@@ -110,36 +85,43 @@ function paginate(json) {
 
 // link to individual work
 function urlForWork(work) {
-  if (!!work.doi) {
-    return "http://dx.doi.org/" + work.doi;
-  } else if (!!work.pmid) {
-    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work.pmid;
-  } else if (!!work.pmcid) {
-    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work.pmcid;
+  if (!!work["DOI"]) {
+    return "http://dx.doi.org/" + work["DOI"];
+  } else if (!!work["PMID"]) {
+    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["PMID"];
+  } else if (!!work["PMCID"]) {
+    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["PMCID"];
   } else if (!!work.ark) {
     return "http://n2t.net/" + work.ark;
-  } else if (!!work.canonical_url) {
-    return work.canonical_url;
+  } else if (!!work["URL"]) {
+    return work["URL"];
   } else {
     return "";
   }
 }
 
-function signpostsToString(work, source_id, order) {
-  if (source_id === "" && order === "") {
-    var a = [];
-  } else {
-    if (order !== "") { var name = order }
-    if (source_id !== "") { var name = source_id }
-    var s = work.sources.filter(function(d) { return d.name === name; })[0];
-    var a = [s.display_name + ": " + formatFixed(s.metrics.total)];
+function signpostsToString(work, sources, source_id, sort) {
+  var name = "";
+  if (typeof source_id !== "undefined" && source_id !== "") {
+    name = source_id;
+  } else if (typeof sort !== "undefined" && sort !== "") {
+    name = sort;
   }
 
-  var b = [];
-  if (work.viewed > 0) { b.push("Viewed: " + formatFixed(work.viewed)); }
-  if (work.cited > 0) { b.push("Cited: " + formatFixed(work.cited)); }
-  if (work.saved > 0) { b.push("Saved: " + formatFixed(work.saved)); }
-  if (work.discussed > 0) { b.push("Discussed: " + formatFixed(work.discussed)); }
+  if (name !== "") {
+    var source = sources.filter(function(d) { return d.id === name; })[0];
+    var a = [source.title + ": " + formatFixed(work.events[name])];
+  } else {
+    var a = [];
+  }
+
+  var b = [],
+      signposts = signpostsFromWork(work);
+
+  if (signposts.viewed > 0) { b.push("Viewed: " + formatFixed(signposts.viewed)); }
+  if (signposts.cited > 0) { b.push("Cited: " + formatFixed(signposts.cited)); }
+  if (signposts.saved > 0) { b.push("Saved: " + formatFixed(signposts.saved)); }
+  if (signposts.discussed > 0) { b.push("Discussed: " + formatFixed(signposts.discussed)); }
   if (b.length > 0) {
     a.push(b.join(" • "));
     return a.join(" | ");
@@ -148,6 +130,21 @@ function signpostsToString(work, source_id, order) {
   } else {
     return "";
   }
+}
+
+function signpostsFromWork(work) {
+  var viewed = (work.events.counter || 0) + (work.events.pmc || 0);
+  var cited = work.events.crossref;
+  var saved = (work.events.citeulike || 0) + (work.events.mendeley || 0);
+  var discussed = (work.events.facebook || 0) + (work.events.twitter || 0) + (work.events.twitter_search || 0);
+
+  return { "viewed": viewed, "cited": cited, "saved": saved, "discussed": discussed };
+}
+
+function relationToString(work, sources, relation_types) {
+  var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
+  var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
+  return [relation_type.inverse_title, " via " + source.title];
 }
 
 // construct author object from author parts

@@ -1,10 +1,9 @@
 /*global d3 */
 
-var radius = 80,
-    color = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]);
+var radius = 80;
 
 // donut chart
-function donutViz(data, div, title, subtitle) {
+function donutViz(data, div, title, subtitle, colors) {
   var chart = d3.select(div).append("svg")
     .data([data])
     .attr("width", radius * 2 + 50)
@@ -28,7 +27,7 @@ function donutViz(data, div, title, subtitle) {
     .attr("class", "slice");
 
   arcs.append("svg:path")
-    .attr("fill", function(d, i) { return color(i); } )
+    .attr("fill", function(d, i) { return colors(i); } )
     .attr("d", arc);
   arcs.each(
     function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " sources " + d.data.key.replace("_", " "), container: "body"});

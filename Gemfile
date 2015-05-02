@@ -16,7 +16,7 @@ gem "logstash-logger", "~> 0.7.0"
 
 gem "faraday", "~> 0.9.0"
 gem "faraday_middleware", "~> 0.9.1"
-gem 'excon', '~> 0.43.0'
+gem 'excon', '~> 0.45.3'
 gem 'addressable', "~> 2.3.5"
 gem 'postrank-uri', '~> 1.0.18'
 gem "multi_xml", "~> 0.5.5"
@@ -36,12 +36,11 @@ gem 'omniauth', '~> 1.2.2'
 gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
-gem "draper", "~> 1.4.0"
-gem "jbuilder", "~> 2.2.4"
+gem 'draper', '~> 2.1.0'
+gem 'jbuilder', '~> 2.2.12'
 gem "swagger-docs", "~> 0.1.9"
 gem 'swagger-ui_rails', '~> 0.1.7'
 gem "dalli", "~> 2.7.0"
-gem "turbolinks", "~> 2.5.1"
 gem 'will_paginate', '3.0.7'
 gem "will_paginate-bootstrap", "~> 1.0.1"
 gem "simple_form", "~> 3.1.0"
@@ -52,14 +51,9 @@ gem 'dotiw', '~> 2.0'
 
 gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'
-gem "jquery-rails", "~> 3.1.2"
-gem 'bootstrap-sass', '~> 3.3.3'
-gem 'font-awesome-sass', '= 4.3.0'
-gem "d3_rails", "~> 3.4.1"
-gem "crossfilter-rails", "~> 1.3.5"
-gem 'coffee-rails', '~> 4.1.0'
 gem "uglifier", "~> 2.5.3"
-gem 'lodash-rails', '~> 3.3.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem "ember-cli-rails"
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'

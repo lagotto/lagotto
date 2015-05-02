@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class ReportMailer < ActionMailer::Base
   default :from => ENV['ADMIN_EMAIL']
 

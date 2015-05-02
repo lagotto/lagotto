@@ -1,8 +1,6 @@
 require "rails_helper"
 
 describe "/api/v5/articles", :type => :api do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:api_key) { user.authentication_token }
   let(:error) { { "error" => "Article not found."} }
 
   context "index" do
@@ -11,7 +9,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via DOI" do
       before(:each) do
         work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=doi&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=doi&info=summary"
       end
 
       it "no format" do
@@ -44,7 +42,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via PMID" do
       before(:each) do
         work_list = works.map { |work| "#{work.pmid}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=pmid&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=pmid&info=summary"
       end
 
       it "JSON" do
@@ -63,7 +61,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via PMCID" do
       before(:each) do
         work_list = works.map { |work| "#{work.pmcid}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=pmcid&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=pmcid&info=summary"
       end
 
       it "JSON" do
@@ -82,7 +80,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via wos" do
       before(:each) do
         work_list = works.map { |work| "#{work.wos}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=wos&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=wos&info=summary"
       end
 
       it "JSON" do
@@ -101,7 +99,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via scp" do
       before(:each) do
         work_list = works.map { |work| "#{work.scp}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=scp&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=scp&info=summary"
       end
 
       it "JSON" do
@@ -120,7 +118,7 @@ describe "/api/v5/articles", :type => :api do
     context "works found via URL" do
       before(:each) do
         work_list = works.map { |work| "#{work.canonical_url}" }.join(",")
-        @uri = "/api/v5/articles?ids=#{work_list}&type=url&info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?ids=#{work_list}&type=url&info=summary"
       end
 
       it "JSON" do
@@ -131,7 +129,7 @@ describe "/api/v5/articles", :type => :api do
         data = response["data"]
         expect(data.length).to eq(50)
         expect(data.any? do |work|
-          work["canonical_url"] == works[0].canonical_url
+          work["url"] == works[0].canonical_url
         end).to be true
       end
     end
@@ -139,7 +137,7 @@ describe "/api/v5/articles", :type => :api do
     context "no identifiers" do
       before(:each) do
         work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
-        @uri = "/api/v5/articles?info=summary&api_key=#{api_key}"
+        @uri = "/api/v5/articles?info=summary"
       end
 
       it "JSON" do
@@ -157,7 +155,7 @@ describe "/api/v5/articles", :type => :api do
     end
 
     context "no records found" do
-      let(:uri) { "/api/v5/articles?ids=xxx&info=summary&api_key=#{api_key}" }
+      let(:uri) { "/api/v5/articles?ids=xxx&info=summary" }
       let(:nothing_found) { { "total" => 0, "total_pages" => 0, "page" => 0, "error" => nil, "data" => [] } }
 
       it "JSON" do

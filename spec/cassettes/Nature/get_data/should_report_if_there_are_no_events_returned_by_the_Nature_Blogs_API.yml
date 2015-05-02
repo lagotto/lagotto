@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://blogs.nature.com/posts.json?doi=10.1371/journal.pone.0008776
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.0.0
+      Date:
+      - Wed, 25 Mar 2015 17:02:59 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '2'
+      Status:
+      - '200'
+      X-Powered-By:
+      - Phusion Passenger (mod_rails/mod_rack) 3.0.21
+      X-Runtime:
+      - '2'
+      Cache-Control:
+      - private, max-age=0, must-revalidate
+      Set-Cookie:
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlYzQ4ZmEwZTRkYWE4YTM3MGIwZjU3YzAyMTQyODY3ZjM%3D--af91fac7ee37b5bb10b4295478b0cee3d6fe0f11;
+        path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      string: "[]"
+    http_version: 
+  recorded_at: Wed, 25 Mar 2015 17:00:03 GMT
+recorded_with: VCR 2.9.3

@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class Filter < ActiveRecord::Base
   extend ActionView::Helpers::NumberHelper
   extend ActionView::Helpers::TextHelper
@@ -15,7 +13,7 @@ class Filter < ActiveRecord::Base
   serialize :config, OpenStruct
 
   validates :name, :presence => true, :uniqueness => true
-  validates :display_name, :presence => true
+  validates :title, :presence => true
   validate :validate_config_fields
 
   default_scope { order("name") }
@@ -43,18 +41,18 @@ class Filter < ActiveRecord::Base
       Filter.active.each do |filter|
 
         options[:name] = filter.name
-        options[:display_name] = filter.display_name
+        options[:title] = filter.title
         options[:time] = Benchmark.realtime { options[:output] = filter.run_filter(options) }
         options[:message] = formatted_message(options)
         options[:review_messages] << create_review(options)
       end
 
-      resolve(options.except(:name, :display_name))
+      resolve(options.except(:name, :title))
     end
 
     def formatted_message(options)
       formatted_input = pluralize(number_with_delimiter(options[:input]), 'API response')
-      formatted_output = pluralize(number_with_delimiter(options[:output]), options[:display_name])
+      formatted_output = pluralize(number_with_delimiter(options[:output]), options[:title])
       formatted_time = number_with_precision(options[:time] * 1000)
 
       "Found #{formatted_output} in #{formatted_input}, taking #{formatted_time} ms"

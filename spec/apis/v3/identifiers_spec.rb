@@ -78,7 +78,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response_work["sources"][0]
         expect(response_work["doi"]).to eql(work.doi)
         expect(response_work["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -90,14 +90,14 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
     end
 
     context "PMID" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmid/#{work.pmid}?api_key=#{api_key}" }
+      let(:uri) { "/api/v3/articles/pmid/#{work.pmid}?api_key=#{api_key}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
@@ -110,7 +110,7 @@ describe "/api/v3/articles", :type => :api do
 
     context "PMCID" do
       let(:work) { FactoryGirl.create(:work_with_events) }
-      let(:uri) { "/api/v3/articles/info:pmcid/PMC#{work.pmcid}?api_key=#{api_key}" }
+      let(:uri) { "/api/v3/articles/pmcid/PMC#{work.pmcid}?api_key=#{api_key}" }
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'

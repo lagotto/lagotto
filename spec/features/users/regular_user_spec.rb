@@ -5,22 +5,22 @@ describe "no access for regular user", type: :feature, js: true do
 
   it "don't show users" do
     visit "/users"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 
   it "don't show API requests" do
     visit "/api_requests"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 
   it "don't show alerts" do
     visit "/alerts"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 
   it "don't show filters" do
     visit "/filters"
-    expect(page).to have_css ".alert-warning", text: "404 The page you are looking for doesn't exist."
+    expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 
   it "show user profile" do

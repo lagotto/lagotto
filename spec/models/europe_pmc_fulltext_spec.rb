@@ -3,7 +3,7 @@ require 'rails_helper'
 describe EuropePmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc_fulltext) }
 
-  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -24,12 +24,12 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events returned by the Europe PMC Search API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work)
       expect(response["hitCount"]).to eq(0)
     end
@@ -56,31 +56,28 @@ describe EuropePmcFulltext, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>[], :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0 } } }
-
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "europe_pmc_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'europe_pmc_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(13)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 13, total: 13)
-      expect(response[:events_by_day]).to be_empty
-      expect(response[:events_by_month]).to be_empty
+      expect(response[:works].length).to eq(13)
+      expect(response[:events][:total]).to eq(13)
+      expect(response[:events][:days]).to be_empty
+      expect(response[:events][:months]).to be_empty
 
-      event = response[:events].last
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Richardson", "given"=>"Mf"}, {"family"=>"Weinert", "given"=>"La"}, {"family"=>"Welch", "given"=>"Jj"}, {"family"=>"Linheiro", "given"=>"Rs"}, {"family"=>"Magwire", "given"=>"Mm"}, {"family"=>"Jiggins", "given"=>"Fm"}, {"family"=>"Bergman", "given"=>"Cm"}])
-      expect(event[:event_csl]['title']).to eq("Population genomics of the Wolbachia endosymbiont in Drosophila melanogaster")
-      expect(event[:event_csl]['container-title']).to eq("PLoS Genet")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2012]])
-      expect(event[:event_csl]['type']).to eq("article-journal")
-      expect(event[:event_csl]['url']).to eq("http://dx.doi.org/10.1371/journal.pgen.1003129")
+      event = response[:works].last
+      expect(event['author']).to eq([{"family"=>"Richardson", "given"=>"Mf"}, {"family"=>"Weinert", "given"=>"La"}, {"family"=>"Welch", "given"=>"Jj"}, {"family"=>"Linheiro", "given"=>"Rs"}, {"family"=>"Magwire", "given"=>"Mm"}, {"family"=>"Jiggins", "given"=>"Fm"}, {"family"=>"Bergman", "given"=>"Cm"}])
+      expect(event['title']).to eq("Population genomics of the Wolbachia endosymbiont in Drosophila melanogaster")
+      expect(event['container-title']).to eq("PLoS Genet")
+      expect(event['issued']).to eq("date-parts"=>[[2012]])
+      expect(event['type']).to eq("article-journal")
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do

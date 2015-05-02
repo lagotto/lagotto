@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Counter do
-  before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   describe "date_range" do
     it 'should return this month and this year without options' do
@@ -29,7 +29,7 @@ end
 
 # the concern behaves differently for Pmc, returning dates until the last and not the current month
 describe Pmc do
-  before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
   describe "date_range" do
     it 'should return last month and this year' do

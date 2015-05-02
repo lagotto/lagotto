@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 namespace :queue do
 
   desc "Queue stale works"
@@ -27,7 +25,7 @@ namespace :queue do
 
     sources.each do |source|
       count = source.queue_all_works(start_date: start_date, end_date: end_date)
-      puts "#{count} stale works for source #{source.display_name} have been queued."
+      puts "#{count} stale works for source #{source.title} have been queued."
     end
   end
 
@@ -56,7 +54,7 @@ namespace :queue do
 
     sources.each do |source|
       count = source.queue_all_works(all: true, start_date: start_date, end_date: end_date)
-      puts "#{count} works for source #{source.display_name} have been queued."
+      puts "#{count} works for source #{source.title} have been queued."
     end
   end
 
@@ -93,7 +91,7 @@ namespace :queue do
       end
 
       source.queue_work_jobs([rs.id], priority: 2)
-      puts "Job for pid #{work.pid} and source #{source.display_name} has been queued."
+      puts "Job for pid #{work.pid} and source #{source.title} has been queued."
     end
   end
 

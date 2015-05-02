@@ -18,7 +18,7 @@ class PlosImport < Import
     params = { q: "*:*",
                start: offset,
                rows: rows,
-               fl: "id,publication_date,title_display,cross_published_journal_name,author_display",
+               fl: "id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id",
                fq: "+#{date_range}+doc_type:full",
                wt: "json" }
     url + params.to_query
@@ -32,8 +32,8 @@ class PlosImport < Import
     # return early if an error occured
     return [] unless result && result.fetch("response", nil)
 
-    # fixed values, member_id is PLOS CrossRef member id
-    member_id = 340
+    # fixed values, publisher_id is PLOS CrossRef member id
+    publisher_id = 340
     type = "article-journal"
     work_type_id = WorkType.where(name: type).pluck(:id).first
 
@@ -52,7 +52,10 @@ class PlosImport < Import
         "title" => title,
         "type" => type,
         "DOI" => doi,
-        "publisher" => "Public Library of Science (PLOS)"
+        "publisher" => "Public Library of Science (PLOS)",
+        "volume" => item.fetch("volume", nil),
+        "issue" => item.fetch("issue", nil),
+        "page" => item.fetch("elocation_id", nil)
       }
 
       { doi: doi,
@@ -60,7 +63,7 @@ class PlosImport < Import
         year: year,
         month: month,
         day: day,
-        publisher_id: member_id,
+        publisher_id: publisher_id,
         work_type_id: work_type_id,
         csl: csl }
     end

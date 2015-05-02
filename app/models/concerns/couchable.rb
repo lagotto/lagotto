@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 module Couchable
   extend ActiveSupport::Concern
 
@@ -13,7 +11,7 @@ module Couchable
     end
 
     def head_lagotto_data(url, options = { timeout: DEFAULT_TIMEOUT })
-      conn = faraday_conn('json')
+      conn = faraday_conn('json', options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout]
       response = conn.head url
@@ -37,7 +35,7 @@ module Couchable
     def put_lagotto_data(url, options = { data: nil })
       return nil unless options[:data] || Rails.env.test?
 
-      conn = faraday_conn('json')
+      conn = faraday_conn('json', options)
       conn.options[:timeout] = DEFAULT_TIMEOUT
       response = conn.put url do |request|
         request.body = options[:data]
@@ -74,7 +72,7 @@ module Couchable
       # don't delete database
       return nil if url == ENV['COUCHDB_URL'] && Rails.env != "test"
 
-      conn = faraday_conn('json')
+      conn = faraday_conn('json', options)
       response = conn.delete url
 
       parse_rev(response.body)
@@ -88,11 +86,6 @@ module Couchable
 
     def put_lagotto_database
       put_lagotto_data(ENV['COUCHDB_URL'])
-      filter = Faraday::UploadIO.new('design_doc/filter.json', 'application/json')
-      put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/filter", data: filter)
-
-      reports = Faraday::UploadIO.new('design_doc/reports.json', 'application/json')
-      put_lagotto_data("#{ENV['COUCHDB_URL']}/_design/reports", data: reports)
     end
 
     def delete_lagotto_database

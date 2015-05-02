@@ -4,23 +4,20 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-// Load jQuery
-//= require jquery
-//= require jquery_ujs
-//= require bootstrap-sprockets
-//= require jquery.bootpag.min.js
-//= require turbolinks
-//
-// Load Lodash
-//= require lodash
-//
-// Load the D3 visualization library
-//= require d3
-//
-// Load the Crossfilter library
-//= require crossfilter
+// Load bower components
+//= require es5-shim/es5-shim.js
+//= require lodash/lodash.js
+//= require jquery/dist/jquery.js
+//= require jquery-ujs/src/rails.js
+//= require jquery-bootpag/lib/jquery.bootpag.js
+//= require d3/d3.js
+//= require crossfilter/crossfilter.js
+//= require queue-async/queue.js
+//= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
 //
 // Load common d3 helper functions
 //= require bar_chart
 //= require donut_chart
 //= require d3_helpers
+//
+//= require_self

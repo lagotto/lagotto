@@ -13,7 +13,7 @@ describe Filter, :type => :model do
 
     context "API responses" do
       before do
-        @api_response = FactoryGirl.create(:api_response, previous_count: 12)
+        @api_response = FactoryGirl.create(:api_response, previous_total: 12)
         @filter = FactoryGirl.create(:decreasing_event_count_error)
       end
 
@@ -69,7 +69,7 @@ describe Filter, :type => :model do
     subject { FactoryGirl.create(:filter) }
 
     it { is_expected.to validate_uniqueness_of(:name) }
-    it { is_expected.to validate_presence_of(:display_name) }
+    it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to respond_to(:raise_alerts) }
   end
 
@@ -77,7 +77,7 @@ describe Filter, :type => :model do
     subject { FactoryGirl.create(:decreasing_event_count_error) }
 
     context "real decrease" do
-      let(:api_response) { FactoryGirl.create(:api_response, previous_count: 12) }
+      let(:api_response) { FactoryGirl.create(:api_response, previous_total: 12) }
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
@@ -92,7 +92,7 @@ describe Filter, :type => :model do
     end
 
     context "decrease to zero" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0) }
+      let(:api_response) { FactoryGirl.create(:api_response, total: 0) }
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
@@ -102,7 +102,7 @@ describe Filter, :type => :model do
     end
 
     context "success no data" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0) }
+      let(:api_response) { FactoryGirl.create(:api_response, total: 0) }
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
@@ -111,18 +111,8 @@ describe Filter, :type => :model do
       end
     end
 
-    context "skipped" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 0, skipped: true) }
-      let(:options) { { id: api_response.id } }
-
-      it "should not raise errors" do
-        expect(subject.run_filter(options)).to eq(0)
-        expect(Alert.count).to eq(0)
-      end
-    end
-
-    context "API errors" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: nil) }
+    context "skipped because of errors" do
+      let(:api_response) { FactoryGirl.create(:api_response, total: 0, skipped: true) }
       let(:options) { { id: api_response.id } }
 
       it "should not raise errors" do
@@ -136,7 +126,7 @@ describe Filter, :type => :model do
     subject { FactoryGirl.create(:increasing_event_count_error) }
 
     context "real increase" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600) }
+      let(:api_response) { FactoryGirl.create(:api_response, total: 3600) }
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
@@ -151,7 +141,7 @@ describe Filter, :type => :model do
     end
 
     context "same day" do
-      let(:api_response) { FactoryGirl.create(:api_response, event_count: 3600, update_interval: 1) }
+      let(:api_response) { FactoryGirl.create(:api_response, total: 3600, update_interval: 1) }
       let(:options) { { id: api_response.id } }
 
       it "should raise errors" do
@@ -219,7 +209,7 @@ describe Filter, :type => :model do
     subject { FactoryGirl.create(:work_not_updated_error) }
 
     let(:days) { 42 }
-    let(:api_response) { FactoryGirl.create(:api_response, event_count: nil, update_interval: days) }
+    let(:api_response) { FactoryGirl.create(:api_response, total: 0, skipped: true, update_interval: days) }
     let(:options) { { id: api_response.id } }
 
     it "should raise errors" do

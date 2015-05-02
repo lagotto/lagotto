@@ -3,15 +3,16 @@ module Countable
 
   included do
     def works_count
+      Status.create(current_version: Lagotto::VERSION) if Status.count == 0
       Status.first.works_count
     end
 
     def event_count
-      cache_read("event_count", retrieval_statuses.sum(:event_count))
+      cache_read("event_count", retrieval_statuses.sum(:total))
     end
 
     def event_count=
-      cache_write("event_count", retrieval_statuses.sum(:event_count))
+      cache_write("event_count", retrieval_statuses.sum(:total))
     end
 
     def work_count
@@ -108,14 +109,14 @@ module Countable
 
     def cache_read(id, value)
       if ActionController::Base.perform_caching
-        Rails.cache.read("#{name}/#{id}/#{update_date}").to_i
+        Rails.cache.read("#{name}/#{id}/#{timestamp}").to_i
       else
         value
       end
     end
 
     def cache_write(id, value)
-      Rails.cache.write("#{name}/#{id}/#{Time.zone.now.utc.iso8601}", value)
+      Rails.cache.write("#{name}/#{id}/#{timestamp}", value)
     end
   end
 end

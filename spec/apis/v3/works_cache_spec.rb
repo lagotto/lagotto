@@ -30,7 +30,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
     end
@@ -40,7 +40,7 @@ describe "/api/v3/articles", :type => :api do
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}?api_key=#{api_key}" }
       let(:key) { "jbuilder/v3/#{WorkDecorator.decorate(work).cache_key}" }
       let(:title) { "Foo" }
-      let(:event_count) { 75 }
+      let(:total) { 75 }
 
       it "can cache an work" do
         expect(Rails.cache.exist?(key)).not_to be true
@@ -55,7 +55,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -109,11 +109,11 @@ describe "/api/v3/articles", :type => :api do
 
         expect(Rails.cache.exist?(key)).to be true
         response = Rails.cache.read(key)
-        update_date = response["update_date"]
+        timestamp = response["timestamp"]
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(event_count: event_count)
+        work.retrieval_statuses.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
@@ -123,7 +123,7 @@ describe "/api/v3/articles", :type => :api do
         expect(cache_key).not_to eql(key)
         expect(Rails.cache.exist?(cache_key)).to be true
         response = Rails.cache.read(cache_key)
-        expect(response["update_date"]).to be > update_date
+        expect(response["timestamp"]).to be > timestamp
       end
 
       it "does not use a stale cache when the source query parameter changes" do
@@ -160,8 +160,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.event_count)
+        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
         expect(response_source["events"]).to be_nil
 
         summary_uri = "#{uri}&info=summary"

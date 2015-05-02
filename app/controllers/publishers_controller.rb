@@ -11,7 +11,7 @@ class PublishersController < ApplicationController
   def show
     @page = params[:page] || 1
     @source = Source.visible.where(name: params[:source_id]).first
-    @order = Source.visible.where(name: params[:order]).first
+    @sort = Source.visible.where(name: params[:sort]).first
   end
 
   def new
@@ -45,7 +45,7 @@ class PublishersController < ApplicationController
   protected
 
   def load_publisher
-    @publisher = Publisher.where(member_id: params[:member_id]).first
+    @publisher = Publisher.where(member_id: params[:id]).first
   end
 
   def load_index

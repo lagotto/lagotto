@@ -93,7 +93,7 @@ describe TwitterSearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(events: [], :events_by_day=>[], :events_by_month=>[], event_count: 0, events_url: "https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime", event_metrics: { pdf: nil, html: nil, shares: nil, groups: nil, comments: 0, likes: nil, citations: nil, total: 0 })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { comments: 0, total: 0, events_url: "https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime", extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
@@ -101,26 +101,24 @@ describe TwitterSearch, type: :model, vcr: true do
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events].length).to eq(8)
-      expect(response[:event_count]).to eq(8)
-      expect(response[:event_metrics][:comments]).to eq(8)
-      expect(response[:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
+      expect(response[:works].length).to eq(8)
+      expect(response[:events][:total]).to eq(8)
+      expect(response[:events][:comments]).to eq(8)
+      expect(response[:events][:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
+      expect(response[:events][:days].length).to eq(6)
+      expect(response[:events][:days].first).to eq(year: 2014, month: 1, day: 6, total: 1, comments: 1)
+      expect(response[:events][:months].length).to eq(1)
+      expect(response[:events][:months].first).to eq(year: 2014, month: 1, total: 8, comments: 8)
 
-      expect(response[:events_by_day].length).to eq(6)
-      expect(response[:events_by_day].first).to eq(year: 2014, month: 1, day: 6, total: 1)
-      expect(response[:events_by_month].length).to eq(1)
-      expect(response[:events_by_month].first).to eq(year: 2014, month: 1, total: 8)
-
-      event = response[:events].first
-
-      expect(event[:event_csl]['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])
-      expect(event[:event_csl]['title']).to eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
-      expect(event[:event_csl]['container-title']).to eq("Twitter")
-      expect(event[:event_csl]['issued']).to eq("date-parts"=>[[2014, 1, 11]])
-      expect(event[:event_csl]['type']).to eq("personal_communication")
-
-      expect(event[:event_url]).to eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
-      expect(event[:event_time]).to eq("2014-01-11T16:17:43Z")
+      event = response[:works].first
+      expect(event['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])
+      expect(event['title']).to eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
+      expect(event['container-title']).to eq("Twitter")
+      expect(event['issued']).to eq("date-parts"=>[[2014, 1, 11]])
+      expect(event['type']).to eq("personal_communication")
+      expect(event['URL']).to eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
+      expect(event['timestamp']).to eq("2014-01-11T16:17:43Z")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"twitter_search", "relation_type"=>"discusses"}])
     end
 
     it "should catch timeout errors with the Twitter Search API" do

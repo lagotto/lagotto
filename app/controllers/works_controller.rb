@@ -10,13 +10,17 @@ class WorksController < ApplicationController
     @class_name = params[:class_name]
     @publisher = Publisher.where(member_id: params[:publisher_id]).first
     @source = Source.visible.where(name: params[:source_id]).first
-    @order = Source.visible.where(name: params[:order]).first
+    @sort = Source.visible.where(name: params[:sort]).first
+    @relation_type = RelationType.where(name: params[:relation_type_id]).first
   end
 
   def show
     format_options = params.slice :events, :source
 
     @groups = Group.order("id")
+    @page = params[:page] || 1
+    @source = Source.visible.where(name: params[:source_id]).first
+    @relation_type = RelationType.where(name: params[:relation_type_id]).first
     render :show
   end
 
@@ -54,8 +58,9 @@ class WorksController < ApplicationController
       key, value = id_hash.first
       @work = Work.where(key => value).first
     else
-      fail ActiveRecord::RecordNotFound
+      @work = nil
     end
+    fail ActiveRecord::RecordNotFound unless @work.present?
   end
 
   def new_work
@@ -65,6 +70,6 @@ class WorksController < ApplicationController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :year, :month, :day, :publisher_id, :work_type_id, :scp, :wos, :ark)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :year, :month, :day, :publisher_id, :work_type_id, :arxiv, :scp, :wos, :ark, :tracked)
   end
 end

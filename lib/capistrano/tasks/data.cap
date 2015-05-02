@@ -1,0 +1,24 @@
+namespace :data do
+
+  desc 'Migrate data'
+  task :migrate do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          rake 'data:migrate'
+        end
+      end
+    end
+  end
+
+  desc 'Rollback data'
+  task :rollback do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          rake 'data:rollback'
+        end
+      end
+    end
+  end
+end

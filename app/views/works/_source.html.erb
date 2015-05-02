@@ -1,16 +1,16 @@
 <div class="panel-heading panel-title">
-  <%= link_to ("<strong>#{status.source.display_name}</strong>" + (status.event_count > 0 ? " <span class='badge'>#{status.event_count}</span>" : "") + "<small class='pull-right'>#{status.retrieved_at > '1970-01-01' ? status.retrieved_at.to_s(:short) + ' UTC' : ''}</small>").html_safe, "##{status.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{status.source.name}-inner" %>
+  <%= link_to ("<strong>#{status.source.title}</strong>" + (status.total > 0 ? " <span class='badge'>#{status.total}</span>" : "") + "<small class='pull-right'>#{status.retrieved_at > '1970-01-01' ? status.retrieved_at.to_s(:short) + ' UTC' : ''}</small>").html_safe, "##{status.source.name}", :class => "accordion-toggle", :data => { :toggle => "collapse", :parent => "#retrieval_status" }, :href => "##{status.source.name}-inner" %>
 </div>
 <div id="<%= status.source.name %>-inner" class="panel-collapse collapse">
   <div class="panel-body work-inner">
     <h4>
-      <%= link_to status.source.display_name, source_path(status.source) %>
+      <%= link_to status.source.title, source_path(status.source) %>
       <% unless status.events_url.nil? %>| <%= link_to "Further Information", status.events_url, :target => "_blank" %><% end %>
     </h4>
-    <% unless status.events.blank? %>
-      <% if status.events.is_a?(Array) %>
+    <% if status.extra.present? %>
+      <% if status.extra.is_a?(Array) %>
         <ul>
-          <% status.events.each do |ed| %>
+          <% status.extra.each do |ed| %>
             <li>
               <% if ed.has_key?("event_url") %>
                 <%= link_to ed["event"], ed["event_url"] %>
@@ -20,8 +20,8 @@
             </li>
           <% end %>
           </ul>
-      <% elsif status.events.is_a?(Hash) %>
-        <%= status.events %>
+      <% elsif status.extra.is_a?(Hash) %>
+        <%= status.extra %>
       <% end %>
     <% end %>
   </div>

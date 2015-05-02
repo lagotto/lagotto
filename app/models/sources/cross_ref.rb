@@ -1,15 +1,15 @@
 class CrossRef < Source
   def get_query_url(work)
-    return nil if work.doi.nil? || Time.zone.now - work.published_on.to_time < 1.day
+    return {} unless work.doi.present?
 
     if work.publisher_id.present?
       # check that we have publisher-specific configuration
       pc = publisher_config(work.publisher_id)
-      return nil if pc.username.nil? || pc.password.nil?
+      fail ArgumentError, "CrossRef username or password is missing." if pc.username.nil? || pc.password.nil?
 
       url % { :username => pc.username, :password => pc.password, :doi => work.doi_escaped }
     else
-      return nil if openurl_username.nil?
+      fail ArgumentError, "CrossRef OpenURL username is missing." if openurl_username.nil?
 
       openurl % { :openurl_username => openurl_username, :doi => work.doi_escaped }
     end
@@ -22,49 +22,49 @@ class CrossRef < Source
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    events = get_events(result)
+    related_works = get_related_works(result, work)
 
     if work.publisher
-      event_count = events.length
+      total = related_works.length
     else
-      event_count = result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }
+      total = (result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }).to_i
     end
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: nil,
-      event_count: event_count.to_i,
-      event_metrics: get_event_metrics(citations: event_count) }
+    { works: related_works,
+      events: {
+        source: name,
+        work: work.pid,
+        total: total } }
   end
 
-  def get_events(result)
-    events = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
-    if events.is_a?(Hash) && events['journal_cite']
-      events = [events]
-    elsif events.is_a?(Hash)
-      events = nil
+  def get_related_works(result, work)
+    related_works = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
+    if related_works.is_a?(Hash) && related_works['journal_cite']
+      related_works = [related_works]
+    elsif related_works.is_a?(Hash)
+      related_works = nil
     end
 
-    Array(events).map do |item|
-      item = item.fetch('journal_cite') { {} }
+    Array(related_works).map do |item|
+      item = item.fetch("journal_cite", {})
       if item.empty?
         nil
       else
-        url = get_url_from_doi(item.fetch('doi', nil))
+        doi = item.fetch("doi", nil)
 
-        { event: item,
-          event_url: url,
-
-          # the rest is CSL (citation style language)
-          event_csl: {
-            'author' => get_authors(item.fetch('contributors', {}).fetch('contributor', [])),
-            'title' => String(item.fetch('article_title') { '' }).titleize,
-            'container-title' => item.fetch('journal_title') { '' },
-            'issued' => get_date_parts_from_parts(item['year']),
-            'url' => url,
-            'type' => 'article-journal' }
-        }
+        { "author" => get_authors(item.fetch('contributors', {}).fetch('contributor', [])),
+          "title" => String(item.fetch("article_title", "")).titleize,
+          "container-title" => item.fetch("journal_title", nil),
+          "issued" => get_date_parts_from_parts(item.fetch("year", nil)),
+          "DOI" => doi,
+          "URL" => nil,
+          "volume" => item.fetch("volume", nil),
+          "issue" => item.fetch("issue", nil),
+          "page" => item.fetch("first_page", nil),
+          "type" => "article-journal",
+          "related_works" => [{ "related_work" => work.pid,
+                                "source" => name,
+                                "relation_type" => "cites" }] }
       end
     end.compact
   end

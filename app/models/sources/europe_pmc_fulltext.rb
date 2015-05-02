@@ -3,10 +3,10 @@ class EuropePmcFulltext < Source
   include Pmcable
 
   def get_query_url(work, options = {})
-    return nil unless work.get_url
+    return {} unless work.get_url
 
     query_string = get_query_string(work)
-    return nil unless url.present? && query_string.present?
+    return {} unless query_string.present?
 
     page = options[:page] || 1
 

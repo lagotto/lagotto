@@ -45,7 +45,7 @@ describe F1000, type: :model, vcr: true do
       subject.delete_lagotto_data(subject.url_db)
     end
 
-    it "should report if there are no events and event_count returned by f1000" do
+    it "should report if there are no events returned by f1000" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'f1000_nil.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body, :status => [404])
@@ -54,7 +54,7 @@ describe F1000, type: :model, vcr: true do
       expect(stub).to have_been_requested
     end
 
-    it "should report if there are events and event_count returned by f1000" do
+    it "should report if there are events returned by f1000" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'f1000.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
@@ -78,27 +78,24 @@ describe F1000, type: :model, vcr: true do
   end
 
   context "parse_data from the f1000 internal database" do
-    it "should report if there are no events and event_count returned by f1000" do
+    it "should report if there are no events returned by f1000" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { error: "not_found", status: 404 }
       response = subject.parse_data(result, work)
-      expect(response).to eq(:events=>[], :events_by_day=>[], :events_by_month=>[], :event_count=>0, :events_url=>nil, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>0, :total=>0})
+      expect(response).to eq(events: { source: "f1000", work: work.pid, total: 0, events_url: nil, extra: [] })
     end
 
-    it "should report if there are events and event_count returned by f1000" do
+    it "should report if there are events returned by f1000" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'f1000.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:event_count]).to eq(2)
-      expect(response[:events_url]).to eq("http://f1000.com/prime/718293874")
+      expect(response[:events][:total]).to eq(2)
+      expect(response[:events][:events_url]).to eq("http://f1000.com/prime/718293874")
 
-      expect(response[:events_by_month].length).to eq(1)
-      expect(response[:events_by_month].first).to eq(month: 4, year: 2014, total: 2)
-      expect(response[:event_metrics]).to eq(pdf: nil, html: nil, shares: nil, groups: nil, comments: nil, likes: nil, citations: 2, total: 2)
-
-      event = response[:events].last
-      expect(event[:event]['classifications']).to eq(["confirmation", "good_for_teaching"])
+      extra = response[:events][:extra].first
+      expect(extra[:event]).to eq("year"=>2014, "month"=>4, "doi"=>"10.1371/journal.ppat.1003959", "f1000_id"=>"718293874", "url"=>"http://f1000.com/prime/718293874", "score"=>2, "classifications"=>["confirmation", "good_for_teaching"], "updated_at"=>"2014-04-27T17:25:41Z")
+      expect(extra[:event_url]).to eq("http://f1000.com/prime/718293874")
     end
 
     it "should catch timeout errors with f1000" do

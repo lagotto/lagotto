@@ -1,18 +1,16 @@
-# encoding: UTF-8
-
 class Citeulike < Source
   def request_options
     { content_type: 'xml' }
   end
 
   def response_options
-    { metrics: :shares }
+    { metrics: :readers }
   end
 
   def get_query_url(work)
-    if url.present? && work.doi.present?
-      url % { doi: work.doi_escaped }
-    end
+    return {} unless work.doi.present?
+
+    url % { doi: work.doi_escaped }
   end
 
   def get_events_url(work)
@@ -21,14 +19,27 @@ class Citeulike < Source
     end
   end
 
-  def get_events(result)
-    events = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
-    events = [events] if events.is_a?(Hash)
-    events ||= nil
-    Array(events).map do |item|
-      { event: item,
-        event_time: get_iso8601_from_time(item["post_time"]),
-        event_url: item['link']['url'] }
+  def get_related_works(result, work)
+    related_works = result["posts"] && result.fetch("posts", {}).fetch("post", [])
+    related_works = [related_works] if related_works.is_a?(Hash)
+    Array(related_works).map do |item|
+      timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
+      url = item.fetch("link", {}).fetch("url", nil)
+      path = URI.split(url)[5].split("/")
+      account = path[1]
+      author = path[2]
+      url = "http://www.citeulike.org/" + path[1..2].join("/")
+
+      { "author" => get_authors([author]),
+        "title" => "CiteULike bookmarks for #{account} #{author}",
+        "container-title" => "CiteULike",
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => url,
+        "type" => "entry",
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "bookmarks" }] }
     end
   end
 

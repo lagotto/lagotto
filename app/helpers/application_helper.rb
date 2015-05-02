@@ -15,6 +15,18 @@ module ApplicationHelper
     end
   end
 
+  def icon(icon, text = nil, html_options = {})
+    text, html_options = nil, text if text.is_a?(Hash)
+
+    content_class = "fa fa-#{icon}"
+    content_class << " #{html_options[:class]}" if html_options.key?(:class)
+    html_options[:class] = content_class
+
+    html = content_tag(:i, nil, html_options)
+    html << ' ' << text.to_s unless text.blank?
+    html
+  end
+
   def markdown(text)
     text = GitHub::Markdown.render_gfm(text)
     syntax_highlighter(text).html_safe
@@ -24,7 +36,7 @@ module ApplicationHelper
     formatter = Rouge::Formatters::HTML.new(:css_class => 'hll')
     lexer = Rouge::Lexers::Shell.new
 
-    doc = Nokogiri::HTML(html)
+    doc = Nokogiri::HTML::DocumentFragment.parse(html)
     doc.search("//pre").each { |pre| pre.replace formatter.format(lexer.lex(pre.text)) }
     doc.to_s
   end
@@ -63,7 +75,7 @@ module ApplicationHelper
   end
 
   def sources
-    Source.order("group_id, display_name")
+    Source.order("group_id, title")
   end
 
   def publishers
@@ -80,6 +92,15 @@ module ApplicationHelper
       path
     else
       nil
+    end
+  end
+
+  def author_format(author)
+    authors = author.map { |a| a["given"] + " " + a["family"] }
+    case authors.length
+    when 0, 1, 2 then authors.join(" & ")
+    when 3, 4 then authors[0..-2].join(", ") + " & " + authors.last
+    else authors[0..3].join(", ") + ", <em>et al</em>"
     end
   end
 

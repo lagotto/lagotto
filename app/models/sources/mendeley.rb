@@ -9,17 +9,19 @@ class Mendeley < Source
     total = readers + groups
     events_url = result.fetch("link", nil)
 
-    { events: result,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: events_url,
-      event_count: total,
-      event_metrics: get_event_metrics(shares: readers, groups: groups, total: total) }
+    { events: {
+        source: name,
+        work: work.pid,
+        readers: readers,
+        total: total,
+        events_url: events_url,
+        extra: result } }
   end
 
   def get_query_url(work)
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
-    return nil unless get_access_token && (work.doi.present? || work.pmid.present? || work.scp.present?)
+    return {} unless work.doi.present? || work.pmid.present? || work.scp.present?
+    fail ArgumentError, "No Mendeley access token." unless get_access_token
 
     if work.doi.present?
       query_string = "doi=#{work.doi}"

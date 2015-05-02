@@ -2,7 +2,7 @@ class Api::V3::WorksController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :authenticate_user_from_token!
+  before_filter :authenticate_user_from_token_param!
 
   def index
     type = ["doi", "pmid", "pmcid"].find { |t| t == params[:type] } || "doi"
@@ -32,6 +32,10 @@ class Api::V3::WorksController < Api::BaseController
     fail ActiveRecord::RecordNotFound, "Article not found." if work.blank?
 
     @work = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: { error: exception.message }, status: 404
   end
 
   protected

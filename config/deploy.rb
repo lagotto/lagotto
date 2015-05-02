@@ -61,7 +61,7 @@ set :log_level, log_level
 set :linked_files, %w{ .env }
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{ log data tmp/pids tmp/sockets vendor/bundle public/files }
+set :linked_dirs, %w{ log data tmp/pids tmp/sockets vendor/bundle public/files frontend/node_modules frontend/bower_components }
 
 # Default value for keep_releases is 5
 set :keep_releases, 5
@@ -92,6 +92,7 @@ namespace :deploy do
   end
 
   after :publishing, :restart
+  after :publishing, "data:migrate"
   after :publishing, "swagger:docs"
 
   after :finishing, "deploy:cleanup"

@@ -1,4 +1,5 @@
 class AlertsController < ApplicationController
+  before_filter :load_alert, only: [:destroy]
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
 
@@ -57,7 +58,6 @@ class AlertsController < ApplicationController
 
   def destroy
     @servers = ENV['SERVERS'].split(",")
-    @alert = Alert.find(params[:id])
     if params[:filter] == "class_name"
       Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source"
@@ -96,5 +96,14 @@ class AlertsController < ApplicationController
 
   def routing_error
     fail ActiveRecord::RecordNotFound
+  end
+
+  protected
+
+  def load_alert
+    @alert = Alert.where(uuid: params[:id]).first
+
+    # raise error if source wasn't found
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @alert.blank?
   end
 end

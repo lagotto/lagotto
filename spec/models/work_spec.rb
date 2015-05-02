@@ -104,7 +104,7 @@ describe Work, type: :model, vcr: true do
   end
 
   context "validate date " do
-    before(:each) { allow(Time).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it 'validate date' do
       work = FactoryGirl.build(:work)
@@ -192,37 +192,37 @@ describe Work, type: :model, vcr: true do
 
   context "pid" do
     it 'for doi' do
-      expect(work.to_param).to eq "doi/#{work.doi}"
+      expect(work.to_param).to eq "doi:#{work.doi}"
     end
 
     it 'for pmid' do
       work = FactoryGirl.create(:work, doi: nil)
-      expect(work.to_param).to eq "pmid/#{work.pmid}"
+      expect(work.to_param).to eq "pmid:#{work.pmid}"
     end
 
     it 'for pmcid' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil)
-      expect(work.to_param).to eq "pmcid/PMC#{work.pmcid}"
+      expect(work.to_param).to eq "pmcid:PMC#{work.pmcid}"
     end
 
     it 'for wos' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
-      expect(work.to_param).to eq "wos/#{work.wos}"
+      expect(work.to_param).to eq "wos:#{work.wos}"
     end
 
     it 'for scp' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil)
-      expect(work.to_param).to eq "scp/#{work.scp}"
+      expect(work.to_param).to eq "scp:#{work.scp}"
     end
 
     it 'for ark' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil)
-      expect(work.to_param).to eq "ark/#{work.ark}"
+      expect(work.to_param).to eq work.ark
     end
 
     it 'for canonical_url' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil, ark: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
-      expect(work.to_param).to eq "url/#{work.canonical_url}"
+      expect(work.to_param).to eq work.canonical_url
     end
   end
 
@@ -237,7 +237,7 @@ describe Work, type: :model, vcr: true do
 
   it 'viewed' do
     work = FactoryGirl.create(:work_with_counter_citations)
-    expect(work.viewed).to eq(50)
+    expect(work.viewed).to eq(500)
   end
 
   it 'discussed' do
@@ -252,7 +252,7 @@ describe Work, type: :model, vcr: true do
 
   it 'cited' do
     work = FactoryGirl.create(:work_with_crossref_citations)
-    expect(work.cited).to eq(50)
+    expect(work.cited).to eq(25)
   end
 
   it "events count" do
@@ -288,7 +288,6 @@ describe Work, type: :model, vcr: true do
 
   it 'should get_ids' do
     work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: nil)
-    pubmed_url = "http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=#{work.doi_escaped}&idtype=doi&format=json"
     expect(work.get_ids).to be true
     expect(work.pmid).to eq("17183658")
   end

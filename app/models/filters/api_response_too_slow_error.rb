@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class ApiResponseTooSlowError < Filter
   def run_filter(state)
     responses = ApiResponse.filter(state[:id]).slow(limit)

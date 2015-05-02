@@ -1,28 +1,31 @@
 class Nature < Source
   def get_query_string(work)
+    return {} unless work.doi.present?
+
     work.doi_escaped
   end
 
-  def get_events(result)
+  def get_events_url(work)
+    nil
+  end
+
+  def get_related_works(result, work)
     Array(result['data']).map do |item|
       item.extend Hashie::Extensions::DeepFetch
-      event_time = get_iso8601_from_time(item['post']['created_at'])
-      url = item['post']['url']
-      url = "http://#{url}" unless url.start_with?("http://")
+      timestamp = get_iso8601_from_time(item.fetch("post", {}).fetch("created_at", nil))
+      url = item.fetch("post", {}).fetch("url", nil)
+      url = "http://#{url}" unless url.blank? || url.start_with?("http://")
 
-      { event: item['post'],
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => '',
-          'title' => item.deep_fetch('post', 'title') { '' },
-          'container-title' => item.deep_fetch('post', 'blog', 'title') { '' },
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'post' }
-      }
+      { "author" => nil,
+        "title" => item.deep_fetch('post', 'title') { '' },
+        "container-title" => item.deep_fetch('post', 'blog', 'title') { '' },
+        "issued" => get_date_parts(timestamp),
+        "timestamp" => timestamp,
+        "URL" => url,
+        "type" => 'post',
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "discusses" }] }
     end
   end
 

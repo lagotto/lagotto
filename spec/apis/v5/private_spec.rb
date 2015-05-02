@@ -18,12 +18,9 @@ describe "/api/v5/articles", :type => :api do
         expect(item["doi"]).to eql(work.doi)
         expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]).to include("comments")
-        expect(item_source["metrics"]).to include("likes")
-        expect(item_source["metrics"]).to include("html")
-        expect(item_source["metrics"]).to include("pdf")
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]).not_to include("comments")
         expect(item_source["metrics"]).not_to include("citations")
         expect(item_source["events"]).to be_nil
       end
@@ -44,12 +41,9 @@ describe "/api/v5/articles", :type => :api do
         expect(item["doi"]).to eql(work.doi)
         expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
         item_source = item["sources"][0]
-        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.event_count)
-        expect(item_source["metrics"]).to include("comments")
-        expect(item_source["metrics"]).to include("likes")
-        expect(item_source["metrics"]).to include("html")
-        expect(item_source["metrics"]).to include("pdf")
+        expect(item_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
+        expect(item_source["metrics"]).not_to include("comments")
         expect(item_source["metrics"]).not_to include("citations")
         expect(item_source["events"]).to be_nil
       end

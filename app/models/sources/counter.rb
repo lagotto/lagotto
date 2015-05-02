@@ -1,8 +1,6 @@
-# encoding: UTF-8
-
 class Counter < Source
   def get_query_url(work)
-    return nil unless work.doi =~ /^10.1371/
+    return {} unless work.doi =~ /^10.1371/
 
     url_private % { :doi => work.doi_escaped }
   end
@@ -14,39 +12,46 @@ class Counter < Source
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    events = get_events(result)
+    extra = get_extra(result)
 
-    pdf = get_sum(events, :pdf_views)
-    html = get_sum(events, :html_views)
-    xml = get_sum(events, :xml_views)
+    pdf = get_sum(extra, "pdf_views")
+    html = get_sum(extra, "html_views")
+    xml = get_sum(extra, "xml_views")
     total = pdf + html + xml
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: get_events_by_month(events),
-      events_url: nil,
-      event_count: total,
-      event_metrics: get_event_metrics(pdf: pdf, html: html, total: total) }
+    { events: {
+        source: name,
+        work: work.pid,
+        pdf: pdf,
+        html: html,
+        total: total,
+        extra: extra,
+        months: get_events_by_month(extra) } }
   end
 
-  def get_events(result)
-    events = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
-    events = [events] if events.is_a?(Hash)
-    Array(events).map do |item|
-      { month: item['month'],
-        year: item['year'],
-        pdf_views: item.fetch('get_pdf') { 0 },
-        xml_views: item.fetch('get_xml') { 0 },
-        html_views: item.fetch('get_document') { 0 } }
+  def get_extra(result)
+    extra = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
+    extra = [extra] if extra.is_a?(Hash)
+    Array(extra).map do |item|
+      { "month" => item.fetch("month", nil),
+        "year" => item.fetch("year", nil),
+        "pdf_views" => item.fetch("get_pdf", 0),
+        "xml_views" => item.fetch("get_xml", 0),
+        "html_views" => item.fetch("get_document", 0) }
     end
   end
 
-  def get_events_by_month(events)
-    events.map do |event|
-      { month: event[:month].to_i,
-        year: event[:year].to_i,
-        html: event[:html_views].to_i,
-        pdf: event[:pdf_views].to_i }
+  def get_events_by_month(extra)
+    extra.map do |month|
+      html = month["html_views"].to_i
+      pdf = month["pdf_views"].to_i
+      xml = month["xml_views"].to_i
+
+      { month: month["month"].to_i,
+        year: month["year"].to_i,
+        html: html,
+        pdf: pdf,
+        total: html + pdf + xml }
     end
   end
 

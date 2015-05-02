@@ -5,44 +5,44 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var page = params.attr('data-page');
+  if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
   var source_id = params.attr('data-source_id');
-  var order = params.attr('data-order');
+  var sort = params.attr('data-sort');
   var model = params.attr('data-model');
 
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key);
-  if (page !== "") { query += "&page=" + page; }
+  var query = encodeURI("/api/works?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (q !== "") { query += "&q=" + q; }
   if (class_name !== "") { query += "&class_name=" + class_name; }
   if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (order !== "") { query += "&order=" + order; }
-  if (source_id === "" && order === "") { query += "&info=summary"; }
+  if (sort !== "") { query += "&sort=" + sort; }
 }
 
-// load the data from the Lagotto API
-if (query) {
-  d3.json(query, function(error, json) {
+// asynchronously load data from the Lagotto API
+queue()
+  .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, query)
+  .await(function(error, s, w) {
     if (error) { return console.warn(error); }
-    worksViz(json);
-    paginate(json);
-  });
-}
+    worksViz(w, s.sources);
+    paginate(w);
+});
 
 // add data to page
-function worksViz(json) {
-  data = json.data;
+function worksViz(json, sources) {
+  data = json.works;
 
   json.href = "?page={{number}}";
   if (q !== "") { json.href += "&q=" + q; }
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
   if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (order !== "") { json.href += "&order=" + order; }
+  if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
 
@@ -51,7 +51,7 @@ function worksViz(json) {
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no works");
-    if (page === "") { d3.select("div#rss").remove(); }
+    if (model === "source") { d3.select("div#rss").remove(); }
     return;
   }
 
@@ -75,6 +75,6 @@ function worksViz(json) {
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
     d3.select("#results").append("p")
-      .text(signpostsToString(work, source_id, order));
+      .text(signpostsToString(work, sources, source_id, sort));
   }
 }

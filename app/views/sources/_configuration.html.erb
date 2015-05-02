@@ -14,7 +14,7 @@
       <%= simple_form_for(@source.becomes(Source), :url => source_path(@source.name), :html => { :remote => true }) do |f| %>
         <% f.object = @source.becomes(@source.class) %>
 
-        <%= f.input :display_name %>
+        <%= f.input :title %>
         <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
         <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
         <%= f.input :description, :input_html => { :rows => 3 } %>

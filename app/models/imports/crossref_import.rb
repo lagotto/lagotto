@@ -11,35 +11,6 @@ class CrossrefImport < Import
                         reference-book
                         dataset)
 
-  # CrossRef types from http://api.crossref.org/types
-  TYPE_TRANSLATIONS = {
-    "proceedings" => nil,
-    "reference-book" => nil,
-    "journal-issue" => nil,
-    "proceedings-article" => "paper-conference",
-    "other" => nil,
-    "dissertation" => "thesis",
-    "dataset" => "dataset",
-    "edited-book" => "book",
-    "journal-article" => "article-journal",
-    "journal" => nil,
-    "report" => "report",
-    "book-series" => nil,
-    "report-series" => nil,
-    "book-track" => nil,
-    "standard" => nil,
-    "book-section" => "chapter",
-    "book-part" => nil,
-    "book" => "book",
-    "book-chapter" => "chapter",
-    "standard-series" => nil,
-    "monograph" => "book",
-    "component" => nil,
-    "reference-entry" => "entry-dictionary",
-    "journal-volume" => nil,
-    "book-set" => nil
-  }
-
   def initialize(options = {})
     from_update_date = options.fetch(:from_update_date, nil)
     until_update_date = options.fetch(:until_update_date, nil)
@@ -93,7 +64,7 @@ class CrossrefImport < Import
     Array(items).map do |item|
       doi = item.fetch("DOI", nil)
       canonical_url = item.fetch("URL", nil)
-      date_parts = item["issued"]["date-parts"][0]
+      date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
       title = case item["title"].length
@@ -109,7 +80,7 @@ class CrossrefImport < Import
       publisher_id = publisher_id[30..-1].to_i if publisher_id
 
       type = item.fetch("type", nil)
-      type = TYPE_TRANSLATIONS[type] if type
+      type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       work_type_id = WorkType.where(name: type).pluck(:id).first
 
       csl = {

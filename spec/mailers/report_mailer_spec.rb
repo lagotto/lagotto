@@ -73,7 +73,7 @@ describe ReportMailer, :type => :mailer do
   describe "fatal error report" do
     let(:report) { FactoryGirl.create(:fatal_error_report_with_admin_user) }
     let(:source) { FactoryGirl.create(:source) }
-    let(:message) { "#{source.display_name} has exceeded maximum failed queries. Disabling the source." }
+    let(:message) { "#{source.title} has exceeded maximum failed queries. Disabling the source." }
     let(:mail) { ReportMailer.send_fatal_error_report(report, message) }
 
     it "sends email" do

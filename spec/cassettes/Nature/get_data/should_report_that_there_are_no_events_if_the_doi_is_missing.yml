@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://blogs.nature.com/posts.json?doi=%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.000001%22
+    uri: http://blogs.nature.com/posts.json?doi=
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.18 - http://lagotto-bugfixes.local
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -19,27 +19,104 @@ http_interactions:
       Server:
       - nginx/1.0.0
       Date:
-      - Sun, 22 Mar 2015 15:07:26 GMT
+      - Mon, 06 Apr 2015 10:08:39 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
       - keep-alive
       Content-Length:
-      - '2'
+      - '14206'
       Status:
       - '200'
       X-Powered-By:
       - Phusion Passenger (mod_rails/mod_rack) 3.0.21
       X-Runtime:
-      - '160'
+      - '331'
       Cache-Control:
       - private, max-age=0, must-revalidate
       Set-Cookie:
-      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlMjQzMGNhZjdhODRmYTIzN2E4OTUwNGI2ZDhmZTEwMGE%3D--88c20ddeef3ebec4a73fba1853748acb7c6fd30d;
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlNjE4ZGZjODk3NTBjMDJmYzhlNTM4NDAxZGY4MTE3YTU%3D--12785bb5751f309406e551239421f6c955cb713e;
         path=/; HttpOnly
     body:
       encoding: UTF-8
-      string: "[]"
+      string: '[{"post":{"blog":{"percent_complex_words":20.2492,"popularity":3462,"created_at":"2008-11-07T11:49:04Z","title":"Climate
+        Progress","niche_tag":"environment","updated_at":"2013-03-15T16:40:26Z","flesch":-23.0903,"feed_url":"climateprogress.org/feed/","url":"climateprogress.org/","decided_on":"2008-11-08T21:55:23Z","rank":1,"num_posts_per_week":7.6484,"id":594,"outgoing_bloglove":3129,"num_words":2606.35,"ip":"bogus
+        address","niche_rank":1,"header_title":"BLOGS","fog":33.8667,"description":"An
+        insider''s view of climate science, politics and solutions.","status":"accepted"},"links_to_doi":["10.1073/pnas.1212247109"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-14T22:36:18Z","title":"Why
+        You Should Care About The Increasing Amount Of Fraud In Scientific Research","body":"The
+        Washington Post reported on the equivalent of an ongoing academic thriller
+        unfurling at Johns Hopkins earlier this week, involving a researcher who alleges
+        he was fired in retaliation for his criticism of flawed methodology \u2014
+        later used in an article published in Nature, one of most prestigio...","updated_at":"2013-03-14T22:36:18Z","flesch":null,"url":"thinkprogress.org.feedsportal.com/c/34726/f/638927/s/29946269/l/0Lthinkprogress0Borg0Chealth0C20A130C0A30C140C17120A510Crising0Eresearch0Eretraction0Erates0C/story01.htm","blog_id":594,"id":804357,"hashed_id":"1624342e56633d27ad647d3597c1d6bf1a8b4db8abbaf49bb4b54f47ebace51e","num_words":null,"published_at":"2013-03-14T20:22:40Z","fog":null}},{"post":{"blog":{"percent_complex_words":13.4314,"popularity":79,"created_at":"2008-11-06T14:08:42Z","title":"Reciprocal
+        Space","niche_tag":"life_sciences","updated_at":"2013-03-15T00:15:16Z","flesch":30.0222,"feed_url":"http://occamstypewriter.org/scurry/feed/","url":"http://occamstypewriter.org/scurry/","decided_on":"2008-11-07T12:38:45Z","rank":51,"num_posts_per_week":1.0031,"id":582,"outgoing_bloglove":97,"num_words":3782.37,"ip":"bogus
+        address","niche_rank":15,"header_title":"BLOGS","fog":18.1375,"description":"Structured
+        and unstructured observations from the principal investigator of a protein
+        crystallography lab. ","status":"accepted"},"links_to_doi":["10.1038/nmat3566"],"percent_complex_words":null,"popularity":1,"created_at":"2013-03-14T16:40:17Z","title":"Impact
+        factors \u2014 RCUK provides a chance to act","body":"If I had more time,
+        this post would be shorter. But it explains how we have an opportunity to
+        get UK research councils to help break the corrosive dependence of researchers
+        on impact factors. Please at least skim all the way to the bottom to see h...","updated_at":"2013-03-14T23:08:27Z","flesch":null,"url":"occamstypewriter.org/scurry/2013/03/14/impact-factors-rcuk-provides-a-chance-to-act/","blog_id":582,"id":804208,"hashed_id":"d94581e8ecd41f35209041fdc6a1cf0fb64d701e9e01b03ac4a28078fdd1c7aa","num_words":null,"published_at":"2013-03-14T11:34:05Z","fog":null}},{"post":{"blog":{"percent_complex_words":14.9087,"popularity":130,"created_at":"2008-10-22T16:43:01Z","title":"RealClimate","niche_tag":"environment","updated_at":"2013-02-18T17:45:05Z","flesch":31.0548,"feed_url":"www.realclimate.org/wp-rss2.php","url":"www.realclimate.org","decided_on":"2008-10-22T16:43:01Z","rank":21,"num_posts_per_week":1.3705,"id":58,"outgoing_bloglove":49,"num_words":8939.73,"ip":"bogus
+        address","niche_rank":5,"header_title":"BLOGS","fog":17.278,"description":"<p>Climate
+        science commentary by actual climate scientists...</p>","status":"accepted"},"links_to_doi":["10.1073/pnas.1205276109"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-13T22:02:58Z","title":"Climate
+        change and consequences on the ground","body":"The link between extreme weather
+        events, climate change, and national security is discussed in Extreme Realities,
+        a new episode in PBS\u2019 series Journey To Planet Earth hosted by Matt Damon.
+        \nThe video features a number of extreme weather phenomena:...","updated_at":"2013-03-13T22:02:58Z","flesch":null,"url":"www.realclimate.org/index.php/archives/2013/03/climate-change-and-consequences-on-the-groud/","blog_id":58,"id":803997,"hashed_id":"c13c8fa271dc5a116579dcad570e3bb7d617db7e814021adeaafcd736222e4cb","num_words":null,"published_at":"2013-03-13T16:46:14Z","fog":null}},{"post":{"blog":{"percent_complex_words":14.9474,"popularity":59,"created_at":"2008-10-22T16:44:32Z","title":"Nature''s
+        News Blog","niche_tag":"nature","updated_at":"2013-03-11T18:46:48Z","flesch":21.395,"feed_url":"blogs.nature.com/news/thegreatbeyond/atom.xml","url":"blogs.nature.com/news/thegreatbeyond/","decided_on":"2008-10-22T16:44:32Z","rank":74,"num_posts_per_week":18.283,"id":425,"outgoing_bloglove":116,"num_words":1623.11,"ip":"bogus
+        address","niche_rank":1,"header_title":"SCIENCE NEWS","fog":24.3997,"description":"<p></p>","status":"accepted"},"links_to_doi":["10.1038/news.2011.549"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-13T22:24:49Z","title":"GSK
+        absorbs controversial \u2018longevity\u2019 company","body":"Pharma giant
+        GlaxoSmithKline will close Sirtris Pharmaceuticals, a firm intent on developing
+        compounds that stave off age-related disease \u2014 and one of GSK\u2019s
+        most contentious acquisitions.\nSirtris\u2019s research program and lead compound
+        are to be abso...","updated_at":"2013-03-13T22:24:49Z","flesch":null,"url":"feedproxy.google.com/~r/news/rss/newsblog/~3/Pus8_qmkhrY/gsk-absorbs-controversial-longevity-company.html","blog_id":425,"id":804023,"hashed_id":"0bbda9615503eafc48598d0dd489eda50e8a965498223169ba369ec2cb61db64","num_words":null,"published_at":"2013-03-13T16:36:22Z","fog":null}},{"post":{"blog":{"percent_complex_words":17.7769,"popularity":120,"created_at":"2010-04-07T19:46:29Z","title":"The
+        Mermaid''s Tale","niche_tag":"evolution","updated_at":"2013-03-14T16:59:41Z","flesch":-26.8521,"feed_url":"ecodevoevo.blogspot.com/feeds/posts/default","url":"ecodevoevo.blogspot.com","decided_on":"2010-04-26T16:03:54Z","rank":26,"num_posts_per_week":4.8193,"id":1288,"outgoing_bloglove":115,"num_words":4799.59,"ip":"71.58.66.246","niche_rank":1,"header_title":"BLOGS","fog":35.8793,"description":"A
+        conversation about the nature of genetic causation in evolution, development
+        and ecology.","status":"accepted"},"links_to_doi":["10.1136/bmj.e8707"],"percent_complex_words":null,"popularity":1,"created_at":"2013-03-12T17:05:31Z","title":"Wait,
+        wait!  Don''t tell me!","body":"Heart disease risk factorsThere''s an NPR
+        radio program called \"Wait, wait.... don''t tell me!\" that has relevance
+        to science these days, as is easy to see.\u00a0 We see frequent reports of
+        how to live if we want to stay healthy, such as to keep an eye on our cholesterol
+        if we want to avoid heart diseas...","updated_at":"2013-03-14T16:59:41Z","flesch":null,"url":"ecodevoevo.blogspot.com/2013/03/wait-wait-dont-tell-me.html","blog_id":1288,"id":803663,"hashed_id":"6f47eaf880eb07455327dd33092ec4b297f060e69edf0d3b6e8d964912245b97","num_words":null,"published_at":"2013-03-12T09:10:00Z","fog":null}},{"post":{"blog":{"percent_complex_words":15.8654,"popularity":1286,"created_at":"2011-07-02T08:06:30Z","title":"SayPeople","niche_tag":"life_sciences","updated_at":"2013-03-08T18:14:29Z","flesch":-19.7517,"feed_url":"saypeople.com/feed/","url":"saypeople.com/","decided_on":"2011-07-12T13:28:01Z","rank":2,"num_posts_per_week":25.9841,"id":1696,"outgoing_bloglove":1292,"num_words":1888.39,"ip":"58.65.147.11","niche_rank":1,"header_title":"BLOGS","fog":32.9725,"description":"All
+        you want to know about in the world...","status":"accepted"},"links_to_doi":["10.1186/1472-6750-13-3","10.1371/journal.pone.0058587"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-12T04:57:50Z","title":"Bacterial
+        proteins in the extreme conditions of Antarctica could help to understand
+        life in Universe","body":"Antarctica\nMain point: Researchers have found the
+        important features in proteins from the micro-organisms that lives in the
+        salty lake in Antarctica and that would be needed to live on Mars and other
+        extreme environments.\nJournal: PLoS ONE, BMC Biotechnology\nStudy Further:\nScientists,
+        in this res...","updated_at":"2013-03-12T04:57:50Z","flesch":null,"url":"saypeople.com/2013/03/12/bacterial-proteins-in-the-extreme-conditions-of-antarctica-could-help-to-understand-life-in-universe/","blog_id":1696,"id":803562,"hashed_id":"a44f0add1b80162c4d59d2a5b8f7fa8e916984542848f9784a077916f4c07ed3","num_words":null,"published_at":"2013-03-12T01:56:40Z","fog":null}},{"post":{"blog":{"percent_complex_words":14.4833,"popularity":2,"created_at":"2008-10-22T16:44:53Z","title":"Krasnow
+        Director''s Column","niche_tag":null,"updated_at":"2013-03-15T18:31:52Z","flesch":-127.502,"feed_url":"krasnow.blogspot.com/feeds/posts/default","url":"krasnow.blogspot.com/","decided_on":"2008-10-22T16:44:53Z","rank":452,"num_posts_per_week":3.3589,"id":515,"outgoing_bloglove":2,"num_words":2325.01,"ip":"bogus
+        address","niche_rank":null,"header_title":"BLOGS","fog":77.371,"description":"<p>Informal
+        Musings from the Director''s Office at Krasnow</p>","status":"accepted"},"links_to_doi":["10.1126/science.1228026"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-11T22:35:02Z","title":"11,300
+        years of climate reconstruction...","body":"Marcott et. al in Science Magazine,
+        here. Here''s the figure that worries me (hat tip to Andrew Sullivan''s Daily
+        Dish):The famed hockey stick is scrunched and labeled \"previous timeframe\".
+        As is clear, what''s been happening very recently is not only large....it''s
+        derivative (rate of change) is als...","updated_at":"2013-03-11T22:35:02Z","flesch":null,"url":"krasnow.blogspot.com/2013/03/11300-years-of-climate-reconstruction.html","blog_id":515,"id":803488,"hashed_id":"5c0bd3894059c0ab6330ac135972b26e06b3788022b83c1b6139eae8bd97c138","num_words":null,"published_at":"2013-03-11T19:11:00Z","fog":null}},{"post":{"blog":{"percent_complex_words":26.3134,"popularity":10,"created_at":"2011-09-21T11:45:24Z","title":"Life
+        Lines","niche_tag":"life_sciences","updated_at":"2013-03-11T18:47:09Z","flesch":-23.5943,"feed_url":"scienceblogs.com/lifelines/index.xml","url":"scienceblogs.com/lifelines/","decided_on":"2011-09-21T11:45:24Z","rank":259,"num_posts_per_week":2.3781,"id":1808,"outgoing_bloglove":3,"num_words":1949.34,"ip":"bogus
+        address","niche_rank":102,"header_title":"BLOGS","fog":39.4227,"description":"Monthly
+        podcasts and more from the American Physiological Society.","status":"accepted"},"links_to_doi":["10.1152/advan.00143.2012"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-11T23:12:11Z","title":"The
+        American Physiological Society\u2026125 years later","body":"In honor of the
+        125th anniversary of The American Physiological Society, a history of its
+        founding was just published in Advances in Physiology Education. It reads
+        like a Who\u2019s Who list of some of the most important contributors to our
+        understandi...","updated_at":"2013-03-11T23:12:11Z","flesch":null,"url":"scienceblogs.com/lifelines/2013/03/11/the-american-physiological-society-125-years-later/","blog_id":1808,"id":803527,"hashed_id":"1e565fe67268f483987fbbb2d84d51ec87f439e1bc428711c7413f8e35178e4c","num_words":null,"published_at":"2013-03-11T17:54:05Z","fog":null}},{"post":{"blog":{"percent_complex_words":18.0147,"popularity":0,"created_at":"2011-09-26T10:47:54Z","title":"Short
+        Sharp Science","niche_tag":"society","updated_at":"2013-03-11T23:52:26Z","flesch":-70.4339,"feed_url":"feeds.newscientist.com/blogs/shortsharpscience/","url":"www.newscientist.com/blogs/shortsharpscience/","decided_on":"2011-09-26T10:47:54Z","rank":615,"num_posts_per_week":11.8671,"id":1915,"outgoing_bloglove":3,"num_words":3780.99,"ip":"bogus
+        address","niche_rank":163,"header_title":"BLOGS","fog":60.5139,"description":"A
+        New Scientist Blog","status":"accepted"},"links_to_doi":["10.1038/nclimate1836"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-11T18:16:05Z","title":"Global
+        greening as plant life moves northwards","body":"Douglas Heaven, reporter
+        (Image: NASA''s Goddard Space Flight Center Scientific Visualization Studio)
+        Across the entire northern hemisphere, ice and snow are retreating in front
+        of an invading green army as warmer climates turn once-freezing tundras into
+        temperate shrublands.  A new analysis of sa...","updated_at":"2013-03-11T18:16:05Z","flesch":null,"url":"feeds.newscientist.com/c/749/f/492979/s/29719a9e/l/0L0Snewscientist0N0Cblogs0Cshortsharpscience0C20A130C0A30Cglobal0Egreening0Eplants0Bhtml/story01.htm","blog_id":1915,"id":803435,"hashed_id":"ae9a6f31ce8db1481abdb360666c947edc34d0aeaa3040e92fd649fae6829419","num_words":null,"published_at":"2013-03-11T17:33:00Z","fog":null}},{"post":{"blog":{"percent_complex_words":21.675,"popularity":41,"created_at":"2008-12-04T19:39:54Z","title":"Discoblog","niche_tag":"life
+        sciences","updated_at":"2013-03-12T23:41:45Z","flesch":-15.6693,"feed_url":"blogs.discovermagazine.com/discoblog/feed/","url":"http://blogs.discovermagazine.com/discoblog/","decided_on":"2008-12-05T19:25:12Z","rank":104,"num_posts_per_week":4.6651,"id":639,"outgoing_bloglove":87,"num_words":3366.51,"ip":"bogus
+        address","niche_rank":10,"header_title":"BLOGS","fog":26.1952,"description":"DiscoBlog
+        is Discover''s compendium of quirky, funny, and surprising science news from
+        the edge of the known universe.","status":"accepted"},"links_to_doi":["10.1080/10888705.2012.709116"],"percent_complex_words":null,"popularity":0,"created_at":"2013-03-11T17:06:27Z","title":"NCBI
+        ROFL: Lions at the zoo not roaring enough. What to do?","body":"Visitors at
+        zoos often complain that the animals just sit there. Nevermind that lions
+        are nocturnal/crepuscular (awesome word!), people just want to get the most
+        roar for their buck. Here, some zookeepers decided to address the problem
+        by just playing some taped lion roars to satisfy the visitors...","updated_at":"2013-03-11T17:06:27Z","flesch":null,"url":"blogs.discovermagazine.com/discoblog/2013/03/11/ncbi-rofl-lions-at-the-zoo-not-roaring-enough-what-to-do/","blog_id":639,"id":803373,"hashed_id":"1d1dcfcda8d4345dd14b4fd962ea303eda442aa43a9e01d93fca4d97a8856e01","num_words":null,"published_at":"2013-03-11T17:00:33Z","fog":null}}]'
     http_version: 
-  recorded_at: Sun, 22 Mar 2015 15:07:26 GMT
+  recorded_at: Mon, 06 Apr 2015 10:08:47 GMT
 recorded_with: VCR 2.9.3

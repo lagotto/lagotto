@@ -1,28 +1,9 @@
 class Api::V5::WorksController < Api::BaseController
-  before_filter :authenticate_user_from_token!, :load_work, only: [:show]
-
-  swagger_controller :works, "Works"
-
-  swagger_api :index do
-    summary "Returns list of works either by ID, or all"
-    notes "The API endpoint is /articles for legacy reasons. If no ids are provided in the query, all works are returned, 50 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
-    param :query, :ids, :string, :optional, "Work IDs"
-    param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, wos, scp, or url)"
-    param :query, :info, :string, :optional, "Response type (one of summary, detail, or left empty)"
-    param :query, :source_id, :string, :optional, "Source ID"
-    param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :order, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
-    param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page, defaults to 50"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-    response :internal_server_error
-  end
+  before_filter :authenticate_user_from_token_param!, :load_work, only: [:show]
 
   def show
     @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
-      .decorate(context: { info: params[:info], source_id: params[:source_id], admin: current_user.try(:is_admin_or_staff?) })
+      .decorate(context: { info: params[:info], source_id: params[:source_id], role: is_admin_or_staff? })
 
     fresh_when last_modified: @work.updated_at
   end
@@ -48,14 +29,14 @@ class Api::V5::WorksController < Api::BaseController
     fresh_when last_modified: collection.maximum(:updated_at)
     @works = collection.decorate(context: { info: params[:info],
                                             source_id: params[:source_id],
-                                            admin: current_user.try(:is_admin_or_staff?) })
+                                            role: is_admin_or_staff? })
   end
 
   # Load works from ids listed in query string, use type parameter if present
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "wos", "scp", "url"].find { |t| t == params[:type] } || "doi"
+      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "url"].find { |t| t == params[:type] } || "doi"
       type = "canonical_url" if type == "url"
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
       collection = Work.where(works: { type => ids })
@@ -64,7 +45,7 @@ class Api::V5::WorksController < Api::BaseController
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
       collection = Work.joins(:retrieval_statuses)
                    .where("retrieval_statuses.source_id = ?", source.id)
-                   .where("retrieval_statuses.event_count > 0")
+                   .where("retrieval_statuses.total > 0")
     else
       collection = Work
     end
@@ -80,15 +61,15 @@ class Api::V5::WorksController < Api::BaseController
     end
   end
 
-  # sort by source event_count
+  # sort by source total
   # we can't filter and sort by two different sources
   def get_order(collection, params, source)
     if params[:order] && source && params[:order] == params[:source_id]
-      collection = collection.order("retrieval_statuses.event_count DESC")
+      collection = collection.order("retrieval_statuses.total DESC")
     elsif params[:order] && !source && order = Source.where(name: params[:order]).first
       collection = collection.joins(:retrieval_statuses)
         .where("retrieval_statuses.source_id = ?", order.id)
-        .order("retrieval_statuses.event_count DESC")
+        .order("retrieval_statuses.total DESC")
     else
       collection = collection.order("published_on DESC")
     end

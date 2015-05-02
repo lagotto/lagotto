@@ -6,16 +6,18 @@ if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var pid_type = params.attr('data-pid_type');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/v5/articles?api_key=" + api_key + "&ids=" + pid + "&type=" + pid_type + "&info=detail");
+  var query = encodeURI("/api/v6/works?ids=" + pid + "&type=" + pid_type + "&info=detail");
 }
 
 // load the data from the Lagotto API
 if (query) {
-  d3.json(query, function(error, json) {
-    if (error) { return console.warn(error); }
-    var data = json.data;
+  d3.json(query)
+    .header("Authorization", "Token token=" + api_key)
+    .get(function(error, json) {
+      if (error) { return console.warn(error); }
+      var data = json.works;
 
-    eventViz(data);
+      eventViz(data);
   });
 }
 
@@ -23,9 +25,7 @@ if (query) {
 function eventViz(data) {
   d3.select("#loading-events").remove();
 
-  var data = data[0]['sources'];
-  data = data.map( function(d) { return d.events_csl; });
-  data = d3.merge(data);
+  data = data[0].events;
 
   if (data.length === 0) {
     d3.select("#content").text("")
@@ -37,9 +37,6 @@ function eventViz(data) {
 
   d3.select("#content").insert("div")
     .attr("id", "results");
-
-  // remove duplicate events based on URL
-  data = _.uniq(data, "url");
 
   // generate iso8601 datetime for sorting, year for nesting
   data = data.map(function(d) {

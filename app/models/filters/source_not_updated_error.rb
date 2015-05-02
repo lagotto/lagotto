@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 class SourceNotUpdatedError < Filter
   def run_filter(state)
     responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count

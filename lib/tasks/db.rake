@@ -190,6 +190,12 @@ namespace :db do
       end
     end
 
+    desc "Delete canonical url"
+    task :delete_url => :environment do
+      DeleteCanonicalUrlJob.perform_later
+      puts "Started deleting all canonical urls in the background..."
+    end
+
     desc "Add missing sources"
     task :add_sources, [:date] => :environment do |_, args|
       if args.date.nil?
@@ -254,6 +260,21 @@ namespace :db do
         work.save
       end
       puts "Date parts for #{works.count} works added"
+    end
+  end
+
+  namespace :events do
+    desc "Delete events"
+    task :delete => :environment do
+      source = Source.visible.where("name = ?", ENV['SOURCE']).first
+      unless source.present?
+        puts "Please use SOURCE environment variable with name of available source. No event deleted."
+        exit
+      end
+
+      DeleteEventJob.perform_later(source)
+
+      puts "Started deleting all events for source #{ENV['SOURCE']} in the background..."
     end
   end
 
@@ -343,9 +364,9 @@ namespace :db do
       sources.each do |source|
         source.activate
         if source.waiting?
-          puts "Source #{source.display_name} has been activated and is now waiting."
+          puts "Source #{source.title} has been activated and is now waiting."
         else
-          puts "Source #{source.display_name} could not be activated."
+          puts "Source #{source.title} could not be activated."
         end
       end
     end
@@ -366,9 +387,9 @@ namespace :db do
       sources.each do |source|
         source.inactivate
         if source.inactive?
-          puts "Source #{source.display_name} has been inactivated."
+          puts "Source #{source.title} has been inactivated."
         else
-          puts "Source #{source.display_name} could not be inactivated."
+          puts "Source #{source.title} could not be inactivated."
         end
       end
     end
@@ -389,9 +410,9 @@ namespace :db do
       sources.each do |source|
         source.install
         unless source.available?
-          puts "Source #{source.display_name} has been installed."
+          puts "Source #{source.title} has been installed."
         else
-          puts "Source #{source.display_name} could not be installed."
+          puts "Source #{source.title} could not be installed."
         end
       end
     end
@@ -413,11 +434,11 @@ namespace :db do
       sources.each do |source|
         source.uninstall
         if source.available?
-          puts "Source #{source.display_name} has been uninstalled."
+          puts "Source #{source.title} has been uninstalled."
         elsif source.retired?
-          puts "Source #{source.display_name} has been retired."
+          puts "Source #{source.title} has been retired."
         else
-          puts "Source #{source.display_name} could not be uninstalled."
+          puts "Source #{source.title} could not be uninstalled."
         end
       end
     end

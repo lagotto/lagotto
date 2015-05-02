@@ -47,18 +47,16 @@ describe RelativeMetric, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { :events=>{:start_date=>"2009-01-01T00:00:00Z", :end_date=>"2009-12-31T00:00:00Z", :subject_areas=>[]}, :events_by_day=>[], :events_by_month=>[], :events_url=>nil, :event_count=>0, :event_metrics=>{:pdf=>nil, :html=>nil, :shares=>nil, :groups=>nil, :comments=>nil, :likes=>nil, :citations=>nil, :total=>0} } }
-
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil, :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(events: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012", :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work)).to eq(events: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
     end
 
     it "should get relative metric average usage data" do
@@ -66,7 +64,8 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events]).to eq(
+      expect(response[:events][:total]).to eq(576895)
+      expect(response[:events][:extra]).to eq(
         :start_date => "2009-01-01T00:00:00Z",
         :end_date => "2009-12-31T00:00:00Z",
         :subject_areas => [
@@ -74,14 +73,6 @@ describe RelativeMetric, type: :model, vcr: true do
           { :subject_area => "/Social sciences/Sociology", :average_usage => [382, 709, 869, 979, 1107, 1200, 1351, 1467, 1549, 1640, 1731, 1822, 1903, 1988, 2061, 2138, 2237, 2307, 2355, 2436, 2496, 2562, 2619, 2708, 2775, 2862, 2940, 2986, 3026, 3102, 3187, 3265, 3329, 3384, 3454, 3520, 3582, 3640, 3706, 3777, 3829, 3890, 3950, 4005, 4046] }
         ]
       )
-      expect(response[:event_metrics]).to eq(:pdf => nil,
-                                         :html => nil,
-                                         :shares => nil,
-                                         :groups => nil,
-                                         :comments => nil,
-                                         :likes => nil,
-                                         :citations => nil,
-                                         :total => 576895)
     end
 
     it "should get empty relative metric average usage data" do
@@ -89,17 +80,10 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric_nodata.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events]).to eq(:start_date => "2009-01-01T00:00:00Z",
-                                  :end_date => "2009-12-31T00:00:00Z",
-                                  :subject_areas => [])
-      expect(response[:event_metrics]).to eq(:pdf => nil,
-                                         :html => nil,
-                                         :shares => nil,
-                                         :groups => nil,
-                                         :comments => nil,
-                                         :likes => nil,
-                                         :citations => nil,
-                                         :total => 0)
+      expect(response[:events][:total]).to eq(0)
+      expect(response[:events][:extra]).to eq(:start_date => "2009-01-01T00:00:00Z",
+                                               :end_date => "2009-12-31T00:00:00Z",
+                                               :subject_areas => [])
     end
 
     it "should catch timeout errors with the relative metric API" do

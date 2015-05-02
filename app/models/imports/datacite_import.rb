@@ -1,24 +1,6 @@
 class DataciteImport < Import
   # DataCite Solr schema is at https://github.com/datacite/search/blob/master/src/main/resources/schema.xml
 
-  # DataCite resourceTypeGeneral from DataCite metadata schema: http://dx.doi.org/10.5438/0010
-  TYPE_TRANSLATIONS = {
-    "Audiovisual" => "motion_picture",
-    "Collection" => nil,
-    "Dataset" => "dataset",
-    "Event" => nil,
-    "Image" => "graphic",
-    "InteractiveResource" => nil,
-    "Model" => nil,
-    "PhysicalObject" => nil,
-    "Service" => nil,
-    "Software" => nil,
-    "Sound" => "song",
-    "Text" => "report",
-    "Workflow" => nil,
-    "Other" => nil
-  }
-
   def initialize(options = {})
     @from_update_date = options.fetch(:from_update_date, nil)
     @until_update_date = options.fetch(:until_update_date, nil)
@@ -87,7 +69,7 @@ class DataciteImport < Import
       end
 
       type = item.fetch("resourceTypeGeneral", nil)
-      type = TYPE_TRANSLATIONS[type] if type
+      type = DATACITE_TYPE_TRANSLATIONS[type] if type
       work_type_id = WorkType.where(name: type).pluck(:id).first
 
       csl = {

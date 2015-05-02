@@ -28,7 +28,7 @@ describe SourcesController, :type => :controller do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       expect(response["version"]).to eq("2.0")
-      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.display_name}")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.title}")
       expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
       expect(response["channel"]["item"]).not_to be_nil
     end
@@ -42,7 +42,7 @@ describe SourcesController, :type => :controller do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       expect(response["version"]).to eq("2.0")
-      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.display_name}")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.title}")
       expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
       expect(response["channel"]["item"]).not_to be_nil
     end
@@ -56,7 +56,7 @@ describe SourcesController, :type => :controller do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       expect(response["version"]).to eq("2.0")
-      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.display_name}")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.title}")
       expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
       expect(response["channel"]["item"]).not_to be_nil
     end
@@ -70,7 +70,7 @@ describe SourcesController, :type => :controller do
       response = Hash.from_xml(last_response.body)
       response = response["rss"]
       expect(response["version"]).to eq("2.0")
-      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.display_name}")
+      expect(response["channel"]["title"]).to eq("Lagotto: most-cited works in #{source.title}")
       expect(Addressable::URI.parse(response["channel"]["link"]).path).to eq(source_path(source))
       expect(response["channel"]["item"]).not_to be_nil
     end

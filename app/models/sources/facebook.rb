@@ -1,8 +1,7 @@
-# encoding: UTF-8
-
 class Facebook < Source
   def get_query_url(work, options = {})
-    return nil unless get_access_token && work.get_url
+    fail ArgumentError, "No Facebook access token." unless get_access_token
+    return {} unless work.get_url
 
     # use depreciated v2.0 API if url_linkstat is used
     if url_linkstat.present?
@@ -33,24 +32,26 @@ class Facebook < Source
     # don't trust results if event count is above preset limit
     # workaround for Facebook getting confused about the canonical URL
     if total > count_limit.to_i
-      shares, comments, likes, total = 0, 0, 0, 0
-      events = {}
+      readers, comments, likes, total = 0, 0, 0, 0
+      extra = {}
     elsif url_linkstat.blank?
-      shares, comments, likes = 0, 0, 0
-      events = result
+      readers, comments, likes = 0, 0, 0
+      extra = result
     else
-      shares = result.deep_fetch('data', 0, 'share_count') { 0 }
+      readers = result.deep_fetch('data', 0, 'share_count') { 0 }
       comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
-      events = result['data'] || {}
+      extra = result['data'] || {}
     end
 
-    { events: events,
-      events_by_day: [],
-      events_by_month: [],
-      events_url: nil,
-      event_count: total,
-      event_metrics: get_event_metrics(shares: shares, comments: comments, likes: likes, total: total) }
+    { events: {
+        source: name,
+        work: work.pid,
+        readers: readers,
+        comments: comments,
+        likes: likes,
+        total: total,
+        extra: extra } }
   end
 
   def get_access_token(options={})

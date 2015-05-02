@@ -4,7 +4,7 @@ class Alert < ActiveRecord::Base
   belongs_to :source
   belongs_to :work
 
-  before_create :collect_env_info
+  before_create :collect_env_info, :create_uuid
   after_create :send_fatal_error_report, if: proc { level == 4 }
 
   default_scope { where("unresolved = ?", true).order("alerts.created_at DESC") }
@@ -29,6 +29,10 @@ class Alert < ActiveRecord::Base
     15
   end
 
+  def to_param
+    uuid
+  end
+
   def public_message
     case status
     when 404
@@ -44,7 +48,7 @@ class Alert < ActiveRecord::Base
 
   def send_fatal_error_report
     report = Report.where(name: 'fatal_error_report').first_or_create(
-                          display_name: 'Fatal Error Report',
+                          title: 'Fatal Error Report',
                           description: 'Reports when a fatal error has occured',
                           interval: 0,
                           private: true)
@@ -53,6 +57,10 @@ class Alert < ActiveRecord::Base
 
   def create_date
     created_at.utc.iso8601
+  end
+
+  def create_uuid
+    write_attribute(:uuid, SecureRandom.uuid)
   end
 
   private

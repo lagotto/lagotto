@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier&fq=has_metadata:true&q=doi:10.5061/DRYAD.8515&rows=1000&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Tue, 07 Apr 2015 11:36:28 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
+        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
+        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
+        RFJZQUQgLSBEcnlhZCIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41
+        MDYxL0RSWUFELjg1MTUiLCJyZWxhdGVkSWRlbnRpZmllciI6WyJIYXNQYXJ0
+        OkRPSToxMC41MDYxL0RSWUFELjg1MTUvMSIsIkhhc1BhcnQ6RE9JOjEwLjUw
+        NjEvRFJZQUQuODUxNS8yIiwiSXNSZWZlcmVuY2VkQnk6RE9JOjEwLjEzNzEv
+        Sk9VUk5BTC5QUEFULjEwMDA0NDYiLCJJc1JlZmVyZW5jZWRCeTpET0k6Il0s
+        ImNyZWF0b3IiOlsiT2xsb21vLCBCZW5qYW1pbiIsIkR1cmFuZCwgUGF0cmlj
+        ayIsIlBydWdub2xsZSwgRnJhbmNrIiwiRG91emVyeSwgRW1tYW51ZWwgSi4g
+        UC4iLCJBcm5hdGhhdSwgQ8OpbGluZSIsIk5rb2doZSwgRGlldWRvbm7DqSIs
+        Ikxlcm95LCBFcmljIiwiUmVuYXVkLCBGcmFuw6dvaXMiXSwicHVibGlzaGVy
+        IjoiRHJ5YWQgRGlnaXRhbCBSZXBvc2l0b3J5IiwidGl0bGUiOlsiRGF0YSBm
+        cm9tOiBBIG5ldyBtYWxhcmlhIGFnZW50IGluIEFmcmljYW4gaG9taW5pZHMu
+        Il0sInB1YmxpY2F0aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5l
+        cmFsIjoiRGF0YXNldCJ9XX19Cg==
+    http_version: 
+  recorded_at: Tue, 07 Apr 2015 11:44:45 GMT
+recorded_with: VCR 2.9.3

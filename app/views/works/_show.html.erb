@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid_type="<%= @work.pid_type %>" data-pid="<%= @work.pid %>">
+  <div class="panel-heading panel-title" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-source_id="<%= @source.present? ? @source.name : "" %>" data-relation_type_id="<%= @relation_type.present? ? @relation_type.name : "" %>" data-sort="">
     <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
@@ -20,10 +20,12 @@
         <%= f.input :canonical_url, :label => 'Canonical URL', :disabled => @work.pid_type == "url" %>
         <%= f.input :pmid, :label => 'PubMed', :disabled => @work.pid_type == "pmid" %>
         <%= f.input :pmcid, :label => 'PubMed Central', :disabled => @work.pid_type == "pmcid" %>
+        <%= f.input :wos, :label => 'ArXiV', :disabled => @work.pid_type == "arxiv" %>
         <%= f.input :wos, :label => 'Web of Science', :disabled => @work.pid_type == "wos" %>
         <%= f.input :scp, :label => 'Scopus', :disabled => @work.pid_type == "scp" %>
         <%= f.input :ark, :label => 'Ark', :disabled => @work.pid_type == "ark" %>
-        <%= f.association :work_type, :include_blank => false %>
+        <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
+        <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
         <% if publishers.length > 1 %>
           <%= f.association :publisher, collection: Publisher.order("title").map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
         <% end %>
@@ -42,13 +44,37 @@
       <dl class="dl-horizontal">
         <dt>Publication Date</dt>
         <dd><%= l @work.published_on, format: date_format(@work) %></dd>
-        <% if @work.work_type_id && @work.work_type.name != "article-journal" %>
+        <% if @work.work_type && @work.work_type.name != "article-journal" %>
           <dt>Type</dt>
-          <dd><%= @work.work_type.name %></dd>
+          <dd><%= @work.work_type.title %></dd>
+        <% end %>
+        <% if @work.container_title.present? %>
+          <% if @work.work_type && @work.work_type.container %>
+            <dt><%= h(@work.work_type.container) %></dt>
+          <% else %>
+            <dt>Container Title</dt>
+          <% end %>
+          <dd><%= h(@work.container_title) %></dd>
         <% end %>
         <% if publishers.length > 1 && @work.publisher %>
           <dt>Publisher</dt>
           <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.member_id) %></dd>
+        <% end %>
+        <% if @work.author.present? %>
+          <dt><%= "Author".pluralize(@work.author.length) %></dt>
+          <dd><%= author_format(@work.author).html_safe %></dd>
+        <% end %>
+        <% if @work.volume.present? %>
+          <dt>Volume</dt>
+          <dd><%= h(@work.volume) %></dd>
+        <% end %>
+        <% if @work.issue.present? %>
+          <dt>Issue</dt>
+          <dd><%= h(@work.issue) %></dd>
+        <% end %>
+        <% if @work.page.present? %>
+          <dt>Pages</dt>
+          <dd><%= h(@work.page) %></dd>
         <% end %>
         <% if @work.doi.present? %>
           <dt>DOI</dt>
@@ -86,37 +112,49 @@
           <dt>Mendeley</dt>
           <dd><%= link_to @work.mendeley_url, @work.mendeley_url %></dd>
         <% end %>
+        <% if @work.version_relations.present? %>
+          <% @work.version_relations.each do |relation| %>
+            <dt>relation.relation_type.title</dt>
+            <dd><%= link_to relation.related_work.pid, work_url(relation.related_work.pid) %></dd>
+          <% end %>
+        <% end %>
       </dl>
     <% end %>
   </div>
 </div>
 
-<% if can?(:read, Alert) %>
-  <div id="alert-error-message">
-    <%= render :partial => 'alert_message' %>
-  </div>
+<% if @work.tracked %>
+  <% if can?(:read, Alert) %>
+    <div id="alert-error-message">
+      <%= render :partial => 'alert_message' %>
+    </div>
+  <% end %>
 <% end %>
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#metrics" data-toggle="tab" title="Metrics">Metrics</a></li>
-  <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
-  <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
-  <% if can?(:read, Alert) %>
-    <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
+  <li class="active"><a href="#references" data-toggle="tab" title="References">References</a></li>
+  <% if @work.tracked %>
+    <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+    <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    <% if can?(:read, Alert) %>
+      <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
+    <% end %>
   <% end %>
 </ul>
 
 <div class="tab-content">
-  <div class="tab-pane active" id="metrics">
-    <%= render :partial => 'metrics' %>
+  <div class="tab-pane active" id="references">
+    <%= render :partial => 'references' %>
   </div>
-  <div class="tab-pane" id="events">
-    <%= render :partial => 'events' %>
-  </div>
-  <div class="tab-pane" id="more">
-    <%= render :partial => 'more' %>
-  </div>
-  <div class="tab-pane" id="alert">
-    <%= render :partial => 'alert' %>
-  </div>
+  <% if @work.tracked %>
+    <div class="tab-pane" id="events">
+      <%= render :partial => 'events' %>
+    </div>
+    <div class="tab-pane" id="more">
+      <%= render :partial => 'more' %>
+    </div>
+    <div class="tab-pane" id="alert">
+      <%= render :partial => 'alert' %>
+    </div>
+  <% end %>
 </div>

@@ -1,0 +1,331 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://dx.doi.org/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 303
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Vary:
+      - Accept
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Expires:
+      - Sat, 11 Apr 2015 07:27:45 GMT
+      Content-Type:
+      - text/html;charset=utf-8
+      Content-Length:
+      - '216'
+      Date:
+      - Fri, 10 Apr 2015 22:55:58 GMT
+    body:
+      encoding: UTF-8
+      string: |2-
+
+        <HTML><HEAD><TITLE>Handle Redirect</TITLE></HEAD>
+        <BODY><A HREF="http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940">http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940</A></BODY></HTML>
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:17 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:55:59 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:18 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:55:59 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:18 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:55:59 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:18 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:00 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:19 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:00 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:19 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:00 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:19 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:01 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:20 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:01 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:20 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:02 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:20 GMT
+- request:
+    method: get
+    uri: http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      Accept:
+      - text/html; charset=UTF-8
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - AtyponWS/7.1
+      Location:
+      - http://informahealthcare.com/doi/abs/10.3109/09286586.2014.926940
+      Content-Length:
+      - '0'
+      Date:
+      - Fri, 10 Apr 2015 22:56:02 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Fri, 10 Apr 2015 22:53:21 GMT
+recorded_with: VCR 2.9.3

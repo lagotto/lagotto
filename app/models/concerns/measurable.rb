@@ -5,19 +5,17 @@ module Measurable
 
     # create a hash with the different metrics categories
     # total is sum of all categories if no total value is provided
-    # make sure all values are either integers or nil
-    def get_event_metrics(options = {})
-      options = Hash[options.map { |key, value| [key.to_sym, value.nil? ? nil : value.to_i] }]
+    # make sure all values are integers or nil
+    def get_metrics(options = {})
+      options = Hash[options.map { |key, value| [key.to_sym, value.to_i] }]
       options[:total] ||= options.values.sum
 
-      { :pdf => options[:pdf],
-        :html => options[:html],
-        :shares => options[:shares],
-        :groups => options[:groups],
-        :comments => options[:comments],
-        :likes => options[:likes],
-        :citations => options[:citations],
-        :total => options[:total] }
+      { :pdf => options.fetch(:pdf, nil),
+        :html => options.fetch(:html, nil),
+        :readers => options.fetch(:readers, nil),
+        :comments => options.fetch(:comments, nil),
+        :likes => options.fetch(:likes, nil),
+        :total => options.fetch(:total, 0) }
     end
 
     def get_sum(items, key, nested_key = nil)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Source do
+describe Source, type: :model, vcr: true do
 
   context "HTTP" do
     let(:work) { FactoryGirl.create(:work_with_events) }
@@ -210,6 +210,46 @@ describe Source do
         alert = Alert.first
         expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
         expect(alert.status).to eq(429)
+      end
+    end
+
+    context "redirect requests" do
+      let(:redirect_url) { "http://www.example.org" }
+
+      it "redirect" do
+        stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+        stub_request(:get, redirect_url).to_return(status: 200, body: "Test")
+        response = subject.get_result(url)
+        expect(response).to eq("Test")
+        expect(Alert.count).to eq(0)
+      end
+
+      it "redirect four times" do
+        stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+        stub_request(:get, redirect_url).to_return(status: 301, headers: { location: redirect_url + "/x" })
+        stub_request(:get, redirect_url+ "/x").to_return(status: 301, headers: { location: redirect_url + "/y" })
+        stub_request(:get, redirect_url+ "/y").to_return(status: 301, headers: { location: redirect_url + "/z" })
+        stub_request(:get, redirect_url + "/z").to_return(status: 200, body: "Test")
+        response = subject.get_result(url)
+        expect(response).to eq("Test")
+        expect(Alert.count).to eq(0)
+      end
+
+      it "too many requests" do
+        stub = stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
+        response = subject.get_result(url, limit: 0)
+        expect(response).to eq(error: "too many redirects; last one to: #{redirect_url} for #{url}", status: nil)
+        expect(Alert.count).to eq(1)
+        alert = Alert.first
+        expect(alert.class_name).to eq("FaradayMiddleware::RedirectLimitReached")
+        expect(alert.status).to eq(nil)
+      end
+
+      it "redirect work" do
+        work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030")
+        response = subject.get_result(work.doi_as_url, content_type: "html", limit: 10)
+        expect(response).to include(work.doi)
+        expect(Alert.count).to eq(0)
       end
     end
 

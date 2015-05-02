@@ -1,7 +1,7 @@
 <div class="page-header">
   <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm">
-      <%= link_to icon("flag").html_safe, filters_path, { id: "filters", class: "btn btn-default" } %>
+      <%= link_to "#{icon("flag")} Filters".html_safe, filters_path, { id: "filters", class: "btn btn-default" } %>
     </div>
   </div>
   <h1 class="pull-left">
@@ -34,14 +34,14 @@
       </div>
     <% end %>
     <div class="btn-group btn-group-sm">
-      <a class="btn btn-default dropdown-toggle" id="source-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : @source.display_name %> <span class="caret"></span></a>
+      <a class="btn btn-default dropdown-toggle" id="source-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : @source.title %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><%= link_to "All Sources", alerts_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <% Group.order("id").each do |group| %>
           <% unless group.sources.active.empty? %>
             <li class="divider"></li>
             <% group.sources.active.each do |source| %>
-              <li><%= link_to h(source.display_name), alerts_path(source_id: source.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+              <li><%= link_to h(source.title), alerts_path(source_id: source.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
             <% end %>
           <% end %>
         <% end %>
@@ -80,13 +80,13 @@
       <div class="panel panel-default">
         <div class="panel-heading panel-title panel-list">
           <% if alert.level != 3 %><span class="pull-right"><%= level_label(alert.level).html_safe %></span><% end %>
-          <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.id}", :class => "accordion-toggle", :id => "alert_#{alert.id}-link", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.id}" %>
+          <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.uuid}", :class => "accordion-toggle", :id => "alert_#{alert.uuid}-link", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.uuid}" %>
         </div>
-        <div class="panel-collapse collapse" id="alert_<%= alert.id %>">
+        <div class="panel-collapse collapse" id="alert_<%= alert.uuid %>">
           <div class="panel-body alert-inner">
             <% if can?(:destroy, Alert) %>
               <div class="btn-group btn-group-sm pull-right">
-                <a class="btn btn-default dropdown-toggle" id="alert_<%= alert.id %>-delete" data-toggle="dropdown" href="#">
+                <a class="btn btn-default dropdown-toggle" id="alert_<%= alert.uuid %>-delete" data-toggle="dropdown" href="#">
                   <%= icon("trash") %> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -99,7 +99,7 @@
                                                                   method: :delete,
                                                                   data: { :confirm => 'Are you sure?' },
                                                                   remote: true,
-                                                                  id: "alert_#{alert.id}-delete-message" %></li>
+                                                                  id: "alert_#{alert.uuid}-delete-message" %></li>
                   <li><%= link_to "by Class", alert_path(alert, q: params[:q],
                                                                 source_id: params[:source_id],
                                                                 level: params[:level],
@@ -110,7 +110,7 @@
                                                                 method: :delete,
                                                                 data: { :confirm => 'Are you sure?' },
                                                                 remote: true,
-                                                                id: "alert_#{alert.id}-delete-class" %></li>
+                                                                id: "alert_#{alert.uuid}-delete-class" %></li>
                   <% unless alert.source_id.nil? %>
                     <li><%= link_to "by Source", alert_path(alert, q: params[:q],
                                                                    source_id: params[:source_id],
@@ -122,7 +122,7 @@
                                                                    method: :delete,
                                                                    data: { :confirm => 'Are you sure?' },
                                                                    remote: true,
-                                                                   id: "alert_#{alert.id}-delete-source" %></li>
+                                                                   id: "alert_#{alert.uuid}-delete-source" %></li>
                   <% end %>
                 </ul>
               </div>
@@ -134,7 +134,7 @@
                                                                             q: params[:q]) %></p>
             <% if alert.source %>
               <h5>Source</h5>
-              <%= link_to alert.source.display_name, source_path(alert.source) %>
+              <%= link_to alert.source.title, source_path(alert.source) %>
             <% end %>
 
             <% if alert.work %>
@@ -192,7 +192,7 @@
 <% else %>
   <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>alerts
     <% unless @source.nil? %>
-      for <%= @source.display_name %>
+      for <%= @source.title %>
     <% end %>
     <% unless @level.nil? %>
       with at least level <em><%= @level.titleize %></em>

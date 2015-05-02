@@ -36,6 +36,9 @@ module Lagotto
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += Dir["#{config.root}/app/models/**/", "#{config.root}/app/controllers/**/"]
 
+    # add assets from Ember app
+    config.assets.paths << "#{Rails.root}/frontend/bower_components"
+
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -74,5 +77,8 @@ module Lagotto
 
     # set Active Job queueing backend
     config.active_job.queue_adapter = :sidekiq
+
+    # Minimum Sass number precision required by bootstrap-sass
+    #::Sass::Script::Value::Number.precision = [8, ::Sass::Script::Value::Number.precision].max
   end
 end
