@@ -35,6 +35,6 @@ class Ads < Source
   end
 
   def events_url
-    "https://ui.adsabs.harvard.edug/#search/q=body:%{query_string}"
+    "https://ui.adsabs.harvard.edu/#search/q=body:%{query_string}"
   end
 end
