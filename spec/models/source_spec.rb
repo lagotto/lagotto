@@ -69,21 +69,19 @@ describe Source, :type => :model do
     subject { FactoryGirl.create(:source) }
 
     it "no delay" do
-      expect(subject.wait_time).to eq(0)
+      expect(subject.wait_time).to eq(1.8)
     end
 
     it "low rate-limiting" do
       subject = FactoryGirl.create(:source_with_api_responses)
-      expect(subject.current_response_count).to eq(5)
       subject.rate_limiting = 10
-      expect(subject.wait_time).to eq(240)
+      expect(subject.wait_time).to eq(3600.0)
     end
 
     it "over rate-limiting" do
       subject = FactoryGirl.create(:source_with_api_responses)
-      expect(subject.current_response_count).to eq(5)
       subject.rate_limiting = 4
-      expect(subject.wait_time).to eq(1200)
+      expect(subject.wait_time).to eq(3600.0)
     end
   end
 

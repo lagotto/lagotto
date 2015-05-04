@@ -163,8 +163,27 @@ module Configurable
       config.rate_limiting = value.to_i
     end
 
+    # store rate_limi_remaining and rate_limit_reset in memcached
+    def rate_limit_remaining
+      (Rails.cache.read("#{name}/rate_limit_remaining") || rate_limiting).to_i
+    end
+
+    def rate_limit_remaining=(value)
+      Rails.cache.write("#{name}/rate_limit_remaining", (value || rate_limiting - 1).to_i)
+    end
+
+    def rate_limit_reset
+      Time.parse(Rails.cache.read("#{name}/rate_limit_reset") || (Time.zone.now + 1.hour).utc.iso8601)
+    end
+
+    # reset rate_limit every full hour unless value is provided by source
+    def rate_limit_reset=(value)
+      value = (Time.zone.now.end_of_hour).to_i if value.nil?
+      Rails.cache.write("#{name}/rate_limit_reset", get_iso8601_from_epoch(value))
+    end
+
     def job_interval
-      3600 / rate_limiting
+      3600.0 / rate_limiting
     end
 
     def batch_interval

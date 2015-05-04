@@ -111,6 +111,7 @@
           <th>Job queue</th>
           <td>
             <%= @source.rate_limiting %> per hour rate-limiting</br>
+            <%= @source.rate_limit_remaining %> per hour rate-limit remaining</br>
             job queue <%= @source.queue %>
           </td>
         </tr>

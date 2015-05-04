@@ -145,24 +145,19 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  # disable source if wait time at least 10 sec because of rate-limiting
+  # disable source if rate_limiting reached
   def check_for_rate_limits
-    future_response_count < 360
-  end
-
-  # API responses last 60 min
-  def current_response_count
-    @current_response_count ||= api_responses.total(1).size
-  end
-
-  # expected API responses next 60 min, should be larger than zero
-  def future_response_count
-    @future_response_count ||= [rate_limiting * 2 - current_response_count, 0.001].sort.last
+    rate_limit_remaining < 10
   end
 
   # calculate wait time until next API call
+  # wait until reset time if rate-limiting limit is close
   def wait_time
-    3600 / future_response_count
+    if rate_limit_remaining < 50
+      rate_limit_reset - Time.zone.now
+    else
+      3600.0 / rate_limiting
+    end
   end
 
   def get_data(work, options={})
@@ -372,7 +367,7 @@ class Source < ActiveRecord::Base
   end
 
   def cache_key
-    "source/#{name}/#{timestamp}"
+    "source/#{name}-#{timestamp}"
   end
 
   def update_cache
