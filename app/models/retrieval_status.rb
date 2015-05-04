@@ -171,13 +171,18 @@ class RetrievalStatus < ActiveRecord::Base
     data = get_lagotto_data("#{source.name}:#{work.doi_escaped}")
 
     by_day = (data.blank? || data[:error]) ? [] : data["events_by_day"]
-    update_days(by_day)
+    update_days({ year: by_day.fetch(:year),
+                  month: by_day.fetch(:month),
+                  day: by_day.fetch(:day),
+                  total: by_day.fetch(:event_count, 0) })
 
     # only update monthly data for sources where we can't regenerate them
     return true unless ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos'].include?(source.name)
 
     by_month = (data.blank? || data[:error]) ? [] : data["events_by_month"]
-    update_months(by_month)
+    update_months({ year: by_month.fetch(:year),
+                    month: by_month.fetch(:month),
+                    total: by_month.fetch(:event_count, 0) })
   end
 
   def retrieved_days_ago
