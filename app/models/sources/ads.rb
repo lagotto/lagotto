@@ -23,6 +23,7 @@ class Ads < Source
         "container-title" => "ArXiV",
         "issued" => get_date_parts(item.fetch("pubdate", nil)),
         "URL" => "http://arxiv.org/abs/#{arxiv}",
+        "arxiv" => arxiv,
         "type" => "article-journal",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,

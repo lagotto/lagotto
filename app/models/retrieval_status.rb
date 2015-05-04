@@ -99,6 +99,7 @@ class RetrievalStatus < ActiveRecord::Base
       doi = item.fetch("DOI", nil)
       pmid = item.fetch("PMID", nil)
       pmcid = item.fetch("PMCID", nil)
+      arxiv = item.fetch("arxiv", nil)
       canonical_url = item.fetch("URL", nil)
       title = item.fetch("title", nil)
       date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
@@ -118,6 +119,7 @@ class RetrievalStatus < ActiveRecord::Base
         doi: doi,
         pmid: pmid,
         pmcid: pmcid,
+        arxiv: arxiv,
         canonical_url: canonical_url,
         title: title,
         year: year,
