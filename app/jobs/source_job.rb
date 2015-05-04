@@ -16,7 +16,7 @@ class SourceJob < ActiveJob::Base
     # ignore this error
   end
 
-  rescue_from Net::HTTPTooManyRequests do |exception|
+  rescue_from TooManyRequestsError do |exception|
     rs_ids, source = arguments
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
   end
@@ -39,7 +39,7 @@ class SourceJob < ActiveJob::Base
 
       # observe rate-limiting settings, put back in queue if wait time is more than 5 sec
       wait_time = source.wait_time
-      fail Net::HTTPTooManyRequests, "Wait time too long (#{wait_time} sec) for #{source.title}" if wait_time > 5
+      fail TooManyRequestsError, "Wait time too long (#{wait_time} sec) for #{source.title}" if wait_time > 5
 
       sleep wait_time
 

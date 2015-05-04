@@ -166,12 +166,15 @@ class RetrievalStatus < ActiveRecord::Base
 
   def import_from_couchdb
     # import only for works with dois because we changed the pid format in lagotto 4.0
-    return nil unless event_count > 0 && work.doi.present?
+    return false unless event_count > 0 && work.doi.present?
 
     data = get_lagotto_data("#{source.name}:#{work.doi_escaped}")
 
     by_day = (data.blank? || data[:error]) ? [] : data["events_by_day"]
     update_days(by_day)
+
+    # only update monthly data for sources where we can't regenerate them
+    return true unless ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos'].include?(source.name)
 
     by_month = (data.blank? || data[:error]) ? [] : data["events_by_month"]
     update_months(by_month)

@@ -81,7 +81,6 @@ class Source < ActiveRecord::Base
   scope :active, -> { by_states(2).order_by_title }
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
-  scope :importable, -> { active.where("name in (?)", ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos']) }
   scope :queueable, -> { active.where(queueable: true) }
   scope :eventable, -> { visible.where(eventable: true) }
 
