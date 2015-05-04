@@ -20,7 +20,7 @@ class SourceJob < ActiveJob::Base
 
       # observe rate-limiting settings, put back in queue if wait time is more than 5 sec
       wait_time = source.wait_time
-      fail TooManyRequestsError, "Wait time too long (#{wait_time} sec) for #{source.title}" if wait_time > 5
+      fail TooManyRequestsError, "Wait time too long (#{wait_time.to_i} sec) for #{source.title}" if wait_time > 5
 
       sleep wait_time
 
