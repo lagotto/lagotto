@@ -154,7 +154,7 @@ class Source < ActiveRecord::Base
   # wait until reset time if rate-limiting limit is close
   def wait_time
     if rate_limit_remaining < 50
-      rate_limit_reset - Time.zone.now
+      [rate_limit_reset - Time.zone.now, 0.001].sort.last
     else
       3600.0 / rate_limiting
     end
@@ -269,7 +269,7 @@ class Source < ActiveRecord::Base
   def get_query_string(work)
     return {} unless work.get_url || work.doi.present?
 
-    [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
+    [work.doi, work.canonical_url].compact.map { |i| Addressable::URI.encode("\"#{i}\"") }.join("+OR+")
   end
 
   # fields with urls, not user-configurable
