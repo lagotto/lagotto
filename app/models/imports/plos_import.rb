@@ -30,7 +30,7 @@ class PlosImport < Import
 
   def parse_data(result)
     # return early if an error occured
-    return [] unless result && result.fetch("response", nil)
+    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
 
     # fixed values, publisher_id is PLOS CrossRef member id
     publisher_id = 340
