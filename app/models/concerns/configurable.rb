@@ -169,7 +169,7 @@ module Configurable
     end
 
     def rate_limit_remaining=(value)
-      value ||= rate_limit_reset > Time.zone.now.to_i ? rate_limit_remaining - 1 : rate_limiting
+      value ||= rate_limit_reset > Time.zone.now ? rate_limit_remaining - 1 : rate_limiting
       Rails.cache.write("#{name}/rate_limit_remaining", value.to_i)
     end
 
