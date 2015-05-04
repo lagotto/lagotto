@@ -84,7 +84,7 @@ class CrossrefImport < Import
       work_type_id = WorkType.where(name: type).pluck(:id).first
 
       csl = {
-        "issued" => item.fetch("issued", []),
+        "issued" => item.fetch("issued", {}),
         "author" => item.fetch("author", []),
         "container-title" => item.fetch("container-title", [])[0],
         "page" => item.fetch("page", nil),

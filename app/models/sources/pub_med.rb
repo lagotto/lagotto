@@ -28,7 +28,7 @@ class PubMed < Source
           end
       end
 
-      { "issued" => metadata.fetch("issued", []),
+      { "issued" => metadata.fetch("issued", {}),
         "author" => metadata.fetch("author", []),
         "container-title" => metadata.fetch("container-title", [])[0],
         "volume" => metadata.fetch("volume", nil),

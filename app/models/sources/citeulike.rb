@@ -22,6 +22,7 @@ class Citeulike < Source
   def get_related_works(result, work)
     related_works = result["posts"] && result["posts"].is_a?(Hash) && result.fetch("posts", {}).fetch("post", [])
     related_works = [related_works] if related_works.is_a?(Hash)
+    related_works ||= nil
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
       url = item.fetch("link", {}).fetch("url", nil)
