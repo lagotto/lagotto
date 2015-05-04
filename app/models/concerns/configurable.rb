@@ -163,17 +163,18 @@ module Configurable
       config.rate_limiting = value.to_i
     end
 
-    # store rate_limi_remaining and rate_limit_reset in memcached
+    # store rate_limit_remaining and rate_limit_reset in memcached
     def rate_limit_remaining
       (Rails.cache.read("#{name}/rate_limit_remaining") || rate_limiting).to_i
     end
 
     def rate_limit_remaining=(value)
-      Rails.cache.write("#{name}/rate_limit_remaining", (value || rate_limiting - 1).to_i)
+      value ||= rate_limit_reset > Time.zone.now.to_i ? rate_limit_remaining - 1 : rate_limiting
+      Rails.cache.write("#{name}/rate_limit_remaining", value.to_i)
     end
 
     def rate_limit_reset
-      Time.parse(Rails.cache.read("#{name}/rate_limit_reset") || (Time.zone.now + 1.hour).utc.iso8601)
+      Time.parse(Rails.cache.read("#{name}/rate_limit_reset") || (Time.zone.now.end_of_hour).utc.iso8601)
     end
 
     # reset rate_limit every full hour unless value is provided by source
