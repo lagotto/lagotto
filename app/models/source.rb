@@ -269,7 +269,7 @@ class Source < ActiveRecord::Base
   def get_query_string(work)
     return {} unless work.get_url || work.doi.present?
 
-    [work.doi, work.canonical_url].compact.map { |i| Addressable::URI.encode("\"#{i}\"") }.join("+OR+")
+    [work.doi, work.canonical_url].compact.map { |i| CGI.escape("\"#{i}\"") }.join("+OR+")
   end
 
   # fields with urls, not user-configurable
