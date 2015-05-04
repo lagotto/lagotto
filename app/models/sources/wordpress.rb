@@ -1,4 +1,8 @@
 class Wordpress < Source
+  def get_query_string(work)
+    work.doi.presence || work.canonical_url.presence
+  end
+
   def get_related_works(result, work)
     result['data'] = nil if result['data'].is_a?(String)
     Array(result.fetch("data", nil)).map do |item|

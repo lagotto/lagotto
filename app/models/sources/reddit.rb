@@ -60,4 +60,8 @@ class Reddit < Source
   def rate_limiting
     config.rate_limiting || 1800
   end
+
+  def queue
+    config.queue || "low"
+  end
 end
