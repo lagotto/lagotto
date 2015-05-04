@@ -36,4 +36,8 @@ class Wordpress < Source
   def rate_limiting
     config.rate_limiting || 1000
   end
+
+  def queue
+    config.queue || "low"
+  end
 end

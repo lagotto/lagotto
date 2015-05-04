@@ -157,4 +157,8 @@ class TwitterSearch < Source
   def staleness_all
     config.staleness_all || (1.month * 0.25).to_i
   end
+
+  def queue
+    config.queue || "low"
+  end
 end

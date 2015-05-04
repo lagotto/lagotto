@@ -40,4 +40,12 @@ class AdsFulltext < Source
   def events_url
     "https://ui.adsabs.harvard.edu/#search/q=body:%{query_string}"
   end
+
+  def rate_limiting
+    config.rate_limiting || 1000
+  end
+
+  def queue
+    config.queue || "low"
+  end
 end

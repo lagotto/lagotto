@@ -62,4 +62,8 @@ class Counter < Source
   def cron_line
     config.cron_line || "* 4 * * *"
   end
+
+  def queue
+    config.queue || "high"
+  end
 end

@@ -58,4 +58,8 @@ class Citeulike < Source
   def rate_limiting
     config.rate_limiting || 2000
   end
+
+  def queue
+    config.queue || "low"
+  end
 end
