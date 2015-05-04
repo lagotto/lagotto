@@ -32,6 +32,9 @@ queue()
 function eventsViz(json, sources, relation_types) {
   data = json.references;
 
+  // remove duplicate events based on id
+  data = _.uniq(data, "id");
+
   json.href = "?page={{number}}";
   if (relation_type_id !== "") { json.href += "&relation_type_id=" + relation_type_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
