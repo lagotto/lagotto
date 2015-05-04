@@ -10,12 +10,12 @@ title: "API"
 * version 6 of the API was released April, 2015 (Lagotto 4.0).
 
 ### Base URL
-* API calls start with `/api/`. API versioning is done via the request header, e.g. `Accept: application/vnd.lagotto+json; version=6`, and currently defaults to `version=6`.
+* API calls start with `/api/`. API versioning is done via the request header, e.g. `Accept: application/json; version=6`, and currently defaults to `version=6`.
 
 ### Supported Media Types
-* application/vnd.lagotto+json
+* application/json
 
-The default media type is JSON. The media type is set in the header, e.g. "Accept: application/vnd.lagotto+json", but defaults to this format anyway. Media type negotiation via file extension (e.g. ".json") is not supported. `JSONP` and `CORS` are supported.
+The default media type is JSON. The media type is set in the header, e.g. "Accept: application/json", but defaults to this format anyway. Media type negotiation via file extension (e.g. ".json") is not supported. `JSONP` and `CORS` are supported.
 
 ### API Key
 Almost all information regarding works (with the exception of sources that don't allow redistribution of data) is available without API keys since the Lagotto 3.12.7 release (January 9, 2015). An API key is required to add/update works, and to access some of the internal data of the application. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
@@ -308,13 +308,13 @@ These actions are limited to users with admin privileges, authenticated with the
 A sample curl API call to create a new work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/vnd.lagotto+json" -H "Authentication: Token token=API_KEY" -d '{"work":{"doi":"10.1371/journal.pone.0036790","year":2012,"month":5,"day":15,"title":"Test title"}}' http://HOST/api/works
+curl -X POST -H "Content-Type: application/json" -H "Authentication: Token token=API_KEY" -d '{"work":{"doi":"10.1371/journal.pone.0036790","year":2012,"month":5,"day":15,"title":"Test title"}}' http://HOST/api/works
 ```
 
 When a work has been created successfully, the server reponds with `Status 201 Created` and the following JSON (the `data` object will include all work attributes):
 
 ```sh
-$ curl -i -X POST -H "Content-Type: application/vnd.lagotto+json" -H "Authentication: Token token=API_KEY" -d '{"work":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://HOST/api/works
+$ curl -i -X POST -H "Content-Type: application/json" -H "Authentication: Token token=API_KEY" -d '{"work":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://HOST/api/works
 HTTP/1.1 201 Created
 Status: 201 Created
 Content-Type: application/json; charset=utf-8
@@ -326,7 +326,7 @@ Content-Type: application/json; charset=utf-8
 When a work with the specified DOI already exists, the server returns HTTP 400 error with a JSON body indicating the work exists:
 
 ```sh
-$ curl -i -X POST -H "Content-Type: aapplication/vnd.lagotto+json" -H "Authentication: Token token=API_KEY" -d '{"work":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://HOST/api/works
+$ curl -i -X POST -H "Content-Type: aapplication/json" -H "Authentication: Token token=API_KEY" -d '{"work":{"doi":"10.7554/eLife.09002","year":2013,"month":5,"day":21,"title":"Structure of a pore-blocking toxin in complex with a eukaryotic voltage-dependent K+ channel"}}' http://HOST/api/works
 HTTP/1.1 400 Bad Request
 Status: 400 Bad Request
 Content-Type: application/json; charset=utf-8
@@ -351,7 +351,7 @@ In order to be accepted the following conditions must hold:
 A sample curl API call to update a work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/vnd.lagotto+json" -H "Authentication: Token token=API_KEY" -d '{"work":{"pmid":"22615813"}}' http://HOST/api/works/doi:10.1371/journal.pone.0036790
+curl -X POST -H "Content-Type: application/json" -H "Authentication: Token token=API_KEY" -d '{"work":{"pmid":"22615813"}}' http://HOST/api/works/doi:10.1371/journal.pone.0036790
 ```
 
 When a work has been updated successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all work attributes):
@@ -364,7 +364,7 @@ When a work has been updated successfully, the server reponds with `Status 200 O
 A sample curl API call to delete a work would look like this:
 
 ```sh
-curl -X POST -H "Content-Type: application/vnd.lagotto+json" -H "Authentication: Token token=API_KEY" -d '{"work":{"pmid":"22615813"}}' http://HOST/api/works/doi:10.1371/journal.pone.0036790
+curl -X POST -H "Content-Type: application/json" -H "Authentication: Token token=API_KEY" -d '{"work":{"pmid":"22615813"}}' http://HOST/api/works/doi:10.1371/journal.pone.0036790
 ```
 
 When a work has been deleted successfully, the server reponds with `Status 200 Ok` and the following JSON (the `data` object will include all work attributes):

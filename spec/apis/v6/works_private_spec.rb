@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "/api/v6/works", :type => :api do
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+    { "HTTP_ACCEPT" => "application/json; version=6",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
@@ -66,7 +66,7 @@ describe "/api/v6/works", :type => :api do
       let(:uri) { "/api/works?ids=#{work.doi_escaped}&type=doi" }
 
       it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/vnd.lagotto+json; version=6'
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json; version=6'
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)

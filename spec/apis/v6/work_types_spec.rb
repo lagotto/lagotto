@@ -3,7 +3,7 @@ require "rails_helper"
 describe "/api/v6/work_types", :type => :api do
   let!(:work_type) { FactoryGirl.create(:work_type) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version 6" }
+    { "HTTP_ACCEPT" => "application/json; version 6" }
   end
 
   context "index" do

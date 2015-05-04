@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "/api/v6/sources", :type => :api do
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+    { "HTTP_ACCEPT" => "application/json; version=6",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
   let(:jsonp_headers) do

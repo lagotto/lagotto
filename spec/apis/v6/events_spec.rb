@@ -3,7 +3,7 @@ require "rails_helper"
 describe "/api/v6/events", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+    { "HTTP_ACCEPT" => "application/json; version=6",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
   let(:jsonp_headers) do

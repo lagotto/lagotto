@@ -10,7 +10,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
+    .header("Accept", "application/json; version=6")
     .get(function(error, json) {
       if (error) { return console.warn(error); }
       var data = json.doc;

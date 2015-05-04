@@ -4,7 +4,7 @@ describe "/api/v6/api_requests", :type => :api do
   let(:user) { FactoryGirl.create(:admin_user) }
   let!(:api_requests) { FactoryGirl.create_list(:api_request, 10) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+    { "HTTP_ACCEPT" => "application/json; version=6",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
