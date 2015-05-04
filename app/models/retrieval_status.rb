@@ -102,7 +102,7 @@ class RetrievalStatus < ActiveRecord::Base
       arxiv = item.fetch("arxiv", nil)
       canonical_url = item.fetch("URL", nil)
       title = item.fetch("title", nil)
-      date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
+      date_parts = item.fetch("issued", {}).fetch("date-parts", [[]]).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
       type = item.fetch("type", nil)
       work_type_id = WorkType.where(name: type).pluck(:id).first
