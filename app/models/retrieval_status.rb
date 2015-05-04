@@ -320,6 +320,7 @@ class RetrievalStatus < ActiveRecord::Base
     updated_at.utc.iso8601
   end
 
+  alias_method :display_name, :title
   alias_method :update_date, :timestamp
 
   def cache_key
