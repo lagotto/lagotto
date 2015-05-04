@@ -12,25 +12,6 @@ class SourceJob < ActiveJob::Base
 
   queue_as :default
 
-  rescue_from SourceInactiveError do
-    # ignore this error
-  end
-
-  rescue_from TooManyRequestsError do |exception|
-    rs_ids, source = arguments
-    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
-  end
-
-  rescue_from StandardError do |exception|
-    rs_ids, source = arguments
-    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
-
-    Alert.where(message: exception.message).where(unresolved: true).first_or_create(
-      exception: exception,
-      class_name: exception.class.to_s,
-      source_id: source.id)
-  end
-
   def perform(rs_ids, source)
     rs_ids.each do |rs_id|
       # check for failed queries and rate-limiting
@@ -53,6 +34,25 @@ class SourceJob < ActiveJob::Base
         payload.merge!(response)
       end
     end
+  end
+
+  rescue_from SourceInactiveError do
+    # ignore this error
+  end
+
+  rescue_from TooManyRequestsError do |exception|
+    rs_ids, source = arguments
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
+  end
+
+  rescue_from StandardError do |exception|
+    rs_ids, source = arguments
+    RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
+
+    Alert.where(message: exception.message).where(unresolved: true).first_or_create(
+      exception: exception,
+      class_name: exception.class.to_s,
+      source_id: source.id)
   end
 
   after_perform do |job|
