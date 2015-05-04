@@ -111,7 +111,7 @@
           <th>Job queue</th>
           <td>
             <%= @source.rate_limiting %> per hour rate-limiting</br>
-            <%= @source.rate_limit_remaining %> per hour rate-limit remaining</br>
+            <%= @source.rate_limit_remaining %> remaining to rate-limit</br>
             rate-limiting reset at <%= @source.rate_limit_reset.to_formatted_s(:long) %> UTC.</br>
             job queue <%= @source.queue %>
           </td>
