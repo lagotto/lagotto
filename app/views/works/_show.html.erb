@@ -114,7 +114,7 @@
         <% end %>
         <% if @work.version_relations.present? %>
           <% @work.version_relations.each do |relation| %>
-            <dt>relation.relation_type.title</dt>
+            <dt><%= relation.relation_type.title %></dt>
             <dd><%= link_to relation.related_work.pid, work_url(relation.related_work.pid) %></dd>
           <% end %>
         <% end %>
