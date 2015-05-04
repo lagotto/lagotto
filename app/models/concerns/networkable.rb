@@ -104,6 +104,9 @@ module Networkable
           status = 400
         end
 
+        # Some sources use a different status for rate-limiting errors
+        status = 429 if status == 403 && details.include? "Excessive use detected"
+
         if error.respond_to?('exception')
           exception = error.exception
         else
