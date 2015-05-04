@@ -324,7 +324,7 @@ class Work < ActiveRecord::Base
   end
 
   def timestamp
-    updated_at.nil? ? nil : updated_at.utc.iso8601
+    updated_at.utc.iso8601
   end
 
   alias_method :update_date, :timestamp

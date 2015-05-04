@@ -323,7 +323,7 @@ class RetrievalStatus < ActiveRecord::Base
   alias_method :update_date, :timestamp
 
   def cache_key
-    "event/#{id}/#{timestamp}"
+    "event/#{id}-#{timestamp}"
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval

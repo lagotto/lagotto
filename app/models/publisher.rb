@@ -46,7 +46,7 @@ class Publisher < ActiveRecord::Base
   end
 
   def cache_key
-    "publisher/#{member_id}/#{timestamp}"
+    "publisher/#{member_id}-#{timestamp}"
   end
 
   def timestamp
