@@ -186,8 +186,9 @@ module Networkable
         end
     end
 
+    # currently supported by twitter, github, ads and ads_fulltext
+    # sources with slightly different header names
     def get_rate_limit_remaining(headers)
-      # currently supported by twitter and github sources with slightly different header names
       headers["X-Rate-Limit-Remaining"] || headers["X-RateLimit-Remaining"]
     end
 
@@ -196,7 +197,7 @@ module Networkable
     end
 
     def get_rate_limit_reset(headers)
-      headers["X-Rate-Limit-Reset"]
+      headers["X-Rate-Limit-Reset"] || headers["X-RateLimit-Reset"]
     end
 
     def parse_error_response(string)
