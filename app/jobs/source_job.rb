@@ -16,11 +16,11 @@ class SourceJob < ActiveJob::Base
     rs_ids.each do |rs_id|
       # check for failed queries and rate-limiting
       source.work_after_check
-      fail SourceInactiveError, "#{source.title} is not in working state" unless source.working?
+      fail ::SourceInactiveError, "#{source.title} is not in working state" unless source.working?
 
       # observe rate-limiting settings, put back in queue if wait time is more than 5 sec
       wait_time = source.wait_time
-      fail TooManyRequestsError, "Wait time too long (#{wait_time.to_i} sec) for #{source.title}" if wait_time > 5
+      fail ::TooManyRequestsError, "Wait time too long (#{wait_time.to_i} sec) for #{source.title}" if wait_time > 5
 
       sleep wait_time
 
@@ -36,11 +36,11 @@ class SourceJob < ActiveJob::Base
     end
   end
 
-  rescue_from SourceInactiveError do
+  rescue_from ::SourceInactiveError do
     # ignore this error
   end
 
-  rescue_from TooManyRequestsError do |exception|
+  rescue_from ::TooManyRequestsError do |exception|
     rs_ids, source = arguments
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
   end
