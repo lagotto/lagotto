@@ -1,6 +1,6 @@
 class Wordpress < Source
   def get_query_string(work)
-    work.doi.presence || work.canonical_url.presence
+    "%22" + (work.doi.presence || work.canonical_url.presence) + "%22"
   end
 
   def get_related_works(result, work)
