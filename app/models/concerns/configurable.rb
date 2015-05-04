@@ -178,7 +178,7 @@ module Configurable
 
     # reset rate_limit every full hour unless value is provided by source
     def rate_limit_reset=(value)
-      value = (Time.zone.now.end_of_hour).to_i if value.nil?
+      value ||= (Time.zone.now.end_of_hour).to_i
       Rails.cache.write("#{name}/rate_limit_reset", get_iso8601_from_epoch(value))
     end
 
