@@ -19,7 +19,8 @@ class Api::V6::MonthsController < Api::BaseController
                                         sum(html) as html,
                                         sum(readers) as readers,
                                         sum(comments) as comments,
-                                        sum(likes) as likes").group(:year, :month)
+                                        sum(likes) as likes,
+                                        max(updated_at) as updated_at").group(:year, :month)
     collection = collection.includes(:source)
 
     @months = collection.decorate
