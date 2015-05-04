@@ -164,6 +164,19 @@ class RetrievalStatus < ActiveRecord::Base
                                     likes: item.fetch(:likes, 0)) }
   end
 
+  def import_from_couchdb
+    # import only for works with dois because we changed the pid format in lagotto 4.0
+    return nil unless event_count > 0 && work.doi.present?
+
+    data = get_lagotto_data("#{source.name}:#{work.doi_escaped}")
+
+    by_day = (data.blank? || data[:error]) ? [] : data["events_by_day"]
+    update_days(by_day)
+
+    by_month = (data.blank? || data[:error]) ? [] : data["events_by_month"]
+    update_months(by_month)
+  end
+
   def retrieved_days_ago
     if [Date.new(1970, 1, 1), today].include?(retrieved_at.to_date)
       1

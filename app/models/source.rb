@@ -81,6 +81,7 @@ class Source < ActiveRecord::Base
   scope :active, -> { by_states(2).order_by_title }
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
+  scope :importable, -> { active.where("name in (?)", ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos']) }
   scope :queueable, -> { active.where(queueable: true) }
   scope :eventable, -> { visible.where(eventable: true) }
 
@@ -320,6 +321,32 @@ class Source < ActiveRecord::Base
     cron_parser.next(Time.zone.now)
   rescue ArgumentError
     errors.add(:cron_line, "is not a valid crontab entry")
+  end
+
+  # import couchdb data for lagotto 4.0 upgrade
+  def import_from_couchdb
+    return 0 unless active?
+
+    # find works that need to be imported.
+    rs = retrieval_statuses
+
+    rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
+    count = queue_import_jobs(rs)
+  end
+
+  def queue_import_jobs(rs, options = {})
+    return 0 unless active?
+
+    if rs.length == 0
+      wait
+      return 0
+    end
+
+    rs.each_slice(job_batch_size) do |rs_ids|
+      CouchdbImportJob.perform_later(rs_ids)
+    end
+
+    rs.length
   end
 
   # Format events for all works as csv
