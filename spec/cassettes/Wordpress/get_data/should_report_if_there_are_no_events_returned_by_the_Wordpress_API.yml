@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294%22&size=20&t=post
+    uri: http://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pone.0044294%22&size=20&t=post
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 24 Mar 2015 14:19:29 GMT
+      - Mon, 04 May 2015 23:06:06 GMT
       Content-Type:
       - text/html
       Content-Length:
@@ -27,7 +27,7 @@ http_interactions:
       Connection:
       - keep-alive
       Location:
-      - https://en.search.wordpress.com/?f=json&q=%2210.1371%2Fjournal.pone.0044294%22+OR+%22http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%3Adoi%2F10.1371%2Fjournal.pone.0044294%22&size=20&t=post
+      - https://en.search.wordpress.com/?f=json&q=%2210.1371%2Fjournal.pone.0044294%22&size=20&t=post
       X-Ac:
       - 1.sjc _dfw
     body:
@@ -35,16 +35,16 @@ http_interactions:
       string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body
         bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:29 GMT
+  recorded_at: Mon, 04 May 2015 23:06:06 GMT
 - request:
     method: get
-    uri: https://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294%22&size=20&t=post
+    uri: https://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pone.0044294%22&size=20&t=post
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.19 - http://lagotto.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -55,7 +55,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 24 Mar 2015 14:19:31 GMT
+      - Mon, 04 May 2015 23:06:07 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Connection:
@@ -73,5 +73,5 @@ http_interactions:
       encoding: UTF-8
       string: 'null'
     http_version: 
-  recorded_at: Tue, 24 Mar 2015 14:19:32 GMT
+  recorded_at: Mon, 04 May 2015 23:06:07 GMT
 recorded_with: VCR 2.9.3

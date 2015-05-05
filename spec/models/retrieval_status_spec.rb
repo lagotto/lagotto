@@ -257,10 +257,10 @@ describe RetrievalStatus, type: :model, vcr: true do
       subject = FactoryGirl.create(:retrieval_status, total: 50, pdf: 10, html: 40, work: work, source: source)
 
       expect(subject.months.count).to eq(0)
-      expect(subject.perform_get_data).to eq(total: 148, html: 116, pdf: 22, previous_total: 50, skipped: false, update_interval: 31)
-      expect(subject.total).to eq(148)
-      expect(subject.pdf).to eq(22)
-      expect(subject.html).to eq(116)
+      expect(subject.perform_get_data).to eq(total: 157, html: 122, pdf: 24, previous_total: 50, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(157)
+      expect(subject.pdf).to eq(24)
+      expect(subject.html).to eq(122)
       expect(subject.months.count).to eq(5)
       expect(subject.days.count).to eq(0)
       expect(subject.extra.length).to eq(5)
@@ -268,12 +268,12 @@ describe RetrievalStatus, type: :model, vcr: true do
       month = subject.months.last
       expect(month.year).to eq(2015)
       expect(month.month).to eq(4)
-      expect(month.total).to eq(1)
-      expect(month.pdf).to eq(0)
-      expect(month.html).to eq(1)
+      expect(month.total).to eq(10)
+      expect(month.pdf).to eq(2)
+      expect(month.html).to eq(7)
 
       extra = subject.extra.last
-      expect(extra).to eq("month"=>"4", "year"=>"2015", "pdf_views"=>0, "xml_views"=>0, "html_views"=>"1")
+      expect(extra).to eq("month"=>"4", "year"=>"2015", "pdf_views"=>"2", "xml_views"=>"1", "html_views"=>"7")
     end
 
     it "success mendeley" do

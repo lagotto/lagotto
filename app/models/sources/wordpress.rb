@@ -1,6 +1,8 @@
 class Wordpress < Source
   def get_query_string(work)
-    "%22" + (work.doi.presence || work.canonical_url.presence) + "%22"
+    return {} unless work.get_url || work.doi.present?
+
+    "%22" + (work.doi_escaped.presence || work.canonical_url.presence) + "%22"
   end
 
   def get_related_works(result, work)

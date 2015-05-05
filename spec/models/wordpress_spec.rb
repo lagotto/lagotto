@@ -31,7 +31,7 @@ describe Wordpress, type: :model, vcr: true do
 
     it "should report if there are events returned by the Wordpress API" do
       response = subject.get_data(work)
-      expect(response["data"].length).to eq(1)
+      expect(response["data"].length).to eq(2)
       data = response["data"].first
       expect(data["title"]).to eq("Are microbes vital on earth?")
     end

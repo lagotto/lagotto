@@ -82,7 +82,7 @@ describe EuropePmcData, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "europe_pmc_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -91,7 +91,7 @@ describe EuropePmcData, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "europe_pmc_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(response).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
@@ -117,7 +117,7 @@ describe EuropePmcData, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "", :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "europe_pmc_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -126,7 +126,7 @@ describe EuropePmcData, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "europe_pmc_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(response).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do

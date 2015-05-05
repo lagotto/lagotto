@@ -36,10 +36,10 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(54)
-      expect(response["resultList"]["result"].length).to eq(54)
+      expect(response["hitCount"]).to eq(70)
+      expect(response["resultList"]["result"].length).to eq(70)
       result = response["resultList"]["result"].first
-      expect(result["doi"]).to eq("10.1128/mbio.02400-14")
+      expect(result["doi"]).to eq("10.1186/s12870-015-0454-0")
     end
 
     it "should catch errors with the Europe PMC Search API" do

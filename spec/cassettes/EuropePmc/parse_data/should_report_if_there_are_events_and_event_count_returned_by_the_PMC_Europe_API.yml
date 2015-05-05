@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:31 GMT
+      - Mon, 04 May 2015 23:15:49 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,8 +31,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:31",
-         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:49",
+         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC2763780",
@@ -48,16 +48,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:32 GMT
+  recorded_at: Mon, 04 May 2015 23:15:49 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -66,7 +66,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:32 GMT
+      - Mon, 04 May 2015 23:15:50 GMT
       Server:
       - Apache
       Content-Type:
@@ -80,8 +80,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:32",
-         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:50",
+         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC2782675",
@@ -98,16 +98,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:32 GMT
+  recorded_at: Mon, 04 May 2015 23:15:50 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -116,7 +116,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:32 GMT
+      - Mon, 04 May 2015 23:15:51 GMT
       Server:
       - Apache
       Content-Type:
@@ -130,8 +130,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:32",
-         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:51",
+         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "19308318",
@@ -142,16 +142,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:32 GMT
+  recorded_at: Mon, 04 May 2015 23:15:51 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -160,7 +160,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:33 GMT
+      - Mon, 04 May 2015 23:15:52 GMT
       Server:
       - Apache
       Content-Type:
@@ -174,8 +174,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:33",
-         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:52",
+         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC3051412",
@@ -191,16 +191,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:33 GMT
+  recorded_at: Mon, 04 May 2015 23:15:52 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -209,7 +209,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:33 GMT
+      - Mon, 04 May 2015 23:15:53 GMT
       Server:
       - Apache
       Content-Type:
@@ -223,8 +223,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:33",
-         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:53",
+         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC2824913",
@@ -241,16 +241,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:33 GMT
+  recorded_at: Mon, 04 May 2015 23:15:53 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -259,7 +259,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:33 GMT
+      - Mon, 04 May 2015 23:15:54 GMT
       Server:
       - Apache
       Content-Type:
@@ -273,8 +273,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:33",
-         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:54",
+         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC1976277",
@@ -291,16 +291,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:34 GMT
+  recorded_at: Mon, 04 May 2015 23:15:54 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -309,7 +309,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:34 GMT
+      - Mon, 04 May 2015 23:15:55 GMT
       Server:
       - Apache
       Content-Type:
@@ -323,8 +323,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:34",
-         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:55",
+         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC3098654",
@@ -340,16 +340,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:34 GMT
+  recorded_at: Mon, 04 May 2015 23:15:55 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -358,7 +358,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:34 GMT
+      - Mon, 04 May 2015 23:15:56 GMT
       Server:
       - Apache
       Content-Type:
@@ -372,8 +372,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:34",
-         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:56",
+         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "21116297",
@@ -384,16 +384,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:34 GMT
+  recorded_at: Mon, 04 May 2015 23:15:56 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -402,7 +402,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:35 GMT
+      - Mon, 04 May 2015 23:15:57 GMT
       Server:
       - Apache
       Content-Type:
@@ -416,8 +416,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:35",
-         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:57",
+         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "17927775",
@@ -428,16 +428,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:35 GMT
+  recorded_at: Mon, 04 May 2015 23:15:57 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -446,7 +446,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:35 GMT
+      - Mon, 04 May 2015 23:15:58 GMT
       Server:
       - Apache
       Content-Type:
@@ -460,8 +460,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:35",
-         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:58",
+         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "19949811",
@@ -472,16 +472,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:35 GMT
+  recorded_at: Mon, 04 May 2015 23:15:58 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -490,7 +490,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:35 GMT
+      - Mon, 04 May 2015 23:15:59 GMT
       Server:
       - Apache
       Content-Type:
@@ -504,8 +504,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:35",
-         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:15:59",
+         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "18413319",
@@ -516,16 +516,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:35 GMT
+  recorded_at: Mon, 04 May 2015 23:15:59 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -534,7 +534,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:36 GMT
+      - Mon, 04 May 2015 23:16:00 GMT
       Server:
       - Apache
       Content-Type:
@@ -548,8 +548,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:36",
-         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:00",
+         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "19252922",
@@ -560,16 +560,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:36 GMT
+  recorded_at: Mon, 04 May 2015 23:16:00 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -578,7 +578,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:36 GMT
+      - Mon, 04 May 2015 23:16:01 GMT
       Server:
       - Apache
       Content-Type:
@@ -592,8 +592,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:36",
-         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:01",
+         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC2724239",
@@ -609,16 +609,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:36 GMT
+  recorded_at: Mon, 04 May 2015 23:16:01 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -627,7 +627,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:36 GMT
+      - Mon, 04 May 2015 23:16:02 GMT
       Server:
       - Apache
       Content-Type:
@@ -641,8 +641,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:36",
-         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:02",
+         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC2576030",
@@ -658,16 +658,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:36 GMT
+  recorded_at: Mon, 04 May 2015 23:16:02 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -676,7 +676,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:36 GMT
+      - Mon, 04 May 2015 23:16:05 GMT
       Server:
       - Apache
       Content-Type:
@@ -690,8 +690,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:36",
-         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:05",
+         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "18386391",
@@ -702,16 +702,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:36 GMT
+  recorded_at: Mon, 04 May 2015 23:16:05 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -720,7 +720,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:37 GMT
+      - Mon, 04 May 2015 23:16:06 GMT
       Server:
       - Apache
       Content-Type:
@@ -734,8 +734,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:37",
-         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:06",
+         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC2886697",
@@ -751,16 +751,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:37 GMT
+  recorded_at: Mon, 04 May 2015 23:16:06 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -769,7 +769,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:37 GMT
+      - Mon, 04 May 2015 23:16:07 GMT
       Server:
       - Apache
       Content-Type:
@@ -783,8 +783,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:37",
-         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:07",
+         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "20416284",
@@ -795,16 +795,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:37 GMT
+  recorded_at: Mon, 04 May 2015 23:16:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -813,7 +813,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:37 GMT
+      - Mon, 04 May 2015 23:16:08 GMT
       Server:
       - Apache
       Content-Type:
@@ -827,8 +827,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:37",
-         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:08",
+         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -848,16 +848,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:37 GMT
+  recorded_at: Mon, 04 May 2015 23:16:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -866,7 +866,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:37 GMT
+      - Mon, 04 May 2015 23:16:09 GMT
       Server:
       - Apache
       Content-Type:
@@ -880,8 +880,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:38",
-         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:09",
+         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "18686574",
@@ -892,16 +892,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:38 GMT
+  recorded_at: Mon, 04 May 2015 23:16:09 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -910,7 +910,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:38 GMT
+      - Mon, 04 May 2015 23:16:10 GMT
       Server:
       - Apache
       Content-Type:
@@ -924,8 +924,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:38",
-         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:10",
+         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "19937527",
@@ -936,16 +936,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:38 GMT
+  recorded_at: Mon, 04 May 2015 23:16:10 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -954,7 +954,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:38 GMT
+      - Mon, 04 May 2015 23:16:11 GMT
       Server:
       - Apache
       Content-Type:
@@ -968,8 +968,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:38",
-         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:11",
+         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "21113688",
@@ -980,16 +980,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:38 GMT
+  recorded_at: Mon, 04 May 2015 23:16:11 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -998,7 +998,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:38 GMT
+      - Mon, 04 May 2015 23:16:12 GMT
       Server:
       - Apache
       Content-Type:
@@ -1012,8 +1012,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:38",
-         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:12",
+         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmid": "21142998",
@@ -1024,16 +1024,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:38 GMT
+  recorded_at: Mon, 04 May 2015 23:16:12 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%204.0-unstable%20-%20http://lagotto-4-0-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0-unstable - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
       Accept:
       - application/json
   response:
@@ -1042,7 +1042,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 09 Apr 2015 22:47:39 GMT
+      - Mon, 04 May 2015 23:16:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -1056,8 +1056,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-04-09 18:47:39",
-         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%204.0-unstable%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
+         "responseDate": "2015-05-04 19:16:14",
+         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-unstable.local",
          "records": [
            {
             "pmcid": "PMC3443659",
@@ -1073,5 +1073,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Thu, 09 Apr 2015 22:47:39 GMT
+  recorded_at: Mon, 04 May 2015 23:16:14 GMT
 recorded_with: VCR 2.9.3
