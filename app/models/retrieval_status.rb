@@ -166,7 +166,7 @@ class RetrievalStatus < ActiveRecord::Base
 
   def import_from_couchdb
     # import only for works with dois because we changed the pid format in lagotto 4.0
-    return false unless event_count > 0 && work.doi.present?
+    return false unless total > 0 && work.doi.present?
 
     data = get_lagotto_data("#{source.name}:#{work.doi_escaped}")
 
