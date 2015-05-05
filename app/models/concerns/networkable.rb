@@ -22,6 +22,12 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
+      # set number of available API calls for sources
+      if options[:source_id].present?
+        source = Source.where(id: options[:source_id]).first
+        source.update_attributes(rate_limit_remaining: get_rate_limit_remaining(response.headers),
+                                 rate_limit_reset: get_rate_limit_reset(response.headers))
+      end
       # parsing by content type is not reliable, so we check the response format
       if is_json?(response.body)
         JSON.parse(response.body)
@@ -101,6 +107,9 @@ module Networkable
           status = 400
         end
 
+        # Some sources use a different status for rate-limiting errors
+        status = 429 if status == 403 && details.include?("Excessive use detected")
+
         if error.respond_to?('exception')
           exception = error.exception
         else
@@ -113,7 +122,7 @@ module Networkable
         message = parse_error_response(error.message)
         message = "#{message} for #{url}"
         message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
-        message = rate_limiting_info(message, headers) if class_name == Net::HTTPTooManyRequests
+        message = "#{message}. Rate-limit #{get_rate_limit_limit(headers)} exceeded." if class_name == Net::HTTPTooManyRequests
 
         Alert.where(message: message).where(unresolved: true).first_or_create(
           exception: exception,
@@ -183,13 +192,18 @@ module Networkable
         end
     end
 
-    def rate_limiting_info(message, headers)
-      # currently supported by twitter and github sources with slightly different header names
-      rate_limit_limit = headers["X-Rate-Limit-Limit"] || headers["X-RateLimit-Limit"]
-      rate_limit_remaining = headers["X-Rate-Limit-Remaining"] || headers["X-RateLimit-Remaining"]
-      rate_limit_reset = headers["X-Rate-Limit-Reset"]
+    # currently supported by twitter, github, ads and ads_fulltext
+    # sources with slightly different header names
+    def get_rate_limit_remaining(headers)
+      headers["X-Rate-Limit-Remaining"] || headers["X-RateLimit-Remaining"]
+    end
 
-      "#{message}. Rate-limit #{rate_limit_limit.to_s} exceeded."
+    def get_rate_limit_limit(headers)
+      headers["X-Rate-Limit-Limit"] || headers["X-RateLimit-Limit"]
+    end
+
+    def get_rate_limit_reset(headers)
+      headers["X-Rate-Limit-Reset"] || headers["X-RateLimit-Reset"]
     end
 
     def parse_error_response(string)
