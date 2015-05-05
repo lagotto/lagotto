@@ -3,6 +3,15 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.20 (May 5, 2015)
+
+[Lagotto 3.20](https://github.com/articlemetrics/lagotto/releases/tag/v.3.20) was released on May 5, 2015 with the following changes:
+
+* filter authentication_token from log files ([#285](https://github.com/articlemetrics/lagotto/issues/285))
+* fixed authentication error that broke creation of new user accounts ([#286](https://github.com/articlemetrics/lagotto/issues/286))
+* create delete canonical_url rake task for cases where journal URLs change ([#298](https://github.com/articlemetrics/lagotto/issues/298))
+* set rate-limit remaining number for all sources using memcached. This should fix rate-limiting errors with the `twitter_search` source ([#300](https://github.com/articlemetrics/lagotto/issues/300))
+
 ## Lagotto 3.19 (March 24, 2015)
 
 [Lagotto 3.19](https://github.com/articlemetrics/lagotto/releases/tag/v.3.19) was released on March 24, 2015 with the following changes:
