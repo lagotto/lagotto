@@ -8,31 +8,38 @@ describe "/api/v6/events", :type => :api do
   context "caching", :caching => true do
     context "work is updated" do
       let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:keys) { work.retrieval_statuses.map { |rs| rs.cache_key } }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works/#{work.pid}/events" }
-      let(:key) { "jbuilder/v6/#{work.decorate.cache_key}" }
       let(:title) { "Foo" }
       let(:total) { 75 }
 
       it "does not use a stale cache when the source query parameter changes" do
-        expect(Rails.cache.exist?(key)).to be false
+        keys.all? do |key|
+          expect(Rails.cache.exist?("jbuilder/v6/#{key}")).to be false
+        end
+
         get uri, nil, headers
         expect(last_response.status).to eq(200)
 
         sleep 1
 
-        response = Rails.cache.read(key)
-        expect(response).to eq(2)
+        keys.all? do |key|
+          expect(Rails.cache.exist?("jbuilder/v6/#{key}")).to be true
+        end
 
-        source_uri = "#{uri}?source_id=crossref"
+        #response = Rails.cache.read(keys.first)
+        #expect(response).to eq(2)
+
+        source_uri = "#{uri}?source_id=citeulike"
         get source_uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["total"]).to eq(1)
-        item = response["works"].first
-        expect(item["DOI"]).to eql(work.doi)
-        expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(item["events"]).to be_empty
+        expect(response["meta"]["total"]).to eq(2)
+        item = response["events"].first
+        expect(item["work_id"]).to eql(work.pid)
+        expect(item["total"]).to eql(50)
+        expect(item["events_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
       end
     end
   end
