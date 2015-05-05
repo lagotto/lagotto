@@ -13,7 +13,7 @@ services:
   - redis-server
 
 before_script:
-  - cp .env.example .env
+  - cp .env.travis .env
   - mkdir -p tmp/pids
   - npm install -g istanbul
   - npm install -g codeclimate-test-reporter
