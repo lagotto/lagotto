@@ -23,11 +23,12 @@ class SourceJob < ActiveJob::Base
   rescue_from StandardError do |exception|
     rs_ids, source = arguments
     RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: nil)
+    source_id = source.nil? ? nil : source.id
 
     Alert.where(message: exception.message).where(unresolved: true).first_or_create(
       exception: exception,
       class_name: exception.class.to_s,
-      source_id: source.id)
+      source_id: source_id)
   end
 
   def perform(rs_ids, source)
