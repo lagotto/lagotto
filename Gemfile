@@ -5,7 +5,7 @@ gem 'mysql2', '0.3.16'
 
 gem "dotenv", '~> 1.0.2'
 gem 'sidekiq', '~> 3.3.0'
-gem 'sinatra', :require => nil
+gem 'sinatra'
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false
 gem 'parse-cron', '~> 0.1.4'

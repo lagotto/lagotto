@@ -28,7 +28,6 @@ Lagotto::Application.routes.draw do
   # constraints is added to allow dot in the url (doi is used to show article)
   resources :works, constraints: { :id => /.+?/, :format => /html|js|rss/ }
 
-  get "heartbeat", to: "heartbeat#show", defaults: { format: "json" }
   get "oembed", to: "oembed#show"
 
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
