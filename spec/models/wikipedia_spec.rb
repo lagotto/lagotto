@@ -67,12 +67,12 @@ describe Wikipedia, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       result = { "en"=>[] }
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
@@ -97,6 +97,15 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event['URL']).to eq("http://en.wikipedia.org/wiki/Lobatus_costatus")
       expect(event['type']).to eq("entry-encyclopedia")
       expect(event['related_works']).to eq([{"related_work"=>work.pid, "source"=>"wikipedia", "relation_type"=>"references"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_url]).to eq("http://en.wikipedia.org/wiki/Lobatus_costatus")
+      expect(extra[:event_time]).to eq("2013-03-21T09:51:18Z")
+      expect(extra[:event_csl]['author']).to be_nil
+      expect(extra[:event_csl]['title']).to eq("Lobatus costatus")
+      expect(extra[:event_csl]['container-title']).to eq("Wikipedia")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2013, 3, 21]])
+      expect(extra[:event_csl]['type']).to eq("entry-encyclopedia")
     end
 
     it "should report if there are events and event_count returned by the Wikimedia Commons API" do
@@ -121,13 +130,22 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event['URL']).to eq("http://en.wikipedia.org/wiki/Lesula")
       expect(event['type']).to eq("entry-encyclopedia")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"wikipedia", "relation_type"=>"references"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_url]).to eq("http://en.wikipedia.org/wiki/Lesula")
+      expect(extra[:event_time]).to eq("2014-05-24T12:54:07Z")
+      expect(extra[:event_csl]['author']).to be_nil
+      expect(extra[:event_csl]['title']).to eq("Lesula")
+      expect(extra[:event_csl]['container-title']).to eq("Wikipedia")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 5, 24]])
+      expect(extra[:event_csl]['type']).to eq("entry-encyclopedia")
     end
 
     it "should catch errors with the Wikipedia API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { "en"=>[] }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "wikipedia", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
   end
 end

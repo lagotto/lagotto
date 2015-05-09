@@ -50,7 +50,7 @@ describe Researchblogging, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "researchblogging", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "researchblogging", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events returned by the ResearchBlogging API" do
@@ -58,7 +58,7 @@ describe Researchblogging, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "researchblogging", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "researchblogging", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events returned by the ResearchBlogging API" do
@@ -82,6 +82,15 @@ describe Researchblogging, type: :model, vcr: true do
       expect(event['container-title']).to eq("Laika's Medliblog")
       expect(event['issued']).to eq("date-parts"=>[[2012, 10, 27]])
       expect(event['type']).to eq("post")
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to eq("2012-10-27T11:32:09Z")
+      expect(extra[:event_url]).to eq(extra[:event]["post_URL"])
+      expect(extra[:event_csl]['author']).to eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
+      expect(extra[:event_csl]['title']).to eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
+      expect(extra[:event_csl]['container-title']).to eq("Laika's Medliblog")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2012, 10, 27]])
+      expect(extra[:event_csl]['type']).to eq("post")
     end
 
     it "should report if there is one event returned by the ResearchBlogging API" do
@@ -105,6 +114,15 @@ describe Researchblogging, type: :model, vcr: true do
       expect(event['container-title']).to eq("Laika's Medliblog")
       expect(event['issued']).to eq("date-parts"=>[[2012, 10, 27]])
       expect(event['type']).to eq("post")
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to eq("2012-10-27T11:32:09Z")
+      expect(extra[:event_url]).to eq(extra[:event]["post_URL"])
+      expect(extra[:event_csl]['author']).to eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
+      expect(extra[:event_csl]['title']).to eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
+      expect(extra[:event_csl]['container-title']).to eq("Laika's Medliblog")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2012, 10, 27]])
+      expect(extra[:event_csl]['type']).to eq("post")
     end
 
     it "should catch timeout errors with the ResearchBlogging API" do

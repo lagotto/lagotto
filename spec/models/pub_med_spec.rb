@@ -41,7 +41,7 @@ describe PubMed, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pub_med", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
@@ -50,7 +50,7 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "pub_med", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "pub_med", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do
@@ -75,6 +75,9 @@ describe PubMed, type: :model, vcr: true do
       expect(event['page']).to be_nil
       expect(event['type']).to eq("article-journal")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"pub_med", "relation_type"=>"cites"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + extra[:event])
     end
 
     it "should report if there is a single event returned by the PubMed API" do

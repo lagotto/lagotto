@@ -8,6 +8,7 @@ class Reddit < Source
     comments = get_sum(result, 'data', 'num_comments')
     total = likes + comments
     related_works = get_related_works(result, work)
+    extra = get_extra(result)
     events_url = total > 0 ? get_events_url(work) : nil
 
     { works: related_works,
@@ -18,6 +19,7 @@ class Reddit < Source
         likes: likes,
         total: total,
         events_url: events_url,
+        extra: extra,
         days: get_events_by_day(related_works, work),
         months: get_events_by_month(related_works) } }
   end
@@ -38,6 +40,28 @@ class Reddit < Source
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
+    end
+  end
+
+  def get_extra(result)
+    result.map do |item|
+      data = item['data']
+      event_time = get_iso8601_from_epoch(data['created_utc'])
+      url = data['url']
+
+      { event: data,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_authors([data.fetch('author', "")]),
+          'title' => data.fetch('title', ""),
+          'container-title' => 'Reddit',
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'personal_communication' }
+      }
     end
   end
 

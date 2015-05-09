@@ -42,13 +42,13 @@ describe Datacite, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       body = File.read(fixture_path + 'datacite_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
@@ -67,6 +67,9 @@ describe Datacite, type: :model, vcr: true do
       expect(event['issued']).to eq("date-parts"=>[[2011]])
       expect(event['type']).to eq("dataset")
       expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"_references"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_url]).to eq("http://doi.org/10.5061/DRYAD.8515")
     end
 
     it "should catch timeout errors with the Datacite API" do

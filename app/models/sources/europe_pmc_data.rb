@@ -17,7 +17,6 @@ class EuropePmcData < Source
 
     total = result.fetch("hitCount", nil).to_i
     related_works = get_related_works(result, work)
-    extra = get_extra(result, work)
     events_url = total > 0 ? get_events_url(work) : nil
 
     { works: related_works,
@@ -26,7 +25,7 @@ class EuropePmcData < Source
         work: work.pid,
         total: total,
         events_url: events_url,
-        extra: extra } }
+        extra: get_extra(result) } }
   end
 
   def get_related_works(result, work)
@@ -48,7 +47,7 @@ class EuropePmcData < Source
     end
   end
 
-  def get_extra(result, work)
+  def get_extra(result)
     result = result.deep_fetch('dbCountList', 'db') { [] }
     result.reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
   end

@@ -197,10 +197,6 @@ class RetrievalStatus < ActiveRecord::Base
     "#{source.name}:#{work.pid}"
   end
 
-  def events
-    []
-  end
-
   # dates via utc time are more accurate than Date.today
   def today
     Time.zone.now.to_date
@@ -345,6 +341,11 @@ class RetrievalStatus < ActiveRecord::Base
 
   alias_method :display_name, :title
   alias_method :update_date, :timestamp
+
+  # for backwards compatibility in v3 and v5 APIs
+  def events
+    extra
+  end
 
   def cache_key
     "event/#{id}-#{timestamp}"

@@ -45,6 +45,15 @@ class PubMed < Source
     end
   end
 
+  def get_extra(result)
+    extra = result.deep_fetch('PubMedToPMCcitingformSET', 'REFORM', 'PMCID') { nil }
+    extra = [extra] if extra.is_a?(Hash)
+    Array(extra).map do |item|
+      { :event => item,
+        :event_url => "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + item }
+    end
+  end
+
   def get_events_url(work)
     if work.pmid.present?
       events_url % { :pmid => work.pmid }

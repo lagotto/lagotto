@@ -26,6 +26,7 @@ class PlosFulltext < Source
         work: work.pid,
         total: total,
         events_url: events_url,
+        extra: get_extra(result),
         days: get_events_by_day(related_works, work),
         months: get_events_by_month(related_works) } }
   end
@@ -46,6 +47,27 @@ class PlosFulltext < Source
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
+    end
+  end
+
+  def get_extra(result)
+    result.fetch("response", {}).fetch("docs", []).map do |item|
+      event_time = get_iso8601_from_time(item.fetch("publication_date", nil))
+      doi = item.fetch("id")
+
+      { event: item,
+        event_time: event_time,
+        event_url: "http://dx.doi.org/#{doi}",
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          "author" => get_authors(item.fetch("author_display", [])),
+          "title" => item.fetch("title", ""),
+          "container-title" => item.fetch("cross_published_journal_name", []).first,
+          "issued" => get_date_parts(event_time),
+          "url" => "http://dx.doi.org/#{doi}",
+          "type" => "article-journal" }
+      }
     end
   end
 

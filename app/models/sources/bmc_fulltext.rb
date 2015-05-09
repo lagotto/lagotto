@@ -17,6 +17,7 @@ class BmcFulltext < Source
     return result if result[:error] || result["entries"].nil?
 
     related_works = get_related_works(result, work)
+    extra = get_extra(result)
     events_url = related_works.length > 0 ? get_events_url(work) : nil
 
     { works: related_works,
@@ -25,6 +26,7 @@ class BmcFulltext < Source
         work: work.pid,
         total: related_works.length,
         events_url: events_url,
+        extra: extra,
         days: get_events_by_day(related_works, work),
         months: get_events_by_month(related_works) } }
   end
@@ -49,6 +51,31 @@ class BmcFulltext < Source
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
+    end
+  end
+
+  def get_extra(result)
+    result.fetch("entries", []).map do |item|
+      event_time = get_iso8601_from_time(item.fetch("published Date", nil))
+      # workaround since the "doi" attribute is sometimes empty
+      doi = "10.1186/#{item.fetch("arxId")}"
+      author = Nokogiri::HTML::fragment(item.fetch("authorNames", ""))
+      title = Nokogiri::HTML::fragment(item.fetch("bibliograhyTitle", ""))
+      container_title = Nokogiri::HTML::fragment(item.fetch("longCitation", ""))
+
+      { event: item,
+        event_time: event_time,
+        event_url: "http://dx.doi.org/#{doi}",
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
+          "title" => title.at_css("p").text,
+          "container-title" => container_title.at_css("em").text,
+          "issued" => get_date_parts(event_time),
+          "url" => "http://dx.doi.org/#{doi}",
+          "type" => "article-journal" }
+      }
     end
   end
 

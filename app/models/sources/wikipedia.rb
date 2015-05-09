@@ -75,6 +75,7 @@ class Wikipedia < Source
         work: work.pid,
         total: total,
         events_url: events_url,
+        extra: get_extra(result),
         days: get_events_by_day(related_works, work, options),
         months: get_events_by_month(related_works, options) } }
   end
@@ -94,6 +95,26 @@ class Wikipedia < Source
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "references" }] }
+    end
+  end
+
+  def get_extra(result)
+    result.values.flatten.map do |item|
+      event_time = item.fetch("timestamp", nil)
+      url = item.fetch("url", nil)
+
+      { event: item,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          "title" => item.fetch("title", ""),
+          "container-title" => "Wikipedia",
+          "issued" => get_date_parts(event_time),
+          "url" => url,
+          "type" => "entry-encyclopedia" }
+      }
     end
   end
 

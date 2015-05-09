@@ -44,6 +44,17 @@ class Citeulike < Source
     end
   end
 
+  def get_extra(result)
+    extra = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
+    extra = [extra] if extra.is_a?(Hash)
+    extra ||= nil
+    Array(extra).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["post_time"]),
+        event_url: item['link']['url'] }
+    end
+  end
+
   def config_fields
     [:url, :events_url]
   end

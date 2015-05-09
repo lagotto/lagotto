@@ -55,14 +55,14 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "wordpress", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "wordpress", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "wordpress", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "wordpress", work: work.pid, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events returned by the Wordpress API" do
@@ -84,6 +84,15 @@ describe Wordpress, type: :model, vcr: true do
       expect(event['container-title']).to be_nil
       expect(event['issued']).to eq("date-parts"=>[[2007, 7, 12]])
       expect(event['type']).to eq("post")
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to eq("2007-07-12T15:36:38Z")
+      expect(extra[:event_url]).to eq(extra[:event]['link'])
+      expect(extra[:event_csl]['author']).to eq([{"family"=>"Piwowar", "given"=>"Heather"}])
+      expect(extra[:event_csl]['title']).to eq("Presentation on Citation Rate for Shared Data")
+      expect(extra[:event_csl]['container-title']).to eq("")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2007, 7, 12]])
+      expect(extra[:event_csl]['type']).to eq("post")
     end
 
     it "should catch timeout errors with the Wordpress API" do
