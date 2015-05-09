@@ -10,7 +10,6 @@ json.array! @works do |work|
           json.(rs, :name, :display_name, :events_url, :update_date)
           json.metrics rs.old_metrics
           json.events rs.events if ["detail","event"].include?(params[:info])
-          json.(rs, :by_day, :by_month, :by_year) if ["detail","history"].include?(params[:info])
         end
       end
     end
