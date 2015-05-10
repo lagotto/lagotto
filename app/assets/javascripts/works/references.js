@@ -42,14 +42,14 @@ function eventsViz(json, sources, relation_types) {
   d3.select("#loading-results").remove();
 
   if (typeof data === "undefined" || data.length === 0) {
-    d3.select("#content-references").text("")
+    d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no references");
     return;
   }
 
-  d3.select("#content-references").insert("div")
+  d3.select("#content").insert("div")
     .attr("id", "results");
 
   for (var i=0; i<data.length; i++) {
