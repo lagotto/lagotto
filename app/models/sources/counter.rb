@@ -35,9 +35,9 @@ class Counter < Source
     Array(extra).map do |item|
       { "month" => item.fetch("month", nil),
         "year" => item.fetch("year", nil),
-        "pdf_views" => item.fetch("get_pdf", 0),
-        "xml_views" => item.fetch("get_xml", 0),
-        "html_views" => item.fetch("get_document", 0) }
+        "pdf_views" => item.fetch("get_pdf", "0"),
+        "xml_views" => item.fetch("get_xml", "0"),
+        "html_views" => item.fetch("get_document", "0") }
     end
   end
 
