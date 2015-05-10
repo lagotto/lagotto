@@ -16,7 +16,7 @@ class Api::V3::WorksController < Api::BaseController
 
     fail ActiveRecord::RecordNotFound, "Article not found." if collection.blank?
 
-    @works = collection.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    @works = collection.decorate(context: { info: params[:info], source_ids: source_ids })
   end
 
   def show
@@ -31,7 +31,7 @@ class Api::V3::WorksController < Api::BaseController
 
     fail ActiveRecord::RecordNotFound, "Article not found." if work.blank?
 
-    @work = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    @work = work.decorate(context: { info: params[:info], source_ids: source_ids })
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
