@@ -285,7 +285,7 @@ class Source < ActiveRecord::Base
 
   # all other fields
   def other_fields
-    config_fields.select { |field| field =~ /\Aurl.+/ }
+    config_fields.select { |field| field =~ /url.+/ }
   end
 
   # all publisher-specific configurations
