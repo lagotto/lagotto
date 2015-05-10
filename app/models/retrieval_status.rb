@@ -13,7 +13,6 @@ class RetrievalStatus < ActiveRecord::Base
   has_many :months, :dependent => :destroy
   has_many :days, :dependent => :destroy
 
-  serialize :event_metrics
   serialize :extra, JSON
 
   validates :work_id, :source_id, presence: true
@@ -312,7 +311,7 @@ class RetrievalStatus < ActiveRecord::Base
                    readers: readers,
                    comments: comments,
                    likes: likes,
-                   total: total }.reject { |k,v| v.to_i == 0 }
+                   total: total }
   end
 
   # for backwards compatibility with v3 API
