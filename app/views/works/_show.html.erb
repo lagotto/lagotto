@@ -56,7 +56,7 @@
           <% end %>
           <dd><%= h(@work.container_title) %></dd>
         <% end %>
-        <% if publishers.length > 1 && @work.publisher %>
+        <% if publishers.length > 1 && @work.publisher_id %>
           <dt>Publisher</dt>
           <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.member_id) %></dd>
         <% end %>
