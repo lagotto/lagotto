@@ -1,5 +1,6 @@
 class Api::V5::WorksController < Api::BaseController
-  before_filter :authenticate_user_from_token!, :load_work, only: [:show]
+  prepend_before_filter :load_work, only: [:show]
+  before_filter :authenticate_user_from_token!
 
   swagger_controller :works, "Works"
 
