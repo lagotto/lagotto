@@ -12,6 +12,8 @@ title: "Releases"
 * create delete canonical_url rake task for cases where journal URLs change ([#298](https://github.com/articlemetrics/lagotto/issues/298))
 * set rate-limit remaining number for all sources using memcached. This should fix rate-limiting errors with the `twitter_search` source ([#300](https://github.com/articlemetrics/lagotto/issues/300))
 
+Make sure to run the data migrations in addition to the database migrations. This happens automatically if using capistrano, otherwise run `rake data:migrate`.
+
 ## Lagotto 3.19 (March 24, 2015)
 
 [Lagotto 3.19](https://github.com/articlemetrics/lagotto/releases/tag/v.3.19) was released on March 24, 2015 with the following changes:
