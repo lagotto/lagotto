@@ -20,6 +20,8 @@ Starting with Lagotto 4.0 frontend assets are installed via [NPM](https://www.np
 
 CouchDB is no longer needed for core Lagotto functionality, but is still used to store responses from some of the sources (e.g. `F1000`).
 
+Make sure to run the data migrations in addition to the database migrations. This happens automatically if using capistrano, otherwise run `rake data:migrate`.
+
 After upgrading the code and running the database migrations, old monthly and daily data stored in CouchDB should be imported via:
 
 ```
@@ -40,6 +42,8 @@ Starting with the new v6 API, API versions (currently defaulting to version 6) a
 * fixed authentication error that broke creation of new user accounts ([#286](https://github.com/articlemetrics/lagotto/issues/286))
 * create delete canonical_url rake task for cases where journal URLs change ([#298](https://github.com/articlemetrics/lagotto/issues/298))
 * set rate-limit remaining number for all sources using memcached. This should fix rate-limiting errors with the `twitter_search` source ([#300](https://github.com/articlemetrics/lagotto/issues/300))
+
+Make sure to run the data migrations in addition to the database migrations. This happens automatically if using capistrano, otherwise run `rake data:migrate`.
 
 ## Lagotto 3.19 (March 24, 2015)
 
