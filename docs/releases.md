@@ -16,7 +16,7 @@ title: "Releases"
 
 ### Upgrading
 
-Starting with Lagotto 4.0 frontend assets are installed via [NPM](https://www.npmjs.com/) and [Bower](http://bower.io/). This is done automatically when using Chef/Vagrant. When using Capistrano please copy `frontend/node_modules`, `frontend/bower_components`, `frontend/package.json` into `shared` and run `npm install` (not `npm -g install`) from `shared/frontend`.
+Starting with Lagotto 4.0 frontend assets are installed via [NPM](https://www.npmjs.com/) and [Bower](http://bower.io/). This is done automatically when using Chef/Vagrant. When using Capistrano please copy `frontend/node_modules`, `frontend/bower_components`, `frontend/package.json` and `frontend/bower.json` into `shared` and run `npm install` (not `npm -g install`) from `shared/frontend`.
 
 CouchDB is no longer needed for core Lagotto functionality, but is still used to store responses from some of the sources (e.g. `F1000`).
 
