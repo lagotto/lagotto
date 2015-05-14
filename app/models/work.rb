@@ -58,21 +58,18 @@ class Work < ActiveRecord::Base
     if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
       if work.present?
-        work.update_attributes(params.except(:doi, :related_works))
         work.update_relations(params.fetch(:related_works, []))
       end
       work
     elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
       work = Work.where(pmid: params[:pmid]).first
       if work.present?
-        work.update_attributes(params.except(:pmid, :related_works))
         work.update_relations(params.fetch(:related_works, []))
       end
       work
     elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       if work.present?
-        work.update_attributes(params.except(:canonical_url, :related_works))
         work.update_relations(params.fetch(:related_works, []))
       end
       work
