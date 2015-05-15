@@ -63,7 +63,7 @@ class Work < ActiveRecord::Base
       work = Work.where(pmid: params[:pmid]).first
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
-    elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_pid'")
+    elsif e.message.include?("Pid has already been taken") || e.message.include?("key 'index_works_on_pid'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
