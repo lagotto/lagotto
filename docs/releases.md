@@ -16,7 +16,7 @@ title: "Releases"
 
 ### Upgrading
 
-Starting with Lagotto 4.0 frontend assets are installed via [NPM](https://www.npmjs.com/) and [Bower](http://bower.io/). This is done automatically when using Chef/Vagrant. When using Capistrano please copy `frontend/node_modules`, `frontend/bower_components`, `frontend/package.json`, `frontend/bower.json` and `frontend/.bowerrc` into `shared` and run `npm install` (not `npm -g install`) from `shared/frontend`:
+Starting with Lagotto 4.0 frontend assets are installed via [NPM](https://www.npmjs.com/) and [Bower](http://bower.io/). This is done automatically when using Chef/Vagrant. When not using Chef/Vagarant please copy `frontend/node_modules`, `frontend/bower_components`, `frontend/package.json`, `frontend/bower.json` and `frontend/.bowerrc` into `shared` and run `npm install` (not `npm -g install`) from `shared/frontend`:
 
 ```
 cd /var/www/lagotto/shared/frontend
