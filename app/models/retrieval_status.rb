@@ -167,21 +167,15 @@ class RetrievalStatus < ActiveRecord::Base
     # import only for works with dois because we changed the pid format in lagotto 4.0
     return false unless total > 0 && work.doi.present?
 
-    data = get_lagotto_data("#{source.name}:#{work.doi_escaped}")
+    data = get_lagotto_data("#{source.name}:#{work.doi_escaped}").with_indifferent_access
+    return true if data.blank? || data[:error]
 
-    by_day = (data.blank? || data[:error]) ? [] : data["events_by_day"]
-    update_days({ year: by_day.fetch(:year),
-                  month: by_day.fetch(:month),
-                  day: by_day.fetch(:day),
-                  total: by_day.fetch(:event_count, 0) })
+    update_days(data["events_by_day"])
 
     # only update monthly data for sources where we can't regenerate them
     return true unless ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos'].include?(source.name)
 
-    by_month = (data.blank? || data[:error]) ? [] : data["events_by_month"]
-    update_months({ year: by_month.fetch(:year),
-                    month: by_month.fetch(:month),
-                    total: by_month.fetch(:event_count, 0) })
+    update_months(data["events_by_month"])
   end
 
   def retrieved_days_ago
