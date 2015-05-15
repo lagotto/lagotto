@@ -57,21 +57,15 @@ class Work < ActiveRecord::Base
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      if work.present?
-        work.update_relations(params.fetch(:related_works, []))
-      end
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
       work = Work.where(pmid: params[:pmid]).first
-      if work.present?
-        work.update_relations(params.fetch(:related_works, []))
-      end
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
-    elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
+    elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_pid'")
       work = Work.where(canonical_url: params[:canonical_url]).first
-      if work.present?
-        work.update_relations(params.fetch(:related_works, []))
-      end
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     else
       if params[:doi].present?
