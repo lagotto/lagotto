@@ -30,7 +30,7 @@ function donutViz(data, div, title, subtitle, colors, items) {
     .attr("fill", function(d, i) { return colors(i); } )
     .attr("d", arc);
   arcs.each(
-    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + items + d.data.key.replace("_", " "), container: "body"});
+    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " " + items + " " + d.data.key.replace("_", " "), container: "body"});
   });
 
   chart.append("text")
