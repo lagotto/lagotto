@@ -20,13 +20,13 @@ begin
                         ENV['DEPLOY_USER'].to_s.empty?
 rescue Errno::ENOENT
   $stderr.puts "Please create file .env in the Rails root folder"
-  exit
+  exit 1
 rescue LoadError
   $stderr.puts "Please install dotenv with \"gem install dotenv\""
-  exit
+  exit 1
 rescue ArgumentError
   $stderr.puts "Please set SERVERS and DEPLOY_USER in the .env file"
-  exit
+  exit 1
 end
 
 # set :default_env, { 'DOTENV' => ENV["DOTENV"] }
