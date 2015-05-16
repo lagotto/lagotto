@@ -60,23 +60,23 @@ module Countable
     end
 
     def response_count=(time)
-      cache_write("response_count/", api_responses.total(24).size, time)
+      cache_write("response_count", api_responses.total(24).size, time)
     end
 
     def average_count
-      cache_read("average_count", api_responses.total(1).average("duration").to_i)
+      cache_read("average_count", api_responses.total(24).average("duration").to_i)
     end
 
     def average_count=(time)
-      cache_write("average_count", api_responses.total(1).average("duration"), time)
+      cache_write("average_count", api_responses.total(24).average("duration"), time)
     end
 
     def maximum_count
-      cache_read("maximum_count", api_responses.total(1).maximum("duration").to_i)
+      cache_read("maximum_count", api_responses.total(24).maximum("duration").to_i)
     end
 
     def maximum_count=(time)
-      cache_write("maximum_count", api_responses.total(1).maximum("duration"), time)
+      cache_write("maximum_count", api_responses.total(24).maximum("duration"), time)
     end
 
     def error_count
