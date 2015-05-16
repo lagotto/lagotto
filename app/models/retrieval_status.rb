@@ -28,13 +28,15 @@ class RetrievalStatus < ActiveRecord::Base
   scope :without_events, -> { where("total = ?", 0) }
   scope :most_cited, -> { with_events.order("total desc").limit(25) }
 
-  scope :last_x_days, ->(duration) { where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :last_x_days, ->(duration) { tracked.where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :not_updated, ->(duration) { tracked.where("retrieved_at < ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_months, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date  - duration.months) }
 
   scope :queued, -> { tracked.where("queued_at is NOT NULL") }
   scope :not_queued, -> { tracked.where("queued_at is NULL") }
-  scope :stale, -> { not_queued.where("scheduled_at < ?", Time.zone.now).order("scheduled_at") }
+  scope :stale, -> { not_queued.where("scheduled_at <= ?", Time.zone.now).order("scheduled_at") }
+  scope :refreshed, -> { not_queued.where("scheduled_at > ?", Time.zone.now) }
   scope :published, -> { not_queued.where("works.published_on <= ?", Time.zone.now.to_date) }
 
   scope :by_source, ->(source_id) { where(:source_id => source_id) }
