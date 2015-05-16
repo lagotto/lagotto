@@ -409,13 +409,16 @@ class Source < ActiveRecord::Base
      :work_count,
      :queued_count,
      :stale_count,
+     :refreshed_count,
      :response_count,
      :average_count,
      :maximum_count,
      :with_events_by_day_count,
      :without_events_by_day_count,
+     :not_updated_by_day_count,
      :with_events_by_month_count,
-     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
+     :without_events_by_month_count,
+     :not_updated_by_month_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
 
     update_column(:cached_at, now)
   end

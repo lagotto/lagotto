@@ -47,6 +47,14 @@ module Countable
       cache_write("stale_count", retrieval_statuses.stale.size, time)
     end
 
+    def refreshed_count
+      cache_read("refreshed_count", retrieval_statuses.refreshed.size)
+    end
+
+    def refreshed_count=(time)
+      cache_write("refreshed_count", retrieval_statuses.refreshed.size, time)
+    end
+
     def response_count
       cache_read("response_count", api_responses.total(24).size)
     end
@@ -91,6 +99,14 @@ module Countable
       cache_write("without_events_by_day_count", retrieval_statuses.without_events.last_x_days(1).size, time)
     end
 
+    def not_updated_by_day_count
+      cache_read("not_updated_by_day_count", retrieval_statuses.not_updated(1).size)
+    end
+
+    def not_updated_by_day_count=(time)
+      cache_write("not_updated_by_day_count", retrieval_statuses.not_updated(1).size, time)
+    end
+
     def with_events_by_month_count
       cache_read("with_events_by_month_count", retrieval_statuses.with_events.last_x_days(31).size)
     end
@@ -105,6 +121,14 @@ module Countable
 
     def without_events_by_month_count=(time)
       cache_write("without_events_by_month_count", retrieval_statuses.without_events.last_x_days(31).size, time)
+    end
+
+    def not_updated_by_month_count
+      cache_read("not_updated_by_month_count", retrieval_statuses.not_updated(31).size)
+    end
+
+    def not_updated_by_month_count=(time)
+      cache_write("not_updated_by_month_count", retrieval_statuses.not_updated(31).size, time)
     end
 
     def cache_read(id, value)
