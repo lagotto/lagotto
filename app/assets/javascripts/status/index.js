@@ -61,6 +61,6 @@ if (query) {
       barViz(by_hour, "#chart_requests", "requests_count", "hours");
       barViz(by_hour, "#chart_average", "requests_average", "hours");
 
-      donutViz(sources, "#chart_sources", sources_title, "active", colors);
+      donutViz(sources, "#chart_sources", sources_title, "active", colors, "sources");
   });
 }
