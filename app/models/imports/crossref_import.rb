@@ -1,16 +1,5 @@
 class CrossrefImport < Import
 
-  TYPES_WITH_TITLE = %w(journal-article
-                        proceedings-article
-                        dissertation
-                        standard
-                        report
-                        book
-                        monograph
-                        edited-book
-                        reference-book
-                        dataset)
-
   def initialize(options = {})
     from_update_date = options.fetch(:from_update_date, nil)
     until_update_date = options.fetch(:until_update_date, nil)
