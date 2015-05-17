@@ -79,7 +79,7 @@
               <h5>Role</h5>
               <%= user.role.capitalize %>
 
-              <% if user.publisher %>
+              <% if user.publisher_id %>
                 <h5>Publisher</h5>
                 <%= link_to h(user.publisher.title), publisher_path(user.publisher_id) %>
               <% end %>
