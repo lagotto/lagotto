@@ -20,7 +20,7 @@ class Api::V6::RecommendationsController < Api::BaseController
   end
 
   def index
-    collection = Relation.referenceable.includes(:work).where.not(work_id: @work.id)
+    collection = Relation.referencable.includes(:work).where.not(work_id: @work.id)
     related_work_ids = @work.references.pluck(:id)
     collection = collection.where(related_work_id: related_work_ids)
 
