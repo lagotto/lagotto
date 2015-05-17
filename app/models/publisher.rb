@@ -20,11 +20,11 @@ class Publisher < ActiveRecord::Base
   end
 
   def work_count
-    # if ActionController::Base.perform_caching
+    if ActionController::Base.perform_caching
       Rails.cache.read("publisher/#{member_id}/work_count/#{timestamp}").to_i
-    #else
-    #  works.size
-    #end
+    else
+      works.size
+    end
   end
 
   def work_count=(time)
@@ -33,11 +33,11 @@ class Publisher < ActiveRecord::Base
   end
 
   def work_count_by_source(source_id)
-    #if ActionController::Base.perform_caching
+    if ActionController::Base.perform_caching
       Rails.cache.read("publisher/#{member_id}/#{source_id}/work_count/#{timestamp}").to_i
-    #else
-    # works.has_events.by_source(source_id).size
-    #end
+    else
+      works.has_events.by_source(source_id).size
+    end
   end
 
   def work_count_by_source=(source_id, time)

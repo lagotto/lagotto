@@ -132,11 +132,11 @@ module Countable
     end
 
     def cache_read(id, value)
-      # if ActionController::Base.perform_caching
+      if ActionController::Base.perform_caching
         Rails.cache.read("#{name}/#{id}/#{timestamp}").to_i
-      # else
-      #  value
-      # end
+      else
+        value
+      end
     end
 
     def cache_write(id, value, time)
