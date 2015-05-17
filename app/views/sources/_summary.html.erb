@@ -21,8 +21,8 @@
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td><%= h(source.description) %></td>
               <% if can?(:read, Alert) %>
-                <td class="number" id="queued_count_<%= source.name %>"><%= number_hiding_zero(source.queued_count) %></td>
-                <td class="number" id="stale_count_<%= source.name %>"><%= number_hiding_zero(source.stale_count) %></td>
+                <td class="number" id="queued_count_<%= source.name %>"></td>
+                <td class="number" id="stale_count_<%= source.name %>"></td>
               <% end %>
             </tr>
           <% end %>
