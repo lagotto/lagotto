@@ -1,13 +1,13 @@
-class Api::V6::SimilarWorksController < Api::BaseController
+class Api::V6::RecommendationsController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
   before_filter :load_work
 
-  swagger_controller :similar_works, "Similar Works"
+  swagger_controller :recommendations, "Recommendations"
 
   swagger_api :index do
-    summary "Returns list of works similar to a given work, optionally filtered by relation_type and/or source"
+    summary "Returns list of recommendations given a work, optionally filtered by relation_type and/or source"
     param :query, :work_id, :string, :required, "Work ID"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
@@ -38,7 +38,7 @@ class Api::V6::SimilarWorksController < Api::BaseController
 
     collection = collection.paginate(per_page: per_page, page: params[:page])
 
-    @similars = collection.decorate
+    @recommendations = collection.decorate
   end
 
   protected

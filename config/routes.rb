@@ -72,7 +72,7 @@ Lagotto::Application.routes.draw do
       resources :works, constraints: { :id => /.+?/, :format=> false } do
         resources :references
         resources :versions
-        resources :similar_works
+        resources :recommendations
         resources :events
       end
     end
