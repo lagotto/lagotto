@@ -32,7 +32,7 @@ class Api::V6::RecommendationsController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
-    collection = collection.order("reference_relations.updated_at DESC")
+    collection = collection.order("relations.updated_at DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 
