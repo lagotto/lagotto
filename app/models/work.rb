@@ -9,6 +9,12 @@ class Work < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include author methods
+  include Authorable
+
+  # include date methods
+  include Dateable
+
   # store blank values as nil
   nilify_blanks
 

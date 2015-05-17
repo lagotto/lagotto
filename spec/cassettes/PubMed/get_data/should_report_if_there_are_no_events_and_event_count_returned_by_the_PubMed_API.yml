@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-unstable.local
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
       Accept:
       - application/xml
   response:
@@ -17,11 +17,11 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 04 May 2015 23:11:27 GMT
+      - Sat, 16 May 2015 23:32:57 GMT
       Server:
       - Apache
       Expires:
-      - Mon, 04 May 2015 23:11:28 GMT
+      - Sat, 16 May 2015 23:32:58 GMT
       Content-Type:
       - text/html; charset=ISO-8859-1
       Vary:
@@ -33,5 +33,5 @@ http_interactions:
       string: "<!DOCTYPE PubMedToPMCcitingformSET PUBLIC \"-//NCBI//DTD PubMedToPMCreformSET,
         16th January 2002//EN\" \"entrez2pmcciting.dtd\">\n\n<PubMedToPMCcitingformSET>\n\t<REFORM>\n\t\t<PMID>1897483599</PMID>\n\t</REFORM>\n\n</PubMedToPMCcitingformSET>\n"
     http_version: 
-  recorded_at: Mon, 04 May 2015 23:11:27 GMT
+  recorded_at: Sat, 16 May 2015 23:32:57 GMT
 recorded_with: VCR 2.9.3

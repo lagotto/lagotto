@@ -104,7 +104,7 @@ module Resolvable
       rescue_faraday_error(url, e, options)
     end
 
-    def get_metadata(doi, options = {})
+    def get_crossref_metadata(doi, options = {})
       return {} if doi.blank?
 
       conn = faraday_conn('json', options)
@@ -113,9 +113,57 @@ module Resolvable
 
       if is_json?(response.body)
         json = JSON.parse(response.body)
-        json.fetch("message", {})
+        metadata = json.fetch("message", {})
+        return { error: 'Resource not found.' } if metadata.blank?
+
+        metadata["title"] = case metadata["title"].length
+              when 0 then nil
+              when 1 then metadata["title"][0]
+              else metadata["title"][0].presence || metadata["title"][1]
+              end
+
+        if metadata["title"].blank? && !TYPES_WITH_TITLE.include?(metadata["type"])
+          metadata["title"] = metadata["container-title"][0].presence || "No title"
+        end
+
+        metadata["container-title"] = metadata.fetch("container-title", [])[0]
+        metadata["publisher_id"] = metadata["member"][30..-1].to_i if metadata["member"]
+        metadata["type"] = CROSSREF_TYPE_TRANSLATIONS[metadata["type"]] if metadata["type"]
+
+        metadata
       else
-        { error: 'not found' }
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_pubmed_metadata(pmid, options = {})
+      return {} if pmid.blank?
+
+      conn = faraday_conn('json', options)
+      url = "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ext_id:#{pmid}&format=json"
+      response = conn.get url, {}, options[:headers]
+
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+        metadata = json.fetch("resultList", {}).fetch("result", []).first
+        return { error: 'Resource not found.', status: 404 } if metadata.blank?
+
+        metadata["issued"] = get_date_parts_from_parts(metadata.fetch("pubYear", nil))
+
+        author_string = metadata.fetch("authorString", "").chomp(".")
+        metadata["author"] = get_authors(author_string.split(", "), reversed: true)
+
+        metadata["title"] = metadata.fetch("title", "").chomp(".")
+        metadata["container-title"] = metadata.fetch("journalTitle", nil)
+        metadata["volume"] = metadata.fetch("journalVolume", nil)
+        metadata["page"] = metadata.fetch("pageInfo", nil)
+        metadata["type"] = "article-journal"
+
+        metadata
+      else
+        { error: 'Resource not found.', status: 404 }
       end
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)

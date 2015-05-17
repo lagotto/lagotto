@@ -171,18 +171,37 @@ describe Work, type: :model, vcr: true do
     end
 
     context "metadata" do
-      let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030") }
+      let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: "17183658") }
 
-      it "get_metadata" do
-        response = subject.get_metadata(work.doi)
+      it "get_crossref_metadata" do
+        response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
-        expect(response["title"].first).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
+        expect(response["title"]).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
+        expect(response["container-title"]).to eq("PLoS ONE")
         expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to eq(340)
       end
 
-      it "get_metadata with not found error" do
+      it "get_crossref_metadata with not found error" do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
-        response = subject.get_metadata("#{work.doi}x")
+        response = subject.get_crossref_metadata("#{work.doi}x")
+        expect(response).to eq(error: "Resource not found.", status: 404)
+      end
+
+      it "get_pubmed_metadata" do
+        response = subject.get_pubmed_metadata(work.pmid)
+        expect(response["pmid"]).to eq(work.pmid)
+        expect(response["title"]).to eq("Triose phosphate isomerase deficiency is caused by altered dimerization--not catalytic inactivity--of the mutant enzymes")
+        expect(response["container-title"]).to eq("PLoS One")
+        expect(response["issued"]).to eq("date-parts"=>[[2006]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to be_nil
+      end
+
+      it "get_pubmed_metadata with not found error" do
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
+        response = subject.get_pubmed_metadata("#{work.pmid}x")
         expect(response).to eq(error: "Resource not found.", status: 404)
       end
     end
