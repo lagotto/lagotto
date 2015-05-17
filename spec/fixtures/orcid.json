@@ -1,19 +1,24 @@
 {
-  "message-version": "1.1",
+  "message-version": "1.2",
+  "orcid-profile": null,
   "orcid-search-results": {
     "orcid-search-result": [
       {
         "relevancy-score": {
-          "value": 0.7290998
+          "value": 0.66489875
         },
         "orcid-profile": {
           "orcid": null,
+          "orcid-id": null,
           "orcid-identifier": {
             "value": null,
             "uri": "http://orcid.org/0000-0002-0159-2197",
             "path": "0000-0002-0159-2197",
             "host": "orcid.org"
           },
+          "orcid-deprecated": null,
+          "orcid-preferences": null,
+          "orcid-history": null,
           "orcid-bio": {
             "personal-details": {
               "given-names": {
@@ -21,7 +26,9 @@
               },
               "family-name": {
                 "value": "Eisen"
-              }
+              },
+              "credit-name": null,
+              "other-names": null
             },
             "biography": {
               "value": "",
@@ -64,6 +71,7 @@
               ],
               "visibility": null
             },
+            "contact-details": null,
             "keywords": {
               "keyword": [
                 {
@@ -75,6 +83,8 @@
             "external-identifiers": {
               "external-identifier": [
                 {
+                  "orcid": null,
+                  "external-id-orcid": null,
                   "external-id-common-name": {
                     "value": "Scopus Author ID"
                   },
@@ -84,11 +94,17 @@
                   "external-id-url": {
                     "value": "http://www.scopus.com/inward/authorDetails.url?authorID=35247902700&partnerID=MN8TOARS"
                   },
-                  "external-id-source": {
-                    "value": null,
-                    "uri": "http://orcid.org/0000-0002-5982-8983",
-                    "path": "0000-0002-5982-8983",
-                    "host": "orcid.org"
+                  "external-id-source": null,
+                  "source": {
+                    "source-orcid": {
+                      "value": null,
+                      "uri": "http://orcid.org/0000-0002-5982-8983",
+                      "path": "0000-0002-5982-8983",
+                      "host": "orcid.org"
+                    },
+                    "source-client-id": null,
+                    "source-name": null,
+                    "source-date": null
                   }
                 }
               ],
@@ -98,6 +114,8 @@
             "applications": null,
             "scope": null
           },
+          "orcid-activities": null,
+          "orcid-internal": null,
           "type": null,
           "group-type": null,
           "client-type": null
@@ -105,5 +123,6 @@
       }
     ],
     "num-found": 1
-  }
+  },
+  "error-desc": null
 }

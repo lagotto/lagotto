@@ -35,7 +35,7 @@ class Orcid < Source
   end
 
   def url
-    "http://pub.orcid.org/v1.1/search/orcid-bio/?q=digital-object-ids:\"%{query_string}\"&rows=100"
+    "http://pub.orcid.org/v1.2/search/orcid-bio/?q=digital-object-ids:\"%{query_string}\"&rows=100"
   end
 
   def events_url
