@@ -27,9 +27,8 @@ class Work < ActiveRecord::Base
   has_many :relations
   has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation', :dependent => :destroy
   has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
-  has_many :references, :through => :reference_relations
+  has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
-  has_many :similar_works, :through => :reference_relations
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
