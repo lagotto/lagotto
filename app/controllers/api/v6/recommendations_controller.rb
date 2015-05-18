@@ -20,7 +20,7 @@ class Api::V6::RecommendationsController < Api::BaseController
   end
 
   def index
-    related_work_ids = @work.references.pluck(:id)
+    related_work_ids = @work.reference_relations.pluck(:related_work_id)
     collection = Relation.referencable.where.not(work_id: @work.id).where(related_work_id: related_work_ids)
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
