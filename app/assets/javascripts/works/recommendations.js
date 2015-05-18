@@ -9,6 +9,7 @@ if (!params.empty()) {
   if (page === "") { page = 1; }
   var per_page = params.attr('data-per_page');
   var source_id = params.attr('data-source_id');
+  var sort = params.attr('data-sort');
   var relation_type_id = params.attr('data-relation_type_id');
 
   var query = encodeURI("/api/works/" + work_id + "/recommendations?page=" + page);
