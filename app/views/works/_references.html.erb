@@ -29,7 +29,7 @@
   <%= link_to image_tag("feed-icon-28x28.png"), work_path(@work, format: "rss") %>
 </div>
 
-<div class="content" id="content" data-api_key="<%= current_user && current_user.api_key %>" data-event_id="<%= @work.pid %>" data-page="<%= @page %>" data-per_page="15" data-source_id="<%= @source.present? ? @source.name : "" %>" data-order="">
+<div class="content" id="content">
   <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
 </div>
 

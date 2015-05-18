@@ -30,7 +30,7 @@ queue()
 
 // add data to page
 function recommendationsViz(json, sources, relation_types) {
-  data = json.references;
+  data = json.recommendations;
 
   // remove duplicate events based on id
   data = _.uniq(data, "id");
