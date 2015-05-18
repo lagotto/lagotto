@@ -1,0 +1,5 @@
+<div class="content" id="content-recommendations" data-api_key="<%= current_user && current_user.api_key %>" data-event_id="<%= @work.pid %>" data-page="" data-per_page="15" data-source_id="<%= @source.present? ? @source.name : "" %>" data-order="">
+  <div class="text-muted loading" id="loading-recommendations">Loading … <%= image_tag "spinner.gif" %></div>
+</div>
+
+<%= javascript_include_tag 'works/recommendations' %>

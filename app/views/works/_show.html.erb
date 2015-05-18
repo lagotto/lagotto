@@ -136,6 +136,7 @@
   <% if @work.tracked %>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    <li><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
     <% if can?(:read, Alert) %>
       <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
     <% end %>
@@ -152,6 +153,9 @@
     </div>
     <div class="tab-pane" id="more">
       <%= render :partial => 'more' %>
+    </div>
+    <div class="tab-pane" id="recommendations">
+      <%= render :partial => 'recommendations' %>
     </div>
     <div class="tab-pane" id="alert">
       <%= render :partial => 'alert' %>
