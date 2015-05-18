@@ -50,7 +50,7 @@ function eventsViz(json, sources, relation_types) {
   }
 
   d3.select("#content").insert("div")
-    .attr("id", "results");
+    .attr("id", "results-references");
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
@@ -58,25 +58,25 @@ function eventsViz(json, sources, relation_types) {
     var date = datePartsToDate(date_parts);
     var relation = relationToString(work, sources, relation_types);
 
-    d3.select("#results").append("h4")
+    d3.select("#results-references").append("h4")
       .attr("class", "work")
       .append("a")
       .attr("href", function() { return "/works/" + work.id; })
       .html(work.title);
-    d3.select("#results").append("span")
+    d3.select("#results-references").append("span")
       .attr("class", "date")
       .text(formattedDate(date, date_parts.length) + ". ");
-    d3.select("#results").append("a")
+    d3.select("#results-references").append("a")
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
-    d3.select("#results").append("p")
+    d3.select("#results-references").append("p")
       .text(signpostsToString(work, sources));
-    d3.select("#results").append("span")
+    d3.select("#results-references").append("span")
       .text(relation[0] + " ")
       .append("a")
       .attr("href", function() { return "/works/" + work.work_id; })
       .html(work.work_id);
-    d3.select("#results").append("span")
+    d3.select("#results-references").append("span")
       .text(relation[1]);
   }
 
