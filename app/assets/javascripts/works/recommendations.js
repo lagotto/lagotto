@@ -69,5 +69,7 @@ function recommendationsViz(json, sources, relation_types) {
     d3.select("#results-recommendations").append("a")
       .attr("href", function() { return urlForWork(work); })
       .text(urlForWork(work));
+    d3.select("#results").append("p")
+      .text(signpostsToString(work, sources, source_id, sort));
   }
 }
