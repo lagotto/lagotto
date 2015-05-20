@@ -137,7 +137,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def update_days(data)
-    data.map { |item| Day.where(retrieval_status_id: id,
+    Array(data).map { |item| Day.where(retrieval_status_id: id,
                                 day: item[:day],
                                 month: item[:month],
                                 year: item[:year]).first_or_create(
@@ -152,7 +152,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def update_months(data)
-    data.map { |item| Month.where(retrieval_status_id: id,
+    Array(data).map { |item| Month.where(retrieval_status_id: id,
                                   month: item[:month],
                                   year: item[:year]).first_or_create(
                                     work_id: work_id,

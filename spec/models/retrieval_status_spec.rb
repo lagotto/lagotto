@@ -162,10 +162,10 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
 
       expect(work.relations.length).to eq(1)
-      expect(work.relations.first.relation_type.name).to eq(relation_type.name)
-
-      expect(work.references.length).to eq(1)
-      expect(work.references.first).to eq(related_work)
+      relation = Relation.first
+      expect(relation.relation_type.name).to eq("cites")
+      expect(relation.source.name).to eq("crossref")
+      expect(relation.related_work).to eq(related_work)
     end
   end
 
@@ -218,8 +218,8 @@ describe RetrievalStatus, type: :model, vcr: true do
 
   context "perform_get_data" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
-    let!(:relation_type) { FactoryGirl.create(:relation_type, name: "bookmarks", title: "Bookmakrs") }
-    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, name: "_bookmarks", title: "Is bookmarked by") }
+    let!(:relation_type) { FactoryGirl.create(:relation_type, name: "bookmarks", title: "Bookmarks", inverse_name: "is_bookmarked_by") }
+    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, name: "is_bookmarked_by", title: "Is bookmarked by", inverse_name: "bookmarks") }
     subject { FactoryGirl.create(:retrieval_status, total: 2, readers: 2, work: work) }
 
     it "success" do
@@ -315,6 +315,11 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.year).to eq(2015)
       expect(month.month).to eq(4)
       expect(month.total).to eq(31)
+
+      expect(Work.count).to eq(32)
+      related_work = Work.last
+      expect(related_work.title).to eq("Examining The Effects Of Community Based Sanctions On Offender Recidivism")
+      expect(related_work.pid).to eq("doi:10.1080/07418825.2011.555413")
 
       expect(Relation.count).to eq(62)
       relation = Relation.first
