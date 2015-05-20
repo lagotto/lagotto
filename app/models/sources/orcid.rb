@@ -11,7 +11,7 @@ class Orcid < Source
 
   def get_related_works(result, work)
     Array(result.fetch("orcid-search-results", {}).fetch("orcid-search-result", nil)).map do |item|
-      personal_details = item.fetch("orcid-profile", {}).fetch("orcid-bio", {}).fetch("personal-details", {})
+      personal_details = item.fetch("orcid-profile", {}).fetch("orcid-bio", {}).fetch("personal-details", nil) || {}
       author = { "family" => personal_details.fetch("family-name", {}).fetch("value", nil),
                  "given" => personal_details.fetch("given-names", {}).fetch("value", nil) }
       url = item.fetch("orcid-profile", {}).fetch("orcid-identifier", {}).fetch("uri", nil)
