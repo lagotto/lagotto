@@ -53,21 +53,24 @@ class CrossRef < Source
       else
         doi = item.fetch("doi", nil)
         metadata = get_crossref_metadata(doi)
-        return nil if metadata[:error]
 
-        { "issued" => metadata.fetch("issued", {}),
-          "author" => metadata.fetch("author", []),
-          "container-title" => metadata.fetch("container-title", nil),
-          "volume" => metadata.fetch("volume", nil),
-          "issue" => metadata.fetch("issue", nil),
-          "page" => metadata.fetch("page", nil),
-          "title" => metadata.fetch("title", nil),
-          "DOI" => doi,
-          "type" => metadata.fetch("type", nil),
-          "publisher_id" => metadata.fetch("publisher_id", nil),
-          "related_works" => [{ "related_work" => work.pid,
-                                "source" => name,
-                                "relation_type" => "cites" }] }
+        if metadata[:error]
+          nil
+        else
+          { "issued" => metadata.fetch("issued", {}),
+            "author" => metadata.fetch("author", []),
+            "container-title" => metadata.fetch("container-title", nil),
+            "volume" => metadata.fetch("volume", nil),
+            "issue" => metadata.fetch("issue", nil),
+            "page" => metadata.fetch("page", nil),
+            "title" => metadata.fetch("title", nil),
+            "DOI" => doi,
+            "type" => metadata.fetch("type", nil),
+            "publisher_id" => metadata.fetch("publisher_id", nil),
+            "related_works" => [{ "related_work" => work.pid,
+                                  "source" => name,
+                                  "relation_type" => "cites" }] }
+        end
       end
     end.compact
   end
