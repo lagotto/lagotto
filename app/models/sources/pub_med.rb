@@ -24,6 +24,8 @@ class PubMed < Source
         metadata = get_pubmed_metadata(pmid)
       end
 
+      return nil if metadata[:error]
+
       { "issued" => metadata.fetch("issued", {}),
         "author" => metadata.fetch("author", []),
         "container-title" => metadata.fetch("container-title", nil),
@@ -39,7 +41,7 @@ class PubMed < Source
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
-    end
+    end.compact
   end
 
   def get_extra(result)
