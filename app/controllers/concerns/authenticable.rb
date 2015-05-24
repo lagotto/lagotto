@@ -74,6 +74,8 @@ module Authenticable
 
       if status == 404
         message = "The page you are looking for doesn't exist."
+      elsif status == 401
+        message = "You are not authorized to access this page."
       else
         create_alert(exception, status: status)
         message = exception.message
