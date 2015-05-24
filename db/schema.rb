@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150524204043) do
+ActiveRecord::Schema.define(version: 20150524222251) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -206,21 +206,21 @@ ActiveRecord::Schema.define(version: 20150524204043) do
   add_index "reports_users", ["user_id"], name: "index_reports_users_on_user_id", using: :btree
 
   create_table "retrieval_statuses", force: :cascade do |t|
-    t.integer  "work_id",      limit: 4,                                     null: false
-    t.integer  "source_id",    limit: 4,                                     null: false
+    t.integer  "work_id",      limit: 4,                                        null: false
+    t.integer  "source_id",    limit: 4,                                        null: false
     t.datetime "queued_at"
-    t.datetime "retrieved_at",               default: '1970-01-01 00:00:00', null: false
-    t.integer  "total",        limit: 4,     default: 0,                     null: false
+    t.datetime "retrieved_at",                  default: '1970-01-01 00:00:00', null: false
+    t.integer  "total",        limit: 4,        default: 0,                     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "scheduled_at",               default: '1970-01-01 00:00:00', null: false
+    t.datetime "scheduled_at",                  default: '1970-01-01 00:00:00', null: false
     t.text     "events_url",   limit: 65535
-    t.text     "extra",        limit: 65535
-    t.integer  "pdf",          limit: 4,     default: 0,                     null: false
-    t.integer  "html",         limit: 4,     default: 0,                     null: false
-    t.integer  "readers",      limit: 4,     default: 0,                     null: false
-    t.integer  "comments",     limit: 4,     default: 0,                     null: false
-    t.integer  "likes",        limit: 4,     default: 0,                     null: false
+    t.text     "extra",        limit: 16777215
+    t.integer  "pdf",          limit: 4,        default: 0,                     null: false
+    t.integer  "html",         limit: 4,        default: 0,                     null: false
+    t.integer  "readers",      limit: 4,        default: 0,                     null: false
+    t.integer  "comments",     limit: 4,        default: 0,                     null: false
+    t.integer  "likes",        limit: 4,        default: 0,                     null: false
   end
 
   add_index "retrieval_statuses", ["source_id", "queued_at", "scheduled_at"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree
