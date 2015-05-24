@@ -1,0 +1,1254 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.3758/s13423-011-0070-4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:45 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '994'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Experimental
+        and Cognitive Psychology"],"issued":{"date-parts":[[2011,3,12]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3758","author":[{"family":"Occelli","given":"Valeria"},{"family":"Spence","given":"Charles"},{"family":"Zampini","given":"Massimiliano"}],"container-title":["Psychon
+        Bull Rev","Psychonomic Bulletin & Review"],"reference-count":275,"page":"429-454","deposited":{"date-parts":[[2011,5,20]],"timestamp":1305849600000},"issue":"3","title":["Audiotactile
+        interactions in temporal perception"],"alternative-id":["70"],"type":"journal-article","DOI":"10.3758\/s13423-011-0070-4","ISSN":["1069-9384","1531-5320"],"URL":"http:\/\/dx.doi.org\/10.3758\/s13423-011-0070-4","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,6]],"timestamp":1423236028807},"volume":"18","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:46 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.neuroscience.2009.08.040
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:46 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1593'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Neuroscience(all)"],"license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2009,12,1]],"timestamp":1259625600000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"issued":{"date-parts":[[2009,12]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0306452209013980?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0306452209013980?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Tokizawa","given":"K."},{"family":"Uchida","given":"Y."},{"family":"Nagashima","given":"K."}],"container-title":["Neuroscience"],"reference-count":46,"page":"1377-1386","deposited":{"date-parts":[[2015,4,29]],"timestamp":1430265600000},"issue":"3","title":["Thermoregulation
+        in the cold changes depending on the time of day and feeding condition: physiological
+        and anatomical analyses of involved circadian mechanisms"],"alternative-id":["S0306452209013980"],"type":"journal-article","DOI":"10.1016\/j.neuroscience.2009.08.040","ISSN":["0306-4522"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.neuroscience.2009.08.040","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,2]],"timestamp":1430608298367},"volume":"164","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:47 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.jneuroim.2008.06.023
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:47 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1649'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Immunology","Immunology
+        and Allergy","Clinical Neurology","Neurology"],"issued":{"date-parts":[[2008,10]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S016557280800249X?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S016557280800249X?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Yilmaz","given":"M.
+        Sertac"},{"family":"Goktalay","given":"Gokhan"},{"family":"Millington","given":"William
+        R."},{"family":"Myer","given":"Brian S."},{"family":"Cutrera","given":"Rodolfo
+        A."},{"family":"Feleder","given":"Carlos"}],"container-title":["Journal of
+        Neuroimmunology"],"reference-count":50,"page":"39-49","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"issue":"1","title":["Lipopolysaccharide-induced
+        hypotension is mediated by a neural pathway involving the vagus nerve, the
+        nucleus tractus solitarius and alpha-adrenergic receptors in the preoptic
+        anterior hypothalamic area"],"alternative-id":["S016557280800249X"],"type":"journal-article","DOI":"10.1016\/j.jneuroim.2008.06.023","ISSN":["0165-5728"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jneuroim.2008.06.023","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431520466922},"volume":"203","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:48 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1093/jac/dkn166
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:47 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1221'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Infectious
+        Diseases","Pharmacology (medical)","Pharmacology"],"issued":{"date-parts":[[2008,4,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1093","author":[{"family":"Gordon","given":"L."},{"family":"Cloeckaert","given":"A."},{"family":"Doublet","given":"B."},{"family":"Schwarz","given":"S."},{"family":"Bouju-Albert","given":"A."},{"family":"Ganiere","given":"J.-P."},{"family":"Le
+        Bris","given":"H."},{"family":"Le Fleche-Mateos","given":"A."},{"family":"Giraud","given":"E."}],"container-title":["Journal
+        of Antimicrobial Chemotherapy"],"reference-count":27,"page":"65-71","deposited":{"date-parts":[[2011,8,15]],"timestamp":1313366400000},"issue":"1","title":["Complete
+        sequence of the floR-carrying multiresistance plasmid pAB5S9 from freshwater
+        Aeromonas bestiarum"],"type":"journal-article","DOI":"10.1093\/jac\/dkn166","ISSN":["0305-7453","1460-2091"],"URL":"http:\/\/dx.doi.org\/10.1093\/jac\/dkn166","source":"CrossRef","publisher":"Oxford
+        University Press (OUP)","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423322598566},"volume":"62","member":"http:\/\/id.crossref.org\/member\/286"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:49 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.brainres.2010.04.021
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:48 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1476'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Molecular
+        Biology","Clinical Neurology","Neuroscience(all)","Developmental Biology"],"issued":{"date-parts":[[2010,6]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0006899310008590?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0006899310008590?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Uchida","given":"Yuki"},{"family":"Tokizawa","given":"Ken"},{"family":"Nakamura","given":"Mayumi"},{"family":"Mori","given":"Hisae"},{"family":"Nagashima","given":"Kei"}],"container-title":["Brain
+        Research"],"reference-count":45,"page":"49-59","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"title":["Estrogen
+        in the medial preoptic nucleus of the hypothalamus modulates cold responses
+        in female rats"],"alternative-id":["S0006899310008590"],"type":"journal-article","DOI":"10.1016\/j.brainres.2010.04.021","ISSN":["0006-8993"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.brainres.2010.04.021","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,14]],"timestamp":1431609948644},"volume":"1339","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:50 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s11205-010-9690-8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:49 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1051'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Social
+        Sciences(all)","Sociology and Political Science"],"issued":{"date-parts":[[2010,8,11]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"Rijken","given":"Mieke"},{"family":"van
+        Beek","given":"Sandra"}],"container-title":["Soc Indic Res","Social Indicators
+        Research"],"reference-count":45,"page":"373-388","deposited":{"date-parts":[[2014,8,25]],"timestamp":1408924800000},"issue":"3","title":["About
+        Cats and Dogs \u2026 Reconsidering the Relationship Between Pet Ownership
+        and Health Related Outcomes in Community-Dwelling Elderly"],"alternative-id":["9690"],"type":"journal-article","DOI":"10.1007\/s11205-010-9690-8","ISSN":["0303-8300","1573-0921"],"URL":"http:\/\/dx.doi.org\/10.1007\/s11205-010-9690-8","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,11]],"timestamp":1423641579569},"volume":"102","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:51 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s12033-010-9353-7
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:50 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1193'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Molecular
+        Biology","Applied Microbiology and Biotechnology","Biochemistry","Biotechnology","Bioengineering"],"issued":{"date-parts":[[2010,11,27]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"Andersen","given":"Christina
+        Rottb\u00f8ll"},{"family":"Nielsen","given":"Lars S\u00f8egaard"},{"family":"Baer","given":"Alexandra"},{"family":"Tolstrup","given":"Anne
+        Bondgaard"},{"family":"Weilguny","given":"Dietmar"}],"container-title":["Mol
+        Biotechnol","Molecular Biotechnology"],"reference-count":36,"page":"128-137","deposited":{"date-parts":[[2013,4,11]],"timestamp":1365638400000},"issue":"2","title":["Efficient
+        Expression from One CMV Enhancer Controlling Two Core Promoters"],"alternative-id":["9353"],"type":"journal-article","DOI":"10.1007\/s12033-010-9353-7","ISSN":["1073-6085","1559-0305"],"URL":"http:\/\/dx.doi.org\/10.1007\/s12033-010-9353-7","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,10]],"timestamp":1423555062543},"volume":"48","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:51 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.ejphar.2007.09.030
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:51 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1452'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Pharmacology"],"issued":{"date-parts":[[2008,1]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299907010618?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299907010618?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Ding","given":"Zhe"},{"family":"Gomez","given":"Teresa"},{"family":"Werkheiser","given":"Jennifer
+        L."},{"family":"Cowan","given":"Alan"},{"family":"Rawls","given":"Scott M."}],"container-title":["European
+        Journal of Pharmacology"],"reference-count":89,"page":"201-208","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"issue":"2-3","title":["Icilin
+        induces a hyperthermia in rats that is dependent on nitric oxide production
+        and NMDA receptor activation"],"alternative-id":["S0014299907010618"],"type":"journal-article","DOI":"10.1016\/j.ejphar.2007.09.030","ISSN":["0014-2999"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.ejphar.2007.09.030","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431479701689},"volume":"578","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:52 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.brainres.2010.09.110
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:52 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1747'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Molecular
+        Biology","Clinical Neurology","Neuroscience(all)","Developmental Biology"],"issued":{"date-parts":[[2010,12]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0006899310021761?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0006899310021761?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Pires","given":"Washington"},{"family":"Wanner","given":"Samuel
+        P."},{"family":"Lima","given":"Milene R.M."},{"family":"Oliveira","given":"Bernardo
+        M.S."},{"family":"Guimar\u00e3es","given":"Juliana B."},{"family":"de Lima","given":"Daniel
+        C."},{"family":"Haibara","given":"Andr\u00e9a S."},{"family":"Rodrigues","given":"Luiz
+        O.C."},{"family":"Coimbra","given":"C\u00e2ndido C."},{"family":"Lima","given":"Nilo
+        R.V."}],"container-title":["Brain Research"],"reference-count":46,"page":"120-128","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"title":["Sinoaortic
+        denervation prevents enhanced heat loss induced by central cholinergic stimulation
+        during physical exercise"],"alternative-id":["S0006899310021761"],"type":"journal-article","DOI":"10.1016\/j.brainres.2010.09.110","ISSN":["0006-8993"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.brainres.2010.09.110","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,14]],"timestamp":1431633804802},"volume":"1366","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:53 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1093/sysbio/syr078
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:52 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1344'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Ecology,
+        Evolution, Behavior and Systematics","Genetics"],"issued":{"date-parts":[[2011,8,18]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1093","author":[{"family":"Badets","given":"M."},{"family":"Whittington","given":"I."},{"family":"Lalubin","given":"F."},{"family":"Allienne","given":"J.-F."},{"family":"Maspimby","given":"J.-L."},{"family":"Bentz","given":"S."},{"family":"Du
+        Preez","given":"L. H."},{"family":"Barton","given":"D."},{"family":"Hasegawa","given":"H."},{"family":"Tandon","given":"V."},{"family":"Imkongwapang","given":"R."},{"family":"Ohler","given":"A."},{"family":"Combes","given":"C."},{"family":"Verneau","given":"O."}],"container-title":["Systematic
+        Biology"],"reference-count":90,"page":"762-781","deposited":{"date-parts":[[2011,10,15]],"timestamp":1318636800000},"issue":"6","title":["Correlating
+        Early Evolution of Parasitic Platyhelminths to Gondwana Breakup"],"type":"journal-article","DOI":"10.1093\/sysbio\/syr078","ISSN":["1063-5157","1076-836X"],"URL":"http:\/\/dx.doi.org\/10.1093\/sysbio\/syr078","source":"CrossRef","publisher":"Oxford
+        University Press (OUP)","indexed":{"date-parts":[[2015,2,8]],"timestamp":1423372930639},"volume":"60","member":"http:\/\/id.crossref.org\/member\/286"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:54 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s00421-009-1295-z
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:53 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1139'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Orthopedics
+        and Sports Medicine","Physiology (medical)","Public Health, Environmental
+        and Occupational Health"],"issued":{"date-parts":[[2009,12,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"McAllen","given":"Robin
+        M."},{"family":"Tanaka","given":"Mutsumi"},{"family":"Ootsuka","given":"Yoichiro"},{"family":"McKinley","given":"Michael
+        J."}],"container-title":["Eur J Appl Physiol","European Journal of Applied
+        Physiology"],"reference-count":60,"page":"27-33","deposited":{"date-parts":[[2013,3,23]],"timestamp":1363996800000},"issue":"1","title":["Multiple
+        thermoregulatory effectors with independent central controls"],"alternative-id":["1295"],"type":"journal-article","DOI":"10.1007\/s00421-009-1295-z","ISSN":["1439-6319","1439-6327"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00421-009-1295-z","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,10]],"timestamp":1423576368368},"volume":"109","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:55 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1038/nrendo.2010.194
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:54 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '994'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Endocrinology,
+        Diabetes and Metabolism","Endocrinology"],"issued":{"date-parts":[[2010,11,30]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1038","author":[{"family":"Furuyashiki","given":"Tomoyuki"},{"family":"Narumiya","given":"Shuh"}],"container-title":["Nat
+        Rev Endocrinol","Nature Reviews Endocrinology"],"reference-count":134,"page":"163-175","deposited":{"date-parts":[[2011,8,5]],"timestamp":1312502400000},"issue":"3","title":["Stress
+        responses: the contribution of prostaglandin E2 and its receptors"],"alternative-id":["nrendo.2010.194"],"type":"journal-article","DOI":"10.1038\/nrendo.2010.194","ISSN":["1759-5029","1759-5037"],"URL":"http:\/\/dx.doi.org\/10.1038\/nrendo.2010.194","source":"CrossRef","publisher":"Nature
+        Publishing Group","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423341135697},"volume":"7","member":"http:\/\/id.crossref.org\/member\/339"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:56 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.physbeh.2008.03.022
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:55 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1516'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Experimental
+        and Cognitive Psychology","Behavioral Neuroscience"],"issued":{"date-parts":[[2008,7]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S003193840800098X?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S003193840800098X?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Begg","given":"Denovan
+        P."},{"family":"Mathai","given":"Michael L."},{"family":"McKinley","given":"Michael
+        J."},{"family":"Frappell","given":"Peter B."},{"family":"Kent","given":"Stephen"}],"container-title":["Physiology
+        & Behavior"],"reference-count":41,"page":"630-634","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"issue":"4","title":["Central
+        nitric oxide synthase inhibition restores behaviorally mediated lipopolysaccharide
+        induced fever in near-term rats"],"alternative-id":["S003193840800098X"],"type":"journal-article","DOI":"10.1016\/j.physbeh.2008.03.022","ISSN":["0031-9384"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.physbeh.2008.03.022","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431504642093},"volume":"94","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:56 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1098/rspb.2010.0008
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:56 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1174'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Immunology
+        and Microbiology(all)","Agricultural and Biological Sciences(all)","Medicine(all)","Biochemistry,
+        Genetics and Molecular Biology(all)","Environmental Science(all)"],"issued":{"date-parts":[[2010,3,3]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1098","update-policy":"http:\/\/dx.doi.org\/10.1098\/crossmarkpolicy","author":[{"family":"Sgro","given":"C.
+        M."},{"family":"Wegener","given":"B."},{"family":"Hoffmann","given":"A. A."}],"container-title":["Proceedings
+        of the Royal Society B: Biological Sciences"],"reference-count":26,"page":"2049-2057","deposited":{"date-parts":[[2012,10,22]],"timestamp":1350864000000},"issue":"1690","title":["A
+        naturally occurring variant of Hsp90 that is associated with decanalization"],"type":"journal-article","DOI":"10.1098\/rspb.2010.0008","ISSN":["0962-8452","1471-2954"],"URL":"http:\/\/dx.doi.org\/10.1098\/rspb.2010.0008","source":"CrossRef","publisher":"The
+        Royal Society","indexed":{"date-parts":[[2015,2,9]],"timestamp":1423480179715},"volume":"277","member":"http:\/\/id.crossref.org\/member\/175"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:57 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.plipres.2006.11.001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:56 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1320'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Biochemistry","Cell
+        Biology"],"issued":{"date-parts":[[2007,3]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0163782706000634?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0163782706000634?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Steiner","given":"Alexandre
+        A."},{"family":"Romanovsky","given":"Andrej A."}],"container-title":["Progress
+        in Lipid Research"],"reference-count":209,"page":"89-107","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"issue":"2","title":["Leptin:
+        At the crossroads of energy balance and systemic inflammation"],"alternative-id":["S0163782706000634"],"type":"journal-article","DOI":"10.1016\/j.plipres.2006.11.001","ISSN":["0163-7827"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.plipres.2006.11.001","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,12]],"timestamp":1431436795803},"volume":"46","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:58 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s15010-008-8087-y
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:57 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '895'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Infectious
+        Diseases","Microbiology (medical)"],"issued":{"date-parts":[[2009,3,23]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"Cardona","given":"P.-J."}],"container-title":["Infection"],"reference-count":56,"page":"80-86","deposited":{"date-parts":[[2013,4,12]],"timestamp":1365724800000},"issue":"2","title":["A
+        Dynamic Reinfection Hypothesis of Latent Tuberculosis Infection"],"alternative-id":["8087"],"type":"journal-article","DOI":"10.1007\/s15010-008-8087-y","ISSN":["0300-8126","1439-0973"],"URL":"http:\/\/dx.doi.org\/10.1007\/s15010-008-8087-y","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,10]],"timestamp":1423561873787},"volume":"37","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:38:59 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1111/j.1460-9568.2007.05843.x
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:58 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1174'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":["Hypothalamic
+        projections to raphe: stress and inflammation"],"subject":["Neuroscience(all)"],"issued":{"date-parts":[[2007,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1111","author":[{"family":"Sarkar","given":"Sumit"},{"family":"Zaretskaia","given":"Maria
+        V."},{"family":"Zaretsky","given":"Dmitry V."},{"family":"Moreno","given":"Maria"},{"family":"DiMicco","given":"Joseph
+        A."}],"container-title":["European Journal of Neuroscience"],"reference-count":80,"page":"2228-2238","deposited":{"date-parts":[[2011,5,6]],"timestamp":1304640000000},"issue":"8","title":["Stress-
+        and lipopolysaccharide-induced c-fos expression and nNOS in hypothalamic neurons
+        projecting to medullary raphe in rats: a triple immunofluorescent labeling
+        study"],"type":"journal-article","DOI":"10.1111\/j.1460-9568.2007.05843.x","ISSN":["0953-816X"],"URL":"http:\/\/dx.doi.org\/10.1111\/j.1460-9568.2007.05843.x","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,2,6]],"timestamp":1423230652253},"volume":"26","member":"http:\/\/id.crossref.org\/member\/311"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:00 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.5012/bkcs.2011.32.2.620
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:38:59 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '930'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Chemistry(all)"],"issued":{"date-parts":[[2011,2,20]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.5012","author":[{"family":"Wang","given":"Liang"},{"family":"Zhao","given":"Xiao-Jun"}],"container-title":["Bulletin
+        of the Korean Chemical Society"],"reference-count":4,"page":"620-624","deposited":{"date-parts":[[2012,12,10]],"timestamp":1355097600000},"issue":"2","title":["","Dynamic
+        Research of a Potential Carrier for Hydrophobic Compound Model Pyrene Using
+        Amphiphilic Peptide EYK"],"type":"journal-article","DOI":"10.5012\/bkcs.2011.32.2.620","ISSN":["0253-2964"],"URL":"http:\/\/dx.doi.org\/10.5012\/bkcs.2011.32.2.620","source":"CrossRef","publisher":"Korean
+        Chemical Society","indexed":{"date-parts":[[2015,2,9]],"timestamp":1423489876974},"volume":"32","member":"http:\/\/id.crossref.org\/member\/2923"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:01 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1890/07-1689.1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:00 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '945'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Ecology"],"issued":{"date-parts":[[2008,7]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1890","author":[{"family":"Bock","given":"Carl
+        E."},{"family":"Jones","given":"Zach F."},{"family":"Bock","given":"Jane H."}],"container-title":["Ecological
+        Applications"],"reference-count":38,"page":"1093-1106","deposited":{"date-parts":[[2011,7,13]],"timestamp":1310515200000},"issue":"5","title":["THE
+        OASIS EFFECT: RESPONSE OF BIRDS TO EXURBAN DEVELOPMENT IN A SOUTHWESTERN SAVANNA"],"alternative-id":["10.1890\/07-1689.1"],"type":"journal-article","DOI":"10.1890\/07-1689.1","ISSN":["1051-0761"],"URL":"http:\/\/dx.doi.org\/10.1890\/07-1689.1","source":"CrossRef","publisher":"Ecological
+        Society of America","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423272909861},"volume":"18","member":"http:\/\/id.crossref.org\/member\/792"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:01 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1097/SHK.0b013e3180caac7e
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:01 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '986'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[""],"subject":["Critical
+        Care and Intensive Care Medicine","Emergency Medicine"],"issued":{"date-parts":[[2007,7]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1097","author":[{"family":"Yilmaz","given":"Sertac"},{"family":"Millington","given":"William
+        R."},{"family":"Feleder","given":"Carlos"}],"container-title":["Shock"],"reference-count":27,"page":"1","deposited":{"date-parts":[[2010,6,10]],"timestamp":1276128000000},"title":["THE
+        PREOPTIC ANTERIOR HYPOTHALAMIC AREA MEDIATES INITIATION OF THE HYPOTENSIVE
+        RESPONSE INDUCED BY LPS IN MALE RATS"],"type":"journal-article","DOI":"10.1097\/shk.0b013e3180caac7e","ISSN":["1073-2322"],"URL":"http:\/\/dx.doi.org\/10.1097\/shk.0b013e3180caac7e","source":"CrossRef","publisher":"Ovid
+        Technologies (Wolters Kluwer Health)","indexed":{"date-parts":[[2015,2,5]],"timestamp":1423178756429},"member":"http:\/\/id.crossref.org\/member\/276"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:02 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1098/rspb.2008.1530
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:01 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1320'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Immunology
+        and Microbiology(all)","Agricultural and Biological Sciences(all)","Medicine(all)","Biochemistry,
+        Genetics and Molecular Biology(all)","Environmental Science(all)"],"issued":{"date-parts":[[2009,1,20]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1098","update-policy":"http:\/\/dx.doi.org\/10.1098\/crossmarkpolicy","author":[{"family":"Verneau","given":"O."},{"family":"Du
+        Preez","given":"L. H"},{"family":"Laurent","given":"V."},{"family":"Raharivololoniaina","given":"L."},{"family":"Glaw","given":"F."},{"family":"Vences","given":"M."}],"container-title":["Proceedings
+        of the Royal Society B: Biological Sciences"],"reference-count":47,"page":"1575-1583","deposited":{"date-parts":[[2012,10,22]],"timestamp":1350864000000},"issue":"1662","title":["The
+        double odyssey of Madagascan polystome flatworms leads to new insights on
+        the origins of their amphibian hosts"],"type":"journal-article","DOI":"10.1098\/rspb.2008.1530","ISSN":["0962-8452","1471-2954"],"URL":"http:\/\/dx.doi.org\/10.1098\/rspb.2008.1530","source":"CrossRef","publisher":"The
+        Royal Society","indexed":{"date-parts":[[2015,2,9]],"timestamp":1423479909497},"volume":"276","member":"http:\/\/id.crossref.org\/member\/175"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:03 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.neuroscience.2011.11.013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:02 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1146'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Neuroscience(all)"],"issued":{"date-parts":[[2012,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Damm","given":"J."},{"family":"Wiegand","given":"F."},{"family":"Harden","given":"L.M."},{"family":"Gerstberger","given":"R."},{"family":"Rummel","given":"C."},{"family":"Roth","given":"J."}],"container-title":["Neuroscience"],"reference-count":75,"page":"166-183","deposited":{"date-parts":[[2012,1,10]],"timestamp":1326153600000},"title":["Fever,
+        sickness behavior, and expression of inflammatory genes in the hypothalamus
+        after systemic and localized subcutaneous stimulation of rats with the toll-like
+        receptor 7 agonist imiquimod"],"alternative-id":["S0306452211012802"],"type":"journal-article","DOI":"10.1016\/j.neuroscience.2011.11.013","ISSN":["0306-4522"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.neuroscience.2011.11.013","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,2,8]],"timestamp":1423397402380},"volume":"201","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:04 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1089/cyber.2009.0310
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:03 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1117'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Applied
+        Psychology","Social Psychology","Computer Science Applications","Medicine(all)","Human-Computer
+        Interaction","Communication"],"issued":{"date-parts":[[2010,12]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1089","author":[{"family":"Kozlov","given":"Michail
+        D."},{"family":"Johansen","given":"Mark K."}],"container-title":["Cyberpsychology,
+        Behavior, and Social Networking"],"reference-count":15,"page":"711-714","deposited":{"date-parts":[[2011,3,9]],"timestamp":1299628800000},"issue":"6","title":["Real
+        Behavior in Virtual Environments: Psychology Experiments in a Simple Virtual-Reality
+        Paradigm Using Video Games"],"alternative-id":["10.1089\/cyber.2009.0310"],"type":"journal-article","DOI":"10.1089\/cyber.2009.0310","ISSN":["2152-2715","2152-2723"],"URL":"http:\/\/dx.doi.org\/10.1089\/cyber.2009.0310","source":"CrossRef","publisher":"Mary
+        Ann Liebert Inc","indexed":{"date-parts":[[2015,2,6]],"timestamp":1423209860485},"volume":"13","member":"http:\/\/id.crossref.org\/member\/278"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:05 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1080/03079450903190871
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:04 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1105'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Medicine(all)"],"issued":{"date-parts":[[2009,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1080","author":[{"family":"De
+        Boever","given":"S."},{"family":"Croubels","given":"S."},{"family":"Meyer","given":"E."},{"family":"Sys","given":"S."},{"family":"Beyaert","given":"R."},{"family":"Ducatelle","given":"R."},{"family":"De
+        Backer","given":"P."}],"container-title":["Avian Pathology"],"reference-count":64,"page":"403-411","deposited":{"date-parts":[[2011,6,28]],"timestamp":1309219200000},"issue":"5","title":["Characterization
+        of an intravenous lipopolysaccharide inflammation model in broiler chickens"],"alternative-id":["10.1080\/03079450903190871"],"type":"journal-article","DOI":"10.1080\/03079450903190871","ISSN":["0307-9457","1465-3338"],"URL":"http:\/\/dx.doi.org\/10.1080\/03079450903190871","source":"CrossRef","publisher":"Informa
+        UK Limited","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423288454231},"volume":"38","member":"http:\/\/id.crossref.org\/member\/301"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:06 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s00424-009-0654-2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:05 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1240'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Physiology","Physiology
+        (medical)","Clinical Biochemistry"],"issued":{"date-parts":[[2009,2,28]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"Matsuzaki","given":"Kentaro"},{"family":"Katakura","given":"Masanori"},{"family":"Hara","given":"Toshiko"},{"family":"Li","given":"Guanghua"},{"family":"Hashimoto","given":"Michio"},{"family":"Shido","given":"Osamu"}],"container-title":["Pflugers
+        Arch - Eur J Physiol","Pfl\u00fcgers Archiv - European Journal of Physiology"],"reference-count":50,"page":"661-673","deposited":{"date-parts":[[2013,3,23]],"timestamp":1363996800000},"issue":"4","title":["Proliferation
+        of neuronal progenitor cells and neuronal differentiation in the hypothalamus
+        are enhanced in heat-acclimated rats"],"alternative-id":["654"],"type":"journal-article","DOI":"10.1007\/s00424-009-0654-2","ISSN":["0031-6768","1432-2013"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00424-009-0654-2","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,10]],"timestamp":1423575809743},"volume":"458","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:06 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s00441-010-1037-x
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:06 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1269'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Histology","Pathology
+        and Forensic Medicine","Cell Biology"],"issued":{"date-parts":[[2010,10,8]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"Fujii","given":"Shinsuke"},{"family":"Maeda","given":"Hidefumi"},{"family":"Tomokiyo","given":"Atsushi"},{"family":"Monnouchi","given":"Satoshi"},{"family":"Hori","given":"Kiyomi"},{"family":"Wada","given":"Naohisa"},{"family":"Akamine","given":"Akifumi"}],"container-title":["Cell
+        Tissue Res","Cell and Tissue Research"],"reference-count":38,"page":"233-242","deposited":{"date-parts":[[2013,3,24]],"timestamp":1364083200000},"issue":"2","title":["Effects
+        of TGF-\u03b21 on the proliferation and differentiation of human periodontal
+        ligament cells and a human periodontal ligament stem\/progenitor cell line"],"alternative-id":["1037"],"type":"journal-article","DOI":"10.1007\/s00441-010-1037-x","ISSN":["0302-766X","1432-0878"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00441-010-1037-x","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,10]],"timestamp":1423533474630},"volume":"342","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:07 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1016/j.lfs.2008.04.003
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:07 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1691'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Biochemistry,
+        Genetics and Molecular Biology(all)","Pharmacology, Toxicology and Pharmaceutics(all)"],"issued":{"date-parts":[[2008,6]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0024320508001586?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0024320508001586?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Nikami","given":"Hideki"},{"family":"Mahmoud","given":"Motamed
+        Elsayed"},{"family":"Shimizu","given":"Yasutake"},{"family":"Shiina","given":"Takahiko"},{"family":"Hirayama","given":"Haruko"},{"family":"Iwami","given":"Momoe"},{"family":"Dosoky","given":"Reem
+        Mahmoud"},{"family":"Ahmed","given":"Moustafa Mohamed"},{"family":"Takewaki","given":"Tadashi"}],"container-title":["Life
+        Sciences"],"reference-count":35,"page":"1191-1195","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"issue":"23-24","title":["Capsaicin
+        pretreatment attenuates LPS-induced hypothermia through TRPV1-independent
+        mechanisms in chicken"],"alternative-id":["S0024320508001586"],"type":"journal-article","DOI":"10.1016\/j.lfs.2008.04.003","ISSN":["0024-3205"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.lfs.2008.04.003","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431505818971},"volume":"82","member":"http:\/\/id.crossref.org\/member\/78"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:08 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.3846/20297475.2012.659680
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:07 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '904'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012,6]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3846","author":[{"family":"Wo\u017aniak","given":"Mateusz"}],"container-title":["Limes:
+        Borderland Studies"],"reference-count":40,"page":"1-10","deposited":{"date-parts":[[2012,6,28]],"timestamp":1340841600000},"issue":"1","title":["Pictures
+        of me: possibilities of shaping our body image through virtual reality"],"alternative-id":["10.3846\/20297475.2012.659680"],"type":"journal-article","DOI":"10.3846\/20297475.2012.659680","ISSN":["2029-7475","2029-7483"],"URL":"http:\/\/dx.doi.org\/10.3846\/20297475.2012.659680","source":"CrossRef","publisher":"Vilnius
+        Gediminas Technical University","indexed":{"date-parts":[[2015,2,9]],"timestamp":1423467213704},"volume":"5","member":"http:\/\/id.crossref.org\/member\/2209"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:09 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1093/infdis/jis381
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:08 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1140'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Immunology
+        and Allergy","Infectious Diseases"],"issued":{"date-parts":[[2012,6,25]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1093","author":[{"family":"Barrios-Payan","given":"J."},{"family":"Saqui-Salces","given":"M."},{"family":"Jeyanathan","given":"M."},{"family":"Alcantara-Vazquez","given":"A."},{"family":"Castanon-Arreola","given":"M."},{"family":"Rook","given":"G."},{"family":"Hernandez-Pando","given":"R."}],"container-title":["Journal
+        of Infectious Diseases"],"reference-count":34,"page":"1194-1205","deposited":{"date-parts":[[2012,9,22]],"timestamp":1348272000000},"issue":"8","title":["Extrapulmonary
+        Locations of Mycobacterium tuberculosis DNA During Latent Infection"],"type":"journal-article","DOI":"10.1093\/infdis\/jis381","ISSN":["0022-1899","1537-6613"],"URL":"http:\/\/dx.doi.org\/10.1093\/infdis\/jis381","source":"CrossRef","publisher":"Oxford
+        University Press (OUP)","indexed":{"date-parts":[[2015,2,9]],"timestamp":1423484517469},"volume":"206","member":"http:\/\/id.crossref.org\/member\/286"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:10 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1007/s10329-012-0326-2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:09 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1001'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Animal
+        Science and Zoology"],"issued":{"date-parts":[[2012,9,2]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"family":"Dooley","given":"Helen
+        M."},{"family":"Judge","given":"Debra S."},{"family":"Schmitt","given":"Lincoln
+        H."}],"container-title":["Primates"],"reference-count":55,"page":"39-48","deposited":{"date-parts":[[2013,3,28]],"timestamp":1364428800000},"issue":"1","title":["Singing
+        by male and female Kloss gibbons (Hylobates klossii) in the Peleonan Forest,
+        Siberut Island, Indonesia"],"alternative-id":["326"],"type":"journal-article","DOI":"10.1007\/s10329-012-0326-2","ISSN":["0032-8332","1610-7365"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10329-012-0326-2","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,2,10]],"timestamp":1423565717596},"volume":"54","member":"http:\/\/id.crossref.org\/member\/297"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:11 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1080/07418825.2011.555413
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 24 May 2015 21:39:10 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1048'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Law","Pathology
+        and Forensic Medicine"],"issued":{"date-parts":[[2012,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1080","author":[{"family":"Steiner","given":"Benjamin"},{"family":"Makarios","given":"Matthew
+        D."},{"family":"Travis III","given":"Lawrence F."},{"family":"Meade","given":"Benjamin"}],"container-title":["Justice
+        Quarterly"],"reference-count":81,"page":"229-257","deposited":{"date-parts":[[2012,2,20]],"timestamp":1329696000000},"issue":"2","title":["Examining
+        the Effects of Community-Based Sanctions on Offender Recidivism"],"alternative-id":["10.1080\/07418825.2011.555413"],"type":"journal-article","DOI":"10.1080\/07418825.2011.555413","ISSN":["0741-8825","1745-9109"],"URL":"http:\/\/dx.doi.org\/10.1080\/07418825.2011.555413","source":"CrossRef","publisher":"Informa
+        UK Limited","indexed":{"date-parts":[[2015,2,8]],"timestamp":1423426678950},"volume":"29","member":"http:\/\/id.crossref.org\/member\/301"}}'
+    http_version: 
+  recorded_at: Sun, 24 May 2015 21:39:11 GMT
+recorded_with: VCR 2.9.3

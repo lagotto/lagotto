@@ -138,12 +138,12 @@ describe CrossRef, type: :model, vcr: true do
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
       expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(event['title']).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(event['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(event['issued']).to eq("date-parts"=>[[2011]])
+      expect(event['title']).to eq("Audiotactile interactions in temporal perception")
+      expect(event['container-title']).to eq("Psychon Bull Rev")
+      expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])
       expect(event['volume']).to eq("18")
       expect(event['issue']).to eq("3")
-      expect(event['page']).to eq("429")
+      expect(event['page']).to eq("429-454")
       expect(event['type']).to eq("article-journal")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
 
@@ -167,9 +167,9 @@ describe CrossRef, type: :model, vcr: true do
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
       expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(event['title']).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(event['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(event['issued']).to eq("date-parts"=>[[2011]])
+      expect(event['title']).to eq("Audiotactile interactions in temporal perception")
+      expect(event['container-title']).to eq("Psychon Bull Rev")
+      expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])
       expect(event['type']).to eq("article-journal")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
 
