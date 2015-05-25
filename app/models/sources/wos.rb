@@ -23,17 +23,19 @@ class Wos < Source
     return { error: error_status } if error_status
 
     values = Array(result.deep_fetch('response', 'fn', 'map', 'map', 'map', 'val') { nil })
-    total = values[0].to_i
 
-    # store Web of Science ID if we haven't done this already
-    unless work.wos.present?
+    # workaround since we lost the xml attributes when converting to JSON
+    if values.length == 3
+      total = values[0].to_i
       wos = values[1]
-      work.update_attributes(:wos => wos) if wos.present?
-    end
+      events_url = values[2]
 
-    # fix for parsing error
-    total = 0 if total > 100000
-    events_url = values[2]
+      # store Web of Science ID if we haven't done this already
+      work.update_attributes(:wos => wos) if wos.present? && work.wos.blank?
+    else
+      total = 0
+      events_url = nil
+    end
 
     { events: {
         source: name,
