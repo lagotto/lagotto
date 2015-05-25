@@ -108,7 +108,7 @@ module Resolvable
       return {} if doi.blank?
 
       conn = faraday_conn('json', options)
-      url = "http://api.crossref.org/works/" + doi
+      url = "http://api.crossref.org/works/" + PostRank::URI.escape(doi)
       response = conn.get url, {}, options[:headers]
 
       if is_json?(response.body)

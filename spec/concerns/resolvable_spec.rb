@@ -183,6 +183,17 @@ describe Work, type: :model, vcr: true do
         expect(response["publisher_id"]).to eq(340)
       end
 
+      it "get_crossref_metadata with old DOI" do
+        work = FactoryGirl.create(:work, doi: "10.1890/0012-9658(2006)87[2832:tiopma]2.0.co;2")
+        response = subject.get_crossref_metadata(work.doi)
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"]).to eq("THE IMPACT OF PARASITE MANIPULATION AND PREDATOR FORAGING BEHAVIOR ON PREDATOR–PREY COMMUNITIES")
+        expect(response["container-title"]).to eq("Ecology")
+        expect(response["issued"]).to eq("date-parts"=>[[2006, 11]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to eq(792)
+      end
+
       it "get_crossref_metadata with not found error" do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
         response = subject.get_crossref_metadata("#{work.doi}x")
