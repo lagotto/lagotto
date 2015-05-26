@@ -1,12 +1,12 @@
-class AlertsController < ApplicationController
-  before_filter :load_alert, only: [:destroy]
+class NotificationsController < ApplicationController
+  before_filter :load_notification, only: [:destroy]
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
 
   def index
     @servers = ENV['SERVERS'].split(",")
 
-    collection = Alert
+    collection = Notification
     if params[:source_id]
       collection = collection.includes(:source)
                    .where("sources.name = ?", params[:source_id])
@@ -25,19 +25,19 @@ class AlertsController < ApplicationController
     end
 
     if params[:level]
-      level = Alert::LEVELS.index(params[:level].upcase) || 0
+      level = Notification::LEVELS.index(params[:level].upcase) || 0
       collection = collection.where("level >= ?", level)
       @level = params[:level]
     end
 
     collection = collection.query(params[:q]) if params[:q]
 
-    @alerts = collection.paginate(:page => params[:page])
+    @notifications = collection.paginate(:page => params[:page])
   end
 
   def create
     exception = env["action_dispatch.exception"]
-    @alert = Alert.where(message: exception.message).where(unresolved: true).first_or_initialize(
+    @notification = Notification.where(message: exception.message).where(unresolved: true).first_or_initialize(
       :exception => exception,
       :request => request)
 
@@ -45,32 +45,32 @@ class AlertsController < ApplicationController
     if ["ActiveRecord::RecordNotFound",
         "ActionController::RoutingError",
         "CustomError::TooManyRequestsError"].include?(exception.class.to_s)
-      @alert.status = request.headers["PATH_INFO"][1..-1]
+      @notification.status = request.headers["PATH_INFO"][1..-1]
     else
-      @alert.save
+      @notification.save
     end
 
     respond_to do |format|
-      format.json { render json: { error: @alert.public_message }, status: @alert.status }
-      format.xml  { render xml: @alert.public_message, root: "error", status: @alert.status }
-      format.html { render :show, status: @alert.status, layout: !request.xhr? }
-      format.rss { render :show, status: @alert.status, layout: false }
+      format.json { render json: { error: @notification.public_message }, status: @notification.status }
+      format.xml  { render xml: @notification.public_message, root: "error", status: @notification.status }
+      format.html { render :show, status: @notification.status, layout: !request.xhr? }
+      format.rss { render :show, status: @notification.status, layout: false }
     end
   end
 
   def destroy
     @servers = ENV['SERVERS'].split(",")
     if params[:filter] == "class_name"
-      Alert.where(:class_name => @alert.class_name).update_all(:unresolved => false)
+      Notification.where(:class_name => @notification.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source"
-      Alert.where(:source_id => @alert.source_id).update_all(:unresolved => false)
+      Notification.where(:source_id => @notification.source_id).update_all(:unresolved => false)
     elsif params[:filter] == "work_id"
-      Alert.where(:work_id => @alert.work_id).update_all(:unresolved => false)
+      Notification.where(:work_id => @notification.work_id).update_all(:unresolved => false)
     else
-      Alert.where(:message => @alert.message).update_all(:unresolved => false)
+      Notification.where(:message => @notification.message).update_all(:unresolved => false)
     end
 
-    collection = Alert
+    collection = Notification
     if params[:source_id]
       collection = collection.includes(:source)
                    .where("sources.name = ?", params[:source_id])
@@ -87,10 +87,10 @@ class AlertsController < ApplicationController
     end
     collection = collection.query(params[:q]) if params[:q]
 
-    @alerts = collection.paginate(:page => params[:page])
+    @notifications = collection.paginate(:page => params[:page])
 
     if params[:work_id]
-      render :alert
+      render :notification
     else
       render :index
     end
@@ -102,10 +102,10 @@ class AlertsController < ApplicationController
 
   protected
 
-  def load_alert
-    @alert = Alert.where(uuid: params[:id]).first
+  def load_notification
+    @notification = Notification.where(uuid: params[:id]).first
 
     # raise error if source wasn't found
-    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @alert.blank?
+    fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @notification.blank?
   end
 end

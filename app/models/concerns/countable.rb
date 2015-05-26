@@ -80,7 +80,7 @@ module Countable
     end
 
     def error_count
-      alerts.total_errors(1).size
+      notifications.total_errors(1).size
     end
 
     def with_events_by_day_count

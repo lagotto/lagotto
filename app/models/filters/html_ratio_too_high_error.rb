@@ -1,15 +1,15 @@
 class HtmlRatioTooHighError < Filter
   def run_filter(state)
-    responses = ApiResponse.filter(state[:id]).slow(limit)
+    responses = Change.filter(state[:id]).slow(limit)
 
     if responses.count > 0
       responses = responses.to_a.map do |response|
         { source_id: response.source_id,
           work_id: response.work_id,
-          level: Alert::INFO,
+          level: Notification::INFO,
           message: "HTML/PDF ratio is #{response.html / response.pdf} with #{response.html} views" }
       end
-      raise_alerts(responses)
+      raise_notificaitons(responses)
     end
 
     responses.count

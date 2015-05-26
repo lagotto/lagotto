@@ -70,12 +70,12 @@
 <% if can?(:read, Alert) %>
   <div class="row">
     <div class="col-md-4">
-      <div class="panel <%= @current_status.alerts_count > 0 ? 'panel-default' : 'panel-success' %>">
-        <div class="panel-heading">Unresolved alerts <small class="pull-right">last day</small></div>
+      <div class="panel <%= @current_status.notifications_count > 0 ? 'panel-default' : 'panel-success' %>">
+        <div class="panel-heading">Unresolved notifications <small class="pull-right">last day</small></div>
         <div class="panel-body panel-chart">
-          <h2 class="graphs"><%= link_to_if @current_status.alerts_count > 0, number_with_delimiter(@current_status.alerts_count), alerts_path %></h2>
-          <div class="graphs" id="chart_alerts"></div>
-          <div class="text-muted" id="chart_alerts-loading">Loading … <%= image_tag "spinner.gif" %></div>
+          <h2 class="graphs"><%= link_to_if @current_status.notifications_count > 0, number_with_delimiter(@current_status.notifications_count), notifications_path %></h2>
+          <div class="graphs" id="chart_notifications"></div>
+          <div class="text-muted" id="chart_notifications-loading">Loading … <%= image_tag "spinner.gif" %></div>
         </div>
       </div>
     </div>

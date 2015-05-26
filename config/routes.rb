@@ -13,7 +13,7 @@ Lagotto::Application.routes.draw do
   #get '/docs/*path' => 'ember#index'
   root :to => "docs#index"
 
-  resources :alerts
+  resources :notifications
   resources :api_requests
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
@@ -56,7 +56,7 @@ Lagotto::Application.routes.draw do
         resources :events
       end
 
-      resources :alerts
+      resources :notifications
       resources :api_requests, only: [:index]
       resources :docs, only: [:index, :show]
       resources :events
@@ -79,5 +79,5 @@ Lagotto::Application.routes.draw do
   end
 
   # rescue routing errors
-  match "*path", to: "alerts#routing_error", via: [:get, :post]
+  match "*path", to: "notifications#routing_error", via: [:get, :post]
 end

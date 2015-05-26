@@ -59,15 +59,15 @@
   <div class="work">&nbsp;
     <div class="btn-toolbar pull-left">
       <% if can?(:read, Alert) %>
-        <div class="btn-group btn-group-sm" id="work-alerts">
+        <div class="btn-group btn-group-sm" id="work-notifications">
           <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Works" : h(@class_name) %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to "All Works", works_path(:q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
             <li class="divider"></li>
             <li><%= link_to "All Alerts", works_path(:class_name => "All Alerts", :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
             <li class="divider"></li>
-            <% work_alerts.each do |alert| %>
-              <li><%= link_to h(alert), works_path(:class_name => alert, :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
+            <% work_notifications.each do |notification| %>
+              <li><%= link_to h(notification), works_path(:class_name => notification, :q => params[:q], publisher_id: params[:publisher_id], source_id: params[:source_id], sort: params[:sort]) %></li>
             <% end %>
           </ul>
         </div>

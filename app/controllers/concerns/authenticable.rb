@@ -38,7 +38,7 @@ module Authenticable
       end
     end
 
-    def create_alert(exception, options = {})
+    def create_notification(exception, options = {})
       Alert.where(message: exception.message).where(unresolved: true).first_or_create(
         exception: exception,
         status: options[:status])
@@ -77,7 +77,7 @@ module Authenticable
       elsif status == 401
         message = "You are not authorized to access this page."
       else
-        create_alert(exception, status: status)
+        create_notification(exception, status: status)
         message = exception.message
       end
 
@@ -86,9 +86,9 @@ module Authenticable
           if /(jpe?g|png|gif|css)/i == request.path
             render text: message, status: status
           else
-            @alert = Alert.where(message: message).where(unresolved: true).first_or_initialize(
+            @notification = Alert.where(message: message).where(unresolved: true).first_or_initialize(
               status: status)
-            render "alerts/show", status: status
+            render "notifications/show", status: status
           end
         end
         format.xml { render xml: { error: message }.to_xml, status: status }

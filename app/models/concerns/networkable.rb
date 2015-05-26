@@ -50,7 +50,7 @@ module Networkable
       rescue_faraday_error(url, e, options)
     rescue => exception
       options[:level] = Alert::FATAL
-      create_alert(exception, options)
+      create_notification(exception, options)
     end
 
     def read_from_file(filename = "tmpdata", options = { content_type: 'xml' })
@@ -64,7 +64,7 @@ module Networkable
       rescue_faraday_error(url, e, options)
     rescue => exception
       options[:level] = Alert::FATAL
-      create_alert(exception, options)
+      create_notification(exception, options)
     end
 
     def faraday_conn(content_type = 'json', options = {})
@@ -223,7 +223,7 @@ module Networkable
       false
     end
 
-    def create_alert(exception, options = {})
+    def create_notification(exception, options = {})
       Alert.where(message: exception.message).where(unresolved: true).first_or_create(
         :exception => exception,
         :class_name => exception.class.to_s,

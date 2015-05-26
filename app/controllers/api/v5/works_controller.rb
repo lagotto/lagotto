@@ -54,11 +54,11 @@ class Api::V5::WorksController < Api::BaseController
 
   def get_class_name(collection, params)
     @class_name = params[:class_name]
-    collection = collection.includes(:alerts).references(:alerts)
+    collection = collection.includes(:notifications).references(:notifications)
     if @class_name == "All Alerts"
-      collection = collection.where("alerts.unresolved = ?", true)
+      collection = collection.where("notifications.unresolved = ?", true)
     else
-      collection = collection.where("alerts.unresolved = ?", true).where("alerts.class_name = ?", @class_name)
+      collection = collection.where("notifications.unresolved = ?", true).where("notifications.class_name = ?", @class_name)
     end
   end
 

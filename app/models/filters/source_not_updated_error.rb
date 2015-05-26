@@ -1,6 +1,6 @@
 class SourceNotUpdatedError < Filter
   def run_filter(state)
-    responses_by_source = ApiResponse.filter(state[:id]).group(:source_id).count
+    responses_by_source = Change.filter(state[:id]).group(:source_id).count
     responses = source_ids.select { |source_id| !responses_by_source.key?(source_id) }
 
     if responses.count > 0
@@ -12,7 +12,7 @@ class SourceNotUpdatedError < Filter
         { source_id: response,
           message: "Source not updated for 24 hours" }
       end
-      raise_alerts(responses)
+      raise_notifications(responses)
     end
 
     responses.count

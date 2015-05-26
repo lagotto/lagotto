@@ -373,27 +373,27 @@ When a work has been deleted successfully, the server reponds with `Status 200 O
 {"success":"Work deleted.","error":null,"data":{ ... }
 ```
 
-### Get alerts
-The alerts API endpoint is only available to authenticated admin users. The same query parameters as in the admin web interface are supported:
+### Get notifications
+The notifications API endpoint is only available to authenticated admin users. The same query parameters as in the admin web interface are supported:
 
 * source
 * class_name
 * level
 * query (but using `q`)
 
-By default the API returns all alerts, add `&unresolved=1` to only retrieve unresolved alerts, as in the admin web interface. An example API response would be:
+By default the API returns all notifications, add `&unresolved=1` to only retrieve unresolved notifications, as in the admin web interface. An example API response would be:
 
 ```sh
 {
   "meta": {
     "status": "ok",
-    "message-type": "alert-list",
+    "message-type": "notification-list",
     "message-version": "6.0.0",
     "total": 152,
     "total_pages": 4,
     "page": 1
   },
-  "alerts": [
+  "notifications": [
     {
       "id": "39586c14-8d3e-4f83-9636-d36ca2d6b958",
       "level": "FATAL",

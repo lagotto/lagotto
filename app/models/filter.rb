@@ -29,11 +29,11 @@ class Filter < ActiveRecord::Base
     def run
       # To sync filters
       # Only run filter if we have unresolved API responses
-      options = { id: ApiResponse.unresolved.maximum(:id),
-                  input: ApiResponse.unresolved.count(:id),
+      options = { id: Change.unresolved.maximum(:id),
+                  input: Change.unresolved.count(:id),
                   output: 0,
-                  started_at: ApiResponse.unresolved.minimum(:created_at),
-                  ended_at: ApiResponse.unresolved.maximum(:created_at),
+                  started_at: Change.unresolved.minimum(:created_at),
+                  ended_at: Change.unresolved.maximum(:created_at),
                   review_messages: [] }
 
       return nil unless options[:id]
@@ -69,14 +69,14 @@ class Filter < ActiveRecord::Base
     end
 
     def resolve(options)
-      options[:time] = Benchmark.realtime { options[:output] = ApiResponse.filter(options[:id]).update_all(unresolved: false) }
+      options[:time] = Benchmark.realtime { options[:output] = Change.filter(options[:id]).update_all(unresolved: false) }
       options[:message] = "Resolved #{pluralize(number_with_delimiter(options[:output]), 'API response')} in #{number_with_precision(options[:time] * 1000)} ms"
       options
     end
 
     def unresolve(options = {})
-      options[:time] = Benchmark.realtime { options[:output] = ApiResponse.update_all(unresolved: true) }
-      options[:id] = ApiResponse.maximum(:id)
+      options[:time] = Benchmark.realtime { options[:output] = Change.update_all(unresolved: true) }
+      options[:id] = Change.maximum(:id)
       options[:message] = "Unresolved #{pluralize(number_with_delimiter(options[:output]), 'API response')} in #{number_with_precision(options[:time] * 1000)} ms"
       options
     end
@@ -123,13 +123,13 @@ class Filter < ActiveRecord::Base
     fail NotImplementedError, 'Children classes should override run_filter method'
   end
 
-  def raise_alerts(responses)
+  def raise_notifications(responses)
     responses.each do |response|
       level = response[:level] || 3
-      alert = Alert.where(class_name: name,
+      notification = Alert.where(class_name: name,
                           source_id: response[:source_id],
                           work_id: response[:work_id]).first_or_initialize
-      alert.update_attributes(exception: "", level: level, message: response[:message] ? response[:message] : "An API response error occured")
+      notification.update_attributes(exception: "", level: level, message: response[:message] ? response[:message] : "An API response error occured")
     end
   end
 end

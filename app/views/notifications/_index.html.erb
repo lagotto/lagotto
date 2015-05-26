@@ -1,20 +1,20 @@
-<div class="page-header">
+Ï<div class="page-header">
   <div class="btn-toolbar pull-right">
     <div class="btn-group btn-group-sm">
       <%= link_to "#{icon("flag")} Filters".html_safe, filters_path, { id: "filters", class: "btn btn-default" } %>
     </div>
   </div>
   <h1 class="pull-left">
-    <%= pluralize(@alerts.count, 'Alert') %>
+    <%= pluralize(@notifications.count, 'Alert') %>
   </h1>
 
-  <%= form_tag(alerts_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
+  <%= form_tag(notifications_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
     <div class="form-group">
       <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
     </div>
     <button type="submit" id="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
     <% unless params[:q].blank? %>
-      <%= link_to "clear", alerts_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
+      <%= link_to "clear", notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
     <% end %>
   <% end %>
 </div>
@@ -25,10 +25,10 @@
       <div class="btn-group btn-group-sm">
         <a class="btn btn-default dropdown-toggle" id="hostname-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @hostname.nil? ? "All Hosts" : @hostname %> <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><%= link_to "All Hosts", alerts_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %></li>
+          <li><%= link_to "All Hosts", notifications_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %></li>
           <li class="divider"></li>
           <% @servers.each do |hostname| %>
-            <li><%= link_to hostname, alerts_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %></li>
+            <li><%= link_to hostname, notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %></li>
           <% end %>
         </ul>
       </div>
@@ -36,12 +36,12 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" id="source-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : @source.title %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", alerts_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Sources", notifications_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <% Group.order("id").each do |group| %>
           <% unless group.sources.active.empty? %>
             <li class="divider"></li>
             <% group.sources.active.each do |source| %>
-              <li><%= link_to h(source.title), alerts_path(source_id: source.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+              <li><%= link_to h(source.title), notifications_path(source_id: source.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
             <% end %>
           <% end %>
         <% end %>
@@ -50,23 +50,23 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" id="level-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @level.nil? ? "All Levels" : @level.titleize %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Levels", alerts_path(class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Levels", notifications_path(class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
         <% Alert::LEVELS[1..-1].each do |level| %>
-        <li><%= link_to h(level.titleize), alerts_path(level: level.downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to h(level.titleize), notifications_path(level: level.downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
     <div class="btn-group btn-group-sm">
-      <a class="btn btn-default dropdown-toggle" id="alert-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
+      <a class="btn btn-default dropdown-toggle" id="notification-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Alerts" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Alerts", alerts_path(source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Alerts", notifications_path(source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
-        <% alerts.each do |alert| %>
-          <% if alert == "-" %>
+        <% notifications.each do |notification| %>
+          <% if notification == "-" %>
             <li class="divider"></li>
           <% else %>
-            <li><%= link_to h(alert), alerts_path(class_name: alert, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+            <li><%= link_to h(notification), notifications_path(class_name: notification, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
           <% end %>
         <% end %>
       </ul>
@@ -74,23 +74,23 @@
   </div>
 </div>
 
-<% if @alerts.size > 0 %>
-  <div class="panel-group" id="alert">
-    <% @alerts.each do |alert| %>
+<% if @notifications.size > 0 %>
+  <div class="panel-group" id="notification">
+    <% @notifications.each do |notification| %>
       <div class="panel panel-default">
         <div class="panel-heading panel-title panel-list">
-          <% if alert.level != 3 %><span class="pull-right"><%= level_label(alert.level).html_safe %></span><% end %>
-          <%= link_to ((alert.status.blank? ? "" : "[#{alert.status}] ") + h(alert.message)).html_safe, "#alert_#{alert.uuid}", :class => "accordion-toggle", :id => "alert_#{alert.uuid}-link", :data => { :toggle => "collapse", :parent => "#alert" }, :href => "#alert_#{alert.uuid}" %>
+          <% if notification.level != 3 %><span class="pull-right"><%= level_label(notification.level).html_safe %></span><% end %>
+          <%= link_to ((notification.status.blank? ? "" : "[#{notification.status}] ") + h(notification.message)).html_safe, "#notification_#{notification.uuid}", :class => "accordion-toggle", :id => "notification_#{notification.uuid}-link", :data => { :toggle => "collapse", :parent => "#notification" }, :href => "#notification_#{notification.uuid}" %>
         </div>
-        <div class="panel-collapse collapse" id="alert_<%= alert.uuid %>">
-          <div class="panel-body alert-inner">
+        <div class="panel-collapse collapse" id="notification_<%= notification.uuid %>">
+          <div class="panel-body notification-inner">
             <% if can?(:destroy, Alert) %>
               <div class="btn-group btn-group-sm pull-right">
-                <a class="btn btn-default dropdown-toggle" id="alert_<%= alert.uuid %>-delete" data-toggle="dropdown" href="#">
+                <a class="btn btn-default dropdown-toggle" id="notification_<%= notification.uuid %>-delete" data-toggle="dropdown" href="#">
                   <%= icon("trash") %> <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to "by Message", alert_path(alert, q: params[:q],
+                  <li><%= link_to "by Message", notification_path(notification, q: params[:q],
                                                                   source_id: params[:source_id],
                                                                   level: params[:level],
                                                                   class_name: params[:class_name],
@@ -99,8 +99,8 @@
                                                                   method: :delete,
                                                                   data: { :confirm => 'Are you sure?' },
                                                                   remote: true,
-                                                                  id: "alert_#{alert.uuid}-delete-message" %></li>
-                  <li><%= link_to "by Class", alert_path(alert, q: params[:q],
+                                                                  id: "notification_#{notification.uuid}-delete-message" %></li>
+                  <li><%= link_to "by Class", notification_path(notification, q: params[:q],
                                                                 source_id: params[:source_id],
                                                                 level: params[:level],
                                                                 class_name: params[:class_name],
@@ -110,9 +110,9 @@
                                                                 method: :delete,
                                                                 data: { :confirm => 'Are you sure?' },
                                                                 remote: true,
-                                                                id: "alert_#{alert.uuid}-delete-class" %></li>
-                  <% unless alert.source_id.nil? %>
-                    <li><%= link_to "by Source", alert_path(alert, q: params[:q],
+                                                                id: "notification_#{notification.uuid}-delete-class" %></li>
+                  <% unless notification.source_id.nil? %>
+                    <li><%= link_to "by Source", notification_path(notification, q: params[:q],
                                                                    source_id: params[:source_id],
                                                                    level: params[:level],
                                                                    class_name: params[:class_name],
@@ -122,64 +122,64 @@
                                                                    method: :delete,
                                                                    data: { :confirm => 'Are you sure?' },
                                                                    remote: true,
-                                                                   id: "alert_#{alert.uuid}-delete-source" %></li>
+                                                                   id: "notification_#{notification.uuid}-delete-source" %></li>
                   <% end %>
                 </ul>
               </div>
             <% end %>
-            <p class="class-name"><%= link_to alert.class_name, alerts_path(class_name: h(alert.class_name),
+            <p class="class-name"><%= link_to notification.class_name, notifications_path(class_name: h(notification.class_name),
                                                                             source_id: params[:source_id],
                                                                             level: params[:level],
                                                                             hostname: params[:hostname],
                                                                             q: params[:q]) %></p>
-            <% if alert.source %>
+            <% if notification.source %>
               <h5>Source</h5>
-              <%= link_to alert.source.title, source_path(alert.source) %>
+              <%= link_to notification.source.title, source_path(notification.source) %>
             <% end %>
 
-            <% if alert.work %>
+            <% if notification.work %>
               <h5>Work</h5>
-              <%= link_to alert.work.pid, work_path(alert.work) %>
+              <%= link_to notification.work.pid, work_path(notification.work) %>
             <% end %>
 
             <h5>Time</h5>
-            <%= alert.created_at.to_s(:friendly) %>
+            <%= notification.created_at.to_s(:friendly) %>
 
-            <% unless alert.hostname.blank? %>
+            <% unless notification.hostname.blank? %>
               <h5>Hostname</h5>
-              <%= alert.hostname %>
+              <%= notification.hostname %>
             <% end %>
 
-            <% unless alert.content_type.blank? or alert.content_type == "text/html" %>
+            <% unless notification.content_type.blank? or notification.content_type == "text/html" %>
               <h5>Content Type</h5>
-              <%= alert.content_type %>
+              <%= notification.content_type %>
             <% end %>
 
-            <% unless alert.target_url.blank? %>
+            <% unless notification.target_url.blank? %>
               <h5>Target URL</h5>
-              <%= link_to alert.target_url, alert.target_url %>
+              <%= link_to notification.target_url, notification.target_url %>
             <% end %>
 
-            <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? alert.class_name %>
-              <% unless alert.remote_ip.blank? %>
+            <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? notification.class_name %>
+              <% unless notification.remote_ip.blank? %>
                 <h5>Remote IP</h5>
-                <%= link_to alert.remote_ip, alert.remote_ip %>
+                <%= link_to notification.remote_ip, notification.remote_ip %>
               <% end %>
 
-              <% unless alert.user_agent.blank? %>
+              <% unless notification.user_agent.blank? %>
                 <h5>User Agent</h5>
-                <%= alert.user_agent %>
+                <%= notification.user_agent %>
               <% end %>
             <% end %>
 
-            <% unless alert.details.blank? %>
+            <% unless notification.details.blank? %>
               <h5>Details</h5>
-              <%= alert.details %>
+              <%= notification.details %>
             <% end %>
 
-            <% unless alert.trace.blank? %>
+            <% unless notification.trace.blank? %>
               <h5>Trace</h5>
-              <%= simple_format(alert.trace) %>
+              <%= simple_format(notification.trace) %>
             <% end %>
           </div>
         </div>
@@ -187,10 +187,10 @@
     <% end %>
   </div>
   <div class="text-center">
-    <%= will_paginate @alerts, :params => { :controller => alerts_path }, :renderer => BootstrapPagination::Rails %>
+    <%= will_paginate @notifications, :params => { :controller => notifications_path }, :renderer => BootstrapPagination::Rails %>
   </div>
 <% else %>
-  <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>alerts
+  <div class="notification notification-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>notifications
     <% unless @source.nil? %>
       for <%= @source.title %>
     <% end %>

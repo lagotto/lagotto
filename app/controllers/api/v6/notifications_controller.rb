@@ -1,15 +1,15 @@
-class Api::V6::AlertsController < Api::BaseController
+class Api::V6::NotificationsController < Api::BaseController
   before_filter :authenticate_user_from_token!
   load_and_authorize_resource
 
-  swagger_controller :alerts, "Alerts"
+  swagger_controller :notifications, "Notifications"
 
   swagger_api :index do
-    summary "Returns all API alerts"
+    summary "Returns all API notifications"
     notes "Authentication with a valid API key with staff or admin permissions is required."
-    param :query, :unresolved, :boolean, :optional, "Return only unresolved alerts"
+    param :query, :unresolved, :boolean, :optional, "Return only unresolved notifications"
     param :query, :source_id, :string, :optional, "Source ID"
-    param :query, :class_name, :string, :optional, "Class name of alert"
+    param :query, :class_name, :string, :optional, "Class name of notification"
     param :query, :level, :integer, :optional, "Error level"
     param :query, :q, :string, :optional, "Query message or class name"
     param :query, :page, :integer, :optional, "Page number"
@@ -21,7 +21,7 @@ class Api::V6::AlertsController < Api::BaseController
   end
 
   def index
-    collection = Alert.unscoped.order("alerts.created_at DESC")
+    collection = Alert.unscoped.order("notifications.created_at DESC")
     collection = collection.where(unresolved: true) if params[:unresolved]
     if params[:source_id]
       collection = collection.joins(:source).where("sources.name = ?", params[:source_id])
@@ -41,6 +41,6 @@ class Api::V6::AlertsController < Api::BaseController
     collection = collection.page(params[:page])
     per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
     collection = collection.per_page(per_page)
-    @alerts = collection.decorate
+    @notifications = collection.decorate
   end
 end

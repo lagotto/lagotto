@@ -1,4 +1,4 @@
-class Alert < ActiveRecord::Base
+class Notification < ActiveRecord::Base
   attr_accessor :exception, :request
 
   belongs_to :source
@@ -7,16 +7,16 @@ class Alert < ActiveRecord::Base
   before_create :collect_env_info, :create_uuid
   after_create :send_fatal_error_report, if: proc { level == 4 }
 
-  default_scope { where("unresolved = ?", true).order("alerts.created_at DESC") }
+  default_scope { where("unresolved = ?", true).order("notifications.created_at DESC") }
 
-  scope :errors, -> { where("alerts.level > ?", 1) }
+  scope :errors, -> { where("notitications.level > ?", 1) }
   scope :query, ->(query) { includes(:work).where("class_name like ? OR message like ? OR status = ? OR works.pid = ?", "%#{query}%", "%#{query}%", query, "%#{query}%")
     .references(:work) }
   scope :total, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :total_errors, ->(duration) { where("alerts.level > ?", 1).where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
+  scope :total_errors, ->(duration) { where("notifications.level > ?", 1).where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :from_sources, ->(duration) { where("source_id IS NOT NULL").where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
 
-  # alert level, default is ERROR
+  # notification level, default is ERROR
   # adapted from http://www.ruby-doc.org/stdlib-2.1.2/libdoc/logger/rdoc/Logger.html
   LEVELS = %w(DEBUG INFO WARN ERROR FATAL)
   DEBUG  = 0
