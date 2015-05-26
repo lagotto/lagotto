@@ -11,36 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150524222251) do
+ActiveRecord::Schema.define(version: 20150526070604) do
 
-  create_table "alerts", force: :cascade do |t|
-    t.integer  "source_id",    limit: 4
-    t.string   "class_name",   limit: 255
-    t.text     "message",      limit: 16777215
-    t.text     "trace",        limit: 65535
-    t.string   "target_url",   limit: 1000
-    t.string   "user_agent",   limit: 255
-    t.integer  "status",       limit: 4
-    t.string   "content_type", limit: 255
-    t.text     "details",      limit: 16777215
-    t.boolean  "unresolved",   limit: 1,        default: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "remote_ip",    limit: 255
-    t.integer  "work_id",      limit: 4
-    t.integer  "level",        limit: 4,        default: 3
-    t.string   "hostname",     limit: 255
-    t.string   "uuid",         limit: 255
+  create_table "agents", force: :cascade do |t|
+    t.string   "type",        limit: 255,                                   null: false
+    t.string   "name",        limit: 255,                                   null: false
+    t.string   "title",       limit: 255,                                   null: false
+    t.string   "kind",        limit: 255,   default: "work"
+    t.string   "source",      limit: 255,                                   null: false
+    t.integer  "state",       limit: 4,     default: 0
+    t.string   "state_event", limit: 255
+    t.text     "config",      limit: 65535
+    t.integer  "group_id",    limit: 4,                                     null: false
+    t.boolean  "queueable",   limit: 1,     default: true
+    t.boolean  "eventable",   limit: 1,     default: true
+    t.datetime "run_at",                    default: '1970-01-01 00:00:00', null: false
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
   end
-
-  add_index "alerts", ["class_name"], name: "index_alerts_on_class_name", using: :btree
-  add_index "alerts", ["created_at"], name: "index_alerts_on_created_at", using: :btree
-  add_index "alerts", ["level", "created_at"], name: "index_alerts_on_level_and_created_at", using: :btree
-  add_index "alerts", ["source_id", "created_at"], name: "index_alerts_on_source_id_and_created_at", using: :btree
-  add_index "alerts", ["source_id", "unresolved", "updated_at"], name: "index_alerts_on_source_id_and_unresolved_and_updated_at", using: :btree
-  add_index "alerts", ["unresolved", "updated_at"], name: "index_alerts_on_unresolved_and_updated_at", using: :btree
-  add_index "alerts", ["updated_at"], name: "index_alerts_on_updated_at", using: :btree
-  add_index "alerts", ["work_id", "created_at"], name: "index_alerts_on_work_id_and_created_at", using: :btree
 
   create_table "api_requests", force: :cascade do |t|
     t.string   "format",        limit: 255
@@ -60,23 +49,33 @@ ActiveRecord::Schema.define(version: 20150524222251) do
   add_index "api_requests", ["created_at"], name: "index_api_requests_on_created_at", using: :btree
 
   create_table "api_responses", force: :cascade do |t|
-    t.integer  "work_id",             limit: 4
-    t.integer  "source_id",           limit: 4
-    t.integer  "retrieval_status_id", limit: 4
-    t.integer  "total",               limit: 4,  default: 0,     null: false
-    t.integer  "previous_total",      limit: 4
-    t.float    "duration",            limit: 24
+    t.integer  "work_id",    limit: 4
+    t.integer  "agent_id",   limit: 4
+    t.integer  "task_id",    limit: 4
+    t.float    "duration",   limit: 24
     t.datetime "created_at"
-    t.integer  "update_interval",     limit: 4
-    t.boolean  "unresolved",          limit: 1,  default: true
-    t.boolean  "skipped",             limit: 1,  default: false
-    t.integer  "html",                limit: 4,  default: 0,     null: false
-    t.integer  "pdf",                 limit: 4,  default: 0,     null: false
+    t.string   "status",     limit: 255
   end
 
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
-  add_index "api_responses", ["total"], name: "index_api_responses_on_total", using: :btree
-  add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
+
+  create_table "changes", force: :cascade do |t|
+    t.integer  "article_id",      limit: 4
+    t.integer  "source_id",       limit: 4
+    t.integer  "trace_id",        limit: 4
+    t.integer  "total",           limit: 4
+    t.integer  "html",            limit: 4
+    t.integer  "pdf",             limit: 4
+    t.integer  "previous_total",  limit: 4
+    t.datetime "created_at"
+    t.integer  "update_interval", limit: 4
+    t.boolean  "unresolved",      limit: 1, default: true
+    t.boolean  "skipped",         limit: 1, default: false
+  end
+
+  add_index "changes", ["created_at"], name: "index_changes_created_at", using: :btree
+  add_index "changes", ["total"], name: "index_changes_on_total", using: :btree
+  add_index "changes", ["unresolved", "id"], name: "index_changes_unresolved_id", using: :btree
 
   create_table "data_migrations", force: :cascade do |t|
     t.string "version", limit: 255
@@ -101,6 +100,32 @@ ActiveRecord::Schema.define(version: 20150524222251) do
 
   add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "work_id",      limit: 4,                                        null: false
+    t.integer  "source_id",    limit: 4,                                        null: false
+    t.datetime "retrieved_at",                  default: '1970-01-01 00:00:00', null: false
+    t.integer  "total",        limit: 4,        default: 0,                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "events_url",   limit: 65535
+    t.text     "extra",        limit: 16777215
+    t.integer  "pdf",          limit: 4,        default: 0,                     null: false
+    t.integer  "html",         limit: 4,        default: 0,                     null: false
+    t.integer  "readers",      limit: 4,        default: 0,                     null: false
+    t.integer  "comments",     limit: 4,        default: 0,                     null: false
+    t.integer  "likes",        limit: 4,        default: 0,                     null: false
+  end
+
+  add_index "events", ["source_id", "total", "retrieved_at"], name: "index_retrieval_statuses_source_id_event_count_retr_at_desc", using: :btree
+  add_index "events", ["source_id", "total"], name: "index_retrieval_statuses_source_id_event_count_desc", using: :btree
+  add_index "events", ["source_id", "work_id", "total"], name: "index_retrieval_statuses_source_id_article_id_event_count_desc", using: :btree
+  add_index "events", ["source_id"], name: "index_events_on_source_id", using: :btree
+  add_index "events", ["source_id"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree
+  add_index "events", ["work_id", "source_id", "total"], name: "index_rs_on_article_id_soure_id_event_count", using: :btree
+  add_index "events", ["work_id", "source_id"], name: "index_events_on_work_id_and_source_id", unique: true, using: :btree
+  add_index "events", ["work_id", "total"], name: "index_events_on_work_id_and_total", using: :btree
+  add_index "events", ["work_id"], name: "index_events_on_work_id", using: :btree
 
   create_table "filters", force: :cascade do |t|
     t.string   "type",        limit: 255,                  null: false
@@ -140,15 +165,45 @@ ActiveRecord::Schema.define(version: 20150524222251) do
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
 
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "source_id",    limit: 4
+    t.string   "class_name",   limit: 255
+    t.text     "message",      limit: 16777215
+    t.text     "trace",        limit: 65535
+    t.string   "target_url",   limit: 1000
+    t.string   "user_agent",   limit: 255
+    t.integer  "status",       limit: 4
+    t.string   "content_type", limit: 255
+    t.text     "details",      limit: 16777215
+    t.boolean  "unresolved",   limit: 1,        default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "remote_ip",    limit: 255
+    t.integer  "work_id",      limit: 4
+    t.integer  "level",        limit: 4,        default: 3
+    t.string   "hostname",     limit: 255
+    t.string   "uuid",         limit: 255
+    t.integer  "agent_id",     limit: 4
+  end
+
+  add_index "notifications", ["class_name"], name: "index_notifications_on_class_name", using: :btree
+  add_index "notifications", ["created_at"], name: "index_notifications_on_created_at", using: :btree
+  add_index "notifications", ["level", "created_at"], name: "index_notifications_on_level_and_created_at", using: :btree
+  add_index "notifications", ["source_id", "created_at"], name: "index_notifications_on_source_id_and_created_at", using: :btree
+  add_index "notifications", ["source_id", "unresolved", "updated_at"], name: "index_notifications_on_source_id_and_unresolved_and_updated_at", using: :btree
+  add_index "notifications", ["unresolved", "updated_at"], name: "index_notifications_on_unresolved_and_updated_at", using: :btree
+  add_index "notifications", ["updated_at"], name: "index_notifications_on_updated_at", using: :btree
+  add_index "notifications", ["work_id", "created_at"], name: "index_notifications_on_work_id_and_created_at", using: :btree
+
   create_table "publisher_options", force: :cascade do |t|
     t.integer  "publisher_id", limit: 4
-    t.integer  "source_id",    limit: 4
+    t.integer  "agent_id",     limit: 4
     t.string   "config",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "publisher_options", ["publisher_id", "source_id"], name: "index_publisher_options_on_publisher_id_and_source_id", unique: true, using: :btree
+  add_index "publisher_options", ["publisher_id", "agent_id"], name: "index_publisher_options_on_publisher_id_and_agent_id", unique: true, using: :btree
 
   create_table "publishers", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -205,34 +260,6 @@ ActiveRecord::Schema.define(version: 20150524222251) do
   add_index "reports_users", ["report_id", "user_id"], name: "index_reports_users_on_report_id_and_user_id", using: :btree
   add_index "reports_users", ["user_id"], name: "index_reports_users_on_user_id", using: :btree
 
-  create_table "retrieval_statuses", force: :cascade do |t|
-    t.integer  "work_id",      limit: 4,                                        null: false
-    t.integer  "source_id",    limit: 4,                                        null: false
-    t.datetime "queued_at"
-    t.datetime "retrieved_at",                  default: '1970-01-01 00:00:00', null: false
-    t.integer  "total",        limit: 4,        default: 0,                     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "scheduled_at",                  default: '1970-01-01 00:00:00', null: false
-    t.text     "events_url",   limit: 65535
-    t.text     "extra",        limit: 16777215
-    t.integer  "pdf",          limit: 4,        default: 0,                     null: false
-    t.integer  "html",         limit: 4,        default: 0,                     null: false
-    t.integer  "readers",      limit: 4,        default: 0,                     null: false
-    t.integer  "comments",     limit: 4,        default: 0,                     null: false
-    t.integer  "likes",        limit: 4,        default: 0,                     null: false
-  end
-
-  add_index "retrieval_statuses", ["source_id", "queued_at", "scheduled_at"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree
-  add_index "retrieval_statuses", ["source_id", "total", "retrieved_at"], name: "index_retrieval_statuses_source_id_event_count_retr_at_desc", using: :btree
-  add_index "retrieval_statuses", ["source_id", "total"], name: "index_retrieval_statuses_source_id_event_count_desc", using: :btree
-  add_index "retrieval_statuses", ["source_id", "work_id", "total"], name: "index_retrieval_statuses_source_id_article_id_event_count_desc", using: :btree
-  add_index "retrieval_statuses", ["source_id"], name: "index_retrieval_statuses_on_source_id", using: :btree
-  add_index "retrieval_statuses", ["work_id", "source_id", "total"], name: "index_rs_on_article_id_soure_id_event_count", using: :btree
-  add_index "retrieval_statuses", ["work_id", "source_id"], name: "index_retrieval_statuses_on_work_id_and_source_id", unique: true, using: :btree
-  add_index "retrieval_statuses", ["work_id", "total"], name: "index_retrieval_statuses_on_work_id_and_total", using: :btree
-  add_index "retrieval_statuses", ["work_id"], name: "index_retrieval_statuses_on_work_id", using: :btree
-
   create_table "reviews", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.integer  "state_id",   limit: 4
@@ -249,26 +276,19 @@ ActiveRecord::Schema.define(version: 20150524222251) do
   add_index "reviews", ["state_id"], name: "index_reviews_on_state_id", using: :btree
 
   create_table "sources", force: :cascade do |t|
-    t.string   "type",        limit: 255,                                   null: false
     t.string   "name",        limit: 255,                                   null: false
     t.string   "title",       limit: 255,                                   null: false
-    t.datetime "run_at",                    default: '1970-01-01 00:00:00', null: false
-    t.text     "config",      limit: 65535
     t.integer  "group_id",    limit: 4,                                     null: false
     t.boolean  "private",     limit: 1,     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description", limit: 65535
-    t.integer  "state",       limit: 4,     default: 0
-    t.boolean  "queueable",   limit: 1,     default: true
-    t.string   "state_event", limit: 255
+    t.boolean  "active",      limit: 1,     default: false
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.boolean  "eventable",   limit: 1,     default: true
   end
 
+  add_index "sources", ["active"], name: "index_sources_on_active", using: :btree
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
-  add_index "sources", ["state"], name: "index_sources_on_state", using: :btree
-  add_index "sources", ["type"], name: "index_sources_on_type", unique: true, using: :btree
 
   create_table "status", force: :cascade do |t|
     t.integer  "works_count",            limit: 4,   default: 0
@@ -290,6 +310,22 @@ ActiveRecord::Schema.define(version: 20150524222251) do
   end
 
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree
+
+  create_table "tasks", force: :cascade do |t|
+    t.integer  "agent_id",     limit: 4,                                     null: false
+    t.integer  "work_id",      limit: 4
+    t.integer  "publisher_id", limit: 4
+    t.text     "config",       limit: 65535
+    t.datetime "queued_at",                  default: '1970-01-01 00:00:00', null: false
+    t.datetime "retrieved_at",               default: '1970-01-01 00:00:00', null: false
+    t.datetime "scheduled_at",               default: '1970-01-01 00:00:00', null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+  end
+
+  add_index "tasks", ["agent_id", "work_id"], name: "index_tasks_on_agent_id_and_work_id", unique: true, using: :btree
+  add_index "tasks", ["agent_id"], name: "index_tasks_on_agent_id", using: :btree
+  add_index "tasks", ["work_id"], name: "index_tasks_on_work_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: ""
