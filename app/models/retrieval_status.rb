@@ -163,12 +163,6 @@ class RetrievalStatus < ActiveRecord::Base
                                     readers: item.fetch(:readers, 0),
                                     comments: item.fetch(:comments, 0),
                                     likes: item.fetch(:likes, 0)) }
-  rescue RangeError => exception
-    Alert.where(message: exception.message).where(unresolved: true).first_or_create(
-      exception: exception,
-      class_name: "RangeError",
-      source_id: source_id,
-      work_id: work_id)
   end
 
   def import_from_couchdb
