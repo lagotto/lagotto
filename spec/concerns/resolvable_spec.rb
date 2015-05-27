@@ -194,6 +194,17 @@ describe Work, type: :model, vcr: true do
         expect(response["publisher_id"]).to eq(792)
       end
 
+      it "get_crossref_metadata with date in future" do
+        work = FactoryGirl.create(:work, doi: "10.1016/j.ejphar.2015.03.018")
+        response = subject.get_crossref_metadata(work.doi)
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
+        expect(response["container-title"]).to eq("European Journal of Pharmacology")
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 5, 24]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to eq(78)
+      end
+
       it "get_crossref_metadata with not found error" do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
         response = subject.get_crossref_metadata("#{work.doi}x")

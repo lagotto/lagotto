@@ -131,6 +131,22 @@ describe CrossrefImport, type: :model, vcr: true do
       expect(work[:publisher_id]).to eq(297)
     end
 
+    it "should parse_data date in future" do
+      import = CrossrefImport.new
+      body = File.read(fixture_path + 'crossref_import_future.json')
+      result = JSON.parse(body)
+      response = import.parse_data(result)
+      expect(response.length).to eq(1)
+
+      work = response[0]
+      expect(work[:doi]).to eq("10.1016/j.ejphar.2015.03.018")
+      expect(work[:title]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
+      expect(work[:year]).to eq(2015)
+      expect(work[:month]).to eq(5)
+      expect(work[:day]).to eq(24)
+      expect(work[:publisher_id]).to eq(78)
+    end
+
     it "should parse_data title as second item" do
       import = CrossrefImport.new
       body = File.read(fixture_path + 'crossref_import.json')

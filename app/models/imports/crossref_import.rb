@@ -56,6 +56,13 @@ class CrossrefImport < Import
       date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
+      # use date indexed if date issued is in the future
+      published_on = Date.new(*date_parts)
+      if published_on > Time.zone.now.to_date
+        date_parts = item.fetch("indexed", {}).fetch("date-parts", []).first
+        year, month, day = date_parts[0], date_parts[1], date_parts[2]
+      end
+
       title = case item["title"].length
               when 0 then nil
               when 1 then item["title"][0]
@@ -73,7 +80,7 @@ class CrossrefImport < Import
       work_type_id = WorkType.where(name: type).pluck(:id).first
 
       csl = {
-        "issued" => item.fetch("issued", {}),
+        "issued" => { "date-parts" => [date_parts] },
         "author" => item.fetch("author", []),
         "container-title" => item.fetch("container-title", [])[0],
         "page" => item.fetch("page", nil),

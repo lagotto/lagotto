@@ -116,6 +116,17 @@ module Resolvable
         metadata = json.fetch("message", {})
         return { error: 'Resource not found.' } if metadata.blank?
 
+        date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
+        year, month, day = date_parts[0], date_parts[1], date_parts[2]
+
+        # use date indexed if date issued is in the future
+        published_on = Date.new(*date_parts)
+        if published_on > Time.zone.now.to_date
+          date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
+          year, month, day = date_parts[0], date_parts[1], date_parts[2]
+        end
+        metadata["issued"] = { "date-parts" => [date_parts] }
+
         metadata["title"] = case metadata["title"].length
               when 0 then nil
               when 1 then metadata["title"][0]
