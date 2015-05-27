@@ -120,8 +120,7 @@ module Resolvable
         year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
         # use date indexed if date issued is in the future
-        published_on = Date.new(*date_parts)
-        if published_on > Time.zone.now.to_date
+        if year.nil? || Date.new(*date_parts) > Time.zone.now.to_date
           date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
           year, month, day = date_parts[0], date_parts[1], date_parts[2]
         end
