@@ -6,7 +6,7 @@ var params = d3.select("#api_key"),
 
 if (!params.empty()) {
   var agent_id = params.attr('data-name');
-  var query = encodeURI("/api/agent/" + agent_id);
+  var query = encodeURI("/api/agents/" + agent_id);
 }
 
 // load the data from the Lagotto API
