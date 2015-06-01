@@ -43,10 +43,14 @@ class Task < ActiveRecord::Base
     # push to deposit API if no error and we have collected events
     return {} if data[:error].present? || data.fetch(:events, [{}]).first.fetch(:total, 0) == 0
 
-    Deposit.create(uuid: SecureRandom.uuid,
-                   source_token: agent.name,
-                   message_type: agent.source_id,
-                   message: data)
+    deposit = Deposit.create(uuid: SecureRandom.uuid,
+                             source_token: agent.name,
+                             message_type: agent.source_id,
+                             message: data)
+
+    { uuid: deposit.uuid,
+      source_token: deposit.source_token,
+      message_type: deposit.message_type }
   end
 
   def group_name
