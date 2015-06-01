@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Source, type: :model, vcr: true do
+describe Agent, type: :model, vcr: true do
 
   context "HTTP" do
     let(:work) { FactoryGirl.create(:work_with_events) }
@@ -64,25 +64,25 @@ describe Source, type: :model, vcr: true do
       it "get json" do
         stub = stub_request(:get, url).to_return(:body => error.to_json, :status => [404], :headers => { "Content-Type" => "application/json" })
         expect(subject.get_result(url)).to eq(error: error['error'], status: 404)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
         expect(subject.get_result(url, content_type: 'xml')).to eq(error: { 'hash' => error }, status: 404)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:body => error.to_s, :status => [404], :headers => { "Content-Type" => "text/html" })
         expect(subject.get_result(url, content_type: 'html')).to eq(error: error.to_s, status: 404)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:body => error.to_xml, :status => [404], :headers => { "Content-Type" => "application/xml" })
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(Hash.from_xml(response.to_s)["hash"]).to eq(error) }
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
     end
 
@@ -91,39 +91,39 @@ describe Source, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => [408])
         response = subject.get_result(url)
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.status).to eq(408)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [408])
         response = subject.get_result(url, content_type: 'xml')
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.status).to eq(408)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [408])
         response = subject.get_result(url, content_type: 'html')
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.status).to eq(408)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [408])
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(response).to be_nil }
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.status).to eq(408)
       end
     end
 
@@ -132,43 +132,43 @@ describe Source, type: :model, vcr: true do
         stub = stub_request(:get, url).to_timeout
         response = subject.get_result(url)
         expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("Excon::Errors::Timeout")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.message).to include("Excon::Errors::Timeout")
+        expect(notification.status).to eq(408)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_timeout
         response = subject.get_result(url, content_type: 'xml')
         expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("Excon::Errors::Timeout")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.message).to include("Excon::Errors::Timeout")
+        expect(notification.status).to eq(408)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_timeout
         response = subject.get_result(url, content_type: 'html')
         expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("Excon::Errors::Timeout")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.message).to include("Excon::Errors::Timeout")
+        expect(notification.status).to eq(408)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_timeout
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(response).to be_nil }
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.message).to include("Excon::Errors::Timeout")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.message).to include("Excon::Errors::Timeout")
+        expect(notification.status).to eq(408)
       end
     end
 
@@ -177,39 +177,39 @@ describe Source, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.status).to eq(429)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.status).to eq(429)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'xml')
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.status).to eq(429)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.status).to eq(429)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'html')
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.status).to eq(429)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.status).to eq(429)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(response).to be_nil }
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.status).to eq(429)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.status).to eq(429)
       end
     end
 
@@ -221,7 +221,7 @@ describe Source, type: :model, vcr: true do
         stub_request(:get, redirect_url).to_return(status: 200, body: "Test")
         response = subject.get_result(url)
         expect(response).to eq("Test")
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "redirect four times" do
@@ -232,24 +232,24 @@ describe Source, type: :model, vcr: true do
         stub_request(:get, redirect_url + "/z").to_return(status: 200, body: "Test")
         response = subject.get_result(url)
         expect(response).to eq("Test")
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "too many requests" do
         stub = stub_request(:get, url).to_return(status: 301, headers: { location: redirect_url })
         response = subject.get_result(url, limit: 0)
         expect(response).to eq(error: "too many redirects; last one to: #{redirect_url} for #{url}", status: nil)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("FaradayMiddleware::RedirectLimitReached")
-        expect(alert.status).to eq(nil)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("FaradayMiddleware::RedirectLimitReached")
+        expect(notification.status).to eq(nil)
       end
 
       it "redirect work" do
         work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030")
         response = subject.get_result(work.doi_as_url, content_type: "html", limit: 10)
         expect(response).to include(work.doi)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
     end
 
@@ -258,41 +258,41 @@ describe Source, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, source_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.status).to eq(429)
-        expect(alert.source_id).to eq(1)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.status).to eq(429)
+        expect(notification.source_id).to eq(1)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'xml', source_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.source_id).to eq(1)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.source_id).to eq(1)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, content_type: 'html', source_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.status).to eq(429)
-        expect(alert.source_id).to eq(1)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.status).to eq(429)
+        expect(notification.source_id).to eq(1)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml, source_id: 1) { |response| expect(response).to be_nil }
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(alert.source_id).to eq(1)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification.source_id).to eq(1)
       end
     end
 
@@ -303,7 +303,7 @@ describe Source, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :body => "Test")
         response = subject.save_to_file(url, filename)
         expect(response).to eq(filename)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "should catch errors fetching a file" do
@@ -313,10 +313,10 @@ describe Source, type: :model, vcr: true do
         response = subject.save_to_file(url, filename)
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
         expect(stub).to have_been_requested
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.status).to eq(408)
       end
 
       it "should catch errors saving a file" do
@@ -328,11 +328,11 @@ describe Source, type: :model, vcr: true do
         response = subject.save_to_file(url, filename)
         expect(response).to be_nil
         expect(stub).to have_been_requested
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Errno::EISDIR")
-        expect(alert.message).to include("Is a directory")
-        expect(alert.status).to eq(500)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Errno::EISDIR")
+        expect(notification.message).to include("Is a directory")
+        expect(notification.status).to eq(500)
       end
     end
 
@@ -345,7 +345,7 @@ describe Source, type: :model, vcr: true do
       it "read XML file" do
         response = subject.read_from_file(filename)
         expect(response).to eq('objects' => content)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       it "should catch errors reading a missing file" do
@@ -354,10 +354,10 @@ describe Source, type: :model, vcr: true do
         File.delete("#{Rails.root}/data/#{filename}")
         response = subject.read_from_file(filename)
         expect(response).to be_nil
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Errno::ENOENT")
-        expect(alert.message).to start_with "No such file or directory"
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Errno::ENOENT")
+        expect(notification.message).to start_with "No such file or directory"
       end
     end
   end

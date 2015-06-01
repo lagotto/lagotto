@@ -1,19 +1,19 @@
 ---
 layout: card_list
-title: "Alerts"
+title: "Notifications"
 ---
 
 ## Setup
 
-To properly set up alerts and reports, do the following:
+To properly set up notifications and reports, do the following:
 
 * make sure at least one filter is enabled
 * setup mail sending in `.env`. The default settings (`address`: localhost, `port`: 25) assume a *postfix* server on the same machine as the ALM software.
 * setup cron jobs for rake tasks with `bin/whenever -w`. Use `bin/whenever` to see all cron jobs created by this command.
 
-## Alerts
+## Notifications
 
-Almots are created when errors are raised by the application. The only exception are common errors such as *RecordNotFound*. Alerts that have been resolved can be deleted, and this can be done with a single command for all alerts with the same message, class, or source.
+Notifications are created when errors are raised by the application. The only exception are common errors such as *RecordNotFound*. Alerts that have been resolved can be deleted, and this can be done with a single command for all alerts with the same message, class, or source.
 
 The number of error messages received in the last 24 hours is reported in various places in the admin dashboard.
 

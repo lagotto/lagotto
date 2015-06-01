@@ -21,7 +21,7 @@ class Api::V6::NotificationsController < Api::BaseController
   end
 
   def index
-    collection = Alert.unscoped.order("notifications.created_at DESC")
+    collection = Notification.unscoped.order("notifications.created_at DESC")
     collection = collection.where(unresolved: true) if params[:unresolved]
     if params[:source_id]
       collection = collection.joins(:source).where("sources.name = ?", params[:source_id])
@@ -32,7 +32,7 @@ class Api::V6::NotificationsController < Api::BaseController
       @class_name = params[:class_name]
     end
     if params[:level]
-      level = Alert::LEVELS.index(params[:level].upcase) || 0
+      level = Notification::LEVELS.index(params[:level].upcase) || 0
       collection = collection.where("level >= ?", level)
       @level = params[:level]
     end

@@ -39,7 +39,7 @@ module Authenticable
     end
 
     def create_notification(exception, options = {})
-      Alert.where(message: exception.message).where(unresolved: true).first_or_create(
+      Notification.where(message: exception.message).where(unresolved: true).first_or_create(
         exception: exception,
         status: options[:status])
     end
@@ -86,7 +86,7 @@ module Authenticable
           if /(jpe?g|png|gif|css)/i == request.path
             render text: message, status: status
           else
-            @notification = Alert.where(message: message).where(unresolved: true).first_or_initialize(
+            @notification = Notification.where(message: message).where(unresolved: true).first_or_initialize(
               status: status)
             render "notifications/show", status: status
           end

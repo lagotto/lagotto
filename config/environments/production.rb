@@ -43,7 +43,7 @@ Lagotto::Application.configure do
   # config.threadsafe!
 
   # Define custom exception handler
-  config.exceptions_app = lambda { |env| AlertsController.action(:create).call(env) }
+  config.exceptions_app = lambda { |env| NotificationsController.action(:create).call(env) }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found)

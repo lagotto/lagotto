@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Source do
+describe Agent do
   describe "get_one_author" do
     it 'should return the author in CSL format' do
       author = "Alexander W. Zaranek"

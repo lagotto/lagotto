@@ -14,7 +14,7 @@ describe Work, type: :model, vcr: true do
         url = "http://journals.plos.org/plosone/article?id=#{work.doi_escaped}"
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
       end
 
       # it "get_canonical_url with redirects" do
@@ -25,7 +25,7 @@ describe Work, type: :model, vcr: true do
       #   stub_request(:get, redirect_url + "/z").to_return(status: 200, body: "Test")
       #   response = subject.get_result(url)
       #   expect(response).to eq("Test")
-      #   expect(Alert.count).to eq(0)
+      #   expect(Notification.count).to eq(0)
       # end
 
       it "get_canonical_url with trailing slash" do
@@ -36,7 +36,7 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(clean_url)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
@@ -48,7 +48,7 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(clean_url)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
@@ -59,7 +59,7 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
@@ -70,7 +70,7 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_canonical.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
@@ -81,7 +81,7 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_opengraph.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
-        expect(Alert.count).to eq(0)
+        expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
@@ -92,11 +92,11 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{work.doi}", status: 404)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPNotFound")
-        expect(alert.status).to eq(404)
-        expect(alert.message).to eq("Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for #{url}")
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPNotFound")
+        expect(notification.status).to eq(404)
+        expect(notification.message).to eq("Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for #{url}")
         expect(stub).to have_been_requested
       end
 
@@ -107,10 +107,10 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "DOI #{work.doi} could not be resolved", status: 404)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPNotFound")
-        expect(alert.status).to eq(404)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPNotFound")
+        expect(notification.status).to eq(404)
         expect(stub).to have_been_requested
       end
 
@@ -120,10 +120,10 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "DOI #{work.doi} could not be resolved", status: 404)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPNotFound")
-        expect(alert.status).to eq(404)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPNotFound")
+        expect(notification.status).to eq(404)
         expect(stub).to have_been_requested
       end
 
@@ -132,10 +132,10 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 401)
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "the server responded with status 401 for http://dx.doi.org/#{work.doi}", status: 401)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPUnauthorized")
-        expect(alert.status).to eq(401)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPUnauthorized")
+        expect(notification.status).to eq(401)
         expect(stub).to have_been_requested
       end
 
@@ -144,10 +144,10 @@ describe Work, type: :model, vcr: true do
         stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => [408])
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "the server responded with status 408 for http://dx.doi.org/#{work.doi}", status: 408)
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-        expect(alert.status).to eq(408)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(notification.status).to eq(408)
         expect(stub).to have_been_requested
       end
     end

@@ -1,4 +1,4 @@
-class AlertDecorator < Draper::Decorator
+class NotificationDecorator < Draper::Decorator
   delegate_all
   decorates_finders
 

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v6/alerts", :type => :api do
+describe "/api/v6/notifications", :type => :api do
   let(:error) { { "meta"=> { "status"=>"error", "error"=>"You are not authorized to access this page." } } }
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:headers) do
@@ -13,16 +13,16 @@ describe "/api/v6/alerts", :type => :api do
   end
 
   context "index" do
-    context "most recent alerts" do
-      let(:uri) { "/api/alerts" }
-      let!(:alert) { FactoryGirl.create_list(:alert, 10) }
+    context "most recent notifications" do
+      let(:uri) { "/api/notifications" }
+      let!(:notification) { FactoryGirl.create_list(:notification, 10) }
 
       it "JSON" do
         get uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(10)
         item = data.first
         expect(item["level"]).to eq ("WARN")
@@ -30,12 +30,12 @@ describe "/api/v6/alerts", :type => :api do
       end
     end
 
-    context "only unresolved alerts" do
-      let(:uri) { "/api/alerts?unresolved=1" }
+    context "only unresolved notifications" do
+      let(:uri) { "/api/notifications?unresolved=1" }
 
       before(:each) do
-        FactoryGirl.create_list(:alert, 2, unresolved: false)
-        FactoryGirl.create(:alert)
+        FactoryGirl.create_list(:notification, 2, unresolved: false)
+        FactoryGirl.create(:notification)
       end
 
       it "JSON" do
@@ -43,19 +43,19 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(1)
-        alert = data.first
-        expect(alert["unresolved"]).to be true
+        notification = data.first
+        expect(notification["unresolved"]).to be true
       end
     end
 
     context "with source" do
-      let(:uri) { "/api/alerts?source_id=citeulike" }
+      let(:uri) { "/api/notifications?source_id=citeulike" }
 
       before(:each) do
-        FactoryGirl.create_list(:alert, 2)
-        FactoryGirl.create(:alert_with_source)
+        FactoryGirl.create_list(:notification, 2)
+        FactoryGirl.create(:notification_with_source)
       end
 
       it "JSON" do
@@ -63,19 +63,19 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(1)
-        alert = data.first
-        expect(alert["source"]).to eq ("citeulike")
+        notification = data.first
+        expect(notification["source"]).to eq ("citeulike")
       end
     end
 
     context "with class_name" do
-      let(:uri) { "/api/alerts?class_name=nomethoderror" }
+      let(:uri) { "/api/notifications?class_name=nomethoderror" }
 
       before(:each) do
-        FactoryGirl.create_list(:alert, 2)
-        FactoryGirl.create(:alert, class_name: "NoMethodError")
+        FactoryGirl.create_list(:notification, 2)
+        FactoryGirl.create(:notification, class_name: "NoMethodError")
       end
 
       it "JSON" do
@@ -83,19 +83,19 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(1)
-        alert = data.first
-        expect(alert["class_name"]).to eq ("NoMethodError")
+        notification = data.first
+        expect(notification["class_name"]).to eq ("NoMethodError")
       end
     end
 
     context "with level ERROR" do
-      let(:uri) { "/api/alerts?level=error" }
+      let(:uri) { "/api/notifications?level=error" }
 
       before(:each) do
-        FactoryGirl.create_list(:alert, 2)
-        FactoryGirl.create(:alert, level: Alert::ERROR)
+        FactoryGirl.create_list(:notification, 2)
+        FactoryGirl.create(:notification, level: Notification::ERROR)
       end
 
       it "JSON" do
@@ -103,19 +103,19 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(1)
-        alert = data.first
-        expect(alert["level"]).to eq ("ERROR")
+        notification = data.first
+        expect(notification["level"]).to eq ("ERROR")
       end
     end
 
     context "with query" do
-      let(:uri) { "/api/alerts?q=nomethod" }
+      let(:uri) { "/api/notifications?q=nomethod" }
 
       before(:each) do
-        FactoryGirl.create_list(:alert, 2)
-        FactoryGirl.create(:alert, class_name: "NoMethodError")
+        FactoryGirl.create_list(:notification, 2)
+        FactoryGirl.create(:notification, class_name: "NoMethodError")
       end
 
       it "JSON" do
@@ -123,39 +123,39 @@ describe "/api/v6/alerts", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(1)
-        alert = data.first
-        expect(alert["class_name"]).to eq ("NoMethodError")
+        notification = data.first
+        expect(notification["class_name"]).to eq ("NoMethodError")
       end
     end
 
     context "with pagination" do
-      let(:uri) { "/api/alerts?page=2" }
+      let(:uri) { "/api/notifications?page=2" }
 
-      before(:each) { FactoryGirl.create_list(:alert, 55) }
+      before(:each) { FactoryGirl.create_list(:notification, 55) }
 
       it "JSON" do
         get uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(5)
       end
     end
 
     context "as staff user" do
       let(:user) { FactoryGirl.create(:user, role: "staff") }
-      let!(:alert) { FactoryGirl.create_list(:alert, 10) }
-      let(:uri) { "/api/alerts" }
+      let!(:notification) { FactoryGirl.create_list(:notification, 10) }
+      let(:uri) { "/api/notifications" }
 
       it "JSON" do
         get uri, nil, headers
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["alerts"]
+        data = response["notifications"]
         expect(data.length).to eq(10)
         item = data.first
         expect(item["level"]).to eq ("WARN")
@@ -165,7 +165,7 @@ describe "/api/v6/alerts", :type => :api do
 
     context "as regular user" do
       let(:user) { FactoryGirl.create(:user, role: "user") }
-      let(:uri) { "/api/alerts" }
+      let(:uri) { "/api/notifications" }
 
       it "JSON" do
         get uri, nil, headers

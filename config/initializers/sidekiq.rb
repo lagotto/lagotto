@@ -5,7 +5,7 @@ Sidekiq.configure_server do |config|
     unless ["ActiveRecord::RecordNotFound",
             "ActionController::RoutingError",
             "CustomError::TooManyRequestsError"].include?(exception.class.to_s)
-      Alert.where(message: exception.message).where(unresolved: true).first_or_create(exception: exception)
+      Notification.where(message: exception.message).where(unresolved: true).first_or_create(exception: exception)
     end
   end
   config.options[:concurrency] = ENV["CONCURRENCY"].to_i
