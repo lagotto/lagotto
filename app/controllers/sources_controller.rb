@@ -5,9 +5,6 @@ class SourcesController < ApplicationController
 
   def show
     @doc = Doc.find(@source.name)
-    if current_user && current_user.publisher_id && @source.by_publisher?
-      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
-    end
 
     respond_to do |format|
       format.html
@@ -35,9 +32,6 @@ class SourcesController < ApplicationController
 
   def edit
     @doc = Doc.find(@source.name)
-    if current_user && current_user.publisher_id && @source.by_publisher?
-      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
-    end
     render :show
   end
 
@@ -76,7 +70,6 @@ class SourcesController < ApplicationController
                                    :active,
                                    :private,
                                    :resolvable,
-                                   :by_publisher,
                                    :description)
   end
 end
