@@ -7,6 +7,9 @@ class Api::V6::DepositsController < Api::BaseController
 
   swagger_api :index do
     summary 'Returns all deposits, sorted by date'
+    param :query, :message_type, :string, :optional, "Filter by message_type"
+    param :query, :source_token, :string, :optional, "Filter by source_token"
+    param :query, :state, :string, :optional, "Filter by state"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -38,7 +41,17 @@ class Api::V6::DepositsController < Api::BaseController
   end
 
   def index
-    collection = Deposit.all.order("created_at DESC").paginate(:page => params[:page])
+    collection = Deposit.all
+
+    collection = collection.where(message_type: params[:message_type]) if params[:message_type]
+    collection = collection.where(source_token: params[:source_token]) if params[:source_token]
+    if params[:state]
+      states = { "waiting" => 0, "working" => 1, "failed" => 2, "done" => 3 }
+      state = states.fetch(params[:state], 0)
+      collection = collection.where(state: state)
+    end
+
+    collection = collection.order("created_at DESC").paginate(:page => params[:page])
     @deposits = collection.decorate
   end
 
