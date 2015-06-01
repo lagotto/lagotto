@@ -5,8 +5,6 @@
 
   <ul class="nav nav-pills">
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-    <li><a href="#works" data-toggle="tab">Works</a></li>
-    <li><a href="#events" data-toggle="tab">Events</a></li>
     <% if can?(:manage, @agent) && @agent.state > 0 %>
       <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
     <% end %>
@@ -21,12 +19,6 @@
       <div id="summary-show">
         <%= render :partial => 'summary_show', :locals => { :name => @agent.name } %>
       </div>
-    </div>
-    <div class="tab-pane" id="works">
-      <%= render :partial => 'works' %>
-    </div>
-    <div class="tab-pane" id="events">
-      <%= render :partial => 'events_show' %>
     </div>
     <% if can?(:manage, @agent) && @agent.state > 0 %>
       <div class="tab-pane" id="configuration">
