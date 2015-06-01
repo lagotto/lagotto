@@ -17,7 +17,7 @@
           <% group.sources.each do |source| %>
             <tr>
               <td><%= link_to_if source.active, source.title, source_path(source) %></td>
-              <td><%= source.state %></td>
+              <td><%= state_label(source.state).html_safe %></td>
               <td><%= h(source.description) %></td>
               <% if can?(:manage, Notification) %>
                 <td>

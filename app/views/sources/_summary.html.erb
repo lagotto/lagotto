@@ -6,7 +6,6 @@
         <thead>
           <tr>
             <th class="name">Source</th>
-            <th>Status</th>
             <th class="description">Description</th>
           </tr>
         </thead>
@@ -14,7 +13,6 @@
           <% group.sources.active.each do |source| %>
             <tr>
               <td><%= link_to source.title, source_path(source) %></td>
-              <td><%= source.state %></td>
               <td><%= h(source.description) %></td>
             </tr>
           <% end %>

@@ -16,7 +16,6 @@
 
         <%= f.input :title %>
         <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @agent.active? }, hint: "Agent is talking to external APIs" %>
-        <%= f.input :private, :as => :boolean, hint: "Agent not made available via API" %>
         <%= f.input :description, :input_html => { :rows => 3 } %>
 
         <% @agent.other_fields.each do |field| %>
@@ -100,12 +99,6 @@
               <% end %>
             </tr>
           <% end %>
-        <% end %>
-        <% if @agent.private %>
-          <tr>
-            <th>Private agent</th>
-            <td>Agent not made available via API</td>
-          </tr>
         <% end %>
         <tr>
           <th>Job queue</th>
