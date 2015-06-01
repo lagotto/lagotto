@@ -14,7 +14,7 @@
     </div>
     <button type="submit" id="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
     <% unless params[:q].blank? %>
-      <%= link_to "clear", notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
+      <%= link_to "clear", notifications_path(agent_id: params[:agent_id], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
     <% end %>
   <% end %>
 </div>
@@ -28,20 +28,20 @@
           <li><%= link_to "All Hosts", notifications_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %></li>
           <li class="divider"></li>
           <% @servers.each do |hostname| %>
-            <li><%= link_to hostname, notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %></li>
+            <li><%= link_to hostname, notifications_path(agent_id: params[:agent_id], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %></li>
           <% end %>
         </ul>
       </div>
     <% end %>
     <div class="btn-group btn-group-sm">
-      <a class="btn btn-default dropdown-toggle" id="source-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : @source.title %> <span class="caret"></span></a>
+      <a class="btn btn-default dropdown-toggle" id="agent-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @agent.nil? ? "All Agents" : @agent.title %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", notifications_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Agents", notifications_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <% Group.order("id").each do |group| %>
-          <% unless group.sources.active.empty? %>
+          <% unless group.agents.active.empty? %>
             <li class="divider"></li>
-            <% group.sources.active.each do |source| %>
-              <li><%= link_to h(source.title), notifications_path(source_id: source.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+            <% group.agents.active.each do |agent| %>
+              <li><%= link_to h(agent.title), notifications_path(agent_id: agent.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
             <% end %>
           <% end %>
         <% end %>
@@ -50,23 +50,23 @@
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" id="level-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @level.nil? ? "All Levels" : @level.titleize %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Levels", notifications_path(class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Levels", notifications_path(class_name: params[:class_name], agent_id: params[:agent_id], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
         <% Notification::LEVELS[1..-1].each do |level| %>
-        <li><%= link_to h(level.titleize), notifications_path(level: level.downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to h(level.titleize), notifications_path(level: level.downcase, class_name: params[:class_name], agent_id: params[:agent_id], hostname: params[:hostname], q: params[:q]) %></li>
         <% end %>
       </ul>
     </div>
     <div class="btn-group btn-group-sm">
       <a class="btn btn-default dropdown-toggle" id="notification-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Notifications" : h(@class_name) %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Notifications", notifications_path(source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <li><%= link_to "All Notifications", notifications_path(agent_id: params[:agent_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
         <li class="divider"></li>
         <% notifications.each do |notification| %>
           <% if notification == "-" %>
             <li class="divider"></li>
           <% else %>
-            <li><%= link_to h(notification), notifications_path(class_name: notification, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+            <li><%= link_to h(notification), notifications_path(class_name: notification, agent_id: params[:agent_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
           <% end %>
         <% end %>
       </ul>
@@ -91,7 +91,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><%= link_to "by Message", notification_path(notification, q: params[:q],
-                                                                  source_id: params[:source_id],
+                                                                  agent_id: params[:agent_id],
                                                                   level: params[:level],
                                                                   class_name: params[:class_name],
                                                                   hostname: params[:hostname],
@@ -101,7 +101,7 @@
                                                                   remote: true,
                                                                   id: "notification_#{notification.uuid}-delete-message" %></li>
                   <li><%= link_to "by Class", notification_path(notification, q: params[:q],
-                                                                source_id: params[:source_id],
+                                                                agent_id: params[:agent_id],
                                                                 level: params[:level],
                                                                 class_name: params[:class_name],
                                                                 hostname: params[:hostname],
@@ -111,30 +111,30 @@
                                                                 data: { :confirm => 'Are you sure?' },
                                                                 remote: true,
                                                                 id: "notification_#{notification.uuid}-delete-class" %></li>
-                  <% unless notification.source_id.nil? %>
+                  <% unless notification.agent_id.nil? %>
                     <li><%= link_to "by Source", notification_path(notification, q: params[:q],
-                                                                   source_id: params[:source_id],
+                                                                   agent_id: params[:agent_id],
                                                                    level: params[:level],
                                                                    class_name: params[:class_name],
                                                                    hostname: params[:hostname],
-                                                                   filter: "source",
+                                                                   filter: "agent",
                                                                    page: params[:page]),
                                                                    method: :delete,
                                                                    data: { :confirm => 'Are you sure?' },
                                                                    remote: true,
-                                                                   id: "notification_#{notification.uuid}-delete-source" %></li>
+                                                                   id: "notification_#{notification.uuid}-delete-agent" %></li>
                   <% end %>
                 </ul>
               </div>
             <% end %>
             <p class="class-name"><%= link_to notification.class_name, notifications_path(class_name: h(notification.class_name),
-                                                                            source_id: params[:source_id],
+                                                                            agent_id: params[:agent_id],
                                                                             level: params[:level],
                                                                             hostname: params[:hostname],
                                                                             q: params[:q]) %></p>
-            <% if notification.source %>
+            <% if notification.agent %>
               <h5>Source</h5>
-              <%= link_to notification.source.title, source_path(notification.source) %>
+              <%= link_to notification.agent.title, agent_path(notification.agent) %>
             <% end %>
 
             <% if notification.work %>
@@ -190,9 +190,9 @@
     <%= will_paginate @notifications, :params => { :controller => notifications_path }, :renderer => BootstrapPagination::Rails %>
   </div>
 <% else %>
-  <div class="notification notification-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>notifications
-    <% unless @source.nil? %>
-      for <%= @source.title %>
+  <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>notifications
+    <% unless @agent.nil? %>
+      for <%= @agent.title %>
     <% end %>
     <% unless @level.nil? %>
       with at least level <em><%= @level.titleize %></em>

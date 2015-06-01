@@ -1,5 +1,5 @@
 <% unless @work.events.empty? %>
-  <div class="panel-group" id="retrieval_status">
+  <div class="panel-group" id="event">
     <% @work.events.with_sources.each do |status| %>
       <% if status.source.present? %>
         <div class="panel <%= (status.retrieved_at > '1970-01-01' || status.source.retired?) ? 'panel-default' : 'panel-warning' %>" id="<%= status.source.name %>">

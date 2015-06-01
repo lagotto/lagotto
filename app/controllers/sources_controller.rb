@@ -43,7 +43,7 @@ class SourcesController < ApplicationController
 
   def update
     params[:source] ||= {}
-    params[:source][:state_event] = params[:state_event] if params[:state_event]
+    params[:source][:active] = params[:active] if params[:active]
     @source.update_attributes(safe_params)
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
@@ -51,7 +51,7 @@ class SourcesController < ApplicationController
       @flash = flash
     end
 
-    if params[:state_event]
+    if params[:active]
       @groups = Group.includes(:sources).order("groups.id, sources.title")
       render :index
     else
@@ -73,26 +73,10 @@ class SourcesController < ApplicationController
   def safe_params
     params.require(:source).permit(:title,
                                    :group_id,
-                                   :state_event,
+                                   :active,
                                    :private,
+                                   :resolvable,
                                    :by_publisher,
-                                   :queueable,
-                                   :description,
-                                   :workers,
-                                   :queue,
-                                   :rate_limiting,
-                                   :staleness_week,
-                                   :staleness_month,
-                                   :staleness_year,
-                                   :staleness_all,
-                                   :cron_line,
-                                   :timeout,
-                                   :max_failed_queries,
-                                   :url,
-                                   :url_with_type,
-                                   :url_with_title,
-                                   :related_works_url,
-                                   :api_key,
-                                   *@source.config_fields)
+                                   :description)
   end
 end
