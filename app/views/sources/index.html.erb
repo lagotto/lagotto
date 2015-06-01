@@ -18,11 +18,6 @@
     <div class="tab-pane active" id="summary">
       <%= render :partial => 'summary' %>
     </div>
-    <% if can?(:read, Notification) %>
-      <div class="tab-pane" id="responses">
-        <%= render :partial => 'responses' %>
-      </div>
-    <% end %>
     <div class="tab-pane" id="events">
       <%= render :partial => 'events' %>
     </div>
