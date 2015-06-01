@@ -1,6 +1,7 @@
 class Api::V6::DepositsController < Api::BaseController
   prepend_before_filter :load_deposit, only: [:show, :destroy]
   before_filter :authenticate_user_from_token!
+  load_and_authorize_resource :except => [:create]
 
   def create
     @deposit = Deposit.new(safe_params)
@@ -16,14 +17,15 @@ class Api::V6::DepositsController < Api::BaseController
   end
 
   def show
-    authorize! :show, @deposit
-
     @deposit = @deposit.decorate
   end
 
-  def destroy
-    authorize! :destroy, @deposit
+  def index
+    collection = Deposit.all.order("created_at DESC").paginate(:page => params[:page])
+    @deposits = collection.decorate
+  end
 
+  def destroy
     if @deposit.destroy
       render json: { meta: { status: "deleted" }, deposit: {} }, status: :ok
     else
