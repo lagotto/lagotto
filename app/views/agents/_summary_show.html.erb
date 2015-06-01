@@ -10,6 +10,14 @@
           Maximum <%= number_with_delimiter(@agent.maximum_count) %> ms</p>
         </div>
       </div>
+      <div class="col-md-4">
+        <div class="panel panel-source panel-default">
+          <div class="panel-heading">Status</div>
+          <div class="panel-body panel-chart" id="chart_status">
+            <div class="text-muted" id="chart_status-loading">Loading … <%= image_tag "spinner.gif" %></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

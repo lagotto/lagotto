@@ -12,18 +12,18 @@ queue()
 function agentsViz(data) {
 
   for (var i=0; i<data.length; i++) {
-    var source = data[i];
+    var agent = data[i];
 
     // summary tab
-    d3.select("#queued_count_" + source.id)
-      .text(numberWithDelimiter(source.status.queued));
-    d3.select("#stale_count_" + source.id)
-      .text(numberWithDelimiter(source.status.stale));
+    d3.select("#queued_count_" + agent.id)
+      .text(numberWithDelimiter(agent.status.queued));
+    d3.select("#stale_count_" + agent.id)
+      .text(numberWithDelimiter(agent.status.stale));
 
     // responses tab
-    d3.select("#response_count_" + source.id)
-      .text(numberWithDelimiter(source.responses.count));
-    d3.select("#average_count_" + source.id)
-      .text(numberWithDelimiter(source.responses.average));
+    d3.select("#response_count_" + agent.id)
+      .text(numberWithDelimiter(agent.responses.count));
+    d3.select("#average_count_" + agent.id)
+      .text(numberWithDelimiter(agent.responses.average));
   }
 }
