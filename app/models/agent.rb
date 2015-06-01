@@ -40,8 +40,6 @@ class Agent < ActiveRecord::Base
                    "scopus" => [:insttoken] }
 
   has_many :tasks, :dependent => :destroy
-  has_many :months
-  has_many :days
   has_many :works, :through => :tasks
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options

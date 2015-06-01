@@ -16,7 +16,6 @@ class Source < ActiveRecord::Base
 
   has_many :events, :dependent => :destroy
   has_many :works, :through => :events
-  has_many :notifications
   belongs_to :group
 
   serialize :config, OpenStruct

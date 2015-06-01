@@ -1,7 +1,7 @@
 class Notification < ActiveRecord::Base
   attr_accessor :exception, :request
 
-  belongs_to :source
+  belongs_to :agent
   belongs_to :work
 
   before_create :collect_env_info, :create_uuid

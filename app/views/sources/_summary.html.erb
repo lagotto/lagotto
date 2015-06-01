@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <% group.sources.visible.each do |source| %>
+          <% group.sources.active.each do |source| %>
             <tr>
               <td><%= link_to source.title, source_path(source) %></td>
               <td><%= source.state %></td>
