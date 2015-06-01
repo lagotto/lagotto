@@ -34,6 +34,10 @@ class Deposit < ActiveRecord::Base
   validates :message_type, presence: true
   validates :message, presence: true
 
+  def self.per_page
+    1000
+  end
+
   def queue_deposit_job
     DepositJob.perform_later(self)
   end

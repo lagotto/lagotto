@@ -44,7 +44,7 @@ class Task < ActiveRecord::Base
     return {} if data[:error].present? || data.fetch(:events, [{}]).first.fetch(:total, 0) == 0
 
     deposit = Deposit.create(uuid: SecureRandom.uuid,
-                             source_token: agent.name,
+                             source_token: agent.uuid,
                              message_type: agent.source_id,
                              message: data)
 

@@ -51,6 +51,8 @@ class Agent < ActiveRecord::Base
 
   serialize :config, OpenStruct
 
+  before_create :create_uuid
+
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
@@ -370,6 +372,10 @@ class Agent < ActiveRecord::Base
      :maximum_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
 
     update_column(:cached_at, now)
+  end
+
+  def create_uuid
+    write_attribute(:uuid, SecureRandom.uuid)
   end
 
   # Remove all task records for this agent that have never been updated,
