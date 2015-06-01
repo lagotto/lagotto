@@ -10,6 +10,11 @@ namespace :cache do
       puts "Cache update for source #{source.title} has been queued."
     end
 
+    Agent.visible.each do |agent|
+      CacheJob.perform_later(agent)
+      puts "Cache update for agent #{agent.title} has been queued."
+    end
+
     Publisher.all.each do |publisher|
       CacheJob.perform_later(publisher)
       puts "Cache update for publisher #{publisher.title} has been queued."
