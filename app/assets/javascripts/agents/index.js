@@ -2,16 +2,14 @@
 
 // asynchronously load data from the Lagotto API
 queue()
-  .defer(d3.json, encodeURI("/api/sources/"))
-  .await(function(error, s) {
+  .defer(d3.json, encodeURI("/api/agents/"))
+  .await(function(error, a) {
     if (error) { return console.warn(error); }
-    sourcesViz(s.sources);
-    hBarViz(s.sources, "work")
-    hBarViz(s.sources, "event")
+    agentsViz(a.agents);
 });
 
 // add data to page
-function sourcesViz(data) {
+function agentsViz(data) {
 
   for (var i=0; i<data.length; i++) {
     var source = data[i];
