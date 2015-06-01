@@ -16,16 +16,13 @@
         <tbody>
           <% group.sources.each do |source| %>
             <tr>
-              <td><%= link_to_if source.installed?, source.title, source_path(source) %></td>
-              <td><%= state_label(source.human_state_name).html_safe %></td>
+              <td><%= link_to_if source.active, source.title, source_path(source) %></td>
+              <td><%= source.state %></td>
               <td><%= h(source.description) %></td>
               <% if can?(:manage, Notification) %>
                 <td>
-                  <% if source.human_state_name == "available" %>
-                    <%= link_to 'Install', source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Install Source" %>
-                  <% elsif source.human_state_name == "retired" %>
-                  <% elsif source.human_state_name == "inactive" %>
-                    <%= link_to 'Activate', source_path(source, state_event: "activate"), :method => :put, :remote => true, :class => 'btn btn-success btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
+                  <% if source.state != "active" %>
+                    <%= link_to 'Activate', source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
                   <% else %>
                     <%= link_to 'Inactivate', source_path(source, state_event: "inactivate"), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
                   <% end %>

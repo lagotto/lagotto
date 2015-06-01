@@ -8,6 +8,7 @@ class Group < ActiveRecord::Base
   scope :active, -> { joins(:sources).where("sources.active = ?", 1).order("groups.id") }
   scope :visible, -> { joins(:agents).where("state > ?", 1).order("groups.id") }
   scope :with_sources, -> { joins(:sources).order("groups.id") }
+  scope :with_agents, -> { joins(:agents).order("groups.id") }
 
   def to_param  # overridden, use name instead of id
     name

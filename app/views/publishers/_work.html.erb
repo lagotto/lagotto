@@ -5,7 +5,7 @@
       <ul class="dropdown-menu">
         <li><%= link_to "All Sources", publisher_path(@publisher.member_id, sort: params[:sort]) %></li>
         <% Group.order("id").each do |group| %>
-          <% group.sources.visible.each_with_index do |source, i| %>
+          <% group.sources.active.each_with_index do |source, i| %>
             <%= '<li class="divider"></li>'.html_safe if i == 0 %>
             <li><%= link_to "Filter by #{source.title}", publisher_path(@publisher.member_id, source_id: source.name) %></li>
           <% end %>
@@ -20,7 +20,7 @@
         <li><%= link_to "Date", publisher_path(@publisher.member_id, source_id: params[:source_id]) %></li>
         <% if @source.nil? %>
           <% Group.order("id").each do |group| %>
-            <% group.sources.visible.each_with_index do |source, i| %>
+            <% group.sources.active.each_with_index do |source, i| %>
               <%= '<li class="divider"></li>'.html_safe if i == 0 %>
               <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.member_id, source_id: params[:source_id], sort: source.name) %></li>
             <% end %>
