@@ -3,6 +3,23 @@ class Api::V6::DepositsController < Api::BaseController
   before_filter :authenticate_user_from_token!
   load_and_authorize_resource :except => [:create]
 
+  swagger_controller :deposits, "Deposits"
+
+  swagger_api :index do
+    summary 'Returns all deposits, sorted by date'
+    response :ok
+    response :unprocessable_entity
+    response :not_found
+  end
+
+  swagger_api :show do
+    summary 'Returns deposit by ID'
+    param :path, :id, :string, :required, "Deposit ID"
+    response :ok
+    response :unprocessable_entity
+    response :not_found
+  end
+
   def create
     @deposit = Deposit.new(safe_params)
     authorize! :create, @deposit
