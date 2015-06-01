@@ -7,6 +7,6 @@ end
 
 json.agents @agents do |agent|
   json.cache! ['v6', agent], skip_digest: true do
-    json.(agent, :id, :title, :group_id, :description, :state, :status, :responses, :timestamp)
+    json.(agent, :id, :source_token, :title, :group_id, :description, :state, :status, :responses, :timestamp)
   end
 end

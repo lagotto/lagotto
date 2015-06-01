@@ -18,6 +18,10 @@ class AgentDecorator < Draper::Decorator
     name
   end
 
+  def source_token
+    uuid
+  end
+
   def responses
     { "count" => response_count,
       "average" => average_count,
