@@ -5,7 +5,7 @@
         <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
         <div class="panel-body panel-chart">
           <p><%= pluralize(number_with_delimiter(@agent.response_count), "response") %> with
-          <%= link_to_if(@agent.error_count > 0 && can?(:manage, @agent), pluralize(number_with_delimiter(@agent.error_count), "error"), alerts_path(:agent_id => @agent.name)) %></p>
+          <%= link_to_if(@agent.error_count > 0 && can?(:manage, @agent), pluralize(number_with_delimiter(@agent.error_count), "error"), notifications_path(:agent_id => @agent.name)) %></p>
           <p>Average <%= number_with_delimiter(@agent.average_count) %> ms</br>
           Maximum <%= number_with_delimiter(@agent.maximum_count) %> ms</p>
         </div>
