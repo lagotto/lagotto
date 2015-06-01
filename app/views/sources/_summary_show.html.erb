@@ -1,17 +1,6 @@
 <div class="content">
   <div class="row">
     <div class="col-md-4">
-      <div class="panel panel-source <%= @source.response_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
-        <div class="panel-body panel-chart">
-          <p><%= pluralize(number_with_delimiter(@source.response_count), "response") %> with
-          <%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), alerts_path(:source_id => @source.name)) %></p>
-          <p>Average <%= number_with_delimiter(@source.average_count) %> ms</br>
-          Maximum <%= number_with_delimiter(@source.maximum_count) %> ms</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
       <div class="panel panel-source <%= @source.works_count > 0 ? 'panel-default' : 'panel-warning' %>">
         <div class="panel-heading">Events</div>
         <div class="panel-body panel-chart">
