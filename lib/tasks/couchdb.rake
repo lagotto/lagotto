@@ -3,13 +3,13 @@ namespace :couchdb do
   desc "Bulk-import CouchDB data"
   task :import => :environment do |_, args|
     if args.extras.empty?
-      sources = Source.visible
+      sources = Source.active
     else
-      sources = Source.visible.where("name in (?)", args.extras)
+      sources = Source.active.where("name in (?)", args.extras)
     end
 
     if sources.empty?
-      puts "No visible source found."
+      puts "No active source found."
       exit
     end
 

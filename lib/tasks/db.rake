@@ -266,7 +266,7 @@ namespace :db do
   namespace :events do
     desc "Delete events"
     task :delete => :environment do
-      source = Source.visible.where("name = ?", ENV['SOURCE']).first
+      source = Source.active.where("name = ?", ENV['SOURCE']).first
       unless source.present?
         puts "Please use SOURCE environment variable with name of available source. No event deleted."
         exit
