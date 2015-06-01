@@ -81,10 +81,10 @@ describe DataciteImport, type: :model, vcr: true do
       expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre%2Cdatacentre_symbol%2Cprefix%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D&fq=publicationYear%3A%5B1650+TO+2013%5D&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json", status: 408)
       expect(stub).to have_been_requested
 
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
     end
   end
 
@@ -139,7 +139,7 @@ describe DataciteImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(10)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with one existing work" do
@@ -150,7 +150,7 @@ describe DataciteImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(10)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with missing title" do
@@ -161,11 +161,11 @@ describe DataciteImport, type: :model, vcr: true do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(9)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.5061/DRYAD.47SD5.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.5061/DRYAD.47SD5")
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
+      expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.5061/DRYAD.47SD5.")
+      expect(notification.target_url).to eq("http://dx.doi.org/10.5061/DRYAD.47SD5")
     end
   end
 end

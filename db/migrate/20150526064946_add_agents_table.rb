@@ -4,14 +4,14 @@ class AddAgentsTable < ActiveRecord::Migration
       t.string   "type",                                            :null => false
       t.string   "name",                                            :null => false
       t.string   "title",                                           :null => false
+      t.text     "description"
       t.string   "kind",         :default => "work"
-      t.string   "source",                                          :null => false
+      t.string   "source_id",                                          :null => false
       t.integer  "state",       limit: 4,     default: 0
       t.string   "state_event"
       t.text     "config",      limit: 65535
       t.integer  "group_id",                                        :null => false
       t.boolean  "queueable",   limit: 1,     default: true
-      t.boolean  "eventable",   limit: 1,     default: true
       t.datetime "run_at",       :default => '1970-01-01 00:00:00', :null => false
       t.datetime "created_at",                                      :null => false
       t.datetime "updated_at",                                      :null => false
@@ -20,7 +20,6 @@ class AddAgentsTable < ActiveRecord::Migration
 
     remove_column :sources, :type
     remove_column :sources, :queueable
-    remove_column :sources, :eventable
     remove_column :sources, :state_event
     remove_column :sources, :config
     remove_column :sources, :run_at
@@ -35,7 +34,6 @@ class AddAgentsTable < ActiveRecord::Migration
 
     add_column :sources, :type, :string, :null => false
     add_column :sources, :queueable, :boolean,    :default => true
-    add_column :sources, :eventable, :boolean,    :default => true
     add_column :sources, :state_event, :string
     add_column :sources, :config, :text
     add_column :sources, :run_at, :datetime, :default => '1970-01-01 00:00:00', :null => false

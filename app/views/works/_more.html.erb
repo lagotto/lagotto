@@ -1,6 +1,6 @@
-<% unless @work.retrieval_statuses.empty? %>
+<% unless @work.events.empty? %>
   <div class="panel-group" id="retrieval_status">
-    <% @work.retrieval_statuses.with_sources.each do |status| %>
+    <% @work.events.with_sources.each do |status| %>
       <% if status.source.present? %>
         <div class="panel <%= (status.retrieved_at > '1970-01-01' || status.source.retired?) ? 'panel-default' : 'panel-warning' %>" id="<%= status.source.name %>">
           <%= render partial: 'works/source', locals: { status: status } %>

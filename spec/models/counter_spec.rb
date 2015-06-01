@@ -6,88 +6,6 @@ describe Counter, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776") }
 
-  context "CSV report" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
-
-    it "should provide a date range" do
-      # array of hashes for the 10 last months, including the current month
-      start_date = Time.zone.now.to_date - 10.months
-      end_date = Time.zone.now.to_date
-      response = subject.date_range(month: start_date.month, year: start_date.year)
-      expect(response.count).to eq(11)
-      expect(response.last).to eq(month: end_date.month, year: end_date.year)
-    end
-
-    it "should format the CouchDB report as csv" do
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter"))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid", "html", "pdf", "total"])
-      expect(response.last).to eq(["doi", "10.1371/journal.ppat.1000446", "7489", "1147", "8676"])
-    end
-
-    it "should format the CouchDB HTML report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.ppat.1000446", "92", "58", "82"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_html_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "html", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response.last).to eq(row)
-    end
-
-    it "should format the CouchDB PDF report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0020413", "0", "1", "3"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_pdf_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "pdf", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[2]).to eq(row)
-    end
-
-    it "should format the CouchDB XML report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "0"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_xml_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "xml", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[2]).to eq(row)
-    end
-
-    it "should format the CouchDB combined report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0030137", "68", "87", "112"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_combined_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "combined", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[3]).to eq(row)
-    end
-
-    it "should report an error if the CouchDB design document can't be retrieved" do
-      FactoryGirl.create(:fatal_error_report_with_admin_user)
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
-      stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv(name: "counter")).to be_blank
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for counter could not be retrieved.")
-      expect(alert.status).to eq(404)
-    end
-  end
-
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
@@ -121,11 +39,11 @@ describe Counter, type: :model, vcr: true do
       response = subject.get_data(work, source_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.plosreports.org/services/rest?method=usage.stats&doi=#{work.doi_escaped}", status: 408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.source_id).to eq(subject.id)
     end
   end
 
@@ -134,14 +52,14 @@ describe Counter, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Counter API" do
@@ -149,7 +67,7 @@ describe Counter, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "counter", work: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] })
+      expect(response).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are events returned by the Counter API" do
@@ -157,13 +75,17 @@ describe Counter, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(3387)
-      expect(response[:events][:pdf]).to eq(447)
-      expect(response[:events][:html]).to eq(2919)
-      expect(response[:events][:extra].length).to eq(37)
-      expect(response[:events][:months].length).to eq(37)
-      expect(response[:events][:months].first).to eq(month: 1, year: 2010, html: 299, pdf: 90, total: 390)
-      expect(response[:events][:events_url]).to be_nil
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("counter")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(3387)
+      expect(event[:pdf]).to eq(447)
+      expect(event[:html]).to eq(2919)
+      expect(event[:extra].length).to eq(37)
+      expect(event[:months].length).to eq(37)
+      expect(event[:months].first).to eq(month: 1, year: 2010, html: 299, pdf: 90, total: 390)
+      expect(event[:events_url]).to be_nil
     end
 
     it "should catch timeout errors with the Counter API" do

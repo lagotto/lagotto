@@ -136,9 +136,9 @@ class Api::V6::WorksController < Api::BaseController
     elsif params[:q]
       collection = Work.query(params[:q])
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
-      collection = Work.joins(:retrieval_statuses)
-                   .where("retrieval_statuses.source_id = ?", source.id)
-                   .where("retrieval_statuses.total > 0")
+      collection = Work.joins(:events)
+                   .where("events.source_id = ?", source.id)
+                   .where("events.total > 0")
     elsif params[:publisher_id]
       collection = Work.where(publisher_id: params[:publisher_id])
     else
@@ -148,11 +148,11 @@ class Api::V6::WorksController < Api::BaseController
 
   def get_class_name(collection, params)
     @class_name = params[:class_name]
-    collection = collection.includes(:alerts).references(:alerts)
-    if @class_name == "All Alerts"
-      collection = collection.where("alerts.unresolved = ?", true)
+    collection = collection.includes(:notifications).references(:notifications)
+    if @class_name == "All Notifications"
+      collection = collection.where("notifications.unresolved = ?", true)
     else
-      collection = collection.where("alerts.unresolved = ?", true).where("alerts.class_name = ?", @class_name)
+      collection = collection.where("notifications.unresolved = ?", true).where("notifications.class_name = ?", @class_name)
     end
   end
 
@@ -160,11 +160,11 @@ class Api::V6::WorksController < Api::BaseController
   # we can't filter and sort by two different sources
   def get_sort(collection, params, source)
     if params[:sort] && source && params[:sort] == params[:source_id]
-      collection = collection.order("retrieval_statuses.total DESC")
+      collection = collection.order("events.total DESC")
     elsif params[:sort] && !source && sort = Source.where(name: params[:sort]).first
-      collection = collection.joins(:retrieval_statuses)
-        .where("retrieval_statuses.source_id = ?", sort.id)
-        .order("retrieval_statuses.total DESC")
+      collection = collection.joins(:events)
+        .where("events.source_id = ?", sort.id)
+        .order("events.total DESC")
     else
       collection.order("works.published_on DESC")
     end

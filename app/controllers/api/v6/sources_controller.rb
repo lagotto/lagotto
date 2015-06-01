@@ -17,7 +17,7 @@ class Api::V6::SourcesController < Api::BaseController
   end
 
   def index
-    collection = Source.visible.includes(:group)
+    collection = Source.active.includes(:group)
     @sources = collection.decorate
   end
 

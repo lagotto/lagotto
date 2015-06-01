@@ -8,13 +8,13 @@ xml.rss :version => "2.0" do
       xml.title "Lagotto: most-cited works in #{@source.title}"
       xml.link source_url(@source)
 
-      @retrieval_statuses.each do |retrieval_status|
+      @events.each do |event|
         xml.item do
-          xml.title retrieval_status.work.title
-          xml.description pluralize(retrieval_status.total, "#{@source.title} event")
-          xml.pubDate retrieval_status.work.published_on.to_time.utc.to_s(:rfc822)
-          xml.link "http://dx.doi.org/#{retrieval_status.work.doi}"
-          xml.guid retrieval_status.work.doi
+          xml.title event.work.title
+          xml.description pluralize(event.total, "#{@source.title} event")
+          xml.pubDate event.work.published_on.to_time.utc.to_s(:rfc822)
+          xml.link "http://dx.doi.org/#{event.work.doi}"
+          xml.guid event.work.doi
         end
       end
     end

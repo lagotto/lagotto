@@ -42,7 +42,7 @@
         <% else %>
           <dd>User - read access to the API</dd>
         <% end %>
-        <% if can?(:create, User) && @user.publisher_id %>
+        <% if can?(:create, User) && @user.publisher %>
           <dt>Publisher</dt>
           <dd><%= link_to h(@user.publisher.title), publisher_path(@user.publisher.member_id) %></dd>
         <% end %>

@@ -20,15 +20,15 @@ class Api::V6::EventsController < Api::BaseController
 
   def index
     if params[:work_id]
-      collection = RetrievalStatus.joins(:work).where("works.pid = ?", params[:work_id])
+      collection = Event.joins(:work).where("works.pid = ?", params[:work_id])
     elsif params[:work_ids]
-      collection = RetrievalStatus.joins(:work).where("works.pid IN (?)", params[:work_ids])
+      collection = Event.joins(:work).where("works.pid IN (?)", params[:work_ids])
     elsif params[:source_id]
-      collection = RetrievalStatus.joins(:source).where("sources.name = ?", params[:source_id])
+      collection = Event.joins(:source).where("sources.name = ?", params[:source_id])
     elsif params[:publisher_id]
-      collection = RetrievalStatus.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
+      collection = Event.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
     else
-      collection = RetrievalStatus
+      collection = Event
     end
 
     collection = collection.joins(:source).where("private <= ?", is_admin_or_staff?)
@@ -37,7 +37,7 @@ class Api::V6::EventsController < Api::BaseController
       sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
       collection = collection.order(sort.to_sym => :desc)
     else
-      collection = collection.order("retrieval_statuses.updated_at DESC")
+      collection = collection.order("events.updated_at DESC")
     end
 
     collection = collection.includes(:work, :source, :days, :months)

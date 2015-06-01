@@ -35,14 +35,14 @@ describe RelativeMetric, type: :model, vcr: true do
     it "should catch timeout errors with the relative metric API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0047712")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -50,13 +50,13 @@ describe RelativeMetric, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil, :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "relative_metric", work_id: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }}])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012", :published_on => Date.new(2009, 5, 19))
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: { source: "relative_metric", work: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }})
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "relative_metric", work_id: work.pid, total: 0, extra: { start_date: "2009-01-01T00:00:00Z", end_date: "2009-12-31T00:00:00Z", subject_areas: [] }}])
     end
 
     it "should get relative metric average usage data" do
@@ -64,8 +64,12 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(576895)
-      expect(response[:events][:extra]).to eq(
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("relative_metric")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(576895)
+      expect(event[:extra]).to eq(
         :start_date => "2009-01-01T00:00:00Z",
         :end_date => "2009-12-31T00:00:00Z",
         :subject_areas => [
@@ -80,8 +84,12 @@ describe RelativeMetric, type: :model, vcr: true do
       body = File.read(fixture_path + "relative_metric_nodata.json")
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(0)
-      expect(response[:events][:extra]).to eq(:start_date => "2009-01-01T00:00:00Z",
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("relative_metric")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(0)
+      expect(event[:extra]).to eq(:start_date => "2009-01-01T00:00:00Z",
                                                :end_date => "2009-12-31T00:00:00Z",
                                                :subject_areas => [])
     end

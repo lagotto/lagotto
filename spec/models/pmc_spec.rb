@@ -4,77 +4,6 @@ describe Pmc, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:pmc) }
 
-  context "CSV report" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
-
-    it "should provide a date range" do
-      # array of hashes for the 10 last months, excluding the current month
-      start_date = Time.zone.now.to_date - 10.months
-      end_date = Time.zone.now.to_date - 1.month
-      response = subject.date_range(month: start_date.month, year: start_date.year)
-      expect(response.count).to eq(10)
-      expect(response.last).to eq(month: end_date.month, year: end_date.year)
-    end
-
-    it "should format the CouchDB report as csv" do
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_report.json'))
-      response = CSV.parse(subject.to_csv(name: "pmc"))
-      expect(response.count).to eq(25)
-      expect(response.first).to eq(["pid_type", "pid", "html", "pdf", "total"])
-      expect(response.last).to eq(["doi", "10.1371/journal.ppat.1000446", "9", "6", "15"])
-    end
-
-    it "should format the CouchDB HTML report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.ppat.1000446", "5", "4"]
-      row.fill("0", 3..(dates.length))
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_html_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_html_report.json'))
-      response = CSV.parse(subject.to_csv(name: "pmc", format: "html", month: 7, year: 2013))
-      expect(response.count).to eq(25)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response.last).to eq(row)
-    end
-
-    it "should format the CouchDB PDF report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0030137", "0", "0"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_pdf_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_pdf_report.json'))
-      response = CSV.parse(subject.to_csv(name: "pmc", format: "pdf", month: 7, year: 2013))
-      expect(response.count).to eq(25)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[2]).to eq(row)
-    end
-
-    it "should format the CouchDB combined report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0040015", "9", "10"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc_combined_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'pmc_combined_report.json'))
-      response = CSV.parse(subject.to_csv(name: "pmc", format: "combined", month: 7, year: 2013))
-      expect(response.count).to eq(25)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[3]).to eq(row)
-    end
-
-    it "should report an error if the CouchDB design document can't be retrieved" do
-      FactoryGirl.create(:fatal_error_report_with_admin_user)
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/pmc"
-      stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv(name: "pmc")).to be_blank
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for pmc could not be retrieved.")
-      expect(alert.status).to eq(404)
-    end
-  end
-
   it "should report that there are no events if the doi is missing" do
     work = FactoryGirl.create(:work, :doi => nil)
     expect(subject.get_data(work)).to eq({})
@@ -94,7 +23,7 @@ describe Pmc, type: :model, vcr: true do
       file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       expect(File.exist?(file)).to be true
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
   end
 
@@ -119,7 +48,7 @@ describe Pmc, type: :model, vcr: true do
       expect(subject.get_feed(month, year)).to be_empty
       expect(subject.parse_feed(month, year)).to be_empty
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
   end
 
@@ -158,14 +87,14 @@ describe Pmc, type: :model, vcr: true do
     it "should catch errors with the PMC API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://127.0.0.1:5984/pmc_usage_stats_test/#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -174,7 +103,7 @@ describe Pmc, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: { source: "pmc", work: work.pid, pdf: 0, html: 0, total: 0, events_url: nil, extra: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "pmc", work_id: work.pid, pdf: 0, html: 0, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the PMC API" do
@@ -183,7 +112,7 @@ describe Pmc, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "pmc", work: work.pid, :pdf=>0, :html=>0, :total=>0, :events_url=>nil, :extra=>[{"unique-ip"=>"0", "full-text"=>"0", "pdf"=>"0", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2013", "month"=>"10"}], :months=>[{:month=>10, :year=>2013, :html=>0, :pdf=>0, :total=>0}]})
+      expect(response).to eq(events: [{ source_id: "pmc", work_id: work.pid, :pdf=>0, :html=>0, :total=>0, :events_url=>nil, :extra=>[{"unique-ip"=>"0", "full-text"=>"0", "pdf"=>"0", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2013", "month"=>"10"}], :months=>[{:month=>10, :year=>2013, :html=>0, :pdf=>0, :total=>0}]}])
     end
 
     it "should report if there are events returned by the PMC API" do
@@ -192,12 +121,16 @@ describe Pmc, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:extra].length).to eq(2)
-      expect(response[:events][:total]).to eq(13)
-      expect(response[:events][:pdf]).to eq(4)
-      expect(response[:events][:html]).to eq(9)
-      expect(response[:events][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}")
-      expect(response[:events][:months]).to eq([{:month=>9, :year=>2013, :html=>3, :pdf=>2, :total=>5}, {:month=>10, :year=>2013, :html=>6, :pdf=>2, :total=>8}])
+
+      event = response[:events].first
+      expect(event[:extra].length).to eq(2)
+      expect(event[:source_id]).to eq("pmc")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(13)
+      expect(event[:pdf]).to eq(4)
+      expect(event[:html]).to eq(9)
+      expect(event[:events_url]).to eq("http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}")
+      expect(event[:months]).to eq([{:month=>9, :year=>2013, :html=>3, :pdf=>2, :total=>5}, {:month=>10, :year=>2013, :html=>6, :pdf=>2, :total=>8}])
     end
 
     it "should catch timeout errors with the PMC API" do

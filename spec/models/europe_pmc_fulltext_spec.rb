@@ -36,22 +36,22 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(70)
-      expect(response["resultList"]["result"].length).to eq(70)
+      expect(response["hitCount"]).to eq(74)
+      expect(response["resultList"]["result"].length).to eq(74)
       result = response["resultList"]["result"].first
-      expect(result["doi"]).to eq("10.1186/s12870-015-0454-0")
+      expect(result["doi"]).to eq("10.1186/s13100-015-0034-8")
     end
 
     it "should catch errors with the Europe PMC Search API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22#{work.canonical_url}%22%20OR%20REF:%22#{work.canonical_url}%22&format=json&page=1", status: 408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -59,7 +59,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "europe_pmc_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "europe_pmc_fulltext", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
@@ -67,17 +67,22 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       body = File.read(fixture_path + 'europe_pmc_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(13)
-      expect(response[:events][:total]).to eq(13)
-      expect(response[:events][:days]).to be_empty
-      expect(response[:events][:months]).to be_empty
 
-      event = response[:works].last
-      expect(event['author']).to eq([{"family"=>"Richardson", "given"=>"Mf"}, {"family"=>"Weinert", "given"=>"La"}, {"family"=>"Welch", "given"=>"Jj"}, {"family"=>"Linheiro", "given"=>"Rs"}, {"family"=>"Magwire", "given"=>"Mm"}, {"family"=>"Jiggins", "given"=>"Fm"}, {"family"=>"Bergman", "given"=>"Cm"}])
-      expect(event['title']).to eq("Population genomics of the Wolbachia endosymbiont in Drosophila melanogaster")
-      expect(event['container-title']).to eq("PLoS Genet")
-      expect(event['issued']).to eq("date-parts"=>[[2012]])
-      expect(event['type']).to eq("article-journal")
+      event = response[:events].first
+      expect(event[:source_id]).to eq("europe_pmc_fulltext")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(13)
+      expect(event[:days]).to be_empty
+      expect(event[:months]).to be_empty
+
+      expect(response[:works].length).to eq(13)
+      related_work = response[:works].last
+      expect(related_work['author']).to eq([{"family"=>"Richardson", "given"=>"Mf"}, {"family"=>"Weinert", "given"=>"La"}, {"family"=>"Welch", "given"=>"Jj"}, {"family"=>"Linheiro", "given"=>"Rs"}, {"family"=>"Magwire", "given"=>"Mm"}, {"family"=>"Jiggins", "given"=>"Fm"}, {"family"=>"Bergman", "given"=>"Cm"}])
+      expect(related_work['title']).to eq("Population genomics of the Wolbachia endosymbiont in Drosophila melanogaster")
+      expect(related_work['container-title']).to eq("PLoS Genet")
+      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
+      expect(related_work['type']).to eq("article-journal")
+      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"europe_pmc_fulltext", "relation_type"=>"cites"}])
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do

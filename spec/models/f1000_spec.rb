@@ -15,7 +15,7 @@ describe F1000, type: :model, vcr: true do
       # file = "#{Rails.root}/data/#{subject.filename}.xml"
       # File.exist?(file).should be true
       # stub.should have_been_requested
-      # Alert.count.should == 0
+      # Notification.count.should == 0
     end
   end
 
@@ -32,7 +32,7 @@ describe F1000, type: :model, vcr: true do
 
     it "should parse f1000 data" do
       expect(subject.parse_feed).not_to be_blank
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
   end
 
@@ -66,14 +66,14 @@ describe F1000, type: :model, vcr: true do
     it "should catch timeout errors with f1000" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://127.0.0.1:5984/f1000_test/#{work.doi_escaped}", status: 408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -82,7 +82,7 @@ describe F1000, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { error: "not_found", status: 404 }
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "f1000", work: work.pid, total: 0, events_url: nil, extra: [] })
+      expect(response).to eq(events: [{ source_id: "f1000", work_id: work.pid, total: 0, events_url: nil, extra: [] }])
     end
 
     it "should report if there are events returned by f1000" do
@@ -90,10 +90,14 @@ describe F1000, type: :model, vcr: true do
       body = File.read(fixture_path + 'f1000.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(2)
-      expect(response[:events][:events_url]).to eq("http://f1000.com/prime/718293874")
 
-      extra = response[:events][:extra].first
+      event = response[:events].first
+      expect(event[:source_id]).to eq("f1000")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(2)
+      expect(event[:events_url]).to eq("http://f1000.com/prime/718293874")
+
+      extra = event[:extra].first
       expect(extra[:event]).to eq("year"=>2014, "month"=>4, "doi"=>"10.1371/journal.ppat.1003959", "f1000_id"=>"718293874", "url"=>"http://f1000.com/prime/718293874", "score"=>2, "classifications"=>["confirmation", "good_for_teaching"], "updated_at"=>"2014-04-27T17:25:41Z")
       expect(extra[:event_url]).to eq("http://f1000.com/prime/718293874")
     end

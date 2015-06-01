@@ -3,11 +3,11 @@ module Statable
 
   included do
     state_machine :initial => :available do
-      state :available, value: 0 # source available, but not installed
-      state :retired, value: 1   # source installed, but no longer accepting new data
-      state :inactive, value: 2  # source disabled by admin
+      state :available, value: 0 # agent available, but not installed
+      state :retired, value: 1   # agent installed, but no longer accepting new data
+      state :inactive, value: 2  # agent disabled by admin
       state :disabled, value: 3  # can't queue or process jobs, generates alert
-      state :waiting, value: 5   # source active, waiting for next job
+      state :waiting, value: 5   # agent active, waiting for next job
       state :working, value: 6   # processing jobs
 
       state all - [:available, :retired, :inactive] do
@@ -23,7 +23,7 @@ module Statable
       end
 
       state all - [:available, :retired, :inactive] do
-        validate { |source| source.validate_config_fields }
+        validate { |agent| agent.validate_config_fields }
       end
 
       state all - [:available] do
@@ -38,28 +38,28 @@ module Statable
         end
       end
 
-      after_transition :available => any - [:available, :retired] do |source|
-        source.create_retrievals
-        CacheJob.perform_later(source)
+      after_transition :available => any - [:available, :retired] do |agent|
+        agent.create_tasks
+        CacheJob.perform_later(agent)
       end
 
-      after_transition :to => :inactive do |source|
-        source.remove_queues
+      after_transition :to => :inactive do |agent|
+        agent.remove_queues
       end
 
-      after_transition any - [:disabled] => :disabled do |source|
-        if source.check_for_rate_limits
+      after_transition any - [:disabled] => :disabled do |agent|
+        if agent.check_for_rate_limits
           class_name = "Net::HTTPTooManyRequests"
-          message = "#{source.title} has exceeded the rate-limiting of requests. Disabling the source."
+          message = "#{agent.title} has exceeded the rate-limiting of requests. Disabling the agent."
         else
           class_name = "TooManyErrorsBySourceError"
-          message = "#{source.title} has exceeded maximum failed queries. Disabling the source."
+          message = "#{agent.title} has exceeded maximum failed queries. Disabling the agent."
         end
-        Alert.where(message: message).where(unresolved: true).first_or_create(
+        Notification.where(message: message).where(unresolved: true).first_or_create(
           exception: "",
           class_name: class_name,
-          source_id: source.id,
-          level: Alert::FATAL)
+          agent_id: agent.id,
+          level: Notification::FATAL)
       end
 
       event :install do
@@ -68,7 +68,7 @@ module Statable
       end
 
       event :uninstall do
-        transition any - [:available] => :available, :if => :remove_all_retrievals
+        transition any - [:available] => :available, :if => :remove_all_tasks
         transition any - [:available, :retired] => :retired
       end
 

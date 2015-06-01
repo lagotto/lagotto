@@ -74,11 +74,11 @@ describe "/api/v3/articles", :type => :api do
         get uri
         expect(last_response.status).to eql(200)
 
-        response_work = JSON.parse(last_response.body)
-        response_source = response_work["sources"][0]
-        expect(response_work["doi"]).to eql(work.doi)
-        expect(response_work["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        response = JSON.parse(last_response.body)
+        response_source = response["sources"][0]
+        expect(response["doi"]).to eql(work.doi)
+        expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -90,7 +90,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
     end

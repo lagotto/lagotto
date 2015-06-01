@@ -23,7 +23,7 @@ describe ReportMailer, :type => :mailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME']))
+      expect(body_html).to have_link('Go to admin dashboard', href: notifications_url(host: ENV['SERVERNAME']))
     end
   end
 
@@ -88,7 +88,7 @@ describe ReportMailer, :type => :mailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME'], level: "fatal"))
+      expect(body_html).to have_link('Go to admin dashboard', href: notifications_url(host: ENV['SERVERNAME'], level: "fatal"))
     end
   end
 
@@ -110,7 +110,7 @@ describe ReportMailer, :type => :mailer do
 
     it "provides a link to the admin dashboard" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to have_link('Go to admin dashboard', href: alerts_url(host: ENV['SERVERNAME'], :class => "SourceNotUpdatedError"))
+      expect(body_html).to have_link('Go to admin dashboard', href: notifications_url(host: ENV['SERVERNAME'], :class => "SourceNotUpdatedError"))
     end
   end
 end

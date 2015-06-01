@@ -13,15 +13,16 @@ Lagotto::Application.routes.draw do
   #get '/docs/*path' => 'ember#index'
   root :to => "docs#index"
 
-  resources :notifications
+  resources :agents do
+    resources :publisher_options, only: [:show, :edit, :update]
+  end
   resources :api_requests
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
+  resources :notifications
   resources :publishers
   resources :references
-  resources :sources do
-    resources :publisher_options, only: [:show, :edit, :update]
-  end
+  resources :sources
   resources :status, :only => [:index]
   resources :users
 
@@ -56,11 +57,13 @@ Lagotto::Application.routes.draw do
         resources :events
       end
 
-      resources :notifications
+      resources :agents
       resources :api_requests, only: [:index]
+      resources :deposits
       resources :docs, only: [:index, :show]
       resources :events
       resources :groups, only: [:index, :show]
+      resources :notifications
       resources :publishers, concerns: [:workable, :eventable]
       resources :references
       resources :relation_types, only: [:index, :show]

@@ -22,7 +22,7 @@ describe Facebook, type: :model, vcr: true do
       stub_auth = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
 
-      response = subject.get_data(work, source_id: subject.id)
+      response = subject.get_data(work, agent_id: subject.id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -81,14 +81,14 @@ describe Facebook, type: :model, vcr: true do
       stub = stub_request(:get, subject.get_query_url(work))
              .with(:headers => headers)
              .to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 401 for #{subject.get_query_url(work)}", status: 401)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPUnauthorized")
-      expect(alert.status).to eq(401)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPUnauthorized")
+      expect(notification.status).to eq(401)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -120,27 +120,27 @@ describe Facebook, type: :model, vcr: true do
       stub = stub_request(:get, subject.get_query_url(work))
              .with(:headers => headers)
              .to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 401 for #{subject.get_query_url(work)}", status: 401)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPUnauthorized")
-      expect(alert.status).to eq(401)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPUnauthorized")
+      expect(notification.status).to eq(401)
+      expect(notification.agent_id).to eq(subject.id)
     end
 
     it "should catch timeout errors with the Facebook API" do
       work = FactoryGirl.create(:work, :canonical_url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for #{subject.get_query_url(work)}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -152,7 +152,7 @@ describe Facebook, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: { source: "facebook", work: work.pid, readers: 0, comments: 0, likes: 0, total: 0, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "facebook", work_id: work.pid, readers: 0, comments: 0, likes: 0, total: 0, extra: {} }])
     end
 
     it "should report if there are no events returned by the Facebook API" do
@@ -160,9 +160,11 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(0)
 
-      extra = response[:events][:extra]
+      event = response[:events].first
+      expect(event[:total]).to eq(0)
+
+      extra = event[:extra]
       expect(extra["og_object"]).to eq("id"=>"318336314932679", "description"=>"PLOS ONE: an inclusive, peer-reviewed, open-access resource from the PUBLIC LIBRARY OF SCIENCE. Reports of well-performed scientific studies from all disciplines freely available to the whole world.", "title"=>"PLOS ONE: Neural Substrate of Cold-Seeking Behavior in Endotoxin Shock", "type"=>"website", "updated_time"=>"2013-01-11T22:07:49+0000", "url"=>"http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
       expect(extra["share"]).to eq("comment_count"=>0, "share_count"=>0)
     end
@@ -172,8 +174,10 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(9972)
-      extra = response[:events][:extra]
+
+      event = response[:events].first
+      expect(event[:total]).to eq(9972)
+      extra = event[:extra]
       expect(extra["og_object"]).to eq("id"=>"119940294870426", "description"=>"PLOS Medicine is an open-access, peer-reviewed medical journal that publishes outstanding human studies that substantially enhance the understanding of human health and disease.", "title"=>"Why Most Published Research Findings Are False", "type"=>"article", "updated_time"=>"2014-10-24T15:34:04+0000", "url"=>"http://www.plosmedicine.org/article/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124")
       expect(extra["share"]).to eq("comment_count"=>0, "share_count"=>9972)
     end
@@ -194,11 +198,13 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>nil}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>"10150168740355926"}])
-      expect(response[:events][:total]).to eq(0)
-      expect(response[:events][:readers]).to eq(0)
-      expect(response[:events][:comments]).to eq(0)
-      expect(response[:events][:likes]).to eq(0)
+
+      event = response[:events].first
+      expect(event[:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>nil}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pone.0000001", "share_count"=>0, "like_count"=>0, "comment_count"=>0, "click_count"=>0, "total_count"=>0, "comments_fbid"=>"10150168740355926"}])
+      expect(event[:total]).to eq(0)
+      expect(event[:readers]).to eq(0)
+      expect(event[:comments]).to eq(0)
+      expect(event[:likes]).to eq(0)
     end
 
     it "should report if there are events returned by the Facebook API" do
@@ -206,11 +212,13 @@ describe Facebook, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150805897619922"}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150168740355926"}])
-      expect(response[:events][:total]).to eq(6745)
-      expect(response[:events][:readers]).to eq(3120)
-      expect(response[:events][:comments]).to eq(1910)
-      expect(response[:events][:likes]).to eq(1715)
+
+      event = response[:events].first
+      expect(event[:extra]).to eq([{"url"=>"http://dx.doi.org/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150805897619922"}, {"url"=>"http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124", "share_count"=>3120, "like_count"=>1715, "comment_count"=>1910, "click_count"=>2, "total_count"=>6745, "comments_fbid"=>"10150168740355926"}])
+      expect(event[:total]).to eq(6745)
+      expect(event[:readers]).to eq(3120)
+      expect(event[:comments]).to eq(1910)
+      expect(event[:likes]).to eq(1715)
     end
   end
 end

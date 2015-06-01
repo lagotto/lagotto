@@ -19,8 +19,8 @@ class WorkDecorator < Draper::Decorator
     collection = collection.pluck(:id)
   end
 
-  def filtered_retrieval_statuses
-    model.retrieval_statuses.select { |rs| source_ids.include?(rs.source_id) }
+  def filtered_events
+    model.events.select { |rs| source_ids.include?(rs.source_id) }
   end
 
   def filtered_sources

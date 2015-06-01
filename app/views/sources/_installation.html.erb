@@ -8,7 +8,7 @@
             <th class="name">Source</th>
             <th>Status</th>
             <th class="description">Description</th>
-            <% if can?(:manage, Alert) %>
+            <% if can?(:manage, Notification) %>
               <th class="status">Actions</th>
             <% end %>
           </tr>
@@ -19,7 +19,7 @@
               <td><%= link_to_if source.installed?, source.title, source_path(source) %></td>
               <td><%= state_label(source.human_state_name).html_safe %></td>
               <td><%= h(source.description) %></td>
-              <% if can?(:manage, Alert) %>
+              <% if can?(:manage, Notification) %>
                 <td>
                   <% if source.human_state_name == "available" %>
                     <%= link_to 'Install', source_path(source, state_event: "install"), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Install Source" %>

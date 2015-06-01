@@ -124,9 +124,9 @@
 </div>
 
 <% if @work.tracked %>
-  <% if can?(:read, Alert) %>
-    <div id="alert-error-message">
-      <%= render :partial => 'alert_message' %>
+  <% if can?(:read, Notification) %>
+    <div id="notification-error-message">
+      <%= render :partial => 'notification_message' %>
     </div>
   <% end %>
 <% end %>
@@ -137,8 +137,8 @@
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
     <li><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
-    <% if can?(:read, Alert) %>
-      <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
+    <% if can?(:read, Notification) %>
+      <li><a href="#notification" data-toggle="tab" title="Notifications">Notifications</a></li>
     <% end %>
   <% end %>
 </ul>
@@ -157,8 +157,8 @@
     <div class="tab-pane" id="recommendations">
       <%= render :partial => 'recommendations' %>
     </div>
-    <div class="tab-pane" id="alert">
-      <%= render :partial => 'alert' %>
+    <div class="tab-pane" id="notification">
+      <%= render :partial => 'notification' %>
     </div>
   <% end %>
 </div>

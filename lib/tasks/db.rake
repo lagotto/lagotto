@@ -211,18 +211,18 @@ namespace :db do
         sources = Source.where("name in (?)", args.extras)
       end
 
-      retrieval_statuses = []
+      events = []
       works.each do |work|
         sources.each do |source|
-          retrieval_status = RetrievalStatus.where(work_id: work.id, source_id: source.id).find_or_initialize
-          if retrieval_status.new_record?
-            retrieval_status.save!
-            retrieval_statuses << retrieval_status
+          event = Event.where(work_id: work.id, source_id: source.id).find_or_initialize
+          if event.new_record?
+            event.save!
+            events << event
           end
         end
       end
 
-      puts "#{retrieval_statuses.count} retrieval status(es) added for #{sources.count} source(s) and #{works.count} works"
+      puts "#{events.count} event(s) added for #{sources.count} source(s) and #{works.count} works"
     end
 
     desc "Remove all HTML and XML tags from work titles"
@@ -278,24 +278,24 @@ namespace :db do
     end
   end
 
-  namespace :alerts do
-    desc "Resolve all alerts with level INFO and WARN"
+  namespace :notifications do
+    desc "Resolve all notifications with level INFO and WARN"
     task :resolve => :environment do
-      Alert.unscoped do
-        before = Alert.count
-        Alert.where("level < 3").update_all(unresolved: false)
-        after = Alert.count
-        puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
+      Notification.unscoped do
+        before = Notification.count
+        Notification.where("level < 3").update_all(unresolved: false)
+        after = Notification.count
+        puts "Deleted #{before - after} resolved notifications, #{after} unresolved notifications remaining"
       end
     end
 
-    desc "Delete all resolved alerts"
+    desc "Delete all resolved notifications"
     task :delete => :environment do
-      Alert.unscoped do
-        before = Alert.count
-        Alert.where(:unresolved => false).delete_all
-        after = Alert.count
-        puts "Deleted #{before - after} resolved alerts, #{after} unresolved alerts remaining"
+      Notification.unscoped do
+        before = Notification.count
+        Notification.where(:unresolved => false).delete_all
+        after = Notification.count
+        puts "Deleted #{before - after} resolved notifications, #{after} unresolved notifications remaining"
       end
     end
   end
@@ -346,97 +346,97 @@ namespace :db do
     end
   end
 
-  namespace :sources do
+  namespace :agents do
 
-    desc "Activate sources"
+    desc "Activate agents"
     task :activate => :environment do |_, args|
       if args.extras.empty?
-        sources = Source.inactive
+        agents = Agent.inactive
       else
-        sources = Source.inactive.where("name in (?)", args.extras)
+        agents = Agent.inactive.where("name in (?)", args.extras)
       end
 
-      if sources.empty?
-        puts "No inactive source found."
+      if agents.empty?
+        puts "No inactive agent found."
         exit
       end
 
-      sources.each do |source|
-        source.activate
-        if source.waiting?
-          puts "Source #{source.title} has been activated and is now waiting."
+      agents.each do |agent|
+        agent.activate
+        if agent.waiting?
+          puts "Agent #{agent.title} has been activated and is now waiting."
         else
-          puts "Source #{source.title} could not be activated."
+          puts "Agent #{agent.title} could not be activated."
         end
       end
     end
 
-    desc "Inactivate sources"
+    desc "Inactivate agents"
     task :inactivate => :environment do |_, args|
       if args.extras.empty?
-        sources = Source.active
+        agents = Agent.active
       else
-        sources = Source.active.where("name in (?)", args.extras)
+        agents = Agent.active.where("name in (?)", args.extras)
       end
 
-      if sources.empty?
-        puts "No active source found."
+      if agents.empty?
+        puts "No active agent found."
         exit
       end
 
-      sources.each do |source|
-        source.inactivate
-        if source.inactive?
-          puts "Source #{source.title} has been inactivated."
+      agents.each do |agent|
+        agent.inactivate
+        if agent.inactive?
+          puts "Agent #{agent.title} has been inactivated."
         else
-          puts "Source #{source.title} could not be inactivated."
+          puts "Agent #{agent.title} could not be inactivated."
         end
       end
     end
 
-    desc "Install sources"
+    desc "Install agents"
     task :install => :environment do |_, args|
       if args.extras.empty?
-        sources = Source.available
+        agents = Agent.available
       else
-        sources = Source.available.where("name in (?)", args.extras)
+        agents = Agent.available.where("name in (?)", args.extras)
       end
 
-      if sources.empty?
-        puts "No available source found."
+      if agents.empty?
+        puts "No available agent found."
         exit
       end
 
-      sources.each do |source|
-        source.install
-        unless source.available?
-          puts "Source #{source.title} has been installed."
+      agents.each do |agent|
+        agent.install
+        unless agent.available?
+          puts "Agent #{agent.title} has been installed."
         else
-          puts "Source #{source.title} could not be installed."
+          puts "Agent #{agent.title} could not be installed."
         end
       end
     end
 
-    desc "Uninstall sources"
+    desc "Uninstall agents"
     task :uninstall => :environment do |_, args|
       if args.extras.empty?
-        puts "No source name provided."
+        puts "No agent name provided."
         exit
       else
-        sources = Source.installed.where("name in (?)", args.extras)
+        agents = Agent.installed.where("name in (?)", args.extras)
       end
 
-      if sources.empty?
-        puts "No installed source found."
+      if agents.empty?
+        puts "No installed agent found."
         exit
       end
 
-      sources.each do |source|
-        source.uninstall
-        if source.available?
-          puts "Source #{source.title} has been uninstalled."
-        elsif source.retired?
-          puts "Source #{source.title} has been retired."
+      agents.each do |agent|
+        agent.uninstall
+        if agent.available?
+          puts "Agent #{agent.title} has been uninstalled."
+        elsif agent.retired?
+          puts "Agent #{agent.title} has been retired."
         else
           puts "Source #{source.title} could not be uninstalled."
         end

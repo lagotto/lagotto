@@ -78,10 +78,10 @@ describe DataoneImport, type: :model, vcr: true do
       expect(response).to eq(error: "the server responded with status 408 for https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json", status: 408)
       expect(stub).to have_been_requested
 
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
     end
   end
 
@@ -159,10 +159,10 @@ describe DataoneImport, type: :model, vcr: true do
       expect(work[:ark]).to be_nil
       expect(work[:title]).to eq("Scleral ring and orbit morphology")
 
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveModel::MissingAttributeError")
-      expect(alert.message).to eq("No known identifier found in knb-lter-arc.10353.1")
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("ActiveModel::MissingAttributeError")
+      expect(notification.message).to eq("No known identifier found in knb-lter-arc.10353.1")
     end
   end
 
@@ -174,7 +174,7 @@ describe DataoneImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(61)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with one existing work" do
@@ -185,7 +185,7 @@ describe DataoneImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(61)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with missing title" do
@@ -196,11 +196,11 @@ describe DataoneImport, type: :model, vcr: true do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(60)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.5061/dryad.tm8k3.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.5061/dryad.tm8k3")
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
+      expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.5061/dryad.tm8k3.")
+      expect(notification.target_url).to eq("http://dx.doi.org/10.5061/dryad.tm8k3")
     end
   end
 end

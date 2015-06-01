@@ -25,14 +25,14 @@ describe Reddit, type: :model, vcr: true do
     it "should catch errors with the Reddit API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://www.reddit.com/search.json?q=#{subject.get_query_string(work)}&limit=100", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Reddit API" do
@@ -50,7 +50,7 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] })
+      expect(response).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events returned by the Reddit API" do
@@ -59,25 +59,27 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
+
+      event = response[:events].first
+      expect(event[:total]).to eq(1171)
+      expect(event[:likes]).to eq(1013)
+      expect(event[:comments]).to eq(158)
+      expect(event[:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work)}")
+      expect(event[:days].length).to eq(3)
+      expect(event[:days].first).to eq(year: 2013, month: 5, day: 7, total: 1)
+      expect(event[:months].length).to eq(2)
+      expect(event[:months].first).to eq(year: 2013, month: 5, total: 2)
+
       expect(response[:works].length).to eq(3)
-      expect(response[:events][:total]).to eq(1171)
-      expect(response[:events][:likes]).to eq(1013)
-      expect(response[:events][:comments]).to eq(158)
-      expect(response[:events][:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work)}")
-      expect(response[:events][:days].length).to eq(3)
-      expect(response[:events][:days].first).to eq(year: 2013, month: 5, day: 7, total: 1)
-      expect(response[:events][:months].length).to eq(2)
-      expect(response[:events][:months].first).to eq(year: 2013, month: 5, total: 2)
+      related_work = response[:works].first
+      expect(related_work['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])
+      expect(related_work['title']).to eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
+      expect(related_work['container-title']).to eq("Reddit")
+      expect(related_work['issued']).to eq("date-parts"=>[[2013, 5, 15]])
+      expect(related_work['timestamp']).to eq("2013-05-15T17:06:24Z")
+      expect(related_work['type']).to eq("personal_communication")
 
-      event = response[:works].first
-      expect(event['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])
-      expect(event['title']).to eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
-      expect(event['container-title']).to eq("Reddit")
-      expect(event['issued']).to eq("date-parts"=>[[2013, 5, 15]])
-      expect(event['timestamp']).to eq("2013-05-15T17:06:24Z")
-      expect(event['type']).to eq("personal_communication")
-
-      extra = response[:events][:extra].first
+      extra = event[:extra].first
       expect(extra[:event_time]).to eq("2013-05-15T17:06:24Z")
       expect(extra[:event_url]).to eq(extra[:event]['url'])
       expect(extra[:event_csl]['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])

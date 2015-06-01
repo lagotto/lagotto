@@ -14,13 +14,13 @@ class SourcesController < ApplicationController
       format.js
       format.rss do
         if params[:days]
-          @retrieval_statuses = @source.retrieval_statuses.most_cited
+          @events = @source.events.most_cited
                                 .published_last_x_days(params[:days].to_i)
         elsif params[:months]
-          @retrieval_statuses = @source.retrieval_statuses.most_cited
+          @events = @source.events.most_cited
                                 .published_last_x_months(params[:months].to_i)
         else
-          @retrieval_statuses = @source.retrieval_statuses.most_cited
+          @events = @source.events.most_cited
         end
         render :show
       end

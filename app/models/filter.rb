@@ -126,7 +126,7 @@ class Filter < ActiveRecord::Base
   def raise_notifications(responses)
     responses.each do |response|
       level = response[:level] || 3
-      notification = Alert.where(class_name: name,
+      notification = Notification.where(class_name: name,
                           source_id: response[:source_id],
                           work_id: response[:work_id]).first_or_initialize
       notification.update_attributes(exception: "", level: level, message: response[:message] ? response[:message] : "An API response error occured")

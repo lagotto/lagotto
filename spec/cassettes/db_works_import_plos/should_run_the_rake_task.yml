@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.18 - http://lagotto-bugfixes.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -17,47 +17,13 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 17 Mar 2015 10:25:59 GMT
+      - Sun, 31 May 2015 03:56:42 GMT
       Server:
       - Apache-Coyote/1.1
       Last-Modified:
-      - Tue, 17 Mar 2015 10:09:56 GMT
+      - Sat, 30 May 2015 04:59:18 GMT
       Etag:
-      - '"ZDQ2ZmQwMDAwMDAwMDAwMFNvbHI="'
-      Content-Type:
-      - application/json;charset=UTF-8
-      Set-Cookie:
-      - Coyote-2-9514450c=95144521:0; path=/
-    body:
-      encoding: UTF-8
-      string: |
-        {"response":{"numFound":394,"start":0,"docs":[]}}
-    http_version: 
-  recorded_at: Tue, 17 Mar 2015 10:26:00 GMT
-- request:
-    method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 3.18 - http://lagotto-bugfixes.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Date:
-      - Tue, 17 Mar 2015 10:26:00 GMT
-      Server:
-      - Apache-Coyote/1.1
-      Last-Modified:
-      - Tue, 17 Mar 2015 10:09:56 GMT
-      Etag:
-      - '"ZDQ2ZmQwMDAwMDAwMDAwMFNvbHI="'
+      - '"OGRhMDgwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
       - application/json;charset=UTF-8
       Set-Cookie:
@@ -67,5 +33,39 @@ http_interactions:
       string: |
         {"response":{"numFound":394,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Tue, 17 Mar 2015 10:26:01 GMT
+  recorded_at: Sun, 31 May 2015 03:50:44 GMT
+- request:
+    method: get
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 31 May 2015 03:56:43 GMT
+      Server:
+      - Apache-Coyote/1.1
+      Last-Modified:
+      - Sat, 30 May 2015 04:59:18 GMT
+      Etag:
+      - '"OGRhMDgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Set-Cookie:
+      - Coyote-2-9514450c=95144522:0; path=/
+    body:
+      encoding: UTF-8
+      string: |
+        {"response":{"numFound":394,"start":0,"docs":[]}}
+    http_version: 
+  recorded_at: Sun, 31 May 2015 03:50:45 GMT
 recorded_with: VCR 2.9.3

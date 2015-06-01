@@ -58,7 +58,7 @@ class Publisher < ActiveRecord::Base
     now = Time.zone.now
 
     send("work_count=", now.utc.iso8601)
-    Source.visible.each { |source| send("work_count_by_source=", source.id, now.utc.iso8601) }
+    Source.active.each { |source| send("work_count_by_source=", source.id, now.utc.iso8601) }
 
     update_column(:cached_at, now)
   end

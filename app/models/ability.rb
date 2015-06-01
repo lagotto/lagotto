@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  # To simplify, all admin permissions are linked to the Alert resource
+  # To simplify, all admin permissions are linked to the Notification resource
 
   def initialize(user)
     user ||= User.new(:role => "anonymous") # Guest user
@@ -10,15 +10,15 @@ class Ability
       can :manage, :all
     elsif user.role == "staff"
       can :read, :all
-      # publisher-specific source configuration
-      can :update, Source do |source|
-        user.publisher && source.by_publisher?
+      # publisher-specific agent configuration
+      can :update, Agent do |agent|
+        user.publisher && agent.by_publisher?
       end
       can [:update, :show], User, :id => user.id
     elsif user.role == "user"
-      # publisher-specific source configuration
-      can :update, Source do |source|
-        user.publisher && source.by_publisher?
+      # publisher-specific agent configuration
+      can :update, Source do |agent|
+        user.publisher && agent.by_publisher?
       end
       can [:update, :show], User, :id => user.id
     else

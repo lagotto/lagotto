@@ -1,0 +1,35 @@
+<% unless Agent.visible.empty? %>
+  <% @groups.visible.each do |group| %>
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= group.title %></div>
+      <table class="table" id="<%= group.title %>Table">
+        <thead>
+          <tr>
+            <th class="name">Agent</th>
+            <th>Status</th>
+            <th class="description">Description</th>
+            <% if can?(:read, Notification) %>
+              <th class="number">Queued&nbsp;Works</th>
+              <th class="number">Stale&nbsp;Works</th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% group.agents.visible.each do |agent| %>
+            <tr>
+              <td><%= link_to agent.title, agent_path(agent) %></td>
+              <td><%= state_label(agent.human_state_name).html_safe %></td>
+              <td><%= h(agent.description) %></td>
+              <% if can?(:read, Notification) %>
+                <td class="number" id="queued_count_<%= agent.name %>"></td>
+                <td class="number" id="stale_count_<%= agent.name %>"></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+<% else %>
+  <div class="alert alert-info">No active agents found</div>
+<% end %>

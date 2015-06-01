@@ -49,8 +49,8 @@ if (query) {
                   };})
         .entries(hour_data);
 
-      var sources = d3.entries(data[0].sources);
-      var sources_title = d3.sum(sources, function(g) { return g.value; });
+      var agents = d3.entries(data[0].agents);
+      var agents_title = d3.sum(agents, function(g) { return g.value; });
 
       barViz(by_day, "#chart_works", "works_count", "days");
       barViz(by_day, "#chart_events", "events_count", "days");
@@ -61,6 +61,6 @@ if (query) {
       barViz(by_hour, "#chart_requests", "requests_count", "hours");
       barViz(by_hour, "#chart_average", "requests_average", "hours");
 
-      donutViz(sources, "#chart_sources", sources_title, "active", colors, "sources");
+      donutViz(agents, "#chart_agents", agents_title, "active", colors, "agents");
   });
 }

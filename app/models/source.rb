@@ -14,9 +14,8 @@ class Source < ActiveRecord::Base
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
-  has_many :traces, :dependent => :destroy
-  has_many :works, :through => :traces
-  has_many :deposits, :dependent => :destroy
+  has_many :events, :dependent => :destroy
+  has_many :works, :through => :events
   has_many :notifications
   belongs_to :group
 
@@ -27,10 +26,12 @@ class Source < ActiveRecord::Base
 
   scope :order_by_name, -> { order("group_id, sources.title") }
   scope :active, -> { where(active: true).order_by_name }
+  scope :eventable, -> { active.where(eventable: true) }
 
   # some sources cannot be redistributed
   scope :public_sources, -> { where(private: false) }
   scope :private_sources, -> { where(private: true) }
+  scope :accessible, ->(role) { where("private <= ?", role) }
 
   def to_param  # overridden, use name instead of id
     name
@@ -40,8 +41,48 @@ class Source < ActiveRecord::Base
     title
   end
 
-  def status
+  def state
     (active ? "active" : "inactive")
+  end
+
+  # Format events for all works as csv
+  # Show historical data if options[:format] is used
+  # options[:format] can be "html", "pdf" or "combined"
+  # options[:month] and options[:year] are the starting month and year, default to last month
+  def to_csv(options = {})
+    if ["html", "pdf", "xml", "combined"].include? options[:format]
+      view = "#{options[:name]}_#{options[:format]}_views"
+    else
+      view = options[:name]
+    end
+
+    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
+
+    result = get_result(service_url, options.merge(timeout: 1800))
+    if result.blank? || result["rows"].blank?
+      message = "CouchDB report for #{options[:name]} could not be retrieved."
+      Notification.where(message: message).where(unresolved: true).first_or_create(
+        exception: "",
+        class_name: "Faraday::ResourceNotFound",
+        source_id: id,
+        status: 404,
+        level: Notification::FATAL)
+      return ""
+    end
+
+    if view == options[:name]
+      CSV.generate do |csv|
+        csv << ["pid_type", "pid", "html", "pdf", "total"]
+        result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+      end
+    else
+      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
+
+      CSV.generate do |csv|
+        csv << ["pid_type", "pid"] + dates
+        result["rows"].each { |row| csv << ["doi", row["key"]] + dates.map { |date| row["value"][date] || 0 } }
+      end
+    end
   end
 
   def timestamp
@@ -79,7 +120,7 @@ class Source < ActiveRecord::Base
     update_column(:cached_at, now)
   end
 
-  # Remove all retrieval records for this source that have never been updated,
+  # Remove all event records for this source that have never been updated,
   # return true if all records are removed
   def remove_all_events
     rs = events.where(:retrieved_at == '1970-01-01').delete_all
@@ -93,7 +134,7 @@ class Source < ActiveRecord::Base
 
     (0...work_ids.length).step(1000) do |offset|
       ids = work_ids[offset...offset + 1000] & existing_ids
-      InsertRetrievalJob.perform_later(self, ids)
+      InsertEventJob.perform_later(self, ids)
      end
   end
 

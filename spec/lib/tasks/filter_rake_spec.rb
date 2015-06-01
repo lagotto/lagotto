@@ -10,7 +10,7 @@ describe "filter:all" do
   context "found no errors" do
 
     before do
-      FactoryGirl.create(:api_response)
+      FactoryGirl.create(:change)
       FactoryGirl.create(:decreasing_event_count_error)
     end
 
@@ -24,7 +24,7 @@ describe "filter:all" do
   context "resolve all API requests" do
 
     before do
-      FactoryGirl.create(:api_response)
+      FactoryGirl.create(:change)
     end
 
     let(:output) { "Resolved 1 API response" }
@@ -37,7 +37,7 @@ describe "filter:all" do
   context "report decreasing event count errors" do
 
     before do
-      FactoryGirl.create(:api_response, previous_total: 12)
+      FactoryGirl.create(:change, previous_total: 12)
       FactoryGirl.create(:decreasing_event_count_error)
     end
 
@@ -51,7 +51,7 @@ describe "filter:all" do
   context "report increasing event count errors" do
 
     before do
-      FactoryGirl.create(:api_response, total: 3600)
+      FactoryGirl.create(:change, total: 3600)
       FactoryGirl.create(:increasing_event_count_error)
     end
 
@@ -62,24 +62,10 @@ describe "filter:all" do
     end
   end
 
-  context "report slow API response errors" do
-
-    before do
-      FactoryGirl.create(:api_response, duration: 31000)
-      FactoryGirl.create(:api_too_slow_error)
-    end
-
-    let(:output) { "Found 1 API too slow error" }
-
-    it "should run the rake task" do
-      expect(capture_stdout { subject.invoke }).to include(output)
-    end
-  end
-
   context "report work not updated errors" do
 
     before do
-      FactoryGirl.create(:api_response, total: 0, update_interval: 42)
+      FactoryGirl.create(:change, total: 0, update_interval: 42)
       FactoryGirl.create(:work_not_updated_error)
     end
 
@@ -95,7 +81,7 @@ describe "filter:all" do
     before do
       @citeulike = FactoryGirl.create(:citeulike)
       FactoryGirl.create(:mendeley)
-      FactoryGirl.create(:api_response, source_id: @citeulike.id)
+      FactoryGirl.create(:change, source_id: @citeulike.id)
       FactoryGirl.create(:source_not_updated_error)
       FactoryGirl.create(:stale_source_report_with_admin_user)
     end
@@ -116,7 +102,7 @@ describe "filter:unresolve" do
   end
 
   before do
-    FactoryGirl.create(:api_response, unresolved: false)
+    FactoryGirl.create(:change, unresolved: false)
   end
 
   let(:output) { "Unresolved 1 API response" }

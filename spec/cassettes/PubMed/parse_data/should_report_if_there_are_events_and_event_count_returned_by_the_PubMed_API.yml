@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:35 GMT
+      - Sun, 31 May 2015 02:18:55 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,8 +31,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:35",
-         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:55",
+         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -52,16 +52,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:35 GMT
+  recorded_at: Sun, 31 May 2015 02:16:05 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.3389/fendo.2012.00005
+    uri: http://api.crossref.org/works/10.3389%2Ffendo.2012.00005
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -70,7 +70,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:36 GMT
+      - Sun, 31 May 2015 02:18:55 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -82,25 +82,27 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '860'
+      - '911'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","author":[{"family":"Morrison","given":"Shaun
-        F."},{"family":"Madden","given":"Christopher J."},{"family":"Tupone","given":"Domenico"}],"container-title":["Front.
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","author":[{"affiliation":[],"family":"Morrison","given":"Shaun
+        F."},{"affiliation":[],"family":"Madden","given":"Christopher J."},{"affiliation":[],"family":"Tupone","given":"Domenico"}],"container-title":["Front.
         Endocrin.","Frontiers in Endocrinology"],"reference-count":0,"deposited":{"date-parts":[[2015,2,18]],"timestamp":1424217600000},"title":["Central
         Control of Brown Adipose Tissue Thermogenesis"],"type":"journal-article","DOI":"10.3389\/fendo.2012.00005","ISSN":["1664-2392"],"URL":"http:\/\/dx.doi.org\/10.3389\/fendo.2012.00005","source":"CrossRef","publisher":"Frontiers
         Media SA","indexed":{"date-parts":[[2015,2,21]],"timestamp":1424477135150},"volume":"3","member":"http:\/\/id.crossref.org\/member\/1965"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:36 GMT
+  recorded_at: Sun, 31 May 2015 02:16:05 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=1976277&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=1976277&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -109,7 +111,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:37 GMT
+      - Sun, 31 May 2015 02:18:55 GMT
       Server:
       - Apache
       Content-Type:
@@ -123,8 +125,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:37",
-         "request": "email=info%40example.org;format=json;ids=1976277;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:55",
+         "request": "email=info%40example.org;format=json;ids=1976277;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC1976277",
@@ -141,16 +143,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:37 GMT
+  recorded_at: Sun, 31 May 2015 02:16:05 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1016/j.plipres.2006.11.001
+    uri: http://api.crossref.org/works/10.1016%2Fj.plipres.2006.11.001
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -159,7 +161,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:38 GMT
+      - Sun, 31 May 2015 02:18:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -171,26 +173,28 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1320'
+      - '1354'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Biochemistry","Cell
-        Biology"],"issued":{"date-parts":[[2007,3]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0163782706000634?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0163782706000634?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"family":"Steiner","given":"Alexandre
-        A."},{"family":"Romanovsky","given":"Andrej A."}],"container-title":["Progress
+        Biology"],"issued":{"date-parts":[[2007,3]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0163782706000634?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0163782706000634?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"affiliation":[],"family":"Steiner","given":"Alexandre
+        A."},{"affiliation":[],"family":"Romanovsky","given":"Andrej A."}],"container-title":["Progress
         in Lipid Research"],"reference-count":209,"page":"89-107","deposited":{"date-parts":[[2015,2,14]],"timestamp":1423872000000},"issue":"2","title":["Leptin:
         At the crossroads of energy balance and systemic inflammation"],"alternative-id":["S0163782706000634"],"type":"journal-article","DOI":"10.1016\/j.plipres.2006.11.001","ISSN":["0163-7827"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.plipres.2006.11.001","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,12]],"timestamp":1431436795803},"volume":"46","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:38 GMT
+  recorded_at: Sun, 31 May 2015 02:16:05 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2464333&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2464333&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -199,7 +203,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:38 GMT
+      - Sun, 31 May 2015 02:18:56 GMT
       Server:
       - Apache
       Content-Type:
@@ -213,8 +217,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:38",
-         "request": "email=info%40example.org;format=json;ids=2464333;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:56",
+         "request": "email=info%40example.org;format=json;ids=2464333;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2464333",
@@ -230,16 +234,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:38 GMT
+  recorded_at: Sun, 31 May 2015 02:16:06 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1113/jphysiol.2008.152686
+    uri: http://api.crossref.org/works/10.1113%2Fjphysiol.2008.152686
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -248,7 +252,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:40 GMT
+      - Sun, 31 May 2015 02:18:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -260,24 +264,26 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '920'
+      - '954'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":["Preoptic
-        local mechanism for cold defence"],"subject":["Physiology"],"issued":{"date-parts":[[2008,5,15]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1113","author":[{"family":"Nakamura","given":"Kazuhiro"},{"family":"Morrison","given":"Shaun
+        local mechanism for cold defence"],"subject":["Physiology"],"issued":{"date-parts":[[2008,5,15]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1113","author":[{"affiliation":[],"family":"Nakamura","given":"Kazuhiro"},{"affiliation":[],"family":"Morrison","given":"Shaun
         F."}],"container-title":["The Journal of Physiology"],"reference-count":31,"page":"2611-2620","deposited":{"date-parts":[[2014,12,11]],"timestamp":1418256000000},"issue":"10","title":["Preoptic
         mechanism for cold-defensive responses to skin cooling"],"type":"journal-article","DOI":"10.1113\/jphysiol.2008.152686","ISSN":["0022-3751"],"URL":"http:\/\/dx.doi.org\/10.1113\/jphysiol.2008.152686","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,2,11]],"timestamp":1423680394208},"volume":"586","member":"http:\/\/id.crossref.org\/member\/311"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:40 GMT
+  recorded_at: Sun, 31 May 2015 02:16:06 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2576030&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2576030&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -286,7 +292,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:41 GMT
+      - Sun, 31 May 2015 02:18:56 GMT
       Server:
       - Apache
       Content-Type:
@@ -300,8 +306,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:41",
-         "request": "email=info%40example.org;format=json;ids=2576030;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:56",
+         "request": "email=info%40example.org;format=json;ids=2576030;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2576030",
@@ -317,16 +323,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:41 GMT
+  recorded_at: Sun, 31 May 2015 02:16:06 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1152/japplphysiol.90619.2008
+    uri: http://api.crossref.org/works/10.1152%2Fjapplphysiol.90619.2008
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -335,7 +341,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:41 GMT
+      - Sun, 31 May 2015 02:18:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -347,27 +353,29 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1063'
+      - '1149'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Physiology","Physiology
-        (medical)"],"issued":{"date-parts":[[2008,7,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"family":"Steiner","given":"A.
-        A."},{"family":"Oliveira","given":"D. L."},{"family":"Roberts","given":"J.
-        L."},{"family":"Petersen","given":"S. R."},{"family":"Romanovsky","given":"A.
+        (medical)"],"issued":{"date-parts":[[2008,7,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"affiliation":[],"family":"Steiner","given":"A.
+        A."},{"affiliation":[],"family":"Oliveira","given":"D. L."},{"affiliation":[],"family":"Roberts","given":"J.
+        L."},{"affiliation":[],"family":"Petersen","given":"S. R."},{"affiliation":[],"family":"Romanovsky","given":"A.
         A."}],"container-title":["Journal of Applied Physiology"],"reference-count":0,"page":"1028-1034","deposited":{"date-parts":[[2011,5,12]],"timestamp":1305158400000},"issue":"4","title":["Nicotine
         administration and withdrawal affect survival in systemic inflammation models"],"type":"journal-article","DOI":"10.1152\/japplphysiol.90619.2008","ISSN":["8750-7587","1522-1601"],"URL":"http:\/\/dx.doi.org\/10.1152\/japplphysiol.90619.2008","source":"CrossRef","publisher":"American
-        Physiological Society","indexed":{"date-parts":[[2015,2,6]],"timestamp":1423233476561},"volume":"105","member":"http:\/\/id.crossref.org\/member\/24"}}'
+        Physiological Society","indexed":{"date-parts":[[2015,5,27]],"timestamp":1432761156205},"volume":"105","member":"http:\/\/id.crossref.org\/member\/24"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:42 GMT
+  recorded_at: Sun, 31 May 2015 02:16:06 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2724239&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2724239&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -376,7 +384,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:42 GMT
+      - Sun, 31 May 2015 02:18:57 GMT
       Server:
       - Apache
       Content-Type:
@@ -390,8 +398,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:42",
-         "request": "email=info%40example.org;format=json;ids=2724239;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:57",
+         "request": "email=info%40example.org;format=json;ids=2724239;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2724239",
@@ -407,16 +415,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:42 GMT
+  recorded_at: Sun, 31 May 2015 02:16:07 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1152/ajpregu.91026.2008
+    uri: http://api.crossref.org/works/10.1152%2Fajpregu.91026.2008
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -425,7 +433,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:43 GMT
+      - Sun, 31 May 2015 02:18:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -437,28 +445,31 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1217'
+      - '1371'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Physiology","Physiology
-        (medical)"],"issued":{"date-parts":[[2009,6,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"family":"Steiner","given":"A.
-        A."},{"family":"Hunter","given":"J. C."},{"family":"Phipps","given":"S. M."},{"family":"Nucci","given":"T.
-        B."},{"family":"Oliveira","given":"D. L."},{"family":"Roberts","given":"J.
-        L."},{"family":"Scheck","given":"A. C."},{"family":"Simmons","given":"D. L."},{"family":"Romanovsky","given":"A.
+        (medical)"],"issued":{"date-parts":[[2009,6,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"affiliation":[],"family":"Steiner","given":"A.
+        A."},{"affiliation":[],"family":"Hunter","given":"J. C."},{"affiliation":[],"family":"Phipps","given":"S.
+        M."},{"affiliation":[],"family":"Nucci","given":"T. B."},{"affiliation":[],"family":"Oliveira","given":"D.
+        L."},{"affiliation":[],"family":"Roberts","given":"J. L."},{"affiliation":[],"family":"Scheck","given":"A.
+        C."},{"affiliation":[],"family":"Simmons","given":"D. L."},{"affiliation":[],"family":"Romanovsky","given":"A.
         A."}],"container-title":["AJP: Regulatory, Integrative and Comparative Physiology"],"reference-count":0,"page":"R485-R494","deposited":{"date-parts":[[2009,7,21]],"timestamp":1248134400000},"issue":"2","title":["Cyclooxygenase-1
         or -2--which one mediates lipopolysaccharide-induced hypothermia?"],"type":"journal-article","DOI":"10.1152\/ajpregu.91026.2008","ISSN":["0363-6119","1522-1490"],"URL":"http:\/\/dx.doi.org\/10.1152\/ajpregu.91026.2008","source":"CrossRef","publisher":"American
-        Physiological Society","indexed":{"date-parts":[[2015,2,5]],"timestamp":1423163822158},"volume":"297","member":"http:\/\/id.crossref.org\/member\/24"}}'
+        Physiological Society","indexed":{"date-parts":[[2015,5,27]],"timestamp":1432706676394},"volume":"297","member":"http:\/\/id.crossref.org\/member\/24"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:43 GMT
+  recorded_at: Sun, 31 May 2015 02:16:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2763780&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2763780&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -467,7 +478,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:44 GMT
+      - Sun, 31 May 2015 02:18:57 GMT
       Server:
       - Apache
       Content-Type:
@@ -481,8 +492,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:44",
-         "request": "email=info%40example.org;format=json;ids=2763780;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:57",
+         "request": "email=info%40example.org;format=json;ids=2763780;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2763780",
@@ -498,16 +509,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:44 GMT
+  recorded_at: Sun, 31 May 2015 02:16:07 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1124/pr.109.001263
+    uri: http://api.crossref.org/works/10.1124%2Fpr.109.001263
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -516,7 +527,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:45 GMT
+      - Sun, 31 May 2015 02:18:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -528,30 +539,32 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1213'
+      - '1367'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Molecular
-        Medicine","Pharmacology"],"issued":{"date-parts":[[2009,9,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1124","author":[{"family":"Romanovsky","given":"A.
-        A."},{"family":"Almeida","given":"M. C."},{"family":"Garami","given":"A."},{"family":"Steiner","given":"A.
-        A."},{"family":"Norman","given":"M. H."},{"family":"Morrison","given":"S.
-        F."},{"family":"Nakamura","given":"K."},{"family":"Burmeister","given":"J.
-        J."},{"family":"Nucci","given":"T. B."}],"container-title":["Pharmacological
+        Medicine","Pharmacology"],"issued":{"date-parts":[[2009,9,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1124","author":[{"affiliation":[],"family":"Romanovsky","given":"A.
+        A."},{"affiliation":[],"family":"Almeida","given":"M. C."},{"affiliation":[],"family":"Garami","given":"A."},{"affiliation":[],"family":"Steiner","given":"A.
+        A."},{"affiliation":[],"family":"Norman","given":"M. H."},{"affiliation":[],"family":"Morrison","given":"S.
+        F."},{"affiliation":[],"family":"Nakamura","given":"K."},{"affiliation":[],"family":"Burmeister","given":"J.
+        J."},{"affiliation":[],"family":"Nucci","given":"T. B."}],"container-title":["Pharmacological
         Reviews"],"reference-count":0,"page":"228-261","deposited":{"date-parts":[[2011,8,15]],"timestamp":1313366400000},"issue":"3","title":["The
         Transient Receptor Potential Vanilloid-1 Channel in Thermoregulation: A Thermosensor
         It Is Not"],"type":"journal-article","DOI":"10.1124\/pr.109.001263","ISSN":["0031-6997"],"URL":"http:\/\/dx.doi.org\/10.1124\/pr.109.001263","source":"CrossRef","publisher":"American
-        Society for Pharmacology & Experimental Therapeutics (ASPET)","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423325316254},"volume":"61","member":"http:\/\/id.crossref.org\/member\/36"}}'
+        Society for Pharmacology & Experimental Therapeutics (ASPET)","indexed":{"date-parts":[[2015,5,28]],"timestamp":1432819556009},"volume":"61","member":"http:\/\/id.crossref.org\/member\/36"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:45 GMT
+  recorded_at: Sun, 31 May 2015 02:16:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2782675&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2782675&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -560,7 +573,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:45 GMT
+      - Sun, 31 May 2015 02:18:58 GMT
       Server:
       - Apache
       Content-Type:
@@ -574,8 +587,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:45",
-         "request": "email=info%40example.org;format=json;ids=2782675;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:58",
+         "request": "email=info%40example.org;format=json;ids=2782675;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2782675",
@@ -592,16 +605,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:45 GMT
+  recorded_at: Sun, 31 May 2015 02:16:08 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1523/JNEUROSCI.2643-09.2009
+    uri: http://api.crossref.org/works/10.1523%2FJNEUROSCI.2643-09.2009
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -610,7 +623,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:46 GMT
+      - Sun, 31 May 2015 02:18:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -622,24 +635,26 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '970'
+      - '1056'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Neuroscience(all)"],"issued":{"date-parts":[[2009,9,23]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1523","author":[{"family":"Yoshida","given":"K."},{"family":"Li","given":"X."},{"family":"Cano","given":"G."},{"family":"Lazarus","given":"M."},{"family":"Saper","given":"C.
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Neuroscience(all)"],"issued":{"date-parts":[[2009,9,23]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1523","author":[{"affiliation":[],"family":"Yoshida","given":"K."},{"affiliation":[],"family":"Li","given":"X."},{"affiliation":[],"family":"Cano","given":"G."},{"affiliation":[],"family":"Lazarus","given":"M."},{"affiliation":[],"family":"Saper","given":"C.
         B."}],"container-title":["Journal of Neuroscience"],"reference-count":0,"page":"11954-11964","deposited":{"date-parts":[[2011,7,19]],"timestamp":1311033600000},"issue":"38","title":["Parallel
         Preoptic Pathways for Thermoregulation"],"type":"journal-article","DOI":"10.1523\/jneurosci.2643-09.2009","ISSN":["0270-6474","1529-2401"],"URL":"http:\/\/dx.doi.org\/10.1523\/jneurosci.2643-09.2009","source":"CrossRef","publisher":"Society
-        for Neuroscience","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423274379397},"volume":"29","member":"http:\/\/id.crossref.org\/member\/393"}}'
+        for Neuroscience","indexed":{"date-parts":[[2015,5,28]],"timestamp":1432787059263},"volume":"29","member":"http:\/\/id.crossref.org\/member\/393"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:46 GMT
+  recorded_at: Sun, 31 May 2015 02:16:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2824913&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2824913&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -648,7 +663,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:47 GMT
+      - Sun, 31 May 2015 02:18:58 GMT
       Server:
       - Apache
       Content-Type:
@@ -662,8 +677,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:47",
-         "request": "email=info%40example.org;format=json;ids=2824913;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:58",
+         "request": "email=info%40example.org;format=json;ids=2824913;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2824913",
@@ -680,16 +695,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:47 GMT
+  recorded_at: Sun, 31 May 2015 02:16:08 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1523/JNEUROSCI.5150-09.2010
+    uri: http://api.crossref.org/works/10.1523%2FJNEUROSCI.5150-09.2010
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -698,7 +713,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:48 GMT
+      - Sun, 31 May 2015 02:18:59 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -710,26 +725,28 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1066'
+      - '1169'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Neuroscience(all)"],"issued":{"date-parts":[[2010,1,27]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1523","author":[{"family":"Garami","given":"A."},{"family":"Shimansky","given":"Y.
-        P."},{"family":"Pakai","given":"E."},{"family":"Oliveira","given":"D. L."},{"family":"Gavva","given":"N.
-        R."},{"family":"Romanovsky","given":"A. A."}],"container-title":["Journal
-        of Neuroscience"],"reference-count":0,"page":"1435-1440","deposited":{"date-parts":[[2011,7,1]],"timestamp":1309478400000},"issue":"4","title":["Contributions
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Neuroscience(all)"],"issued":{"date-parts":[[2010,1,27]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1523","author":[{"affiliation":[],"family":"Garami","given":"A."},{"affiliation":[],"family":"Shimansky","given":"Y.
+        P."},{"affiliation":[],"family":"Pakai","given":"E."},{"affiliation":[],"family":"Oliveira","given":"D.
+        L."},{"affiliation":[],"family":"Gavva","given":"N. R."},{"affiliation":[],"family":"Romanovsky","given":"A.
+        A."}],"container-title":["Journal of Neuroscience"],"reference-count":0,"page":"1435-1440","deposited":{"date-parts":[[2011,7,1]],"timestamp":1309478400000},"issue":"4","title":["Contributions
         of Different Modes of TRPV1 Activation to TRPV1 Antagonist-Induced Hyperthermia"],"type":"journal-article","DOI":"10.1523\/jneurosci.5150-09.2010","ISSN":["0270-6474","1529-2401"],"URL":"http:\/\/dx.doi.org\/10.1523\/jneurosci.5150-09.2010","source":"CrossRef","publisher":"Society
-        for Neuroscience","indexed":{"date-parts":[[2015,2,7]],"timestamp":1423330964066},"volume":"30","member":"http:\/\/id.crossref.org\/member\/393"}}'
+        for Neuroscience","indexed":{"date-parts":[[2015,5,28]],"timestamp":1432835806062},"volume":"30","member":"http:\/\/id.crossref.org\/member\/393"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:48 GMT
+  recorded_at: Sun, 31 May 2015 02:16:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2886697&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=2886697&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -738,7 +755,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:49 GMT
+      - Sun, 31 May 2015 02:18:59 GMT
       Server:
       - Apache
       Content-Type:
@@ -752,8 +769,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:49",
-         "request": "email=info%40example.org;format=json;ids=2886697;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:59",
+         "request": "email=info%40example.org;format=json;ids=2886697;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC2886697",
@@ -769,16 +786,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:49 GMT
+  recorded_at: Sun, 31 May 2015 02:16:09 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1152/ajpregu.00158.2010
+    uri: http://api.crossref.org/works/10.1152%2Fajpregu.00158.2010
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -787,7 +804,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:49 GMT
+      - Sun, 31 May 2015 02:18:59 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -799,27 +816,30 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1114'
+      - '1200'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Physiology","Physiology
-        (medical)"],"issued":{"date-parts":[[2010,4,14]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"family":"Krall","given":"C.
-        M."},{"family":"Yao","given":"X."},{"family":"Hass","given":"M. A."},{"family":"Feleder","given":"C."},{"family":"Steiner","given":"A.
+        (medical)"],"issued":{"date-parts":[[2010,4,14]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"affiliation":[],"family":"Krall","given":"C.
+        M."},{"affiliation":[],"family":"Yao","given":"X."},{"affiliation":[],"family":"Hass","given":"M.
+        A."},{"affiliation":[],"family":"Feleder","given":"C."},{"affiliation":[],"family":"Steiner","given":"A.
         A."}],"container-title":["AJP: Regulatory, Integrative and Comparative Physiology"],"reference-count":0,"page":"R1512-R1521","deposited":{"date-parts":[[2012,2,28]],"timestamp":1330387200000},"issue":"6","title":["Food
         deprivation alters thermoregulatory responses to lipopolysaccharide by enhancing
         cryogenic inflammatory signaling via prostaglandin D2"],"type":"journal-article","DOI":"10.1152\/ajpregu.00158.2010","ISSN":["0363-6119","1522-1490"],"URL":"http:\/\/dx.doi.org\/10.1152\/ajpregu.00158.2010","source":"CrossRef","publisher":"American
-        Physiological Society","indexed":{"date-parts":[[2015,2,8]],"timestamp":1423431613471},"volume":"298","member":"http:\/\/id.crossref.org\/member\/24"}}'
+        Physiological Society","indexed":{"date-parts":[[2015,5,28]],"timestamp":1432849901524},"volume":"298","member":"http:\/\/id.crossref.org\/member\/24"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:49 GMT
+  recorded_at: Sun, 31 May 2015 02:16:09 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3051412&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3051412&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -828,7 +848,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:50 GMT
+      - Sun, 31 May 2015 02:18:59 GMT
       Server:
       - Apache
       Content-Type:
@@ -842,8 +862,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:50",
-         "request": "email=info%40example.org;format=json;ids=3051412;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:18:59",
+         "request": "email=info%40example.org;format=json;ids=3051412;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC3051412",
@@ -859,7 +879,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:50 GMT
+  recorded_at: Sun, 31 May 2015 02:16:09 GMT
 - request:
     method: get
     uri: http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ext_id:21196160&format=json
@@ -868,7 +888,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -879,29 +899,29 @@ http_interactions:
       Server:
       - Apache-Coyote/1.1
       Set-Cookie:
-      - JSESSIONID=72927A56B31D9104C6C0AD0979633BE3; Path=/europepmc/webservices
+      - JSESSIONID=280D23813BE5E6DA41DBDC1FDFC061DA; Path=/europepmc/webservices
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Sat, 16 May 2015 23:32:51 GMT
+      - Sun, 31 May 2015 02:19:02 GMT
     body:
       encoding: UTF-8
       string: '{"version":"4.1","hitCount":1,"request":{"resultType":"LITE","synonym":false,"query":"ext_id:21196160","page":1},"resultList":{"result":[{"id":"21196160","source":"MED","pmid":"21196160","pmcid":"PMC3051412","title":"Central
         neural pathways for thermoregulation.","authorString":"Morrison SF, Nakamura
         K.","journalTitle":"Front Biosci (Landmark Ed)","journalVolume":"16","pubYear":"2011","journalIssn":"1093-4715","pageInfo":"74-104","pubType":"journal
         article; review; research support, non-u.s. gov''t; research support, n.i.h.,
-        extramural; research-article","isOpenAccess":"N","inEPMC":"Y","inPMC":"Y","citedByCount":62,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"N","hasLabsLinks":"N","hasTMAccessionNumbers":"N","luceneScore":"17566.812","doi":"10.2741/3677"}]}}'
+        extramural; research-article","isOpenAccess":"N","inEPMC":"Y","inPMC":"Y","citedByCount":63,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"N","hasLabsLinks":"N","hasTMAccessionNumbers":"N","luceneScore":"17140.408","doi":"10.2741/3677"}]}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:51 GMT
+  recorded_at: Sun, 31 May 2015 02:16:12 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3098654&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3098654&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -910,7 +930,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:52 GMT
+      - Sun, 31 May 2015 02:19:03 GMT
       Server:
       - Apache
       Content-Type:
@@ -924,8 +944,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:52",
-         "request": "email=info%40example.org;format=json;ids=3098654;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:19:03",
+         "request": "email=info%40example.org;format=json;ids=3098654;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC3098654",
@@ -941,16 +961,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:52 GMT
+  recorded_at: Sun, 31 May 2015 02:16:12 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1152/japplphysiol.01227.2010
+    uri: http://api.crossref.org/works/10.1152%2Fjapplphysiol.01227.2010
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -959,7 +979,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:53 GMT
+      - Sun, 31 May 2015 02:19:03 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -971,26 +991,28 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '985'
+      - '1003'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Physiology","Physiology
-        (medical)"],"issued":{"date-parts":[[2011,1,26]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"family":"Morrison","given":"S.
+        (medical)"],"issued":{"date-parts":[[2011,1,26]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1152","author":[{"affiliation":[],"family":"Morrison","given":"S.
         F."}],"container-title":["Journal of Applied Physiology"],"reference-count":0,"page":"1137-1149","deposited":{"date-parts":[[2011,5,11]],"timestamp":1305072000000},"issue":"5","title":["2010
         Carl Ludwig Distinguished Lectureship of the APS Neural Control and Autonomic
         Regulation Section: Central neural pathways for thermoregulatory cold defense"],"type":"journal-article","DOI":"10.1152\/japplphysiol.01227.2010","ISSN":["8750-7587","1522-1601"],"URL":"http:\/\/dx.doi.org\/10.1152\/japplphysiol.01227.2010","source":"CrossRef","publisher":"American
-        Physiological Society","indexed":{"date-parts":[[2015,2,6]],"timestamp":1423230748215},"volume":"110","member":"http:\/\/id.crossref.org\/member\/24"}}'
+        Physiological Society","indexed":{"date-parts":[[2015,5,27]],"timestamp":1432759746928},"volume":"110","member":"http:\/\/id.crossref.org\/member\/24"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:53 GMT
+  recorded_at: Sun, 31 May 2015 02:16:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3098711&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3098711&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -999,7 +1021,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:54 GMT
+      - Sun, 31 May 2015 02:19:03 GMT
       Server:
       - Apache
       Content-Type:
@@ -1013,8 +1035,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:54",
-         "request": "email=info%40example.org;format=json;ids=3098711;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:19:03",
+         "request": "email=info%40example.org;format=json;ids=3098711;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC3098711",
@@ -1030,16 +1052,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:54 GMT
+  recorded_at: Sun, 31 May 2015 02:16:13 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1113/jphysiol.2010.202465
+    uri: http://api.crossref.org/works/10.1113%2Fjphysiol.2010.202465
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -1048,7 +1070,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:55 GMT
+      - Sun, 31 May 2015 02:19:04 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1060,30 +1082,32 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1464'
+      - '1685'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":["Endocannabinoid
-        receptors in lipopolysaccharide hypothermia"],"subject":["Physiology"],"issued":{"date-parts":[[2011,4,27]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1113","author":[{"family":"Steiner","given":"Alexandre
-        A."},{"family":"Molchanova","given":"Alla Y."},{"family":"Dogan","given":"M.
-        Devrim"},{"family":"Patel","given":"Shreya"},{"family":"P\u00e9terv\u00e1ri","given":"Erika"},{"family":"Balask\u00f3","given":"M\u00e1rta"},{"family":"Wanner","given":"Samuel
-        P."},{"family":"Eales","given":"Justin"},{"family":"Oliveira","given":"Daniela
-        L."},{"family":"Gavva","given":"Narender R."},{"family":"Almeida","given":"M.
-        Camila"},{"family":"Sz\u00e9kely","given":"Mikl\u00f3s"},{"family":"Romanovsky","given":"Andrej
+        receptors in lipopolysaccharide hypothermia"],"subject":["Physiology"],"issued":{"date-parts":[[2011,4,27]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1113","author":[{"affiliation":[],"family":"Steiner","given":"Alexandre
+        A."},{"affiliation":[],"family":"Molchanova","given":"Alla Y."},{"affiliation":[],"family":"Dogan","given":"M.
+        Devrim"},{"affiliation":[],"family":"Patel","given":"Shreya"},{"affiliation":[],"family":"P\u00e9terv\u00e1ri","given":"Erika"},{"affiliation":[],"family":"Balask\u00f3","given":"M\u00e1rta"},{"affiliation":[],"family":"Wanner","given":"Samuel
+        P."},{"affiliation":[],"family":"Eales","given":"Justin"},{"affiliation":[],"family":"Oliveira","given":"Daniela
+        L."},{"affiliation":[],"family":"Gavva","given":"Narender R."},{"affiliation":[],"family":"Almeida","given":"M.
+        Camila"},{"affiliation":[],"family":"Sz\u00e9kely","given":"Mikl\u00f3s"},{"affiliation":[],"family":"Romanovsky","given":"Andrej
         A."}],"container-title":["The Journal of Physiology"],"reference-count":115,"page":"2415-2431","deposited":{"date-parts":[[2014,12,11]],"timestamp":1418256000000},"issue":"9","title":["The
         hypothermic response to bacterial lipopolysaccharide critically depends on
         brain CB1, but not CB2 or TRPV1, receptors"],"type":"journal-article","DOI":"10.1113\/jphysiol.2010.202465","ISSN":["0022-3751"],"URL":"http:\/\/dx.doi.org\/10.1113\/jphysiol.2010.202465","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,2,11]],"timestamp":1423680585243},"volume":"589","member":"http:\/\/id.crossref.org\/member\/311"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:55 GMT
+  recorded_at: Sun, 31 May 2015 02:16:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-0-stable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-4-2-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -1092,7 +1116,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:55 GMT
+      - Sun, 31 May 2015 02:19:04 GMT
       Server:
       - Apache
       Content-Type:
@@ -1106,8 +1130,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-05-16 19:32:55",
-         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-0-stable.local",
+         "responseDate": "2015-05-30 22:19:04",
+         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -1127,16 +1151,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:56 GMT
+  recorded_at: Sun, 31 May 2015 02:16:13 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.3389/fendo.2012.00005
+    uri: http://api.crossref.org/works/10.3389%2Ffendo.2012.00005
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-4-0-stable.local
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
       Accept:
       - application/json
   response:
@@ -1145,7 +1169,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 16 May 2015 23:32:56 GMT
+      - Sun, 31 May 2015 02:19:04 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1157,14 +1181,16 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '860'
+      - '911'
+      Connection:
+      - keep-alive
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","author":[{"family":"Morrison","given":"Shaun
-        F."},{"family":"Madden","given":"Christopher J."},{"family":"Tupone","given":"Domenico"}],"container-title":["Front.
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","author":[{"affiliation":[],"family":"Morrison","given":"Shaun
+        F."},{"affiliation":[],"family":"Madden","given":"Christopher J."},{"affiliation":[],"family":"Tupone","given":"Domenico"}],"container-title":["Front.
         Endocrin.","Frontiers in Endocrinology"],"reference-count":0,"deposited":{"date-parts":[[2015,2,18]],"timestamp":1424217600000},"title":["Central
         Control of Brown Adipose Tissue Thermogenesis"],"type":"journal-article","DOI":"10.3389\/fendo.2012.00005","ISSN":["1664-2392"],"URL":"http:\/\/dx.doi.org\/10.3389\/fendo.2012.00005","source":"CrossRef","publisher":"Frontiers
         Media SA","indexed":{"date-parts":[[2015,2,21]],"timestamp":1424477135150},"volume":"3","member":"http:\/\/id.crossref.org\/member\/1965"}}'
     http_version: 
-  recorded_at: Sat, 16 May 2015 23:32:57 GMT
+  recorded_at: Sun, 31 May 2015 02:16:14 GMT
 recorded_with: VCR 2.9.3

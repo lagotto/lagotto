@@ -1,7 +1,7 @@
 class Month < ActiveRecord::Base
   belongs_to :source
   belongs_to :work
-  belongs_to :retrieval_status
+  belongs_to :event
 
   default_scope { order("year, month") }
 

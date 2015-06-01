@@ -37,14 +37,14 @@ describe ArticleCoverage, type: :model, vcr: true do
 
     it "should catch timeout errors with the Article Coverage API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://mediacuration.plos.org/api/v1?doi=#{work.doi_escaped}&state=all", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -52,7 +52,7 @@ describe ArticleCoverage, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: { source: "article_coverage", work: work.pid, comments: 0, total: 0, extra: [] })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "article_coverage", work_id: work.pid, comments: 0, total: 0, extra: [] }])
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
@@ -65,17 +65,21 @@ describe ArticleCoverage, type: :model, vcr: true do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "article_coverage", work: work.pid, comments: 0, total: 0, extra: [] })
+      expect(response).to eq(events: [{ source_id: "article_coverage", work_id: work.pid, comments: 0, total: 0, extra: [] }])
     end
 
     it "should report if there are events returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(2)
-      expect(response[:events][:comments]).to eq(2)
 
-      extra = response[:events][:extra].first
+      event = response[:events].first
+      expect(event[:source_id]).to eq("article_coverage")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(2)
+      expect(event[:comments]).to eq(2)
+
+      extra = event[:extra].first
       expect(extra[:event_time]).to eq("2013-11-20T00:00:00Z")
       expect(extra[:event_url]).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
 

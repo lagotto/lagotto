@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.plosreports.org/services/rest?doi=10.1371/journal.pone.0116034&method=usage.stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 31 May 2015 08:45:36 GMT
+      Server:
+      - Apache/2.2.3 (CentOS)
+      X-Powered-By:
+      - PHP/5.1.6
+      Set-Cookie:
+      - SESSe0e030a9f1159c52333478ef6a3cc2c9=lvuc0vmkgeugblc6jkjbattc34; expires=Tue,
+        23 Jun 2015 12:18:56 GMT; path=/; domain=.plosreports.org
+      Expires:
+      - Sun, 19 Nov 1978 05:00:00 GMT
+      Last-Modified:
+      - Sun, 31 May 2015 08:45:36 GMT
+      Cache-Control:
+      - store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Content-Length:
+      - '986'
+      Content-Type:
+      - text/xml
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <rest generator="xml_writer" version="1.0"><status>success</status><response><criteria><year>all</year><month>all</month><journal>all</journal><doi>10.1371/journal.pone.0116034</doi></criteria><results><total><total>165</total></total><item id="0"><year>2014</year><month>12</month><get-document>70</get-document><get-pdf>11</get-pdf><get-xml>9</get-xml></item><item id="1"><year>2015</year><month>1</month><get-document>23</get-document><get-pdf>6</get-pdf><get-xml>1</get-xml></item><item id="2"><year>2015</year><month>2</month><get-document>7</get-document><get-pdf>2</get-pdf></item><item id="3"><year>2015</year><month>3</month><get-document>15</get-document><get-pdf>3</get-pdf></item><item id="4"><year>2015</year><month>4</month><get-document>7</get-document><get-pdf>2</get-pdf><get-xml>1</get-xml></item><item id="5"><year>2015</year><month>5</month><get-document>7</get-document><get-pdf>1</get-pdf></item></results></response></rest>
+    http_version: 
+  recorded_at: Sun, 31 May 2015 02:09:10 GMT
+recorded_with: VCR 2.9.3

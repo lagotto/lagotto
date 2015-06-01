@@ -39,10 +39,10 @@ class Agent < ActiveRecord::Base
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken] }
 
-  has_many :retrieval_statuses, :dependent => :destroy
+  has_many :tasks, :dependent => :destroy
   has_many :months
   has_many :days
-  has_many :works, :through => :retrieval_statuses
+  has_many :works, :through => :tasks
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
   has_many :notifications
@@ -62,12 +62,12 @@ class Agent < ActiveRecord::Base
   validates :staleness_month, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :staleness_year, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :staleness_all, :numericality => { :only_integer => true, :greater_than => 0 }
-  validate :validate_cron_line_format, if: Proc.new { |source| source.cron_line.present? }
+  validate :validate_cron_line_format, if: Proc.new { |agent| agent.cron_line.present? }
 
-  # filter sources by state
+  # filter agents by state
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :by_states, ->(state) { where("state > ?", state) }
-  scope :order_by_title, -> { order("group_id, sources.title") }
+  scope :order_by_title, -> { order("group_id, agents.title") }
 
   scope :available, -> { by_state(0).order_by_title }
   scope :retired, -> { by_state(1).order_by_title }
@@ -82,10 +82,6 @@ class Agent < ActiveRecord::Base
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
   scope :queueable, -> { active.where(queueable: true) }
-  scope :eventable, -> { visible.where(eventable: true) }
-
-  # some sources cannot be redistributed
-  scope :accessible, ->(role) { where("private <= ?", role) }
 
   def to_param  # overridden, use name instead of id
     name
@@ -93,7 +89,7 @@ class Agent < ActiveRecord::Base
 
   def remove_queues
     # delete_jobs(name)
-    retrieval_statuses.update_all(queued_at: nil)
+    tasks.update_all(queued_at: nil)
   end
 
   def queue_all_works(options = {})
@@ -101,34 +97,37 @@ class Agent < ActiveRecord::Base
 
     # find works that need to be updated.
     # Tracked, not queued currently, scheduled_at doesn't matter
-    rs = retrieval_statuses.tracked
+    t = tasks
+    t = Task.none if t.nil?
+
+    t = t.tracked
 
     # optionally limit to works scheduled_at in the past
-    rs = rs.stale unless options[:all]
+    t = t.stale unless options[:all]
 
     # optionally limit by publication date
     if options[:start_date] && options[:end_date]
-      rs = rs.joins(:work).where("works.published_on" => options[:start_date]..options[:end_date])
+      t = t.joins(:work).where("works.published_on" => options[:start_date]..options[:end_date])
     end
 
-    rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
-    count = queue_work_jobs(rs)
+    ids = t.order("tasks.id").pluck("tasks.id")
+    count = queue_work_jobs(ids)
   end
 
-  def queue_work_jobs(rs, options = {})
+  def queue_work_jobs(ids, options = {})
     return 0 unless active?
 
-    if rs.length == 0
+    if ids.length == 0
       wait
       return 0
     end
 
-    rs.each_slice(job_batch_size) do |rs_ids|
-      RetrievalStatus.where("id in (?)", rs_ids).update_all(queued_at: Time.zone.now)
-      SourceJob.set(queue: queue, wait_until: schedule_at).perform_later(rs_ids, self)
+    ids.each_slice(job_batch_size) do |_ids|
+      Task.where("id in (?)", _ids).update_all(queued_at: Time.zone.now)
+      AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(_ids, self)
     end
 
-    rs.length
+    ids.length
   end
 
   def last_response
@@ -139,13 +138,13 @@ class Agent < ActiveRecord::Base
     last_response + batch_interval
   end
 
-  # disable source if more than max_failed_queries (default: 200) in 24 hrs
+  # disable agent if more than max_failed_queries (default: 200) in 24 hrs
   def check_for_failures
-    failed_queries = Alert.where("source_id = ? AND level > 1 AND updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
+    failed_queries = Notification.where("agent_id = ? AND level > 1 AND updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
 
-  # disable source if rate_limiting reached
+  # disable agent if rate_limiting reached
   def check_for_rate_limits
     rate_limit_remaining < 10
   end
@@ -196,9 +195,9 @@ class Agent < ActiveRecord::Base
     metrics = get_metrics(options[:metrics] => related_works.length)
 
     { works: related_works,
-      events: {
-        source: name,
-        work: work.pid,
+      events: [{
+        source_id: name,
+        work_id: work.pid,
         pdf: metrics[:pdf],
         html: metrics[:html],
         readers: metrics[:readers],
@@ -208,7 +207,7 @@ class Agent < ActiveRecord::Base
         events_url: events_url,
         extra: extra,
         days: get_events_by_day(related_works, work, options),
-        months: get_events_by_month(related_works, options) }.compact }
+        months: get_events_by_month(related_works, options) }.compact] }
   end
 
   def get_events_by_day(events, work, options={})
@@ -327,9 +326,9 @@ class Agent < ActiveRecord::Base
     return 0 unless active?
 
     # find works that need to be imported.
-    rs = retrieval_statuses
+    rs = tasks
 
-    rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
+    rs = rs.order("tasks.id").pluck("tasks.id")
     count = queue_import_jobs(rs)
   end
 
@@ -348,101 +347,34 @@ class Agent < ActiveRecord::Base
     rs.length
   end
 
-  # Format events for all works as csv
-  # Show historical data if options[:format] is used
-  # options[:format] can be "html", "pdf" or "combined"
-  # options[:month] and options[:year] are the starting month and year, default to last month
-  def to_csv(options = {})
-    if ["html", "pdf", "xml", "combined"].include? options[:format]
-      view = "#{options[:name]}_#{options[:format]}_views"
-    else
-      view = options[:name]
-    end
-
-    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
-
-    result = get_result(service_url, options.merge(timeout: 1800))
-    if result.blank? || result["rows"].blank?
-      message = "CouchDB report for #{options[:name]} could not be retrieved."
-      Alert.where(message: message).where(unresolved: true).first_or_create(
-        exception: "",
-        class_name: "Faraday::ResourceNotFound",
-        source_id: id,
-        status: 404,
-        level: Alert::FATAL)
-      return ""
-    end
-
-    if view == options[:name]
-      CSV.generate do |csv|
-        csv << ["pid_type", "pid", "html", "pdf", "total"]
-        result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
-      end
-    else
-      dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
-
-      CSV.generate do |csv|
-        csv << ["pid_type", "pid"] + dates
-        result["rows"].each { |row| csv << ["doi", row["key"]] + dates.map { |date| row["value"][date] || 0 } }
-      end
-    end
-  end
-
   def timestamp
     cached_at.utc.iso8601
   end
 
   def cache_key
-    "source/#{name}-#{timestamp}"
+    "agent/#{name}-#{timestamp}"
   end
 
-  def update_cache
-    CacheJob.perform_later(self)
-  end
-
-  def write_cache
-    # update cache_key as last step so that we have the old version until we are done
-    now = Time.zone.now
-
-    # loop through cached attributes we want to update
-    [:event_count,
-     :work_count,
-     :queued_count,
-     :stale_count,
-     :refreshed_count,
-     :response_count,
-     :average_count,
-     :maximum_count,
-     :with_events_by_day_count,
-     :without_events_by_day_count,
-     :not_updated_by_day_count,
-     :with_events_by_month_count,
-     :without_events_by_month_count,
-     :not_updated_by_month_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
-
-    update_column(:cached_at, now)
-  end
-
-  # Remove all retrieval records for this source that have never been updated,
+  # Remove all task records for this agent that have never been updated,
   # return true if all records are removed
-  def remove_all_retrievals
-    rs = retrieval_statuses.where(:retrieved_at == '1970-01-01').delete_all
-    retrieval_statuses.count == 0
+  def remove_all_tasks
+    t = tasks.where(:retrieved_at == '1970-01-01').delete_all
+    t.nil? || t.count == 0
   end
 
-  # Create an empty retrieval record for every work for the new source
-  def create_retrievals
+  # Create an empty event record for every work for the new agent
+  def create_tasks
     work_ids = Work.pluck(:id)
-    existing_ids = RetrievalStatus.where(:source_id => id).pluck(:work_id)
+    existing_ids = Task.where(:agent_id => id).pluck(:work_id)
 
     (0...work_ids.length).step(1000) do |offset|
       ids = work_ids[offset...offset + 1000] & existing_ids
-      InsertRetrievalJob.perform_later(self, ids)
+      InsertTaskJob.perform_later(self, ids)
      end
   end
 
-  def insert_retrievals(ids = [])
-    sql = "insert into retrieval_statuses (work_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from works"
+  def insert_tasks(ids = [])
+    sql = "insert into tasks (work_id, agent_id, created_at, updated_at) select id, #{id}, now(), now() from works"
     sql += " where works.id not in (#{work_ids.join(',')})" unless ids.empty?
     ActiveRecord::Base.connection.execute sql
   end

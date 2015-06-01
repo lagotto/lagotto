@@ -24,14 +24,14 @@ describe Openedition, type: :model, vcr: true do
     it "should catch errors with the Openedition API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -42,7 +42,7 @@ describe Openedition, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "openedition", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Openedition API" do
@@ -50,7 +50,7 @@ describe Openedition, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "openedition", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are events returned by the Openedition API" do
@@ -59,23 +59,27 @@ describe Openedition, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(1)
-      expect(response[:events][:total]).to eq(1)
-      expect(response[:events][:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
-      expect(response[:events][:days].length).to eq(1)
-      expect(response[:events][:days].first).to eq(year: 2013, month: 5, day: 27, total: 1)
-      expect(response[:events][:months].length).to eq(1)
-      expect(response[:events][:months].first).to eq(year: 2013, month: 5, total: 1)
 
-      event = response[:works].first
-      expect(event['URL']).to eq("http://ruedesfacs.hypotheses.org/?p=1666")
-      expect(event['author']).to eq([{"family"=>"Ruedesfacs", "given"=>""}])
-      expect(event['title']).to eq("Saartjie Baartman : la Vénus Hottentote")
-      expect(event['container-title']).to be_nil
-      expect(event['issued']).to eq("date-parts"=>[[2013, 5, 27]])
-      expect(event['timestamp']).to eq("2013-05-27T00:00:00Z")
-      expect(event['type']).to eq("post")
-      expect(event['related_works']).to eq([{"related_work"=>"doi:10.2307/683422", "source"=>"openedition", "relation_type"=>"discusses"}])
+      event = response[:events].first
+      expect(event[:source_id]).to eq("openedition")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(1)
+      expect(event[:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
+      expect(event[:days].length).to eq(1)
+      expect(event[:days].first).to eq(year: 2013, month: 5, day: 27, total: 1)
+      expect(event[:months].length).to eq(1)
+      expect(event[:months].first).to eq(year: 2013, month: 5, total: 1)
+
+      expect(response[:works].length).to eq(1)
+      related_work = response[:works].first
+      expect(related_work['URL']).to eq("http://ruedesfacs.hypotheses.org/?p=1666")
+      expect(related_work['author']).to eq([{"family"=>"Ruedesfacs", "given"=>""}])
+      expect(related_work['title']).to eq("Saartjie Baartman : la Vénus Hottentote")
+      expect(related_work['container-title']).to be_nil
+      expect(related_work['issued']).to eq("date-parts"=>[[2013, 5, 27]])
+      expect(related_work['timestamp']).to eq("2013-05-27T00:00:00Z")
+      expect(related_work['type']).to eq("post")
+      expect(related_work['related_works']).to eq([{"related_work"=>"doi:10.2307/683422", "source"=>"openedition", "relation_type"=>"discusses"}])
     end
 
     it "should catch timeout errors with the OpenEdition APi" do

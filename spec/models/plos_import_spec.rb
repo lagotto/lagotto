@@ -67,10 +67,10 @@ describe PlosImport, type: :model, vcr: true do
       expect(response).to eq(error: "the server responded with status 408 for http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D%2Bdoc_type%3Afull&q=%2A%3A%2A&rows=1000&start=0&wt=json", status: 408)
       expect(stub).to have_been_requested
 
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
     end
   end
 
@@ -130,7 +130,7 @@ describe PlosImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(29)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with one existing work" do
@@ -141,7 +141,7 @@ describe PlosImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(29)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with missing title" do
@@ -152,11 +152,11 @@ describe PlosImport, type: :model, vcr: true do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(28)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.1371/journal.pone.0075114.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.1371/journal.pone.0075114")
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
+      expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.1371/journal.pone.0075114.")
+      expect(notification.target_url).to eq("http://dx.doi.org/10.1371/journal.pone.0075114")
     end
   end
 end

@@ -12,7 +12,7 @@
             <small class="pull-right">active</small>
           <% end %>
         </div>
-        <% if can?(:manage, Alert) && @filter && @filter.id == filter.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
+        <% if can?(:manage, Notification) && @filter && @filter.id == filter.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
           <div id="filter_<%= filter.id %>" class="panel-collapse collapse.in">
             <div class="panel-body">
               <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => filter_path(@filter), :html => { :remote => true }) do |f| %>
@@ -48,7 +48,7 @@
         <% else %>
           <div id="filter_<%= filter.id %>" class="panel-collapse collapse">
             <div class="panel-body">
-              <% if can?(:manage, Alert) %>
+              <% if can?(:manage, Notification) %>
                 <div class="btn-toolbar pull-right">
                   <% unless filter.get_config_fields.empty? %>
                     <div class="btn-group btn-group-sm">

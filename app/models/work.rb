@@ -20,9 +20,10 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher, primary_key: :member_id
   belongs_to :work_type
-  has_many :retrieval_statuses, :dependent => :destroy
-  has_many :sources, :through => :retrieval_statuses
-  has_many :alerts, :dependent => :destroy
+  has_many :tasks, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :sources, :through => :events
+  has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations
   has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation', :dependent => :destroy
@@ -39,15 +40,15 @@ class Work < ActiveRecord::Base
   validate :validate_published_on
 
   before_validation :sanitize_title, :normalize_url, :set_pid
-  after_create :create_retrievals, if: :tracked
+  after_create :create_events, if: :tracked
 
   scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:retrieval_statuses)
-    .where("retrieval_statuses.total > ?", 0)
-    .references(:retrieval_statuses) }
-  scope :by_source, ->(source_id) { joins(:retrieval_statuses)
-    .where("retrieval_statuses.source_id = ?", source_id) }
+  scope :has_events, -> { includes(:events)
+    .where("events.total > ?", 0)
+    .references(:events) }
+  scope :by_source, ->(source_id) { joins(:events)
+    .where("events.source_id = ?", source_id) }
   scope :tracked, -> { where("works.tracked = ?", true) }
 
   serialize :csl, JSON
@@ -84,7 +85,7 @@ class Work < ActiveRecord::Base
         message = "#{e.message} for url #{target_url}."
       end
 
-      Alert.where(message: message).where(unresolved: true).first_or_create(
+      Notification.where(message: message).where(unresolved: true).first_or_create(
         :exception => "",
         :class_name => "ActiveRecord::RecordInvalid",
         :target_url => target_url)
@@ -129,7 +130,7 @@ class Work < ActiveRecord::Base
   end
 
   def events_count
-    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.total }
+    @events_count ||= events.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -390,10 +391,10 @@ class Work < ActiveRecord::Base
     end
   end
 
-  def create_retrievals
-    # Create an empty retrieval record for every installed source for the new work
-    Source.installed.each do |source|
-      RetrievalStatus.where(work_id: id, source_id: source.id).first_or_create
+  def create_events
+    # Create an empty event record for every installed source for the new work
+    Source.all.each do |source|
+      Event.where(work_id: id, source_id: source.id).first_or_create
     end
   end
 end

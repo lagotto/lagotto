@@ -40,7 +40,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
     let!(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pcbi.1000204") }
     let(:csv) { subject.to_csv }
     let(:filename) { "alm_stats" }
-    let(:mendeley) { FactoryGirl.create(:mendeley) }
+    let(:source) { FactoryGirl.create(:source, :mendeley) }
 
     it "should write report file" do
       filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
@@ -64,7 +64,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
         stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
         filename = "mendeley_stats"
         filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
-        csv = mendeley.to_csv
+        csv = source.to_csv
         subject.write("#{filename}.csv", csv)
 
         response = CSV.parse(subject.merge_stats)
@@ -123,12 +123,12 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
       report.send_error_report
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to include("<a href=\"http://#{ENV['SERVERNAME']}/alerts\">Go to admin dashboard</a>")
+      expect(body_html).to include("<a href=\"http://#{ENV['SERVERNAME']}/notifications\">Go to admin dashboard</a>")
     end
   end
 
   context "stale source report" do
-    let(:source) { FactoryGirl.create(:citeulike) }
+    let(:source) { FactoryGirl.create(:source) }
     let(:source_ids) { [source.id] }
     let(:report) { FactoryGirl.create(:stale_source_report_with_admin_user) }
 
@@ -150,7 +150,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
       report.send_stale_source_report(source_ids)
       mail = ActionMailer::Base.deliveries.last
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
-      expect(body_html).to include("<a href=\"http://#{ENV['SERVERNAME']}/alerts?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
+      expect(body_html).to include("<a href=\"http://#{ENV['SERVERNAME']}/notifications?class=SourceNotUpdatedError\">Go to admin dashboard</a>")
     end
   end
 end

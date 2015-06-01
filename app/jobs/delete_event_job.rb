@@ -8,7 +8,7 @@ class DeleteEventJob < ActiveJob::Base
     source.relations.destroy_all
 
     # reset metrics to zero and delete all
-    source.retrieval_statuses.update_all(total: 0, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0)
+    source.events.update_all(total: 0, pdf: 0, html: 0, readers: 0, comments: 0, likes: 0)
     source.months.destroy_all
     source.days.destroy_all
     source.write_cache

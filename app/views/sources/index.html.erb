@@ -5,11 +5,11 @@
 
   <ul class="nav nav-pills" id="nav_index">
     <li class="active"><a href="#summary" id="summary-pill" data-toggle="tab" title="Summary">Summary</a></li>
-    <% if can?(:read, Alert) %>
+    <% if can?(:read, Notification) %>
       <li><a href="#responses" id="responses-pill" data-toggle="tab" title="Responses">Responses</a></li>
     <% end %>
     <li><a href="#events" id="events-pill" data-toggle="tab" title="Events">Events</a></li>
-    <% if can?(:read, Alert) %>
+    <% if can?(:read, Notification) %>
       <li><a href="#installation" id="installation-pill"  data-toggle="tab" title="Installation">Installation</a></li>
     <% end %>
   </ul>
@@ -18,7 +18,7 @@
     <div class="tab-pane active" id="summary">
       <%= render :partial => 'summary' %>
     </div>
-    <% if can?(:read, Alert) %>
+    <% if can?(:read, Notification) %>
       <div class="tab-pane" id="responses">
         <%= render :partial => 'responses' %>
       </div>
@@ -26,7 +26,7 @@
     <div class="tab-pane" id="events">
       <%= render :partial => 'events' %>
     </div>
-    <% if can?(:read, Alert) %>
+    <% if can?(:read, Notification) %>
       <div class="tab-pane" id="installation">
         <%= render :partial => 'installation' %>
       </div>

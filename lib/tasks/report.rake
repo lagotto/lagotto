@@ -38,7 +38,7 @@ namespace :report do
     filename = "mendeley_stats.csv"
 
     # check that source is installed
-    source = Source.visible.where(name: "mendeley").first
+    source = Source.active.where(name: "mendeley").first
     next if source.nil?
 
     csv = source.to_csv
@@ -61,7 +61,7 @@ namespace :report do
     end
 
     # check that source is installed
-    source = Source.visible.where(name: "pmc").first
+    source = Source.active.where(name: "pmc").first
     next if source.nil?
 
     csv = source.to_csv(name: "pmc", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
@@ -123,7 +123,7 @@ namespace :report do
     end
 
     # check that source is installed
-    source = Source.visible.where(name: "counter").first
+    source = Source.active.where(name: "counter").first
     next if source.nil?
 
     csv = source.to_csv(name: "counter", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])

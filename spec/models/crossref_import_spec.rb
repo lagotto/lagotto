@@ -91,10 +91,10 @@ describe CrossrefImport, type: :model, vcr: true do
       expect(response).to eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-05%2Cuntil-pub-date%3A2013-09-05&offset=0&rows=1000", status: 408)
       expect(stub).to have_been_requested
 
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
     end
   end
 
@@ -196,7 +196,7 @@ describe CrossrefImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(10)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with one existing work" do
@@ -207,7 +207,7 @@ describe CrossrefImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(10)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with missing title" do
@@ -218,11 +218,11 @@ describe CrossrefImport, type: :model, vcr: true do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(9)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.1787/gen_papers-v2008-art6-en")
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
+      expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
+      expect(notification.target_url).to eq("http://dx.doi.org/10.1787/gen_papers-v2008-art6-en")
     end
   end
 end

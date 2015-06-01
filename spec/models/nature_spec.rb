@@ -27,14 +27,14 @@ describe Nature, type: :model, vcr: true do
     it "should catch timeout errors with the Nature Blogs API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -42,33 +42,38 @@ describe Nature, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "nature", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "nature", work: work.pid, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are events returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(10)
-      expect(response[:events][:days].length).to eq(10)
-      expect(response[:events][:days].first).to eq(year: 2009, month: 9, day: 18, total: 1)
-      expect(response[:events][:months].length).to eq(9)
-      expect(response[:events][:months].first).to eq(year: 2009, month: 9, total: 1)
 
-      event = response[:works].first
-      expect(event['URL']).to eq("http://bjoern.brembs.net/news.php?item.854.5")
-      expect(event['author']).to be_nil
-      expect(event['title']).to eq("More Impact Factor spam from Nature")
-      expect(event['container-title']).to eq("bjoern.brembs.blog : a neuroscientist's blog")
-      expect(event['issued']).to eq("date-parts"=>[[2012, 6, 19]])
-      expect(event['type']).to eq("post")
+      event = response[:events].first
+      expect(event[:source_id]).to eq("nature")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(10)
+      expect(event[:days].length).to eq(10)
+      expect(event[:days].first).to eq(year: 2009, month: 9, day: 18, total: 1)
+      expect(event[:months].length).to eq(9)
+      expect(event[:months].first).to eq(year: 2009, month: 9, total: 1)
+
+      related_work = response[:works].first
+      expect(related_work['URL']).to eq("http://bjoern.brembs.net/news.php?item.854.5")
+      expect(related_work['author']).to be_nil
+      expect(related_work['title']).to eq("More Impact Factor spam from Nature")
+      expect(related_work['container-title']).to eq("bjoern.brembs.blog : a neuroscientist's blog")
+      expect(related_work['issued']).to eq("date-parts"=>[[2012, 6, 19]])
+      expect(related_work['type']).to eq("post")
+      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"nature", "relation_type"=>"discusses"}])
     end
 
     it "should catch timeout errors with the Nature Blogs APi" do

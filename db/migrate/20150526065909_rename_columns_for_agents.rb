@@ -3,7 +3,7 @@ class RenameColumnsForAgents < ActiveRecord::Migration
     rename_column :publisher_options, :source_id, :agent_id
 
     create_table "changes", force: true do |t|
-      t.integer  "article_id"
+      t.integer  "work_id"
       t.integer  "source_id"
       t.integer  "trace_id"
       t.integer  "total"

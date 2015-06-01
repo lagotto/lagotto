@@ -45,14 +45,14 @@ describe NatureOpensearch, type: :model, vcr: true do
 
     it "should catch errors with the Nature OpenSearch API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://www.nature.com/opensearch/request?query=%22#{work.canonical_url}%22&httpAccept=application/json&startRecord=1", status: 408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -60,13 +60,13 @@ describe NatureOpensearch, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "nature_opensearch", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Nature OpenSearch API" do
       body = File.read(fixture_path + 'nature_opensearch_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "nature_opensearch", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
@@ -74,21 +74,25 @@ describe NatureOpensearch, type: :model, vcr: true do
       body = File.read(fixture_path + 'nature_opensearch.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(7)
-      expect(response[:events][:total]).to eq(7)
-      expect(response[:events][:days].length).to eq(0)
-      expect(response[:events][:months].length).to eq(5)
-      expect(response[:events][:months].first).to eq(year: 2013, month: 8, total: 1)
 
-      event = response[:works].last
-      expect(event['author']).to eq([{"family"=>"Patro", "given"=>"Rob"}, {"family"=>"Mount", "given"=>"Stephen M"}, {"family"=>"Kingsford", "given"=>"Carl"}])
-      expect(event['title']).to eq("Sailfish enables alignment-free isoform quantification from RNA-seq reads using lightweight algorithms")
-      expect(event['container-title']).to eq("Nature Biotechnology")
-      expect(event['issued']).to eq("date-parts"=>[[2014, 4, 20]])
-      expect(event['timestamp']).to eq("2014-04-20T00:00:00Z")
-      expect(event['DOI']).to eq("10.1038/nbt.2862")
-      expect(event['URL']).to eq("http://dx.doi.org/10.1038/nbt.2862")
-      expect(event['type']).to eq("article-journal")
+      event = response[:events].first
+      expect(event[:source_id]).to eq("nature_opensearch")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(7)
+      expect(event[:days].length).to eq(0)
+      expect(event[:months].length).to eq(5)
+      expect(event[:months].first).to eq(year: 2013, month: 8, total: 1)
+
+      expect(response[:works].length).to eq(7)
+      related_work = response[:works].last
+      expect(related_work['author']).to eq([{"family"=>"Patro", "given"=>"Rob"}, {"family"=>"Mount", "given"=>"Stephen M"}, {"family"=>"Kingsford", "given"=>"Carl"}])
+      expect(related_work['title']).to eq("Sailfish enables alignment-free isoform quantification from RNA-seq reads using lightweight algorithms")
+      expect(related_work['container-title']).to eq("Nature Biotechnology")
+      expect(related_work['issued']).to eq("date-parts"=>[[2014, 4, 20]])
+      expect(related_work['timestamp']).to eq("2014-04-20T00:00:00Z")
+      expect(related_work['DOI']).to eq("10.1038/nbt.2862")
+      expect(related_work['URL']).to eq("http://dx.doi.org/10.1038/nbt.2862")
+      expect(related_work['type']).to eq("article-journal")
     end
 
     it "should catch timeout errors with the Nature OpenSearch API" do

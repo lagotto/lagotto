@@ -20,10 +20,10 @@ module Networkable
       else
         response = conn.get url, {}, options[:headers]
       end
-      # set number of available API calls for sources
-      if options[:source_id].present?
-        source = Source.where(id: options[:source_id]).first
-        source.update_attributes(rate_limit_remaining: get_rate_limit_remaining(response.headers),
+      # set number of available API calls for agents
+      if options[:agent_id].present?
+        agent = Agent.where(id: options[:agent_id]).first
+        agent.update_attributes(rate_limit_remaining: get_rate_limit_remaining(response.headers),
                                  rate_limit_reset: get_rate_limit_reset(response.headers))
       end
       # parsing by content type is not reliable, so we check the response format
@@ -49,7 +49,7 @@ module Networkable
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     rescue => exception
-      options[:level] = Alert::FATAL
+      options[:level] = Notification::FATAL
       create_notification(exception, options)
     end
 
@@ -63,7 +63,7 @@ module Networkable
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     rescue => exception
-      options[:level] = Alert::FATAL
+      options[:level] = Notification::FATAL
       create_notification(exception, options)
     end
 
@@ -121,7 +121,7 @@ module Networkable
         message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
         message = "#{message}. Rate-limit #{get_rate_limit_limit(headers)} exceeded." if class_name == Net::HTTPTooManyRequests
 
-        Alert.where(message: message).where(unresolved: true).first_or_create(
+        Notification.where(message: message).where(unresolved: true).first_or_create(
           exception: exception,
           class_name: class_name.to_s,
           details: details,
@@ -129,7 +129,7 @@ module Networkable
           target_url: url,
           level: level,
           work_id: options[:work_id],
-          source_id: options[:source_id])
+          agent_id: options[:agent_id])
 
         { error: message, status: status }
       end
@@ -146,7 +146,7 @@ module Networkable
         else
           message = "DOI #{work.doi} could not be resolved"
         end
-        Alert.where(message: message).where(unresolved: true).first_or_create(
+        Notification.where(message: message).where(unresolved: true).first_or_create(
           exception: error.exception,
           class_name: "Net::HTTPNotFound",
           details: error.response[:body],
@@ -224,12 +224,12 @@ module Networkable
     end
 
     def create_notification(exception, options = {})
-      Alert.where(message: exception.message).where(unresolved: true).first_or_create(
+      Notification.where(message: exception.message).where(unresolved: true).first_or_create(
         :exception => exception,
         :class_name => exception.class.to_s,
         :status => options[:status] || 500,
         :level => options[:level],
-        :source_id => options[:source_id])
+        :agent_id => options[:agent_id])
       nil
     end
   end

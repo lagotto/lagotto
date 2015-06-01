@@ -32,15 +32,15 @@ module Repoable
       events_url = total > 0 ? get_events_url(work) : nil
 
       { works: related_works,
-        events: {
-          source: name,
-          work: work.pid,
+        events: [{
+          source_id: name,
+          work_id: work.pid,
           readers: readers,
           total: total,
           events_url: events_url,
           extra: extra,
           days: get_events_by_day(related_works, work, options.merge(metrics: :readers)),
-          months: get_events_by_month(related_works, options.merge(metrics: :readers)) }.compact }
+          months: get_events_by_month(related_works, options.merge(metrics: :readers)) }.compact] }
     end
 
     def get_related_works(result, work)

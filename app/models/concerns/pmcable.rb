@@ -33,13 +33,13 @@ module Pmcable
       events_url = total > 0 ? get_events_url(work) : nil
 
     { works: related_works,
-      events: {
-        source: name,
-        work: work.pid,
+      events: [{
+        source_id: name,
+        work_id: work.pid,
         total: total,
         events_url: events_url,
         days: get_events_by_day(related_works, work),
-        months: get_events_by_month(related_works) } }
+        months: get_events_by_month(related_works) }] }
     end
 
     def get_related_works(result, work)

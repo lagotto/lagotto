@@ -11,14 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526070604) do
+ActiveRecord::Schema.define(version: 20150531043035) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 255,                                   null: false
     t.string   "name",        limit: 255,                                   null: false
     t.string   "title",       limit: 255,                                   null: false
+    t.text     "description", limit: 65535
     t.string   "kind",        limit: 255,   default: "work"
-    t.string   "source",      limit: 255,                                   null: false
+    t.string   "source_id",   limit: 255,                                   null: false
     t.integer  "state",       limit: 4,     default: 0
     t.string   "state_event", limit: 255
     t.text     "config",      limit: 65535
@@ -60,7 +61,7 @@ ActiveRecord::Schema.define(version: 20150526070604) do
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
 
   create_table "changes", force: :cascade do |t|
-    t.integer  "article_id",      limit: 4
+    t.integer  "work_id",         limit: 4
     t.integer  "source_id",       limit: 4
     t.integer  "trace_id",        limit: 4
     t.integer  "total",           limit: 4
@@ -82,24 +83,38 @@ ActiveRecord::Schema.define(version: 20150526070604) do
   end
 
   create_table "days", force: :cascade do |t|
-    t.integer  "work_id",             limit: 4,             null: false
-    t.integer  "source_id",           limit: 4,             null: false
-    t.integer  "retrieval_status_id", limit: 4,             null: false
-    t.integer  "year",                limit: 4,             null: false
-    t.integer  "month",               limit: 4,             null: false
-    t.integer  "day",                 limit: 4,             null: false
-    t.integer  "total",               limit: 4, default: 0, null: false
-    t.integer  "html",                limit: 4, default: 0, null: false
-    t.integer  "pdf",                 limit: 4, default: 0, null: false
-    t.integer  "comments",            limit: 4, default: 0, null: false
-    t.integer  "likes",               limit: 4, default: 0, null: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.integer  "readers",             limit: 4, default: 0, null: false
+    t.integer  "work_id",    limit: 4,             null: false
+    t.integer  "source_id",  limit: 4,             null: false
+    t.integer  "event_id",   limit: 4,             null: false
+    t.integer  "year",       limit: 4,             null: false
+    t.integer  "month",      limit: 4,             null: false
+    t.integer  "day",        limit: 4,             null: false
+    t.integer  "total",      limit: 4, default: 0, null: false
+    t.integer  "html",       limit: 4, default: 0, null: false
+    t.integer  "pdf",        limit: 4, default: 0, null: false
+    t.integer  "comments",   limit: 4, default: 0, null: false
+    t.integer  "likes",      limit: 4, default: 0, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "readers",    limit: 4, default: 0, null: false
   end
 
-  add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
+  add_index "days", ["event_id", "year", "month", "day"], name: "index_days_on_event_id_and_year_and_month_and_day", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
+
+  create_table "deposits", force: :cascade do |t|
+    t.text     "uuid",         limit: 65535,                null: false
+    t.string   "message_type", limit: 255,                  null: false
+    t.text     "message",      limit: 16777215
+    t.string   "source_token", limit: 255
+    t.text     "callback",     limit: 65535
+    t.integer  "state",        limit: 4,        default: 0
+    t.string   "state_event",  limit: 255
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
+
+  add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.integer  "work_id",      limit: 4,                                        null: false
@@ -146,22 +161,22 @@ ActiveRecord::Schema.define(version: 20150526070604) do
   end
 
   create_table "months", force: :cascade do |t|
-    t.integer  "work_id",             limit: 4,             null: false
-    t.integer  "source_id",           limit: 4,             null: false
-    t.integer  "retrieval_status_id", limit: 4,             null: false
-    t.integer  "year",                limit: 4,             null: false
-    t.integer  "month",               limit: 4,             null: false
-    t.integer  "total",               limit: 4, default: 0, null: false
-    t.integer  "html",                limit: 4, default: 0, null: false
-    t.integer  "pdf",                 limit: 4, default: 0, null: false
-    t.integer  "comments",            limit: 4, default: 0, null: false
-    t.integer  "likes",               limit: 4, default: 0, null: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.integer  "readers",             limit: 4, default: 0, null: false
+    t.integer  "work_id",    limit: 4,             null: false
+    t.integer  "source_id",  limit: 4,             null: false
+    t.integer  "event_id",   limit: 4,             null: false
+    t.integer  "year",       limit: 4,             null: false
+    t.integer  "month",      limit: 4,             null: false
+    t.integer  "total",      limit: 4, default: 0, null: false
+    t.integer  "html",       limit: 4, default: 0, null: false
+    t.integer  "pdf",        limit: 4, default: 0, null: false
+    t.integer  "comments",   limit: 4, default: 0, null: false
+    t.integer  "likes",      limit: 4, default: 0, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "readers",    limit: 4, default: 0, null: false
   end
 
-  add_index "months", ["retrieval_status_id", "year", "month"], name: "index_months_on_retrieval_status_id_and_year_and_month", using: :btree
+  add_index "months", ["event_id", "year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
 
@@ -291,22 +306,22 @@ ActiveRecord::Schema.define(version: 20150526070604) do
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
 
   create_table "status", force: :cascade do |t|
-    t.integer  "works_count",            limit: 4,   default: 0
-    t.integer  "works_new_count",        limit: 4,   default: 0
-    t.integer  "events_count",           limit: 4,   default: 0
-    t.integer  "responses_count",        limit: 4,   default: 0
-    t.integer  "requests_count",         limit: 4,   default: 0
-    t.integer  "requests_average",       limit: 4,   default: 0
-    t.integer  "alerts_count",           limit: 4,   default: 0
-    t.integer  "sources_working_count",  limit: 4,   default: 0
-    t.integer  "sources_waiting_count",  limit: 4,   default: 0
-    t.integer  "sources_disabled_count", limit: 4,   default: 0
-    t.integer  "db_size",                limit: 8,   default: 0
-    t.string   "version",                limit: 255
-    t.string   "current_version",        limit: 255
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.string   "uuid",                   limit: 255
+    t.integer  "works_count",           limit: 4,   default: 0
+    t.integer  "works_new_count",       limit: 4,   default: 0
+    t.integer  "events_count",          limit: 4,   default: 0
+    t.integer  "responses_count",       limit: 4,   default: 0
+    t.integer  "requests_count",        limit: 4,   default: 0
+    t.integer  "requests_average",      limit: 4,   default: 0
+    t.integer  "notifications_count",   limit: 4,   default: 0
+    t.integer  "agents_working_count",  limit: 4,   default: 0
+    t.integer  "agents_waiting_count",  limit: 4,   default: 0
+    t.integer  "agents_disabled_count", limit: 4,   default: 0
+    t.integer  "db_size",               limit: 8,   default: 0
+    t.string   "version",               limit: 255
+    t.string   "current_version",       limit: 255
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.string   "uuid",                  limit: 255
   end
 
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree

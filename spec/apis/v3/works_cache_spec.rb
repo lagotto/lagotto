@@ -31,7 +31,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"][:total].to_i).to eql(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
     end
@@ -57,7 +57,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"][:total].to_i).to eql(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -116,7 +116,7 @@ describe "/api/v3/articles", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(total: total)
+        work.events.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
@@ -163,8 +163,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
 
         summary_uri = "#{uri}&info=summary"

@@ -19,7 +19,7 @@ class Report < ActiveRecord::Base
 
   # Generate CSV with event counts for all works and installed sources
   def self.to_csv(options = {})
-    sources = Source.installed
+    sources = Source.active
     sources = sources.where(:private => false) unless options[:include_private_sources]
 
     results = self.from_sql(sources: sources)
@@ -35,7 +35,7 @@ class Report < ActiveRecord::Base
     options[:sources].each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.total END) AS #{source.name}"
     end
-    sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
+    sql += " FROM works w LEFT JOIN events rs ON w.id = rs.work_id GROUP BY w.id"
     sanitized_sql = sanitize_sql_for_conditions(sql)
     results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
   end

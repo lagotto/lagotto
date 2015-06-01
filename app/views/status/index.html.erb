@@ -25,10 +25,10 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="panel <%= @current_status.sources_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">
-      <div class="panel-heading">Sources</div>
-      <div class="panel-body panel-chart" id="chart_sources">
-        <div class="text-muted" id="chart_sources-loading">Loading … <%= image_tag "spinner.gif" %></div>
+    <div class="panel <%= @current_status.agents_disabled_count > 0 ? 'panel-warning' : 'panel-default' %>">
+      <div class="panel-heading">Agents</div>
+      <div class="panel-body panel-chart" id="chart_agents">
+        <div class="text-muted" id="chart_agents-loading">Loading … <%= image_tag "spinner.gif" %></div>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@
   </div>
 </div>
 
-<% if can?(:read, Alert) %>
+<% if can?(:read, Notification) %>
   <div class="row">
     <div class="col-md-4">
       <div class="panel <%= @current_status.notifications_count > 0 ? 'panel-default' : 'panel-success' %>">
@@ -117,7 +117,7 @@
           </thead>
           <tbody>
             <tr>
-            <% if can?(:manage, Alert) %>
+            <% if can?(:manage, Notification) %>
               <td class="jobs"><%= link_to_if @process.stats.processed > 0, number_with_delimiter(@process.stats.processed), sidekiq_web_path, target: "_blank" %></td>
               <td class="jobs"><%= link_to_if @process.stats.failed > 0, number_with_delimiter(@process.stats.failed), sidekiq_web_path, target: "_blank" %></td>
               <td class="jobs"><%= link_to_if @process.workers_size > 0, number_with_delimiter(@process.workers_size), "/sidekiq/busy", target: "_blank" %></td>

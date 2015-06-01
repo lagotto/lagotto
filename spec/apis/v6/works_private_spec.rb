@@ -21,7 +21,7 @@ describe "/api/v6/works", :type => :api do
         item = response["works"].first
         expect(item["DOI"]).to eq(work.doi)
         expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(item["events"]["citeulike"]).to eq(work.retrieval_statuses.first.total)
+        expect(item["events"]["citeulike"]).to eq(work.events.first.total)
       end
     end
 
@@ -38,7 +38,7 @@ describe "/api/v6/works", :type => :api do
         item = response["works"].first
         expect(item["DOI"]).to eq(work.doi)
         expect(item["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(item["events"]["citeulike"]).to eq(work.retrieval_statuses.first.total)
+        expect(item["events"]["citeulike"]).to eq(work.events.first.total)
       end
     end
 

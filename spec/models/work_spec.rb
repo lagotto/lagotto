@@ -6,7 +6,7 @@ describe Work, type: :model, vcr: true do
 
   subject { work }
 
-  it { is_expected.to have_many(:retrieval_statuses).dependent(:destroy) }
+  it { is_expected.to have_many(:events).dependent(:destroy) }
   it { is_expected.to validate_uniqueness_of(:doi) }
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
@@ -257,7 +257,7 @@ describe Work, type: :model, vcr: true do
 
   it "events count" do
     Work.all.each do |work|
-      total = work.retrieval_statuses.reduce(0) { |sum, rs| sum + rs.event_count }
+      total = work.events.reduce(0) { |sum, rs| sum + rs.event_count }
       expect(total).to eq(work.events_count)
     end
   end
@@ -298,17 +298,17 @@ describe Work, type: :model, vcr: true do
   end
 
   context "associations" do
-    it "should create associated retrieval_statuses" do
-      expect(RetrievalStatus.count).to eq(0)
+    it "should create associated events" do
+      expect(Event.count).to eq(0)
       @works = FactoryGirl.create_list(:work_with_events, 2)
-      expect(RetrievalStatus.count).to eq(4)
+      expect(Event.count).to eq(4)
     end
 
-    it "should delete associated retrieval_statuses" do
+    it "should delete associated events" do
       @works = FactoryGirl.create_list(:work_with_events, 2)
-      expect(RetrievalStatus.count).to eq(4)
+      expect(Event.count).to eq(4)
       @works.each(&:destroy)
-      expect(RetrievalStatus.count).to eq(0)
+      expect(Event.count).to eq(0)
     end
   end
 end
