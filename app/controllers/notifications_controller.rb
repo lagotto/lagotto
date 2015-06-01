@@ -1,7 +1,7 @@
 class NotificationsController < ApplicationController
   before_filter :load_notification, only: [:destroy]
-  load_and_authorize_reagent
-  skip_authorize_reagent :only => [:create, :routing_error]
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:create, :routing_error]
 
   def index
     @servers = ENV['SERVERS'].split(",")
