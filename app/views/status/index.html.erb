@@ -66,7 +66,7 @@
   </div>
   <div class="col-md-4">
     <div class="panel <%= @current_status.notifications_count > 0 ? 'panel-default' : 'panel-success' %>">
-      <div class="panel-heading">Unresolved notifications <small class="pull-right">last day</small></div>
+      <div class="panel-heading">Unresolved notifications</div>
       <div class="panel-body panel-chart">
         <h2 class="graphs">
           <% if can?(:read, Notification) %>
