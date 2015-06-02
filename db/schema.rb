@@ -324,7 +324,7 @@ ActiveRecord::Schema.define(version: 20150602022135) do
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
     t.string   "uuid",                  limit: 255
-    t.integer  "deposits_count",        limit: 4
+    t.integer  "deposits_count",        limit: 4,   default: 0
   end
 
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree

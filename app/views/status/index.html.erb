@@ -52,10 +52,10 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="panel <%= @current_status.deposits_count > 0 ? 'panel-default' : 'panel-warning' %>">
+    <div class="panel <%= @current_status.deposits_count.to_i > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Processed deposits <small class="pull-right">last hour</small></div>
       <div class="panel-body panel-chart">
-        <h2 class="graphs"><%= number_with_delimiter(@current_status.deposits_count) %></h2>
+        <h2 class="graphs"><%= number_with_delimiter(@current_status.deposits_count.to_i) %></h2>
         <div class="graphs" id="chart_deposits"></div>
         <div class="text-muted" id="chart_deposits-loading">Loading … <%= image_tag "spinner.gif" %></div>
       </div>
