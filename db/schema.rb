@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150601092304) do
+ActiveRecord::Schema.define(version: 20150602022135) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 255,                                   null: false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150601092304) do
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
+    t.string   "uuid",        limit: 255
   end
 
   create_table "api_requests", force: :cascade do |t|
@@ -323,6 +324,7 @@ ActiveRecord::Schema.define(version: 20150601092304) do
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
     t.string   "uuid",                  limit: 255
+    t.integer  "deposits_count",        limit: 4
   end
 
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree
