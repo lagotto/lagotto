@@ -1,5 +1,8 @@
 <div class="page-header">
-  <h1 id="api_key" data-api_key="<%= current_user && current_user.api_key %>">Status <small id="timestamp"><%= date_from_iso8601(@current_status.timestamp) + ' UTC' %></small></h1>
+  <h1 id="api_key" data-api_key="<%= current_user && current_user.api_key %>">
+    Status <small id="timestamp"><%= date_from_iso8601(@current_status.timestamp) + ' UTC' %></small>
+    <span class="pull-right">Lagotto <%= @current_status.version %></span>
+  </h1>
 </div>
 
 <div class="content">
