@@ -44,6 +44,7 @@ if (query) {
         .key(function(d) { return d.timestamp.substr(0,13); })
         .rollup(function(leaves) {
           return { "responses_count": d3.max(leaves, function(d) { return d.responses_count;}),
+                   "deposits_count": d3.max(leaves, function(d) { return d.deposits_count;}),
                    "requests_count": d3.max(leaves, function(d) { return d.requests_count;}),
                    "requests_average": d3.mean(leaves, function(d) { return d.requests_average;}),
                   };})
@@ -58,6 +59,7 @@ if (query) {
       barViz(by_day, "#chart_db_size", "db_size", "days");
 
       barViz(by_hour, "#chart_responses", "responses_count", "hours");
+      barViz(by_hour, "#chart_deposits", "deposits_count", "hours");
       barViz(by_hour, "#chart_requests", "requests_count", "hours");
       barViz(by_hour, "#chart_average", "requests_average", "hours");
 

@@ -21,10 +21,11 @@ class Status < ActiveRecord::Base
     self.works_new_count = Work.tracked.last_x_days(0).count
     self.events_count = Event.joins(:source).where("sources.active = ?", true)
       .where("name != ?", "relativemetric").sum(:total)
-    self.responses_count = Change.total(1).count
+    self.responses_count = ApiResponse.total(1).count
     self.requests_count = ApiRequest.total(1).count
     self.requests_average = ApiRequest.total(1).average("duration").to_i
     self.notifications_count = Notification.total_errors(0).count
+    self.deposits_count = Deposit.done.total(1).count
     self.db_size = get_db_size
     self.agents_working_count = Agent.working.count
     self.agents_waiting_count = Agent.waiting.count

@@ -34,6 +34,15 @@ class Deposit < ActiveRecord::Base
   validates :message_type, presence: true
   validates :message, presence: true
 
+  scope :by_state, ->(state) { where("state = ?", state) }
+  scope :order_by_date, -> { order("updated_at DESC") }
+
+  scope :waiting, -> { by_state(0).order_by_date }
+  scope :working, -> { by_state(1).order_by_date }
+  scope :failed, -> { by_state(2).order_by_date }
+  scope :done, -> { by_state(3).order_by_date }
+  scope :total, ->(duration) { where(updated_at: (Time.zone.now.beginning_of_hour - duration.hours)..Time.zone.now.beginning_of_hour) }
+
   def self.per_page
     1000
   end
