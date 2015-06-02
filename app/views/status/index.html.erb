@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1 id="api_key" data-api_key="<%= current_user && current_user.api_key %>">
-    Status <small id="timestamp"><%= date_from_iso8601(@current_status.timestamp) + ' UTC' %></small>
-    <span class="pull-right">Lagotto <%= @current_status.version %></span>
+    Status <small id="timestamp"><%= date_from_iso8601(@current_status.timestamp) + ' UTC' %>
+    <span class="pull-right"><%= link_to "Lagotto " + @current_status.version, "https://github.com/articlemetrics/lagotto/releases" %></span></small>
   </h1>
 </div>
 
