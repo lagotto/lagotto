@@ -21,25 +21,33 @@ class PlosImport < Agent
     total = result.fetch("response", {}).fetch("numFound", 0)
   end
 
-  def get_data(options={})
+  def queue_jobs(options={})
+    return 0 unless active?
+
     query_url = get_query_url(options.merge(rows: 0))
     result = get_result(query_url, options)
     total = result.fetch("response", {}).fetch("numFound", 0)
 
-    # walk through paginated results
-    total_pages = (total.to_f / job_batch_size).ceil
+    if total > 0
+      # walk through paginated results
+      total_pages = (total.to_f / job_batch_size).ceil
 
-    (0...total_pages).each do |page|
-      options[:offset] = page * job_batch_size
-      query_url = get_query_url(options)
-      paged_result = get_result(query_url, options)
-      result["response"]["docs"] = result["response"]["docs"] | paged_result.fetch("response", {}).fetch("docs", [])
+      (0...total_pages).each do |page|
+        options[:offset] = page * job_batch_size
+        AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(nil, self, options)
+      end
     end
 
-    result
+    # return number of works queued
+    total
   end
 
-  def parse_data(result, options={})
+  def get_data(_work, options={})
+    query_url = get_query_url(options)
+    result = get_result(query_url, options)
+  end
+
+  def parse_data(result, _work, options={})
     return result if result[:error]
 
     { works: get_works(result) }
@@ -81,7 +89,7 @@ class PlosImport < Agent
   end
 
   def cron_line
-    config.cron_line || "20 11,16 * * *"
+    config.cron_line || "20 11,16 * * 1-5"
   end
 
   def queue

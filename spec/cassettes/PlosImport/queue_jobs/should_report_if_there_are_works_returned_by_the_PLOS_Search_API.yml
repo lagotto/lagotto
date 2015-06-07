@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-04-05T00:00:00Z%20TO%202015-04-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=1000&start=0&wt=json
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-04-07T00:00:00Z%20TO%202015-04-08T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 07 Jun 2015 16:35:35 GMT
+      - Sun, 07 Jun 2015 16:41:22 GMT
       Server:
       - Apache-Coyote/1.1
       Last-Modified:
@@ -33,7 +33,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"response":{"numFound":0,"start":0,"docs":[]}}
+        {"response":{"numFound":466,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Sun, 07 Jun 2015 16:20:13 GMT
+  recorded_at: Sun, 07 Jun 2015 16:25:59 GMT
 recorded_with: VCR 2.9.3

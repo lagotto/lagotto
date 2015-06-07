@@ -263,6 +263,12 @@ orcid = Orcid.where(name: 'orcid').first_or_create(
   :description => 'ORCID is a persistent author identifier for connecting research and researchers.',
   :source_id => "orcid",
   :group_id => saved.id)
+plos_import = PlosImport.where(name: 'plos_import').first_or_create(
+  :title => 'PLOS Import',
+  :description => 'Import works via the PLOS Solr API.',
+  :kind => "all",
+  :queueable => false,
+  :group_id => other.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.where(name: 'crossref').first_or_create(

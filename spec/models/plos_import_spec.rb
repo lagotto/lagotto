@@ -29,14 +29,26 @@ describe PlosImport, type: :model, vcr: true do
     end
   end
 
+  context "queue_jobs" do
+    it "should report if there are no works returned by the PLOS Search API" do
+      response = subject.queue_jobs(from_pub_date: "2015-04-05", until_pub_date: "2015-04-05")
+      expect(response).to eq(0)
+    end
+
+    it "should report if there are works returned by the PLOS Search API" do
+      response = subject.queue_jobs
+      expect(response).to eq(466)
+    end
+  end
+
   context "get_data" do
     it "should report if there are no works returned by the PLOS Search API" do
-      response = subject.get_data(from_pub_date: "2015-04-05", until_pub_date: "2015-04-05")
+      response = subject.get_data(nil, from_pub_date: "2015-04-05", until_pub_date: "2015-04-05")
       expect(response["response"]["numFound"]).to eq(0)
     end
 
     it "should report if there are works returned by the PLOS Search API" do
-      response = subject.get_data
+      response = subject.get_data(nil)
       expect(response["response"]["numFound"]).to eq(466)
       doc = response["response"]["docs"].first
       expect(doc["id"]).to eq("10.1371/journal.pone.0123874")
@@ -44,7 +56,7 @@ describe PlosImport, type: :model, vcr: true do
 
     it "should catch errors with the PLOS Search API" do
       stub = stub_request(:get, subject.get_query_url(rows: 0, agent_id: subject.id)).to_return(:status => [408])
-      response = subject.get_data(rows: 0, agent_id: subject.id)
+      response = subject.get_data(nil, rows: 0, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D%2Bdoc_type%3Afull&q=%2A%3A%2A&rows=0&start=0&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -59,13 +71,13 @@ describe PlosImport, type: :model, vcr: true do
     it "should report if there are no works returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(works: [])
+      expect(subject.parse_data(result, nil)).to eq(works: [])
     end
 
     it "should report if there are works returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result)
+      response = subject.parse_data(result, nil)
 
       expect(response[:works].length).to eq(29)
       related_work = response[:works].last
