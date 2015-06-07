@@ -42,7 +42,7 @@ class Source < ActiveRecord::Base
     title
   end
 
-  def state
+  def human_state_name
     (active ? "active" : "inactive")
   end
 
@@ -113,29 +113,5 @@ class Source < ActiveRecord::Base
      :not_updated_by_month_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
 
     update_column(:cached_at, now)
-  end
-
-  # Remove all event records for this source that have never been updated,
-  # return true if all records are removed
-  def remove_all_events
-    rs = events.where(:retrieved_at == '1970-01-01').delete_all
-    events.count == 0
-  end
-
-  # Create an empty event record for every work for the new source
-  def create_events
-    work_ids = Work.pluck(:id)
-    existing_ids = Event.where(:source_id => id).pluck(:work_id)
-
-    (0...work_ids.length).step(1000) do |offset|
-      ids = work_ids[offset...offset + 1000] & existing_ids
-      InsertEventJob.perform_later(self, ids)
-     end
-  end
-
-  def insert_events(ids = [])
-    sql = "insert into events (work_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from works"
-    sql += " where works.id not in (#{work_ids.join(',')})" unless ids.empty?
-    ActiveRecord::Base.connection.execute sql
   end
 end

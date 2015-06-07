@@ -115,9 +115,19 @@ class Deposit < ActiveRecord::Base
       work = Work.where(pid: item.fetch("work_id",nil)).first
       next unless source.present? && work.present?
 
-      event = Event.where(source_id: source.id, work_id: work.id).first_or_create
+      total = item.fetch("total", 0)
+
+      # only create event row if we have at least one event
+      if total > 0
+        event = Event.where(source_id: source.id, work_id: work.id).first_or_create
+      else
+        event = Event.where(source_id: source.id, work_id: work.id).first
+      end
+
+      next unless event.present?
+
       event.update_attributes(retrieved_at: Time.zone.now,
-                              total: item.fetch("total", 0),
+                              total: total,
                               pdf: item.fetch("pdf", 0),
                               html: item.fetch("html", 0),
                               readers: item.fetch("readers", 0),
