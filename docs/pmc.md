@@ -21,18 +21,18 @@ When installing the source, the CouchDB database for PMC has to be created with 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=20%><strong>ALM Name</strong></td>
+<td valign="top" width=20%><strong>Lagotto Name</strong></td>
 <td valign="top" width=80%>pmc</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
 <td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
 <td valign="top" width=80%>id (as doi, pmid and pmcid)</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>none</td>
 </tr>
 <tr>

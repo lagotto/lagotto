@@ -8,18 +8,18 @@ Europe PubMed Central ([Europe PMC](http://europepmc.org/)) is an archive of lif
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=20%><strong>ALM Name</strong></td>
+<td valign="top" width=20%><strong>Lagotto Name</strong></td>
 <td valign="top" width=80%>europe_pmc_data</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
 <td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
 <td valign="top" width=80%>count</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>database name</td>
 </tr>
 <tr>

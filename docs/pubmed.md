@@ -8,18 +8,18 @@ title: "PubMed Central"
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=20%><strong>ALM Name</strong></td>
+<td valign="top" width=20%><strong>Lagotto Name</strong></td>
 <td valign="top" width=80%>pubmed</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
 <td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
 <td valign="top" width=80%>id (as pmcid)<br/>url as (http://www.ncbi.nlm.nih.gov/pmc/articles/PMCID)</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>none</td>
 </tr>
 <tr>
