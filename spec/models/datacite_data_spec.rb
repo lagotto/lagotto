@@ -27,14 +27,14 @@ describe DataciteData, type: :model, vcr: true do
 
     it "should catch timeout errors with the Datacite API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=doi:#{work.doi_escaped}&fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier&fq=is_active:true&fq=has_metadata:true&rows=1000&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.source_id).to eq(subject.id)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -42,13 +42,13 @@ describe DataciteData, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite_data", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "datacite_data", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       body = File.read(fixture_path + 'datacite_data_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "datacite_data", work: work.pid, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "datacite_data", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     # it "should report if there are events and event_count returned by the Datacite API" do

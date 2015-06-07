@@ -1,19 +1,14 @@
 require 'rails_helper'
 
-describe Agent, :type => :model do
+describe Agent, :type => :model, vcr: true do
 
   it { is_expected.to belong_to(:group) }
-  it { is_expected.to have_many(:tasks).dependent(:destroy) }
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:timeout).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:max_failed_queries).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:rate_limiting).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:staleness_week).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:staleness_month).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:staleness_year).is_greater_than(0).only_integer.with_message("must be greater than 0") }
-  it { is_expected.to validate_numericality_of(:staleness_all).is_greater_than(0).only_integer.with_message("must be greater than 0") }
 
   describe "get_events_by_day" do
     before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
@@ -85,36 +80,6 @@ describe Agent, :type => :model do
     end
   end
 
-  describe "manage tasks" do
-    subject { FactoryGirl.create(:agent) }
-
-    it "should create tasks for new works" do
-      expect(subject.tasks.count).to eq(0)
-      works = FactoryGirl.create_list(:work, 3)
-      expect(subject.tasks.count).to eq(3)
-    end
-
-    it "should create tasks for new agent" do
-      expect(subject.tasks.count).to eq(0)
-      works = FactoryGirl.create_list(:work, 3)
-      expect(subject.tasks.count).to eq(3)
-    end
-
-    # it "should create tasks" do
-    #   FactoryGirl.create_list(:work, 3)
-    #   expect(subject.tasks.count).to eq(0)
-    #   subject.create_tasks
-    #   expect(subject.tasks.count).to eq(3)
-    # end
-
-    it "should remove all tasks" do
-      FactoryGirl.create_list(:task, 3)
-      expect(subject.tasks.count).to eq(3)
-      subject.remove_all_tasks
-      expect(subject.tasks.count).to eq(0)
-    end
-  end
-
   describe "background jobs" do
     include ActiveJob::TestHelper
 
@@ -123,26 +88,46 @@ describe Agent, :type => :model do
     subject { FactoryGirl.create(:agent, run_at: Time.zone.now) }
 
     context "use background jobs" do
-      let(:tasks) { FactoryGirl.create_list(:task, 10, agent_id: subject.id) }
-      let(:ids) { tasks.map(&:id) }
+      let(:works) { FactoryGirl.create_list(:work, 10) }
+      let(:ids) { works.map(&:id) }
       let(:job) { AgentJob }
 
-      context "queue all works" do
+      context "queue jobs" do
         it "queue" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs).to eq(10)
+        end
+
+        it "queue single" do
+          works = FactoryGirl.create_list(:work, 1)
+          ids = works.map(&:id)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs).to eq(1)
+        end
+
+        it "only tracked works" do
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          work = FactoryGirl.create(:work, tracked: false)
+          expect(subject.queue_jobs).to eq(10)
         end
 
         it "with rate_limiting" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           subject.rate_limiting = 5
-          expect(subject.queue_all_works).to eq(10)
+          expect(subject.queue_jobs).to eq(10)
         end
 
         it "with inactive agent" do
           subject.inactivate
           expect(subject).to be_inactive
-          expect(subject.queue_all_works).to eq(0)
+          expect(subject.queue_jobs).to eq(0)
+        end
+
+        it "with waiting agent" do
+          subject.wait
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs).to eq(10)
+          expect(subject).to be_waiting
         end
 
         it "with disabled agent" do
@@ -150,63 +135,7 @@ describe Agent, :type => :model do
 
           subject.disable
           expect(subject).to be_disabled
-          expect(subject.queue_all_works).to eq(0)
-        end
-
-        it "outside time interval" do
-          tasks = FactoryGirl.create_list(:task, 10, :with_work_published_today, agent_id: subject.id)
-          ids = tasks.map(&:id)
-
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works(start_date: Date.today - 2.days, end_date: Date.today - 2.days)).to eq(0)
-        end
-      end
-
-      context "queue works" do
-        it "queue" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
-        end
-
-        it "only stale works" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          task = FactoryGirl.create(:task, agent_id: subject.id, scheduled_at: Date.today + 1.day)
-          expect(subject.queue_all_works).to eq(10)
-        end
-
-        it "not queued works" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          task = FactoryGirl.create(:task, agent_id: subject.id, queued_at: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
-        end
-
-        it "with rate-limiting" do
-          rate_limiting = 5
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          subject.rate_limiting = rate_limiting
-          expect(subject.queue_all_works).to eq(10)
-        end
-
-        it "with inactive agent" do
-          subject.inactivate
-          expect(subject.queue_all_works).to eq(0)
-          expect(subject).to be_inactive
-        end
-
-        it "with disabled subject" do
-          report = FactoryGirl.create(:fatal_error_report_with_admin_user)
-
-          subject.disable
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
-          expect(subject).to be_disabled
-        end
-
-        it "with waiting agent" do
-          subject.wait
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
-          expect(subject).to be_waiting
+          expect(subject.queue_jobs).to eq(0)
         end
 
         it "with too many failed queries" do
@@ -214,52 +143,37 @@ describe Agent, :type => :model do
 
           FactoryGirl.create_list(:notification, 10, agent_id: subject.id, updated_at: Time.zone.now - 10.minutes)
           subject.max_failed_queries = 5
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs).to eq(10)
           expect(subject).not_to be_disabled
         end
 
-        it "with queued jobs" do
-          allow(job).to receive(:count).and_return(1)
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_all_works).to eq(10)
-        end
-      end
+        it "outside time interval" do
+          works = FactoryGirl.create_list(:work, 10, :published_today)
+          ids = works.map(&:id)
 
-      context "queue work jobs" do
-        it "multiple works" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_work_jobs(ids)).to eq(10)
-        end
-
-        it "single work" do
-          task = FactoryGirl.create(:task, agent_id: subject.id)
-          allow(job).to receive(:enqueue).with(AgentJob.new([task.id], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(AgentJob.new([task.id], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_work_jobs([task.id])).to eq(1)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs(from_pub_date: Date.today - 2.days, until_pub_date: Date.today - 2.days)).to eq(0)
         end
       end
 
       context "job callbacks" do
         it "perform callback" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_work_jobs(ids)).to eq(10)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:perform).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs).to eq(10)
         end
 
         it "after callback" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:after).with(AgentJob.new(ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          expect(subject.queue_work_jobs(ids)).to eq(10)
+          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:after).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs).to eq(10)
         end
       end
 
-      describe "check for failures" do
-
+      context "check for failures" do
         let(:class_name) { "Net::HTTPRequestTimeOut" }
-        before(:each) do
-          FactoryGirl.create_list(:notification, 10, agent_id: subject.id, updated_at: Time.zone.now - 10.minutes, class_name: class_name)
-        end
+        let!(:notifications) { FactoryGirl.create_list(:notification, 10, agent_id: subject.id, updated_at: Time.zone.now - 10.minutes, class_name: class_name) }
 
         it "few failed queries" do
           expect(subject.check_for_failures).to be false
@@ -270,6 +184,109 @@ describe Agent, :type => :model do
           expect(subject.check_for_failures).to be true
         end
       end
+    end
+  end
+
+  context "collect_data" do
+    let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
+    subject { FactoryGirl.create(:agent) }
+
+    it "success" do
+      response = subject.collect_data(work.id)
+      expect(response["uuid"]).to be_present
+      expect(response["message_type"]).to eq("citeulike")
+      expect(response["source_token"]).to eq(subject.uuid)
+
+      expect(Deposit.count).to eq(1)
+      deposit = Deposit.first
+
+      expect(deposit["message"]["works"].length).to eq(4)
+
+      event = deposit["message"]["events"].first
+      expect(event["source_id"]).to eq("citeulike")
+      expect(event["work_id"]).to eq(work.pid)
+    end
+
+    it "success counter" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
+      subject = FactoryGirl.create(:counter)
+
+      response = subject.collect_data(work.id)
+      expect(response["uuid"]).to be_present
+      expect(response["message_type"]).to eq("counter")
+      expect(response["source_token"]).to eq(subject.uuid)
+
+      expect(Deposit.count).to eq(1)
+      deposit = Deposit.first
+
+      expect(deposit["message"]["works"]).to be_nil
+
+      event = deposit["message"]["events"].first
+      expect(event["source_id"]).to eq("counter")
+      expect(event["work_id"]).to eq(work.pid)
+
+      expect(Deposit.count).to eq(1)
+    end
+
+    it "success mendeley" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
+      subject = FactoryGirl.create(:mendeley)
+      body = File.read(fixture_path + 'mendeley.json')
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+
+      response = subject.collect_data(work.id)
+      expect(response["uuid"]).to be_present
+      expect(response["message_type"]).to eq("mendeley")
+      expect(response["source_token"]).to eq(subject.uuid)
+
+      expect(Deposit.count).to eq(1)
+      deposit = Deposit.first
+
+      expect(deposit["message"]["works"]).to be_nil
+
+      event = deposit["message"]["events"].first
+      expect(event["source_id"]).to eq("mendeley")
+      expect(event["work_id"]).to eq(work.pid)
+
+      expect(Deposit.count).to eq(1)
+    end
+
+    it "success crossref" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
+      subject = FactoryGirl.create(:crossref)
+      body = File.read(fixture_path + 'cross_ref.xml')
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+
+      response = subject.collect_data(work.id)
+      expect(response["uuid"]).to be_present
+      expect(response["message_type"]).to eq("crossref")
+      expect(response["source_token"]).to eq(subject.uuid)
+
+      expect(Deposit.count).to eq(1)
+      deposit = Deposit.first
+
+      expect(deposit["message"]["works"].length).to eq(31)
+
+      event = deposit["message"]["events"].first
+      expect(event["source_id"]).to eq("crossref")
+      expect(event["work_id"]).to eq(work.pid)
+    end
+
+    it "success no data" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
+
+      deposit = subject.collect_data(work.id)
+      expect(deposit).to be_empty
+
+      expect(Deposit.count).to eq(0)
+    end
+
+    it "error" do
+      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      deposit = subject.collect_data(work.id)
+      expect(deposit).to be_empty
+
+      expect(Deposit.count).to eq(0)
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Deposit, :type => :model do
+describe Deposit, :type => :model, vcr: true do
   before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
 
   subject { FactoryGirl.create(:deposit) }
@@ -79,17 +79,20 @@ describe Deposit, :type => :model do
 
   describe "update_months" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
+    let(:agent) { FactoryGirl.create(:agent) }
     subject { FactoryGirl.create(:deposit) }
 
     it "citeulike" do
-      data = subject.source.get_data(work, work_id: subject.work_id, source_id: subject.source_id)
-      data = subject.source.parse_data(data, subject.work, work_id: subject.work_id, source_id: subject.source_id)
+      body = File.read(fixture_path + 'citeulike.xml')
+      #stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
 
-      data[:months] = data.fetch(:events, {}).fetch(:months, [])
-      subject.update_months(data.fetch(:months))
-      expect(subject.months.count).to eq(2)
+      response = agent.collect_data(work.id)
+      subject = Deposit.where(uuid: response.fetch("uuid")).first
+      subject.update_events
 
-      month = subject.months.last
+      expect(Month.count).to eq(2)
+
+      month = Month.last
       expect(month.year).to eq(2015)
       expect(month.month).to eq(1)
       expect(month.total).to eq(2)
@@ -98,21 +101,17 @@ describe Deposit, :type => :model do
 
     it "mendeley" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
-      source = FactoryGirl.create(:mendeley)
-      subject = FactoryGirl.create(:event, total: 0, readers: 0, work: work, source: source)
+      agent = FactoryGirl.create(:mendeley)
       body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, subject.source.get_query_url(work)).to_return(:body => body)
+      stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
 
-      data = subject.source.get_data(work, work_id: subject.work_id, source_id: subject.source_id)
-      data = subject.source.parse_data(data, subject.work, work_id: subject.work_id, source_id: subject.source_id)
+      response = agent.collect_data(work.id)
+      subject = Deposit.where(uuid: response.fetch("uuid")).first
+      subject.update_events
 
-      subject.update_data(data.fetch(:events))
+      expect(Month.count).to eq(1)
 
-      data[:months] = [subject.get_events_current_month]
-      subject.update_months(data.fetch(:months))
-      expect(subject.months.count).to eq(1)
-
-      month = subject.months.last
+      month = Month.last
       expect(month.year).to eq(2015)
       expect(month.month).to eq(4)
       expect(month.total).to eq(34)
