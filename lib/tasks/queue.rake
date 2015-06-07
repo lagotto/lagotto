@@ -13,18 +13,18 @@ namespace :queue do
       exit
     end
 
-    begin
-      start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
-      end_date = Date.parse(ENV['END_DATE']) if ENV['END_DATE']
+begin
+      from_pub_date = Date.parse(ENV['FROM_PUB_DATE']) if ENV['FROM_PUB_DATE']
+      until_pub_date = Date.parse(ENV['UNTIL_PUB_DATE']) if ENV['UNTIL_PUB_DATE']
     rescue => e
       # raises error if invalid date supplied
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing stale works published from #{start_date} to #{end_date}." if start_date && end_date
+    puts "Queueing stale works published from #{from_pub_date} to #{until_pub_date}." if from_pub_date && until_pub_date
 
     agents.each do |agent|
-      count = agent.queue_all_works(start_date: start_date, end_date: end_date)
+      count = agent.queue_all(from_pub_date: from_pub_date, until_pub_date: until_pub_date)
       puts "#{count} stale works for agent #{agent.title} have been queued."
     end
   end
@@ -43,17 +43,17 @@ namespace :queue do
     end
 
     begin
-      start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
-      end_date = Date.parse(ENV['END_DATE']) if ENV['END_DATE']
+      from_pub_date = Date.parse(ENV['FROM_PUB_DATE']) if ENV['FROM_PUB_DATE']
+      until_pub_date = Date.parse(ENV['UNTIL_PUB_DATE']) if ENV['UNTIL_PUB_DATE']
     rescue => e
       # raises error if invalid date supplied
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing all works published from #{start_date} to #{end_date}." if start_date && end_date
+    puts "Queueing all works published from #{from_pub_date} to #{until_pub_date}." if from_pub_date && until_pub_date
 
     agents.each do |agent|
-      count = agent.queue_all_works(all: true, start_date: start_date, end_date: end_date)
+      count = agent.queue_all(all: true, from_pub_date: from_pub_date, until_pub_date: until_pub_date)
       puts "#{count} works for agent #{agent.title} have been queued."
     end
   end
@@ -90,7 +90,7 @@ namespace :queue do
         exit
       end
 
-      agent.queue_work_jobs([task.id], priority: 2)
+      agent.queue_jobs([task.id], queue: "high")
       puts "Job for pid #{work.pid} and agent #{agent.title} has been queued."
     end
   end
