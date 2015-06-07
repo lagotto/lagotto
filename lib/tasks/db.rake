@@ -93,20 +93,6 @@ namespace :db do
         end
       end
 
-      desc "Import works from PLOS Search API"
-      task :plos => :environment do
-        import = PlosImport.new(
-          from_pub_date: ENV['FROM_PUB_DATE'],
-          until_pub_date: ENV['UNTIL_PUB_DATE'])
-        number = import.total_results
-        if number > 0
-          import.queue_work_import
-          puts "Started import of #{number} works in the background..."
-        else
-          puts "No works to import."
-        end
-      end
-
       desc "Import works from DataONE Solr API"
       task :dataone => :environment do
         import = DataoneImport.new(
@@ -304,13 +290,13 @@ namespace :db do
 
     desc "Delete API requests, keeping last 100,000 requests"
     task :delete => :environment do
-      before = ApiRequest.count
       request = ApiRequest.order("created_at DESC").offset(100000).first
-      unless request.nil?
-        ApiRequest.where("created_at <= ?", request.created_at).delete_all
+      if request.present?
+        count = ApiRequest.where("created_at <= ?", request.created_at).delete_all
+        puts "Deleted #{count} API requests"
+      else
+        puts "Deleted 0 API requests"
       end
-      after = ApiRequest.count
-      puts "Deleted #{before - after} API requests, #{after} API requests remaining"
     end
   end
 
@@ -318,10 +304,17 @@ namespace :db do
 
     desc "Delete all API responses older than 24 hours"
     task :delete => :environment do
-      before = ApiResponse.count
-      ApiResponse.where("created_at < ?", Time.zone.now - 1.day).delete_all
-      after = ApiResponse.count
-      puts "Deleted #{before - after} API responses, #{after} API responses remaining"
+      count = ApiResponse.where("created_at < ?", Time.zone.now - 1.day).delete_all
+      puts "Deleted #{count} API responses"
+    end
+  end
+
+  namespace :deposits do
+
+    desc "Delete all completed deposits older than 24 hours"
+    task :delete => :environment do
+      count = Deposit.where("state = ?", 3).where("created_at < ?", Time.zone.now - 1.day).delete_all
+      puts "Deleted #{count} completed deposits"
     end
   end
 
