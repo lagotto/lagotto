@@ -17,11 +17,11 @@
           <% group.sources.each do |source| %>
             <tr>
               <td><%= link_to_if source.active, source.title, source_path(source) %></td>
-              <td><%= state_label(source.state).html_safe %></td>
+              <td><%= state_label(source.human_state_name).html_safe %></td>
               <td><%= h(source.description) %></td>
               <% if can?(:manage, Notification) %>
                 <td>
-                  <% if source.state != "active" %>
+                  <% if source.human_state_name != "active" %>
                     <%= link_to 'Activate', source_path(source, active: true), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
                   <% else %>
                     <%= link_to 'Inactivate', source_path(source, active: false), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>

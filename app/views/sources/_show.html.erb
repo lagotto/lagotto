@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading panel-title" id="api_key" data-name="<%= @source.name %>" data-api_key="<%= current_user && current_user.api_key %>" data-model="source" data-page="" data-per_page="15" data-q="" data-publisher_id="" data-source_id="<%= @source.name %>" data-class_name="" data-sort="<%= @source.name %>">
-    <%= @source.title %> <small class="pull-right" id="timestamp"><%= date_from_iso8601(@source.timestamp) + ' UTC' %> <%= state_label(@source.state).html_safe %></small>
+    <%= @source.title %> <small class="pull-right" id="timestamp"><%= date_from_iso8601(@source.timestamp) + ' UTC' %> <%= state_label(@source.human_state_name).html_safe %></small>
   </div>
   <div class="panel-body">
     <dl class="dl-horizontal">
