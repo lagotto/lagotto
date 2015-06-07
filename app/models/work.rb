@@ -20,7 +20,6 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher, primary_key: :member_id
   belongs_to :work_type
-  has_many :tasks, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :sources, :through => :events
   has_many :notifications, :dependent => :destroy
@@ -40,15 +39,12 @@ class Work < ActiveRecord::Base
   validate :validate_published_on
 
   before_validation :sanitize_title, :normalize_url, :set_pid
-  after_create :create_events, if: :tracked
 
   scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:events)
-    .where("events.total > ?", 0)
-    .references(:events) }
-  scope :by_source, ->(source_id) { joins(:events)
-    .where("events.source_id = ?", source_id) }
+  scope :has_events, -> { includes(:events).where("events.total > ?", 0).references(:events) }
+  scope :by_source, ->(source_id) { joins(:events).where("events.source_id = ?", source_id) }
+
   scope :tracked, -> { where("works.tracked = ?", true) }
 
   serialize :csl, JSON
@@ -388,13 +384,6 @@ class Work < ActiveRecord::Base
       write_attribute(:pid_type, "url")
     else
       errors.add :doi, "must provide at least one persistent identifier"
-    end
-  end
-
-  def create_events
-    # Create an empty event record for every installed source for the new work
-    Source.all.each do |source|
-      Event.where(work_id: id, source_id: source.id).first_or_create
     end
   end
 end

@@ -26,7 +26,6 @@ ActiveSupport::Notifications.subscribe "api_response.get" do |name, start, finis
   ApiResponse.create! do |api_response|
     api_response.work_id = payload.fetch(:work_id, nil)
     api_response.agent_id = payload.fetch(:agent_id, nil)
-    api_response.task_id = payload.fetch(:task_id, nil)
     api_response.duration = (finish - start) * 1000
   end
 end
