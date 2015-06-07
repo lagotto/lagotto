@@ -549,4 +549,16 @@ FactoryGirl.define do
 
     initialize_with { Orcid.where(name: name).first_or_initialize }
   end
+
+  factory :plos_import, class: PlosImport do
+    type "PlosImport"
+    name "plos_import"
+    title "PLOS Import"
+    kind "all"
+    state_event "activate"
+
+    group
+
+    initialize_with { PlosImport.where(name: name).first_or_initialize }
+  end
 end
