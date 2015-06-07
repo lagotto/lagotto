@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20150602022135) do
     t.string   "title",       limit: 255,                                   null: false
     t.text     "description", limit: 65535
     t.string   "kind",        limit: 255,   default: "work"
-    t.string   "source_id",   limit: 255,                                   null: false
+    t.string   "source_id",   limit: 255
     t.integer  "state",       limit: 4,     default: 0
     t.string   "state_event", limit: 255
     t.text     "config",      limit: 65535
