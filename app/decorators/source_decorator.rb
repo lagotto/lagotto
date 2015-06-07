@@ -14,6 +14,10 @@ class SourceDecorator < Draper::Decorator
     title
   end
 
+  def state
+    human_state_name
+  end
+
   def id
     name
   end
