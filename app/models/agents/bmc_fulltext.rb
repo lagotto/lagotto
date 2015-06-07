@@ -46,7 +46,6 @@ class BmcFulltext < Agent
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "DOI" => doi,
-        "URL" => get_url_from_doi(doi),
         "type" => "article-journal",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
