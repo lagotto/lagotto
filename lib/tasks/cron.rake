@@ -28,6 +28,9 @@ namespace :cron do
     Rake::Task["db:changes:delete"].invoke
     Rake::Task["db:changes:delete"].reenable
 
+    Rake::Task["db:deposits:delete"].invoke
+    Rake::Task["db:deposits:delete"].reenable
+
     Rake::Task["db:notifications:resolve"].invoke
     Rake::Task["db:notifications:resolve"].reenable
   end

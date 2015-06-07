@@ -57,48 +57,6 @@ describe "db:works:import:datacite", vcr: true do
   end
 end
 
-describe "db:works:import:plos", vcr: true do
-  ENV['FROM_PUB_DATE'] = "2013-09-04"
-  ENV['UNTIL_PUB_DATE'] = "2013-09-05"
-
-  include_context "rake"
-
-  let(:output) { "Started import of 394 works in the background...\n" }
-
-  it "prerequisites should include environment" do
-    expect(subject.prerequisites).to include("environment")
-  end
-
-  it "should run the rake task" do
-    import = PlosImport.new
-    stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'plos_import_no_rows_single.json'))
-    stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'plos_import.json'))
-    stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
-    expect(capture_stdout { subject.invoke }).to eq(output)
-  end
-end
-
-describe "db:works:import:dataone", vcr: true do
-  ENV['FROM_PUB_DATE'] = "2013-09-04"
-  ENV['UNTIL_PUB_DATE'] = "2013-09-05"
-
-  include_context "rake"
-
-  let(:output) { "No works to import.\n" }
-
-  it "prerequisites should include environment" do
-    expect(subject.prerequisites).to include("environment")
-  end
-
-  it "should run the rake task" do
-    import = PlosImport.new
-    stub_request(:get, import.query_url(offset = 0, rows = 0)).to_return(:body => File.read(fixture_path + 'plos_import_no_rows_single.json'))
-    stub_request(:get, import.query_url).to_return(:body => File.read(fixture_path + 'dataone_import.json'))
-    stub_request(:get, "http://#{ENV['SERVERNAME']}/api/v5/status?api_key=#{ENV['API_KEY']}")
-    expect(capture_stdout { subject.invoke }).to eq(output)
-  end
-end
-
 describe "db:works:import:csl" do
   # we are not providing a file to import, so this should raise an error
 
@@ -178,7 +136,7 @@ describe "db:api_requests:delete" do
     FactoryGirl.create_list(:api_request, 5)
   end
 
-  let(:output) { "Deleted 0 API requests, 5 API requests remaining\n" }
+  let(:output) { "Deleted 0 API requests\n" }
 
   it "should run" do
     expect(capture_stdout { subject.invoke }).to eq(output)
@@ -192,7 +150,7 @@ describe "db:api_responses:delete" do
     FactoryGirl.create_list(:api_response, 5, created_at: Time.zone.now - 2.days)
   end
 
-  let(:output) { "Deleted 5 API responses, 0 API responses remaining\n" }
+  let(:output) { "Deleted 5 API responses\n" }
 
   it "should run" do
     expect(capture_stdout { subject.invoke }).to eq(output)
@@ -249,7 +207,7 @@ describe "db:agents:uninstall[citeulike,pmc]" do
     FactoryGirl.create(:pmc)
   end
 
-  let(:output) { "Agent CiteULike has been uninstalled.\nAgent PubMed Central Usage Stats has been uninstalled.\n" }
+  let(:output) { "Agent CiteULike has been retired.\nAgent PubMed Central Usage Stats has been retired.\n" }
 
   it "should run" do
     expect(capture_stdout { subject.invoke(*task_args) }).to eq(output)

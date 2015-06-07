@@ -431,7 +431,7 @@ namespace :db do
         elsif agent.retired?
           puts "Agent #{agent.title} has been retired."
         else
-          puts "Source #{source.title} could not be uninstalled."
+          puts "Agent #{agent.title} could not be uninstalled."
         end
       end
     end

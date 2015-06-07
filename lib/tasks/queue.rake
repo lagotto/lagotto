@@ -1,32 +1,9 @@
 namespace :queue do
 
-  desc "Queue stale works"
+  desc "Queue stale works (depreciated)"
   task :stale => :environment do |_, args|
-    if args.extras.empty?
-      agents = Agent.active
-    else
-      agents = Agent.active.where("name in (?)", args.extras)
-    end
-
-    if agents.empty?
-      puts "No active agent found."
-      exit
-    end
-
-begin
-      from_pub_date = Date.parse(ENV['FROM_PUB_DATE']) if ENV['FROM_PUB_DATE']
-      until_pub_date = Date.parse(ENV['UNTIL_PUB_DATE']) if ENV['UNTIL_PUB_DATE']
-    rescue => e
-      # raises error if invalid date supplied
-      puts "Error: #{e.message}"
-      exit
-    end
-    puts "Queueing stale works published from #{from_pub_date} to #{until_pub_date}." if from_pub_date && until_pub_date
-
-    agents.each do |agent|
-      count = agent.queue_all(from_pub_date: from_pub_date, until_pub_date: until_pub_date)
-      puts "#{count} stale works for agent #{agent.title} have been queued."
-    end
+    Rake::Task["queue:all"].invoke
+    Rake::Task["queue:all"].reenable
   end
 
   desc "Queue all works"
@@ -50,10 +27,10 @@ begin
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing all works published from #{from_pub_date} to #{until_pub_date}." if from_pub_date && until_pub_date
+    puts "Queueing all works published from #{from_pub_date.iso8601} to #{until_pub_date.iso8601}." if from_pub_date && until_pub_date
 
     agents.each do |agent|
-      count = agent.queue_all(all: true, from_pub_date: from_pub_date, until_pub_date: until_pub_date)
+      count = agent.queue_jobs(from_pub_date: from_pub_date.iso8601, until_pub_date: until_pub_date.iso8601)
       puts "#{count} works for agent #{agent.title} have been queued."
     end
   end
@@ -95,6 +72,5 @@ begin
     end
   end
 
-  task :default => :stale
-
+  task :default => :all
 end
