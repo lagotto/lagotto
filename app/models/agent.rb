@@ -37,7 +37,8 @@ class Agent < ActiveRecord::Base
                    "facebook" => [:client_id, :client_secret, :url_linkstat, :access_token],
                    "mendeley" => [:access_token],
                    "twitter_search" => [:access_token],
-                   "scopus" => [:insttoken] }
+                   "scopus" => [:insttoken],
+                   "plos_import" => [:sample] }
 
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
@@ -56,6 +57,7 @@ class Agent < ActiveRecord::Base
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
+  validates :sample, :numericality => { :only_integer => true, :greater_than => 0 }, allow_blank: true
   validate :validate_cron_line_format
 
   # filter agents by state

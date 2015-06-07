@@ -156,6 +156,14 @@ module Configurable
       200
     end
 
+    def sample
+      config.sample
+    end
+
+    def sample=(value)
+      config.sample = value.to_i
+    end
+
     def rate_limiting
       config.rate_limiting || 200000
     end

@@ -30,10 +30,12 @@ class PlosImport < Agent
 
     if total > 0
       # walk through paginated results
+      total = sample if sample.present?
       total_pages = (total.to_f / job_batch_size).ceil
 
       (0...total_pages).each do |page|
         options[:offset] = page * job_batch_size
+        options[:rows] = sample if sample && sample < (page + 1) * job_batch_size
         AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(nil, self, options)
       end
     end
@@ -76,7 +78,7 @@ class PlosImport < Agent
   end
 
   def config_fields
-    [:url]
+    [:url, :sample]
   end
 
   def url
