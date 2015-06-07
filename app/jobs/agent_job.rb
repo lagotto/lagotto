@@ -30,7 +30,7 @@ class AgentJob < ActiveJob::Base
       agent_id: agent_id)
   end
 
-  def perform(ids, agent, options)
+  def perform(ids, agent, options={})
     case agent.kind
     when "work" then
       Array(ids).each do |id|
