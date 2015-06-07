@@ -30,10 +30,10 @@ class AgentJob < ActiveJob::Base
       agent_id: agent_id)
   end
 
-  def perform(ids = [], agent, options)
+  def perform(ids, agent, options)
     case agent.kind
     when "work" then
-      ids.each do |id|
+      Array(ids).each do |id|
         # check for failed queries and rate-limiting
         agent.work_after_check
         fail AgentInactiveError, "#{agent.title} is not in working state" unless agent.working?
