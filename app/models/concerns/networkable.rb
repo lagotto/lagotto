@@ -24,7 +24,8 @@ module Networkable
       if options[:agent_id].present?
         agent = Agent.where(id: options[:agent_id]).first
         agent.update_attributes(rate_limit_remaining: get_rate_limit_remaining(response.headers),
-                                 rate_limit_reset: get_rate_limit_reset(response.headers))
+                                rate_limit_reset: get_rate_limit_reset(response.headers),
+                                last_response: Time.zone.now)
       end
       # parsing by content type is not reliable, so we check the response format
       if is_json?(response.body)

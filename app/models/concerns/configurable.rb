@@ -184,6 +184,15 @@ module Configurable
       Rails.cache.write("#{name}/rate_limit_reset", get_iso8601_from_epoch(value))
     end
 
+    def last_response
+      Time.parse(Rails.cache.read("#{name}/last_response") || Time.zone.now.utc.iso8601)
+    end
+
+    def last_response=(value)
+      value ||= (Time.zone.now).to_i
+      Rails.cache.write("#{name}/last_response", get_iso8601_from_epoch(value))
+    end
+
     def job_interval
       3600.0 / rate_limiting
     end
