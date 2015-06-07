@@ -1,4 +1,4 @@
-class PlosImport < Import
+class PlosOldImport < Import
   def initialize(options = {})
     @from_pub_date = options.fetch(:from_pub_date, nil)
     @until_pub_date = options.fetch(:until_pub_date, nil)

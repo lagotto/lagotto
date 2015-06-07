@@ -1,0 +1,75 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-04-07T00:00:00Z%20TO%202015-04-08T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 03 Jun 2015 03:32:51 GMT
+      Server:
+      - Apache-Coyote/1.1
+      Last-Modified:
+      - Tue, 02 Jun 2015 17:46:44 GMT
+      Etag:
+      - '"M2U2MDgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - close
+      Set-Cookie:
+      - Coyote-2-9514450c=95144522:0; path=/
+    body:
+      encoding: UTF-8
+      string: |
+        {"response":{"numFound":466,"start":0,"docs":[]}}
+    http_version: 
+  recorded_at: Wed, 03 Jun 2015 03:32:51 GMT
+- request:
+    method: get
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-04-07T00:00:00Z%20TO%202015-04-08T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=1000&start=1000&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 03 Jun 2015 03:32:51 GMT
+      Server:
+      - Apache-Coyote/1.1
+      Last-Modified:
+      - Tue, 02 Jun 2015 17:46:44 GMT
+      Etag:
+      - '"M2U2MDgwMDAwMDAwMDAwMFNvbHI="'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - close
+      Set-Cookie:
+      - Coyote-2-9514450c=95144522:0; path=/
+    body:
+      encoding: UTF-8
+      string: |
+        {"response":{"numFound":466,"start":1000,"docs":[]}}
+    http_version: 
+  recorded_at: Wed, 03 Jun 2015 03:32:51 GMT
+recorded_with: VCR 2.9.3
