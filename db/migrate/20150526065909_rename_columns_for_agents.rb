@@ -21,7 +21,7 @@ class RenameColumnsForAgents < ActiveRecord::Migration
     add_index "changes", ["unresolved", "id"], name: "index_changes_unresolved_id", using: :btree
 
     rename_column :api_responses, :source_id, :agent_id
-    rename_column :api_responses, :retrieval_status_id, :task_id
+    remove_column :api_responses, :retrieval_status_id
     remove_column :api_responses, :total
     remove_column :api_responses, :html
     remove_column :api_responses, :pdf
@@ -39,7 +39,7 @@ class RenameColumnsForAgents < ActiveRecord::Migration
     drop_table :changes
 
     rename_column :api_responses, :agent_id, :source_id
-    rename_column :api_responses, :task_id, :retrieval_status_id
+    add_column    :api_responses, :retrieval_status_id, :integer
     add_column    :api_responses, :total, :integer
     add_column    :api_responses, :html, :integer
     add_column    :api_responses, :pdf, :integer
