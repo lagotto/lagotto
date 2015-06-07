@@ -6,7 +6,6 @@ class ApiResponse < ActiveRecord::Base
   include Couchable
 
   belongs_to :agent
-  belongs_to :task
 
   scope :unresolved, -> { where(unresolved: true) }
   scope :work_not_updated, ->(number) { where("skipped = ?", true).where("update_interval >= ?", number) }

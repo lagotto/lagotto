@@ -39,8 +39,6 @@ class Agent < ActiveRecord::Base
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken] }
 
-  has_many :tasks, :dependent => :destroy
-  has_many :works, :through => :tasks
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
   has_many :notifications
@@ -58,11 +56,7 @@ class Agent < ActiveRecord::Base
   validates :timeout, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :max_failed_queries, :numericality => { :only_integer => true, :greater_than => 0 }
   validates :rate_limiting, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :staleness_week, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :staleness_month, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :staleness_year, :numericality => { :only_integer => true, :greater_than => 0 }
-  validates :staleness_all, :numericality => { :only_integer => true, :greater_than => 0 }
-  validate :validate_cron_line_format, if: Proc.new { |agent| agent.cron_line.present? }
+  validate :validate_cron_line_format
 
   # filter agents by state
   scope :by_state, ->(state) { where("state = ?", state) }
@@ -81,7 +75,6 @@ class Agent < ActiveRecord::Base
   scope :active, -> { by_states(2).order_by_title }
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
-  scope :queueable, -> { active.where(queueable: true) }
 
   def to_param  # overridden, use name instead of id
     name
@@ -89,49 +82,28 @@ class Agent < ActiveRecord::Base
 
   def remove_queues
     # delete_jobs(name)
-    tasks.update_all(queued_at: nil)
   end
 
-  def queue_all_works(options = {})
+  def queue_jobs(options={})
     return 0 unless active?
 
-    # find works that need to be updated.
-    # Tracked, not queued currently, scheduled_at doesn't matter
-    t = tasks
-    t = Task.none if t.nil?
-
-    t = t.tracked
-
-    # optionally limit to works scheduled_at in the past
-    t = t.stale unless options[:all]
+    # find works that we are tracking
+    works = Work.tracked
 
     # optionally limit by publication date
-    if options[:start_date] && options[:end_date]
-      t = t.joins(:work).where("works.published_on" => options[:start_date]..options[:end_date])
+    if options[:from_pub_date] && options[:until_pub_date]
+      works = works.where(published_on: options[:from_pub_date]..options[:until_pub_date])
     end
 
-    ids = t.order("tasks.id").pluck("tasks.id")
-    count = queue_work_jobs(ids)
-  end
-
-  def queue_work_jobs(ids, options = {})
-    return 0 unless active?
-
-    if ids.length == 0
-      wait
-      return 0
+    total = 0
+    # pluck_in_batches is a custom method in config/initializers/active_record_extensions.rb
+    works.pluck_in_batches(:id, job_batch_size) do |ids|
+      AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(ids, self)
+      total += ids.length
     end
 
-    ids.each_slice(job_batch_size) do |_ids|
-      Task.where("id in (?)", _ids).update_all(queued_at: Time.zone.now)
-      AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(_ids, self)
-    end
-
-    ids.length
-  end
-
-  def last_response
-    @last_response ||= api_responses.maximum(:created_at) || Time.zone.now
+    # return number of works queued
+    total
   end
 
   def schedule_at
@@ -157,6 +129,33 @@ class Agent < ActiveRecord::Base
     else
       3600.0 / rate_limiting
     end
+  end
+
+  def collect_data(work_id, options={})
+    work = work_id.nil? ? nil : Work.where(id: work_id).first
+    pid = work.nil? ? nil : work.pid
+    message_type = source_id || name
+
+    data = get_data(work, options.merge(timeout: timeout, work_id: work_id, agent_id: id))
+
+    if ENV["LOGSTASH_PATH"].present?
+      # write API response from external agent to log/agent.log, using agent name and work pid as tags
+      AGENT_LOGGER.tagged(name, pid) { AGENT_LOGGER.info "#{result.inspect}" }
+    end
+
+    data = parse_data(data, work, work_id: work_id, agent_id: id)
+
+    # push to deposit API if no error and we have collected events
+    return {} if data[:error].present? || data.fetch(:events, [{}]).first.fetch(:total, 0) == 0
+
+    deposit = Deposit.create(uuid: SecureRandom.uuid,
+                             source_token: uuid,
+                             message_type: message_type,
+                             message: data)
+
+    { "uuid" => deposit.uuid,
+      "source_token" => deposit.source_token,
+      "message_type" => deposit.message_type }
   end
 
   def get_data(work, options={})
@@ -248,7 +247,7 @@ class Agent < ActiveRecord::Base
   end
 
   def get_query_url(work, options = {})
-    fail ArgumentError, "Source url is missing." if url.blank?
+    fail ArgumentError, "Agent url is missing." if url.blank?
 
     query_string = get_query_string(work)
     return query_string if query_string.is_a?(Hash)
@@ -321,32 +320,6 @@ class Agent < ActiveRecord::Base
     errors.add(:cron_line, "is not a valid crontab entry")
   end
 
-  # import couchdb data for lagotto 4.0 upgrade
-  def import_from_couchdb
-    return 0 unless active?
-
-    # find works that need to be imported.
-    rs = tasks
-
-    rs = rs.order("tasks.id").pluck("tasks.id")
-    count = queue_import_jobs(rs)
-  end
-
-  def queue_import_jobs(rs, options = {})
-    return 0 unless active?
-
-    if rs.length == 0
-      wait
-      return 0
-    end
-
-    rs.each_slice(job_batch_size) do |rs_ids|
-      CouchdbImportJob.perform_later(rs_ids)
-    end
-
-    rs.length
-  end
-
   def timestamp
     cached_at.utc.iso8601
   end
@@ -364,10 +337,7 @@ class Agent < ActiveRecord::Base
     now = Time.zone.now
 
     # loop through cached attributes we want to update
-    [:queued_count,
-     :stale_count,
-     :refreshed_count,
-     :response_count,
+    [:response_count,
      :average_count,
      :maximum_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
 
@@ -376,29 +346,5 @@ class Agent < ActiveRecord::Base
 
   def create_uuid
     write_attribute(:uuid, SecureRandom.uuid)
-  end
-
-  # Remove all task records for this agent that have never been updated,
-  # return true if all records are removed
-  def remove_all_tasks
-    t = tasks.where(:retrieved_at == '1970-01-01').delete_all
-    t.nil? || t.count == 0
-  end
-
-  # Create an empty event record for every work for the new agent
-  def create_tasks
-    work_ids = Work.pluck(:id)
-    existing_ids = Task.where(:agent_id => id).pluck(:work_id)
-
-    (0...work_ids.length).step(1000) do |offset|
-      ids = work_ids[offset...offset + 1000] & existing_ids
-      InsertTaskJob.perform_later(self, ids)
-     end
-  end
-
-  def insert_tasks(ids = [])
-    sql = "insert into tasks (work_id, agent_id, created_at, updated_at) select id, #{id}, now(), now() from works"
-    sql += " where works.id not in (#{work_ids.join(',')})" unless ids.empty?
-    ActiveRecord::Base.connection.execute sql
   end
 end

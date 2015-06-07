@@ -22,7 +22,6 @@ class AgentJob < ActiveJob::Base
 
   rescue_from StandardError do |exception|
     ids, agent = arguments
-    Task.where("id in (?)", ids).update_all(queued_at: nil)
     agent_id = agent.nil? ? nil : agent.id
 
     Notification.where(message: exception.message).where(unresolved: true).first_or_create(
@@ -31,8 +30,31 @@ class AgentJob < ActiveJob::Base
       agent_id: agent_id)
   end
 
-  def perform(ids, agent)
-    ids.each do |id|
+  def perform(ids = [], agent, options)
+    case agent.kind
+    when "work" then
+      ids.each do |id|
+        # check for failed queries and rate-limiting
+        agent.work_after_check
+        fail AgentInactiveError, "#{agent.title} is not in working state" unless agent.working?
+
+        # observe rate-limiting settings, put back in queue if wait time is more than 5 sec
+        wait_time = agent.wait_time
+        fail TooManyRequestsError, "Wait time too long (#{wait_time.to_i} sec) for #{agent.title}" if wait_time > 5
+
+        sleep wait_time
+
+        work = Work.where(id: id).first
+        fail ActiveRecord::RecordNotFound if work.nil?
+
+        # store API response result and duration in api_responses table
+        response = { work_id: id, agent_id: agent.id }
+        ActiveSupport::Notifications.instrument("api_response.get") do |payload|
+          response.merge!(agent.collect_data(id))
+          payload.merge!(response)
+        end
+      end
+    else
       # check for failed queries and rate-limiting
       agent.work_after_check
       fail AgentInactiveError, "#{agent.title} is not in working state" unless agent.working?
@@ -43,13 +65,10 @@ class AgentJob < ActiveJob::Base
 
       sleep wait_time
 
-      task = Task.where(id: id).first
-      fail ActiveRecord::RecordNotFound if task.nil? || task.work.nil?
-
       # store API response result and duration in api_responses table
-      response = { work_id: task.work_id, agent_id: task.agent_id, task_id: task.id }
+      response = { agent_id: agent.id }
       ActiveSupport::Notifications.instrument("api_response.get") do |payload|
-        response.merge!(task.perform_get_data)
+        response.merge!(agent.collect_data(nil))
         payload.merge!(response)
       end
     end
@@ -57,7 +76,6 @@ class AgentJob < ActiveJob::Base
 
   after_perform do |job|
     ids, agent = job.arguments
-    Task.where("id in (?)", ids).update_all(queued_at: nil)
     agent.wait_after_check
   end
 end

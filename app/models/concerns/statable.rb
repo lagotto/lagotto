@@ -39,7 +39,6 @@ module Statable
       end
 
       after_transition :available => any - [:available, :retired] do |agent|
-        agent.create_tasks
         CacheJob.perform_later(agent)
       end
 
@@ -68,7 +67,6 @@ module Statable
       end
 
       event :uninstall do
-        transition any - [:available] => :available, :if => :remove_all_tasks
         transition any - [:available, :retired] => :retired
       end
 

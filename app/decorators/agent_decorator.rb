@@ -27,10 +27,4 @@ class AgentDecorator < Draper::Decorator
       "average" => average_count,
       "maximum" => maximum_count }
   end
-
-  def status
-    { "refreshed" => refreshed_count,
-      "queued" => queued_count,
-      "stale" => stale_count }
-  end
 end

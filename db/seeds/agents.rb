@@ -267,7 +267,6 @@ plos_import = PlosImport.where(name: 'plos_import').first_or_create(
   :title => 'PLOS Import',
   :description => 'Import works via the PLOS Solr API.',
   :kind => "all",
-  :queueable => false,
   :group_id => other.id)
 
 # The following sources require passwords/API keys and are installed by default
@@ -315,7 +314,6 @@ pmc = Pmc.where(name: 'pmc').first_or_create(
   :title => 'PubMed Central Usage Stats',
   :description => 'PubMed Central is a free full-text archive of biomedical ' \
                   'literature at the National Library of Medicine.',
-  :queueable => false,
   :source_id => "pmc",
   :group_id => viewed.id)
 copernicus = Copernicus.where(name: 'copernicus').first_or_create(
@@ -331,7 +329,6 @@ twitter_search = TwitterSearch.where(name: 'twitter_search').first_or_create(
 counter = Counter.where(name: 'counter').first_or_create(
   :title => "Counter",
   :description => "Usage stats from the PLOS website",
-  :queueable => false,
   :source_id => "counter",
   :group_id => viewed.id)
 wos = Wos.where(name: 'wos').first_or_create(
@@ -342,7 +339,6 @@ wos = Wos.where(name: 'wos').first_or_create(
 f1000 = F1000.where(name: 'f1000').first_or_create(
   :title => "F1000Prime",
   :description => "Post-publication peer review of the biomedical literature.",
-  :queueable => false,
   :source_id => "f1000",
   :group_id => recommended.id)
 figshare = Figshare.where(name: 'figshare').first_or_create(

@@ -40,8 +40,8 @@ class Openedition < Agent
     "http://search.openedition.org/index.php?op[]=AND&q[]=%{query_string}&field[]=All&pf=Hypotheses.org"
   end
 
-  def staleness_year
-    config.staleness_year || 1.month
+  def cron_line
+    config.cron_line || "* 4 1 * *"
   end
 
   def rate_limiting

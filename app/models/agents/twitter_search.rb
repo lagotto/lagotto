@@ -136,28 +136,16 @@ class TwitterSearch < Agent
     "https://api.twitter.com/oauth2/token"
   end
 
+  def cron_line
+    config.cron_line || "* 6 * * *"
+  end
+
   def job_batch_size
     config.job_batch_size || 100
   end
 
   def rate_limiting
     config.rate_limiting || 1800
-  end
-
-  def staleness_week
-    config.staleness_week || 1.day
-  end
-
-  def staleness_month
-    config.staleness_month || 1.day
-  end
-
-  def staleness_year
-    config.staleness_year || (1.month * 0.25).to_i
-  end
-
-  def staleness_all
-    config.staleness_all || (1.month * 0.25).to_i
   end
 
   def queue

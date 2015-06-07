@@ -64,8 +64,8 @@ class Researchblogging < Agent
     "http://researchblogging.org/post-search/list?article=%{query_string}"
   end
 
-  def staleness_year
-    config.staleness_year || 1.month
+  def cron_line
+    config.cron_line || "* 4 1 * *"
   end
 
   def rate_limiting
@@ -74,9 +74,5 @@ class Researchblogging < Agent
 
   def job_batch_size
     config.job_batch_size || 50
-  end
-
-  def workers
-    config.workers || 3
   end
 end

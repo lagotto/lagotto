@@ -31,30 +31,6 @@ module Countable
       end
     end
 
-    def queued_count
-      cache_read("queued_count", tasks.queued.size)
-    end
-
-    def queued_count=(time)
-      cache_write("queued_count", tasks.queued.size, time)
-    end
-
-    def stale_count
-      cache_read("stale_count", tasks.stale.size)
-    end
-
-    def stale_count=(time)
-      cache_write("stale_count", tasks.stale.size, time)
-    end
-
-    def refreshed_count
-      cache_read("refreshed_count", tasks.refreshed.size)
-    end
-
-    def refreshed_count=(time)
-      cache_write("refreshed_count", tasks.refreshed.size, time)
-    end
-
     def response_count
       cache_read("response_count", api_responses.total(24).size)
     end

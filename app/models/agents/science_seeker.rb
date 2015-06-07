@@ -66,15 +66,11 @@ class ScienceSeeker < Agent
     "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{query_string}"
   end
 
-  def staleness_year
-    config.staleness_year || 1.month
+  def cron_line
+    config.cron_line || "* 4 1 * *"
   end
 
   def rate_limiting
     config.rate_limiting || 1000
-  end
-
-  def workers
-    config.workers || 3
   end
 end

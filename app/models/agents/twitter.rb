@@ -73,6 +73,10 @@ class Twitter < Agent
     [:url_private]
   end
 
+  def cron_line
+    config.cron_line || "* 6,18 * * *"
+  end
+
   def queue
     config.queue || "high"
   end

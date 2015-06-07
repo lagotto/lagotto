@@ -40,27 +40,8 @@
                                         hint: "Job queue for workers" %>
         <%= f.input :rate_limiting, :as => :numeric, label: false,
                                                       hint: "Max. requests per hour" %>
-        <% if @agent.queueable %>
-          <%= f.input :staleness_week,  collection: INTERVAL_OPTIONS,
-                                        label: "Update interval",
-                                        include_blank: false,
-                                        hint: "First 7 days after publication" %>
-          <%= f.input :staleness_month, collection: INTERVAL_OPTIONS,
-                                        label: false,
-                                        include_blank: false,
-                                        hint: "First 31 days after publication" %>
-          <%= f.input :staleness_year,  collection: INTERVAL_OPTIONS,
-                                        label: false,
-                                        include_blank: false,
-                                        hint: "First year after publication" %>
-          <%= f.input :staleness_all,   collection: INTERVAL_OPTIONS,
-                                        label: false,
-                                        include_blank: false,
-                                        hint: "More than one year after publication" %>
-        <% else %>
-          <%= f.input :cron_line, label: "Update interval",
+        <%= f.input :cron_line, label: "Update interval",
                                   hint: "Time in crontab format before more jobs can be added to the job queue" %>
-        <% end %>
 
         <%= f.input :timeout, hint: "Time to wait for response from the agent (seconds)"  %>
 
@@ -111,11 +92,7 @@
         </tr>
         <tr>
           <th>Update interval</th>
-          <% if @agent.queueable %>
-            <td><%= @agent.staleness_with_limits.map { |i, j| distance_of_time(j) + " for works published #{i}" }.join("</br>").html_safe %></td>
-          <% else %>
-            <td>Next update <%= @agent.cron_line ? CronParser.new(@agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "N/A" %></td>
-          <% end %>
+          <td>Next update <%= @agent.cron_line ? CronParser.new(@agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "N/A" %></td>
         </tr>
         <tr>
           <th>Timeout</th>
