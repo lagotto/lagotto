@@ -1,125 +1,74 @@
 class F1000 < Agent
-  def get_query_url(work)
-    return {} unless work.doi.present?
-    fail ArgumentError, "Source url is missing." if url.blank?
+  def get_query_url(options={})
+    fail ArgumentError, "Agent url is missing." if url_private.blank?
 
-    url % { doi: work.doi_escaped }
+    url_private
   end
 
-  def parse_data(result, work, options={})
+  def queue_jobs(options={})
+    return 0 unless active?
+
+    query_url = get_query_url(options)
+    result = get_result(query_url, options)
+    total = result.fetch("ObjectList", []).fetch("Article", []).length
+
+    if total > 0
+      # walk through paginated results
+      total_pages = (total.to_f / job_batch_size).ceil
+
+      (0...total_pages).each do |page|
+        AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(nil, self, options)
+      end
+    end
+
+    # return number of works queued
+    total
+  end
+
+  def get_data(_work, options={})
+    query_url = get_query_url(options)
+    result = get_result(query_url, options)
+  end
+
+  def parse_data(result, _work, options={})
     # properly handle not found errors
-    result = { 'data' => [] } if result[:status] == 404
+    result = { "ObjectList" => { "Article" => [] }} if result[:status] == 404
 
     return result if result[:error]
 
-    extra = get_extra(result)
-
-    if extra.empty?
-      total = 0
-      events_url = nil
-    else
-      event = extra.last[:event]
-      total = event.fetch("score", 0)
-      events_url = event.fetch("url", nil)
-    end
-
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: events_url,
-        extra: extra }] }
+    { events: get_events(result) }
   end
 
-  def get_extra(result)
-    result['recommendations'] ||= {}
-    Array(result['recommendations']).map do |item|
-      { :event => item,
-        :event_url => item['url'] }
-    end
-  end
+  def get_events(result)
+    recommendations = result.fetch("ObjectList", {}).fetch("Article", [])
 
-  # Retrieve f1000 XML feed and store in /data directory.
-  def get_feed(options={})
-    save_to_file(url_feed, filename, options.merge(source_id: id))
-  end
-
-  def get_events_by_month(events)
-    events.map do |event|
-      { month: event[:event]['month'],
-        year: event[:event]['year'],
-        total: event[:event]['score'] }
-    end
-  end
-
-  # Parse f1000 feed and store in CouchDB. Returns an empty array if no error occured
-  def parse_feed(options={})
-    document = read_from_file(filename)
-    document.extend Hashie::Extensions::DeepFetch
-    recommendations = document.deep_fetch('ObjectList', 'Article') { nil }
-
-    Array(recommendations).each do |item|
-      doi = item['Doi']
+    Array(recommendations).map do |item|
+      doi = item.fetch('Doi', nil)
       # sometimes doi metadata are missing
       break unless doi
 
       # turn classifications into array with lowercase letters
       classifications = item['Classifications'] ? item['Classifications'].downcase.split(", ") : []
 
-      year = Time.zone.now.year
-      month = Time.zone.now.month
+      total = item['TotalScore'].to_i
+      events_url = item.fetch('Url', nil)
 
-      recommendation = { 'year' => year,
-                         'month' => month,
-                         'doi' => doi,
-                         'f1000_id' => item['Id'],
-                         'url' => item['Url'],
-                         'score' => item['TotalScore'].to_i,
-                         'classifications' => classifications,
-                         'updated_at' => Time.now.utc.iso8601 }
+      extra = { 'doi' => doi,
+                'f1000_id' => item.fetch('Id'),
+                'url' => events_url,
+                'score' => total,
+                'classifications' => classifications }
 
-      # try to get the existing information about the given work
-      data = get_result(url_db + CGI.escape(doi))
-
-      if data['recommendations'].nil?
-        data = { 'recommendations' => [recommendation] }
-      else
-        # update existing entry
-        data['recommendations'].delete_if { |recommendation| recommendation['month'] == month && recommendation['year'] == year }
-        data['recommendations'] << recommendation
-      end
-
-      # store updated information in CouchDB
-      put_lagotto_data(url_db + CGI.escape(doi), data: data)
+      { source_id: "f1000",
+        work_id: "doi:#{doi}",
+        total: total,
+        events_url: events_url,
+        extra: extra }
     end
   end
 
-  def put_database
-    put_lagotto_data(url_db)
-  end
-
-  def get_feed_url
-    url_feed
-  end
-
-  def filename
-    String(url_feed).split("/").last
-  end
-
-  def url
-    url_db + "%{doi}"
-  end
-
   def config_fields
-    [:url_db, :url_feed]
-  end
-
-  def url_feed
-    config.url_feed
-  end
-
-  def url_feed=(value)
-    config.url_feed = value
+    [:url_private]
   end
 
   def cron_line

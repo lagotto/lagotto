@@ -340,6 +340,7 @@ f1000 = F1000.where(name: 'f1000').first_or_create(
   :title => "F1000Prime",
   :description => "Post-publication peer review of the biomedical literature.",
   :source_id => "f1000",
+  :kind => "all",
   :group_id => recommended.id)
 figshare = Figshare.where(name: 'figshare').first_or_create(
   :title => "Figshare",

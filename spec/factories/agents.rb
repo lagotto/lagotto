@@ -389,8 +389,7 @@ FactoryGirl.define do
     source_id "f1000"
     title "F1000Prime"
     state_event "activate"
-    url_db "http://127.0.0.1:5984/f1000_test/"
-    url_feed "http://example.org/example.xml"
+    url_private "http://example.com/intermediate.xml"
 
     group
 
