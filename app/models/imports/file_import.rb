@@ -1,14 +1,15 @@
 class FileImport < Import
   def total_results
-    @file.length
+    file.length
   end
 
-  def get_data(offset = 0)
+  def get_data(options={})
+    offset = options[:offset].to_i
     result = get_text(offset)
   end
 
   def get_text(offset = 0, rows = 500)
-    text = @file.slice(offset...(offset + rows))
+    text = file.slice(offset...(offset + rows))
     items = text.map do |line|
       line = ActiveSupport::Multibyte::Unicode.tidy_bytes(line)
       raw_doi, raw_published_on, raw_title = line.strip.split(" ", 3)

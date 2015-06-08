@@ -1,5 +1,7 @@
 class CslImport < Import
   def parse_data(result)
+    mem = member.split(",") if member.present?
+
     Array(result).map do |item|
       doi = item.fetch("DOI", nil)
       canonical_url = item.fetch("URL", nil)
@@ -8,7 +10,7 @@ class CslImport < Import
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
       title = item.fetch("title", nil)
-      member_id = @member.first
+      member_id = Array(mem).first
       if member_id
         publisher = Publisher.where(member_id: member_id).first
       else

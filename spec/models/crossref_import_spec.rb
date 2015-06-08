@@ -33,8 +33,8 @@ describe CrossrefImport, type: :model, vcr: true do
     end
 
     it "should have query_url with member_id" do
-      import = CrossrefImport.new(member: "340")
-      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-05%2Cuntil-pub-date%3A2013-09-05%2Cmember%3A340&offset=0&rows=1000"
+      import = CrossrefImport.new(member: "340,4374")
+      url = "http://api.crossref.org/works?filter=from-update-date%3A2013-09-04%2Cuntil-update-date%3A2013-09-05%2Cuntil-pub-date%3A2013-09-05%2Cmember%3A340%2Cmember%3A4374&offset=0&rows=1000"
       expect(import.query_url).to eq(url)
     end
 
@@ -73,7 +73,7 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should get_data default" do
       import = CrossrefImport.new
       response = import.get_data
-      expect(response["message"]["total-results"]).to eq(55508)
+      expect(response["message"]["total-results"]).to eq(102719)
       item = response["message"]["items"].first
       expect(item["DOI"]).to eq("10.3138/9781442618077_8")
     end

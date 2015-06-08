@@ -14,7 +14,7 @@ class PlosImport < Import
 
   def query_url(offset = 0, rows = 1000)
     url = "http://api.plos.org/search?"
-    date_range = "publication_date:[#{@from_pub_date}T00:00:00Z TO #{@until_pub_date}T23:59:59Z]"
+    date_range = "publication_date:[#{from_pub_date}T00:00:00Z TO #{until_pub_date}T23:59:59Z]"
     params = { q: "*:*",
                start: offset,
                rows: rows,
@@ -24,7 +24,8 @@ class PlosImport < Import
     url + params.to_query
   end
 
-  def get_data(offset = 0, options={})
+  def get_data(options={})
+    offset = options[:offset].to_i
     get_result(query_url(offset), options)
   end
 
