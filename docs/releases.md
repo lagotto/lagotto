@@ -3,6 +3,15 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 3.21 (June 8, 2015)
+
+[Lagotto 3.20](https://github.com/articlemetrics/lagotto/releases/tag/v.3.21) was released on June 8, 2015 with the following changes:
+
+* correctly exclude private sources from the v5 API ([#278](https://github.com/articlemetrics/lagotto/issues/278))
+* better documentation of the data migrations introduced in Lagotto `3.18` ([#304](https://github.com/articlemetrics/lagotto/issues/304))
+* return correct exitstatus in capistrano ([#305](https://github.com/articlemetrics/lagotto/issues/305))
+* fixed an issue with the CrossRef import function not passing parameters correctly ([#320](https://github.com/articlemetrics/lagotto/issues/320))
+
 ## Lagotto 3.20 (May 5, 2015)
 
 [Lagotto 3.20](https://github.com/articlemetrics/lagotto/releases/tag/v.3.20) was released on May 5, 2015 with the following changes:
