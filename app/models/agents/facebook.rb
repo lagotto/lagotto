@@ -97,4 +97,8 @@ class Facebook < Agent
   def url_linkstat=(value)
     config.url_linkstat = value
   end
+
+  def cron_line
+    config.cron_line || "* 6,18 * * *"
+  end
 end

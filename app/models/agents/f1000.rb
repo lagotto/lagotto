@@ -70,8 +70,4 @@ class F1000 < Agent
   def config_fields
     [:url_private]
   end
-
-  def cron_line
-    config.cron_line || "* 02 * * 1"
-  end
 end

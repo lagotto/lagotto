@@ -65,7 +65,7 @@ class Researchblogging < Agent
   end
 
   def cron_line
-    config.cron_line || "* 4 1 * *"
+    config.cron_line || "* 7 28 * *"
   end
 
   def rate_limiting
