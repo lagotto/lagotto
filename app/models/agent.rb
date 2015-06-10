@@ -75,6 +75,7 @@ class Agent < ActiveRecord::Base
   scope :installed, -> { by_states(0).order_by_title }
   scope :visible, -> { by_states(1).order_by_title }
   scope :active, -> { by_states(2).order_by_title }
+  scope :updating, -> { by_states(3).order_by_title }
 
   scope :for_events, -> { active.where("name != ?", 'relativemetric') }
 

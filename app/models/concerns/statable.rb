@@ -22,6 +22,18 @@ module Statable
         end
       end
 
+      state all - [:available, :retired, :inactive, :disabled] do
+        def updating?
+          true
+        end
+      end
+
+      state all - [:working, :waiting] do
+        def updating?
+          false
+        end
+      end
+
       state all - [:available, :retired, :inactive] do
         validate { |agent| agent.validate_config_fields }
       end
