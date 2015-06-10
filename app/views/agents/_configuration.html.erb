@@ -91,8 +91,8 @@
           </td>
         </tr>
         <tr>
-          <th>Update interval</th>
-          <td>Next update <%= @agent.cron_line ? CronParser.new(@agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "N/A" %></td>
+          <th>Next update</th>
+          <td><%= CronParser.new(@agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" %></td>
         </tr>
         <tr>
           <th>Timeout</th>

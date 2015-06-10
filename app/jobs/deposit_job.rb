@@ -1,5 +1,5 @@
 class DepositJob < ActiveJob::Base
-  queue_as :high
+  queue_as :default
 
   def perform(deposit)
     deposit.start
