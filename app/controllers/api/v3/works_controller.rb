@@ -27,11 +27,14 @@ class Api::V3::WorksController < Api::BaseController
     source_ids = get_source_ids(params[:source])
     work = work.where(retrieval_statuses: { source_id: source_ids })
                .includes(:retrieval_statuses).references(:retrieval_statuses)
-               .first
 
-    fail ActiveRecord::RecordNotFound, "Article not found." if work.blank?
+    fail ActiveRecord::RecordNotFound, "Article not found." unless work.first
 
-    @work = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    if ENV["API"] == "rabl"
+      @works = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    else
+      @work = work.first.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    end
   end
 
   protected
