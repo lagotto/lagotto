@@ -45,6 +45,7 @@ notifications:
     template:
       - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
     format: html
+  slack: lagotto:PQRg85DOsMv4EJCi1CUNi2AE
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/a275593b238b22c47314
