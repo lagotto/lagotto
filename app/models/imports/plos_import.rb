@@ -14,7 +14,7 @@ class PlosImport < Import
 
   def query_url(offset = 0, rows = 1000)
     url = "http://api.plos.org/search?"
-    date_range = "publication_date:[#{@from_pub_date}T00:00:00Z TO #{@until_pub_date}T23:59:59Z]"
+    date_range = "publication_date:[#{from_pub_date}T00:00:00Z TO #{until_pub_date}T23:59:59Z]"
     params = { q: "*:*",
                start: offset,
                rows: rows,
@@ -24,16 +24,17 @@ class PlosImport < Import
     url + params.to_query
   end
 
-  def get_data(offset = 0, options={})
+  def get_data(options={})
+    offset = options[:offset].to_i
     get_result(query_url(offset), options)
   end
 
   def parse_data(result)
     # return early if an error occured
-    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
+    return [] unless result && result.fetch("response", nil)
 
-    # fixed values, publisher_id is PLOS CrossRef member id
-    publisher_id = 340
+    # fixed values, member_id is PLOS CrossRef member id
+    member_id = 340
     type = "article-journal"
     work_type_id = WorkType.where(name: type).pluck(:id).first
 
@@ -63,9 +64,9 @@ class PlosImport < Import
         year: year,
         month: month,
         day: day,
-        publisher_id: publisher_id,
+        publisher_id: member_id,
         work_type_id: work_type_id,
-        source_token: "plos"
+        tracked: true,
         csl: csl }
     end
   end

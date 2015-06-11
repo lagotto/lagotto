@@ -1,29 +1,21 @@
 class CrossrefImport < Import
 
   def initialize(options = {})
-    from_update_date = options.fetch(:from_update_date, nil)
-    until_update_date = options.fetch(:until_update_date, nil)
-    from_pub_date = options.fetch(:from_pub_date, nil)
-    until_pub_date = options.fetch(:until_pub_date, nil)
-    type = options.fetch(:type, nil)
+    @from_update_date = options.fetch(:from_update_date, nil)
+    @from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if from_update_date.blank?
+
+    @until_update_date = options.fetch(:until_update_date, nil)
+    @until_update_date = Time.zone.now.to_date.iso8601 if until_update_date.blank?
+
+    @from_pub_date = options.fetch(:from_pub_date, nil)
+
+    @until_pub_date = options.fetch(:until_pub_date, nil)
+    @until_pub_date = Time.zone.now.to_date.iso8601 if until_pub_date.blank?
+
     @member = options.fetch(:member, nil)
-    @member = @member.to_s.split(",") if @member.present?
-    issn = options.fetch(:issn, nil)
-    sample = options.fetch(:sample, 0)
-    @sample = sample.to_i
-
-    from_update_date = (Time.zone.now.to_date - 1.day).iso8601 if from_update_date.blank?
-    until_update_date = Time.zone.now.to_date.iso8601 if until_update_date.blank?
-    until_pub_date = Time.zone.now.to_date.iso8601 if until_pub_date.blank?
-
-    @filter = "from-update-date:#{from_update_date}"
-    @filter += ",until-update-date:#{until_update_date}"
-    @filter += ",until-pub-date:#{until_pub_date}"
-    @filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
-    @filter += ",type:#{type}" if type
-    @filter += ",issn:#{issn}" if issn
-
-    @filter += @member.reduce("") { |sum, m| sum + ",member:#{m}" } if @member.present?
+    @type = options.fetch(:type, nil)
+    @issn = options.fetch(:issn, nil)
+    @sample = options.fetch(:sample, 0).to_i
   end
 
   def total_results
@@ -33,15 +25,26 @@ class CrossrefImport < Import
 
   def query_url(offset = 0, rows = 1000)
     url = "http://api.crossref.org/works?"
-    if @sample > 0
-      params = { filter: @filter, sample: @sample }
+    mem = member.split(",") if member.present?
+
+    filter = "from-update-date:#{from_update_date}"
+    filter += ",until-update-date:#{until_update_date}"
+    filter += ",until-pub-date:#{until_pub_date}"
+    filter += ",from-pub-date:#{from_pub_date}" if from_pub_date
+    filter += ",type:#{type}" if type
+    filter += ",issn:#{issn}" if issn
+    filter += mem.reduce("") { |sum, m| sum + ",member:#{m}" } if member.present?
+
+    if sample > 0
+      params = { filter: filter, sample: sample }
     else
-      params = { filter: @filter, offset: offset, rows: rows }
+      params = { filter: filter, offset: offset, rows: rows }
     end
     url + params.to_query
   end
 
-  def get_data(offset = 0, options={})
+  def get_data(options={})
+    offset = options[:offset].to_i
     get_result(query_url(offset), options)
   end
 
@@ -99,7 +102,7 @@ class CrossrefImport < Import
         day: day,
         publisher_id: publisher_id,
         work_type_id: work_type_id,
-        source_token: "crossref"
+        tracked: true,
         csl: csl }
     end
   end

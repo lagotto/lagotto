@@ -25,7 +25,7 @@ class WorksController < ApplicationController
   end
 
   def new
-    @work = Work.new(day: Time.zone.now.day, month: Time.zone.now.month, year: Time.zone.now.year)
+    @work = Work.new(day: Time.zone.now.day, month: Time.zone.now.month, year: Time.zone.now.year, tracked: true)
     render :index
   end
 

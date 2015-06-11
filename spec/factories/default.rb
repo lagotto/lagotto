@@ -14,6 +14,7 @@ FactoryGirl.define do
     month { Time.zone.now.to_date.month }
     day { Time.zone.now.to_date.day }
     publisher_id 340
+    tracked true
     csl {{}}
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }

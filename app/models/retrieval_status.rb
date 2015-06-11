@@ -127,7 +127,6 @@ class RetrievalStatus < ActiveRecord::Base
         month: month,
         day: day,
         work_type_id: work_type_id,
-        tracked: false,
         csl: csl,
         related_works: related_works }
 
