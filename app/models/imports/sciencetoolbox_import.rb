@@ -39,6 +39,7 @@ class SciencetoolboxImport < Import
         day: day,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        source_token: "sciencetoolbox"
         csl: csl }
     end
   end

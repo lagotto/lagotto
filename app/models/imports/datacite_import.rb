@@ -89,6 +89,7 @@ class DataciteImport < Import
         day: nil,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        source_token: "datacite"
         csl: csl }
     end
   end

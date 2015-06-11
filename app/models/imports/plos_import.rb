@@ -65,6 +65,7 @@ class PlosImport < Import
         day: day,
         publisher_id: publisher_id,
         work_type_id: work_type_id,
+        source_token: "plos"
         csl: csl }
     end
   end

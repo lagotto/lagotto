@@ -99,6 +99,7 @@ class CrossrefImport < Import
         day: day,
         publisher_id: publisher_id,
         work_type_id: work_type_id,
+        source_token: "crossref"
         csl: csl }
     end
   end

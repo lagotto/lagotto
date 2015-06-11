@@ -40,6 +40,7 @@ class CslImport < Import
         day: day.to_i,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        source_token: "csl"
         csl: csl }
     end
   end
