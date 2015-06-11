@@ -131,10 +131,6 @@ class Source < ActiveRecord::Base
     rs.length
   end
 
-  def last_response
-    @last_response ||= api_responses.maximum(:created_at) || Time.zone.now
-  end
-
   def schedule_at
     last_response + batch_interval
   end

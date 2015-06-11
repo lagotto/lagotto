@@ -129,12 +129,12 @@ describe Source, :type => :model do
 
       context "queue all works" do
         it "queue" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
         end
 
         it "with rate_limiting" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           subject.rate_limiting = 5
           expect(subject.queue_all_works).to eq(10)
         end
@@ -157,32 +157,32 @@ describe Source, :type => :model do
           retrieval_statuses = FactoryGirl.create_list(:retrieval_status, 10, :with_work_published_today, source_id: subject.id)
           rs_ids = retrieval_statuses.map(&:id)
 
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works(start_date: Date.today - 2.days, end_date: Date.today - 2.days)).to eq(0)
         end
       end
 
       context "queue works" do
         it "queue" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
         end
 
         it "only stale works" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           retrieval_status = FactoryGirl.create(:retrieval_status, source_id: subject.id, scheduled_at: Date.today + 1.day)
           expect(subject.queue_all_works).to eq(10)
         end
 
         it "not queued works" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           retrieval_status = FactoryGirl.create(:retrieval_status, source_id: subject.id, queued_at: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
         end
 
         it "with rate-limiting" do
           rate_limiting = 5
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           subject.rate_limiting = rate_limiting
           expect(subject.queue_all_works).to eq(10)
         end
@@ -197,14 +197,14 @@ describe Source, :type => :model do
           report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
           subject.disable
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
           expect(subject).to be_disabled
         end
 
         it "with waiting source" do
           subject.wait
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
           expect(subject).to be_waiting
         end
@@ -214,42 +214,42 @@ describe Source, :type => :model do
 
           FactoryGirl.create_list(:alert, 10, source_id: subject.id, updated_at: Time.zone.now - 10.minutes)
           subject.max_failed_queries = 5
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
           expect(subject).not_to be_disabled
         end
 
         it "with queued jobs" do
           allow(job).to receive(:count).and_return(1)
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_all_works).to eq(10)
         end
       end
 
       context "queue work jobs" do
         it "multiple works" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_work_jobs(rs_ids)).to eq(10)
         end
 
         it "single work" do
           retrieval_status = FactoryGirl.create(:retrieval_status, source_id: subject.id)
-          allow(job).to receive(:enqueue).with(SourceJob.new([retrieval_status.id], subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(SourceJob.new([retrieval_status.id], subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new([retrieval_status.id], subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:perform).with(SourceJob.new([retrieval_status.id], subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_work_jobs([retrieval_status.id])).to eq(1)
         end
       end
 
       context "job callbacks" do
         it "perform callback" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:perform).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_work_jobs(rs_ids)).to eq(10)
         end
 
         it "after callback" do
-          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
-          allow(job).to receive(:after).with(SourceJob.new(rs_ids, subject.id), queue: subject.name, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:after).with(SourceJob.new(rs_ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_work_jobs(rs_ids)).to eq(10)
         end
       end

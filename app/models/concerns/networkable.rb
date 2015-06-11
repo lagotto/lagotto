@@ -24,7 +24,8 @@ module Networkable
       if options[:source_id].present?
         source = Source.where(id: options[:source_id]).first
         source.update_attributes(rate_limit_remaining: get_rate_limit_remaining(response.headers),
-                                 rate_limit_reset: get_rate_limit_reset(response.headers))
+                                 rate_limit_reset: get_rate_limit_reset(response.headers),
+                                 last_reponse: Time.zone.now)
       end
       # parsing by content type is not reliable, so we check the response format
       if is_json?(response.body)
