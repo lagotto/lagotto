@@ -39,6 +39,9 @@ set :pty, false
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 
+# Bugsnag deploy tracking
+set :bugsnag_api_key, ENV["BUGSNAG_KEY"] if ENV["BUGSNAG_KEY"]
+
 # Default deploy_to directory is /var/www/my_app
 # set :deploy_to, '/var/www/lagotto'
 
