@@ -137,7 +137,7 @@ describe CrossRef, type: :model, vcr: true do
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
+      expect(event['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(event['title']).to eq("Audiotactile interactions in temporal perception")
       expect(event['container-title']).to eq("Psychon Bull Rev")
       expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])
@@ -166,7 +166,7 @@ describe CrossRef, type: :model, vcr: true do
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
+      expect(event['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(event['title']).to eq("Audiotactile interactions in temporal perception")
       expect(event['container-title']).to eq("Psychon Bull Rev")
       expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])

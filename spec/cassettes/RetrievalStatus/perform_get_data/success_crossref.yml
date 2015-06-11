@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:40 GMT
+      - Thu, 11 Jun 2015 14:05:25 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -38,7 +38,7 @@ http_interactions:
         interactions in temporal perception"],"alternative-id":["70"],"type":"journal-article","DOI":"10.3758\/s13423-011-0070-4","ISSN":["1069-9384","1531-5320"],"URL":"http:\/\/dx.doi.org\/10.3758\/s13423-011-0070-4","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433583502454},"volume":"18","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:39 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:26 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.neuroscience.2009.08.040
@@ -56,7 +56,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:41 GMT
+      - Thu, 11 Jun 2015 14:05:26 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -76,7 +76,7 @@ http_interactions:
         and anatomical analyses of involved circadian mechanisms"],"alternative-id":["S0306452209013980"],"type":"journal-article","DOI":"10.1016\/j.neuroscience.2009.08.040","ISSN":["0306-4522"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.neuroscience.2009.08.040","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433919654287},"volume":"164","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:40 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:27 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.jneuroim.2008.06.023
@@ -94,7 +94,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:42 GMT
+      - Thu, 11 Jun 2015 14:05:27 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -120,7 +120,7 @@ http_interactions:
         anterior hypothalamic area"],"alternative-id":["S016557280800249X"],"type":"journal-article","DOI":"10.1016\/j.jneuroim.2008.06.023","ISSN":["0165-5728"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jneuroim.2008.06.023","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431520466922},"volume":"203","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:41 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:28 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1093%2Fjac%2Fdkn166
@@ -138,7 +138,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:43 GMT
+      - Thu, 11 Jun 2015 14:05:28 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -161,7 +161,7 @@ http_interactions:
         Aeromonas bestiarum"],"type":"journal-article","DOI":"10.1093\/jac\/dkn166","ISSN":["0305-7453","1460-2091"],"URL":"http:\/\/dx.doi.org\/10.1093\/jac\/dkn166","source":"CrossRef","publisher":"Oxford
         University Press (OUP)","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433641167854},"volume":"62","member":"http:\/\/id.crossref.org\/member\/286"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:42 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:29 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.brainres.2010.04.021
@@ -179,7 +179,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:45 GMT
+      - Thu, 11 Jun 2015 14:05:30 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -201,7 +201,7 @@ http_interactions:
         in female rats"],"alternative-id":["S0006899310008590"],"type":"journal-article","DOI":"10.1016\/j.brainres.2010.04.021","ISSN":["0006-8993"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.brainres.2010.04.021","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,14]],"timestamp":1431609948644},"volume":"1339","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:44 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:30 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs11205-010-9690-8
@@ -219,7 +219,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:46 GMT
+      - Thu, 11 Jun 2015 14:05:31 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -242,7 +242,7 @@ http_interactions:
         and Health Related Outcomes in Community-Dwelling Elderly"],"alternative-id":["9690"],"type":"journal-article","DOI":"10.1007\/s11205-010-9690-8","ISSN":["0303-8300","1573-0921"],"URL":"http:\/\/dx.doi.org\/10.1007\/s11205-010-9690-8","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,9]],"timestamp":1433838445319},"volume":"102","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:45 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:31 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs12033-010-9353-7
@@ -260,7 +260,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:47 GMT
+      - Thu, 11 Jun 2015 14:05:32 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -283,7 +283,7 @@ http_interactions:
         Expression from One CMV Enhancer Controlling Two Core Promoters"],"alternative-id":["9353"],"type":"journal-article","DOI":"10.1007\/s12033-010-9353-7","ISSN":["1073-6085","1559-0305"],"URL":"http:\/\/dx.doi.org\/10.1007\/s12033-010-9353-7","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433766588084},"volume":"48","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:46 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:33 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.ejphar.2007.09.030
@@ -301,7 +301,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:48 GMT
+      - Thu, 11 Jun 2015 14:05:33 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -323,7 +323,7 @@ http_interactions:
         and NMDA receptor activation"],"alternative-id":["S0014299907010618"],"type":"journal-article","DOI":"10.1016\/j.ejphar.2007.09.030","ISSN":["0014-2999"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.ejphar.2007.09.030","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431479701689},"volume":"578","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:47 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:34 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.brainres.2010.09.110
@@ -341,7 +341,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:49 GMT
+      - Thu, 11 Jun 2015 14:05:34 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -368,7 +368,7 @@ http_interactions:
         during physical exercise"],"alternative-id":["S0006899310021761"],"type":"journal-article","DOI":"10.1016\/j.brainres.2010.09.110","ISSN":["0006-8993"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.brainres.2010.09.110","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,14]],"timestamp":1431633804802},"volume":"1366","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:48 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:35 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1093%2Fsysbio%2Fsyr078
@@ -386,7 +386,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:50 GMT
+      - Thu, 11 Jun 2015 14:05:35 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -408,7 +408,7 @@ http_interactions:
         Early Evolution of Parasitic Platyhelminths to Gondwana Breakup"],"type":"journal-article","DOI":"10.1093\/sysbio\/syr078","ISSN":["1063-5157","1076-836X"],"URL":"http:\/\/dx.doi.org\/10.1093\/sysbio\/syr078","source":"CrossRef","publisher":"Oxford
         University Press (OUP)","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433652364981},"volume":"60","member":"http:\/\/id.crossref.org\/member\/286"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:49 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:36 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs00421-009-1295-z
@@ -426,7 +426,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:51 GMT
+      - Thu, 11 Jun 2015 14:05:36 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -450,7 +450,7 @@ http_interactions:
         thermoregulatory effectors with independent central controls"],"alternative-id":["1295"],"type":"journal-article","DOI":"10.1007\/s00421-009-1295-z","ISSN":["1439-6319","1439-6327"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00421-009-1295-z","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433784198415},"volume":"109","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:50 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:37 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1038%2Fnrendo.2010.194
@@ -468,7 +468,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:53 GMT
+      - Thu, 11 Jun 2015 14:05:37 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -489,7 +489,7 @@ http_interactions:
         responses: the contribution of prostaglandin E2 and its receptors"],"alternative-id":["nrendo.2010.194"],"type":"journal-article","DOI":"10.1038\/nrendo.2010.194","ISSN":["1759-5029","1759-5037"],"URL":"http:\/\/dx.doi.org\/10.1038\/nrendo.2010.194","source":"CrossRef","publisher":"Nature
         Publishing Group","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433655128624},"volume":"7","member":"http:\/\/id.crossref.org\/member\/339"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:51 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:38 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.physbeh.2008.03.022
@@ -507,7 +507,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:54 GMT
+      - Thu, 11 Jun 2015 14:05:38 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -531,7 +531,7 @@ http_interactions:
         induced fever in near-term rats"],"alternative-id":["S003193840800098X"],"type":"journal-article","DOI":"10.1016\/j.physbeh.2008.03.022","ISSN":["0031-9384"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.physbeh.2008.03.022","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431504642093},"volume":"94","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:53 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:39 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1098%2Frspb.2010.0008
@@ -549,7 +549,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:56 GMT
+      - Thu, 11 Jun 2015 14:05:39 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -572,7 +572,7 @@ http_interactions:
         naturally occurring variant of Hsp90 that is associated with decanalization"],"type":"journal-article","DOI":"10.1098\/rspb.2010.0008","ISSN":["0962-8452","1471-2954"],"URL":"http:\/\/dx.doi.org\/10.1098\/rspb.2010.0008","source":"CrossRef","publisher":"The
         Royal Society","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433691650672},"volume":"277","member":"http:\/\/id.crossref.org\/member\/175"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:55 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:40 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.plipres.2006.11.001
@@ -590,7 +590,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:57 GMT
+      - Thu, 11 Jun 2015 14:05:40 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -612,7 +612,7 @@ http_interactions:
         At the crossroads of energy balance and systemic inflammation"],"alternative-id":["S0163782706000634"],"type":"journal-article","DOI":"10.1016\/j.plipres.2006.11.001","ISSN":["0163-7827"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.plipres.2006.11.001","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,12]],"timestamp":1431436795803},"volume":"46","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:56 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:41 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs15010-008-8087-y
@@ -630,7 +630,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:58 GMT
+      - Thu, 11 Jun 2015 14:05:41 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -650,7 +650,7 @@ http_interactions:
         Dynamic Reinfection Hypothesis of Latent Tuberculosis Infection"],"alternative-id":["8087"],"type":"journal-article","DOI":"10.1007\/s15010-008-8087-y","ISSN":["0300-8126","1439-0973"],"URL":"http:\/\/dx.doi.org\/10.1007\/s15010-008-8087-y","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433773519301},"volume":"37","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:57 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:42 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fj.1460-9568.2007.05843.x
@@ -668,7 +668,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:15:59 GMT
+      - Thu, 11 Jun 2015 14:05:43 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -691,7 +691,7 @@ http_interactions:
         projecting to medullary raphe in rats: a triple immunofluorescent labeling
         study"],"type":"journal-article","DOI":"10.1111\/j.1460-9568.2007.05843.x","ISSN":["0953-816X"],"URL":"http:\/\/dx.doi.org\/10.1111\/j.1460-9568.2007.05843.x","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433583036550},"volume":"26","member":"http:\/\/id.crossref.org\/member\/311"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:58 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:43 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5012%2Fbkcs.2011.32.2.620
@@ -709,7 +709,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:00 GMT
+      - Thu, 11 Jun 2015 14:05:44 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -730,7 +730,7 @@ http_interactions:
         Amphiphilic Peptide EYK"],"type":"journal-article","DOI":"10.5012\/bkcs.2011.32.2.620","ISSN":["0253-2964"],"URL":"http:\/\/dx.doi.org\/10.5012\/bkcs.2011.32.2.620","source":"CrossRef","publisher":"Korean
         Chemical Society","indexed":{"date-parts":[[2015,2,9]],"timestamp":1423489876974},"volume":"32","member":"http:\/\/id.crossref.org\/member\/2923"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:15:59 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:44 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1890%2F07-1689.1
@@ -748,7 +748,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:02 GMT
+      - Thu, 11 Jun 2015 14:05:45 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -769,7 +769,7 @@ http_interactions:
         OASIS EFFECT: RESPONSE OF BIRDS TO EXURBAN DEVELOPMENT IN A SOUTHWESTERN SAVANNA"],"alternative-id":["10.1890\/07-1689.1"],"type":"journal-article","DOI":"10.1890\/07-1689.1","ISSN":["1051-0761"],"URL":"http:\/\/dx.doi.org\/10.1890\/07-1689.1","source":"CrossRef","publisher":"Ecological
         Society of America","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433612394051},"volume":"18","member":"http:\/\/id.crossref.org\/member\/792"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:01 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:46 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1097%2FSHK.0b013e3180caac7e
@@ -787,7 +787,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:03 GMT
+      - Thu, 11 Jun 2015 14:05:46 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -809,7 +809,7 @@ http_interactions:
         RESPONSE INDUCED BY LPS IN MALE RATS"],"type":"journal-article","DOI":"10.1097\/shk.0b013e3180caac7e","ISSN":["1073-2322"],"URL":"http:\/\/dx.doi.org\/10.1097\/shk.0b013e3180caac7e","source":"CrossRef","publisher":"Ovid
         Technologies (Wolters Kluwer Health)","indexed":{"date-parts":[[2015,6,5]],"timestamp":1433542360801},"member":"http:\/\/id.crossref.org\/member\/276"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:02 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:47 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1098%2Frspb.2008.1530
@@ -827,7 +827,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:04 GMT
+      - Thu, 11 Jun 2015 14:05:47 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -851,7 +851,7 @@ http_interactions:
         the origins of their amphibian hosts"],"type":"journal-article","DOI":"10.1098\/rspb.2008.1530","ISSN":["0962-8452","1471-2954"],"URL":"http:\/\/dx.doi.org\/10.1098\/rspb.2008.1530","source":"CrossRef","publisher":"The
         Royal Society","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433691351086},"volume":"276","member":"http:\/\/id.crossref.org\/member\/175"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:03 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:48 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.neuroscience.2011.11.013
@@ -869,7 +869,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:05 GMT
+      - Thu, 11 Jun 2015 14:05:48 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -890,7 +890,7 @@ http_interactions:
         receptor 7 agonist imiquimod"],"alternative-id":["S0306452211012802"],"type":"journal-article","DOI":"10.1016\/j.neuroscience.2011.11.013","ISSN":["0306-4522"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.neuroscience.2011.11.013","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,2,8]],"timestamp":1423397402380},"volume":"201","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:04 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:49 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1089%2Fcyber.2009.0310
@@ -908,7 +908,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:06 GMT
+      - Thu, 11 Jun 2015 14:05:49 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -932,7 +932,7 @@ http_interactions:
         Paradigm Using Video Games"],"alternative-id":["10.1089\/cyber.2009.0310"],"type":"journal-article","DOI":"10.1089\/cyber.2009.0310","ISSN":["2152-2715","2152-2723"],"URL":"http:\/\/dx.doi.org\/10.1089\/cyber.2009.0310","source":"CrossRef","publisher":"Mary
         Ann Liebert Inc","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433571486425},"volume":"13","member":"http:\/\/id.crossref.org\/member\/278"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:05 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:50 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1080%2F03079450903190871
@@ -950,7 +950,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:08 GMT
+      - Thu, 11 Jun 2015 14:05:50 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -971,7 +971,7 @@ http_interactions:
         of an intravenous lipopolysaccharide inflammation model in broiler chickens"],"alternative-id":["10.1080\/03079450903190871"],"type":"journal-article","DOI":"10.1080\/03079450903190871","ISSN":["0307-9457","1465-3338"],"URL":"http:\/\/dx.doi.org\/10.1080\/03079450903190871","source":"CrossRef","publisher":"Informa
         UK Limited","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433625380586},"volume":"38","member":"http:\/\/id.crossref.org\/member\/301"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:07 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:51 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs00424-009-0654-2
@@ -989,7 +989,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:09 GMT
+      - Thu, 11 Jun 2015 14:05:51 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1011,7 +1011,7 @@ http_interactions:
         are enhanced in heat-acclimated rats"],"alternative-id":["654"],"type":"journal-article","DOI":"10.1007\/s00424-009-0654-2","ISSN":["0031-6768","1432-2013"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00424-009-0654-2","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433783609086},"volume":"458","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:08 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:52 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs00441-010-1037-x
@@ -1029,7 +1029,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:12 GMT
+      - Thu, 11 Jun 2015 14:05:52 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1051,7 +1051,7 @@ http_interactions:
         ligament cells and a human periodontal ligament stem\/progenitor cell line"],"alternative-id":["1037"],"type":"journal-article","DOI":"10.1007\/s00441-010-1037-x","ISSN":["0302-766X","1432-0878"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00441-010-1037-x","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433738542000},"volume":"342","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:11 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:53 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.lfs.2008.04.003
@@ -1069,7 +1069,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:13 GMT
+      - Thu, 11 Jun 2015 14:05:54 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1093,7 +1093,7 @@ http_interactions:
         mechanisms in chicken"],"alternative-id":["S0024320508001586"],"type":"journal-article","DOI":"10.1016\/j.lfs.2008.04.003","ISSN":["0024-3205"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.lfs.2008.04.003","source":"CrossRef","publisher":"Elsevier
         BV","indexed":{"date-parts":[[2015,5,13]],"timestamp":1431505818971},"volume":"82","member":"http:\/\/id.crossref.org\/member\/78"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:12 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:54 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.3846%2F20297475.2012.659680
@@ -1111,7 +1111,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:14 GMT
+      - Thu, 11 Jun 2015 14:05:55 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1131,7 +1131,7 @@ http_interactions:
         of me: possibilities of shaping our body image through virtual reality"],"alternative-id":["10.3846\/20297475.2012.659680"],"type":"journal-article","DOI":"10.3846\/20297475.2012.659680","ISSN":["2029-7475","2029-7483"],"URL":"http:\/\/dx.doi.org\/10.3846\/20297475.2012.659680","source":"CrossRef","publisher":"Vilnius
         Gediminas Technical University","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433683595026},"volume":"5","member":"http:\/\/id.crossref.org\/member\/2209"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:13 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:56 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1093%2Finfdis%2Fjis381
@@ -1149,7 +1149,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:18 GMT
+      - Thu, 11 Jun 2015 14:05:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1170,7 +1170,7 @@ http_interactions:
         Locations of Mycobacterium tuberculosis DNA During Latent Infection"],"type":"journal-article","DOI":"10.1093\/infdis\/jis381","ISSN":["0022-1899","1537-6613"],"URL":"http:\/\/dx.doi.org\/10.1093\/infdis\/jis381","source":"CrossRef","publisher":"Oxford
         University Press (OUP)","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433689756210},"volume":"206","member":"http:\/\/id.crossref.org\/member\/286"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:17 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:57 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs10329-012-0326-2
@@ -1188,7 +1188,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:20 GMT
+      - Thu, 11 Jun 2015 14:05:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1211,7 +1211,7 @@ http_interactions:
         Siberut Island, Indonesia"],"alternative-id":["326"],"type":"journal-article","DOI":"10.1007\/s10329-012-0326-2","ISSN":["0032-8332","1610-7365"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10329-012-0326-2","source":"CrossRef","publisher":"Springer
         Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433772251768},"volume":"54","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:19 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:58 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1080%2F07418825.2011.555413
@@ -1229,7 +1229,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Thu, 11 Jun 2015 12:16:21 GMT
+      - Thu, 11 Jun 2015 14:05:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1251,5 +1251,5 @@ http_interactions:
         the Effects of Community-Based Sanctions on Offender Recidivism"],"alternative-id":["10.1080\/07418825.2011.555413"],"type":"journal-article","DOI":"10.1080\/07418825.2011.555413","ISSN":["0741-8825","1745-9109"],"URL":"http:\/\/dx.doi.org\/10.1080\/07418825.2011.555413","source":"CrossRef","publisher":"Informa
         UK Limited","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433671016162},"volume":"29","member":"http:\/\/id.crossref.org\/member\/301"}}'
     http_version: 
-  recorded_at: Thu, 11 Jun 2015 12:16:20 GMT
+  recorded_at: Thu, 11 Jun 2015 14:05:59 GMT
 recorded_with: VCR 2.9.3

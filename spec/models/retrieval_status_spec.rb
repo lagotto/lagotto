@@ -318,7 +318,7 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       expect(Work.count).to eq(32)
       related_work = Work.last
-      expect(related_work.title).to eq("Examining The Effects Of Community Based Sanctions On Offender Recidivism")
+      expect(related_work.title).to eq("Examining the Effects of Community-Based Sanctions on Offender Recidivism")
       expect(related_work.pid).to eq("doi:10.1080/07418825.2011.555413")
 
       expect(Relation.count).to eq(62)

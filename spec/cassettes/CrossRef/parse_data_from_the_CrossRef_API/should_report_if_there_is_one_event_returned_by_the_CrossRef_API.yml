@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.3758/s13423-011-0070-4
+    uri: http://api.crossref.org/works/10.3758%2Fs13423-011-0070-4
     body:
       encoding: US-ASCII
       string: ''
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 24 May 2015 21:38:44 GMT
+      - Thu, 11 Jun 2015 12:15:38 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -29,14 +29,14 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '994'
+      - '1045'
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Experimental
-        and Cognitive Psychology"],"issued":{"date-parts":[[2011,3,12]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3758","author":[{"family":"Occelli","given":"Valeria"},{"family":"Spence","given":"Charles"},{"family":"Zampini","given":"Massimiliano"}],"container-title":["Psychon
+        and Cognitive Psychology"],"issued":{"date-parts":[[2011,3,12]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3758","author":[{"affiliation":[],"family":"Occelli","given":"Valeria"},{"affiliation":[],"family":"Spence","given":"Charles"},{"affiliation":[],"family":"Zampini","given":"Massimiliano"}],"container-title":["Psychon
         Bull Rev","Psychonomic Bulletin & Review"],"reference-count":275,"page":"429-454","deposited":{"date-parts":[[2011,5,20]],"timestamp":1305849600000},"issue":"3","title":["Audiotactile
         interactions in temporal perception"],"alternative-id":["70"],"type":"journal-article","DOI":"10.3758\/s13423-011-0070-4","ISSN":["1069-9384","1531-5320"],"URL":"http:\/\/dx.doi.org\/10.3758\/s13423-011-0070-4","source":"CrossRef","publisher":"Springer
-        Science + Business Media","indexed":{"date-parts":[[2015,2,6]],"timestamp":1423236028807},"volume":"18","member":"http:\/\/id.crossref.org\/member\/297"}}'
+        Science + Business Media","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433583502454},"volume":"18","member":"http:\/\/id.crossref.org\/member\/297"}}'
     http_version: 
-  recorded_at: Sun, 24 May 2015 21:38:45 GMT
+  recorded_at: Thu, 11 Jun 2015 12:15:37 GMT
 recorded_with: VCR 2.9.3
