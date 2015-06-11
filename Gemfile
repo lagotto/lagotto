@@ -13,6 +13,7 @@ gem "mail", "~> 2.6.1"
 gem 'nondestructive_migrations', '~> 1.1'
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem "logstash-logger", "~> 0.7.0"
+gem 'bugsnag', '~> 2.8.6'
 
 gem "faraday", "~> 0.9.0"
 gem "faraday_middleware", "~> 0.9.1"
