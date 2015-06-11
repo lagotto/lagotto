@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 3.18 - http://lagotto-bugfixes.local
+      - Lagotto 4.0 - http://lagotto-4-0-stable.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 17 Mar 2015 10:25:42 GMT
+      - Thu, 11 Jun 2015 14:47:59 GMT
       Content-Type:
       - text/plain;charset=UTF-8
       Access-Control-Allow-Origin:
@@ -26,8 +26,8 @@ http_interactions:
       - Accept-Encoding
     body:
       encoding: UTF-8
-      string: '{"responseHeader":{"status":0,"QTime":8,"params":{"fl":"id,title,author,datePublished,authoritativeMN,dateModified","start":"0","q":"datePublished:[2013-09-04T00:00:00Z
+      string: '{"responseHeader":{"status":0,"QTime":267,"params":{"fl":"id,title,author,datePublished,authoritativeMN,dateModified","start":"0","q":"datePublished:[2013-09-04T00:00:00Z
         TO 2013-09-05T23:59:59Z]+dateModified:[2013-09-04T00:00:00Z TO 2013-09-05T23:59:59Z]+formatType:METADATA","wt":"json","rows":"0"}},"response":{"numFound":0,"start":0,"docs":[]}}'
     http_version: 
-  recorded_at: Tue, 17 Mar 2015 10:25:43 GMT
+  recorded_at: Thu, 11 Jun 2015 14:48:00 GMT
 recorded_with: VCR 2.9.3
