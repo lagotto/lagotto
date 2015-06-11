@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150524222251) do
+ActiveRecord::Schema.define(version: 20150611092528) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20150524222251) do
     t.string   "user_agent",   limit: 255
     t.integer  "status",       limit: 4
     t.string   "content_type", limit: 255
-    t.text     "details",      limit: 16777215
+    t.text     "details",      limit: 65535
     t.boolean  "unresolved",   limit: 1,        default: true
     t.datetime "created_at"
     t.datetime "updated_at"
