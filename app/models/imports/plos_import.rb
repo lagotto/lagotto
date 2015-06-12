@@ -30,10 +30,11 @@ class PlosImport < Import
   end
 
   def parse_data(result)
-    # return early if an error occured
-    unless result.is_a?(Hash) && result.fetch("response", nil)
-      Rails.logger.error "Error parsing plos_import: #{result.inspect}"
-      return []
+    if !result.is_a?(Hash)
+      # make sure we have a hash
+      result = { 'response' => result }
+    elsif result[:status] == 404 || result[:error]
+      result = { 'response' => {} }
     end
 
     # fixed values, member_id is PLOS CrossRef member id
