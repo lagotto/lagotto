@@ -31,7 +31,7 @@ class PlosImport < Import
 
   def parse_data(result)
     # return early if an error occured
-    return [] unless result && result.fetch("response", nil)
+    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
 
     # fixed values, member_id is PLOS CrossRef member id
     member_id = 340
