@@ -6,7 +6,8 @@ class ChangeUtf8Encoding < ActiveRecord::Migration
   }
 
   UTF8_MEDIUMTEXT_PAIRS = {
-    'alerts' => 'message'
+    'alerts' => 'message',
+    'retrieval_statuses' => 'extra'
   }
 
   def self.up
