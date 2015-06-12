@@ -54,7 +54,7 @@ class Work < ActiveRecord::Base
 
   # this is faster than first_or_create
   def self.find_or_create(params)
-    work = self.create!(params.except(:related_works, :source_token))
+    work = self.create!(params.except(:related_works))
     work.update_relations(params.fetch(:related_works, []))
     work
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
