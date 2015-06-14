@@ -85,5 +85,5 @@ Lagotto::Application.routes.draw do
   end
 
   # rescue routing errors
-  match "*path", to: "alerts#routing_error", via: [:get, :post]
+  match "*path", to: "alerts#routing_error", via: [:any]
 end
