@@ -180,6 +180,10 @@ class Work < ActiveRecord::Base
     end
   end
 
+  def url
+    doi_as_url.presence || pmid_as_url.presence || canonical_url
+  end
+
   # call Pubmed API to get missing identifiers
   # update work if we find a new identifier
   def get_ids
