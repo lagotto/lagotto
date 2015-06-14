@@ -12,15 +12,11 @@ describe SourcesController, :type => :controller do
   end
 
   context "RSS" do
-
-    before(:each) do
-      FactoryGirl.create_list(:work_for_feed, 2)
-    end
-
+    let!(:works) { FactoryGirl.create_list(:work_for_feed, 2) }
     let(:source) { FactoryGirl.create(:source) }
 
     it "returns an RSS feed for most-cited (7 days)" do
-      get source_path(source, format: "rss", days: 7)
+      get rss_source_path(source, days: 7)
       expect(last_response.status).to eq(200)
       expect(last_response).to render_template("sources/show")
       expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
@@ -34,7 +30,7 @@ describe SourcesController, :type => :controller do
     end
 
     it "returns an RSS feed for most-cited (30 days)" do
-      get source_path(source, format: "rss", days: 30)
+      get rss_source_path(source, days: 30)
       expect(last_response.status).to eq(200)
       expect(last_response).to render_template("sources/show")
       expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
@@ -48,7 +44,7 @@ describe SourcesController, :type => :controller do
     end
 
     it "returns an RSS feed for most-cited (12 months)" do
-      get source_path(source, format: "rss", months: 12)
+      get rss_source_path(source, months: 12)
       expect(last_response.status).to eq(200)
       expect(last_response).to render_template("sources/show")
       expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
@@ -62,7 +58,7 @@ describe SourcesController, :type => :controller do
     end
 
     it "returns an RSS feed for most-cited" do
-      get source_path(source, format: "rss")
+      get rss_source_path(source)
       expect(last_response.status).to eq(200)
       expect(last_response).to render_template("sources/show")
       expect(last_response.content_type).to eq("application/rss+xml; charset=utf-8")
@@ -76,7 +72,7 @@ describe SourcesController, :type => :controller do
     end
 
     it "returns a proper RSS error for an unknown source" do
-      get source_path("x"), format: "rss"
+      get rss_source_path("x")
       expect(last_response.status).to eq(404)
       response = Hash.from_xml(last_response.body)
       response = response["rss"]["channel"]
