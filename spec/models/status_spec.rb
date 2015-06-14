@@ -43,16 +43,12 @@ describe Status, type: :model, vcr: true do
   end
 
   context "services" do
-    it "memcached" do
-      expect(subject.memcached).to eq("OK")
-    end
-
     it "redis" do
       expect(subject.redis).to eq("OK")
     end
 
     it "sidekiq" do
-      expect(subject.sidekiq).to eq("OK")
+      expect(subject.sidekiq).to eq("failed")
     end
 
     it "postfix" do
@@ -60,7 +56,7 @@ describe Status, type: :model, vcr: true do
     end
 
     it "services_ok?" do
-      expect(subject.services_ok?).to be true
+      expect(subject.services_ok?).to be false
     end
   end
 end
