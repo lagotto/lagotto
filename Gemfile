@@ -49,7 +49,6 @@ gem 'nilify_blanks', '~> 1.2.0'
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.7.2"
 gem 'dotiw', '~> 2.0'
-gem 'demoji', '~> 0.0.5'
 
 gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'

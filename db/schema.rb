@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
-    t.string   "class_name",   limit: 255
+    t.string   "class_name",   limit: 191
     t.text     "message",      limit: 16777215
     t.text     "trace",        limit: 65535
     t.string   "target_url",   limit: 1000
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
     t.float    "db_duration",   limit: 24
     t.float    "view_duration", limit: 24
     t.datetime "created_at"
-    t.string   "api_key",       limit: 255
+    t.string   "api_key",       limit: 191
     t.string   "info",          limit: 255
     t.string   "source",        limit: 255
     t.text     "ids",           limit: 65535
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
   add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
 
   create_table "data_migrations", force: :cascade do |t|
-    t.string "version", limit: 255
+    t.string "version", limit: 191
   end
 
   create_table "days", force: :cascade do |t|
@@ -234,7 +234,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
   add_index "retrieval_statuses", ["work_id"], name: "index_retrieval_statuses_on_work_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
-    t.string   "name",       limit: 255
+    t.string   "name",       limit: 191
     t.integer  "state_id",   limit: 4
     t.text     "message",    limit: 65535
     t.integer  "input",      limit: 4
@@ -249,8 +249,8 @@ ActiveRecord::Schema.define(version: 20150613151144) do
   add_index "reviews", ["state_id"], name: "index_reviews_on_state_id", using: :btree
 
   create_table "sources", force: :cascade do |t|
-    t.string   "type",        limit: 255,                                   null: false
-    t.string   "name",        limit: 255,                                   null: false
+    t.string   "type",        limit: 191,                                   null: false
+    t.string   "name",        limit: 191,                                   null: false
     t.string   "title",       limit: 255,                                   null: false
     t.datetime "run_at",                    default: '1970-01-01 00:00:00', null: false
     t.text     "config",      limit: 65535
@@ -292,9 +292,9 @@ ActiveRecord::Schema.define(version: 20150613151144) do
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: ""
+    t.string   "email",                  limit: 191, default: ""
     t.string   "encrypted_password",     limit: 255, default: "",     null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",          limit: 4,   default: 0
@@ -308,7 +308,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
     t.string   "provider",               limit: 255
     t.string   "uid",                    limit: 255
     t.string   "name",                   limit: 255
-    t.string   "authentication_token",   limit: 255
+    t.string   "authentication_token",   limit: 191
     t.string   "role",                   limit: 255, default: "user"
     t.integer  "publisher_id",           limit: 4
   end
@@ -326,11 +326,11 @@ ActiveRecord::Schema.define(version: 20150613151144) do
   end
 
   create_table "works", force: :cascade do |t|
-    t.string   "doi",           limit: 255
+    t.string   "doi",           limit: 191
     t.text     "title",         limit: 65535
     t.date     "published_on"
-    t.string   "pmid",          limit: 255
-    t.string   "pmcid",         limit: 255
+    t.string   "pmid",          limit: 191
+    t.string   "pmcid",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "canonical_url", limit: 65535
@@ -344,10 +344,10 @@ ActiveRecord::Schema.define(version: 20150613151144) do
     t.text     "csl",           limit: 65535
     t.integer  "work_type_id",  limit: 4
     t.boolean  "tracked",       limit: 1,     default: false
-    t.string   "scp",           limit: 255
-    t.string   "wos",           limit: 255
-    t.string   "ark",           limit: 255
-    t.string   "arxiv",         limit: 255
+    t.string   "scp",           limit: 191
+    t.string   "wos",           limit: 191
+    t.string   "ark",           limit: 191
+    t.string   "arxiv",         limit: 191
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
@@ -358,7 +358,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
   add_index "works", ["canonical_url"], name: "index_works_on_url", length: {"canonical_url"=>100}, using: :btree
   add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
   add_index "works", ["doi"], name: "index_works_on_doi", unique: true, using: :btree
-  add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>200}, using: :btree
+  add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>191}, using: :btree
   add_index "works", ["pmcid", "published_on", "id"], name: "index_works_on_pmcid_published_on_id", using: :btree
   add_index "works", ["pmcid"], name: "index_works_on_pmcid", unique: true, using: :btree
   add_index "works", ["pmid", "published_on", "id"], name: "index_works_on_pmid_published_on_id", using: :btree

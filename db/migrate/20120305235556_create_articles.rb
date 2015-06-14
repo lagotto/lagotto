@@ -1,7 +1,7 @@
 class CreateArticles < ActiveRecord::Migration
   def change
     create_table :articles do |t|
-      t.string   :doi, :null => false  # doi of the article
+      t.string   :doi, limit: 191, :null => false  # doi of the article
       t.text     :title                # title of the article
       t.date     :published_on         # article publish date
       t.string   :pub_med              # pub med id
