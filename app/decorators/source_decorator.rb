@@ -10,6 +10,10 @@ class SourceDecorator < Draper::Decorator
     object.group.name
   end
 
+  def id
+    name
+  end
+
   def responses
     { "count" => response_count,
       "average" => average_count,
