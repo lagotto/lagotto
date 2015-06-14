@@ -17,13 +17,13 @@ class ChangeUtf8Encoding < ActiveRecord::Migration
     #   execute "ALTER TABLE `#{table}` CHARACTER SET = utf8mb4;"
     # end
 
-    # UTF8_TEXT_PAIRS.each do |table, col|
-    #   execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-    # end
+    UTF8_TEXT_PAIRS.each do |table, col|
+      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    end
 
-    # UTF8_MEDIUMTEXT_PAIRS.each do |table, col|
-    #   execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-    # end
+    UTF8_MEDIUMTEXT_PAIRS.each do |table, col|
+      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    end
   end
 
   def self.down
@@ -33,12 +33,12 @@ class ChangeUtf8Encoding < ActiveRecord::Migration
     #   execute "ALTER TABLE `#{table}` CHARACTER SET = utf8;"
     # end
 
-    # UTF8_TEXT_PAIRS.each do |table, col|
-    #   execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` TEXT CHARACTER SET utf8 COLLATE utf_unicode_ci;;"
-    # end
+    UTF8_TEXT_PAIRS.each do |table, col|
+      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` TEXT CHARACTER SET utf8 COLLATE utf_unicode_ci;;"
+    end
 
-    # UTF8_MEDIUMTEXT_PAIRS.each do |table, col|
-    #   execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf_unicode_ci;;"
-    # end
+    UTF8_MEDIUMTEXT_PAIRS.each do |table, col|
+      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf_unicode_ci;;"
+    end
   end
 end
