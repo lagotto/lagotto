@@ -14,7 +14,7 @@ xml.rss :version => "2.0" do
           xml.description "#{relation.relation_type.inverse_title} #{@work.pid} via #{relation.source.title}"
           xml.pubDate relation.related_work.published_on.to_time.utc.to_s(:rfc822)
           xml.link relation.related_work.url
-          xml.guid relation.related_work.doi
+          xml.guid relation.related_work.pid
         end
       end
     end

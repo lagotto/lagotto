@@ -13,8 +13,8 @@ xml.rss :version => "2.0" do
           xml.title retrieval_status.work.title
           xml.description pluralize(retrieval_status.total, "#{@source.title} event")
           xml.pubDate retrieval_status.work.published_on.to_time.utc.to_s(:rfc822)
-          xml.link "http://dx.doi.org/#{retrieval_status.work.doi}"
-          xml.guid retrieval_status.work.doi
+          xml.link retrieval_status.work.url
+          xml.guid retrieval_status.work.pid
         end
       end
     end
