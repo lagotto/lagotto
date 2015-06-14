@@ -1,12 +1,12 @@
 class ChangeUtf8Encoding < ActiveRecord::Migration
   UTF8_TEXT_PAIRS = {
     'works'  => 'title',
-    'alerts' => 'trace',
-    'alerts' => 'details'
+    'alerts' => 'trace'
   }
 
   UTF8_MEDIUMTEXT_PAIRS = {
     'alerts' => 'message',
+    'alerts' => 'details',
     'retrieval_statuses' => 'extra'
   }
 
