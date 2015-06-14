@@ -52,9 +52,7 @@ class AlertsController < ApplicationController
 
     respond_to do |format|
       format.json { render json: { error: @alert.public_message }, status: @alert.status }
-      format.xml  { render xml: @alert.public_message, root: "error", status: @alert.status }
       format.html { render :show, status: @alert.status, layout: !request.xhr? }
-      format.rss { render :show, status: @alert.status, layout: false }
     end
   end
 
