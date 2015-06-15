@@ -16,7 +16,7 @@ class SourceJob < ActiveJob::Base
     # ignore this error
   end
 
-  rescue_from TooManyRequestsError do
+  rescue_from TooManyRequestsError, ActiveRecord::ConnectionTimeoutError, Net::ReadTimeout do
     retry_job wait: 5.minutes
   end
 
