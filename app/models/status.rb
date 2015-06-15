@@ -80,7 +80,9 @@ class Status < ActiveRecord::Base
   end
 
   def postfix
-    Net::SMTP.start(ENV["MAIL_ADDRESS"], ENV["MAIL_PORT"])
+    Timeout::timeout(3) do
+      Net::SMTP.start(ENV["MAIL_ADDRESS"], ENV["MAIL_PORT"])
+    end
     "OK"
   rescue
     "failed"
