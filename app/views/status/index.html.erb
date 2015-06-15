@@ -90,25 +90,11 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="panel <%= @current_status.services_ok? ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Version and Services</div>
-        <div class="panel-body panel-version text-center">
-          <h2 class="version" id="version">Lagotto <%= @current_status.version %></h2>
+      <div class="panel <%= @current_status.outdated_version? ? 'panel-warning' : 'panel-default' %>">
+        <div class="panel-heading">Lagotto version</div>
+        <div class="panel-body panel-chart text-center">
+          <h2 class="graphs" id="version"><%= @current_status.version %></h2>
         </div>
-        <table class="table version">
-          <tbody>
-            <tr>
-              <td class="service"><%= status_label("Web", "OK").html_safe %></td>
-              <td class="service"><%= status_label("MySQL", "OK").html_safe %></td>
-              <td class="service"><%= status_label("Memcached", "OK").html_safe %></td>
-            </tr>
-            <tr>
-              <td class="service"><%= status_label("Redis", @current_status.redis).html_safe %></td>
-              <td class="service"><%= status_label("Sidekiq", @current_status.sidekiq).html_safe %></td>
-              <td class="service"><%= status_label("Postfix", @current_status.postfix).html_safe %></td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
