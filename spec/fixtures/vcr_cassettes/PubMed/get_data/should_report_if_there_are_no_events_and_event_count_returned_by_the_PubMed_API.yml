@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?id=1897483599&view=xml
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 15 Jun 2015 22:28:16 GMT
+      Server:
+      - Apache
+      Expires:
+      - Mon, 15 Jun 2015 22:28:17 GMT
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE PubMedToPMCcitingformSET PUBLIC \"-//NCBI//DTD PubMedToPMCreformSET,
+        16th January 2002//EN\" \"entrez2pmcciting.dtd\">\n\n<PubMedToPMCcitingformSET>\n\t<REFORM>\n\t\t<PMID>1897483599</PMID>\n\t</REFORM>\n\n</PubMedToPMCcitingformSET>\n"
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:12:28 GMT
+recorded_with: VCR 2.9.3

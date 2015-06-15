@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%204.0%20-%20http://lagotto-master.local
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 15 Jun 2015 22:28:14 GMT
+      Server:
+      - Apache
+      Content-Type:
+      - application/json; charset=ISO-8859-1
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "status": "ok",
+         "responseDate": "2015-06-15 18:28:14",
+         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%204.0%20-%20http%3A%2F%2Flagotto-master.local",
+         "records": [
+           {
+            "pmcid": "PMC3292175",
+            "pmid": "22389645",
+            "doi": "10.3389/fendo.2012.00005",
+            "versions": [
+              {
+               "pmcid": "PMC3292175.1",
+               "mid": "NIHMS357858"
+              },
+              {
+               "pmcid": "PMC3292175.2",
+               "current": "true"
+              }
+            ]
+           }
+         ]
+        }
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:12:26 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.3389%2Ffendo.2012.00005
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 15 Jun 2015 22:28:15 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '911'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","author":[{"affiliation":[],"family":"Morrison","given":"Shaun
+        F."},{"affiliation":[],"family":"Madden","given":"Christopher J."},{"affiliation":[],"family":"Tupone","given":"Domenico"}],"container-title":["Front.
+        Endocrin.","Frontiers in Endocrinology"],"reference-count":0,"deposited":{"date-parts":[[2015,2,18]],"timestamp":1424217600000},"title":["Central
+        Control of Brown Adipose Tissue Thermogenesis"],"type":"journal-article","DOI":"10.3389\/fendo.2012.00005","ISSN":["1664-2392"],"URL":"http:\/\/dx.doi.org\/10.3389\/fendo.2012.00005","source":"CrossRef","publisher":"Frontiers
+        Media SA","indexed":{"date-parts":[[2015,2,21]],"timestamp":1424477135150},"volume":"3","member":"http:\/\/id.crossref.org\/member\/1965"}}'
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:12:27 GMT
+recorded_with: VCR 2.9.3

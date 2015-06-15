@@ -1,0 +1,32 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ext_id:17183658x&format=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=95B9E58740BF9B6DA77D798A1CEA16D0; Path=/europepmc/webservices
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 15 Jun 2015 22:23:46 GMT
+    body:
+      encoding: UTF-8
+      string: '{"version":"4.1","hitCount":0,"request":{"resultType":"LITE","synonym":false,"query":"ext_id:17183658x","page":1},"resultList":{"result":[]}}'
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:07:59 GMT
+recorded_with: VCR 2.9.3
