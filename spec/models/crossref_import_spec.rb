@@ -73,7 +73,7 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should get_data default" do
       import = CrossrefImport.new
       response = import.get_data
-      expect(response["message"]["total-results"]).to eq(102719)
+      expect(response["message"]["total-results"]).to eq(102128)
       item = response["message"]["items"].first
       expect(item["DOI"]).to eq("10.3138/9781442618077_8")
     end

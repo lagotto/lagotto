@@ -50,8 +50,8 @@ describe PlosImport, type: :model, vcr: true do
       response = import.get_data
       expect(response["response"]["numFound"]).to eq(394)
       work = response["response"]["docs"][1]
-      expect(work["id"]).to eq("10.1371/journal.pone.0070885")
-      expect(work["title_display"]).to eq("Relationship of the p22phox (<i>CYBA</i>) Gene Polymorphism C242T with Risk of Coronary Artery Disease: A Meta-Analysis")
+      expect(work["id"]).to eq("10.1371/journal.pone.0072266")
+      expect(work["title_display"]).to eq("miR-346 Regulates Osteogenic Differentiation of Human Bone Marrow-Derived Mesenchymal Stem Cells by Targeting the Wnt/β-Catenin Pathway")
     end
 
     it "should get_data default no data" do

@@ -19,7 +19,7 @@ describe PubMed, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the PubMed API" do
       response = subject.get_data(work)
-      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(16)
+      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(17)
       expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].first).to eq("2464333")
     end
 
