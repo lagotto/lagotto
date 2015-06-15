@@ -95,6 +95,25 @@ namespace :queue do
     end
   end
 
+  desc "Unqueue all works"
+  task :reset => :environment do |_, args|
+    if args.extras.empty?
+      sources = Source.active
+    else
+      sources = Source.active.where("name in (?)", args.extras)
+    end
+
+    if sources.empty?
+      puts "No active source found."
+      exit
+    end
+
+    sources.each do |source|
+      count = source.retrieval_statuses.where("queued_at IS NOT NULL").update_all(queued_at: nil)
+      puts "#{count} works for source #{source.title} have been unqueued."
+    end
+  end
+
   task :default => :stale
 
 end
