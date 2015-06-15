@@ -9,6 +9,12 @@ class Work < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include author methods
+  include Authorable
+
+  # include date methods
+  include Dateable
+
   # store blank values as nil
   nilify_blanks
 
@@ -21,9 +27,8 @@ class Work < ActiveRecord::Base
   has_many :relations
   has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation', :dependent => :destroy
   has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
-  has_many :references, :through => :reference_relations
+  has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
-  has_many :similar_works, :through => :reference_relations
 
   validates :pid_type, :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
@@ -57,24 +62,18 @@ class Work < ActiveRecord::Base
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
-      if work.present?
-        work.update_attributes(params.except(:doi, :related_works))
-        work.update_relations(params.fetch(:related_works, []))
-      end
+      work.update_attributes(params.except(:pid, :doi)) if work.present? && params[:tracked]
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
       work = Work.where(pmid: params[:pmid]).first
-      if work.present?
-        work.update_attributes(params.except(:pmid, :related_works))
-        work.update_relations(params.fetch(:related_works, []))
-      end
+      work.update_attributes(params.except(:pid, :pmid)) if work.present? && params[:tracked]
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
-    elsif e.message.include?("Canonical url has already been taken") || e.message.include?("key 'index_works_on_url'")
+    elsif e.message.include?("Pid has already been taken") || e.message.include?("key 'index_works_on_pid'")
       work = Work.where(canonical_url: params[:canonical_url]).first
-      if work.present?
-        work.update_attributes(params.except(:canonical_url, :related_works))
-        work.update_relations(params.fetch(:related_works, []))
-      end
+      work.update_attributes(params.except(:pid, :canonical_url)) if work.present? && params[:tracked]
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     else
       if params[:doi].present?
@@ -179,6 +178,10 @@ class Work < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def url
+    doi_as_url.presence || pmid_as_url.presence || canonical_url
   end
 
   # call Pubmed API to get missing identifiers
@@ -324,7 +327,7 @@ class Work < ActiveRecord::Base
   end
 
   def timestamp
-    updated_at.nil? ? nil : updated_at.utc.iso8601
+    updated_at.utc.iso8601
   end
 
   alias_method :update_date, :timestamp

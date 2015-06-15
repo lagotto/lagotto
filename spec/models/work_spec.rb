@@ -266,16 +266,32 @@ describe Work, type: :model, vcr: true do
     expect(Work.has_events.all? { |work| work.events_count > 0 }).to be true
   end
 
+  context "url" do
+    it "should use doi as url" do
+      expect(work.url).to eq(work.doi_as_url)
+    end
+
+    it "should use pmid as url if doi is not present" do
+      work = FactoryGirl.create(:work, doi: nil)
+      expect(work.url).to eq(work.pmid_as_url)
+    end
+
+    it "should use canonical_url if doi and pmid are not present" do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
+      expect(work.url).to eq(work.canonical_url)
+    end
+  end
+
   context "get_url" do
     it 'should get_url' do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: nil)
-      url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+      url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
       expect(work.get_url).not_to be_nil
       expect(work.canonical_url).to eq(url)
     end
 
     it "with canonical_url" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030")
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
       expect(work.get_url).to be true
     end
 
@@ -293,7 +309,7 @@ describe Work, type: :model, vcr: true do
   end
 
   it "should get all_urls" do
-    work = FactoryGirl.build(:work, :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+    work = FactoryGirl.build(:work, :canonical_url => "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000001")
     expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact + work.events_urls)
   end
 

@@ -20,8 +20,9 @@ class Citeulike < Source
   end
 
   def get_related_works(result, work)
-    related_works = result["posts"] && result.fetch("posts", {}).fetch("post", [])
+    related_works = result["posts"] && result["posts"].is_a?(Hash) && result.fetch("posts", {}).fetch("post", [])
     related_works = [related_works] if related_works.is_a?(Hash)
+    related_works ||= nil
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
       url = item.fetch("link", {}).fetch("url", nil)
@@ -43,6 +44,17 @@ class Citeulike < Source
     end
   end
 
+  def get_extra(result)
+    extra = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
+    extra = [extra] if extra.is_a?(Hash)
+    extra ||= nil
+    Array(extra).map do |item|
+      { event: item,
+        event_time: get_iso8601_from_time(item["post_time"]),
+        event_url: item['link']['url'] }
+    end
+  end
+
   def config_fields
     [:url, :events_url]
   end
@@ -57,5 +69,9 @@ class Citeulike < Source
 
   def rate_limiting
     config.rate_limiting || 2000
+  end
+
+  def queue
+    config.queue || "low"
   end
 end

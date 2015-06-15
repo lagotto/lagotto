@@ -27,6 +27,11 @@ class Datacite < Source
     end.compact
   end
 
+  def get_extra(result)
+    result["response"] ||= {}
+    Array(result["response"]["docs"]).map { |item| { event: item, event_url: "http://doi.org/#{item['doi']}" } }
+  end
+
   def url
     "http://search.datacite.org/api?q=relatedIdentifier:%{doi}&fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier&fq=is_active:true&fq=has_metadata:true&rows=1000&wt=json"
   end

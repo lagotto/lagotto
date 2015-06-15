@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "/api/v6/works", :type => :api do
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6" }
+    { "HTTP_ACCEPT" => "application/json; version=6" }
   end
 
   context "caching", :caching => true do
@@ -23,7 +23,7 @@ describe "/api/v6/works", :type => :api do
         sleep 1
 
         work = works.first
-        key = work.decorate.cache_key
+        key = work.decorate(context: { role: 1 }).cache_key
         response = Rails.cache.read("jbuilder/v6/#{key}")
         expect(response["id"]).to eq(work.pid)
         expect(response["DOI"]).to eq(work.doi)
@@ -35,7 +35,7 @@ describe "/api/v6/works", :type => :api do
     context "work is updated" do
       let(:work) { FactoryGirl.create(:work_with_events) }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work.pid}" }
-      let(:key) { "jbuilder/v6/#{work.decorate.cache_key}" }
+      let(:key) { "jbuilder/v6/#{work.decorate(context: { role: 1 }).cache_key}" }
       let(:title) { "Foo" }
       let(:total) { 75 }
 
@@ -43,8 +43,6 @@ describe "/api/v6/works", :type => :api do
         expect(Rails.cache.exist?(key)).to be false
         get uri, nil, headers
         expect(last_response.status).to eq(200)
-
-        pp key
 
         sleep 1
 
@@ -59,7 +57,7 @@ describe "/api/v6/works", :type => :api do
 
         get uri, nil, headers
         expect(last_response.status).to eq(200)
-        cache_key = "jbuilder/v6/#{work.decorate.cache_key}"
+        cache_key = "jbuilder/v6/#{work.decorate(context: { role: 1 }).cache_key}"
         expect(cache_key).not_to eql(key)
         expect(Rails.cache.exist?(cache_key)).to be true
         response = Rails.cache.read(cache_key)
@@ -86,7 +84,7 @@ describe "/api/v6/works", :type => :api do
 
         get uri, nil, headers
         expect(last_response.status).to eq(200)
-        cache_key = "jbuilder/v6/#{work.decorate.cache_key}"
+        cache_key = "jbuilder/v6/#{work.decorate(context: { role: 1 }).cache_key}"
         expect(cache_key).not_to eql(key)
         expect(Rails.cache.exist?(cache_key)).to be true
         response = Rails.cache.read(cache_key)

@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, :days=>[], :months=>[] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events returned by the Reddit API" do
@@ -50,7 +50,7 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, :days=>[], :months=>[] })
+      expect(response).to eq(works: [], events: { source: "reddit", work: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events returned by the Reddit API" do
@@ -76,6 +76,15 @@ describe Reddit, type: :model, vcr: true do
       expect(event['issued']).to eq("date-parts"=>[[2013, 5, 15]])
       expect(event['timestamp']).to eq("2013-05-15T17:06:24Z")
       expect(event['type']).to eq("personal_communication")
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to eq("2013-05-15T17:06:24Z")
+      expect(extra[:event_url]).to eq(extra[:event]['url'])
+      expect(extra[:event_csl]['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])
+      expect(extra[:event_csl]['title']).to eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
+      expect(extra[:event_csl]['container-title']).to eq("Reddit")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2013, 5, 15]])
+      expect(extra[:event_csl]['type']).to eq("personal_communication")
     end
 
     it "should catch timeout errors with the Reddit API" do

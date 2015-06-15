@@ -130,3 +130,14 @@ DATACITE_RELATION_TYPE_TRANSLATIONS = {
   "IsDerivedFrom" => "is_derived_from",
   "IsSourceOf" => "_is_derived_from"
 }
+
+TYPES_WITH_TITLE = %w(journal-article
+                      proceedings-article
+                      dissertation
+                      standard
+                      report
+                      book
+                      monograph
+                      edited-book
+                      reference-book
+                      dataset)

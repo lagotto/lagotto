@@ -34,7 +34,8 @@ class CrossRef < Source
       events: {
         source: name,
         work: work.pid,
-        total: total } }
+        total: total,
+        extra: get_extra(result) } }
   end
 
   def get_related_works(result, work)
@@ -51,20 +52,56 @@ class CrossRef < Source
         nil
       else
         doi = item.fetch("doi", nil)
+        metadata = get_crossref_metadata(doi)
 
-        { "author" => get_authors(item.fetch('contributors', {}).fetch('contributor', [])),
-          "title" => String(item.fetch("article_title", "")).titleize,
-          "container-title" => item.fetch("journal_title", nil),
-          "issued" => get_date_parts_from_parts(item.fetch("year", nil)),
-          "DOI" => doi,
-          "URL" => nil,
-          "volume" => item.fetch("volume", nil),
-          "issue" => item.fetch("issue", nil),
-          "page" => item.fetch("first_page", nil),
-          "type" => "article-journal",
-          "related_works" => [{ "related_work" => work.pid,
-                                "source" => name,
-                                "relation_type" => "cites" }] }
+        if metadata[:error]
+          nil
+        else
+          { "issued" => metadata.fetch("issued", {}),
+            "author" => metadata.fetch("author", []),
+            "container-title" => metadata.fetch("container-title", nil),
+            "volume" => metadata.fetch("volume", nil),
+            "issue" => metadata.fetch("issue", nil),
+            "page" => metadata.fetch("page", nil),
+            "title" => metadata.fetch("title", nil),
+            "DOI" => doi,
+            "type" => metadata.fetch("type", nil),
+            "publisher_id" => metadata.fetch("publisher_id", nil),
+            "related_works" => [{ "related_work" => work.pid,
+                                  "source" => name,
+                                  "relation_type" => "cites" }] }
+        end
+      end
+    end.compact
+  end
+
+  def get_extra(result)
+    extra = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
+    if extra.is_a?(Hash) && extra['journal_cite']
+      extra = [extra]
+    elsif extra.is_a?(Hash)
+      extra = nil
+    end
+
+    Array(extra).map do |item|
+      item = item.fetch('journal_cite') { {} }
+      if item.empty?
+        nil
+      else
+        url = get_url_from_doi(item.fetch('doi', nil))
+
+        { event: item,
+          event_url: url,
+
+          # the rest is CSL (citation style language)
+          event_csl: {
+            'author' => get_authors(item.fetch('contributors', {}).fetch('contributor', [])),
+            'title' => String(item.fetch('article_title') { '' }).titleize,
+            'container-title' => item.fetch('journal_title') { '' },
+            'issued' => get_date_parts_from_parts(item['year']),
+            'url' => url,
+            'type' => 'article-journal' }
+        }
       end
     end.compact
   end
@@ -91,10 +128,6 @@ class CrossRef < Source
 
   def timeout
     config.timeout || 120
-  end
-
-  def workers
-    config.workers || 10
   end
 
   def by_publisher?

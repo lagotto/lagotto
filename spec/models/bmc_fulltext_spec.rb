@@ -36,9 +36,9 @@ describe BmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the BMC Search API" do
       response = subject.get_data(work)
-      expect(response["entries"].length).to eq(16)
+      expect(response["entries"].length).to eq(22)
       doc = response["entries"].first
-      expect(doc["doi"]).to eq("10.1186/s13007-014-0041-7")
+      expect(doc["doi"]).to eq("10.1186/s12864-015-1635-9")
     end
 
     it "should catch errors with the BMC Search API" do
@@ -64,7 +64,7 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the BMC Search API" do
       body = File.read(fixture_path + 'bmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "bmc_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "bmc_fulltext", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
@@ -89,6 +89,16 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(event['DOI']).to eq("10.1186/s13007-014-0041-7")
       expect(event['URL']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
       expect(event['timestamp']).to eq("2014-12-30T00:00:00Z")
+      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"bmc_fulltext", "relation_type"=>"cites"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to eq("2014-12-30T00:00:00Z")
+      expect(extra[:event_csl]['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
+      expect(extra[:event_csl]['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")
+      expect(extra[:event_csl]['container-title']).to eq("Plant Methods")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 12, 30]])
+      expect(extra[:event_csl]['type']).to eq("article-journal")
+      expect(extra[:event_csl]['url']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
     end
 
     it "should catch timeout errors with the BMC Search API" do

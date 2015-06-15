@@ -2,6 +2,9 @@ module CustomError
   # source is either inactive or disabled
   class SourceInactiveError < StandardError; end
 
+  # more requests than rate-limits allow
+  class TooManyRequestsError < StandardError; end
+
   # we have received too many errors (and will disable the source)
   class TooManyErrorsBySourceError < StandardError; end
 

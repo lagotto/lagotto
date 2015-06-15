@@ -56,7 +56,7 @@
           <% end %>
           <dd><%= h(@work.container_title) %></dd>
         <% end %>
-        <% if publishers.length > 1 && @work.publisher %>
+        <% if publishers.length > 1 && @work.publisher_id %>
           <dt>Publisher</dt>
           <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.member_id) %></dd>
         <% end %>
@@ -114,7 +114,7 @@
         <% end %>
         <% if @work.version_relations.present? %>
           <% @work.version_relations.each do |relation| %>
-            <dt>relation.relation_type.title</dt>
+            <dt><%= relation.relation_type.title %></dt>
             <dd><%= link_to relation.related_work.pid, work_url(relation.related_work.pid) %></dd>
           <% end %>
         <% end %>
@@ -136,6 +136,7 @@
   <% if @work.tracked %>
     <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
     <li><a href="#more" data-toggle="tab" title="More">Details</a></li>
+    <li><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
     <% if can?(:read, Alert) %>
       <li><a href="#alert" data-toggle="tab" title="Alerts">Alerts</a></li>
     <% end %>
@@ -152,6 +153,9 @@
     </div>
     <div class="tab-pane" id="more">
       <%= render :partial => 'more' %>
+    </div>
+    <div class="tab-pane" id="recommendations">
+      <%= render :partial => 'recommendations' %>
     </div>
     <div class="tab-pane" id="alert">
       <%= render :partial => 'alert' %>

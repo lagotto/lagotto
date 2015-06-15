@@ -3,6 +3,58 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 4.0 (May 5, 2015)
+
+[Lagotto 4.0](https://github.com/articlemetrics/lagotto/releases/tag/v.4.0) was released on May 5, 2015 with the following changes:
+
+* normalized responses from external sources to be stored in MySQL. CouchDB is no longer required for the core Lagotto functionality ([#213](https://github.com/articlemetrics/lagotto/issues/213))
+* show more CSL information in API and admin dashboard ([#284](https://github.com/articlemetrics/lagotto/issues/284))
+* started new v6 API ([#287](https://github.com/articlemetrics/lagotto/issues/287))
+* show related works (references and versions) in new v6 API and admin dashboard ([#296](https://github.com/articlemetrics/lagotto/issues/296))
+* added `ads` and `ads_fulltext` data sources. `ads` finds ArXiV preprints that became peer-reviewed papers, `ads_fulltext` allows fulltext search for all ArXiV preprints ([#297](https://github.com/articlemetrics/lagotto/issues/297))
+* import couchdb data into mysql for 4.0 upgrade ([#301](https://github.com/articlemetrics/lagotto/issues/301))
+
+### Upgrading
+
+Starting with Lagotto 4.0 frontend assets are installed via [NPM](https://www.npmjs.com/) and [Bower](http://bower.io/). This is done automatically when using Chef/Vagrant. When not using Chef/Vagarant please copy `frontend/node_modules`, `frontend/bower_components`, `frontend/package.json`, `frontend/bower.json` and `frontend/.bowerrc` into `shared` and run `npm install` (not `npm -g install`) from `shared/frontend`:
+
+```
+cd /var/www/lagotto/shared/frontend
+mkdir node_modules
+mkdir bower_components
+wget https://raw.githubusercontent.com/articlemetrics/lagotto/4-0-stable/frontend/package.json
+wget https://raw.githubusercontent.com/articlemetrics/lagotto/4-0-stable/frontend/bower.json
+wget https://raw.githubusercontent.com/articlemetrics/lagotto/4-0-stable/frontend/.bowerrc
+npm install
+```
+
+CouchDB is no longer needed for core Lagotto functionality, but is still used to store responses from some of the sources (e.g. `F1000`).
+
+Make sure to run the data migrations in addition to the database migrations. This happens automatically if using capistrano, otherwise run `rake data:migrate`.
+
+After upgrading the code and running the database migrations, old monthly and daily data stored in CouchDB should be imported via:
+
+```
+bundle exec rake couchdb:import
+```
+
+Starting with the new v6 API, API versions (currently defaulting to version 6) and authentication via API key (needed for admin functionality) are provided via the HTTP header, e.g. in curl:
+
+```
+- H "Accept: application/json; version=6" -H "Authorization: Token token=API_KEY"
+```
+
+## Lagotto 3.20 (May 5, 2015)
+
+[Lagotto 3.20](https://github.com/articlemetrics/lagotto/releases/tag/v.3.20) was released on May 5, 2015 with the following changes:
+
+* filter authentication_token from log files ([#285](https://github.com/articlemetrics/lagotto/issues/285))
+* fixed authentication error that broke creation of new user accounts ([#286](https://github.com/articlemetrics/lagotto/issues/286))
+* create delete canonical_url rake task for cases where journal URLs change ([#298](https://github.com/articlemetrics/lagotto/issues/298))
+* set rate-limit remaining number for all sources using memcached. This should fix rate-limiting errors with the `twitter_search` source ([#300](https://github.com/articlemetrics/lagotto/issues/300))
+
+Make sure to run the data migrations in addition to the database migrations. This happens automatically if using capistrano, otherwise run `rake data:migrate`.
+
 ## Lagotto 3.19 (March 24, 2015)
 
 [Lagotto 3.19](https://github.com/articlemetrics/lagotto/releases/tag/v.3.19) was released on March 24, 2015 with the following changes:

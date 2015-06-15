@@ -1,0 +1,283 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/works?filter=from-update-date:2013-09-04,until-update-date:2013-09-05,until-pub-date:2013-09-05,from-pub-date:2013-09-04&sample=50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 15 Jun 2015 18:33:00 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '48224'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":20,"items":[{"subtitle":[],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3410","author":[{"affiliation":[],"family":"Galasko","given":"Doug"}],"container-title":["F1000
+        - Post-publication peer review of the biomedical literature"],"reference-count":0,"deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["Faculty
+        of 1000 evaluation for Brain homogenates from human tauopathies induce tau
+        inclusions in mouse brain."],"type":"dataset","DOI":"10.3410\/f.718082666.793482614","URL":"http:\/\/dx.doi.org\/10.3410\/f.718082666.793482614","source":"CrossRef","publisher":"Faculty
+        of 1000, Ltd.","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025581658},"member":"http:\/\/id.crossref.org\/member\/2560"},{"subtitle":[],"subject":["Physical
+        and Theoretical Chemistry","Materials Chemistry","Surfaces, Coatings and Films"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Nesterova","given":"Irina
+        V."},{"affiliation":[],"family":"Elsiddieg","given":"Siddieg O."},{"affiliation":[],"family":"Nesterov","given":"Evgueni
+        E."}],"container-title":["J. Phys. Chem. B","The Journal of Physical Chemistry
+        B"],"reference-count":58,"page":"10115-10121","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"35","title":["Design
+        and Evaluation of an i-Motif-Based Allosteric Control Mechanism in DNA-Hairpin
+        Molecular Devices"],"alternative-id":["10.1021\/jp405230g"],"type":"journal-article","DOI":"10.1021\/jp405230g","ISSN":["1520-6106","1520-5207"],"URL":"http:\/\/dx.doi.org\/10.1021\/jp405230g","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782481405},"volume":"117","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Medicine(all)"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.4314","author":[{"affiliation":[],"family":"Wandabwa","given":"JN"},{"affiliation":[],"family":"Businge","given":"C"},{"affiliation":[],"family":"Longo-Mbenza","given":"B"},{"affiliation":[],"family":"Mdaka","given":"ML"},{"affiliation":[],"family":"Kiondo","given":"P"}],"container-title":["African
+        Health Sciences","Afr H. Sci."],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"2","title":["Peripartum
+        hysterectomy: Two years experience at Nelson Mandela Academic hospital, Mthatha,
+        Eastern Cape South Africa"],"type":"journal-article","DOI":"10.4314\/ahs.v13i2.38","ISSN":["1680-6905"],"URL":"http:\/\/dx.doi.org\/10.4314\/ahs.v13i2.38","source":"CrossRef","publisher":"African
+        Journals Online (AJOL)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782662351},"volume":"13","member":"http:\/\/id.crossref.org\/member\/2895"},{"subtitle":[],"subject":["Chemistry(all)"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1002","author":[{"affiliation":[],"family":"Mizrahy","given":"Shoshy"},{"affiliation":[],"family":"Landesman-Milo","given":"Dalit"},{"affiliation":[],"family":"Peer","given":"Dan"}],"container-title":["Israel
+        Journal of Chemistry","Isr. J. Chem."],"reference-count":72,"page":"n\/a-n\/a","deposited":{"date-parts":[[2013,9,6]],"timestamp":1378425600000},"title":["Sweet
+        Fairytale: Carbohydrates as Backbones for Glyconanomedicine"],"type":"journal-article","DOI":"10.1002\/ijch.201300068","ISSN":["0021-2148"],"URL":"http:\/\/dx.doi.org\/10.1002\/ijch.201300068","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433785433750},"member":"http:\/\/id.crossref.org\/member\/311"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"affiliation":[],"family":"Mezzi","given":"Marco"},{"affiliation":[],"family":"Comodini","given":"Fabrizio"},{"affiliation":[],"family":"Rossi","given":"Leonardo"}],"container-title":["Seismic
+        Design of Industrial Facilities"],"reference-count":0,"page":"349-360","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["Dissipative
+        Devices for Vulnerability Reduction of Precast Buildings"],"type":"book-chapter","DOI":"10.1007\/978-3-658-02810-7_29","ISBN":["http:\/\/id.crossref.org\/isbn\/978-3-658-02809-1","http:\/\/id.crossref.org\/isbn\/978-3-658-02810-7"],"URL":"http:\/\/dx.doi.org\/10.1007\/978-3-658-02810-7_29","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025580014},"member":"http:\/\/id.crossref.org\/member\/297"},{"subtitle":[],"subject":["Physical
+        and Theoretical Chemistry","Materials Chemistry","Surfaces, Coatings and Films"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Faraji","given":"Shirin"},{"affiliation":[],"family":"Groenhof","given":"Gerrit"},{"affiliation":[],"family":"Dreuw","given":"Andreas"}],"container-title":["J.
+        Phys. Chem. B","The Journal of Physical Chemistry B"],"reference-count":56,"page":"10071-10079","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"35","title":["Combined
+        QM\/MM Investigation on the Light-Driven Electron-Induced Repair of the (6\u20134)
+        Thymine Dimer Catalyzed by DNA Photolyase"],"alternative-id":["10.1021\/jp401662z"],"type":"journal-article","DOI":"10.1021\/jp401662z","ISSN":["1520-6106","1520-5207"],"URL":"http:\/\/dx.doi.org\/10.1021\/jp401662z","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782394928},"volume":"117","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Chemistry(all)","Industrial
+        and Manufacturing Engineering","Chemical Engineering(all)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Tu","given":"TungSheng"},{"affiliation":[],"family":"Ellis","given":"Matthew"},{"affiliation":[],"family":"Christofides","given":"Panagiotis
+        D."}],"container-title":["Industrial & Engineering Chemistry Research","Ind.
+        Eng. Chem. Res."],"reference-count":32,"page":"12463-12481","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"35","title":["Model
+        Predictive Control of a Nonlinear Large-Scale Process Network Used in the
+        Production of Vinyl Acetate"],"alternative-id":["10.1021\/ie400614t"],"type":"journal-article","DOI":"10.1021\/ie400614t","ISSN":["0888-5885","1520-5045"],"URL":"http:\/\/dx.doi.org\/10.1021\/ie400614t","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433778932656},"volume":"52","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Sociology
+        and Political Science","Public Administration","Marketing"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1177","author":[{"affiliation":[],"family":"Kim","given":"S.
+        H."},{"affiliation":[],"family":"Kim","given":"S."}],"container-title":["Administration
+        & Society"],"reference-count":0,"deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["National
+        Culture and Social Desirability Bias in Measuring Public Service Motivation"],"type":"journal-article","DOI":"10.1177\/0095399713498749","ISSN":["0095-3997","1552-3039"],"URL":"http:\/\/dx.doi.org\/10.1177\/0095399713498749","source":"CrossRef","publisher":"SAGE
+        Publications","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779858492},"member":"http:\/\/id.crossref.org\/member\/179"},{"subtitle":[],"subject":["Physical
+        and Theoretical Chemistry"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Nakashima","given":"Nobuaki"},{"affiliation":[],"family":"Yamanaka","given":"Ken-ichi"},{"affiliation":[],"family":"Yatsuhashi","given":"Tomoyuki"}],"container-title":["J.
+        Phys. Chem. A","The Journal of Physical Chemistry A"],"reference-count":32,"page":"8352-8359","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"35","title":["Reduction
+        of Yb(III) to Yb(II) by Two-Color Two-Photon Excitation"],"alternative-id":["10.1021\/jp402194g"],"type":"journal-article","DOI":"10.1021\/jp402194g","ISSN":["1089-5639","1520-5215"],"URL":"http:\/\/dx.doi.org\/10.1021\/jp402194g","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782511233},"volume":"117","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.9752","container-title":[],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Grain
+        Transportation Report. September 5, 2013"],"type":"report","DOI":"10.9752\/ts056.09-05-2013","URL":"http:\/\/dx.doi.org\/10.9752\/ts056.09-05-2013","source":"CrossRef","publisher":"Transportation
+        and Marketing Program, AMS, USDA","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025716246},"member":"http:\/\/id.crossref.org\/member\/4703"},{"subtitle":[],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1002","container-title":["Metal
+        Failures","Mechanisms, Analysis, Prevention"],"reference-count":16,"page":"1-26","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Failure
+        Analysis"],"type":"book-chapter","DOI":"10.1002\/9781118671023.ch1","ISBN":["http:\/\/id.crossref.org\/isbn\/9781118671023","http:\/\/id.crossref.org\/isbn\/9781118163962"],"URL":"http:\/\/dx.doi.org\/10.1002\/9781118671023.ch1","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025718014},"member":"http:\/\/id.crossref.org\/member\/311"},{"subtitle":[],"subject":["Space
+        and Planetary Science","Astronomy and Astrophysics"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","author":[{"affiliation":[],"family":"Dolphin","given":"Andrew
+        E."}],"container-title":["ApJ","The Astrophysical Journal"],"reference-count":19,"page":"76","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"1","title":["ON
+        THE ESTIMATION OF RANDOM UNCERTAINTIES OF STAR FORMATION HISTORIES"],"type":"journal-article","DOI":"10.1088\/0004-637x\/775\/1\/76","ISSN":["0004-637X","1538-4357"],"URL":"http:\/\/dx.doi.org\/10.1088\/0004-637x\/775\/1\/76","source":"CrossRef","publisher":"IOP
+        Publishing","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782825273},"volume":"775","member":"http:\/\/id.crossref.org\/member\/266"},{"subtitle":["The
+        \u2018six rights\u2019 will help you to ensure that the right patient gets
+        the right medication, says Matt Griffiths"],"subject":["Medicine(all)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.7748","author":[{"affiliation":[],"family":"Griffiths","given":"Matt"}],"container-title":["Nursing
+        Standard"],"reference-count":0,"page":"29-29","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"1","title":["Medicines
+        management"],"alternative-id":["10.7748\/ns2013.09.28.1.29.s36"],"type":"journal-article","DOI":"10.7748\/ns2013.09.28.1.29.s36","ISSN":["0029-6570","2047-9018"],"URL":"http:\/\/dx.doi.org\/10.7748\/ns2013.09.28.1.29.s36","source":"CrossRef","publisher":"RCN
+        Publishing Ltd.","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779759638},"volume":"28","member":"http:\/\/id.crossref.org\/member\/4499"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1055","author":[{"affiliation":[],"family":"Friedle","given":"Regina"}],"container-title":["XX","XX
+        Die Zeitschrift f\u00fcr Frauen in der Medizin"],"reference-count":0,"page":"133-134","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"03","title":["Schwanger
+        oder Job? Schwanger und Job! - 100 % Besch\u00e4ftigungsverbot - ein Erfahrungsbericht"],"type":"journal-article","DOI":"10.1055\/s-0033-1351691","ISSN":["2193-584X","2193-5858"],"URL":"http:\/\/dx.doi.org\/10.1055\/s-0033-1351691","source":"CrossRef","publisher":"Thieme
+        Publishing Group","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782949306},"volume":"2","member":"http:\/\/id.crossref.org\/member\/194"},{"subtitle":[],"subject":["Medicine(all)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.7748","author":[{"affiliation":[],"family":"Birch","given":"Marion"}],"container-title":["Nursing
+        Standard"],"reference-count":0,"page":"32-33","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"1","title":["Punitive
+        military action in syria will just prolong the suffering"],"alternative-id":["10.7748\/ns2013.09.28.1.32.s45"],"type":"journal-article","DOI":"10.7748\/ns2013.09.28.1.32.s45","ISSN":["0029-6570","2047-9018"],"URL":"http:\/\/dx.doi.org\/10.7748\/ns2013.09.28.1.32.s45","source":"CrossRef","publisher":"RCN
+        Publishing Ltd.","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779759263},"volume":"28","member":"http:\/\/id.crossref.org\/member\/4499"},{"subtitle":[],"subject":["Parasitology","Infectious
+        Diseases","Virology"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.4269","container-title":["American
+        Journal of Tropical Medicine and Hygiene"],"reference-count":0,"page":"608-608","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"3","title":["Errata"],"type":"journal-article","DOI":"10.4269\/ajtmh.893err","ISSN":["0002-9637"],"URL":"http:\/\/dx.doi.org\/10.4269\/ajtmh.893err","source":"CrossRef","publisher":"American
+        Society of Tropical Medicine and Hygiene","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779815488},"volume":"89","member":"http:\/\/id.crossref.org\/member\/2795"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.14303","container-title":["Journal
+        of Research in Environmental Science and Toxicology","J. Res. Environ. Sci.
+        Toxicol."],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"7","title":[],"type":"journal-issue","DOI":"10.14303\/jrest.2013.077","ISSN":["2315-5698"],"URL":"http:\/\/dx.doi.org\/10.14303\/jrest.2013.077","source":"CrossRef","publisher":"International
+        Research Journals","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782857235},"volume":"2","member":"http:\/\/id.crossref.org\/member\/5411"},{"subtitle":[],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.4204","author":[{"affiliation":[{"name":"University
+        of Iowa"}],"family":"Eades","given":"Harley"},{"affiliation":[{"name":"University
+        of Iowa"}],"family":"Stump","given":"Aaron"}],"container-title":["Electronic
+        Proceedings in Theoretical Computer Science","EPTCS","Electron. Proc. Theor.
+        Comput. Sci."],"reference-count":16,"page":"45-65","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Hereditary
+        Substitution for the \u03bb\u0394-Calculus"],"type":"journal-article","DOI":"10.4204\/eptcs.127.4","ISSN":["2075-2180"],"URL":"http:\/\/dx.doi.org\/10.4204\/eptcs.127.4","source":"CrossRef","publisher":"Open
+        Publishing Association","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782558267},"volume":"127","member":"http:\/\/id.crossref.org\/member\/2720"},{"subtitle":[],"subject":["Cardiology
+        and Cardiovascular Medicine"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1136","author":[{"affiliation":[],"family":"Bhave","given":"P.
+        D."},{"affiliation":[],"family":"Hoffmayer","given":"K."}],"container-title":["Heart"],"reference-count":12,"page":"1377-1378","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"19","title":["Caffeine
+        and atrial fibrillation: friends or foes?"],"type":"journal-article","DOI":"10.1136\/heartjnl-2013-304543","ISSN":["1355-6037"],"URL":"http:\/\/dx.doi.org\/10.1136\/heartjnl-2013-304543","source":"CrossRef","publisher":"BMJ","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782751915},"volume":"99","member":"http:\/\/id.crossref.org\/member\/239"},{"subtitle":[],"subject":["Medicine(all)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.7748","author":[{"affiliation":[],"family":"Keogh","given":"Kat"}],"container-title":["Nursing
+        Standard"],"reference-count":0,"page":"7-7","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"1","title":["Report
+        shows school nurses are key in spotting signs of child abuse"],"alternative-id":["10.7748\/ns2013.09.28.1.7.s7"],"type":"journal-article","DOI":"10.7748\/ns2013.09.28.1.7.s7","ISSN":["0029-6570","2047-9018"],"URL":"http:\/\/dx.doi.org\/10.7748\/ns2013.09.28.1.7.s7","source":"CrossRef","publisher":"RCN
+        Publishing Ltd.","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779759409},"volume":"28","member":"http:\/\/id.crossref.org\/member\/4499"},{"subtitle":[],"subject":["Molecular
+        Biology","Molecular Medicine","Oncology","Biochemistry","Cancer Research","Genetics"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3892","author":[{"affiliation":[],"family":"Yu","given":"Zhen"}],"container-title":["Molecular
+        Medicine Reports","Mol Med Report"],"reference-count":0,"deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["Erythropoietin
+        reduces brain injury after intracerebral hemorrhagic stroke in rats"],"type":"journal-article","DOI":"10.3892\/mmr.2013.1666","ISSN":["1791-2997","1791-3004"],"URL":"http:\/\/dx.doi.org\/10.3892\/mmr.2013.1666","source":"CrossRef","publisher":"Spandidos
+        Publications","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779285804},"member":"http:\/\/id.crossref.org\/member\/2249"},{"subtitle":["Two
+        Approaches to the Development of Culturally Responsive Treatment"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.4088","author":[{"affiliation":[],"family":"Collado","given":"Anahi"},{"affiliation":[],"family":"MacPherson","given":"Laura"},{"affiliation":[],"family":"Risco","given":"Cristina"},{"affiliation":[],"family":"Lejuez","given":"C.
+        W."}],"container-title":["The Primary Care Companion For CNS Disorders","Prim.
+        Care Companion CNS Disord."],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Cultural
+        Adaptation and Individual Tailoring"],"type":"journal-article","DOI":"10.4088\/pcc.13l01540","ISSN":["2155-7780"],"URL":"http:\/\/dx.doi.org\/10.4088\/pcc.13l01540","source":"CrossRef","publisher":"Physicians
+        Postgraduate Press, Inc","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782856453},"member":"http:\/\/id.crossref.org\/member\/2558"},{"subtitle":[],"subject":["Physical
+        and Theoretical Chemistry"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Xia","given":"Fei-Fei"},{"affiliation":[],"family":"Zeng","given":"Dewen"},{"affiliation":[],"family":"Yi","given":"Hai-Bo"},{"affiliation":[],"family":"Fang","given":"Chunhui"}],"container-title":["J.
+        Phys. Chem. A","The Journal of Physical Chemistry A"],"reference-count":57,"page":"8468-8476","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"35","title":["
+        Direct Contact versus Solvent-Shared Ion Pairs in Saturated NiCl 2 Aqueous
+        Solution: A DFT, CPMD, and EXAFS Investigation "],"alternative-id":["10.1021\/jp405168r"],"type":"journal-article","DOI":"10.1021\/jp405168r","ISSN":["1089-5639","1520-5215"],"URL":"http:\/\/dx.doi.org\/10.1021\/jp405168r","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782379261},"volume":"117","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.4102","author":[{"affiliation":[],"family":"De
+        Villiers","given":"Gerda"}],"container-title":["VE","Verbum et Ecclesia"],"reference-count":1,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"2","title":["Rut
+        4:18\ufffd22: \ufffdn Venster na Israel se verlede?"],"type":"journal-article","DOI":"10.4102\/ve.v34i2.798","ISSN":["2074-7705","1609-9982"],"URL":"http:\/\/dx.doi.org\/10.4102\/ve.v34i2.798","source":"CrossRef","publisher":"AOSIS
+        Open Journals","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782742896},"volume":"34","member":"http:\/\/id.crossref.org\/member\/2580"},{"subtitle":[],"subject":["Animal
+        Science and Zoology","Ecology, Evolution, Behavior and Systematics"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.11646","author":[{"affiliation":[],"family":"CONSTANTINESCU","given":"IOANA
+        CRISTINA"},{"affiliation":[],"family":"CHI\u0218AMERA","given":"GABRIEL"},{"affiliation":[],"family":"POCORA","given":"VIOREL"},{"affiliation":[],"family":"STANCIU","given":"C\u0102T\u0102LIN"},{"affiliation":[],"family":"ADAM","given":"COSTIC\u0102"}],"container-title":["Zootaxa"],"reference-count":0,"page":"267","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"3","title":["<p
+        class=\"HeadingRunIn\"><strong>Two new species of feather mites (Acarina:
+        Analgoidea) from the Moustached Warbler, <em>Acrocephalus melanopogon <\/em>(Passeriformes,
+        Acrocephalidae), in Romania<\/strong><\/p>"],"type":"journal-article","DOI":"10.11646\/zootaxa.3709.3.5","ISSN":["1175-5334","1175-5326"],"URL":"http:\/\/dx.doi.org\/10.11646\/zootaxa.3709.3.5","source":"CrossRef","publisher":"Magnolia
+        Press","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779830448},"volume":"3709","member":"http:\/\/id.crossref.org\/member\/4913"},{"subtitle":[],"subject":["Instrumentation","Applied
+        Mathematics"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","author":[{"affiliation":[],"family":"Hammer","given":"Patrick"},{"affiliation":[],"family":"Pouya","given":"Shahram"},{"affiliation":[],"family":"Naguib","given":"Ahmed"},{"affiliation":[],"family":"Koochesfahani","given":"Manoochehr"}],"container-title":["Meas.
+        Sci. Technol.","Measurement Science and Technology"],"reference-count":29,"page":"105302","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"10","title":["A
+        multi-time-delay approach for correction of the inherent error in single-component
+        molecular tagging velocimetry"],"type":"journal-article","DOI":"10.1088\/0957-0233\/24\/10\/105302","ISSN":["0957-0233","1361-6501"],"URL":"http:\/\/dx.doi.org\/10.1088\/0957-0233\/24\/10\/105302","source":"CrossRef","publisher":"IOP
+        Publishing","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779674822},"volume":"24","member":"http:\/\/id.crossref.org\/member\/266"},{"subtitle":[],"subject":["Social
+        Sciences(all)","Social Sciences (miscellaneous)","Sociology and Political
+        Science"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1177","author":[{"affiliation":[],"family":"Eitle","given":"D."},{"affiliation":[],"family":"Eitle","given":"T.
+        M."}],"container-title":["Youth & Society"],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["General
+        Strain Theory and Delinquency: Extending a Popular Explanation to American
+        Indian Youth"],"type":"journal-article","DOI":"10.1177\/0044118x13499593","ISSN":["0044-118X","1552-8499"],"URL":"http:\/\/dx.doi.org\/10.1177\/0044118x13499593","source":"CrossRef","publisher":"SAGE
+        Publications","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782978314},"member":"http:\/\/id.crossref.org\/member\/179"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"affiliation":[],"family":"Zhao","given":"Bin"},{"affiliation":[],"family":"Cui","given":"Taixiu"},{"affiliation":[],"family":"Xu","given":"Zhuang"},{"affiliation":[],"family":"Cao","given":"Yilong"}],"container-title":["Seismic
+        Design of Industrial Facilities"],"reference-count":0,"page":"197-206","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["Experimental
+        Study on Seismic Behaviour and Vibration Control of Wind Turbine and Electrical
+        Transmision Tower"],"type":"book-chapter","DOI":"10.1007\/978-3-658-02810-7_17","ISBN":["http:\/\/id.crossref.org\/isbn\/978-3-658-02809-1","http:\/\/id.crossref.org\/isbn\/978-3-658-02810-7"],"URL":"http:\/\/dx.doi.org\/10.1007\/978-3-658-02810-7_17","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025580414},"member":"http:\/\/id.crossref.org\/member\/297"},{"subtitle":[],"subject":["Pediatrics,
+        Perinatology, and Child Health"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1111","author":[{"affiliation":[{"name":"Department
+        of Paediatrics; University of Turin; Regina Margherita Children''s Hospital;
+        Azienda Ospedaliera Citt\u00e0 della Salute e della Scienza di Torino; Turin;
+        Italy"}],"family":"Savino","given":"F"},{"affiliation":[{"name":"Department
+        of Paediatrics; University of Turin; Regina Margherita Children''s Hospital;
+        Azienda Ospedaliera Citt\u00e0 della Salute e della Scienza di Torino; Turin;
+        Italy"}],"family":"Liguori","given":"SA"},{"affiliation":[{"name":"Department
+        of Paediatrics; University of Turin; Regina Margherita Children''s Hospital;
+        Azienda Ospedaliera Citt\u00e0 della Salute e della Scienza di Torino; Turin;
+        Italy"}],"family":"Benetti","given":"S"},{"affiliation":[{"name":"Department
+        of Paediatrics; University of Turin; Regina Margherita Children''s Hospital;
+        Azienda Ospedaliera Citt\u00e0 della Salute e della Scienza di Torino; Turin;
+        Italy"}],"family":"Sorrenti","given":"M"},{"affiliation":[{"name":"Department
+        of Paediatrics; University of Turin; Regina Margherita Children''s Hospital;
+        Azienda Ospedaliera Citt\u00e0 della Salute e della Scienza di Torino; Turin;
+        Italy"}],"family":"Fissore","given":"MF"},{"affiliation":[{"name":"Department
+        of Paediatrics; University of Turin; Regina Margherita Children''s Hospital;
+        Azienda Ospedaliera Citt\u00e0 della Salute e della Scienza di Torino; Turin;
+        Italy"}],"family":"Cordero di Montezemolo","given":"L"}],"container-title":["Acta
+        Paediatrica","Acta Paediatr"],"reference-count":25,"page":"e455-e459","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"10","title":["High
+        serum leptin levels in infancy can potentially predict obesity in childhood,
+        especially in formula-fed infants"],"type":"journal-article","DOI":"10.1111\/apa.12354","ISSN":["0803-5253"],"URL":"http:\/\/dx.doi.org\/10.1111\/apa.12354","source":"CrossRef","publisher":"Wiley-Blackwell","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779091177},"volume":"102","member":"http:\/\/id.crossref.org\/member\/311"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"affiliation":[],"family":"Sadegh-Azar","given":"Hamid"},{"affiliation":[],"family":"Hasenbank-Kriegbaum","given":"Truong-Diep"}],"container-title":["Seismic
+        Design of Industrial Facilities"],"reference-count":0,"page":"101-112","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["Probabilistic
+        Seismic Analysis of Existing Industrial Facilities"],"type":"book-chapter","DOI":"10.1007\/978-3-658-02810-7_9","ISBN":["http:\/\/id.crossref.org\/isbn\/978-3-658-02809-1","http:\/\/id.crossref.org\/isbn\/978-3-658-02810-7"],"URL":"http:\/\/dx.doi.org\/10.1007\/978-3-658-02810-7_9","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025579849},"member":"http:\/\/id.crossref.org\/member\/297"},{"subtitle":[],"subject":["Health
+        Professions (miscellaneous)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3822","author":[{"affiliation":[],"family":"Fogel,
+        PhD, LMT","given":"Alan"}],"container-title":["IJTMB","International Journal
+        of Therapeutic Massage & Bodywork: Research, Education, & Practice"],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"3","title":["Better
+        or Worse: a Study of Day-to-Day Changes over Five Months of Rosen Method Bodywork
+        Treatment for Chronic Low Back Pain"],"type":"journal-article","DOI":"10.3822\/ijtmb.v6i3.200","ISSN":["1916-257X"],"URL":"http:\/\/dx.doi.org\/10.3822\/ijtmb.v6i3.200","source":"CrossRef","publisher":"Massage
+        Therapy Foundation","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782854133},"volume":"6","member":"http:\/\/id.crossref.org\/member\/2156"},{"subtitle":[],"subject":["Space
+        and Planetary Science","Astronomy and Astrophysics"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","author":[{"affiliation":[],"family":"Koch","given":"Patrick
+        M."},{"affiliation":[],"family":"Tang","given":"Ya-Wen"},{"affiliation":[],"family":"Ho","given":"Paul
+        T. P."}],"container-title":["ApJ","The Astrophysical Journal"],"reference-count":70,"page":"77","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"1","title":["INTERPRETING
+        THE ROLE OF THE MAGNETIC FIELD FROM DUST POLARIZATION MAPS"],"type":"journal-article","DOI":"10.1088\/0004-637x\/775\/1\/77","ISSN":["0004-637X","1538-4357"],"URL":"http:\/\/dx.doi.org\/10.1088\/0004-637x\/775\/1\/77","source":"CrossRef","publisher":"IOP
+        Publishing","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782826359},"volume":"775","member":"http:\/\/id.crossref.org\/member\/266"},{"subtitle":[],"subject":["Condensed
+        Matter Physics","Chemistry(all)","Materials Science(all)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Perlovich","given":"German
+        L."},{"affiliation":[],"family":"Ryzhakov","given":"Alex M."},{"affiliation":[],"family":"Tkachev","given":"Valery
+        V."},{"affiliation":[],"family":"Hansen","given":"Lars Kr."},{"affiliation":[],"family":"Raevsky","given":"Oleg
+        A."}],"container-title":["Crystal Growth & Design"],"reference-count":66,"page":"4002-4016","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"9","title":["Sulfonamide
+        Molecular Crystals: Structure, Sublimation Thermodynamic Characteristics,
+        Molecular Packing, Hydrogen Bonds Networks"],"alternative-id":["10.1021\/cg400666v"],"type":"journal-article","DOI":"10.1021\/cg400666v","ISSN":["1528-7483","1528-7505"],"URL":"http:\/\/dx.doi.org\/10.1021\/cg400666v","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779096946},"volume":"13","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Chemistry(all)","Colloid
+        and Surface Chemistry","Biochemistry","Catalysis"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Talaga","given":"David
+        S."},{"affiliation":[],"family":"Li","given":"Jiali"}],"container-title":["J.
+        Am. Chem. Soc.","Journal of the American Chemical Society"],"reference-count":1,"page":"13220-13220","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"35","title":["Correction
+        to \u201cSingle-Molecule Protein Unfolding in Solid State Nanopores\u201d"],"alternative-id":["10.1021\/ja405675p"],"type":"journal-article","DOI":"10.1021\/ja405675p","ISSN":["0002-7863","1520-5126"],"URL":"http:\/\/dx.doi.org\/10.1021\/ja405675p","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779169990},"volume":"135","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Medicine(all)"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1056","container-title":["New
+        England Journal of Medicine","N Engl J Med"],"reference-count":11,"page":"981-982","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"10","title":["Expanding
+        the Role of Advanced Nurse Practitioners"],"alternative-id":["10.1056\/NEJMc1307645"],"type":"journal-article","DOI":"10.1056\/nejmc1307645","ISSN":["0028-4793","1533-4406"],"URL":"http:\/\/dx.doi.org\/10.1056\/nejmc1307645","source":"CrossRef","publisher":"New
+        England Journal of Medicine (NEJM\/MMS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779826146},"volume":"369","member":"http:\/\/id.crossref.org\/member\/150"},{"subtitle":[],"subject":["Medicine(all)"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1056","author":[{"affiliation":[],"family":"Ingelfinger","given":"Julie
+        R."},{"affiliation":[],"family":"Marsden","given":"Philip A."}],"container-title":["New
+        England Journal of Medicine","N Engl J Med"],"reference-count":11,"page":"974-975","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"10","title":["Estimated
+        GFR and Risk of Death \u2014 Is Cystatin C Useful?"],"alternative-id":["10.1056\/NEJMe1308505"],"type":"journal-article","DOI":"10.1056\/nejme1308505","ISSN":["0028-4793","1533-4406"],"URL":"http:\/\/dx.doi.org\/10.1056\/nejme1308505","source":"CrossRef","publisher":"New
+        England Journal of Medicine (NEJM\/MMS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779826231},"volume":"369","member":"http:\/\/id.crossref.org\/member\/150"},{"subtitle":[],"subject":["Chemistry(all)","Industrial
+        and Manufacturing Engineering","Chemical Engineering(all)"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Gupta","given":"Anshu"},{"affiliation":[],"family":"Giridhar","given":"Arun"},{"affiliation":[],"family":"Venkatasubramanian","given":"Venkat"},{"affiliation":[],"family":"Reklaitis","given":"Gintaras
+        V."}],"container-title":["Industrial & Engineering Chemistry Research","Ind.
+        Eng. Chem. Res."],"reference-count":16,"page":"12357-12368","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"35","title":["Intelligent
+        Alarm Management Applied to Continuous Pharmaceutical Tablet Manufacturing:
+        An Integrated Approach"],"alternative-id":["10.1021\/ie3035042"],"type":"journal-article","DOI":"10.1021\/ie3035042","ISSN":["0888-5885","1520-5045"],"URL":"http:\/\/dx.doi.org\/10.1021\/ie3035042","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433778928226},"volume":"52","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Aquatic
+        Science","Ecology, Evolution, Behavior and Systematics","Oceanography","Ecology"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3354","author":[{"affiliation":[],"family":"Tjensvoll","given":"I"},{"affiliation":[],"family":"Kutti","given":"T"},{"affiliation":[],"family":"Foss\u00e5","given":"JH"},{"affiliation":[],"family":"Bannister","given":"RJ"}],"container-title":["Aquat.
+        Biol.","Aquatic Biology"],"reference-count":53,"page":"65-73","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"1","title":["Rapid
+        respiratory responses of the deep-water sponge Geodia barretti exposed to
+        suspended sediments"],"type":"journal-article","DOI":"10.3354\/ab00522","ISSN":["1864-7782","1864-7790"],"URL":"http:\/\/dx.doi.org\/10.3354\/ab00522","source":"CrossRef","publisher":"Inter-Research
+        Science Center","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779089319},"volume":"19","member":"http:\/\/id.crossref.org\/member\/1913"},{"subtitle":[],"subject":["Condensed
+        Matter Physics","Electrical and Electronic Engineering","Atomic and Molecular
+        Physics, and Optics","Mechanics of Materials","Materials Science(all)","Signal
+        Processing","Civil and Structural Engineering"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","author":[{"affiliation":[],"family":"Jiang","given":"Zhaoshuo"},{"affiliation":[],"family":"Kim","given":"Sung
+        Jig"},{"affiliation":[],"family":"Plude","given":"Shelley"},{"affiliation":[],"family":"Christenson","given":"Richard"}],"container-title":["Smart
+        Mater. Struct.","Smart Materials and Structures"],"reference-count":31,"page":"105008","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"10","title":["Real-time
+        hybrid simulation of a complex bridge model with MR dampers using the convolution
+        integral method"],"type":"journal-article","DOI":"10.1088\/0964-1726\/22\/10\/105008","ISSN":["0964-1726","1361-665X"],"URL":"http:\/\/dx.doi.org\/10.1088\/0964-1726\/22\/10\/105008","source":"CrossRef","publisher":"IOP
+        Publishing","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779314803},"volume":"22","member":"http:\/\/id.crossref.org\/member\/266"},{"subtitle":["Preface"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.4204","author":[{"affiliation":[{"name":"University
+        of Turin"}],"family":"de''Liguoro","given":"Ugo"},{"affiliation":[{"name":"University
+        Paris Diderot, France"}],"family":"Saurin","given":"Alexis"}],"container-title":["Electronic
+        Proceedings in Theoretical Computer Science","EPTCS","Electron. Proc. Theor.
+        Comput. Sci."],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Proceedings
+        First Workshop on Control Operators and their Semantics"],"type":"journal-article","DOI":"10.4204\/eptcs.127.0","ISSN":["2075-2180"],"URL":"http:\/\/dx.doi.org\/10.4204\/eptcs.127.0","source":"CrossRef","publisher":"Open
+        Publishing Association","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782557904},"volume":"127","member":"http:\/\/id.crossref.org\/member\/2720"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1038","author":[{"affiliation":[],"family":"Tang","given":"Joel
+        A."},{"affiliation":[],"family":"Dugar","given":"Sneha"},{"affiliation":[],"family":"Zhong","given":"Guiming"},{"affiliation":[],"family":"Dalal","given":"Naresh
+        S."},{"affiliation":[],"family":"Zheng","given":"Jim P."},{"affiliation":[],"family":"Yang","given":"Yong"},{"affiliation":[],"family":"Fu","given":"Riqiang"}],"container-title":["Scientific
+        Reports","Sci. Rep."],"reference-count":26,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Non-Destructive
+        Monitoring of Charge-Discharge Cycles on Lithium Ion Batteries using 7Li Stray-Field
+        Imaging"],"alternative-id":["srep02596"],"type":"journal-article","DOI":"10.1038\/srep02596","ISSN":["2045-2322"],"URL":"http:\/\/dx.doi.org\/10.1038\/srep02596","source":"CrossRef","publisher":"Nature
+        Publishing Group","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782687701},"volume":"3","member":"http:\/\/id.crossref.org\/member\/339"},{"subtitle":[],"subject":["Chemistry(all)","Colloid
+        and Surface Chemistry","Biochemistry","Catalysis"],"issued":{"date-parts":[[2013,9,4]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Bowring","given":"Miriam
+        A."},{"affiliation":[],"family":"Bergman","given":"Robert G."},{"affiliation":[],"family":"Tilley","given":"T.
+        Don"}],"container-title":["J. Am. Chem. Soc.","Journal of the American Chemical
+        Society"],"reference-count":60,"page":"13121-13128","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"issue":"35","title":["Pt-Catalyzed
+        C\u2013C Activation Induced by C\u2013H Activation"],"alternative-id":["10.1021\/ja406260j"],"type":"journal-article","DOI":"10.1021\/ja406260j","ISSN":["0002-7863","1520-5126"],"URL":"http:\/\/dx.doi.org\/10.1021\/ja406260j","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433779187945},"volume":"135","member":"http:\/\/id.crossref.org\/member\/316"},{"subtitle":[],"subject":["Space
+        and Planetary Science","Astronomy and Astrophysics"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","author":[{"affiliation":[],"family":"Fortney","given":"Jonathan
+        J."},{"affiliation":[],"family":"Mordasini","given":"Christoph"},{"affiliation":[],"family":"Nettelmann","given":"Nadine"},{"affiliation":[],"family":"Kempton","given":"Eliza
+        M.-R."},{"affiliation":[],"family":"Greene","given":"Thomas P."},{"affiliation":[],"family":"Zahnle","given":"Kevin"}],"container-title":["ApJ","The
+        Astrophysical Journal"],"reference-count":143,"page":"80","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"1","title":["A
+        FRAMEWORK FOR CHARACTERIZING THE ATMOSPHERES OF LOW-MASS LOW-DENSITY TRANSITING
+        PLANETS"],"type":"journal-article","DOI":"10.1088\/0004-637x\/775\/1\/80","ISSN":["0004-637X","1538-4357"],"URL":"http:\/\/dx.doi.org\/10.1088\/0004-637x\/775\/1\/80","source":"CrossRef","publisher":"IOP
+        Publishing","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782826672},"volume":"775","member":"http:\/\/id.crossref.org\/member\/266"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1136","author":[{"affiliation":[],"family":"Mohamed","given":"M."},{"affiliation":[],"family":"Dun","given":"K."},{"affiliation":[],"family":"Grabek","given":"J."}],"container-title":["Case
+        Reports"],"reference-count":0,"page":"bcr2013200152-bcr2013200152","deposited":{"date-parts":[[2013,9,6]],"timestamp":1378425600000},"issue":"sep05
+        1","title":["Atypical features in a patient with acute promyelocytic leukaemia:
+        a potential diagnostic pitfall"],"type":"journal-article","DOI":"10.1136\/bcr-2013-200152","ISSN":["1757-790X"],"URL":"http:\/\/dx.doi.org\/10.1136\/bcr-2013-200152","source":"CrossRef","publisher":"BMJ","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433785443948},"volume":"2013","member":"http:\/\/id.crossref.org\/member\/239"},{"subtitle":[],"subject":["Molecular
+        Biology","Structural Biology"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1038","author":[{"affiliation":[],"family":"Moorefield","given":"Beth"}],"container-title":["Nat
+        Struct Mol Biol","Nature Structural & Molecular Biology"],"reference-count":1,"page":"1025-1025","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"9","title":["Transition
+        control"],"alternative-id":["nsmb.2672"],"type":"journal-article","DOI":"10.1038\/nsmb.2672","ISSN":["1545-9993","1545-9985"],"URL":"http:\/\/dx.doi.org\/10.1038\/nsmb.2672","source":"CrossRef","publisher":"Nature
+        Publishing Group","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782796088},"volume":"20","member":"http:\/\/id.crossref.org\/member\/339"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"affiliation":[],"family":"Block","given":"Carsten"},{"affiliation":[],"family":"Bauer","given":"Thomas"},{"affiliation":[],"family":"Henkel","given":"Fritz-Otto"}],"container-title":["Seismic
+        Design of Industrial Facilities"],"reference-count":0,"page":"271-280","deposited":{"date-parts":[[2013,9,4]],"timestamp":1378252800000},"title":["Seismic
+        Qualification of Equipment in Industrial Facilties"],"type":"book-chapter","DOI":"10.1007\/978-3-658-02810-7_22","ISBN":["http:\/\/id.crossref.org\/isbn\/978-3-658-02809-1","http:\/\/id.crossref.org\/isbn\/978-3-658-02810-7"],"URL":"http:\/\/dx.doi.org\/10.1007\/978-3-658-02810-7_22","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025579663},"member":"http:\/\/id.crossref.org\/member\/297"},{"subtitle":[],"subject":["Mathematics(all)","Applied
+        Mathematics","Statistics and Probability"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","author":[{"affiliation":[],"family":"Mikhaylov","given":"A.
+        S."},{"affiliation":[],"family":"Mikhaylov","given":"V. S."}],"container-title":["Journal
+        of Mathematical Sciences","J Math Sci"],"reference-count":17,"page":"67-71","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"1","title":["Equations
+        of the Boundary Control method for the inverse source problem"],"alternative-id":["1507"],"type":"journal-article","DOI":"10.1007\/s10958-013-1507-2","ISSN":["1072-3374","1573-8795"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10958-013-1507-2","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782558916},"volume":"194","member":"http:\/\/id.crossref.org\/member\/297"},{"subtitle":[],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3410","author":[{"affiliation":[],"family":"Wang","given":"Jia-huai"}],"container-title":["F1000
+        - Post-publication peer review of the biomedical literature"],"reference-count":0,"deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"title":["Faculty
+        of 1000 evaluation for Structural biology. Is high-tech view of HIV too good
+        to be true?"],"type":"dataset","DOI":"10.3410\/f.718087815.793482846","URL":"http:\/\/dx.doi.org\/10.3410\/f.718087815.793482846","source":"CrossRef","publisher":"Faculty
+        of 1000, Ltd.","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434025702930},"member":"http:\/\/id.crossref.org\/member\/2560"},{"subtitle":[],"subject":["Space
+        and Planetary Science","Astronomy and Astrophysics"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","author":[{"affiliation":[],"family":"De
+        Marchi","given":"Guido"},{"affiliation":[],"family":"Beccari","given":"Giacomo"},{"affiliation":[],"family":"Panagia","given":"Nino"}],"container-title":["ApJ","The
+        Astrophysical Journal"],"reference-count":82,"page":"68","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"1","title":["PHOTOMETRIC
+        DETERMINATION OF THE MASS ACCRETION RATES OF PRE-MAIN-SEQUENCE STARS. IV.
+        RECENT STAR FORMATION IN NGC 602"],"type":"journal-article","DOI":"10.1088\/0004-637x\/775\/1\/68","ISSN":["0004-637X","1538-4357"],"URL":"http:\/\/dx.doi.org\/10.1088\/0004-637x\/775\/1\/68","source":"CrossRef","publisher":"IOP
+        Publishing","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782828029},"volume":"775","member":"http:\/\/id.crossref.org\/member\/266"},{"subtitle":[],"subject":["Materials
+        Science(all)"],"issued":{"date-parts":[[2013,9,5]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1021","author":[{"affiliation":[],"family":"Bodi","given":"Andras"},{"affiliation":[],"family":"Hemberger","given":"Patrick"},{"affiliation":[],"family":"Osborn","given":"David
+        L."},{"affiliation":[],"family":"Szt\u00e1ray","given":"B\u00e1lint"}],"container-title":["J.
+        Phys. Chem. Lett.","The Journal of Physical Chemistry Letters"],"reference-count":25,"page":"2948-2952","deposited":{"date-parts":[[2013,9,5]],"timestamp":1378339200000},"issue":"17","title":["Mass-Resolved
+        Isomer-Selective Chemical Analysis with Imaging Photoelectron Photoion Coincidence
+        Spectroscopy"],"alternative-id":["10.1021\/jz401500c"],"type":"journal-article","DOI":"10.1021\/jz401500c","ISSN":["1948-7185"],"URL":"http:\/\/dx.doi.org\/10.1021\/jz401500c","source":"CrossRef","publisher":"American
+        Chemical Society (ACS)","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782487273},"volume":"4","member":"http:\/\/id.crossref.org\/member\/316"}],"total-results":1576,"facets":{}}}'
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 18:17:25 GMT
+recorded_with: VCR 2.9.3

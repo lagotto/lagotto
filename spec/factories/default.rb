@@ -7,13 +7,14 @@ FactoryGirl.define do
     sequence(:wos) { |n| "00023796690000#{n}" }
     sequence(:scp) { |n| "3384533872#{n}" }
     sequence(:ark) { |n| "ark:/13030/m5br8st#{n}" }
-    sequence(:canonical_url) { |n| "http://www.plosone.org/article/info:doi/10.1371/journal.pone.00000#{n}" }
+    sequence(:canonical_url) { |n| "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.00000#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     year { Time.zone.now.to_date.year - 1 }
     month { Time.zone.now.to_date.month }
     day { Time.zone.now.to_date.day }
     publisher_id 340
+    tracked true
     csl {{}}
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
@@ -22,8 +23,8 @@ FactoryGirl.define do
 
     factory :work_with_events do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, work: work, readers: 50, events_url: "http://www.citeulike.org/doi/#{work.doi}")
-        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work, readers: 50)
+        FactoryGirl.create(:retrieval_status, work: work, readers: 50, events_url: "http://www.citeulike.org/doi/#{work.doi}", extra: [{ "event" =>{ "link" => { "url" => "http://www.citeulike.org/user/klauso/article/12029653" }, "post_time" => "2013-02-15 15:12:04", "tag" => ["call", "newspecies", "otusjolandae"], "linkout" => { "type" => "DOI", "url" => "http://dx.doi.org/10.1371/journal.pone.0053712" }, "username" => "klauso", "article_id" => "12029653" }, "event_time" => "2013-02-15T15:12:04Z", "event_url" => "http://www.citeulike.org/user/klauso/article/12029653" }] )
+        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work, readers: 50, extra: { "title" => "A New Owl Species of the Genus Otus (Aves: Strigidae) from Lombok, Indonesia" } )
       end
     end
 
@@ -511,10 +512,12 @@ FactoryGirl.define do
   factory :relation_type do
     name "cites"
     title "Cites"
+    inverse_name "is_cited_by"
 
     trait(:inverse) do
-      name "_cites"
+      name "is_cited_by"
       title "Is cited by"
+      inverse_name "cites"
     end
 
     initialize_with { RelationType.where(name: name).first_or_initialize }

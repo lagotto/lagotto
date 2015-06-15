@@ -56,13 +56,13 @@ describe PlosFulltext, type: :model, vcr: true do
      it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "plos_fulltext", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events returned by the PLOS Search API" do
@@ -84,6 +84,15 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(event['type']).to eq("article-journal")
       expect(event['URL']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
       expect(event['timestamp']).to eq("2014-09-11T00:00:00Z")
+
+      extra = response[:events][:extra].last
+      expect(extra[:event_time]).to eq("2014-09-11T00:00:00Z")
+      expect(extra[:event_csl]['author']).to eq([{"family"=>"Rougier", "given"=>"Nicolas P."}, {"family"=>"Droettboom", "given"=>"Michael"}, {"family"=>"Bourne", "given"=>"Philip E."}])
+      expect(extra[:event_csl]['title']).to eq("Ten Simple Rules for Better Figures")
+      expect(extra[:event_csl]['container-title']).to eq("PLOS Computational Biology")
+      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 9, 11]])
+      expect(extra[:event_csl]['type']).to eq("article-journal")
+      expect(extra[:event_csl]['url']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
     end
 
     it "should catch timeout errors with the PLOS Search API" do

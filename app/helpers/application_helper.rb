@@ -70,6 +70,13 @@ module ApplicationHelper
     end
   end
 
+  def status_label(name, status)
+    case status
+    when "OK" then name
+    else "<span class='label label-warning'>#{name}</span>"
+    end
+  end
+
   def number_hiding_zero(number)
     (number.nil? || number == 0 ? "" : number_with_delimiter(number))
   end
@@ -96,7 +103,7 @@ module ApplicationHelper
   end
 
   def author_format(author)
-    authors = author.map { |a| a["given"] + " " + a["family"] }
+    authors = author.map { |a| a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s }
     case authors.length
     when 0, 1, 2 then authors.join(" & ")
     when 3, 4 then authors[0..-2].join(", ") + " & " + authors.last

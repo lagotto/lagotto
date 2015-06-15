@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
 gem 'rails', '~> 4.2.1'
-gem 'mysql2', '0.3.16'
+gem 'mysql2', '0.3.18'
 
 gem "dotenv", '~> 1.0.2'
 gem 'sidekiq', '~> 3.3.0'
-gem 'sinatra', :require => nil
+gem 'sinatra'
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false
 gem 'parse-cron', '~> 0.1.4'
@@ -13,6 +13,7 @@ gem "mail", "~> 2.6.1"
 gem 'nondestructive_migrations', '~> 1.1'
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem "logstash-logger", "~> 0.7.0"
+gem 'bugsnag', '~> 2.8.6'
 
 gem "faraday", "~> 0.9.0"
 gem "faraday_middleware", "~> 0.9.1"
@@ -48,6 +49,7 @@ gem 'nilify_blanks', '~> 1.2.0'
 gem "github-markdown", "~> 0.6.3"
 gem "rouge", "~> 1.7.2"
 gem 'dotiw', '~> 2.0'
+gem 'demoji', '~> 0.0.5'
 
 gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'
@@ -59,7 +61,8 @@ group :development do
   gem 'pry-rails', '~> 0.3.2'
   gem 'better_errors', '~> 2.0.0'
   gem 'binding_of_caller', '~> 0.7.2'
-  gem 'capistrano', '~> 3.3.5'
+  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano-passenger', '~> 0.0.5'
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'spring', '~> 1.1.2'

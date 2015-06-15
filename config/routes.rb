@@ -19,6 +19,13 @@ Lagotto::Application.routes.draw do
   resources :filters
   resources :publishers
   resources :references
+
+  # use namespace for rss feeds rather than file extension
+  namespace :rss, defaults: { format: "rss" } do
+    resources :works, constraints: { :id => /.+/ }, only: [:show]
+    resources :sources, only: [:show]
+  end
+
   resources :sources do
     resources :publisher_options, only: [:show, :edit, :update]
   end
@@ -26,16 +33,14 @@ Lagotto::Application.routes.draw do
   resources :users
 
   # constraints is added to allow dot in the url (doi is used to show article)
-  resources :works, constraints: { :id => /.+?/, :format => /html|js|rss/ }
+  resources :works, constraints: { :id => /.+/, :format => /html|js/ }
 
-  get "heartbeat", to: "heartbeat#show", defaults: { format: "json" }
   get "oembed", to: "oembed#show"
 
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
-
   get "/api", to: "api/index#index"
 
-  namespace :api, defaults: { format: "lagotto_json" } do
+  namespace :api, defaults: { format: "json" } do
     namespace :v3 do
       resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:index, :show]
     end
@@ -73,12 +78,12 @@ Lagotto::Application.routes.draw do
       resources :works, constraints: { :id => /.+?/, :format=> false } do
         resources :references
         resources :versions
-        resources :similar_works
+        resources :recommendations
         resources :events
       end
     end
   end
 
   # rescue routing errors
-  match "*path", to: "alerts#routing_error", via: [:get, :post]
+  match "*path", to: "alerts#routing_error", via: [:any]
 end

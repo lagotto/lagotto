@@ -41,4 +41,22 @@ describe Status, type: :model, vcr: true do
   it "current_version" do
     expect(subject.current_version).to eq("3.13")
   end
+
+  context "services" do
+    it "redis" do
+      expect(subject.redis).to eq("OK")
+    end
+
+    it "sidekiq" do
+      expect(subject.sidekiq).to eq("failed")
+    end
+
+    it "postfix" do
+      expect(subject.postfix).to eq("OK")
+    end
+
+    it "services_ok?" do
+      expect(subject.services_ok?).to be false
+    end
+  end
 end

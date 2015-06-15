@@ -139,7 +139,7 @@ class TwitterSearch < Source
   end
 
   def rate_limiting
-    config.rate_limiting || 1600
+    config.rate_limiting || 1800
   end
 
   def staleness_week
@@ -156,5 +156,9 @@ class TwitterSearch < Source
 
   def staleness_all
     config.staleness_all || (1.month * 0.25).to_i
+  end
+
+  def queue
+    config.queue || "low"
   end
 end

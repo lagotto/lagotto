@@ -3,7 +3,7 @@ require "rails_helper"
 describe "/api/v6/groups", :type => :api do
   let!(:source) { FactoryGirl.create(:source) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version 6" }
+    { "HTTP_ACCEPT" => "application/json; version 6" }
   end
 
   context "index" do

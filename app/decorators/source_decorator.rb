@@ -7,15 +7,7 @@ class SourceDecorator < Draper::Decorator
   end
 
   def group
-    model.group.name
-  end
-
-  def group_id
-    model.group.name
-  end
-
-  def display_name
-    title
+    object.group.name
   end
 
   def id

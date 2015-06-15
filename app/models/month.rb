@@ -22,6 +22,6 @@ class Month < ActiveRecord::Base
   end
 
   def cache_key
-    "month/#{id}/#{timestamp}"
+    "month/#{id}-#{timestamp}"
   end
 end

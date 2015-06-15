@@ -54,20 +54,20 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "article_coverage_curated", work: work.pid, comments: 0, total: 0, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "article_coverage_curated", work: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
       result = { error: "Article not found", status: 404 }
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "article_coverage_curated", work: work.pid, comments: 0, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "article_coverage_curated", work: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "article_coverage_curated", work: work.pid, comments: 0, total: 0, days: [], months: [] })
+      expect(response).to eq(works: [], events: { source: "article_coverage_curated", work: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] })
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
@@ -90,6 +90,24 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(event['timestamp']).to eq("2013-11-20T00:00:00Z")
       expect(event['type']).to eq("post")
       expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.pone.0047712", "source"=>"article_coverage_curated", "relation_type"=>"discusses"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to be_nil
+      expect(extra[:event_url]).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
+      expect(extra[:event_csl]['author']).to eq("")
+      expect(extra[:event_csl]['title']).to eq("Project Description @ Belly Button Biodiversity")
+      expect(extra[:event_csl]['container-title']).to eq("")
+      expect(extra[:event_csl]['issued']).to eq("date_parts" => [[]])
+      expect(extra[:event_csl]['type']).to eq("post")
+
+      event_data = extra[:event]
+      expect(event_data['referral']).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
+      expect(event_data['language']).to eq("English")
+      expect(event_data['title']).to eq("Project Description @ Belly Button Biodiversity")
+      expect(event_data['type']).to eq("Blog")
+      expect(event_data['publication']).to eq("")
+      expect(event_data['published_on']).to eq("")
+      expect(event_data['link_state']).to eq("")
     end
 
     it "should catch timeout errors with the Article Coverage API" do

@@ -16,6 +16,6 @@ class Group < ActiveRecord::Base
   end
 
   def cache_key
-    "groups/#{name}/#{timestamp}"
+    "groups/#{name}-#{timestamp}"
   end
 end

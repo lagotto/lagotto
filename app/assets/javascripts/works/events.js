@@ -53,8 +53,9 @@ function AlmViz(options) {
   $ = options.jQuery || $;
 
   // Init data
+  // remove group not needed for the following visualizations
   var work_ = options.work;
-  var groups_ = options.groups;
+  var groups_ = options.groups.filter(function(d) { return d.id !== "other"; });
   var sources_ = options.sources;
   var data = options.almStatsJson;
 

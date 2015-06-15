@@ -90,7 +90,7 @@ namespace :queue do
         exit
       end
 
-      source.queue_work_jobs([rs.id], priority: 2)
+      source.queue_work_jobs([rs.id], queue: "high")
       puts "Job for pid #{work.pid} and source #{source.title} has been queued."
     end
   end

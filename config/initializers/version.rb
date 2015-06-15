@@ -1,3 +1,3 @@
 module Lagotto
-  VERSION = "4.0-unstable"
+  VERSION = "4.0"
 end

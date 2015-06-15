@@ -23,6 +23,6 @@ class Day < ActiveRecord::Base
   end
 
   def cache_key
-    "day/#{id}/#{timestamp}"
+    "day/#{id}-#{timestamp}"
   end
 end

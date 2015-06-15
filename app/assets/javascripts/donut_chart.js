@@ -3,7 +3,7 @@
 var radius = 80;
 
 // donut chart
-function donutViz(data, div, title, subtitle, colors) {
+function donutViz(data, div, title, subtitle, colors, items) {
   var chart = d3.select(div).append("svg")
     .data([data])
     .attr("width", radius * 2 + 50)
@@ -30,7 +30,7 @@ function donutViz(data, div, title, subtitle, colors) {
     .attr("fill", function(d, i) { return colors(i); } )
     .attr("d", arc);
   arcs.each(
-    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " sources " + d.data.key.replace("_", " "), container: "body"});
+    function(d){ $(this).tooltip({title: formatFixed(d.data.value) + " " + items + " " + d.data.key.replace("_", " "), container: "body"});
   });
 
   chart.append("text")

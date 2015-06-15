@@ -134,7 +134,7 @@ FactoryGirl.define do
 
   factory :europe_pmc, class: EuropePmc do
     type "EuropePmc"
-    name "europe_pmc"
+    name "pmc_europe"
     title "PMC Europe Citations"
     state_event "activate"
 
@@ -145,7 +145,7 @@ FactoryGirl.define do
 
   factory :europe_pmc_data, class: EuropePmcData do
     type "EuropePmcData"
-    name "europe_pmc_data"
+    name "pmc_europe_data"
     title "PMC Europe Database Citations"
     state_event "activate"
 

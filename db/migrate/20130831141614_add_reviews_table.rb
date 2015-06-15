@@ -2,7 +2,7 @@ class AddReviewsTable < ActiveRecord::Migration
   def up
     create_table :filters do |t|
       t.string   :type, null: false
-      t.string   :name, null: false
+      t.string   :name, null: false, limit: 191
       t.string   :display_name, null: false
       t.text     :description
       t.boolean  :active, default: true

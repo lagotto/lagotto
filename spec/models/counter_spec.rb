@@ -112,8 +112,8 @@ describe Counter, type: :model, vcr: true do
     it "should report if there are events returned by the Counter API" do
       response = subject.get_data(work)
       expect(response["rest"]["response"]["criteria"]).to eq("year"=>"all", "month"=>"all", "journal"=>"all", "doi"=>work.doi)
-      expect(response["rest"]["response"]["results"]["total"]["total"]).to eq("5666")
-      expect(response["rest"]["response"]["results"]["item"].length).to eq(63)
+      expect(response["rest"]["response"]["results"]["total"]["total"]).to eq("5844")
+      expect(response["rest"]["response"]["results"]["item"].length).to eq(66)
     end
 
     it "should catch timeout errors with the Counter API" do

@@ -16,7 +16,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
+    .header("Accept", "application/json; version=6")
     .header("Authorization", "Token token=" + api_key)
     .get(function(error, json) {
       if (error) { return console.warn(error); }
@@ -61,6 +61,6 @@ if (query) {
       barViz(by_hour, "#chart_requests", "requests_count", "hours");
       barViz(by_hour, "#chart_average", "requests_average", "hours");
 
-      donutViz(sources, "#chart_sources", sources_title, "active", colors);
+      donutViz(sources, "#chart_sources", sources_title, "active", colors, "sources");
   });
 }

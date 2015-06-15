@@ -3,6 +3,6 @@ class ImportJob < ActiveJob::Base
 
   def perform(klass, options)
     import = klass.constantize.new(options)
-    import.process_data(options[:offset].to_i)
+    import.process_data(options)
   end
 end

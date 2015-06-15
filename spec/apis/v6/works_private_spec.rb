@@ -1,15 +1,15 @@
 require "rails_helper"
 
 describe "/api/v6/works", :type => :api do
+  let(:work) { FactoryGirl.create(:work_with_private_citations) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+    { "HTTP_ACCEPT" => "application/json; version=6",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
   context "private source" do
     context "as admin user" do
       let(:user) { FactoryGirl.create(:admin_user) }
-      let(:work) { FactoryGirl.create(:work_with_private_citations) }
       let(:uri) { "/api/works?ids=#{work.doi_escaped}&type=doi" }
 
       it "JSON" do
@@ -27,7 +27,6 @@ describe "/api/v6/works", :type => :api do
 
     context "as staff user" do
       let(:user) { FactoryGirl.create(:user, :role => "staff") }
-      let(:work) { FactoryGirl.create(:work_with_private_citations) }
       let(:uri) { "/api/works?ids=#{work.doi_escaped}&type=doi" }
 
       it "JSON" do
@@ -45,7 +44,6 @@ describe "/api/v6/works", :type => :api do
 
     context "as regular user" do
       let(:user) { FactoryGirl.create(:user, :role => "user") }
-      let(:work) { FactoryGirl.create(:work_with_private_citations) }
       let(:uri) { "/api/works?ids=#{work.doi_escaped}&type=doi" }
 
       it "JSON" do
@@ -62,11 +60,10 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "without API key" do
-      let(:work) { FactoryGirl.create(:work_with_private_citations) }
       let(:uri) { "/api/works?ids=#{work.doi_escaped}&type=doi" }
 
       it "JSON" do
-        get uri, nil, 'HTTP_ACCEPT' => 'application/vnd.lagotto+json; version=6'
+        get uri, nil, 'HTTP_ACCEPT' => 'application/json; version=6'
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)

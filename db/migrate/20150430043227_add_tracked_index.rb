@@ -4,6 +4,6 @@ class AddTrackedIndex < ActiveRecord::Migration
   end
 
   def down
-    add_index "works", name: "index_works_on_tracked_published_on"
+    remove_index "works", name: "index_works_on_tracked_published_on"
   end
 end

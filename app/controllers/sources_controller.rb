@@ -5,26 +5,11 @@ class SourcesController < ApplicationController
 
   def show
     @doc = Doc.find(@source.name)
-    if current_user && current_user.publisher && @source.by_publisher?
+    if current_user && current_user.publisher_id && @source.by_publisher?
       @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
     end
 
-    respond_to do |format|
-      format.html
-      format.js
-      format.rss do
-        if params[:days]
-          @retrieval_statuses = @source.retrieval_statuses.most_cited
-                                .published_last_x_days(params[:days].to_i)
-        elsif params[:months]
-          @retrieval_statuses = @source.retrieval_statuses.most_cited
-                                .published_last_x_months(params[:months].to_i)
-        else
-          @retrieval_statuses = @source.retrieval_statuses.most_cited
-        end
-        render :show
-      end
-    end
+    render :show
   end
 
   def index
@@ -35,7 +20,7 @@ class SourcesController < ApplicationController
 
   def edit
     @doc = Doc.find(@source.name)
-    if current_user && current_user.publisher && @source.by_publisher?
+    if current_user && current_user.publisher_id && @source.by_publisher?
       @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
     end
     render :show

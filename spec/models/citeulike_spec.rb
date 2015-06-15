@@ -46,7 +46,7 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { works: [], events: { source: "citeulike", work: work.pid, readers: 0, total: 0, days: [], months: [] } } }
+    let(:null_response) { { works: [], events: { source: "citeulike", work: work.pid, readers: 0, total: 0, extra: [], days: [], months: [] } } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
@@ -87,6 +87,10 @@ describe Citeulike, type: :model, vcr: true do
       expect(event['type']).to eq("entry")
       expect(event["timestamp"]).to eq("2006-06-13T16:14:19Z")
       expect(event["related_works"]).to eq([{"related_work"=> work.pid, "source"=>"citeulike", "relation_type"=>"bookmarks"}])
+
+      extra = response[:events][:extra].first
+      expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")
+      expect(extra[:event_url]).to eq(extra[:event]['link']['url'])
     end
 
     it "should report if there is one event returned by the CiteULike API" do

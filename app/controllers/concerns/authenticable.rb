@@ -15,9 +15,14 @@ module Authenticable
     end
 
     def authenticate_user_from_token_param!
-      user_token = params[:api_key].presence
-      user = user_token && User.where(authentication_token: user_token.to_s).first
-      sign_in user, store: false if user
+      token = params[:api_key].presence
+      user = token && User.where(authentication_token: token).first
+
+      if user && Devise.secure_compare(user.authentication_token, token)
+        sign_in user, store: false
+      else
+        current_user = false
+      end
     end
 
     # looking for header "Authorization: Token token=12345"
@@ -69,6 +74,8 @@ module Authenticable
 
       if status == 404
         message = "The page you are looking for doesn't exist."
+      elsif status == 401
+        message = "You are not authorized to access this page."
       else
         create_alert(exception, status: status)
         message = exception.message

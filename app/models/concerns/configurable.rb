@@ -112,7 +112,8 @@ module Configurable
     def languages
       # Default is 25 largest Wikipedias:
       # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_works
-      config.languages || "en nl de sv fr it ru es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
+      # temporarily exclude ru because of an OpenSSL issue: https://github.com/articlemetrics/lagotto/issues/303
+      config.languages || "en nl de sv fr it es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
     end
 
     def languages=(value)
@@ -163,8 +164,37 @@ module Configurable
       config.rate_limiting = value.to_i
     end
 
+    # store rate_limit_remaining and rate_limit_reset in memcached
+    def rate_limit_remaining
+      (Rails.cache.read("#{name}/rate_limit_remaining") || rate_limiting).to_i
+    end
+
+    def rate_limit_remaining=(value)
+      value ||= rate_limit_reset > Time.zone.now ? rate_limit_remaining - 1 : rate_limiting
+      Rails.cache.write("#{name}/rate_limit_remaining", value.to_i)
+    end
+
+    def rate_limit_reset
+      Time.parse(Rails.cache.read("#{name}/rate_limit_reset") || (Time.zone.now.end_of_hour).utc.iso8601)
+    end
+
+    # reset rate_limit every full hour unless value is provided by source
+    def rate_limit_reset=(value)
+      value ||= (Time.zone.now.end_of_hour).to_i
+      Rails.cache.write("#{name}/rate_limit_reset", get_iso8601_from_epoch(value))
+    end
+
+    def last_response
+      Time.parse(Rails.cache.read("#{name}/last_response") || Time.zone.now.utc.iso8601)
+    end
+
+    def last_response=(value)
+      value ||= (Time.zone.now).to_i
+      Rails.cache.write("#{name}/last_response", get_iso8601_from_epoch(value))
+    end
+
     def job_interval
-      3600 / rate_limiting
+      3600.0 / rate_limiting
     end
 
     def batch_interval

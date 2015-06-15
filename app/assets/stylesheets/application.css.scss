@@ -450,6 +450,7 @@ $table-bg-accent:                lighten($brand-primary, 65%);
 .table .group { width: 190px;}
 .table .status { width: 95px;}
 .table .jobs { text-align: center;}
+.table .service { text-align: center; width: 85px; border-color: white; }
 
 // Forms
 // -------------------------
@@ -497,7 +498,9 @@ input.radio_tag { margin-right: 7px; }
 p.radio_tag { margin-left: 25px; }
 .graphs { text-align:center; }
 .panel-chart { height: 180px; padding: 10px; }
+.panel-version { height: 88px; padding: 10px; }
 h2.graphs { margin-top: 2.5px; margin-bottom: 5px; }
+h2.version { margin-top: 2.5px; margin-bottom: 2.5px; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
 .tab-content { margin-top: 1em; }
 .btn-toolbar { padding-left: 6px; }
@@ -517,16 +520,16 @@ select.form-control.date { display: inline; }
 h1 { margin-top: 0; }
 h5, h4.work { margin-bottom: 0; }
 .loading {margin: 1em; }
-#results h2:first-child, h4.work:first-child { margin-top: 0; }
-#results h4, #results p { margin-bottom: 0; }
-#results p { line-height: 1.33; }
+#results, #results-references, #results-recommendations h2:first-child, h4.work:first-child { margin-top: 0; }
+#results, #results-references, #results-recommendations h4, #results p { margin-bottom: 0; }
+#results, #results-references, #results-recommendations p { line-height: 1.33; }
 td h4 { margin-top: 0; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
 dt, dd { line-height: 1.5; }
 .border-bottom { border-bottom: 1px solid #eee; }
 .alert-inner { min-height: 120px; }
 .remote { color: #88A2BD; }
-#results { background-color: white; border: 1px solid $gray; padding: 1.5em; }
+#results, #results-references, #results-recommendations { background-color: white; border: 1px solid $gray; padding: 1.5em; }
 #rss { padding: 1em; }
 .exampleOutput { padding-bottom: 10px; }
 // customize swagger-ui formatting

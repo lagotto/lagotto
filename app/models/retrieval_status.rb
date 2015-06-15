@@ -13,7 +13,6 @@ class RetrievalStatus < ActiveRecord::Base
   has_many :months, :dependent => :destroy
   has_many :days, :dependent => :destroy
 
-  serialize :event_metrics
   serialize :extra, JSON
 
   validates :work_id, :source_id, presence: true
@@ -29,13 +28,15 @@ class RetrievalStatus < ActiveRecord::Base
   scope :without_events, -> { where("total = ?", 0) }
   scope :most_cited, -> { with_events.order("total desc").limit(25) }
 
-  scope :last_x_days, ->(duration) { where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :last_x_days, ->(duration) { tracked.where("retrieved_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :not_updated, ->(duration) { tracked.where("retrieved_at < ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_months, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date  - duration.months) }
 
   scope :queued, -> { tracked.where("queued_at is NOT NULL") }
   scope :not_queued, -> { tracked.where("queued_at is NULL") }
-  scope :stale, -> { not_queued.where("scheduled_at < ?", Time.zone.now).order("scheduled_at") }
+  scope :stale, -> { not_queued.where("scheduled_at <= ?", Time.zone.now).order("scheduled_at") }
+  scope :refreshed, -> { not_queued.where("scheduled_at > ?", Time.zone.now) }
   scope :published, -> { not_queued.where("works.published_on <= ?", Time.zone.now.to_date) }
 
   scope :by_source, ->(source_id) { where(:source_id => source_id) }
@@ -99,9 +100,10 @@ class RetrievalStatus < ActiveRecord::Base
       doi = item.fetch("DOI", nil)
       pmid = item.fetch("PMID", nil)
       pmcid = item.fetch("PMCID", nil)
+      arxiv = item.fetch("arxiv", nil)
       canonical_url = item.fetch("URL", nil)
       title = item.fetch("title", nil)
-      date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
+      date_parts = item.fetch("issued", {}).fetch("date-parts", [[]]).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
       type = item.fetch("type", nil)
       work_type_id = WorkType.where(name: type).pluck(:id).first
@@ -118,13 +120,13 @@ class RetrievalStatus < ActiveRecord::Base
         doi: doi,
         pmid: pmid,
         pmcid: pmcid,
+        arxiv: arxiv,
         canonical_url: canonical_url,
         title: title,
         year: year,
         month: month,
         day: day,
         work_type_id: work_type_id,
-        tracked: false,
         csl: csl,
         related_works: related_works }
 
@@ -134,7 +136,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def update_days(data)
-    data.map { |item| Day.where(retrieval_status_id: id,
+    Array(data).map { |item| Day.where(retrieval_status_id: id,
                                 day: item[:day],
                                 month: item[:month],
                                 year: item[:year]).first_or_create(
@@ -149,7 +151,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def update_months(data)
-    data.map { |item| Month.where(retrieval_status_id: id,
+    Array(data).map { |item| Month.where(retrieval_status_id: id,
                                   month: item[:month],
                                   year: item[:year]).first_or_create(
                                     work_id: work_id,
@@ -162,6 +164,21 @@ class RetrievalStatus < ActiveRecord::Base
                                     likes: item.fetch(:likes, 0)) }
   end
 
+  def import_from_couchdb
+    # import only for works with dois because we changed the pid format in lagotto 4.0
+    return false unless total > 0 && work.doi.present?
+
+    data = get_lagotto_data("#{source.name}:#{work.doi_escaped}").with_indifferent_access
+    return true if data.blank? || data[:error]
+
+    update_days(data["events_by_day"])
+
+    # only update monthly data for sources where we can't regenerate them
+    return true unless ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos'].include?(source.name)
+
+    update_months(data["events_by_month"])
+  end
+
   def retrieved_days_ago
     if [Date.new(1970, 1, 1), today].include?(retrieved_at.to_date)
       1
@@ -172,10 +189,6 @@ class RetrievalStatus < ActiveRecord::Base
 
   def to_param
     "#{source.name}:#{work.pid}"
-  end
-
-  def events
-    []
   end
 
   # dates via utc time are more accurate than Date.today
@@ -293,7 +306,7 @@ class RetrievalStatus < ActiveRecord::Base
                    readers: readers,
                    comments: comments,
                    likes: likes,
-                   total: total }.reject { |k,v| v.to_i == 0 }
+                   total: total }
   end
 
   # for backwards compatibility with v3 API
@@ -320,10 +333,16 @@ class RetrievalStatus < ActiveRecord::Base
     updated_at.utc.iso8601
   end
 
+  alias_method :display_name, :title
   alias_method :update_date, :timestamp
 
+  # for backwards compatibility in v3 and v5 APIs
+  def events
+    extra
+  end
+
   def cache_key
-    "event/#{id}/#{timestamp}"
+    "event/#{id}-#{timestamp}"
   end
 
   # calculate datetime when retrieval_status should be updated, adding random interval

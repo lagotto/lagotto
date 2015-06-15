@@ -1,5 +1,5 @@
-# config valid only for Capistrano 3.3.x
-lock '3.3.5'
+# config valid only for Capistrano 3.4.x
+lock '3.4.0'
 
 begin
   # make sure DOTENV is set
@@ -20,13 +20,13 @@ begin
                         ENV['DEPLOY_USER'].to_s.empty?
 rescue Errno::ENOENT
   $stderr.puts "Please create file .env in the Rails root folder"
-  exit
+  exit 1
 rescue LoadError
   $stderr.puts "Please install dotenv with \"gem install dotenv\""
-  exit
+  exit 1
 rescue ArgumentError
   $stderr.puts "Please set SERVERS and DEPLOY_USER in the .env file"
-  exit
+  exit 1
 end
 
 # set :default_env, { 'DOTENV' => ENV["DOTENV"] }
@@ -38,6 +38,9 @@ set :pty, false
 
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
+
+# Bugsnag deploy tracking
+set :bugsnag_api_key, ENV["BUGSNAG_KEY"] if ENV["BUGSNAG_KEY"]
 
 # Default deploy_to directory is /var/www/my_app
 # set :deploy_to, '/var/www/lagotto'

@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.biomedcentral.com/search/results?format=json&terms=https://github.com/pymor/pymor
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 15 Jun 2015 22:31:08 GMT
+      Content-Language:
+      - en-US
+      Content-Type:
+      - application/json;charset=utf-8
+      X-Cacheable:
+      - 'YES'
+      Cache-Control:
+      - public,max-age=86400
+      Last-Modified:
+      - Mon, 15 Jun 2015 22:31:08 GMT
+      X-Ua-Device:
+      - classic
+      Server:
+      - BioMed Central Web Server 1.0
+      X-Cache:
+      - MISS
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+      Accept-Ranges:
+      - bytes
+    body:
+      encoding: UTF-8
+      string: "{\"entries\":[]}\r\n"
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:15:21 GMT
+recorded_with: VCR 2.9.3

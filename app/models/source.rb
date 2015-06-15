@@ -131,10 +131,6 @@ class Source < ActiveRecord::Base
     rs.length
   end
 
-  def last_response
-    @last_response ||= api_responses.maximum(:created_at) || Time.zone.now
-  end
-
   def schedule_at
     last_response + batch_interval
   end
@@ -145,24 +141,19 @@ class Source < ActiveRecord::Base
     failed_queries > max_failed_queries
   end
 
-  # disable source if wait time at least 10 sec because of rate-limiting
+  # disable source if rate_limiting reached
   def check_for_rate_limits
-    future_response_count < 360
-  end
-
-  # API responses last 60 min
-  def current_response_count
-    @current_response_count ||= api_responses.total(1).size
-  end
-
-  # expected API responses next 60 min, should be larger than zero
-  def future_response_count
-    @future_response_count ||= [rate_limiting * 2 - current_response_count, 0.001].sort.last
+    rate_limit_remaining < 10
   end
 
   # calculate wait time until next API call
+  # wait until reset time if rate-limiting limit is close
   def wait_time
-    3600 / future_response_count
+    if rate_limit_remaining < 50
+      [rate_limit_reset - Time.zone.now, 0.001].sort.last
+    else
+      3600.0 / rate_limiting
+    end
   end
 
   def get_data(work, options={})
@@ -290,7 +281,7 @@ class Source < ActiveRecord::Base
 
   # all other fields
   def other_fields
-    config_fields.select { |field| field =~ /\Aurl.+/ }
+    config_fields.select { |field| field =~ /url.+/ }
   end
 
   # all publisher-specific configurations
@@ -325,6 +316,32 @@ class Source < ActiveRecord::Base
     cron_parser.next(Time.zone.now)
   rescue ArgumentError
     errors.add(:cron_line, "is not a valid crontab entry")
+  end
+
+  # import couchdb data for lagotto 4.0 upgrade
+  def import_from_couchdb
+    return 0 unless active?
+
+    # find works that need to be imported.
+    rs = retrieval_statuses
+
+    rs = rs.order("retrieval_statuses.id").pluck("retrieval_statuses.id")
+    count = queue_import_jobs(rs)
+  end
+
+  def queue_import_jobs(rs, options = {})
+    return 0 unless active?
+
+    if rs.length == 0
+      wait
+      return 0
+    end
+
+    rs.each_slice(job_batch_size) do |rs_ids|
+      CouchdbImportJob.perform_later(rs_ids)
+    end
+
+    rs.length
   end
 
   # Format events for all works as csv
@@ -372,7 +389,7 @@ class Source < ActiveRecord::Base
   end
 
   def cache_key
-    "source/#{name}/#{timestamp}"
+    "source/#{name}-#{timestamp}"
   end
 
   def update_cache
@@ -388,13 +405,16 @@ class Source < ActiveRecord::Base
      :work_count,
      :queued_count,
      :stale_count,
+     :refreshed_count,
      :response_count,
      :average_count,
      :maximum_count,
      :with_events_by_day_count,
      :without_events_by_day_count,
+     :not_updated_by_day_count,
      :with_events_by_month_count,
-     :without_events_by_month_count].each { |cached_attr| send("#{cached_attr}=") }
+     :without_events_by_month_count,
+     :not_updated_by_month_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
 
     update_column(:cached_at, now)
   end

@@ -72,4 +72,8 @@ class Twitter < Source
   def config_fields
     [:url_private]
   end
+
+  def queue
+    config.queue || "high"
+  end
 end

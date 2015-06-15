@@ -4,7 +4,7 @@ describe "/api/v6/works", :type => :api do
   let(:error) { { "meta" => { "status" => "error", "error" => "You are not authorized to access this page." } } }
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:headers) do
-    { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+    { "HTTP_ACCEPT" => "application/json; version=6",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
   end
 
@@ -59,7 +59,7 @@ describe "/api/v6/works", :type => :api do
 
     context "with wrong API key" do
       let(:headers) do
-        { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+        { "HTTP_ACCEPT" => "application/json; version=6",
           "HTTP_AUTHORIZATION" => "Token token=12345678" }
       end
 
@@ -220,7 +220,7 @@ describe "/api/v6/works", :type => :api do
 
     context "with wrong API key" do
       let(:headers) do
-        { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+        { "HTTP_ACCEPT" => "application/json; version=6",
           "HTTP_AUTHORIZATION" => "Token token=12345678" }
       end
 
@@ -343,7 +343,7 @@ describe "/api/v6/works", :type => :api do
 
     context "with wrong API key" do
       let(:headers) do
-        { "HTTP_ACCEPT" => "application/vnd.lagotto+json; version=6",
+        { "HTTP_ACCEPT" => "application/json; version=6",
           "HTTP_AUTHORIZATION" => "Token token=12345678" }
       end
 

@@ -25,6 +25,7 @@ class AdsFulltext < Source
         "container-title" => "ArXiV",
         "issued" => get_date_parts(item.fetch("pubdate", nil)),
         "URL" => "http://arxiv.org/abs/#{arxiv}",
+        "arxiv" => arxiv,
         "type" => "article-journal",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
@@ -38,5 +39,13 @@ class AdsFulltext < Source
 
   def events_url
     "https://ui.adsabs.harvard.edu/#search/q=body:%{query_string}"
+  end
+
+  def rate_limiting
+    config.rate_limiting || 1000
+  end
+
+  def queue
+    config.queue || "low"
   end
 end

@@ -1,6 +1,6 @@
 class Counter < Source
   def get_query_url(work)
-    return {} unless work.doi =~ /^10.1371/
+    return {} unless work.doi =~ /^10.1371\/journal/
 
     url_private % { :doi => work.doi_escaped }
   end
@@ -35,9 +35,9 @@ class Counter < Source
     Array(extra).map do |item|
       { "month" => item.fetch("month", nil),
         "year" => item.fetch("year", nil),
-        "pdf_views" => item.fetch("get_pdf", 0),
-        "xml_views" => item.fetch("get_xml", 0),
-        "html_views" => item.fetch("get_document", 0) }
+        "pdf_views" => item.fetch("get_pdf", "0"),
+        "xml_views" => item.fetch("get_xml", "0"),
+        "html_views" => item.fetch("get_document", "0") }
     end
   end
 
@@ -61,5 +61,9 @@ class Counter < Source
 
   def cron_line
     config.cron_line || "* 4 * * *"
+  end
+
+  def queue
+    config.queue || "high"
   end
 end

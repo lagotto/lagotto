@@ -10,9 +10,13 @@ class NatureOpensearch < Source
 
   def get_data(work, options={})
     query_url = get_query_url(work, options)
-    return query_url if query_url.is_a?(Hash)
+    return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
     result = get_result(query_url, options)
+
+    # make sure we return a hash
+    result = { 'data' => result } unless result.is_a?(Hash)
+
     total = (result.fetch("feed", {}).fetch("opensearch:totalResults", nil)).to_i
 
     if total > rows

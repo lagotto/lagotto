@@ -4,6 +4,6 @@ class AddRelationsIndex < ActiveRecord::Migration
   end
 
   def down
-    add_index "relations", name: "index_relations_on_level_work_related_work"
+    remove_index "relations", name: "index_relations_on_level_work_related_work"
   end
 end

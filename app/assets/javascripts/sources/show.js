@@ -12,7 +12,7 @@ if (!params.empty()) {
 // load the data from the Lagotto API
 if (query) {
   d3.json(query)
-    .header("Accept", "application/vnd.lagotto+json; version=6")
+    .header("Accept", "application/json; version=6")
     .get(function(error, json) {
       if (error) { return console.warn(error); }
       var data = json.source;
@@ -24,8 +24,8 @@ if (query) {
       var byDayTitle = formatPercent(data.by_day.with_events / d3.sum(byDay, function(g) { return g.value; }));
       var byMonthTitle = formatPercent(data.by_month.with_events / d3.sum(byMonth, function(g) { return g.value; }));
 
-      donutViz(status, "div#chart_status", status_title, "refreshed", colors);
-      donutViz(byDay, "div#chart_day", byDayTitle, "with events", colors);
-      donutViz(byMonth, "div#chart_month", byMonthTitle, "with events", colors);
+      donutViz(status, "div#chart_status", status_title, "refreshed", colors, "works");
+      donutViz(byDay, "div#chart_day", byDayTitle, "with events", colors, "works");
+      donutViz(byMonth, "div#chart_month", byMonthTitle, "with events", colors, "works");
   });
 }

@@ -56,6 +56,36 @@ class Status < ActiveRecord::Base
     Gem::Version.new(current_version) > Gem::Version.new(version)
   end
 
+  def services_ok?
+    # web, mysql and memcached must be running if you can see services panel on status page
+    if redis == "OK" && sidekiq == "OK" && postfix == "OK"
+      true
+    else
+      false
+    end
+  end
+
+  def redis
+    redis_client = Redis.new
+    redis_client.ping == "PONG" ? "OK" : "failed"
+  rescue
+    "failed"
+  end
+
+  def sidekiq
+    sidekiq_client = Sidekiq::ProcessSet.new
+    sidekiq_client.size > 0 ? "OK" : "failed"
+  rescue
+    "failed"
+  end
+
+  def postfix
+    Net::SMTP.start(ENV["MAIL_ADDRESS"], ENV["MAIL_PORT"])
+    "OK"
+  rescue
+    "failed"
+  end
+
   def timestamp
     updated_at.utc.iso8601
   end

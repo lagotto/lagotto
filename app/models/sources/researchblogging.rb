@@ -28,6 +28,30 @@ class Researchblogging < Source
     end
   end
 
+  def get_extra(result)
+    extra = result.deep_fetch('blogposts', 'post') { nil }
+    extra = [extra] if extra.is_a?(Hash)
+    Array(extra).map do |item|
+      event_time = get_iso8601_from_time(item["published_date"])
+      url = item['post_URL']
+
+      { event: item,
+        event_time: event_time,
+        event_url: url,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_authors([item.fetch('blogger_name', "")]),
+          'title' => item.fetch('post_title', ""),
+          'container-title' => item.fetch('blog_name', ""),
+          'issued' => get_date_parts(event_time),
+          'url' => url,
+          'type' => 'post'
+        }
+      }
+    end
+  end
+
   def config_fields
     [:url, :events_url, :username, :password]
   end

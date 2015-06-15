@@ -20,6 +20,7 @@ class PlosComments < Source
         discussed: total,
         total: total,
         events_url: events_url,
+        extra: get_extra(result, work),
         days: get_events_by_day(related_works, work),
         months: get_events_by_month(related_works) } }
   end
@@ -38,6 +39,26 @@ class PlosComments < Source
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
+    end
+  end
+
+  def get_extra(result, work)
+    Array(result['data']).map do |item|
+      event_time = get_iso8601_from_time(item['created'])
+
+      { event: item,
+        event_time: event_time,
+        event_url: nil,
+
+        # the rest is CSL (citation style language)
+        event_csl: {
+          'author' => get_authors([item.fetch('creatorFormattedName', "")]),
+          'title' => item.fetch('title', ""),
+          'container-title' => 'PLOS Comments',
+          'issued' => get_date_parts(event_time),
+          'url' => work.doi_as_url,
+          'type' => 'personal_communication' }
+      }
     end
   end
 

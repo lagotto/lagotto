@@ -13,6 +13,6 @@ class WorkType < ActiveRecord::Base
   end
 
   def cache_key
-    "#{name}/#{timestamp}"
+    "work_type/#{name}-#{timestamp}"
   end
 end
