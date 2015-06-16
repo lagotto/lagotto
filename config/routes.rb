@@ -26,6 +26,9 @@ Lagotto::Application.routes.draw do
     resources :sources, only: [:show]
   end
 
+  # redirect old rss routes
+  get '/sources/:id.rss', to: redirect('/rss/sources/%{id}')
+
   resources :sources do
     resources :publisher_options, only: [:show, :edit, :update]
   end
