@@ -81,15 +81,16 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(response[:events][:months].length).to eq(1)
       expect(response[:events][:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
 
-      event = response[:works].second
-      expect(event['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
-      expect(event['author']).to be_nil
-      expect(event['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
-      expect(event['container-title']).to eq("The Huffington Post")
-      expect(event['issued']).to eq("date-parts"=>[[2013, 11, 20]])
-      expect(event['timestamp']).to eq("2013-11-20T00:00:00Z")
-      expect(event['type']).to eq("post")
-      expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.pone.0047712", "source"=>"article_coverage_curated", "relation_type"=>"discusses"}])
+      related_work = response[:works].second
+      expect(related_work['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+      expect(related_work['author']).to be_nil
+      expect(related_work['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
+      expect(related_work['container-title']).to eq("The Huffington Post")
+      expect(related_work['issued']).to eq("date-parts"=>[[2013, 11, 20]])
+      expect(related_work['timestamp']).to eq("2013-11-20T00:00:00Z")
+      expect(related_work['type']).to eq("post")
+      expect(related_work['tracked']).to be true
+      expect(related_work['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.pone.0047712", "source"=>"article_coverage_curated", "relation_type"=>"discusses"}])
 
       extra = response[:events][:extra].first
       expect(extra[:event_time]).to be_nil

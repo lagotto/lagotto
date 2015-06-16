@@ -267,13 +267,13 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       month = subject.months.last
       expect(month.year).to eq(2015)
-      expect(month.month).to eq(4)
-      expect(month.total).to eq(10)
-      expect(month.pdf).to eq(2)
-      expect(month.html).to eq(7)
+      expect(month.month).to eq(6)
+      expect(month.total).to eq(4)
+      expect(month.pdf).to eq(0)
+      expect(month.html).to eq(4)
 
       extra = subject.extra.last
-      expect(extra).to eq("month"=>"4", "year"=>"2015", "pdf_views"=>"2", "xml_views"=>"1", "html_views"=>"7")
+      expect(extra).to eq("month"=>"6", "year"=>"2015", "pdf_views"=>"0", "xml_views"=>"0", "html_views"=>"4")
     end
 
     it "success mendeley" do
@@ -327,6 +327,42 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(relation.source.name).to eq("crossref")
       expect(relation.work.pid).to eq("doi:10.3758/s13423-011-0070-4")
       expect(relation.related_work.pid).to eq(work.pid)
+    end
+
+    it "success article_coverage_curated" do
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0111913")
+      relation_type = FactoryGirl.create(:relation_type, name: "discusses", title: "Discusses", inverse_name: "is_discussed_by")
+      inverse_relation_type = FactoryGirl.create(:relation_type, name: "is_discussed_by", title: "Is discussed by", inverse_name: "discusses")
+      source = FactoryGirl.create(:article_coverage_curated)
+      subject = FactoryGirl.create(:retrieval_status, total: 0, comments: 0, work: work, source: source)
+
+      expect(subject.months.count).to eq(0)
+      expect(subject.perform_get_data).to eq(total: 17, html: 0, pdf: 0, previous_total: 0, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(17)
+      expect(subject.months.count).to eq(5)
+      expect(subject.days.count).to eq(0)
+
+      month = subject.months.last
+      expect(month.year).to eq(2015)
+      expect(month.month).to eq(12)
+      expect(month.total).to eq(1)
+
+      expect(Work.count).to eq(16)
+      related_work = Work.last
+      expect(related_work.title).to eq("Plastic Smog: Microplastics Invade Our Oceans")
+      expect(related_work.pid).to eq("http://ecowatch.com/2015/02/27/marcus-eriksen-microplastics-invade-oceans")
+      expect(related_work.tracked).to be true
+
+      expect(Relation.count).to eq(30)
+      relation = Relation.first
+      expect(relation.relation_type.name).to eq("discusses")
+      expect(relation.source.name).to eq("article_coverage_curated")
+      expect(relation.work.pid).to eq("http://www.nytimes.com/2014/12/11/science/new-research-quantifies-the-oceans-plastic-problem.html")
+      expect(relation.related_work.pid).to eq(work.pid)
+
+      expect(Alert.count).to eq(2)
+      alert = Alert.first
+      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.popsci.com/five-trillion-pieces-plastic-are-floating-ocean-near-you-3.")
     end
 
     it "success no data" do

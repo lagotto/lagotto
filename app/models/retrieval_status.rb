@@ -107,6 +107,7 @@ class RetrievalStatus < ActiveRecord::Base
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
       type = item.fetch("type", nil)
       work_type_id = WorkType.where(name: type).pluck(:id).first
+      tracked = item.fetch("tracked", false)
       related_works = item.fetch("related_works", [])
 
       csl = {
@@ -128,6 +129,7 @@ class RetrievalStatus < ActiveRecord::Base
         day: day,
         work_type_id: work_type_id,
         csl: csl,
+        tracked: tracked,
         related_works: related_works }
 
       w = Work.find_or_create(i)

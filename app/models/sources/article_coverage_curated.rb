@@ -16,6 +16,7 @@ class ArticleCoverageCurated < Source
         "timestamp" => timestamp,
         "URL" => item.fetch('referral', nil),
         "type" => type,
+        "tracked" => true,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
