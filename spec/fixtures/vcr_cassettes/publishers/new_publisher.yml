@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/members?offset=0&query=plos&rows=10
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 16 Jun 2015 17:41:34 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1903'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"member-list","message-version":"1.0.0","message":{"items":[{"breakdowns":{"dois-by-issued-year":[[2013,36495],[2014,35453],[2012,27111],[2011,16684],[2015,14658],[2010,9366],[2009,6717],[2008,4607],[2007,2681],[2006,1656],[2005,1615],[2004,531],[2003,97]]},"prefixes":["10.1371"],"counts":{"backfile-dois":86268,"current-dois":71327,"total-dois":157595},"prefix":[{"value":"10.1371","name":"Public
+        Library of Science","public-references":true}],"last-status-check-time":1434431913986,"location":"Accounts
+        Payable 1160 Battery Street, Suite 100 1160 Battery Street, Suite 100 San
+        Francisco CA 94111 United States","coverage":{"resource-links-backfile":0.0,"funders-current":0.0,"funders-backfile":0.0,"references-current":0.0,"references-backfile":0.04920712113380432,"update-policies-backfile":0.9867969751358032,"resource-links-current":0.0,"update-policies-current":0.997840940952301,"award-numbers-current":0.0,"orcids-current":0.0,"orcids-backfile":0.0,"award-numbers-backfile":0.0,"licenses-current":0.0,"licenses-backfile":0.0},"flags":{"deposits-award-numbers-backfile":false,"deposits":true,"deposits-licenses-backfile":false,"deposits-resource-links-backfile":false,"deposits-licenses-current":false,"deposits-orcids-current":false,"deposits-funders-backfile":false,"deposits-references-current":false,"deposits-orcids-backfile":false,"deposits-references-backfile":true,"deposits-resource-links-current":false,"deposits-award-numbers-current":false,"deposits-update-policies-backfile":true,"deposits-funders-current":false,"deposits-update-policies-current":true,"deposits-articles":true},"primary-name":"Public
+        Library of Science (PLoS)","names":["Public Library of Science (PLoS)","Public
+        Library of Science"],"id":340,"tokens":["public","library","of","science","plos"]}],"total-results":1,"query":{"search-terms":"plos","start-index":0},"items-per-page":10}}'
+    http_version: 
+  recorded_at: Tue, 16 Jun 2015 17:40:02 GMT
+recorded_with: VCR 2.9.3

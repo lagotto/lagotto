@@ -156,7 +156,7 @@ describe PlosImport, type: :model, vcr: true do
       alert = Alert.first
       expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
       expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.1371/journal.pone.0075114.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.1371/journal.pone.0075114")
+      expect(alert.target_url).to eq("http://doi.org/10.1371/journal.pone.0075114")
     end
   end
 end

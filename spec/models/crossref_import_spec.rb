@@ -238,7 +238,7 @@ describe CrossrefImport, type: :model, vcr: true do
       alert = Alert.first
       expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
       expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.1787/gen_papers-v2008-art6-en")
+      expect(alert.target_url).to eq("http://doi.org/10.1787/gen_papers-v2008-art6-en")
     end
   end
 end

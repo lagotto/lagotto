@@ -9,7 +9,7 @@ Traditionally, the impact of research articles has been measured by the publicat
 
 ![Usage](/images/usage.png)
 
-*From: Fenner M, Lin J (2013). Altmetrics in Evolution: Defining & Redefining the Ontology of Article-Level Metrics. [http://dx.doi.org/10.3789/isqv25no2.2013.04](http://dx.doi.org/10.3789/isqv25no2.2013.04).*
+*From: Fenner M, Lin J (2013). Altmetrics in Evolution: Defining & Redefining the Ontology of Article-Level Metrics. [http://doi.org/10.3789/isqv25no2.2013.04](http://dx.doi.org/10.3789/isqv25no2.2013.04).*
 
 ## Data-Level Metrics
 

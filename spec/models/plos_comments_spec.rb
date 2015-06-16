@@ -96,7 +96,7 @@ describe PlosComments, type: :model, vcr: true do
       expect(event['container-title']).to eq("PLOS Comments")
       expect(event['issued']).to eq("date-parts"=>[[2013, 10, 27]])
       expect(event['type']).to eq("personal_communication")
-      expect(event['URL']).to eq("http://dx.doi.org/#{work.doi}")
+      expect(event['URL']).to eq("http://doi.org/#{work.doi}")
     end
 
     it "should catch timeout errors with the PLOS comments API" do

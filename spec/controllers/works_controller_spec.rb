@@ -41,7 +41,7 @@ describe WorksController, :type => :controller do
 
       response = Hash.from_xml(last_response.body)
       item = response["rss"]["channel"]["item"]
-      expect(item["link"]).to eq("http://dx.doi.org/10.1016/j.foodqual.2015.03.018")
+      expect(item["link"]).to eq("http://doi.org/10.1016/j.foodqual.2015.03.018")
     end
   end
 

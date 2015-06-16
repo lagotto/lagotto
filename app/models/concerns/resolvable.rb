@@ -68,11 +68,11 @@ module Resolvable
     end
 
     def get_url_from_doi(doi)
-      Addressable::URI.encode("http://dx.doi.org/#{doi}")
+      Addressable::URI.encode("http://doi.org/#{doi}")
     end
 
     def get_doi_from_id(id)
-      if id.starts_with?("http://dx.doi.org/")
+      if id.starts_with?("http://doi.org/") || id.starts_with?("http://dx.doi.org/")
         uri = URI.parse(id)
         uri.path[1..-1]
       elsif id.starts_with?("doi:")
@@ -190,6 +190,7 @@ module Resolvable
 
       case
       when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
+      when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]) }
       when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]) }
       when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
       when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }

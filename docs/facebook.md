@@ -11,7 +11,7 @@ An **app_id** and **app_secret** are required for OAuth authentication and can b
 https://graph.facebook.com/oauth/access_token?client_id=%{client_id}&client_secret=%{client_secret}&grant_type=client_credentials
 ```
 
-Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://dx.doi.org/10.1371/journal.pone.0035869) with those from the journal landing page (e.g. http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0035869), so that multiple API calls per article are no longer necessary.
+Since January 2013 Facebook aggregates the stats from DOIs (e.g. http://doi.org/10.1371/journal.pone.0035869) with those from the journal landing page (e.g. http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0035869), so that multiple API calls per article are no longer necessary.
 
 Facebook has problems with DOIs that require cookies during DOI resolution, and it then reports numbers for the journal site instead of the individual article. Check your article DOI in the Facebook [Debugger](https://developers.facebook.com/tools/debug) if you aren't sure that Facebook can reach your article pages correctly.
 

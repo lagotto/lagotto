@@ -46,7 +46,6 @@ class BmcFulltext < Source
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "DOI" => doi,
-        "URL" => get_url_from_doi(doi),
         "type" => "article-journal",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
@@ -65,7 +64,7 @@ class BmcFulltext < Source
 
       { event: item,
         event_time: event_time,
-        event_url: "http://dx.doi.org/#{doi}",
+        event_url: "http://doi.org/#{doi}",
 
         # the rest is CSL (citation style language)
         event_csl: {
@@ -73,7 +72,7 @@ class BmcFulltext < Source
           "title" => title.at_css("p").text,
           "container-title" => container_title.at_css("em").text,
           "issued" => get_date_parts(event_time),
-          "url" => "http://dx.doi.org/#{doi}",
+          "DOI" => doi,
           "type" => "article-journal" }
       }
     end

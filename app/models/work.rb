@@ -77,7 +77,7 @@ class Work < ActiveRecord::Base
       work
     else
       if params[:doi].present?
-        target_url = "http://dx.doi.org/#{params[:doi]}"
+        target_url = "http://doi.org/#{params[:doi]}"
         message = "#{e.message} for doi #{params[:doi]}."
       elsif params[:pmid].present?
         target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
@@ -144,7 +144,7 @@ class Work < ActiveRecord::Base
   end
 
   def doi_as_url
-    Addressable::URI.encode("http://dx.doi.org/#{doi}") if doi.present?
+    Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
   end
 
   def pmid_as_url

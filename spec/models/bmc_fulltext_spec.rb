@@ -87,7 +87,6 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(event['issued']).to eq("date-parts"=>[[2014, 12, 30]])
       expect(event['type']).to eq("article-journal")
       expect(event['DOI']).to eq("10.1186/s13007-014-0041-7")
-      expect(event['URL']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
       expect(event['timestamp']).to eq("2014-12-30T00:00:00Z")
       expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"bmc_fulltext", "relation_type"=>"cites"}])
 
@@ -98,7 +97,6 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(extra[:event_csl]['container-title']).to eq("Plant Methods")
       expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 12, 30]])
       expect(extra[:event_csl]['type']).to eq("article-journal")
-      expect(extra[:event_csl]['url']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
     end
 
     it "should catch timeout errors with the BMC Search API" do

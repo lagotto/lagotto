@@ -82,7 +82,7 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(event['container-title']).to eq("PLOS Computational Biology")
       expect(event['issued']).to eq("date-parts"=>[[2014, 9, 11]])
       expect(event['type']).to eq("article-journal")
-      expect(event['URL']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
+      expect(event['DOI']).to eq("10.1371/journal.pcbi.1003833")
       expect(event['timestamp']).to eq("2014-09-11T00:00:00Z")
 
       extra = response[:events][:extra].last

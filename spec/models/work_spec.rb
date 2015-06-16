@@ -187,7 +187,7 @@ describe Work, type: :model, vcr: true do
   end
 
   it 'doi as url' do
-    expect(Addressable::URI.encode("http://dx.doi.org/#{work.doi}")).to eq(work.doi_as_url)
+    expect(Addressable::URI.encode("http://doi.org/#{work.doi}")).to eq(work.doi_as_url)
   end
 
   context "pid" do

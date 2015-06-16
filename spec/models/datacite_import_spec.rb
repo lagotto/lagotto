@@ -165,7 +165,7 @@ describe DataciteImport, type: :model, vcr: true do
       alert = Alert.first
       expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
       expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.5061/DRYAD.47SD5.")
-      expect(alert.target_url).to eq("http://dx.doi.org/10.5061/DRYAD.47SD5")
+      expect(alert.target_url).to eq("http://doi.org/10.5061/DRYAD.47SD5")
     end
   end
 end
