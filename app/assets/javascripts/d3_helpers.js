@@ -84,19 +84,11 @@ function paginate(json) {
 }
 
 // link to individual work
-function urlForWork(work) {
-  if (!!work["DOI"]) {
-    return "http://doi.org/" + work["DOI"];
-  } else if (!!work["PMID"]) {
-    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["PMID"];
-  } else if (!!work["PMCID"]) {
-    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["PMCID"];
-  } else if (!!work.ark) {
-    return "http://n2t.net/" + work.ark;
-  } else if (!!work["URL"]) {
-    return work["URL"];
+function pathForWork(work) {
+  if (!!work["DOI"] || !!work["PMID"] || !!work["PMCID"] || !!work["arxiv"] || !!work["ark"]) {
+    return work.id.replace(/^https?:\/\//,'')
   } else {
-    return "";
+    return work.id;
   }
 }
 

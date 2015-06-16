@@ -30,7 +30,7 @@ class Work < ActiveRecord::Base
   has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
 
-  validates :pid_type, :pid, :title, presence: true
+  validates :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
@@ -156,11 +156,15 @@ class Work < ActiveRecord::Base
   end
 
   def pmcid_as_url
-    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}/" if pmcid.present?
+    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}" if pmcid.present?
   end
 
   def ark_as_url
     "http://n2t.net/#{ark}" if ark.present?
+  end
+
+  def arxiv_as_url
+    "http://arxiv.org/abs/#{arxiv}" if arxiv.present?
   end
 
   def doi_prefix
@@ -358,40 +362,28 @@ class Work < ActiveRecord::Base
     return nil if canonical_url.blank?
 
     url = get_normalized_url(canonical_url)
+
     if url.is_a?(Hash)
       self.canonical_url = canonical_url
       errors.add :canonical_url, url.fetch(:error)
+    elsif url !~ /^(http|https)/
+      errors.add :canonical_url, "only http and https URLs are supported"
     else
       self.canonical_url = url
     end
   end
 
-  # pid is required, use doi, pmid, pmcid, arxiv, wos, scp or canonical url in that order
+  # pid is required, use doi, pmid, pmcid, arxiv, or canonical url in that order
   def set_pid
-    if doi.present?
-      write_attribute(:pid, "doi:#{doi}")
-      write_attribute(:pid_type, "doi")
-    elsif pmid.present?
-      write_attribute(:pid, "pmid:#{pmid}")
-      write_attribute(:pid_type, "pmid")
-    elsif pmcid.present?
-      write_attribute(:pid, "pmcid:PMC#{pmcid}")
-      write_attribute(:pid_type, "pmcid")
-    elsif arxiv.present?
-      write_attribute(:pid, "arxiv:#{arxiv}")
-      write_attribute(:pid_type, "arxiv")
-    elsif wos.present?
-      write_attribute(:pid, "wos:#{wos}")
-      write_attribute(:pid_type, "wos")
-    elsif scp.present?
-      write_attribute(:pid, "scp:#{scp}")
-      write_attribute(:pid_type, "scp")
-    elsif ark.present?
-      write_attribute(:pid, ark)
-      write_attribute(:pid_type, "ark")
-    elsif canonical_url.present?
-      write_attribute(:pid, canonical_url)
-      write_attribute(:pid_type, "url")
+    pid = doi_as_url.presence ||
+          pmid_as_url.presence ||
+          pmcid_as_url.presence ||
+          canonical_url.presence ||
+          arxiv_as_url.presence ||
+          ark_as_url.presence
+
+    if pid.present?
+      write_attribute(:pid, pid)
     else
       errors.add :doi, "must provide at least one persistent identifier"
     end

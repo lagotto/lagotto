@@ -186,15 +186,26 @@ module Resolvable
       id = id.gsub("%3A", ":")
 
       # workaround, as nginx and the rails router swallow double backslashes
-      id = id.gsub(/(http|https|ftp):\/+(\w+)/, '\1://\2')
+      id = id.gsub(/(http|https):\/+(\w+)/, '\1://\2')
 
       case
-      when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
+      when id.starts_with?("doi.org/")           then { doi: CGI.unescape(id[8..-1]) }
+      when id.starts_with?("www.ncbi.nlm.nih.gov/pubmed/")                  then { pmid: id[28..-1] }
+      when id.starts_with?("www.ncbi.nlm.nih.gov/pmc/articles/PMC")         then { pmcid: id[37..-1] }
+      when id.starts_with?("arxiv.org/abs/")     then { arxiv: id[14..-1] }
+      when id.starts_with?("n2t.net/ark:")       then { ark: id[12..-1] }
+
       when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]) }
       when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]) }
-      when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
+      when id.starts_with?("http://www.ncbi.nlm.nih.gov/pubmed/")           then { pmid: id[35..-1] }
+      when id.starts_with?("http://www.ncbi.nlm.nih.gov/pmc/articles/PMC")  then { pmcid: id[44..-1] }
+      when id.starts_with?("http://arxiv.org/abs/")                         then { arxiv: id[21..-1] }
+      when id.starts_with?("http://n2t.net/ark:")                           then { ark: id[15..-1] }
       when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }
       when id.starts_with?("https:")             then { canonical_url: PostRank::URI.clean(id) }
+
+      when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
+      when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid:PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid:")             then { pmcid: id[6..-1] }
       when id.starts_with?("arxiv:")             then { arxiv: id[6..-1] }

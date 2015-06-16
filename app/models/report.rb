@@ -25,13 +25,13 @@ class Report < ActiveRecord::Base
     results = self.from_sql(sources: sources)
 
     CSV.generate do |csv|
-      csv << ["pid_type", "pid", "publication_date", "title"] + sources.map(&:name)
+      csv << ["pid", "publication_date", "title"] + sources.map(&:name)
       results.each { |row| csv << row.values }
     end
   end
 
   def self.from_sql(options = {})
-    sql = "SELECT w.pid_type, w.pid, w.published_on, w.title"
+    sql = "SELECT w.pid, w.published_on, w.title"
     options[:sources].each do |source|
       sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.total END) AS #{source.name}"
     end
@@ -91,11 +91,11 @@ class Report < ActiveRecord::Base
       csv << alm_stats.headers + stats.reduce([]) { |sum, stat| sum + stat[:headers] }
       alm_stats.each do |row|
         stats.each do |stat|
-          # find row based on pid, and discard the first two and last item (pid_type, pid and total).
+          # find row based on pid, and discard the first and last item (pid and total).
           # otherwise pad with zeros
           # use rassoc as pid is second item
           match = stat[:csv].rassoc(row.field("pid"))
-          match = match.present? ? match[2..3] : [0, 0]
+          match = match.present? ? match[1..3] : [0, 0]
           row.push(*match)
         end
         csv << row

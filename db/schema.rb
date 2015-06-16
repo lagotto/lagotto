@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150613151144) do
+ActiveRecord::Schema.define(version: 20150616192825) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -339,7 +339,6 @@ ActiveRecord::Schema.define(version: 20150613151144) do
     t.integer  "month",         limit: 4
     t.integer  "day",           limit: 4
     t.integer  "publisher_id",  limit: 4
-    t.string   "pid_type",      limit: 255,                   null: false
     t.text     "pid",           limit: 65535,                 null: false
     t.text     "csl",           limit: 65535
     t.integer  "work_type_id",  limit: 4

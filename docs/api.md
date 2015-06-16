@@ -128,7 +128,7 @@ Results of the v6 API are paged with 1000 results per page. Use `per_page` to pi
   },
   "works": [
     {
-      "id": "doi:10.1371/journal.pgen.1003182",
+      "id": "http://doi.org/10.1371/journal.pgen.1003182",
       "publisher_id": 340,
       "title": "Alternative Oxidase Expression in the Mouse Enables Bypassing Cytochrome <i>c</i> Oxidase Blockade and Limits Mitochondrial ROS Overproduction",
       "issued": {
@@ -152,7 +152,7 @@ Results of the v6 API are paged with 1000 results per page. Use `per_page` to pi
       "timestamp": "2015-04-16T06:14:07Z"
     },
     {
-      "id": "doi:10.1371/journal.pgen.1003145",
+      "id": "http://doi.org/10.1371/journal.pgen.1003145",
       "publisher_id": 340,
       "title": "The Telomere Capping Complex CST Has an Unusual Stoichiometry, Makes Multipartite Interaction with G-Tails, and Unfolds Higher-Order G-Tail Structures",
       "issued": {
@@ -176,7 +176,7 @@ Results of the v6 API are paged with 1000 results per page. Use `per_page` to pi
       "timestamp": "2015-04-12T08:19:11Z"
     },
     {
-      "id": "doi:10.1371/journal.pgen.1003147",
+      "id": "http://doi.org/10.1371/journal.pgen.1003147",
       "publisher_id": 340,
       "title": "A Genome-Wide Integrative Genomic Study Localizes Genetic Factors Influencing Antibodies against Epstein-Barr Virus Nuclear Antigen 1 (EBNA-1)",
       "issued": {
@@ -203,7 +203,7 @@ Results of the v6 API are paged with 1000 results per page. Use `per_page` to pi
       "timestamp": "2015-04-12T08:01:33Z"
     },
     {
-      "id": "doi:10.1371/journal.pgen.1003144",
+      "id": "http://doi.org/10.1371/journal.pgen.1003144",
       "publisher_id": 340,
       "title": "Starvation, Together with the SOS Response, Mediates High Biofilm-Specific Tolerance to the Fluoroquinolone Ofloxacin",
       "issued": {
@@ -240,7 +240,7 @@ Results of the v6 API are paged with 1000 results per page. Use `per_page` to pi
     "message-version": "6.0.0"
   },
   "work": {
-    "id": "doi:10.1371/journal.pgen.1003182",
+    "id": "http://doi.org/10.1371/journal.pgen.1003182",
     "publisher_id": 340,
     "title": "Alternative Oxidase Expression in the Mouse Enables Bypassing Cytochrome <i>c</i> Oxidase Blockade and Limits Mitochondrial ROS Overproduction",
     "issued": {

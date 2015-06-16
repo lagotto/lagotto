@@ -75,7 +75,7 @@ describe Openedition, type: :model, vcr: true do
       expect(event['issued']).to eq("date-parts"=>[[2013, 5, 27]])
       expect(event['timestamp']).to eq("2013-05-27T00:00:00Z")
       expect(event['type']).to eq("post")
-      expect(event['related_works']).to eq([{"related_work"=>"doi:10.2307/683422", "source"=>"openedition", "relation_type"=>"discusses"}])
+      expect(event['related_works']).to eq([{"related_work"=>"http://doi.org/10.2307/683422", "source"=>"openedition", "relation_type"=>"discusses"}])
     end
 
     it "should catch timeout errors with the OpenEdition APi" do

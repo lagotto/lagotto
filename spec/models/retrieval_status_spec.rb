@@ -154,12 +154,12 @@ describe RetrievalStatus, type: :model, vcr: true do
     it "work from CrossRef" do
       related_work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007")
       data = [{"author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source"=>"crossref", "relation_type"=>"cites"}]}]
-      expect(subject.update_works(data)).to eq(["doi:10.3758/s13423-011-0070-4"])
+      expect(subject.update_works(data)).to eq(["http://doi.org/10.3758/s13423-011-0070-4"])
 
       expect(Work.count).to eq(4)
       work = Work.last
       expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
+      expect(work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
 
       expect(work.relations.length).to eq(1)
       relation = Relation.first
@@ -319,13 +319,13 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(Work.count).to eq(32)
       related_work = Work.last
       expect(related_work.title).to eq("Examining the Effects of Community-Based Sanctions on Offender Recidivism")
-      expect(related_work.pid).to eq("doi:10.1080/07418825.2011.555413")
+      expect(related_work.pid).to eq("http://doi.org/10.1080/07418825.2011.555413")
 
       expect(Relation.count).to eq(62)
       relation = Relation.first
       expect(relation.relation_type.name).to eq("cites")
       expect(relation.source.name).to eq("crossref")
-      expect(relation.work.pid).to eq("doi:10.3758/s13423-011-0070-4")
+      expect(relation.work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
       expect(relation.related_work.pid).to eq(work.pid)
     end
 
@@ -362,7 +362,7 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       expect(Alert.count).to eq(2)
       alert = Alert.first
-      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.popsci.com/five-trillion-pieces-plastic-are-floating-ocean-near-you-3.")
+      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.washingtonpost.com/blogs/wonkblog/wp/2014/12/10/good-job-humans-the-ocean-now-contains-5-trillion-pieces-of-floating-plastic/.")
     end
 
     it "success no data" do

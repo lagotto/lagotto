@@ -66,8 +66,8 @@ function eventsViz(json, sources, relation_types) {
       .attr("class", "date")
       .text(formattedDate(date, date_parts.length) + ". ");
     d3.select("#results").append("a")
-      .attr("href", function() { return urlForWork(work); })
-      .text(urlForWork(work));
+      .attr("href", function() { return work.id; })
+      .text(work.id);
     d3.select("#results").append("p")
       .text(signpostsToString(work, sources));
     d3.select("#results").append("span")

@@ -96,7 +96,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       expect(event['container-title']).to eq("O'Really?")
       expect(event['issued']).to eq("date-parts"=>[[2012, 5, 18]])
       expect(event['type']).to eq("post")
-      expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.pone.0035869", "source"=>"scienceseeker", "relation_type"=>"discusses"}])
+      expect(event['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.pone.0035869", "source"=>"scienceseeker", "relation_type"=>"discusses"}])
 
       extra = response[:events][:extra].first
       expect(extra[:event_time]).to eq("2012-05-18T07:58:34Z")
@@ -129,7 +129,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       expect(event['container-title']).to eq("O'Really?")
       expect(event['issued']).to eq("date-parts"=>[[2012, 5, 18]])
       expect(event['type']).to eq("post")
-      expect(event['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.pone.0035869", "source"=>"scienceseeker", "relation_type"=>"discusses"}])
+      expect(event['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.pone.0035869", "source"=>"scienceseeker", "relation_type"=>"discusses"}])
 
       extra = response[:events][:extra].first
       expect(extra[:event_time]).to eq("2012-05-18T07:58:34Z")

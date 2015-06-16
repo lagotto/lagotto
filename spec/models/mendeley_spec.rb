@@ -146,7 +146,7 @@ describe Mendeley, :type => :model do
 
   context "parse_data" do
     let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
-    let(:null_response) { { events: { source: "mendeley", work: "doi:10.1371/journal.pone.0008776", readers: 0, total: 0, events_url: nil, extra: {} } } }
+    let(:null_response) { { events: { source: "mendeley", work: "http://doi.org/10.1371/journal.pone.0008776", readers: 0, total: 0, events_url: nil, extra: {} } } }
 
     it "should report if the doi, pmid, mendeley uuid and title are missing" do
       result = {}

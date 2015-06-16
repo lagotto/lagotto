@@ -140,7 +140,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("doi"=>["must provide at least one persistent identifier"], "pid_type"=>["can't be blank"], "pid"=>["can't be blank"], "title"=>["can't be blank"])
+        expect(response["meta"]["error"]).to eq("doi"=>["must provide at least one persistent identifier"], "pid"=>["can't be blank"], "title"=>["can't be blank"])
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 

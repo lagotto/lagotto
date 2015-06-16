@@ -79,6 +79,26 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
       end
 
+      it "http://www.ncbi.nlm.nih.gov/pubmed/" do
+        id = "http://www.ncbi.nlm.nih.gov/pubmed/17183658"
+        expect(subject.get_id_hash(id)).to eq(pmid: "17183658")
+      end
+
+      it "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC" do
+        id = "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "http://arxiv.org/abs/" do
+        id = "http://arxiv.org/abs/1503.04201"
+        expect(subject.get_id_hash(id)).to eq(arxiv: "1503.04201")
+      end
+
+      it "http://n2t.net/ark:" do
+        id = "http://n2t.net/ark:/13030/m5br8st1"
+        expect(subject.get_id_hash(id)).to eq(ark: "ark:/13030/m5br8st1")
+      end
+
       it "doi/" do
         id = "doi/10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")

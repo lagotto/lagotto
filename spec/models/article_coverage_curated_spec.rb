@@ -90,7 +90,7 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(related_work['timestamp']).to eq("2013-11-20T00:00:00Z")
       expect(related_work['type']).to eq("post")
       expect(related_work['tracked']).to be true
-      expect(related_work['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.pone.0047712", "source"=>"article_coverage_curated", "relation_type"=>"discusses"}])
+      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.pone.0047712", "source"=>"article_coverage_curated", "relation_type"=>"discusses"}])
 
       extra = response[:events][:extra].first
       expect(extra[:event_time]).to be_nil

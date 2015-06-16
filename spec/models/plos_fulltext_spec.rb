@@ -84,6 +84,7 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(event['type']).to eq("article-journal")
       expect(event['DOI']).to eq("10.1371/journal.pcbi.1003833")
       expect(event['timestamp']).to eq("2014-09-11T00:00:00Z")
+      expect(event['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.ppat.1000446", "source"=>"plos_fulltext", "relation_type"=>"cites"}])
 
       extra = response[:events][:extra].last
       expect(extra[:event_time]).to eq("2014-09-11T00:00:00Z")
@@ -92,7 +93,6 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(extra[:event_csl]['container-title']).to eq("PLOS Computational Biology")
       expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 9, 11]])
       expect(extra[:event_csl]['type']).to eq("article-journal")
-      expect(extra[:event_csl]['url']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
     end
 
     it "should catch timeout errors with the PLOS Search API" do
