@@ -10,6 +10,10 @@ class SourceDecorator < Draper::Decorator
     object.group.name
   end
 
+  def group_id
+    object.group.name
+  end
+
   def id
     name
   end
