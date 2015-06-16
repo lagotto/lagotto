@@ -11,10 +11,12 @@ class Orcid < Source
 
   def get_related_works(result, work)
     Array(result.fetch("orcid-search-results", {}).fetch("orcid-search-result", nil)).map do |item|
-      personal_details = item.fetch("orcid-profile", {}).fetch("orcid-bio", {}).fetch("personal-details", nil) || {}
-      author = { "family" => personal_details.fetch("family-name", {}).fetch("value", nil),
-                 "given" => personal_details.fetch("given-names", {}).fetch("value", nil) }
-      url = item.fetch("orcid-profile", {}).fetch("orcid-identifier", {}).fetch("uri", nil)
+      item.extend Hashie::Extensions::DeepFetch
+      personal_details = item.deep_fetch("orcid-profile", "orcid-bio", "personal-details") { {} }
+      personal_details.extend Hashie::Extensions::DeepFetch
+      author = { "family" => personal_details.deep_fetch("family-name", "value") { nil },
+                 "given" => personal_details.deep_fetch("given-names", "value") { nil } }
+      url = item.deep_fetch("orcid-profile", "orcid-identifier", "uri") { nil }
       timestamp = Time.zone.now.utc.iso8601
 
       { "author" => [author],
