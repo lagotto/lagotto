@@ -48,7 +48,7 @@ class ChangeUtf8Encoding < ActiveRecord::Migration
     #   execute "ALTER TABLE `#{table}` CHANGE `#{col}` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     # end
 
-    remove_index :index_works_on_pid
+    remove_index :works, name: 'index_works_on_pid'
     add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>191}, using: :btree
   end
 

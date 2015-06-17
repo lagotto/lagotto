@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150613151144) do
+ActiveRecord::Schema.define(version: 20150617085746) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -347,7 +347,7 @@ ActiveRecord::Schema.define(version: 20150613151144) do
     t.string   "wos",           limit: 191
     t.string   "ark",           limit: 191
     t.string   "arxiv",         limit: 191
-    t.text     "pid_type",      limit: 65535
+    t.string   "pid_type",      limit: 255,   default: "url"
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
