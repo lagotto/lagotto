@@ -59,7 +59,7 @@ function worksViz(json, sources) {
     d3.select("#results").append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function() { return "/works/" + pathForWork(work); })
+      .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
     d3.select("#results").append("span")
       .attr("class", "date")

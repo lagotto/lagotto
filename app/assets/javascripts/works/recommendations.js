@@ -62,7 +62,7 @@ function recommendationsViz(json, sources, relation_types) {
     d3.select("#results-recommendations").append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function() { return "/works/" + pathForWork(work); })
+      .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
     d3.select("#results-recommendations").append("span")
       .attr("class", "date")

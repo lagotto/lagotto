@@ -60,7 +60,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#results").append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function() { return "/works/" + work.id; })
+      .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
     d3.select("#results").append("span")
       .attr("class", "date")
@@ -73,7 +73,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#results").append("span")
       .text(relation[0] + " ")
       .append("a")
-      .attr("href", function() { return "/works/" + work.work_id; })
+      .attr("href", function() { return "/works/" + pathForWork(work.work_id); })
       .html(work.work_id);
     d3.select("#results").append("span")
       .text(relation[1]);
