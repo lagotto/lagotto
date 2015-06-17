@@ -25,6 +25,7 @@ class Ads < Source
         "URL" => "http://arxiv.org/abs/#{arxiv}",
         "arxiv" => arxiv,
         "type" => "article-journal",
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "is_previous_version_of" }] }

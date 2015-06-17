@@ -266,6 +266,14 @@ module Configurable
       config.queue = value
     end
 
+    def tracked
+      config.tracked || false
+    end
+
+    def tracked=(value)
+      config.tracked = value
+    end
+
     # is this source no longer accepting new data?
     def obsolete
       config.obsolete || false

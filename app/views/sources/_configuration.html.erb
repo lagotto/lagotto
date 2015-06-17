@@ -67,6 +67,9 @@
 
         <%= f.input :max_failed_queries, label: "Failed queries",
                                          hint: "Maximum number of failed queries allowed per 24 hours before being disabled" %>
+        <% if @source.eventable %>
+          <%= f.input :tracked, :as => :boolean, hint: "Track events for works added via this source" %>
+        <% end %>
 
         <div class="form-group">
           <%= f.submit "Save ", class: "btn btn-default" %>
@@ -105,6 +108,12 @@
           <tr>
             <th>Private source</th>
             <td>Source not made available via API</td>
+          </tr>
+        <% end %>
+        <% if @source.tracked %>
+          <tr>
+            <th>Track works</th>
+            <td>Track events for works added via this source</td>
           </tr>
         <% end %>
         <tr>

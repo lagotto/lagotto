@@ -72,7 +72,7 @@ class NatureOpensearch < Source
         "DOI" => doi,
         "URL" => url,
         "type" => "article-journal",
-        "tracked" => true,
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }

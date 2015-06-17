@@ -22,7 +22,7 @@ class Researchblogging < Source
         "timestamp" => timestamp,
         "URL" => item.fetch("post_URL", nil),
         "type" => 'post',
-        "tracked" => true,
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
@@ -77,7 +77,7 @@ class Researchblogging < Source
     config.job_batch_size || 50
   end
 
-  def workers
-    config.workers || 3
+  def tracked
+    config.tracked || true
   end
 end

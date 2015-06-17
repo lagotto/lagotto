@@ -23,7 +23,7 @@ class ScienceSeeker < Source
         "timestamp" => timestamp,
         "URL" => item.fetch("link", {}).fetch("href", nil),
         "type" => 'post',
-        "tracked" => true,
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
@@ -75,7 +75,7 @@ class ScienceSeeker < Source
     config.rate_limiting || 1000
   end
 
-  def workers
-    config.workers || 3
+  def tracked
+    config.tracked || true
   end
 end

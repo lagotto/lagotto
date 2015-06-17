@@ -37,6 +37,7 @@ class Reddit < Source
         "timestamp" => timestamp,
         "URL" => url,
         "type" => "personal_communication",
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }

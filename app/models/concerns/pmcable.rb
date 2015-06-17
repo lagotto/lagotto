@@ -60,6 +60,7 @@ module Pmcable
           "PMID" => pmid,
           "PMCID" => pmcid,
           "type" => "article-journal",
+          "tracked" => tracked,
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,
                                 "relation_type" => "cites" }] }

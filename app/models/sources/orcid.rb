@@ -26,6 +26,7 @@ class Orcid < Source
         "timestamp" => timestamp,
         "URL" => url,
         "type" => 'entry',
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "bookmarks" }] }

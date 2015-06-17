@@ -43,7 +43,7 @@ class PlosFulltext < Source
         "timestamp" => timestamp,
         "DOI" => doi,
         "type" => "article-journal",
-        "tracked" => true,
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
