@@ -362,7 +362,7 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       expect(Alert.count).to eq(2)
       alert = Alert.first
-      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.washingtonpost.com/blogs/wonkblog/wp/2014/12/10/good-job-humans-the-ocean-now-contains-5-trillion-pieces-of-floating-plastic/.")
+      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.popsci.com/five-trillion-pieces-plastic-are-floating-ocean-near-you-3.")
     end
 
     it "success no data" do
