@@ -23,6 +23,7 @@ class Nature < Source
         "timestamp" => timestamp,
         "URL" => url,
         "type" => 'post',
+        "tracked" => true,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }

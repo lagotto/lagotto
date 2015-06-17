@@ -17,6 +17,7 @@ class Wordpress < Source
         "timestamp" => timestamp,
         "URL" => item.fetch("link", nil),
         "type" => 'post',
+        "tracked" => true,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }

@@ -23,6 +23,7 @@ class ScienceSeeker < Source
         "timestamp" => timestamp,
         "URL" => item.fetch("link", {}).fetch("href", nil),
         "type" => 'post',
+        "tracked" => true,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
