@@ -47,6 +47,7 @@ class BmcFulltext < Source
         "timestamp" => timestamp,
         "DOI" => doi,
         "type" => "article-journal",
+        "tracked" => true,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
