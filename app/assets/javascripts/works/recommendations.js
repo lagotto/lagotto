@@ -12,7 +12,7 @@ if (!params.empty()) {
   var sort = params.attr('data-sort');
   var relation_type_id = params.attr('data-relation_type_id');
 
-  var query = encodeURI("/api/works/" + work_id + "/recommendations?page=" + page);
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/recommendations?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (relation_type_id !== "") { query += "&relation_type_id=" + relation_type_id; }

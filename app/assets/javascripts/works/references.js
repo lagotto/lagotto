@@ -11,7 +11,7 @@ if (!params.empty()) {
   var source_id = params.attr('data-source_id');
   var relation_type_id = params.attr('data-relation_type_id');
 
-  var query = encodeURI("/api/works/" + work_id + "/references?page=" + page);
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/references?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (relation_type_id !== "") { query += "&relation_type_id=" + relation_type_id; }
@@ -74,7 +74,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#results").append("span")
       .text(relation[0] + " ")
       .append("a")
-      .attr("href", function() { return "/works/" + work.work_id; })
+      .attr("href", function() { return "/works/" + pathForWork(work.work_id); })
       .html(work.work_id);
     d3.select("#results").append("span")
       .text(relation[1]);
