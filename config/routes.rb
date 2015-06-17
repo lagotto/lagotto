@@ -13,7 +13,7 @@ Lagotto::Application.routes.draw do
   #get '/docs/*path' => 'ember#index'
 
   # simplify GET route to works
-  get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
+  #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
   root :to => "docs#index"
 
   resources :alerts
