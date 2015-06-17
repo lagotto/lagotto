@@ -5,7 +5,7 @@ title: "Releases"
 
 ## Lagotto 4.1 (June 17, 2015)
 
-[Lagotto 4.0](https://github.com/articlemetrics/lagotto/releases/tag/v.4.1) was released on June 17, 2015 with the following changes:
+[Lagotto 4.1](https://github.com/articlemetrics/lagotto/releases/tag/v.4.1) was released on June 17, 2015 with the following changes:
 
 * refactored `/heartbeat` endpoint to use sinatra so that it works if the database is down ([#302](https://github.com/articlemetrics/lagotto/issues/302))
 * fixed a bug in source and publisher caching ([#306](https://github.com/articlemetrics/lagotto/issues/306))
