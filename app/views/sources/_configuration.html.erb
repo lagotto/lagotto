@@ -17,6 +17,9 @@
         <%= f.input :title %>
         <%= f.input :state_event, :as => :boolean, label: "Active", :checked_value => 'activate', :unchecked_value => 'inactivate', input_html: { checked: @source.active? }, hint: "Source is talking to external APIs" %>
         <%= f.input :private, :as => :boolean, hint: "Source not made available via API" %>
+        <% if @source.eventable %>
+          <%= f.input :tracked, :as => :boolean, hint: "Track events for works added via this source" %>
+        <% end %>
         <%= f.input :description, :input_html => { :rows => 3 } %>
 
         <% @source.other_fields.each do |field| %>
@@ -67,9 +70,6 @@
 
         <%= f.input :max_failed_queries, label: "Failed queries",
                                          hint: "Maximum number of failed queries allowed per 24 hours before being disabled" %>
-        <% if @source.eventable %>
-          <%= f.input :tracked, :as => :boolean, hint: "Track events for works added via this source" %>
-        <% end %>
 
         <div class="form-group">
           <%= f.submit "Save ", class: "btn btn-default" %>

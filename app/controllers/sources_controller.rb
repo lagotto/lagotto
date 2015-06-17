@@ -73,6 +73,7 @@ class SourcesController < ApplicationController
                                    :cron_line,
                                    :timeout,
                                    :max_failed_queries,
+                                   :tracked,
                                    :url,
                                    :url_with_type,
                                    :url_with_title,
