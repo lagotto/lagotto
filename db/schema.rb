@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607091313) do
+ActiveRecord::Schema.define(version: 20150602022135) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 255,                                   null: false
@@ -19,12 +19,11 @@ ActiveRecord::Schema.define(version: 20150607091313) do
     t.string   "title",       limit: 255,                                   null: false
     t.text     "description", limit: 65535
     t.string   "kind",        limit: 255,   default: "work"
-    t.string   "source_id",   limit: 255
+    t.integer  "source_id",   limit: 4
     t.integer  "state",       limit: 4,     default: 0
     t.string   "state_event", limit: 255
     t.text     "config",      limit: 65535
     t.integer  "group_id",    limit: 4,                                     null: false
-    t.boolean  "eventable",   limit: 1,     default: true
     t.datetime "run_at",                    default: '1970-01-01 00:00:00', null: false
     t.datetime "created_at",                                                null: false
     t.datetime "updated_at",                                                null: false
@@ -299,7 +298,7 @@ ActiveRecord::Schema.define(version: 20150607091313) do
     t.text     "description", limit: 65535
     t.boolean  "active",      limit: 1,     default: false
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.boolean  "eventable",   limit: 1,     default: false,                 null: false
+    t.boolean  "eventable",   limit: 1,     default: true
   end
 
   add_index "sources", ["active"], name: "index_sources_on_active", using: :btree
