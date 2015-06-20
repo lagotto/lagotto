@@ -17,9 +17,13 @@ cookbook "dotenv",
          :git => "git@github.com:PLOS/dotenv-cookbook.git"
 cookbook "mysql",
          :git => "git@github.com:PLOS/mysql.git"
+#cookbook "libarchive",
+#         :git => "git@github.com:articlemetrics/libarchive-cookbook.git",
+#         :ref => "0.4.6"
 cookbook "database", "~> 2.3.1"
 cookbook "memcached"
 cookbook "phantomjs"
 cookbook "couchdb"
 cookbook "postfix"
 cookbook "redisio"
+cookbook "consul"

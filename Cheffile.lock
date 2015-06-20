@@ -7,12 +7,18 @@ SITE
     ark (0.9.0)
       7-zip (>= 0.0.0)
       windows (>= 0.0.0)
-    aws (2.7.0)
+    aws (2.7.1)
     build-essential (2.2.3)
     chef-sugar (3.1.0)
-    chef_handler (1.1.6)
+    chef_handler (1.1.9)
     chocolatey (0.3.0)
       windows (~> 1.31)
+    consul (0.10.0)
+      golang (~> 1.4)
+      libarchive (~> 0.4.0)
+      packagecloud (>= 0.0.0)
+      runit (>= 0.0.0)
+      yum-repoforge (>= 0.0.0)
     couchdb (2.5.2)
       erlang (>= 0.0.0)
       yum (~> 3.0)
@@ -29,8 +35,12 @@ SITE
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
       yum-erlang_solutions (>= 0.0.0)
+    golang (1.5.1)
     homebrew (1.12.0)
       build-essential (>= 2.1.2)
+    libarchive (0.4.4)
+      apt (~> 2.5)
+      build-essential (~> 2.0)
     memcached (1.7.2)
       runit (~> 1.0)
       yum (~> 3.0)
@@ -46,12 +56,12 @@ SITE
       yum-epel (>= 0.0.0)
     openssl (4.0.0)
       chef-sugar (>= 0.0.0)
-    packagecloud (0.0.17)
+    packagecloud (0.0.18)
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
     postfix (3.6.2)
-    postgresql (3.4.18)
+    postgresql (3.4.20)
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (~> 4.0.0)
@@ -61,16 +71,19 @@ SITE
     runit (1.6.0)
       packagecloud (>= 0.0.0)
     ulimit (0.3.3)
-    windows (1.36.6)
+    windows (1.37.0)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.6.0)
+    yum (3.6.1)
     yum-epel (0.6.0)
       yum (~> 3.0)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
     yum-mysql-community (0.1.17)
       yum (>= 3.0)
+    yum-repoforge (0.5.1)
+      yum (~> 3.0)
+      yum-epel (>= 0.0.0)
 
 GIT
   remote: git@github.com:PLOS/capistrano-cookbook.git
@@ -90,11 +103,12 @@ GIT
 GIT
   remote: git@github.com:PLOS/lagotto-cookbook.git
   ref: master
-  sha: 57d6090499d9f6fec96776e8ce1e500bff636b1a
+  sha: 7959311ed854748166966a20a869312bbefa3617
   specs:
-    lagotto (4.6.6)
+    lagotto (4.7.3)
       apt (>= 0.0.0)
       capistrano (~> 0.9.0)
+      consul (>= 0.0.0)
       couchdb (>= 0.0.0)
       database (~> 2.3.1)
       dotenv (~> 0.2.0)
@@ -128,9 +142,9 @@ GIT
 GIT
   remote: git@github.com:PLOS/passenger_nginx-cookbook.git
   ref: master
-  sha: 982440c212cfc6f7e282efe1377df5890f57f5c2
+  sha: da06501eeb5837bd4b7b111e6c0122b06bb097a6
   specs:
-    passenger_nginx (0.5.0)
+    passenger_nginx (0.5.1)
       apt (>= 0.0.0)
       ruby (~> 0.6.0)
 
@@ -144,6 +158,7 @@ GIT
 
 DEPENDENCIES
   capistrano (>= 0)
+  consul (>= 0)
   couchdb (>= 0)
   database (~> 2.3.1)
   dotenv (>= 0)
