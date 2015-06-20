@@ -22,6 +22,7 @@ class Researchblogging < Agent
         "timestamp" => timestamp,
         "URL" => item.fetch("post_URL", nil),
         "type" => 'post',
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
@@ -74,5 +75,9 @@ class Researchblogging < Agent
 
   def job_batch_size
     config.job_batch_size || 50
+  end
+
+  def tracked
+    config.tracked || true
   end
 end

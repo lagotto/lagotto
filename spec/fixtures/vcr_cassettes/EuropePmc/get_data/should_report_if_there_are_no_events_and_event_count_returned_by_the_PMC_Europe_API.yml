@@ -1,0 +1,32 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/MED/20098740/citations/1/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=3E0AC40C7B025D9A39FFBE98A93BCED5; Path=/europepmc/webservices
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 15 Jun 2015 22:25:51 GMT
+    body:
+      encoding: UTF-8
+      string: '{"version":"4.1","hitCount":0,"request":{"id":"20098740","source":"MED","page":1},"citationList":{"citation":[]}}'
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:10:03 GMT
+recorded_with: VCR 2.9.3

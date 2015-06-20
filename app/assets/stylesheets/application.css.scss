@@ -450,6 +450,7 @@ $table-bg-accent:                lighten($brand-primary, 65%);
 .table .group { width: 190px;}
 .table .status { width: 95px;}
 .table .jobs { text-align: center;}
+.table .service { text-align: center; width: 85px; border-color: white; }
 
 // Forms
 // -------------------------
@@ -497,7 +498,9 @@ input.radio_tag { margin-right: 7px; }
 p.radio_tag { margin-left: 25px; }
 .graphs { text-align:center; }
 .panel-chart { height: 180px; padding: 10px; }
+.panel-version { height: 88px; padding: 10px; }
 h2.graphs { margin-top: 2.5px; margin-bottom: 5px; }
+h2.version { margin-top: 2.5px; margin-bottom: 2.5px; }
 .page-header { padding-bottom: 0; border-bottom: 0; margin: 0 0 10px; }
 .tab-content { margin-top: 1em; }
 .btn-toolbar { padding-left: 6px; }

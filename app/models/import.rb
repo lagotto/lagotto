@@ -14,12 +14,11 @@ class Import
   # include DOI helper methods
   include Resolvable
 
-  attr_accessor :filter, :sample, :rows, :member, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :file, :filepath, :type
+  attr_accessor :sample, :rows, :member, :from_update_date, :until_update_date, :from_pub_date, :until_pub_date, :file, :filepath, :type, :issn
 
   def initialize(options = {})
     @file = options.fetch(:file, nil)
     @filepath = options.fetch(:filepath, nil)
-    @member = options.fetch(:member, nil).to_s.split(",")
   end
 
   def queue_work_import
@@ -33,29 +32,34 @@ class Import
         filepath: filepath,
         member: member,
         sample: sample,
-        offset: offset }
+        offset: offset,
+        type: type,
+        issn: issn }
+      Rails.logger.info "queue_work_import: #{options.inspect}"
       ImportJob.perform_later(self.class.to_s, options)
     end
   end
 
-  def process_data(offset = 0)
-    result = get_data(offset)
+  def process_data(options)
+    result = get_data(options)
     result = parse_data(result)
     result = import_data(result)
     result.length
   end
 
   def total_results
-    content = File.open(@filepath, 'r') { |f| f.read }
+    content = File.open(filepath, 'r') { |f| f.read }
     JSON.parse(content).length
   rescue Errno::ENOENT, JSON::ParserError
     0
   end
 
-  def get_data(offset = 0, rows = 1000)
-    return [] if @filepath.nil?
+  def get_data(options={})
+    offset = options[:offset].to_i
+    rows = (options[:rows] || 1000).to_i
+    return [] if filepath.nil?
 
-    content = File.open(@filepath, 'r') { |f| f.read }
+    content = File.open(filepath, 'r') { |f| f.read }
     json = JSON.parse(content)
     json[offset...offset + rows]
   end

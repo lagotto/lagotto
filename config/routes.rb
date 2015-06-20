@@ -11,6 +11,9 @@ Lagotto::Application.routes.draw do
 
   #root :to => "ember#index"
   #get '/docs/*path' => 'ember#index'
+
+  # simplify GET route to works
+  #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
   root :to => "docs#index"
 
   resources :agents do
@@ -22,20 +25,29 @@ Lagotto::Application.routes.draw do
   resources :notifications
   resources :publishers
   resources :references
+
+  # use namespace for rss feeds rather than file extension
+  namespace :rss, defaults: { format: "rss" } do
+    resources :works, constraints: { :id => /.+/ }, only: [:show]
+    resources :sources, only: [:show]
+  end
+
+  # redirect old rss routes
+  get '/sources/:id.rss', to: redirect { |params, request| "/rss/sources/#{request.params[:id]}?#{request.params.to_query}" }
+
   resources :sources
   resources :status, :only => [:index]
   resources :users
 
   # constraints is added to allow dot in the url (doi is used to show article)
-  resources :works, constraints: { :id => /.+?/, :format => /html|js|rss/ }
+  resources :works, constraints: { :id => /.+/, :format => /html|js/ }
 
   get "oembed", to: "oembed#show"
 
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
-
   get "/api", to: "api/index#index"
 
-  namespace :api, defaults: { format: "lagotto_json" } do
+  namespace :api, defaults: { format: "json" } do
     namespace :v3 do
       resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:index, :show]
     end

@@ -12,7 +12,7 @@ if (!params.empty()) {
   var sort = params.attr('data-sort');
   var relation_type_id = params.attr('data-relation_type_id');
 
-  var query = encodeURI("/api/works/" + work_id + "/recommendations?page=" + page);
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/recommendations?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (relation_type_id !== "") { query += "&relation_type_id=" + relation_type_id; }
@@ -62,14 +62,14 @@ function recommendationsViz(json, sources, relation_types) {
     d3.select("#results-recommendations").append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function() { return "/works/" + work.id; })
+      .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
     d3.select("#results-recommendations").append("span")
       .attr("class", "date")
       .text(formattedDate(date, date_parts.length) + ". ");
     d3.select("#results-recommendations").append("a")
-      .attr("href", function() { return urlForWork(work); })
-      .text(urlForWork(work));
+      .attr("href", function() { return work.id; })
+      .text(work.id);
     d3.select("#results").append("p")
       .text(signpostsToString(work, sources, source_id, sort));
   }

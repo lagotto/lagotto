@@ -46,6 +46,31 @@ class Source < ActiveRecord::Base
     (active ? "active" : "inactive")
   end
 
+  def get_events_by_day(events, work, options={})
+    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - work.published_on > 30 }
+
+    options[:metrics] ||= :total
+    events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        day: k[8..9].to_i,
+        options[:metrics] => v.length,
+        total: v.length }
+    end
+  end
+
+  def get_events_by_month(events, options={})
+    events = events.reject { |event| event["timestamp"].nil? }
+
+    options[:metrics] ||= :total
+    events.group_by { |event| event["timestamp"][0..6] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        options[:metrics] => v.length,
+        total: v.length }
+    end
+  end
+
   # Format events for all works as csv
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"

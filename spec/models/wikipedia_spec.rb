@@ -32,7 +32,7 @@ describe Wikipedia, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the Wikipedia API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008776")
       response = subject.get_data(work)
-      expect(response["en"].length).to eq(637)
+      expect(response["en"].length).to eq(676)
       expect(response["en"].first).to eq("title"=>"Lobatus costatus", "url"=>"http://en.wikipedia.org/wiki/Lobatus_costatus", "timestamp"=>"2013-03-21T09:51:18Z")
     end
 

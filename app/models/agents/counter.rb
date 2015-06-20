@@ -1,6 +1,6 @@
 class Counter < Agent
   def get_query_url(work)
-    return {} unless work.doi =~ /^10.1371/
+    return {} unless work.doi =~ /^10.1371\/journal/
 
     url_private % { :doi => work.doi_escaped }
   end

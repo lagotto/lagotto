@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://en.wikipedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=0&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294%22&srwhat=text
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache
+      X-Powered-By:
+      - HHVM/3.6.1
+      X-Content-Type-Options:
+      - nosniff
+      Cache-Control:
+      - private, must-revalidate, max-age=0
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept-Encoding,X-Forwarded-Proto,Cookie
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Varnish:
+      - 999693888, 3056303912
+      Via:
+      - 1.1 varnish, 1.1 varnish
+      Date:
+      - Mon, 15 Jun 2015 22:33:04 GMT
+      Age:
+      - '0'
+      Connection:
+      - keep-alive
+      X-Cache:
+      - cp1066 miss (0), cp1068 frontend miss (0)
+      Set-Cookie:
+      - GeoIP=::::v6; Path=/; Domain=.wikipedia.org:80, WMF-Last-Access=15-Jun-2015;Path=/;HttpOnly;Expires=Fri,
+        17 Jul 2015 12:00:00 GMT
+    body:
+      encoding: UTF-8
+      string: '{"batchcomplete":"","query":{"searchinfo":{"totalhits":0},"search":[]}}'
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:17:16 GMT
+recorded_with: VCR 2.9.3

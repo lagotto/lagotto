@@ -6,22 +6,7 @@ class SourcesController < ApplicationController
   def show
     @doc = Doc.find(@source.name)
 
-    respond_to do |format|
-      format.html
-      format.js
-      format.rss do
-        if params[:days]
-          @events = @source.events.most_cited
-                                .published_last_x_days(params[:days].to_i)
-        elsif params[:months]
-          @events = @source.events.most_cited
-                                .published_last_x_months(params[:months].to_i)
-        else
-          @events = @source.events.most_cited
-        end
-        render :show
-      end
-    end
+    render :show
   end
 
   def index
@@ -69,7 +54,25 @@ class SourcesController < ApplicationController
                                    :group_id,
                                    :active,
                                    :private,
-                                   :resolvable,
-                                   :description)
+                                   :by_publisher,
+                                   :queueable,
+                                   :description,
+                                   :workers,
+                                   :queue,
+                                   :rate_limiting,
+                                   :staleness_week,
+                                   :staleness_month,
+                                   :staleness_year,
+                                   :staleness_all,
+                                   :cron_line,
+                                   :timeout,
+                                   :max_failed_queries,
+                                   :tracked,
+                                   :url,
+                                   :url_with_type,
+                                   :url_with_title,
+                                   :related_works_url,
+                                   :api_key,
+                                   *@source.config_fields)
   end
 end

@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://mediacuration.plos.org/api/v1?doi=10.1371/journal.pone.0111913
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 16 Jun 2015 06:55:25 GMT
+      Server:
+      - Apache/2.2.15 (CentOS)
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"d3923cce72151e2bba41177d244539d9"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - a379ab0e4ec95e38b48230b3e57556f3
+      X-Runtime:
+      - '0.067455'
+      X-Rack-Cache:
+      - miss
+      X-Powered-By:
+      - Phusion Passenger 4.0.41
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Content-Type:
+      - application/json; charset=utf-8
+    body:
+      encoding: UTF-8
+      string: '{"doi":"10.1371/journal.pone.0111913","referrals":[{"referral":"http://www.nytimes.com/2014/12/11/science/new-research-quantifies-the-oceans-plastic-problem.html?_r=1","language":"English","title":"New
+        Research Quantifies the Oceans\u2019 Plastic Problem","type":"News","publication":"nytimes","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.nature.com/news/fate-of-ocean-plastic-remains-a-mystery-1.16508","language":"English","title":"Fate
+        of ocean plastic remains a mystery\r\nSurveys find less marine microplastic
+        than expected.","type":"News","publication":"Nature","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.smithsonianmag.com/science-nature/ocean-contains-over-five-trillion-pieces-plastic-weighing-more-250000-tons-180953576/?no-ist","language":"English","title":"The
+        Ocean Contains Over Five Trillion Pieces of Plastic Weighing More than 250,000
+        Tons\r\n\r\n","type":"News","publication":"Smithsonian Mag","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.washingtonpost.com/blogs/wonkblog/wp/2014/12/10/good-job-humans-the-ocean-now-contains-5-trillion-pieces-of-floating-plastic/","language":"English","title":"Good
+        job, humans: The oceans now contain 5 trillion pieces of floating plastic","type":"News","publication":"Washington
+        Post","published_on":"2015-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://news.sciencemag.org/environment/2014/12/how-much-plastic-there-ocean","language":"English","title":"How
+        much plastic is there in the ocean?","type":"Blog","publication":"Sciencemag.org","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.businessinsider.com.au/heres-the-new-estimate-on-the-total-weight-of-plastic-floating-in-the-worlds-oceans-2014-12","language":"English","title":"Here''s
+        The New Estimate On The Total Weight Of Plastic Floating In The World''s Oceans","type":"News","publication":"Business
+        Insider","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.smh.com.au/environment/ocean-plastic-count-in-the-trillions-20141210-1242aw.html","language":"English","title":"Ocean
+        plastic count in the trillions","type":"News","publication":"Sydney Morning
+        Herald","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.dailymail.co.uk/sciencetech/article-2868708/More-five-TRILLION-pieces-plastic-litter-seas-oceans.html","language":"English","title":"The
+        rise of plastic pollution: More than five TRILLION pieces of debris now litter
+        our seas and oceans\r\n","type":"News","publication":"Daily Mail.uk","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.theguardian.com/environment/2014/dec/10/full-scale-plastic-worlds-oceans-revealed-first-time-pollution","language":"English","title":"Full
+        scale of plastic in the world''s oceans revealed for first time","type":"News","publication":"The
+        Guardian","published_on":"2014-12-10T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.cbsnews.com/news/worlds-oceans-plagued-by-269000-tons-of-plastic-pollution/","language":"English","title":"World''s
+        oceans \"plagued\" by 269,000 tons of plastic pollution","type":"News","publication":"CBS
+        News","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.csmonitor.com/USA/USA-Update/2014/1211/Study-5-trillion-plus-pieces-of-plastic-floating-in-ocean.-What-can-be-done-video","language":"English","title":"Study:
+        5 trillion-plus pieces of plastic floating in ocean. What can be done? (+video)","type":"News","publication":"The
+        Christian Science Monitor","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.onegreenplanet.org/news/there-are-270000-tons-of-plastic-floating-in-the-ocean/","language":"English","title":"There
+        are 270,000 Tons of Plastic Floating in the Ocean \u2026 What Does That Really
+        Mean? (Graphic)","type":"Blog","publication":"One Green Planet","published_on":"2014-12-15T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.citylab.com/weather/2014/12/there-are-at-least-525-trillion-pieces-of-plastic-in-the-ocean/383600/","language":"English","title":"There
+        Are At Least 5.25 Trillion Pieces of Plastic in the Ocean","type":"News","publication":"CityLab","published_on":"2014-12-10T00:00:00Z","link_state":"APPROVED"},{"referral":"http://news.nationalgeographic.com/news/2014/12/141211-ocean-plastics-garbage-patches-5-gyres-pollution-environment/","language":"English","title":"5
+        Trillion Pieces of Ocean Trash Found, But Fewer Particles Than Expected","type":"News","publication":"National
+        Geographic","published_on":"2014-12-11T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.theblaze.com/contributions/are-the-oceans-plagued-by-plastic/","language":"English","title":"Are
+        the Oceans Plagued by Plastic?","type":"Blog","publication":"The Blaze","published_on":"2015-03-03T00:00:00Z","link_state":"APPROVED"},{"referral":"http://ecowatch.com/2015/02/27/marcus-eriksen-microplastics-invade-oceans/","language":"English","title":"Plastic
+        Smog: Microplastics Invade Our Oceans","type":"Blog","publication":"EcoWatch","published_on":"2015-02-27T00:00:00Z","link_state":"APPROVED"},{"referral":"http://www.popsci.com/five-trillion-pieces-plastic-are-floating-ocean-near-you-3","language":"English","title":"Five
+        Trillion Pieces of Plastic Are Floating in an Ocean Near You [INTERACTIVE]","type":"News","publication":"Popular
+        Science","published_on":"2015-05-19T00:00:00Z","link_state":"APPROVED"}]}'
+    http_version: 
+  recorded_at: Tue, 16 Jun 2015 06:54:31 GMT
+recorded_with: VCR 2.9.3

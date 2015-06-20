@@ -28,12 +28,12 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api_key');
   var work_id = params.attr('data-pid');
-  var query = encodeURI("/api/works/" + work_id + "/events");
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/events");
 }
 
 // asynchronously load data from the Lagotto API
 queue()
-  .defer(d3.json, encodeURI("/api/works/" + work_id))
+  .defer(d3.json, encodeURI("/api/works/" + pathForWork(work_id)))
   .defer(d3.json, encodeURI("/api/sources"))
   .defer(d3.json, encodeURI("/api/groups"))
   .defer(d3.json, query)

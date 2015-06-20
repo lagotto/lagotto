@@ -73,4 +73,8 @@ class ScienceSeeker < Agent
   def rate_limiting
     config.rate_limiting || 1000
   end
+
+  def tracked
+    config.tracked || true
+  end
 end

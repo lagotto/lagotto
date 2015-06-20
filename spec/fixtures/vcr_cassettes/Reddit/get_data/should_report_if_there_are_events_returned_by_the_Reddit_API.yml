@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.reddit.com/search.json?limit=100&q=%2210.1371/journal.ppat.0008776%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.ppat.0008776%22
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 15 Jun 2015 22:24:13 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '91'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d89bdcb7be6d764e33f7ee0f0005935a41434407053; expires=Tue, 14-Jun-16
+        22:24:13 GMT; path=/; domain=.reddit.com; HttpOnly
+      X-Ua-Compatible:
+      - IE=edge
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - X-Reddit-Tracking, X-Moose
+      X-Reddit-Tracking:
+      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=7gU6QhEoWfe40Zn20BiknEyWKERtZtsq9GZMEJGwN5P1i5sAbI5PQ3C9JC8cn84BDW1HSaXeZxw%3D
+      Cache-Control:
+      - no-cache
+      X-Moose:
+      - majestic
+      Cf-Cache-Status:
+      - MISS
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 1f71af15e6940d7f-SJC
+    body:
+      encoding: UTF-8
+      string: '{"kind": "Listing", "data": {"modhash": "", "children": [], "after":
+        null, "before": null}}'
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:08:25 GMT
+recorded_with: VCR 2.9.3

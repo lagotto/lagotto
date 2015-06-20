@@ -36,9 +36,9 @@ describe BmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the BMC Search API" do
       response = subject.get_data(work)
-      expect(response["entries"].length).to eq(16)
+      expect(response["entries"].length).to eq(22)
       doc = response["entries"].first
-      expect(doc["doi"]).to eq("10.1186/s13007-014-0041-7")
+      expect(doc["doi"]).to eq("10.1186/s12864-015-1635-9")
     end
 
     it "should catch errors with the BMC Search API" do
@@ -101,7 +101,6 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(extra[:event_csl]['container-title']).to eq("Plant Methods")
       expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 12, 30]])
       expect(extra[:event_csl]['type']).to eq("article-journal")
-      expect(extra[:event_csl]['url']).to eq("http://dx.doi.org/10.1186/s13007-014-0041-7")
     end
 
     it "should catch timeout errors with the BMC Search API" do

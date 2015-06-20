@@ -22,6 +22,7 @@ class Openedition < Agent
         "timestamp" => timestamp,
         "URL" => item.fetch('link', nil),
         "type" => 'post',
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }

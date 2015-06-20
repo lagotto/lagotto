@@ -38,6 +38,7 @@ class PubMed < Agent
           "PMID" => pmid,
           "PMCID" => item,
           "type" => metadata.fetch("type", nil),
+          "tracked" => tracked,
           "publisher_id" => metadata.fetch("publisher_id", nil),
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,

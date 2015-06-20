@@ -224,6 +224,16 @@ namespace :db do
       puts "#{Work.count} work pids loaded"
     end
 
+    desc "Change pids to URLs"
+    task :change_pids => :environment do
+      Work.where("pid_type = 'doi'").update_all("pid = CONCAT('http://doi.org/', doi)")
+      Work.where("pid_type = 'pmid'").update_all("pid = CONCAT('http://www.ncbi.nlm.nih.gov/pubmed/', pmid)")
+      Work.where("pid_type = 'pmcid'").update_all("pid = CONCAT('http://www.ncbi.nlm.nih.gov/pmc/articles/PMC', pmcid)")
+      Work.where("pid_type = 'arxiv'").update_all("pid = CONCAT('http://arxiv.org/abs/', arxiv)")
+      Work.where("pid_type = 'ark'").update_all("pid = CONCAT('http://n2t.net/', ark)")
+      puts "#{Work.count} work pids changed"
+    end
+
     desc "Add publication year, month and day"
     task :date_parts => :environment do
       begin

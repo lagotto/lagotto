@@ -30,7 +30,7 @@ class Work < ActiveRecord::Base
   has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
 
-  validates :pid_type, :pid, :title, presence: true
+  validates :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
@@ -59,19 +59,22 @@ class Work < ActiveRecord::Base
     # raise an error for other RecordInvalid errors such as missing title
     if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
       work = Work.where(doi: params[:doi]).first
+      work.update_attributes(params.except(:pid, :doi, :related_works)) if work.present? && params[:tracked]
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
       work = Work.where(pmid: params[:pmid]).first
+      work.update_attributes(params.except(:pid, :pmid, :related_works)) if work.present? && params[:tracked]
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     elsif e.message.include?("Pid has already been taken") || e.message.include?("key 'index_works_on_pid'")
       work = Work.where(canonical_url: params[:canonical_url]).first
+      work.update_attributes(params.except(:pid, :canonical_url, :related_works)) if work.present? && params[:tracked]
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
     else
       if params[:doi].present?
-        target_url = "http://dx.doi.org/#{params[:doi]}"
+        target_url = "http://doi.org/#{params[:doi]}"
         message = "#{e.message} for doi #{params[:doi]}."
       elsif params[:pmid].present?
         target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
@@ -138,7 +141,7 @@ class Work < ActiveRecord::Base
   end
 
   def doi_as_url
-    Addressable::URI.encode("http://dx.doi.org/#{doi}") if doi.present?
+    Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
   end
 
   def pmid_as_url
@@ -150,11 +153,15 @@ class Work < ActiveRecord::Base
   end
 
   def pmcid_as_url
-    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}/" if pmcid.present?
+    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}" if pmcid.present?
   end
 
   def ark_as_url
     "http://n2t.net/#{ark}" if ark.present?
+  end
+
+  def arxiv_as_url
+    "http://arxiv.org/abs/#{arxiv}" if arxiv.present?
   end
 
   def doi_prefix
@@ -172,6 +179,10 @@ class Work < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def url
+    doi_as_url.presence || pmid_as_url.presence || canonical_url
   end
 
   # call Pubmed API to get missing identifiers
@@ -348,40 +359,28 @@ class Work < ActiveRecord::Base
     return nil if canonical_url.blank?
 
     url = get_normalized_url(canonical_url)
+
     if url.is_a?(Hash)
       self.canonical_url = canonical_url
       errors.add :canonical_url, url.fetch(:error)
+    elsif url !~ /^(http|https)/
+      errors.add :canonical_url, "only http and https URLs are supported"
     else
       self.canonical_url = url
     end
   end
 
-  # pid is required, use doi, pmid, pmcid, arxiv, wos, scp or canonical url in that order
+  # pid is required, use doi, pmid, pmcid, arxiv, or canonical url in that order
   def set_pid
-    if doi.present?
-      write_attribute(:pid, "doi:#{doi}")
-      write_attribute(:pid_type, "doi")
-    elsif pmid.present?
-      write_attribute(:pid, "pmid:#{pmid}")
-      write_attribute(:pid_type, "pmid")
-    elsif pmcid.present?
-      write_attribute(:pid, "pmcid:PMC#{pmcid}")
-      write_attribute(:pid_type, "pmcid")
-    elsif arxiv.present?
-      write_attribute(:pid, "arxiv:#{arxiv}")
-      write_attribute(:pid_type, "arxiv")
-    elsif wos.present?
-      write_attribute(:pid, "wos:#{wos}")
-      write_attribute(:pid_type, "wos")
-    elsif scp.present?
-      write_attribute(:pid, "scp:#{scp}")
-      write_attribute(:pid_type, "scp")
-    elsif ark.present?
-      write_attribute(:pid, ark)
-      write_attribute(:pid_type, "ark")
-    elsif canonical_url.present?
-      write_attribute(:pid, canonical_url)
-      write_attribute(:pid_type, "url")
+    pid = doi_as_url.presence ||
+          pmid_as_url.presence ||
+          pmcid_as_url.presence ||
+          canonical_url.presence ||
+          arxiv_as_url.presence ||
+          ark_as_url.presence
+
+    if pid.present?
+      write_attribute(:pid, pid)
     else
       errors.add :doi, "must provide at least one persistent identifier"
     end

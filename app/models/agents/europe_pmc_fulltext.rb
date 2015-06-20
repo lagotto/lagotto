@@ -24,6 +24,31 @@ class EuropePmcFulltext < Agent
     end
   end
 
+  def get_related_works(result, work)
+    result.fetch("#{result_key}List", {}).fetch(result_key, []).map do |item|
+      pmid = item.fetch(pmid_key, nil)
+      ids = get_persistent_identifiers(pmid, "pmid")
+      ids = {} unless ids.is_a?(Hash)
+      doi = ids.fetch("doi", nil)
+      pmcid = ids.fetch("pmcid", nil)
+      pmcid = pmcid[3..-1] if pmcid
+      author_string = item.fetch("authorString", "").chomp(".")
+
+      { "author" => get_authors(author_string.split(", "), reversed: true),
+        "title" => item.fetch("title", "").chomp("."),
+        "container-title" => item.fetch(container_title_key, nil),
+        "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
+        "DOI" => doi,
+        "PMID" => pmid,
+        "PMCID" => pmcid,
+        "type" => "article-journal",
+        "tracked" => tracked,
+        "related_works" => [{ "related_work" => work.pid,
+                              "source" => name,
+                              "relation_type" => "cites" }] }
+    end
+  end
+
   def config_fields
     [:url, :events_url]
   end

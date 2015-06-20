@@ -61,14 +61,14 @@ describe DataoneImport, type: :model, vcr: true do
       response = import.get_data
       expect(response["response"]["numFound"]).to eq(61)
       work = response["response"]["docs"][1]
-      expect(work["id"]).to eq("http://dx.doi.org/10.5061/dryad.0r7g4?ver=2014-09-03T13:03:52.788-04:00")
-      expect(work["title"]).to eq("Data from: Individual genetic diversity and probability of infection by avian malaria parasites in blue tits (Cyanistes caeruleus)")
+      expect(work["id"]).to eq("http://dx.doi.org/10.5061/dryad.v8q6c/2?ver=2014-09-04T02:30:11.776-04:00")
+      expect(work["title"]).to eq("White-Browed Sparrow Weaver Genotypes")
     end
 
     it "should get_data default no data" do
       import = DataoneImport.new(from_update_date: "2014-09-07", until_update_date: "2014-09-07")
       response = import.get_data
-      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>7, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
+      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>25, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
     end
 
     it "should get_data timeout error" do

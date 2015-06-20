@@ -57,6 +57,7 @@ class TwitterSearch < Agent
         "timestamp" => timestamp,
         "URL" => url,
         "type" => "personal_communication",
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => "twitter",
                               "relation_type" => "discusses" }] }

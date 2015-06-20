@@ -29,11 +29,11 @@ module Resolvable
 
       url = response.env[:url].to_s
       if url
-        # normalize URL, e.g. remove percent encoding and make URL lowercase
-        url = PostRank::URI.clean(url)
-
         # remove jsessionid used by J2EE servers
         url = url.gsub(/(.*);jsessionid=.*/, '\1')
+
+        # normalize URL, e.g. remove percent encoding and make host lowercase
+        url = PostRank::URI.clean(url)
 
         # remove parameter used by IEEE
         url = url.sub("reload=true&", "")
@@ -68,11 +68,11 @@ module Resolvable
     end
 
     def get_url_from_doi(doi)
-      Addressable::URI.encode("http://dx.doi.org/#{doi}")
+      Addressable::URI.encode("http://doi.org/#{doi}")
     end
 
     def get_doi_from_id(id)
-      if id.starts_with?("http://dx.doi.org/")
+      if id.starts_with?("http://doi.org/") || id.starts_with?("http://dx.doi.org/")
         uri = URI.parse(id)
         uri.path[1..-1]
       elsif id.starts_with?("doi:")
@@ -115,6 +115,16 @@ module Resolvable
         json = JSON.parse(response.body)
         metadata = json.fetch("message", {})
         return { error: 'Resource not found.' } if metadata.blank?
+
+        date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
+        year, month, day = date_parts[0], date_parts[1], date_parts[2]
+
+        # use date indexed if date issued is in the future
+        if year.nil? || Date.new(*date_parts) > Time.zone.now.to_date
+          date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
+          year, month, day = date_parts[0], date_parts[1], date_parts[2]
+        end
+        metadata["issued"] = { "date-parts" => [date_parts] }
 
         metadata["title"] = case metadata["title"].length
               when 0 then nil
@@ -176,13 +186,26 @@ module Resolvable
       id = id.gsub("%3A", ":")
 
       # workaround, as nginx and the rails router swallow double backslashes
-      id = id.gsub(/(http|https|ftp):\//, '\1://')
+      id = id.gsub(/(http|https):\/+(\w+)/, '\1://\2')
 
       case
-      when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
-      when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
+      when id.starts_with?("doi.org/")           then { doi: CGI.unescape(id[8..-1]) }
+      when id.starts_with?("www.ncbi.nlm.nih.gov/pubmed/")                  then { pmid: id[28..-1] }
+      when id.starts_with?("www.ncbi.nlm.nih.gov/pmc/articles/PMC")         then { pmcid: id[37..-1] }
+      when id.starts_with?("arxiv.org/abs/")     then { arxiv: id[14..-1] }
+      when id.starts_with?("n2t.net/ark:")       then { ark: id[12..-1] }
+
+      when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]) }
+      when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]) }
+      when id.starts_with?("http://www.ncbi.nlm.nih.gov/pubmed/")           then { pmid: id[35..-1] }
+      when id.starts_with?("http://www.ncbi.nlm.nih.gov/pmc/articles/PMC")  then { pmcid: id[44..-1] }
+      when id.starts_with?("http://arxiv.org/abs/")                         then { arxiv: id[21..-1] }
+      when id.starts_with?("http://n2t.net/ark:")                           then { ark: id[15..-1] }
       when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }
       when id.starts_with?("https:")             then { canonical_url: PostRank::URI.clean(id) }
+
+      when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]) }
+      when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid:PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid:")             then { pmcid: id[6..-1] }
       when id.starts_with?("arxiv:")             then { arxiv: id[6..-1] }
@@ -190,7 +213,6 @@ module Resolvable
       when id.starts_with?("scp:")               then { scp: id[4..-1] }
       when id.starts_with?("ark:")               then { ark: id }
 
-      when id.starts_with?("http://dx.doi.org/") then { doi: id[18..-1] }
       when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]) }
       when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]) }
       when id.starts_with?("10.")                then { doi: CGI.unescape(id) }
@@ -198,7 +220,7 @@ module Resolvable
       when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
       when id.starts_with?("PMC")                then { pmcid: id[3..-1] }
-      else { doi: id }
+      else { doi: CGI.unescape(id) }
       end
     end
 

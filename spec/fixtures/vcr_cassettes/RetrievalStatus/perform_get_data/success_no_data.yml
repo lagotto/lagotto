@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.citeulike.org/api/posts/for/doi/10.1371%2Fjournal.pone.0116034
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.0 - http://lagotto-master.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/0.8.31
+      Date:
+      - Mon, 15 Jun 2015 22:37:26 GMT
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+      Content-Length:
+      - '16'
+    body:
+      encoding: UTF-8
+      string: |
+        <posts></posts>
+    http_version: 
+  recorded_at: Mon, 15 Jun 2015 22:21:39 GMT
+recorded_with: VCR 2.9.3

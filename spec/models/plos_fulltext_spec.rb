@@ -97,7 +97,6 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(extra[:event_csl]['container-title']).to eq("PLOS Computational Biology")
       expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2014, 9, 11]])
       expect(extra[:event_csl]['type']).to eq("article-journal")
-      expect(extra[:event_csl]['url']).to eq("http://dx.doi.org/10.1371/journal.pcbi.1003833")
     end
 
     it "should catch timeout errors with the PLOS Search API" do

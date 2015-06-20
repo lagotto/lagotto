@@ -3,9 +3,9 @@ require "rails_helper"
 describe WorksController, :type => :controller do
   render_views
 
-  context "show" do
-    let(:work) { FactoryGirl.create(:work_with_events, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007") }
+  let(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
 
+  context "show" do
     it "GET doi" do
       get "/works/doi:#{work.doi}"
       expect(last_response.status).to eq(200)
@@ -28,6 +28,19 @@ describe WorksController, :type => :controller do
       get "/works/#{work.canonical_url}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.canonical_url)
+    end
+  end
+
+  context "RSS" do
+    it "GET" do
+      related_work = FactoryGirl.create(:work, doi: "10.1016/j.foodqual.2015.03.018", title: "Influence of the glassware on the perception of alcoholic drinks")
+      relation = FactoryGirl.create(:relation, work: work, related_work: related_work)
+      get "/rss/works/doi:#{work.doi}"
+      expect(last_response.status).to eq(200)
+
+      response = Hash.from_xml(last_response.body)
+      item = response["rss"]["channel"]["item"]
+      expect(item["link"]).to eq("http://doi.org/10.1016/j.foodqual.2015.03.018")
     end
   end
 

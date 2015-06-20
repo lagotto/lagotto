@@ -1,8 +1,8 @@
 class CreateSources < ActiveRecord::Migration
   def change
     create_table :sources do |t|
-      t.string   :type,           :null => false                    # for single table inheritance
-      t.string   :name,           :null => false                    # name of the source (used as a key)
+      t.string   :type,           limit: 191, :null => false        # for single table inheritance
+      t.string   :name,           limit: 191, :null => false        # name of the source (used as a key)
       t.string   :display_name,   :null => false                    # display name of the source
       t.boolean  :active,         :default => false                 # determine if the source is active or not
       t.datetime :disable_until                                     # the source will be disabled until this date time

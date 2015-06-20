@@ -1,5 +1,7 @@
 class SciencetoolboxImport < Import
   def parse_data(result)
+    mem = member.split(",") if member.present?
+
     Array(result).map do |item|
       doi = item.fetch("doi", nil)
       canonical_url = item.fetch("url", nil)
@@ -10,7 +12,7 @@ class SciencetoolboxImport < Import
       year, month, day = parts[0], parts[1], parts[2]
 
       title = item.fetch("description", nil)
-      member_id = @member.first
+      member_id = Array(mem).first
       if member_id
         publisher = Publisher.where(member_id: member_id).first
       else
@@ -39,6 +41,7 @@ class SciencetoolboxImport < Import
         day: day,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        tracked: true,
         csl: csl }
     end
   end

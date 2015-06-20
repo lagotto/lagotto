@@ -79,6 +79,13 @@ module ApplicationHelper
     end
   end
 
+  def status_label(name, status)
+    case status
+    when "OK" then name
+    else "<span class='label label-warning'>#{name}</span>"
+    end
+  end
+
   def number_hiding_zero(number)
     (number.nil? || number == 0 ? "" : number_with_delimiter(number))
   end

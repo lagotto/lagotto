@@ -60,13 +60,13 @@ describe Work, type: :model, vcr: true do
     end
 
     it "https://example.com/1234" do
-      work = FactoryGirl.build(:work, :canonical_url => "https://example.com/1234")
+      work = FactoryGirl.build(:work, :canonical_url => "http://example.com/1234")
       expect(work).to be_valid
     end
 
     it "ftp://example.com/1234" do
       work = FactoryGirl.build(:work, :canonical_url => "ftp://example.com/1234")
-      expect(work).to be_valid
+      expect(work).not_to be_valid
     end
 
     it "http://" do
@@ -187,42 +187,37 @@ describe Work, type: :model, vcr: true do
   end
 
   it 'doi as url' do
-    expect(Addressable::URI.encode("http://dx.doi.org/#{work.doi}")).to eq(work.doi_as_url)
+    expect(Addressable::URI.encode("http://doi.org/#{work.doi}")).to eq(work.doi_as_url)
   end
 
   context "pid" do
     it 'for doi' do
-      expect(work.to_param).to eq "doi:#{work.doi}"
+      expect(work.to_param).to eq "http://doi.org/#{work.doi}"
     end
 
     it 'for pmid' do
       work = FactoryGirl.create(:work, doi: nil)
-      expect(work.to_param).to eq "pmid:#{work.pmid}"
+      expect(work.to_param).to eq "http://www.ncbi.nlm.nih.gov/pubmed/#{work.pmid}"
     end
 
     it 'for pmcid' do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil)
-      expect(work.to_param).to eq "pmcid:PMC#{work.pmcid}"
-    end
-
-    it 'for wos' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
-      expect(work.to_param).to eq "wos:#{work.wos}"
-    end
-
-    it 'for scp' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil)
-      expect(work.to_param).to eq "scp:#{work.scp}"
-    end
-
-    it 'for ark' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil)
-      expect(work.to_param).to eq work.ark
+      expect(work.to_param).to eq "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{work.pmcid}"
     end
 
     it 'for canonical_url' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, wos: nil, scp: nil, ark: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
       expect(work.to_param).to eq work.canonical_url
+    end
+
+    it 'for arxiv' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: nil, arxiv: "1503.04201")
+      expect(work.to_param).to eq "http://arxiv.org/abs/#{work.arxiv}"
+    end
+
+    it 'for ark' do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: nil)
+      expect(work.to_param).to eq "http://n2t.net/#{work.ark}"
     end
   end
 
@@ -266,16 +261,32 @@ describe Work, type: :model, vcr: true do
     expect(Work.has_events.all? { |work| work.events_count > 0 }).to be true
   end
 
+  context "url" do
+    it "should use doi as url" do
+      expect(work.url).to eq(work.doi_as_url)
+    end
+
+    it "should use pmid as url if doi is not present" do
+      work = FactoryGirl.create(:work, doi: nil)
+      expect(work.url).to eq(work.pmid_as_url)
+    end
+
+    it "should use canonical_url if doi and pmid are not present" do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
+      expect(work.url).to eq(work.canonical_url)
+    end
+  end
+
   context "get_url" do
     it 'should get_url' do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: nil)
-      url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+      url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
       expect(work.get_url).not_to be_nil
       expect(work.canonical_url).to eq(url)
     end
 
     it "with canonical_url" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030")
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
       expect(work.get_url).to be true
     end
 
@@ -293,7 +304,7 @@ describe Work, type: :model, vcr: true do
   end
 
   it "should get all_urls" do
-    work = FactoryGirl.build(:work, :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+    work = FactoryGirl.build(:work, :canonical_url => "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000001")
     expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact + work.events_urls)
   end
 

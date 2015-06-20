@@ -84,19 +84,16 @@ function paginate(json) {
 }
 
 // link to individual work
-function urlForWork(work) {
-  if (!!work["DOI"]) {
-    return "http://dx.doi.org/" + work["DOI"];
-  } else if (!!work["PMID"]) {
-    return "http://www.ncbi.nlm.nih.gov/pubmed/" + work["PMID"];
-  } else if (!!work["PMCID"]) {
-    return "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" + work["PMCID"];
-  } else if (!!work.ark) {
-    return "http://n2t.net/" + work.ark;
-  } else if (!!work["URL"]) {
-    return work["URL"];
+function pathForWork(id) {
+  if (id.substring(0, 15) === "http://doi.org/" ||
+      id.substring(0, 35) === "http://www.ncbi.nlm.nih.gov/pubmed/" ||
+      id.substring(0, 41) === "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" ||
+      id.substring(0, 41) === "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" ||
+      id.substring(0, 21) === "http://arxiv.org/abs/" ||
+      id.substring(0, 15) === "http://n2t.net/") {
+    return id.replace(/^https?:\/\//,'');
   } else {
-    return "";
+    return id;
   }
 }
 
@@ -110,6 +107,9 @@ function signpostsToString(work, sources, source_id, sort) {
 
   if (name !== "") {
     var source = sources.filter(function(d) { return d.id === name; })[0];
+  }
+
+  if (typeof source !== "undefined" && source !== "") {
     var a = [source.title + ": " + formatFixed(work.events[name])];
   } else {
     var a = [];
@@ -143,7 +143,11 @@ function signpostsFromWork(work) {
 
 function relationToString(work, sources, relation_types) {
   var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
+  if (typeof source == "undefined" || source === "") { return []; }
+
   var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
+  if (typeof relation_type == "undefined" || relation_type === "") { return []; }
+
   return [relation_type.inverse_title, " via " + source.title];
 }
 

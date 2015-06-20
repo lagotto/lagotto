@@ -66,6 +66,7 @@ class CrossRef < Agent
             "title" => metadata.fetch("title", nil),
             "DOI" => doi,
             "type" => metadata.fetch("type", nil),
+            "tracked" => tracked,
             "publisher_id" => metadata.fetch("publisher_id", nil),
             "related_works" => [{ "related_work" => work.pid,
                                   "source" => name,

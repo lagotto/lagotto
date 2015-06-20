@@ -23,6 +23,7 @@ class Nature < Agent
         "timestamp" => timestamp,
         "URL" => url,
         "type" => 'post',
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }
@@ -43,5 +44,9 @@ class Nature < Agent
 
   def rate_limiting
     config.rate_limiting || 5000
+  end
+
+  def tracked
+    config.tracked || true
   end
 end

@@ -14,7 +14,7 @@ class AddApiResponseTable < ActiveRecord::Migration
     add_index :api_responses, :created_at
     add_index :api_responses, :event_count
 
-    add_column :api_requests, :api_key, :string
+    add_column :api_requests, :api_key, :string, limit: 191
     add_column :api_requests, :info, :string
     add_column :api_requests, :source, :string
     add_column :api_requests, :ids, :text

@@ -42,8 +42,8 @@ class PlosFulltext < Agent
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
         "DOI" => doi,
-        "URL" => "http://dx.doi.org/#{doi}",
         "type" => "article-journal",
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
@@ -57,7 +57,7 @@ class PlosFulltext < Agent
 
       { event: item,
         event_time: event_time,
-        event_url: "http://dx.doi.org/#{doi}",
+        event_url: "http://doi.org/#{doi}",
 
         # the rest is CSL (citation style language)
         event_csl: {
@@ -65,7 +65,7 @@ class PlosFulltext < Agent
           "title" => item.fetch("title", ""),
           "container-title" => item.fetch("cross_published_journal_name", []).first,
           "issued" => get_date_parts(event_time),
-          "url" => "http://dx.doi.org/#{doi}",
+          "DOI" => doi,
           "type" => "article-journal" }
       }
     end

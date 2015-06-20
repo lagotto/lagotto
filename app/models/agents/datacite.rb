@@ -21,6 +21,7 @@ class Datacite < Agent
         "issued" => get_date_parts_from_parts(item.fetch("publicationYear", nil)),
         "DOI" => doi,
         "type" => type,
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => relation_type }] }

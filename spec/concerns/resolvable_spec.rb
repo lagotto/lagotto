@@ -8,6 +8,138 @@ describe Work, type: :model, vcr: true do
     let(:data) { { "name" => "Fred" } }
     let(:post_data) { { "name" => "Jack" } }
 
+    context "get_id_hash" do
+      it "doi" do
+        id = "doi:10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it "pmid" do
+        id = "pmid:17183658"
+        expect(subject.get_id_hash(id)).to eq(pmid: "17183658")
+      end
+
+      it "http" do
+        id = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(canonical_url: id)
+      end
+
+      it "http with one /" do
+        id = "http:/journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(canonical_url: "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
+      end
+
+      it "https" do
+        id = "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(canonical_url: id)
+      end
+
+      it "https with one /" do
+        id = "https:/journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(canonical_url: "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
+      end
+
+      it "pmcid with PMC" do
+        id = "pmcid:PMC1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "pmcid" do
+        id = "pmcid:1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "arxiv" do
+        id = "arxiv:1503.04201"
+        expect(subject.get_id_hash(id)).to eq(arxiv: "1503.04201")
+      end
+
+      it "wos" do
+        id = "wos:000237966900001"
+        expect(subject.get_id_hash(id)).to eq(wos: "000237966900001")
+      end
+
+      it "scp" do
+        id = "scp:33845338721"
+        expect(subject.get_id_hash(id)).to eq(scp: "33845338721")
+      end
+
+      it "ark" do
+        id = "ark:/13030/m5br8st1"
+        expect(subject.get_id_hash(id)).to eq(ark: id)
+      end
+
+      it "http://doi.org" do
+        id = "http://doi.org/10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it "http://dx.doi.org" do
+        id = "http://dx.doi.org/10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it "http://www.ncbi.nlm.nih.gov/pubmed/" do
+        id = "http://www.ncbi.nlm.nih.gov/pubmed/17183658"
+        expect(subject.get_id_hash(id)).to eq(pmid: "17183658")
+      end
+
+      it "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC" do
+        id = "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "http://arxiv.org/abs/" do
+        id = "http://arxiv.org/abs/1503.04201"
+        expect(subject.get_id_hash(id)).to eq(arxiv: "1503.04201")
+      end
+
+      it "http://n2t.net/ark:" do
+        id = "http://n2t.net/ark:/13030/m5br8st1"
+        expect(subject.get_id_hash(id)).to eq(ark: "ark:/13030/m5br8st1")
+      end
+
+      it "doi/" do
+        id = "doi/10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it "info:doi/" do
+        id = "info:doi/10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it "10." do
+        id = "10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it "pmid/" do
+        id = "pmid/17183658"
+        expect(subject.get_id_hash(id)).to eq(pmid: "17183658")
+      end
+
+      it "pmcid/PMC/" do
+        id = "pmcid/PMC1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "pmcid/" do
+        id = "pmcid/1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "PMC" do
+        id = "PMC1762313"
+        expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "id" do
+        id = "10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+    end
+
     context "canonical URL" do
       it "get_canonical_url" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
@@ -29,10 +161,10 @@ describe Work, type: :model, vcr: true do
       # end
 
       it "get_canonical_url with trailing slash" do
-        work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        clean_url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
+        work = FactoryGirl.create(:work_with_events, :doi => "10.1080/10629360600569196")
+        clean_url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
         url = "#{clean_url}/"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(clean_url)
@@ -42,9 +174,9 @@ describe Work, type: :model, vcr: true do
 
       it "get_canonical_url with jsessionid" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000030;jsessionid=5362E4D61F1953ADA2CB3F746E58AAC2.f01t03"
-        clean_url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        url = "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0000030;jsessionid=5362E4D61F1953ADA2CB3F746E58AAC2.f01t03"
+        clean_url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(clean_url)
@@ -55,7 +187,7 @@ describe Work, type: :model, vcr: true do
       it "get_canonical_url with cookies" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1080/10629360600569196")
         url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
@@ -65,8 +197,8 @@ describe Work, type: :model, vcr: true do
 
       it "get_canonical_url with <link rel='canonical'/>" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_canonical.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
@@ -76,8 +208,8 @@ describe Work, type: :model, vcr: true do
 
       it "get_canonical_url with <meta property='og:url'/>" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_opengraph.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(url)
@@ -87,8 +219,8 @@ describe Work, type: :model, vcr: true do
 
       it "get_canonical_url with <link rel='canonical'/> mismatch" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        url = "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000030"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://www.plosone.org/article/info:doi/#{work.doi}", status: 404)
@@ -103,7 +235,7 @@ describe Work, type: :model, vcr: true do
       it "get_canonical_url with landing page" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.3109/09286586.2014.926940")
         url = "http://informahealthcare.com/action/cookieabsent"
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "DOI #{work.doi} could not be resolved", status: 404)
@@ -117,7 +249,7 @@ describe Work, type: :model, vcr: true do
       it "get_canonical_url with not found error" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "DOI #{work.doi} could not be resolved", status: 404)
         expect(Notification.count).to eq(1)
@@ -129,7 +261,7 @@ describe Work, type: :model, vcr: true do
 
       it "get_canonical_url unauthorized error" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => 401)
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 401)
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "the server responded with status 401 for http://dx.doi.org/#{work.doi}", status: 401)
         expect(Notification.count).to eq(1)
@@ -141,7 +273,7 @@ describe Work, type: :model, vcr: true do
 
       it "get_canonical_url with timeout error" do
         work = FactoryGirl.create(:work_with_events, :doi => "10.1371/journal.pone.0000030")
-        stub = stub_request(:get, "http://dx.doi.org/#{work.doi}").to_return(:status => [408])
+        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => [408])
         response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
         expect(response).to eq(error: "the server responded with status 408 for http://dx.doi.org/#{work.doi}", status: 408)
         expect(Notification.count).to eq(1)
@@ -192,6 +324,17 @@ describe Work, type: :model, vcr: true do
         expect(response["issued"]).to eq("date-parts"=>[[2006, 11]])
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to eq(792)
+      end
+
+      it "get_crossref_metadata with date in future" do
+        work = FactoryGirl.create(:work, doi: "10.1016/j.ejphar.2015.03.018")
+        response = subject.get_crossref_metadata(work.doi)
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
+        expect(response["container-title"]).to eq("European Journal of Pharmacology")
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 10]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to eq(78)
       end
 
       it "get_crossref_metadata with not found error" do

@@ -41,6 +41,7 @@ class EuropePmcData < Agent
         "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
         "URL" => url,
         "type" => 'article-journal',
+        "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }

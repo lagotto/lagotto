@@ -72,5 +72,6 @@ namespace :queue do
     end
   end
 
-  task :default => :all
+  task :default => :stale
+
 end
