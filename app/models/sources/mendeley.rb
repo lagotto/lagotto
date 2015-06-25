@@ -1,3 +1,5 @@
+require 'csv'
+
 class Mendeley < Source
   def parse_data(result, work, options={})
     return result if result[:error].is_a?(String)
@@ -60,24 +62,18 @@ class Mendeley < Source
   end
 
   # Format Mendeley events for all works as csv
-  def to_csv(options = {})
-    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
-
-    result = get_result(service_url, options.merge(timeout: 1800))
-    if result.blank? || result["rows"].blank?
-      message = "CouchDB report for Mendeley could not be retrieved."
-      Alert.where(message: message).where(unresolved: true).first_or_create(
-        exception: "",
-        class_name: "Faraday::ResourceNotFound",
-        status: 404,
-        source_id: id,
-        level: Alert::FATAL)
-      return nil
-    end
+  def to_csv
+    results = works.includes(:retrieval_statuses)
+      .group("works.id")
+      .select("works.pid, retrieval_statuses.readers, retrieval_statuses.total")
+      .all
 
     CSV.generate do |csv|
       csv << ["pid_type", "pid", "readers", "groups", "total"]
-      result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
+      results.each do |result|
+        groups = result.readers > 0 ? result.total - result.readers : 0
+        csv << [ "doi", result.pid, result.readers, groups, result.total ]
+      end
     end
   end
 
