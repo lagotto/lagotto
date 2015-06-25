@@ -249,7 +249,7 @@ sudo apt-get install python-software-properties -y
 sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo add-apt-repository ppa:couchdb/stable
 
-echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main" >> sudo /etc/apt/sources.list
+echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' | sudo tee --append /etc/apt/sources.list > /dev/null
 ```
 
 #### Update package lists
