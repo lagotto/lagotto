@@ -1,3 +1,5 @@
+require 'csv'
+
 class Pmc < Source
   def get_query_url(work)
     return {} unless work.doi.present?
@@ -178,22 +180,17 @@ class Pmc < Source
       view = "pmc"
     end
 
-    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
-
-    result = get_result(service_url, options.merge(timeout: 1800))
-    if result.blank? || result["rows"].blank?
-      Alert.create(exception: "", class_name: "Faraday::ResourceNotFound",
-                   message: "CouchDB report for PMC could not be retrieved.",
-                   source_id: id,
-                   status: 404,
-                   level: Alert::FATAL)
-      return nil
-    end
-
     if view == "pmc"
+      results = works.includes(:retrieval_statuses)
+        .group("works.id")
+        .select("works.pid, retrieval_statuses.html, retrieval_statuses.pdf, retrieval_statuses.total")
+        .all
+
       CSV.generate do |csv|
         csv << ["pid_type", "pid", "html", "pdf", "total"]
-        result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["html"], row["value"]["pdf"], row["value"]["total"]] }
+        results.each do |result|
+          csv << [ "doi", result.pid, result.html, result.pdf, result.total ]
+        end
       end
     else
       dates = date_range(options).map { |date| "#{date[:year]}-#{date[:month]}" }
@@ -203,5 +200,5 @@ class Pmc < Source
         result["rows"].each { |row| csv << ["doi", row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end
-  end  
+  end
 end
