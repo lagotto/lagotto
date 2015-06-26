@@ -75,8 +75,9 @@ class Report < ActiveRecord::Base
     stats = [{ name: "mendeley_stats", headers: ["mendeley_readers", "mendeley_groups"] },
              { name: "pmc_stats", headers: ["pmc_html", "pmc_pdf"] },
              { name: "counter_stats", headers: ["counter_html", "counter_pdf"] }]
+
     stats.each do |stat|
-      stat[:csv] = read_stats(stat[:name], options).to_a
+      stat[:csv] = read_stats(stat[:name], options)
     end
 
     # return alm_stats if no additional stats are found
@@ -89,14 +90,21 @@ class Report < ActiveRecord::Base
   def self.generate_stats(alm_stats, stats)
     CSV.generate do |csv|
       csv << alm_stats.headers + stats.reduce([]) { |sum, stat| sum + stat[:headers] }
+
+      stats_by_pid = stats.reduce({}) do |hsh, stat|
+        stat[:csv].each do |row|
+          hsh[row["pid"]] = row
+        end
+        hsh
+      end
+
       alm_stats.each do |row|
         stats.each do |stat|
           # find row based on pid, and discard the first and last item (pid and total).
           # otherwise pad with zeros
-          # use rassoc as pid is second item
-          match = stat[:csv].rassoc(row.field("pid"))
-          match = match.present? ? match[1..3] : [0, 0]
-          row.push(*match)
+          matched_row = stats_by_pid.fetch row.field("pid"), nil
+          column_data = matched_row.present? ? matched_row.fields[1..3] : [0, 0]
+          row.push(*column_data)
         end
         csv << row
       end
