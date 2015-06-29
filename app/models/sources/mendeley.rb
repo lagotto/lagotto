@@ -63,19 +63,7 @@ class Mendeley < Source
 
   # Format Mendeley events for all works as csv
   def to_csv
-    results = works.includes(:retrieval_statuses)
-      .group("works.id")
-      .select("works.pid, retrieval_statuses.readers, retrieval_statuses.total")
-      .all
-      .order("works.id ASC")
-
-    CSV.generate do |csv|
-      csv << ["pid_type", "pid", "readers", "groups", "total"]
-      results.each do |result|
-        groups = result.readers > 0 ? result.total - result.readers : 0
-        csv << [ "doi", result.pid, result.readers, groups, result.total ]
-      end
-    end
+    MendeleyReport.new(self).to_csv
   end
 
   def config_fields
