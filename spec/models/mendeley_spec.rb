@@ -1,31 +1,85 @@
 require 'rails_helper'
 
 describe Mendeley, :type => :model do
-
   subject { FactoryGirl.create(:mendeley) }
 
-  context "CSV report" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  describe "#to_csv" do
+    let(:source){ FactoryGirl.create(:mendeley) }
 
-    let(:url) { "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley" }
+    let!(:retrieval_statuses){ [
+      retrieval_status_with_few_readers,
+      retrieval_status_with_many_readers
+    ] }
 
-    it "should format the CouchDB report as csv" do
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'))
-      response = CSV.parse(subject.to_csv)
-      expect(response.count).to eq(31)
-      expect(response.first).to eq(["pid_type", "pid", "readers", "groups", "total"])
-      expect(response.last).to eq(["doi", "10.5194/se-1-1-2010", "6", "0", "6"])
+    let(:retrieval_status_with_few_readers){
+      FactoryGirl.create(:retrieval_status, :with_work_published_today,
+        source: source,
+        readers: 1,
+        total: 3
+      )
+    }
+
+    let(:retrieval_status_with_many_readers){
+      FactoryGirl.create(:retrieval_status, :with_work_published_today,
+        source: source,
+        readers: 1319,
+        total: 1420
+      )
+    }
+
+    it "generates a CSV report" do
+      expect { CSV.parse(source.to_csv) }.to_not raise_error
     end
 
-    it "should report an error if the CouchDB design document can't be retrieved" do
-      FactoryGirl.create(:fatal_error_report_with_admin_user)
-      stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv).to be_nil
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for Mendeley could not be retrieved.")
-      expect(alert.status).to eq(404)
+    describe "contents of the CSV report" do
+      let(:csv){ CSV.parse(source.to_csv, headers: true) }
+
+      it "has the proper column headers" do
+        expect(csv.headers).to eq ["pid_type", "pid", "readers", "groups", "total"]
+      end
+
+      it "includes a row for every associated retrieval status" do
+        expect(csv.length).to eq(retrieval_statuses.length)
+      end
+
+      describe "each row" do
+        it "has the pid_type" do
+          expect(csv[0].field("pid_type")).to eq("doi")
+          expect(csv[1].field("pid_type")).to eq("doi")
+        end
+
+        it "has the pid" do
+          expect(csv[0].field("pid")).to eq(retrieval_status_with_few_readers.work.pid)
+          expect(csv[1].field("pid")).to eq(retrieval_status_with_many_readers.work.pid)
+        end
+
+
+        it "has the readers count" do
+          expect(csv[0].field("readers")).to eq(retrieval_status_with_few_readers.readers.to_s)
+          expect(csv[1].field("readers")).to eq(retrieval_status_with_many_readers.readers.to_s)
+        end
+
+        it "has the total count" do
+          expect(csv[0].field("total")).to eq(retrieval_status_with_few_readers.total.to_s)
+          expect(csv[1].field("total")).to eq(retrieval_status_with_many_readers.total.to_s)
+        end
+
+        context "and the # of readers is 0" do
+          before { retrieval_status_with_few_readers.update_attributes readers: 0, total: 8 }
+
+          it "sets the groups count to 0" do
+            expect(csv[0].field("groups")).to eq("0")
+          end
+        end
+
+        context "and the number of readers is greater than 0" do
+          before { retrieval_status_with_few_readers.update_attributes readers: 5, total: 8 }
+
+          it "sets the groups count to difference between the total and readers counts" do
+            expect(csv[0].field("groups")).to eq("3")
+          end
+        end
+      end
     end
   end
 
