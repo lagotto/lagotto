@@ -6,85 +6,149 @@ describe Counter, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776") }
 
-  context "CSV report" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
+  describe "#to_csv" do
+    let(:source){ FactoryGirl.create(:counter) }
 
-    it "should provide a date range" do
-      # array of hashes for the 10 last months, including the current month
-      start_date = Time.zone.now.to_date - 10.months
-      end_date = Time.zone.now.to_date
-      response = subject.date_range(month: start_date.month, year: start_date.year)
-      expect(response.count).to eq(11)
-      expect(response.last).to eq(month: end_date.month, year: end_date.year)
+    let!(:retrieval_statuses){ [
+      retrieval_status_with_few_readers,
+      retrieval_status_with_many_readers
+    ] }
+
+    let(:retrieval_status_with_few_readers){
+      FactoryGirl.create(:retrieval_status, :with_work_published_today,
+        source: source,
+        html: 1,
+        pdf: 2,
+        total: 3
+      )
+    }
+
+    let(:retrieval_status_with_many_readers){
+      FactoryGirl.create(:retrieval_status, :with_work_published_today,
+        source: source,
+        html: 1319,
+        pdf: 100,
+        total: 1420
+      )
+    }
+
+    it "generates a CSV report" do
+      expect { CSV.parse(source.to_csv) }.to_not raise_error
     end
 
-    it "should format the CouchDB report as csv" do
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter"))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid", "html", "pdf", "total"])
-      expect(response.last).to eq(["doi", "10.1371/journal.ppat.1000446", "7489", "1147", "8676"])
+    describe "contents of the CSV report" do
+      let(:csv){ CSV.parse(source.to_csv, headers: true) }
+
+      it "has the proper column headers" do
+        expect(csv.headers).to eq ["pid_type", "pid", "html", "pdf", "total"]
+      end
+
+      it "includes a row for every associated retrieval status" do
+        expect(csv.length).to eq(retrieval_statuses.length)
+      end
+
+      describe "each row" do
+        it "has the pid_type" do
+          expect(csv[0].field("pid_type")).to eq("doi")
+          expect(csv[1].field("pid_type")).to eq("doi")
+        end
+
+        it "has the pid" do
+          expect(csv[0].field("pid")).to eq(retrieval_status_with_few_readers.work.pid)
+          expect(csv[1].field("pid")).to eq(retrieval_status_with_many_readers.work.pid)
+        end
+
+        it "has the html count" do
+          expect(csv[0].field("html")).to eq(retrieval_status_with_few_readers.html.to_s)
+          expect(csv[1].field("html")).to eq(retrieval_status_with_many_readers.html.to_s)
+        end
+
+        it "has the pdf count" do
+          expect(csv[0].field("pdf")).to eq(retrieval_status_with_few_readers.pdf.to_s)
+          expect(csv[1].field("pdf")).to eq(retrieval_status_with_many_readers.pdf.to_s)
+        end
+
+        it "has the total count" do
+          expect(csv[0].field("total")).to eq(retrieval_status_with_few_readers.total.to_s)
+          expect(csv[1].field("total")).to eq(retrieval_status_with_many_readers.total.to_s)
+        end
+      end
     end
 
-    it "should format the CouchDB HTML report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.ppat.1000446", "92", "58", "82"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_html_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_html_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "html", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response.last).to eq(row)
-    end
+    context "and provided a :format option" do
+      let!(:months) { [
+        november_2014,
+        december_2014,
+        january_2015,
+        february_2015
+      ]}
 
-    it "should format the CouchDB PDF report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0020413", "0", "1", "3"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_pdf_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_pdf_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "pdf", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[2]).to eq(row)
-    end
+      let!(:november_2014){ FactoryGirl.create(:month, :with_work, year: 2014, month: Date.parse("2014-11-01").month, source: source) }
+      let!(:december_2014){ FactoryGirl.create(:month, :with_work, year: 2014, month: Date.parse("2014-12-01").month, source: source) }
+      let!(:january_2015 ){ FactoryGirl.create(:month, :with_work, year: 2015, month: Date.parse("2015-01-01").month, source: source) }
+      let!(:february_2015){ FactoryGirl.create(:month, :with_work, year: 2015, month: Date.parse("2015-02-01").month, source: source) }
 
-    it "should format the CouchDB XML report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0020413", "0", "0", "0"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_xml_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_xml_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "xml", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[2]).to eq(row)
-    end
+      let!(:november_2014_work){ november_2014.work }
+      let!(:december_2014_work){ december_2014.work }
+      let!(:january_2015_work ){ january_2015.work }
+      let!(:february_2015_work){ february_2015.work }
 
-    it "should format the CouchDB combined report as csv" do
-      start_date = Time.zone.now.to_date - 2.months
-      dates = subject.date_range(month: start_date.month, year: start_date.year).map { |date| "#{date[:year]}-#{date[:month]}" }
-      row = ["doi", "10.1371/journal.pbio.0030137", "68", "87", "112"]
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter_combined_views"
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'counter_combined_report.json'))
-      response = CSV.parse(subject.to_csv(name: "counter", format: "combined", month: 7, year: 2013))
-      expect(response.count).to eq(27)
-      expect(response.first).to eq(["pid_type", "pid"] + dates)
-      expect(response[3]).to eq(row)
-    end
+      it "generates a CSV report" do
+        expect{ CSV.parse(source.to_csv(format: "pdf")) }.to_not raise_error
+      end
 
-    it "should report an error if the CouchDB design document can't be retrieved" do
-      FactoryGirl.create(:fatal_error_report_with_admin_user)
-      url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/counter"
-      stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv(name: "counter")).to be_blank
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for counter could not be retrieved.")
-      expect(alert.status).to eq(404)
+      describe "contents of the CSV report" do
+        include Dateable
+
+        let(:format){ "pdf" }
+        let(:year){ 2014 }
+        let(:month){ 11 }
+
+        let(:csv){ CSV.parse(source.to_csv(format: format, year: year, month: month), headers: true) }
+
+        it "has the column headers reflect the year-month in ascending order from the given year/month to the current year/month" do
+          dates = date_range(year:year, month:month)
+          formatted_dates = dates.map { |date| "#{date[:year]}-#{date[:month]}" }
+          expect(csv.headers).to eq ["pid_type", "pid"].concat formatted_dates
+        end
+
+        describe "it has a row for each work" do
+          let(:works){ Month.all.map(&:work) }
+
+          it "has the pid_type" do
+            expect(csv[0].field("pid_type")).to eq("doi")
+          end
+
+          it "has the pid" do
+            expect(csv[0].field("pid")).to eq(works[0].pid)
+          end
+
+          context "when there is data for a given year-month" do
+            it "has count for the given format" do
+              november_2014.update_attribute :pdf, 22
+              csv = CSV.parse(source.to_csv(format: "pdf", year: year, month: month), headers: true)
+
+              row = csv.detect{ |r| r.field("pid") == november_2014_work.pid }
+              expect(row.field("2014-11")).to eq("22")
+
+              february_2015.update_attribute :html, 49
+              csv = CSV.parse(source.to_csv(format: "html", year: year, month: month), headers: true)
+              row = csv.detect{ |r| r.field("pid") == february_2015_work.pid }
+              expect(row.field("2015-2")).to eq("49")
+            end
+          end
+
+          context "when there is no data for a given year-month" do
+            it "has 0 for the given format" do
+              november_2014.destroy
+              csv = CSV.parse(source.to_csv(format: "html", year: year, month: month), headers: true)
+              row = csv.detect{ |r| r.field("pid") == november_2014_work.pid }
+              expect(csv[0].field("2014-11")).to eq("0")
+            end
+          end
+
+        end
+      end
     end
   end
 

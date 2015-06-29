@@ -307,7 +307,12 @@ FactoryGirl.define do
   end
 
   factory :month do
-
+    trait(:with_work) do
+      association :work, factory: :work_published_today
+      after :build do |month|
+        month.retrieval_status_id = month.work.retrieval_statuses.first.id
+      end
+    end
   end
 
   factory :report do
