@@ -94,7 +94,7 @@ class Counter < Source
       results = months.joins(:work)
         .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.html, months.pdf, months.total")
         .where("(months.year >= :year AND months.month >= :month) OR (months.year > :year)", year: starting_year, month: starting_month)
-        .order("year ASC, month ASC")
+        .order("works.id, year ASC, month ASC")
         .all
 
       results_nested = Hash.new { |h,k| h[k] = {} }
