@@ -73,7 +73,7 @@ class Counter < Source
   # options[:month] and options[:year] are the starting month and year, default to last month
   def to_csv(options = {})
     if ["html", "pdf", "combined"].include? options[:format]
-      CounterByMonthReport.new(self, format: options[:format], year:options[:year], month:options[:month]).to_csv
+      SourceByMonthReport.new(self, format: options[:format], year:options[:year], month:options[:month]).to_csv
     else
       SourceReport.new(self).to_csv
     end
