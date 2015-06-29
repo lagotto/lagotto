@@ -1,2 +1,0 @@
-class CounterReport < SourceReport
-end

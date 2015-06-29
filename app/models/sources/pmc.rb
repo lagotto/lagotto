@@ -177,7 +177,7 @@ class Pmc < Source
     if ["html", "pdf", "combined"].include? options[:format]
       PmcByMonthReport.new(self, format: options[:format], year:options[:year], month:options[:month]).to_csv
     else
-      PmcReport.new(self).to_csv
+      SourceReport.new(self).to_csv
     end
   end
 end

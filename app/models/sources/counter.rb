@@ -75,7 +75,7 @@ class Counter < Source
     if ["html", "pdf", "combined"].include? options[:format]
       CounterByMonthReport.new(self, format: options[:format], year:options[:year], month:options[:month]).to_csv
     else
-      CounterReport.new(self).to_csv
+      SourceReport.new(self).to_csv
     end
   end
 end
