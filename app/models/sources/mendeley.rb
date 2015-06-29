@@ -67,6 +67,7 @@ class Mendeley < Source
       .group("works.id")
       .select("works.pid, retrieval_statuses.readers, retrieval_statuses.total")
       .all
+      .order("works.id ASC")
 
     CSV.generate do |csv|
       csv << ["pid_type", "pid", "readers", "groups", "total"]
