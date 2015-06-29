@@ -75,17 +75,7 @@ class Counter < Source
     end
 
     if view == "counter"
-      results = works.includes(:retrieval_statuses)
-        .group("works.id")
-        .select("works.pid, retrieval_statuses.html, retrieval_statuses.pdf, retrieval_statuses.total")
-        .all
-
-      CSV.generate do |csv|
-        csv << ["pid_type", "pid", "html", "pdf", "total"]
-        results.each do |result|
-          csv << [ "doi", result.pid, result.html, result.pdf, result.total ]
-        end
-      end
+      CounterReport.new(self).to_csv
     else
       dates = date_range(options)
       formatted_dates = dates.map { |date| "#{date[:year]}-#{date[:month]}" }
