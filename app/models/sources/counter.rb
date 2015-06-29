@@ -77,32 +77,7 @@ class Counter < Source
     if view == "counter"
       CounterReport.new(self).to_csv
     else
-      dates = date_range(options)
-      formatted_dates = dates.map { |date| "#{date[:year]}-#{date[:month]}" }
-      starting_year, starting_month = dates.first[:year], dates.first[:month]
-
-      results = months.joins(:work)
-        .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.html, months.pdf, months.total")
-        .where("(months.year >= :year AND months.month >= :month) OR (months.year > :year)", year: starting_year, month: starting_month)
-        .order("works.id, year ASC, month ASC")
-        .all
-
-      results_nested = Hash.new { |h,k| h[k] = {} }
-      results.each do |result|
-        results_nested[result][result.date_key] = result.send(options[:format])
-      end
-
-      CSV.generate do |csv|
-        csv << ["pid_type", "pid"] + formatted_dates
-
-        results_nested.each_pair do |result, results_by_date_key|
-          arr = ["doi", result.pid]
-          formatted_dates.each do |date_key|
-            arr.push results_by_date_key[date_key] || 0
-          end
-          csv << arr
-        end
-      end
+      CounterByMonthReport.new(self, format: options[:format], year:options[:year], month:options[:month]).to_csv
     end
   end
 end

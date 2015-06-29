@@ -310,7 +310,11 @@ FactoryGirl.define do
     trait(:with_work) do
       association :work, factory: :work_published_today
       after :build do |month|
-        month.retrieval_status_id = month.work.retrieval_statuses.first.id
+        if month.work.retrieval_statuses.any?
+          month.retrieval_status_id = month.work.retrieval_statuses.first.id
+        else
+          month.retrieval_status = FactoryGirl.create(:retrieval_status, work: month.work)
+        end
       end
     end
   end
