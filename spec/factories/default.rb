@@ -164,7 +164,7 @@ FactoryGirl.define do
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
-    trait(:with_work_published_today) { association :work, factory: :work_published_today }
+    trait(:with_work_published_today) { association :work, factory: :work_published_today, retrieval_statuses: [] }
     trait(:with_counter_and_work_published_today) do
       association :work, factory: :work_published_today
       association :source, factory: :counter
