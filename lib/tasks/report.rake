@@ -118,17 +118,19 @@ namespace :report do
 
   desc 'Generate CSV file with Counter usage stats'
   task :counter => :environment do
-    if ENV['FORMAT']
-      filename = "counter_#{ENV['FORMAT']}.csv"
-    else
-      filename = "counter_stats.csv"
-    end
-
     # check that source is installed
     source = Source.visible.where(name: "counter").first
     next if source.nil?
 
-    csv = source.to_csv(name: "counter", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    if ENV['FORMAT']
+      filename = "counter_#{ENV['FORMAT']}.csv"
+      report = CounterByMonthReport.new(source, format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    else
+      filename = "counter_stats.csv"
+      report = CounterReport.new(source)
+    end
+
+    csv = report.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."

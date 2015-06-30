@@ -66,16 +66,4 @@ class Counter < Source
   def queue
     config.queue || "high"
   end
-
-  # Format Counter events for all works as csv
-  # Show historical data if options[:format] is used
-  # options[:format] can be "html", "pdf" or "combined"
-  # options[:month] and options[:year] are the starting month and year, default to last month
-  def to_csv(options = {})
-    if ["html", "pdf", "combined"].include? options[:format]
-      SourceByMonthReport.new(self, format: options[:format], year:options[:year], month:options[:month]).to_csv
-    else
-      SourceReport.new(self).to_csv
-    end
-  end
 end
