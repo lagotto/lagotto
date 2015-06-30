@@ -21,6 +21,35 @@ class SourceByMonthReport
     end
   end
 
+  def self.value_provider_block_registrar
+    @value_provider_block_registrar ||= begin
+      parent_class = ancestors[1]
+      if parent_class.respond_to?(:value_provider_block_registrar)
+        parent_class.value_provider_block_registrar.dup
+      else
+        BlockRegistrar.new
+      end
+    end
+  end
+
+  def self.register_value_provider_for_format(format, &blk)
+    raise ArgumentError, "Must supply a block!" unless blk
+    value_provider_block_registrar[format] = blk
+  end
+
+  def self.register_default_value_provider(&blk)
+    raise ArgumentError, "Must supply a block!" unless blk
+    value_provider_block_registrar.default_block = blk
+  end
+
+  register_value_provider_for_format(:combined) do |result|
+    result.pdf + result.html
+  end
+
+  register_default_value_provider do |result, format|
+    result.send(format)
+  end
+
   def initialize(source_model, format:, year:, month:)
     @format = format
     @dates = date_range(year:year, month:month)
@@ -52,7 +81,8 @@ class SourceByMonthReport
   def results_nested
     results_nested = Hash.new { |h,k| h[k] = {} }
     results.each do |result|
-      results_nested[result][result.date_key] = value_for_result_and_format(result, @format)
+      value_provider = self.class.value_provider_block_registrar[@format]
+      results_nested[result][result.date_key] = value_provider.call(result, @format)
     end
     results_nested
   end
@@ -67,12 +97,6 @@ class SourceByMonthReport
         line_items << Reportable::LineItem.new(attributes)
       end
     end
-  end
-
-  def value_for_result_and_format(result, format)
-    return result.pdf + result.html if format.to_sym == :combined
-    return result.send(format) if result.respond_to?(format)
-    raise NotImplementedError, "Don't know how to determine the value of a result for an unknown format: #{format.inspect}"
   end
 
 end

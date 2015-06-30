@@ -1,9 +1,10 @@
 shared_examples_for "SourceByMonthReport examples" do |options|
   raise ArgumentError("Missing :source_factory") unless options[:source_factory]
+  raise ArgumentError("Missing :report_class") unless options[:report_class]
 
   include Dateable
 
-  subject(:report){ SourceByMonthReport.new(source, format: format, year: year, month: month) }
+  subject(:report){ options[:report_class].new(source, format: format, year: year, month: month) }
   let(:source){ FactoryGirl.create options[:source_factory] }
 
   let(:format){ "pdf" }
