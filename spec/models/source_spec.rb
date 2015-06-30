@@ -15,6 +15,19 @@ describe Source, :type => :model do
   it { is_expected.to validate_numericality_of(:staleness_year).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:staleness_all).is_greater_than(0).only_integer.with_message("must be greater than 0") }
 
+  describe '.without_private' do
+    let!(:public_source){ FactoryGirl.create(:citeulike, name: "Public Source", private: false) }
+    let!(:private_source){ FactoryGirl.create(:mendeley, name: "Private Source", private: true) }
+
+    it "includes publicly accessible sources" do
+      expect(Source.without_private.all).to include(public_source)
+    end
+
+    it "excludes private sources" do
+      expect(Source.without_private.all).to_not include(private_source)
+    end
+  end
+
   describe "get_events_by_day" do
     before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 

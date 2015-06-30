@@ -84,6 +84,8 @@ class Source < ActiveRecord::Base
   scope :queueable, -> { active.where(queueable: true) }
   scope :eventable, -> { visible.where(eventable: true) }
 
+  scope :without_private, -> { where(private: false) }
+
   # some sources cannot be redistributed
   scope :accessible, ->(role) { where("private <= ?", role) }
 

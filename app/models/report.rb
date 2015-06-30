@@ -17,29 +17,6 @@ class Report < ActiveRecord::Base
     end
   end
 
-  # Generate CSV with event counts for all works and installed sources
-  def self.to_csv(options = {})
-    sources = Source.installed
-    sources = sources.where(:private => false) unless options[:include_private_sources]
-
-    results = self.from_sql(sources: sources)
-
-    CSV.generate do |csv|
-      csv << ["pid", "publication_date", "title"] + sources.map(&:name)
-      results.each { |row| csv << row.values }
-    end
-  end
-
-  def self.from_sql(options = {})
-    sql = "SELECT w.pid, w.published_on, w.title"
-    options[:sources].each do |source|
-      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.total END) AS #{source.name}"
-    end
-    sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
-    sanitized_sql = sanitize_sql_for_conditions(sql)
-    results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
-  end
-
   # write report into folder with current date in name
   def self.write(filename, content, options = {})
     return nil unless filename && content

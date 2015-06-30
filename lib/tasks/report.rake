@@ -7,7 +7,8 @@ namespace :report do
   task :alm_stats => :environment do
     filename = "alm_stats.csv"
 
-    csv = Report.to_csv
+    sources = Source.installed.without_private
+    csv = AlmStatsReport.new(sources).to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -22,7 +23,8 @@ namespace :report do
   task :alm_private_stats => :environment do
     filename = "alm_private_stats.csv"
 
-    csv = Report.to_csv(include_private_sources: true)
+    sources = Source.installed
+    csv = AlmStatsReport.new(sources).to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
