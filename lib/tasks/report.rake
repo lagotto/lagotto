@@ -54,17 +54,19 @@ namespace :report do
 
   desc 'Generate CSV file with PMC usage stats'
   task :pmc => :environment do
-    if ENV['FORMAT']
-      filename = "pmc_#{ENV['FORMAT']}.csv"
-    else
-      filename = "pmc_stats.csv"
-    end
-
     # check that source is installed
     source = Source.visible.where(name: "pmc").first
     next if source.nil?
 
-    csv = source.to_csv(name: "pmc", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    if ENV['FORMAT']
+      filename = "pmc_#{ENV['FORMAT']}.csv"
+      report = PmcByMonthReport.new(source, format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    else
+      filename = "pmc_stats.csv"
+      report = PmcReport.new(source)
+    end
+
+    csv = report.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."

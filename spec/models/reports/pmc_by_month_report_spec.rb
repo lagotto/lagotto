@@ -1,7 +1,7 @@
 require "rails_helper"
 
-describe "Running a SourceByMonthReport for Pmc" do
+describe "Running a PmcByMonthReport for Pmc" do
   include_examples "SourceByMonthReport examples",
     source_factory: :pmc,
-    report_class: SourceByMonthReport
+    report_class: PmcByMonthReport
 end
