@@ -1,5 +1,7 @@
 module Reportable
   class LineItem
+    attr_reader :attributes
+
     def initialize(attributes={})
       @attributes = attributes.with_indifferent_access
     end
@@ -13,6 +15,10 @@ module Reportable
 
     def []=(key, value)
       @attributes[key] = value
+    end
+
+    def ==(other)
+      other.kind_of?(self.class) && other.attributes == attributes
     end
   end
 end
