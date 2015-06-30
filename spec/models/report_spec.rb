@@ -60,8 +60,6 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
       end
 
       it "should merge stats" do
-        url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
-        stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
         filename = "mendeley_stats"
         filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
         csv = mendeley.to_csv
