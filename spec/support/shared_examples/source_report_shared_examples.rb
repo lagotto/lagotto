@@ -1,13 +1,17 @@
 shared_examples_for "SourceReport examples" do |options|
   raise ArgumentError("Missing :source_factory") unless options[:source_factory]
+  raise ArgumentError("Missing :report_class") unless options[:report_class]
 
-  subject(:report){ SourceReport.new(source) }
+  subject(:report){ options[:report_class].new(source) }
   let(:source){ FactoryGirl.create options[:source_factory] }
 
   describe "#headers" do
-    it "returns the column headers for the report" do
-      expect(report.headers).to eq(["pid_type", "pid", "html", "pdf", "total"])
-    end
+    subject(:headers){ report.headers }
+    it { should include("pid_type")}
+    it { should include("pid")}
+    it { should include("html")}
+    it { should include("pdf")}
+    it { should include("total")}
   end
 
   describe "#line_items" do

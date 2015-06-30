@@ -27,14 +27,20 @@ class SourceReport
 
   def line_items
     @line_items ||= results.map do |result|
-      Reportable::LineItem.new(
-        pid_type: "doi",
-        pid: result.pid,
-        html: result.html,
-        pdf: result.pdf,
-        total: result.total
-      )
+      build_line_item_for_result result
     end
+  end
+
+  protected
+
+  def build_line_item_for_result(result)
+    Reportable::LineItem.new(
+      pid_type: "doi",
+      pid: result.pid,
+      html: result.html,
+      pdf: result.pdf,
+      total: result.total
+    )
   end
 
   private

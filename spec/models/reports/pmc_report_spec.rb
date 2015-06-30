@@ -1,5 +1,7 @@
 require "rails_helper"
 
 describe "Running a SourceReport for Pmc" do
-  include_examples "SourceReport examples", source_factory: :pmc
+  include_examples "SourceReport examples",
+    source_factory: :pmc,
+    report_class: SourceReport
 end
