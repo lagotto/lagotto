@@ -1,4 +1,7 @@
 class CounterReport < SourceReport
+  def self.xml_value_for_result(result)
+    result.total - (result.pdf + result.html)
+  end
 
   def headers
     super + ["xml"]
@@ -8,7 +11,7 @@ class CounterReport < SourceReport
 
   def build_line_item_for_result(result)
     super.tap do |line_item|
-      line_item[:xml] = line_item[:total] - (line_item[:pdf] + line_item[:html])
+      line_item[:xml] = self.class.xml_value_for_result(result)
     end
   end
 
