@@ -61,11 +61,6 @@ class Mendeley < Source
     { bearer: access_token }
   end
 
-  # Format Mendeley events for all works as csv
-  def to_csv
-    MendeleyReport.new(self).to_csv
-  end
-
   def config_fields
     [:url, :authentication_url, :client_id, :client_secret, :access_token, :expires_at]
   end

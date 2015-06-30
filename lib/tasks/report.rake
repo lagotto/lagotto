@@ -41,7 +41,7 @@ namespace :report do
     source = Source.visible.where(name: "mendeley").first
     next if source.nil?
 
-    csv = source.to_csv
+    csv = MendeleyReport.new(source).to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
