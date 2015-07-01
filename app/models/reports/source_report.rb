@@ -9,6 +9,7 @@ class SourceReport
     end
 
     def execute
+      return [] unless source_model
       source_model.works.includes(:retrieval_statuses)
         .group("works.id")
         .select("works.pid, retrieval_statuses.html, retrieval_statuses.pdf, retrieval_statuses.total")

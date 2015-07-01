@@ -17,7 +17,14 @@ shared_examples_for "SourceReport examples" do |options|
   describe "line items" do
     let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
 
-    describe "when there are no retrieval_statuses or works" do
+    describe "when there are no retrieval_statuses" do
+      it "has no line items" do
+        expect(line_items).to eq([])
+      end
+    end
+
+    describe "when the source doesn't exist" do
+      subject(:report){ options[:report_class].new(nil) }
       it "has no line items" do
         expect(line_items).to eq([])
       end
