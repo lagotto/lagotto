@@ -1,4 +1,4 @@
-shared_examples_for "SourceByMonthReport examples" do |options|
+gitxshared_examples_for "SourceByMonthReport examples" do |options|
   raise ArgumentError("Missing :source_factory") unless options[:source_factory]
   raise ArgumentError("Missing :report_class") unless options[:report_class]
 
@@ -10,6 +10,23 @@ shared_examples_for "SourceByMonthReport examples" do |options|
   let(:format){ "pdf" }
   let(:year){ 2014 }
   let(:month){ 11 }
+
+  let!(:works){ [
+    work_abc,
+    work_def
+  ] }
+
+  let!(:work_abc){ FactoryGirl.create(:work) }
+  let!(:work_def){ FactoryGirl.create(:work) }
+
+  let!(:november_2014_abc){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2014, month: Date.parse("2014-11-01").month, source: source) }
+  let!(:december_2014_abc){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2014, month: Date.parse("2014-12-01").month, source: source) }
+  let!(:january_2015_abc ){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2015, month: Date.parse("2015-01-01").month, source: source) }
+  let!(:february_2015_abc){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2015, month: Date.parse("2015-02-01").month, source: source) }
+
+  let!(:november_2014_def){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2014, month: Date.parse("2014-11-01").month, source: source) }
+  let!(:december_2014_def){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2014, month: Date.parse("2014-12-01").month, source: source) }
+  let!(:january_2015_def ){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2015, month: Date.parse("2015-01-01").month, source: source) }
 
   it "must be constructed with a :format, :year, and :month" do
     expect {
@@ -33,30 +50,15 @@ shared_examples_for "SourceByMonthReport examples" do |options|
   describe "line items" do
     let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
 
-    describe "when there are no months or works" do
+    describe "when there are no months for works" do
+      before { Month.delete_all }
+
       it "has no line items" do
         expect(line_items).to eq([])
       end
     end
 
     describe "when there are months (with stats) for a set of Work(s)" do
-      let!(:works){ [
-        work_abc,
-        work_def
-      ] }
-
-      let!(:work_abc){ FactoryGirl.create(:work) }
-      let!(:work_def){ FactoryGirl.create(:work) }
-
-      let!(:november_2014_abc){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2014, month: Date.parse("2014-11-01").month, source: source) }
-      let!(:december_2014_abc){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2014, month: Date.parse("2014-12-01").month, source: source) }
-      let!(:january_2015_abc ){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2015, month: Date.parse("2015-01-01").month, source: source) }
-      let!(:february_2015_abc){ FactoryGirl.create(:month, :with_work, work: work_abc, year: 2015, month: Date.parse("2015-02-01").month, source: source) }
-
-      let!(:november_2014_def){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2014, month: Date.parse("2014-11-01").month, source: source) }
-      let!(:december_2014_def){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2014, month: Date.parse("2014-12-01").month, source: source) }
-      let!(:january_2015_def ){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2015, month: Date.parse("2015-01-01").month, source: source) }
-
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
@@ -119,6 +121,17 @@ shared_examples_for "SourceByMonthReport examples" do |options|
         end
       end
     end
-
   end
+
+  describe "#to_csv" do
+    it "returns the report formatted in CSV" do
+      expected_csv = []
+      expected_csv << report.headers.join(",")
+      report.line_items.map do |item|
+        expected_csv << report.headers.map{ |h| item[h] }.join(',')
+      end
+      expect(CSV.parse(report.to_csv)).to eq(CSV.parse(expected_csv.join("\n")))
+    end
+  end
+
 end

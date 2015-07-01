@@ -121,7 +121,7 @@ describe AlmCombinedStatsReport do
       CSV
     }
 
-    it "returns a the report formatted in CSV" do
+    it "returns the report formatted in CSV" do
       expect(CSV.parse(report.to_csv)).to eq(CSV.parse(expected_csv))
     end
   end

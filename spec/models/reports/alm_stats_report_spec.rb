@@ -12,6 +12,30 @@ describe AlmStatsReport do
   let(:source_pmc){ FactoryGirl.create :pmc }
   let(:source_counter){ FactoryGirl.create :counter }
 
+  let!(:retrieval_statuses){ [
+    retrieval_status_with_mendeley_work,
+    retrieval_status_with_with_pmc_work
+  ] }
+
+  let(:mendeley_work){ FactoryGirl.create(:work) }
+  let(:pmc_work){ FactoryGirl.create(:work) }
+
+  let(:retrieval_status_with_mendeley_work){
+    FactoryGirl.create(:retrieval_status,
+      work: mendeley_work,
+      source: source_mendeley,
+      total: 3
+    )
+  }
+
+  let(:retrieval_status_with_with_pmc_work){
+    FactoryGirl.create(:retrieval_status, :with_work_published_today,
+      work: pmc_work,
+      source: source_pmc,
+      total: 1420
+    )
+  }
+
   describe "#headers" do
     subject(:headers){ report.headers }
     it { should include("pid")}
@@ -28,37 +52,15 @@ describe AlmStatsReport do
   describe "line items" do
     let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
 
-    describe "when there are no retrieval_statuses or works" do
+    describe "when there are no retrieval_statuses for works" do
+      let!(:retrieval_statuses){ [] }
+
       it "has no line items" do
         expect(line_items).to eq([])
       end
     end
 
     describe "when there are retrieval_statuses for works" do
-      let!(:retrieval_statuses){ [
-        retrieval_status_with_mendeley_work,
-        retrieval_status_with_with_pmc_work
-      ] }
-
-      let(:mendeley_work){ FactoryGirl.create(:work) }
-      let(:pmc_work){ FactoryGirl.create(:work) }
-
-      let(:retrieval_status_with_mendeley_work){
-        FactoryGirl.create(:retrieval_status,
-          work: mendeley_work,
-          source: source_mendeley,
-          total: 3
-        )
-      }
-
-      let(:retrieval_status_with_with_pmc_work){
-        FactoryGirl.create(:retrieval_status, :with_work_published_today,
-          work: pmc_work,
-          source: source_pmc,
-          total: 1420
-        )
-      }
-
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
@@ -158,5 +160,17 @@ describe AlmStatsReport do
     end
   end
 
+  describe "#to_csv" do
+    let(:expected_csv){ <<-CSV.gsub(/^\s+/, '')
+      pid,publication_date,title,mendeley,pmc,counter
+      #{mendeley_work.pid},2014-07-01,Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web,3,0,0
+      #{pmc_work.pid},2014-07-01,Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web,0,1420,0
+      CSV
+    }
+
+    it "returns the report formatted in CSV" do
+      expect(CSV.parse(report.to_csv)).to eq(CSV.parse(expected_csv))
+    end
+  end
 
 end

@@ -5,6 +5,36 @@ shared_examples_for "SourceReport examples" do |options|
   subject(:report){ options[:report_class].new(source) }
   let(:source){ FactoryGirl.create options[:source_factory] }
 
+  let!(:retrieval_statuses){ [
+    retrieval_status_with_few_readers,
+    retrieval_status_with_many_readers
+  ] }
+
+  let(:work_1){ FactoryGirl.create(:work)}
+  let(:work_2){ FactoryGirl.create(:work)}
+
+  let(:retrieval_status_with_few_readers){
+    FactoryGirl.create(:retrieval_status,
+      work: work_1,
+      source: source,
+      html: 1,
+      pdf: 2,
+      total: 3
+    )
+  }
+
+  let(:retrieval_status_with_many_readers){
+    FactoryGirl.create(:retrieval_status,
+      work: work_2,
+      source: source,
+      html: 1319,
+      pdf: 100,
+      total: 1420
+    )
+  }
+
+  let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
+
   describe "#headers" do
     subject(:headers){ report.headers }
     it { should include("pid_type")}
@@ -15,9 +45,9 @@ shared_examples_for "SourceReport examples" do |options|
   end
 
   describe "line items" do
-    let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
-
     describe "when there are no retrieval_statuses" do
+      let!(:retrieval_statuses){ [] }
+
       it "has no line items" do
         expect(line_items).to eq([])
       end
@@ -31,29 +61,6 @@ shared_examples_for "SourceReport examples" do |options|
     end
 
     describe "when there are retrieval_statuses for works" do
-      let!(:retrieval_statuses){ [
-        retrieval_status_with_few_readers,
-        retrieval_status_with_many_readers
-      ] }
-
-      let(:retrieval_status_with_few_readers){
-        FactoryGirl.create(:retrieval_status, :with_work_published_today,
-          source: source,
-          html: 1,
-          pdf: 2,
-          total: 3
-        )
-      }
-
-      let(:retrieval_status_with_many_readers){
-        FactoryGirl.create(:retrieval_status, :with_work_published_today,
-          source: source,
-          html: 1319,
-          pdf: 100,
-          total: 1420
-        )
-      }
-
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
@@ -115,4 +122,16 @@ shared_examples_for "SourceReport examples" do |options|
       end
     end
   end
+
+  describe "#to_csv" do
+    it "returns the report formatted in CSV" do
+      expected_csv = []
+      expected_csv << report.headers.join(",")
+      report.line_items.map do |item|
+        expected_csv << report.headers.map{ |h| item[h] }.join(',')
+      end
+      expect(CSV.parse(report.to_csv)).to eq(CSV.parse(expected_csv.join("\n")))
+    end
+  end
+
 end
