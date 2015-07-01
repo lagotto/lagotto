@@ -216,7 +216,13 @@ namespace :report do
   task :combined_private_stats => :environment do
     filename = "alm_private_report.csv"
 
-    csv = Report.merge_stats(include_private_sources: true, date: ENV['DATE'])
+    csv = AlmCombinedStatsReport.new(
+      alm_report:      AlmStatsReport.new(Source.installed),
+      pmc_report:      PmcReport.new(Source.visible.where(name: "pmc").first),
+      counter_report:  CounterReport.new(Source.visible.where(name:"counter").first),
+      mendeley_report: MendeleyReport.new(Source.visible.where(name:"mendeley").first)
+    ).to_csv
+
     if csv.nil?
       puts "No data for report \"#{filename}\"."
     elsif Report.write(filename, csv)
