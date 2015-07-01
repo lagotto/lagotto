@@ -32,62 +32,6 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def self.read_stats(filename, options = {})
-    return nil unless filename
-
-    date = options[:date] || Time.zone.now.to_date
-    filepath = "#{Rails.root}/data/report_#{date}/#{filename}.csv"
-    if File.exist?(filepath)
-      CSV.read(filepath, headers: true, encoding: "UTF-8")
-    else
-      nil
-    end
-  end
-
-  def self.merge_stats(options = {})
-    filename = options[:include_private_sources] ? "alm_private_stats" : "alm_stats"
-    alm_stats = read_stats(filename, options)
-    return nil if alm_stats.blank?
-
-    stats = [{ name: "mendeley_stats", headers: ["mendeley_readers", "mendeley_groups"] },
-             { name: "pmc_stats", headers: ["pmc_html", "pmc_pdf"] },
-             { name: "counter_stats", headers: ["counter_html", "counter_pdf"] }]
-
-    stats.each do |stat|
-      stat[:csv] = read_stats(stat[:name], options)
-    end
-
-    # return alm_stats if no additional stats are found
-    stats.reject! { |stat| stat[:csv].blank? }
-    return alm_stats if stats.empty?
-
-    generate_stats(alm_stats, stats)
-  end
-
-  def self.generate_stats(alm_stats, stats)
-    CSV.generate do |csv|
-      csv << alm_stats.headers + stats.reduce([]) { |sum, stat| sum + stat[:headers] }
-
-      stats_by_pid = stats.reduce({}) do |hsh, stat|
-        stat[:csv].each do |row|
-          hsh[row["pid"]] = row
-        end
-        hsh
-      end
-
-      alm_stats.each do |row|
-        stats.each do |stat|
-          # find row based on pid, and discard the first and last item (pid and total).
-          # otherwise pad with zeros
-          matched_row = stats_by_pid.fetch row.field("pid"), nil
-          column_data = matched_row.present? ? matched_row.fields[1..3] : [0, 0]
-          row.push(*column_data)
-        end
-        csv << row
-      end
-    end
-  end
-
   def self.zip_file(options = {})
     date = options[:date] || Time.zone.now.to_date
     filename = "alm_report_#{date}.csv"
