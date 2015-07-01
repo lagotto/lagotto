@@ -8,10 +8,15 @@ describe AlmCombinedStatsReport do
     mendeley_report: mendeley_report
   ) }
 
-  let(:alm_report){ double("AlmStatsReport", headers: ["pid", "publication_date"], line_items: alm_line_items) }
-  let(:pmc_report){ double("PmcStatsReport", line_items: pmc_line_items) }
-  let(:counter_report){ double("CounterStatsReport", line_items: counter_line_items) }
-  let(:mendeley_report){ double("MendeleyStatsReport", line_items: mendeley_line_items) }
+  let(:alm_report){ stubbed_alm_report }
+  let(:pmc_report){ stubbed_pmc_report }
+  let(:counter_report){ stubbed_counter_report }
+  let(:mendeley_report){ stubbed_mendeley_report }
+
+  let(:stubbed_alm_report){ double("AlmStatsReport", headers: ["pid", "publication_date"]) }
+  let(:stubbed_pmc_report){ double("PmcStatsReport") }
+  let(:stubbed_counter_report){ double("CounterStatsReport") }
+  let(:stubbed_mendeley_report){ double("MendeleyStatsReport") }
 
   let(:alm_line_items){ [alm_line_item_1, alm_line_item_2] }
   let(:pmc_line_items){ [pmc_line_item_1, pmc_line_item_2] }
@@ -27,6 +32,24 @@ describe AlmCombinedStatsReport do
   let(:pmc_line_item_2){ Reportable::LineItem.new(pid: 2, html: 20, pdf: 21) }
   let(:counter_line_item_2){ Reportable::LineItem.new(pid: 2, html: 22, pdf: 23) }
   let(:mendeley_line_item_2){ Reportable::LineItem.new(pid: 2, readers: 24, groups: 25) }
+
+  before do
+    allow(stubbed_alm_report).to receive(:each_line_item)
+      .and_yield(alm_line_items[0])
+      .and_yield(alm_line_items[1])
+
+    allow(stubbed_pmc_report).to receive(:each_line_item)
+      .and_yield(pmc_line_items[0])
+      .and_yield(pmc_line_items[1])
+
+    allow(stubbed_counter_report).to receive(:each_line_item)
+      .and_yield(counter_line_items[0])
+      .and_yield(counter_line_items[1])
+
+    allow(stubbed_mendeley_report).to receive(:each_line_item)
+      .and_yield(mendeley_line_items[0])
+      .and_yield(mendeley_line_items[1])
+  end
 
   describe "#headers" do
     subject(:headers){ report.headers }
@@ -45,60 +68,47 @@ describe AlmCombinedStatsReport do
     it { should include("counter_pdf") }
   end
 
-  describe "#line_items" do
-    subject(:line_items){ report.line_items }
-
-    context "and there are no line items found on any of the reports" do
-      let(:alm_line_items){ [] }
-      let(:pmc_line_items){ [] }
-      let(:counter_line_items){ [] }
-      let(:mendeley_line_items){ [] }
-
-      it "returns an empty array" do
-        expect(line_items).to eq []
-      end
+  describe "#each_line_item" do
+    it "enumerates over the line items, one for each unique work pid" do
+      line_items = []
+      report.each_line_item { |item| line_items << item }
+      expect(line_items.length).to eq(2)
     end
 
-    context "and there are line items found" do
+    describe "each individual line item" do
+      let(:line_items){ Array.new.tap{ |items| report.each_line_item { |item| items << item } } }
+      let(:line_item_1){ line_items.detect{ |i| i.field("pid") == alm_line_item_1.field("pid") } }
+      let(:line_item_2){ line_items.detect{ |i| i.field("pid") == alm_line_item_2.field("pid") } }
 
-      it "returns an array of line items, one for each unique work pid" do
-        expect(line_items.length).to eq(2)
+      it "has a value for every AlmStatsRepot header" do
+        alm_report.headers.each do |header|
+          expect(line_item_1.field(header)).to eq(alm_line_item_1.field(header))
+          expect(line_item_2.field(header)).to eq(alm_line_item_2.field(header))
+        end
       end
 
-      describe "each line item" do
-        let(:line_item_1){ line_items.detect{ |i| i.field("pid") == alm_line_item_1.field("pid") } }
-        let(:line_item_2){ line_items.detect{ |i| i.field("pid") == alm_line_item_2.field("pid") } }
+      it "has pmc_html" do
+        expect(line_item_1.field("pmc_html")).to eq(pmc_line_item_1.field("html"))
+      end
 
-        it "has a value for every AlmStatsRepot header" do
-          alm_report.headers.each do |header|
-            expect(line_item_1.field(header)).to eq(alm_line_item_1.field(header))
-            expect(line_item_2.field(header)).to eq(alm_line_item_2.field(header))
-          end
-        end
+      it "has pmc_pdf" do
+        expect(line_item_1.field("pmc_pdf")).to eq(pmc_line_item_1.field("pdf"))
+      end
 
-        it "has pmc_html" do
-          expect(line_item_1.field("pmc_html")).to eq(pmc_line_item_1.field("html"))
-        end
+      it "has counter_html" do
+        expect(line_item_1.field("counter_html")).to eq(counter_line_item_1.field("html"))
+      end
 
-        it "has pmc_pdf" do
-          expect(line_item_1.field("pmc_pdf")).to eq(pmc_line_item_1.field("pdf"))
-        end
+      it "has counter_pdf" do
+        expect(line_item_1.field("counter_pdf")).to eq(counter_line_item_1.field("pdf"))
+      end
 
-        it "has counter_html" do
-          expect(line_item_1.field("counter_html")).to eq(counter_line_item_1.field("html"))
-        end
+      it "has mendeley_readers" do
+        expect(line_item_1.field("mendeley_readers")).to eq(mendeley_line_item_1.field("readers"))
+      end
 
-        it "has counter_pdf" do
-          expect(line_item_1.field("counter_pdf")).to eq(counter_line_item_1.field("pdf"))
-        end
-
-        it "has mendeley_readers" do
-          expect(line_item_1.field("mendeley_readers")).to eq(mendeley_line_item_1.field("readers"))
-        end
-
-        it "has mendeley_groups" do
-          expect(line_item_1.field("mendeley_groups")).to eq(mendeley_line_item_1.field("groups"))
-        end
+      it "has mendeley_groups" do
+        expect(line_item_1.field("mendeley_groups")).to eq(mendeley_line_item_1.field("groups"))
       end
     end
   end
@@ -117,13 +127,6 @@ describe AlmCombinedStatsReport do
   end
 
   describe "integration example, sanity check" do
-    subject(:report){ described_class.new(
-      alm_report: alm_report,
-      pmc_report: pmc_report,
-      counter_report: counter_report,
-      mendeley_report: mendeley_report
-    ) }
-
     let(:alm_report){ AlmStatsReport.new([source_pmc, source_counter, source_mendeley]) }
     let(:pmc_report){ PmcReport.new(source_pmc) }
     let(:counter_report){ CounterReport.new(source_counter) }
@@ -179,6 +182,7 @@ describe AlmCombinedStatsReport do
         counter_pdf:      work_retrieval_status_counter.pdf,
         counter_html:     work_retrieval_status_counter.html
       )
+
       expect(report.line_items.first).to eq(expected_line_item)
     end
   end

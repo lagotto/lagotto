@@ -14,7 +14,7 @@ shared_examples_for "SourceByMonthReport examples" do |options|
   it "must be constructed with a :format, :year, and :month" do
     expect {
       SourceByMonthReport.new
-    }.to raise_error(ArgumentError, /missing keywords.*format.*year.*month/)
+    }.to raise_error
 
     expect {
       SourceByMonthReport.new(source, format:format, year:year, month:month)
@@ -30,10 +30,12 @@ shared_examples_for "SourceByMonthReport examples" do |options|
     end
   end
 
-  describe "#line_items" do
+  describe "line items" do
+    let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
+
     describe "when there are no months or works" do
-      it "returns an empty array" do
-        expect(report.line_items).to eq([])
+      it "has no line items" do
+        expect(line_items).to eq([])
       end
     end
 
@@ -55,12 +57,18 @@ shared_examples_for "SourceByMonthReport examples" do |options|
       let!(:december_2014_def){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2014, month: Date.parse("2014-12-01").month, source: source) }
       let!(:january_2015_def ){ FactoryGirl.create(:month, :with_work, work: work_def, year: 2015, month: Date.parse("2015-01-01").month, source: source) }
 
+      it "yields each line item, one for each retrieval status" do
+        items = []
+        report.each_line_item{ |item| items << item }
+        expected_length = Month.all.group_by(&:work_id).count
+        expect(items.length).to eq(expected_length)
+      end
+
       it "returns an array of line items for every month for the corresponding work item" do
         expect(report.line_items.length).to eq(Month.all.group_by(&:work_id).count)
       end
 
       describe "each line item" do
-        let(:line_items){ report.line_items }
         let(:work_abc_line_item){
           line_items.detect{ |i| i.field("pid") == work_abc.pid }
         }

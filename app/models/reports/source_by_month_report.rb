@@ -64,6 +64,10 @@ class SourceByMonthReport
     ["pid_type", "pid"] + formatted_dates
   end
 
+  def each_line_item(&blk)
+    line_items.each(&blk)
+  end
+
   def line_items
     @line_items ||= build_line_items
   end

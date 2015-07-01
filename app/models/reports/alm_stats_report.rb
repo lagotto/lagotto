@@ -33,6 +33,10 @@ class AlmStatsReport
     ["pid", "publication_date", "title"] + sources.map(&:name)
   end
 
+  def each_line_item(&blk)
+    line_items.each(&blk)
+  end
+
   def line_items
     @line_items ||= results.map do |result|
       build_line_item_for_result(result)

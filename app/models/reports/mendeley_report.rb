@@ -37,6 +37,10 @@ class MendeleyReport
     end
   end
 
+  def each_line_item(&blk)
+    line_items.each(&blk)
+  end
+
   private
 
   def groups_value_for(result)

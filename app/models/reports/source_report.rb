@@ -31,6 +31,10 @@ class SourceReport
     end
   end
 
+  def each_line_item(&blk)
+    line_items.each(&blk)
+  end
+
   protected
 
   def build_line_item_for_result(result)

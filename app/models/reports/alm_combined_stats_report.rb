@@ -19,54 +19,57 @@ class AlmCombinedStatsReport
     ]
   end
 
+  def each_line_item(&blk)
+    line_items.each(&blk)
+  end
+
   def line_items
-    Array.new.tap do |line_items|
-      each_line_item_by_work_pid do |alm_line_item, pmc_line_item, counter_line_item, mendeley_line_item|
-        if pmc_line_item
-          pmc_html = pmc_line_item.field("html")
-          pmc_pdf = pmc_line_item.field("pdf")
-        end
+    @line_items ||= begin
+      line_items_by_pid = Hash.new do |h,k|
+        defaults = {
+          pmc_html: 0,
+          pmc_pdf: 0,
+          counter_html: 0,
+          counter_pdf: 0,
+          mendeley_readers: 0,
+          mendeley_groups: 0
+        }
 
-        if counter_line_item
-          counter_html = counter_line_item.field("html")
-          counter_pdf = counter_line_item.field("pdf")
-        end
+        h[k] = Reportable::LineItem.new(**defaults)
+      end
 
-        if mendeley_line_item
-          mendeley_readers = mendeley_line_item.field("readers")
-          mendeley_groups = mendeley_line_item.field("groups")
-        end
+      alm_headers = @alm_report.headers
 
-        line_item = Reportable::LineItem.new(
-          pmc_html:         (pmc_html         || 0),
-          pmc_pdf:          (pmc_pdf          || 0),
-          counter_html:     (counter_html     || 0),
-          counter_pdf:      (counter_pdf      || 0),
-          mendeley_readers: (mendeley_readers || 0),
-          mendeley_groups:  (mendeley_groups  || 0)
-        )
-
-        @alm_report.headers.each do |header|
+      @alm_report.each_line_item do |alm_line_item|
+        line_item = line_items_by_pid[alm_line_item.field("pid")]
+        alm_headers.each do |header|
           line_item[header] = alm_line_item.field(header)
         end
-        line_items << line_item
       end
+
+      @pmc_report.each_line_item do |pmc_line_item|
+        line_item = line_items_by_pid[pmc_line_item.field("pid")]
+        line_item[:pmc_html] = pmc_line_item.field("html")
+        line_item[:pmc_pdf] = pmc_line_item.field("pdf")
+      end
+
+      @counter_report.each_line_item do |counter_line_item|
+        line_item = line_items_by_pid[counter_line_item.field("pid")]
+        line_item[:counter_html] = counter_line_item.field("html")
+        line_item[:counter_pdf] = counter_line_item.field("pdf")
+      end
+
+      @mendeley_report.each_line_item do |mendeley_line_item|
+        line_item = line_items_by_pid[mendeley_line_item.field("pid")]
+        line_item[:mendeley_readers] = mendeley_line_item.field("readers")
+        line_item[:mendeley_groups] = mendeley_line_item.field("groups")
+      end
+
+      line_items_by_pid.values
     end
   end
 
   private
-
-  def each_line_item_by_work_pid(&blk)
-    @alm_report.line_items.each do |alm_line_item|
-      work_pid = alm_line_item.field("pid")
-      yield(
-        alm_line_item,
-        pmc_line_items_by_work_pid[work_pid],
-        counter_line_items_by_work_pid[work_pid],
-        mendeley_line_items_by_work_pid[work_pid]
-      )
-    end
-  end
 
   def pmc_line_items_by_work_pid
     @pmc_line_items_by_work_pid ||= distinct_group_by_pid(@pmc_report.line_items)

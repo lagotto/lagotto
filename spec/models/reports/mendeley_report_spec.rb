@@ -10,10 +10,12 @@ describe MendeleyReport do
     end
   end
 
-  describe "#line_items" do
+  describe "line items" do
+    let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
+
     describe "when there are no retrieval_statuses or works" do
-      it "returns an empty array" do
-        expect(report.line_items).to eq([])
+      it "has no line items" do
+        expect(line_items).to eq([])
       end
     end
 
@@ -39,13 +41,19 @@ describe MendeleyReport do
         )
       }
 
-      it "returns an array of line items for every retrieval status" do
+      it "yields each line item, one for each retrieval status" do
+        items = []
+        report.each_line_item{ |item| items << item }
+        expect(items.length).to eq(retrieval_statuses.length)
+      end
+
+      it "has an array of line items for every retrieval status" do
         expect(report.line_items.length).to eq(retrieval_statuses.length)
       end
 
       describe "each line item" do
-        let(:first_line_item){ report.line_items[0] }
-        let(:second_line_item){ report.line_items[1] }
+        let(:first_line_item){ line_items[0] }
+        let(:second_line_item){ line_items[1] }
 
         it "has the pid_type" do
           expect(first_line_item.field("pid_type")).to eq("doi")
@@ -99,7 +107,7 @@ describe MendeleyReport do
       }
 
       it "does not include line item stats for other sources" do
-        line_item = report.line_items.detect{ |item| item.field("pid") == retrieval_status_for_another_source.work.pid }
+        line_item = line_items.detect{ |item| item.field("pid") == retrieval_status_for_another_source.work.pid }
         expect(line_item).to be(nil)
       end
     end
