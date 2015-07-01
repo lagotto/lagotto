@@ -1,3 +1,5 @@
+require 'csv'
+
 module Reportable
   module ToCsv
     extend ActiveSupport::Concern

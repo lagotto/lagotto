@@ -1,5 +1,3 @@
-require 'csv'
-
 class Mendeley < Source
   def parse_data(result, work, options={})
     return result if result[:error].is_a?(String)

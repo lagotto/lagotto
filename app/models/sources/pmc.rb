@@ -1,5 +1,3 @@
-require 'csv'
-
 class Pmc < Source
   def get_query_url(work)
     return {} unless work.doi.present?
