@@ -215,7 +215,7 @@ describe "report:zip" do
   include_context "rake"
 
   before do
-    folderpath = "#{Rails.root}/data/report_#{Time.zone.now.iso8601}"
+    folderpath = "#{Rails.root}/data/report_#{Time.zone.now.to_date}"
     Dir.mkdir folderpath unless Dir.exist? folderpath
     FileUtils.touch("#{folderpath}/alm_report.csv")
   end
