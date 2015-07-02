@@ -163,8 +163,8 @@ describe AlmStatsReport do
   describe "#to_csv" do
     let(:expected_csv){ <<-CSV.gsub(/^\s+/, '')
       pid,publication_date,title,mendeley,pmc,counter
-      #{mendeley_work.pid},2014-07-01,Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web,3,0,0
-      #{pmc_work.pid},2014-07-01,Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web,0,1420,0
+      #{mendeley_work.pid},#{mendeley_work.published_on.to_date},#{mendeley_work.title},3,0,0
+      #{pmc_work.pid},#{pmc_work.published_on.to_date},#{pmc_work.title},0,1420,0
       CSV
     }
 
