@@ -1,4 +1,4 @@
-gitxshared_examples_for "SourceByMonthReport examples" do |options|
+shared_examples_for "SourceByMonthReport examples" do |options|
   raise ArgumentError("Missing :source_factory") unless options[:source_factory]
   raise ArgumentError("Missing :report_class") unless options[:report_class]
 
