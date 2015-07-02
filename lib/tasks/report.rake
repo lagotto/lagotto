@@ -7,7 +7,8 @@ namespace :report do
   task :alm_stats => :environment do
     filename = "alm_stats.csv"
 
-    csv = Report.to_csv
+    sources = Source.installed.without_private
+    csv = AlmStatsReport.new(sources).to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -22,7 +23,8 @@ namespace :report do
   task :alm_private_stats => :environment do
     filename = "alm_private_stats.csv"
 
-    csv = Report.to_csv(include_private_sources: true)
+    sources = Source.installed
+    csv = AlmStatsReport.new(sources).to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -41,7 +43,7 @@ namespace :report do
     source = Source.visible.where(name: "mendeley").first
     next if source.nil?
 
-    csv = source.to_csv
+    csv = MendeleyReport.new(source).to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -54,17 +56,19 @@ namespace :report do
 
   desc 'Generate CSV file with PMC usage stats'
   task :pmc => :environment do
-    if ENV['FORMAT']
-      filename = "pmc_#{ENV['FORMAT']}.csv"
-    else
-      filename = "pmc_stats.csv"
-    end
-
     # check that source is installed
     source = Source.visible.where(name: "pmc").first
     next if source.nil?
 
-    csv = source.to_csv(name: "pmc", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    if ENV['FORMAT']
+      filename = "pmc_#{ENV['FORMAT']}.csv"
+      report = PmcByMonthReport.new(source, format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    else
+      filename = "pmc_stats.csv"
+      report = PmcReport.new(source)
+    end
+
+    csv = report.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -116,17 +120,19 @@ namespace :report do
 
   desc 'Generate CSV file with Counter usage stats'
   task :counter => :environment do
-    if ENV['FORMAT']
-      filename = "counter_#{ENV['FORMAT']}.csv"
-    else
-      filename = "counter_stats.csv"
-    end
-
     # check that source is installed
     source = Source.visible.where(name: "counter").first
     next if source.nil?
 
-    csv = source.to_csv(name: "counter", format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    if ENV['FORMAT']
+      filename = "counter_#{ENV['FORMAT']}.csv"
+      report = CounterByMonthReport.new(source, format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
+    else
+      filename = "counter_stats.csv"
+      report = CounterReport.new(source)
+    end
+
+    csv = report.to_csv
 
     if csv.nil?
       puts "No data for report \"#{filename}\"."
@@ -190,7 +196,13 @@ namespace :report do
   task :combined_stats => :environment do
     filename = "alm_report.csv"
 
-    csv = Report.merge_stats(date: ENV['DATE'])
+    csv = AlmCombinedStatsReport.new(
+      alm_report:      AlmStatsReport.new(Source.installed.without_private),
+      pmc_report:      PmcReport.new(Source.visible.where(name: "pmc").first),
+      counter_report:  CounterReport.new(Source.visible.where(name:"counter").first),
+      mendeley_report: MendeleyReport.new(Source.visible.where(name:"mendeley").first)
+    ).to_csv
+
     if csv.nil?
       puts "No data for report \"#{filename}\"."
     elsif Report.write(filename, csv)
@@ -204,7 +216,13 @@ namespace :report do
   task :combined_private_stats => :environment do
     filename = "alm_private_report.csv"
 
-    csv = Report.merge_stats(include_private_sources: true, date: ENV['DATE'])
+    csv = AlmCombinedStatsReport.new(
+      alm_report:      AlmStatsReport.new(Source.installed),
+      pmc_report:      PmcReport.new(Source.visible.where(name: "pmc").first),
+      counter_report:  CounterReport.new(Source.visible.where(name:"counter").first),
+      mendeley_report: MendeleyReport.new(Source.visible.where(name:"mendeley").first)
+    ).to_csv
+
     if csv.nil?
       puts "No data for report \"#{filename}\"."
     elsif Report.write(filename, csv)

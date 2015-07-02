@@ -1,4 +1,3 @@
-require 'csv'
 require 'zip'
 
 class Report < ActiveRecord::Base
@@ -17,29 +16,6 @@ class Report < ActiveRecord::Base
     end
   end
 
-  # Generate CSV with event counts for all works and installed sources
-  def self.to_csv(options = {})
-    sources = Source.installed
-    sources = sources.where(:private => false) unless options[:include_private_sources]
-
-    results = self.from_sql(sources: sources)
-
-    CSV.generate do |csv|
-      csv << ["pid", "publication_date", "title"] + sources.map(&:name)
-      results.each { |row| csv << row.values }
-    end
-  end
-
-  def self.from_sql(options = {})
-    sql = "SELECT w.pid, w.published_on, w.title"
-    options[:sources].each do |source|
-      sql += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.total END) AS #{source.name}"
-    end
-    sql += " FROM works w LEFT JOIN retrieval_statuses rs ON w.id = rs.work_id GROUP BY w.id"
-    sanitized_sql = sanitize_sql_for_conditions(sql)
-    results = ActiveRecord::Base.connection.exec_query(sanitized_sql)
-  end
-
   # write report into folder with current date in name
   def self.write(filename, content, options = {})
     return nil unless filename && content
@@ -52,62 +28,6 @@ class Report < ActiveRecord::Base
       filepath
     else
       nil
-    end
-  end
-
-  def self.read_stats(filename, options = {})
-    return nil unless filename
-
-    date = options[:date] || Time.zone.now.to_date
-    filepath = "#{Rails.root}/data/report_#{date}/#{filename}.csv"
-    if File.exist?(filepath)
-      CSV.read(filepath, headers: true, encoding: "UTF-8")
-    else
-      nil
-    end
-  end
-
-  def self.merge_stats(options = {})
-    filename = options[:include_private_sources] ? "alm_private_stats" : "alm_stats"
-    alm_stats = read_stats(filename, options)
-    return nil if alm_stats.blank?
-
-    stats = [{ name: "mendeley_stats", headers: ["mendeley_readers", "mendeley_groups"] },
-             { name: "pmc_stats", headers: ["pmc_html", "pmc_pdf"] },
-             { name: "counter_stats", headers: ["counter_html", "counter_pdf"] }]
-
-    stats.each do |stat|
-      stat[:csv] = read_stats(stat[:name], options)
-    end
-
-    # return alm_stats if no additional stats are found
-    stats.reject! { |stat| stat[:csv].blank? }
-    return alm_stats if stats.empty?
-
-    generate_stats(alm_stats, stats)
-  end
-
-  def self.generate_stats(alm_stats, stats)
-    CSV.generate do |csv|
-      csv << alm_stats.headers + stats.reduce([]) { |sum, stat| sum + stat[:headers] }
-
-      stats_by_pid = stats.reduce({}) do |hsh, stat|
-        stat[:csv].each do |row|
-          hsh[row["pid"]] = row
-        end
-        hsh
-      end
-
-      alm_stats.each do |row|
-        stats.each do |stat|
-          # find row based on pid, and discard the first and last item (pid and total).
-          # otherwise pad with zeros
-          matched_row = stats_by_pid.fetch row.field("pid"), nil
-          column_data = matched_row.present? ? matched_row.fields[1..3] : [0, 0]
-          row.push(*column_data)
-        end
-        csv << row
-      end
     end
   end
 

@@ -1,33 +1,7 @@
 require 'rails_helper'
 
 describe Mendeley, :type => :model do
-
   subject { FactoryGirl.create(:mendeley) }
-
-  context "CSV report" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
-
-    let(:url) { "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley" }
-
-    it "should format the CouchDB report as csv" do
-      stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'))
-      response = CSV.parse(subject.to_csv)
-      expect(response.count).to eq(31)
-      expect(response.first).to eq(["pid_type", "pid", "readers", "groups", "total"])
-      expect(response.last).to eq(["doi", "10.5194/se-1-1-2010", "6", "0", "6"])
-    end
-
-    it "should report an error if the CouchDB design document can't be retrieved" do
-      FactoryGirl.create(:fatal_error_report_with_admin_user)
-      stub = stub_request(:get, url).to_return(:status => [404])
-      expect(subject.to_csv).to be_nil
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Faraday::ResourceNotFound")
-      expect(alert.message).to eq("CouchDB report for Mendeley could not be retrieved.")
-      expect(alert.status).to eq(404)
-    end
-  end
 
   context "lookup access token" do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.client_id, subject.client_secret) }

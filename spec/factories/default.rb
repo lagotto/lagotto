@@ -164,7 +164,7 @@ FactoryGirl.define do
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
     trait(:with_wikipedia) { association :source, factory: :wikipedia }
     trait(:with_twitter_search) { association :source, factory: :twitter_search }
-    trait(:with_work_published_today) { association :work, factory: :work_published_today }
+    trait(:with_work_published_today) { association :work, factory: :work_published_today, retrieval_statuses: [] }
     trait(:with_counter_and_work_published_today) do
       association :work, factory: :work_published_today
       association :source, factory: :counter
@@ -307,7 +307,16 @@ FactoryGirl.define do
   end
 
   factory :month do
-
+    trait(:with_work) do
+      association :work, factory: :work_published_today
+      after :build do |month|
+        if month.work.retrieval_statuses.any?
+          month.retrieval_status_id = month.work.retrieval_statuses.first.id
+        else
+          month.retrieval_status = FactoryGirl.create(:retrieval_status, work: month.work)
+        end
+      end
+    end
   end
 
   factory :report do

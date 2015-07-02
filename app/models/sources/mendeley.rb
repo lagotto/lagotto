@@ -59,28 +59,6 @@ class Mendeley < Source
     { bearer: access_token }
   end
 
-  # Format Mendeley events for all works as csv
-  def to_csv(options = {})
-    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
-
-    result = get_result(service_url, options.merge(timeout: 1800))
-    if result.blank? || result["rows"].blank?
-      message = "CouchDB report for Mendeley could not be retrieved."
-      Alert.where(message: message).where(unresolved: true).first_or_create(
-        exception: "",
-        class_name: "Faraday::ResourceNotFound",
-        status: 404,
-        source_id: id,
-        level: Alert::FATAL)
-      return nil
-    end
-
-    CSV.generate do |csv|
-      csv << ["pid_type", "pid", "readers", "groups", "total"]
-      result["rows"].each { |row| csv << ["doi", row["key"], row["value"]["readers"], row["value"]["groups"], row["value"]["readers"] + row["value"]["groups"]] }
-    end
-  end
-
   def config_fields
     [:url, :authentication_url, :client_id, :client_secret, :access_token, :expires_at]
   end

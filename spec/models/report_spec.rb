@@ -20,17 +20,6 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
     end
   end
 
-  context "generate csv" do
-    let!(:work) { FactoryGirl.create(:work_with_events) }
-
-    it "should format the Lagotto data as csv" do
-      response = CSV.parse(subject.to_csv)
-      expect(response.length).to eq(2)
-      expect(response.first).to eq(["pid", "publication_date", "title", "citeulike", "mendeley"])
-      expect(response.last).to eq([work.pid, work.published_on.iso8601, work.title, "50", "50"])
-    end
-  end
-
   context "write csv to file" do
 
     before(:each) do
@@ -38,7 +27,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
     end
 
     let!(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pcbi.1000204") }
-    let(:csv) { subject.to_csv }
+    let(:csv) { "contents,of,a,csv,file,here" }
     let(:filename) { "alm_stats" }
     let(:mendeley) { FactoryGirl.create(:mendeley) }
 
@@ -49,39 +38,11 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
     end
 
     describe "merge and compress csv file" do
-
       before(:each) do
         subject.write("#{filename}.csv", csv)
       end
 
-      it "should read stats" do
-        response = subject.read_stats(filename).to_s
-        expect(response).to eq(csv)
-      end
-
-      it "should merge stats" do
-        url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/mendeley"
-        stub = stub_request(:get, url).to_return(:body => File.read(fixture_path + 'mendeley_report.json'), :status => 200, :headers => { "Content-Type" => "application/json" })
-        filename = "mendeley_stats"
-        filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
-        csv = mendeley.to_csv
-        subject.write("#{filename}.csv", csv)
-
-        response = CSV.parse(subject.merge_stats)
-        expect(response.length).to eq(2)
-
-        expect(response.first).to eq(["pid", "publication_date", "title", "citeulike", "mendeley", "mendeley_readers", "mendeley_groups"])
-        expect(response.last).to eq([work.pid, work.published_on.iso8601, work.title, "50", "50", "1663", "0"])
-        File.delete filepath
-      end
-
-      it "should merge stats from single report" do
-        response = subject.merge_stats.to_s
-        expect(response).to eq(csv)
-      end
-
       it "should zip report file" do
-        csv = subject.merge_stats
         filename = "alm_report"
         zip_filepath = "#{Rails.root}/public/files/#{filename}.zip"
         subject.write("#{filename}.csv", csv)
