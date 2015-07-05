@@ -88,9 +88,9 @@ SITE
 GIT
   remote: git@github.com:PLOS/capistrano-cookbook.git
   ref: master
-  sha: 58f8bce3b67b02bacf838b8a4197c1d3404f5c10
+  sha: d2f3df1923384745067c2a5b66ec1b8e8fa1d4f2
   specs:
-    capistrano (0.10.3)
+    capistrano (0.10.4)
       consul (>= 0.0.0)
       nodejs (>= 0.0.0)
       ruby (~> 0.7.0)
@@ -105,9 +105,9 @@ GIT
 GIT
   remote: git@github.com:PLOS/lagotto-cookbook.git
   ref: master
-  sha: d0fd3a0833dd1387d1833cbdd44120c644c6bda8
+  sha: d1d5dcf86de4bbf32e9044efb142f6f3a3f4450e
   specs:
-    lagotto (4.7.12)
+    lagotto (4.7.13)
       apt (>= 0.0.0)
       capistrano (~> 0.10.0)
       consul (>= 0.0.0)
