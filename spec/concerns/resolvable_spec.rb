@@ -303,6 +303,8 @@ describe Work, type: :model, vcr: true do
     end
 
     context "metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
       let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: "17183658") }
 
       it "get_crossref_metadata" do
