@@ -1,7 +1,12 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
+    7-zip (1.0.2)
+      windows (>= 1.2.2)
     apt (2.7.0)
+    ark (0.9.0)
+      7-zip (>= 0.0.0)
+      windows (>= 0.0.0)
     aws (2.7.2)
     build-essential (2.2.3)
     chef-sugar (3.1.1)
@@ -31,6 +36,8 @@ SITE
       yum-epel (>= 0.0.0)
       yum-erlang_solutions (>= 0.0.0)
     golang (1.5.1)
+    homebrew (1.13.0)
+      build-essential (>= 2.1.2)
     libarchive (0.4.4)
       apt (~> 2.5)
       build-essential (~> 2.0)
@@ -41,6 +48,12 @@ SITE
     mysql-chef_gem (0.0.5)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
+    nodejs (2.4.0)
+      apt (>= 0.0.0)
+      ark (>= 0.0.0)
+      build-essential (>= 0.0.0)
+      homebrew (>= 0.0.0)
+      yum-epel (>= 0.0.0)
     openssl (4.0.0)
       chef-sugar (>= 0.0.0)
     packagecloud (0.0.19)
@@ -75,11 +88,11 @@ SITE
 GIT
   remote: git@github.com:PLOS/capistrano-cookbook.git
   ref: master
-  sha: 76346275ce0d79392127915ea7b8e52a915451e8
+  sha: 58f8bce3b67b02bacf838b8a4197c1d3404f5c10
   specs:
-    capistrano (0.10.2)
+    capistrano (0.10.3)
       consul (>= 0.0.0)
-      nodejs (~> 0.1.0)
+      nodejs (>= 0.0.0)
       ruby (~> 0.7.0)
 
 GIT
@@ -92,9 +105,9 @@ GIT
 GIT
   remote: git@github.com:PLOS/lagotto-cookbook.git
   ref: master
-  sha: d033a02f5b819aecc7192b6aba3b9abca6b7ee58
+  sha: d0fd3a0833dd1387d1833cbdd44120c644c6bda8
   specs:
-    lagotto (4.7.9)
+    lagotto (4.7.12)
       apt (>= 0.0.0)
       capistrano (~> 0.10.0)
       consul (>= 0.0.0)
@@ -104,7 +117,7 @@ GIT
       memcached (>= 0.0.0)
       mysql (>= 0.0.0)
       mysql_rails (~> 0.3.0)
-      nodejs (~> 0.1.0)
+      nodejs (>= 0.0.0)
       passenger_nginx (~> 0.5.0)
       postfix (>= 0.0.0)
       redisio (>= 0.0.0)
@@ -143,14 +156,6 @@ GIT
   sha: 0a52e4d402ce77cc31d9f50e6a82bb8eb472f9e6
   specs:
     ruby (0.7.0)
-      apt (>= 0.0.0)
-
-GIT
-  remote: git@github.com:articlemetrics/nodejs-cookbook.git
-  ref: master
-  sha: 5bd9ae3d28c5814945e39e449624b1b96195e64c
-  specs:
-    nodejs (0.1.1)
       apt (>= 0.0.0)
 
 DEPENDENCIES
