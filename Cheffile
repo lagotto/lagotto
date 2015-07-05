@@ -7,6 +7,8 @@ cookbook "lagotto",
          :git => "git@github.com:PLOS/lagotto-cookbook.git"
 cookbook "ruby",
          :git => "git@github.com:PLOS/ruby-cookbook.git"
+cookbook "nodejs",
+         :git => "git@github.com:articlemetrics/nodejs-cookbook.git"
 cookbook "passenger_nginx",
          :git => "git@github.com:PLOS/passenger_nginx-cookbook.git"
 cookbook "mysql_rails",

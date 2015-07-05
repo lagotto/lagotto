@@ -1,18 +1,19 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
-    7-zip (1.0.2)
-      windows (>= 1.2.2)
     apt (2.7.0)
-    ark (0.9.0)
-      7-zip (>= 0.0.0)
-      windows (>= 0.0.0)
-    aws (2.7.0)
+    aws (2.7.2)
     build-essential (2.2.3)
-    chef-sugar (3.1.0)
-    chef_handler (1.1.6)
-    chocolatey (0.3.0)
+    chef-sugar (3.1.1)
+    chef_handler (1.2.0)
+    chocolatey (0.4.0)
       windows (~> 1.31)
+    consul (0.10.0)
+      golang (~> 1.4)
+      libarchive (~> 0.4.0)
+      packagecloud (>= 0.0.0)
+      runit (>= 0.0.0)
+      yum-repoforge (>= 0.0.0)
     couchdb (2.5.2)
       erlang (>= 0.0.0)
       yum (~> 3.0)
@@ -29,8 +30,10 @@ SITE
       yum (~> 3.0)
       yum-epel (>= 0.0.0)
       yum-erlang_solutions (>= 0.0.0)
-    homebrew (1.12.0)
-      build-essential (>= 2.1.2)
+    golang (1.5.1)
+    libarchive (0.4.4)
+      apt (~> 2.5)
+      build-essential (~> 2.0)
     memcached (1.7.2)
       runit (~> 1.0)
       yum (~> 3.0)
@@ -38,47 +41,46 @@ SITE
     mysql-chef_gem (0.0.5)
       build-essential (>= 0.0.0)
       mysql (>= 0.0.0)
-    nodejs (2.4.0)
-      apt (>= 0.0.0)
-      ark (>= 0.0.0)
-      build-essential (>= 0.0.0)
-      homebrew (>= 0.0.0)
-      yum-epel (>= 0.0.0)
     openssl (4.0.0)
       chef-sugar (>= 0.0.0)
-    packagecloud (0.0.17)
+    packagecloud (0.0.19)
     phantomjs (1.0.3)
       build-essential (>= 0.0.0)
       chocolatey (>= 0.0.0)
-    postfix (3.6.2)
-    postgresql (3.4.18)
+    postfix (3.7.0)
+    postgresql (3.4.20)
       apt (>= 1.9.0)
       build-essential (>= 0.0.0)
       openssl (~> 4.0.0)
     redisio (2.3.0)
       build-essential (>= 0.0.0)
       ulimit (>= 0.1.2)
-    runit (1.6.0)
+    runit (1.7.2)
       packagecloud (>= 0.0.0)
     ulimit (0.3.3)
-    windows (1.36.6)
+    windows (1.37.0)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.6.0)
-    yum-epel (0.6.0)
-      yum (~> 3.0)
+    yum (3.6.1)
+    yum-epel (0.6.2)
+      yum (~> 3.2)
     yum-erlang_solutions (0.2.0)
       yum (~> 3.0)
     yum-mysql-community (0.1.17)
       yum (>= 3.0)
+    yum-repoforge (0.5.3)
+      yum (~> 3.2)
+      yum-epel (>= 0.0.0)
 
 GIT
   remote: git@github.com:PLOS/capistrano-cookbook.git
   ref: master
-  sha: 5b394cbe118c822244dafd0e52aec4847d237df4
+  sha: 76346275ce0d79392127915ea7b8e52a915451e8
   specs:
-    capistrano (0.9.3)
-      ruby (~> 0.6.0)
+    capistrano (0.10.2)
+      consul (>= 0.0.0)
+      nodejs (~> 0.1.0)
+      ruby (~> 0.7.0)
 
 GIT
   remote: git@github.com:PLOS/dotenv-cookbook.git
@@ -90,22 +92,23 @@ GIT
 GIT
   remote: git@github.com:PLOS/lagotto-cookbook.git
   ref: master
-  sha: 57d6090499d9f6fec96776e8ce1e500bff636b1a
+  sha: d033a02f5b819aecc7192b6aba3b9abca6b7ee58
   specs:
-    lagotto (4.6.6)
+    lagotto (4.7.9)
       apt (>= 0.0.0)
-      capistrano (~> 0.9.0)
+      capistrano (~> 0.10.0)
+      consul (>= 0.0.0)
       couchdb (>= 0.0.0)
       database (~> 2.3.1)
       dotenv (~> 0.2.0)
       memcached (>= 0.0.0)
       mysql (>= 0.0.0)
       mysql_rails (~> 0.3.0)
-      nodejs (>= 0.0.0)
+      nodejs (~> 0.1.0)
       passenger_nginx (~> 0.5.0)
       postfix (>= 0.0.0)
       redisio (>= 0.0.0)
-      ruby (~> 0.6.0)
+      ruby (~> 0.7.0)
 
 GIT
   remote: git@github.com:PLOS/mysql.git
@@ -118,28 +121,36 @@ GIT
 GIT
   remote: git@github.com:PLOS/mysql_rails-cookbook.git
   ref: master
-  sha: 30c6ea6346f4a86df1b95b4756299189911695a8
+  sha: 25ddc5987bf5aa10cc3aacfe8482cacf8ac26a64
   specs:
-    mysql_rails (0.3.30)
+    mysql_rails (0.3.31)
       database (~> 2.3.1)
       mysql (~> 5.6.1)
-      ruby (~> 0.6.0)
+      ruby (~> 0.7.0)
 
 GIT
   remote: git@github.com:PLOS/passenger_nginx-cookbook.git
   ref: master
-  sha: 982440c212cfc6f7e282efe1377df5890f57f5c2
+  sha: 98fca4bcd2d5d8ce42c38f700d0ffd84d149b9c2
   specs:
-    passenger_nginx (0.5.0)
+    passenger_nginx (0.5.2)
       apt (>= 0.0.0)
-      ruby (~> 0.6.0)
+      ruby (~> 0.7.0)
 
 GIT
   remote: git@github.com:PLOS/ruby-cookbook.git
   ref: master
-  sha: 2356dc05ef1537f74b17f2c8d3d9e542a757e60f
+  sha: 0a52e4d402ce77cc31d9f50e6a82bb8eb472f9e6
   specs:
-    ruby (0.6.4)
+    ruby (0.7.0)
+      apt (>= 0.0.0)
+
+GIT
+  remote: git@github.com:articlemetrics/nodejs-cookbook.git
+  ref: master
+  sha: 5bd9ae3d28c5814945e39e449624b1b96195e64c
+  specs:
+    nodejs (0.1.1)
       apt (>= 0.0.0)
 
 DEPENDENCIES
@@ -151,6 +162,7 @@ DEPENDENCIES
   memcached (>= 0)
   mysql (>= 0)
   mysql_rails (>= 0)
+  nodejs (>= 0)
   passenger_nginx (>= 0)
   phantomjs (>= 0)
   postfix (>= 0)
