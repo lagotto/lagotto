@@ -69,6 +69,12 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "chef/ubuntu-14.04"
 
+  # Ensure that we get NodeJS 0.12.x
+  config.vm.provision "shell", inline: "
+    sudo apt-get install curl -y
+    curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
+    sudo apt-get install nodejs -y
+  "
   # Enable provisioning with chef solo
   config.vm.provision :chef_solo do |chef|
     chef.json = { "dotenv" => ENV["DOTENV"], "application" => ENV["APPLICATION"] }
