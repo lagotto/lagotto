@@ -105,10 +105,10 @@ class Pmc < Source
     else
       # go through all the works in the xml document
       document.xpath("//article").each do |work|
-        data = parse_work(work, month, year)
-        next unless data.present? && data["doi"].present?
+        response = parse_work(work, month, year)
+        next unless response[:doi].present?
 
-        put_lagotto_data(url_db + CGI.escape(data["doi"]), data: data)
+        put_work(response[:doi], response[:data])
       end
     end
     status
@@ -120,10 +120,9 @@ class Pmc < Source
 
     doi = work.fetch("meta-data", {}).fetch("doi", nil)
     # sometimes doi metadata are missing
-    return nil unless doi.present?
+    return { doi: nil, data: nil } unless doi.present?
 
     view = work["usage"]
-    view['doi'] = doi
     view['year'] = year.to_s
     view['month'] = month.to_s
 
@@ -137,7 +136,11 @@ class Pmc < Source
       data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
       data['views'] << view
     end
-    data
+    { doi: doi, data: data }
+  end
+
+  def put_work(doi, data)
+    put_lagotto_data(url_db + doi, data: data)
   end
 
   def put_database
