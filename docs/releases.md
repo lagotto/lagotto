@@ -3,6 +3,14 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 4.1.1 (July 6, 2015)
+
+[Lagotto 4.1.1](https://github.com/articlemetrics/lagotto/releases/tag/v.4.1.1) was released on July 6, 2015 with the following fixes:
+
+* adapted CSV parsing to 4.0 data model ([#315](https://github.com/articlemetrics/lagotto/issues/315))
+* fixed a bug in pmc feed parsing ([#354](https://github.com/articlemetrics/lagotto/issues/354))
+* don't import PLOS issue images. ([#356](https://github.com/articlemetrics/lagotto/issues/356))
+
 ## Lagotto 4.1 (June 17, 2015)
 
 [Lagotto 4.1](https://github.com/articlemetrics/lagotto/releases/tag/v.4.1) was released on June 17, 2015 with the following changes:
