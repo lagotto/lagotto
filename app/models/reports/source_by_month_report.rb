@@ -5,7 +5,7 @@ class SourceByMonthReport
   class Query
     attr_reader :source_model, :starting_year, :starting_month
 
-    def initialize(source_model, starting_year:, starting_month:)
+    def initialize(source_model, starting_year: nil, starting_month: nil)
       @source_model = source_model
       @starting_year = starting_year
       @starting_month = starting_month
