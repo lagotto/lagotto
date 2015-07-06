@@ -50,7 +50,7 @@ class SourceByMonthReport
     result.send(format)
   end
 
-  def initialize(source_model, format:, year:, month:)
+  def initialize(source_model, format: nil, year: nil, month: nil)
     @format = format
     @dates = date_range(year:year, month:month)
     starting_year, starting_month = @dates.first[:year], @dates.first[:month]
