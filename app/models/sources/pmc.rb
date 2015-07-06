@@ -140,7 +140,7 @@ class Pmc < Source
   end
 
   def put_work(doi, data)
-    put_lagotto_data(url_db + doi, data: data)
+    put_lagotto_data(url_db + CGI.escape(doi), data: data)
   end
 
   def put_database
