@@ -49,6 +49,7 @@ describe Pmc, type: :model, vcr: true do
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
       expect(subject.parse_feed(month, year)).to be_empty
+      expect(Alert.count).to eq(0)
     end
 
     it "should parse file" do
@@ -61,11 +62,11 @@ describe Pmc, type: :model, vcr: true do
       expect(subject.parse_work(work, month, year)).to eq(doi: "10.1164/rccm.200612-1772OC", data: {"views"=>[{"unique-ip"=>"17", "full-text"=>"20", "pdf"=>"3", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2014", "month"=>"1"}]})
     end
 
-    it "should put work" do
+    it "should save work" do
       document = Nokogiri::XML(File.read(file))
       work = document.xpath("//article").first
       response = subject.parse_work(work, month, year)
-      expect(subject.put_work(response[:doi], response[:data])).to match /^1-/
+      expect(subject.save_work(response[:doi], response[:data])).to match /^1-/
     end
   end
 

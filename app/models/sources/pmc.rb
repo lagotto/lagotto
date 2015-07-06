@@ -108,7 +108,7 @@ class Pmc < Source
         response = parse_work(work, month, year)
         next unless response[:doi].present?
 
-        put_work(response[:doi], response[:data])
+        save_work(response[:doi], response[:data])
       end
     end
     status
@@ -139,8 +139,8 @@ class Pmc < Source
     { doi: doi, data: data }
   end
 
-  def put_work(doi, data)
-    put_lagotto_data(url_db + CGI.escape(doi), data: data)
+  def save_work(doi, data)
+    save_lagotto_data(url_db + CGI.escape(doi), data: data)
   end
 
   def put_database
