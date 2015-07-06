@@ -18,9 +18,9 @@ describe Pmc, type: :model, vcr: true do
       config = subject.publisher_configs.first
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
+      file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       expect(subject.get_feed(month, year)).to be_empty
-      file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       expect(File.exist?(file)).to be true
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(0)
@@ -49,7 +49,6 @@ describe Pmc, type: :model, vcr: true do
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
       expect(subject.parse_feed(month, year)).to be_empty
-      expect(Alert.count).to eq(0)
     end
 
     it "should parse file" do
@@ -59,7 +58,14 @@ describe Pmc, type: :model, vcr: true do
     it "should parse work" do
       document = Nokogiri::XML(File.read(file))
       work = document.xpath("//article").first
-      expect(subject.parse_work(work, month, year)).to eq("views"=>[{"unique-ip"=>"17", "full-text"=>"20", "pdf"=>"3", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "doi"=>"10.1164/rccm.200612-1772OC", "year"=>"2014", "month"=>"1"}])
+      expect(subject.parse_work(work, month, year)).to eq(doi: "10.1164/rccm.200612-1772OC", data: {"views"=>[{"unique-ip"=>"17", "full-text"=>"20", "pdf"=>"3", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2014", "month"=>"1"}]})
+    end
+
+    it "should put work" do
+      document = Nokogiri::XML(File.read(file))
+      work = document.xpath("//article").first
+      response = subject.parse_work(work, month, year)
+      expect(subject.put_work(response[:doi], response[:data])).to match /^1-/
     end
   end
 
