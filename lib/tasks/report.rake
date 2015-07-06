@@ -54,20 +54,15 @@ namespace :report do
     end
   end
 
-  desc 'Generate CSV file with PMC usage stats'
-  task :pmc => :environment do
+  desc 'Generate CSV file with PMC HTML usage stats over time'
+  task :pmc_html_stats => :environment do
     # check that source is installed
     source = Source.visible.where(name: "pmc").first
     next if source.nil?
 
-    if ENV['FORMAT']
-      filename = "pmc_#{ENV['FORMAT']}.csv"
-      report = PmcByMonthReport.new(source, format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
-    else
-      filename = "pmc_stats.csv"
-      report = PmcReport.new(source)
-    end
-
+    filename = "pmc_html.csv"
+    date = Time.zone.now - 1.year
+    report = PmcByMonthReport.new(source, format: "html", month: date.month.to_s, year: date.year.to_s)
     csv = report.to_csv
 
     if csv.nil?
@@ -79,59 +74,54 @@ namespace :report do
     end
   end
 
-  desc 'Generate CSV file with PMC HTML usage stats over time'
-  task :pmc_html_stats => :environment do
-    date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "html"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc"].invoke
-    Rake::Task["report:pmc"].reenable
-  end
-
   desc 'Generate CSV file with PMC PDF usage stats over time'
   task :pmc_pdf_stats => :environment do
+    # check that source is installed
+    source = Source.visible.where(name: "pmc").first
+    next if source.nil?
+
+    filename = "pmc_html.csv"
     date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "pdf"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc"].invoke
-    Rake::Task["report:pmc"].reenable
+    report = PmcByMonthReport.new(source, format: "pdf", month: date.month.to_s, year: date.year.to_s)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with PMC combined usage stats over time'
   task :pmc_combined_stats => :environment do
+    # check that source is installed
+    source = Source.visible.where(name: "pmc").first
+    next if source.nil?
+
+    filename = "pmc_combined.csv"
     date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "combined"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:pmc"].invoke
-    Rake::Task["report:pmc"].reenable
+    report = PmcByMonthReport.new(source, format: "combined", month: date.month.to_s, year: date.year.to_s)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with PMC cumulative usage stats'
   task :pmc_stats => :environment do
-    ENV['FORMAT'] = nil
-    ENV['MONTH'] = nil
-    ENV['YEAR'] = nil
-    Rake::Task["report:pmc"].invoke
-    Rake::Task["report:pmc"].reenable
-  end
-
-  desc 'Generate CSV file with Counter usage stats'
-  task :counter => :environment do
     # check that source is installed
-    source = Source.visible.where(name: "counter").first
+    source = Source.visible.where(name: "pmc").first
     next if source.nil?
 
-    if ENV['FORMAT']
-      filename = "counter_#{ENV['FORMAT']}.csv"
-      report = CounterByMonthReport.new(source, format: ENV['FORMAT'], month: ENV['MONTH'], year: ENV['YEAR'])
-    else
-      filename = "counter_stats.csv"
-      report = CounterReport.new(source)
-    end
-
+    filename = "pmc_stats.csv"
+    report = PmcReport.new(source)
     csv = report.to_csv
 
     if csv.nil?
@@ -145,51 +135,101 @@ namespace :report do
 
   desc 'Generate CSV file with Counter HTML usage stats over time'
   task :counter_html_stats => :environment do
+    # check that source is installed
+    source = Source.visible.where(name: "counter").first
+    next if source.nil?
+
+    filename = "counter_html.csv"
     date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "html"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter"].invoke
-    Rake::Task["report:counter"].reenable
+    report = CounterByMonthReport.new(source, format: 'html', month: date.month.to_s, year: date.year.to_s)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with Counter PDF usage stats over time'
   task :counter_pdf_stats => :environment do
+    # check that source is installed
+    source = Source.visible.where(name: "counter").first
+    next if source.nil?
+
+    filename = "counter_pdf.csv"
     date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "pdf"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter"].invoke
-    Rake::Task["report:counter"].reenable
+    report = CounterByMonthReport.new(source, format: 'pdf', month: date.month.to_s, year: date.year.to_s)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with Counter XML usage stats over time'
   task :counter_xml_stats => :environment do
+    # check that source is installed
+    source = Source.visible.where(name: "counter").first
+    next if source.nil?
+
+    filename = "counter_xml.csv"
     date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "xml"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter"].invoke
-    Rake::Task["report:counter"].reenable
+    report = CounterByMonthReport.new(source, format: 'xml', month: date.month.to_s, year: date.year.to_s)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with Counter combined usage stats over time'
   task :counter_combined_stats => :environment do
+    # check that source is installed
+    source = Source.visible.where(name: "counter").first
+    next if source.nil?
+
+    filename = "counter_combined.csv"
     date = Time.zone.now - 1.year
-    ENV['FORMAT'] = "combined"
-    ENV['MONTH'] = date.month.to_s
-    ENV['YEAR'] = date.year.to_s
-    Rake::Task["report:counter"].invoke
-    Rake::Task["report:counter"].reenable
+    report = CounterByMonthReport.new(source, format: 'combined', month: date.month.to_s, year: date.year.to_s)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with cumulative Counter usage stats'
   task :counter_stats => :environment do
-    ENV['FORMAT'] = nil
-    ENV['MONTH'] = nil
-    ENV['YEAR'] = nil
-    Rake::Task["report:counter"].invoke
-    Rake::Task["report:counter"].reenable
+    # check that source is installed
+    source = Source.visible.where(name: "counter").first
+    next if source.nil?
+
+    filename = "counter_stats.csv"
+    report = CounterReport.new(source)
+    csv = report.to_csv
+
+    if csv.nil?
+      puts "No data for report \"#{filename}\"."
+    elsif Report.write(filename, csv)
+      puts "Report \"#{filename}\" has been written."
+    else
+      puts "Report \"#{filename}\" could not be written."
+    end
   end
 
   desc 'Generate CSV file with combined ALM stats'
