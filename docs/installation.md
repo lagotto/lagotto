@@ -338,13 +338,11 @@ npm install
 #### Install Lagotto databases
 We just setup an empty database for CouchDB (optional). With MySQL we also include all data to get started, including a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
 
-It is possible to connect Lagotto to MySQL and/or CouchDB running on a different server, please change `DB_HOST` and `COUCHDB_URL` in your `.env` file accordingly. We are using the default installation for redis.
+It is possible to connect Lagotto to MySQL unning on a different server, please change `DB_HOST` in your `.env` file accordingly. We are using the default installation for redis.
 
 ```sh
 cd /var/www/lagotto
 rake db:setup RAILS_ENV=production
-curl -X PUT http://localhost:5984/lagotto
-# should return {"ok":true}
 ```
 
 #### Restart Nginx

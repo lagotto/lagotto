@@ -6,7 +6,6 @@ ENV["CAS_INFO_URL"] = "http://example.org/users"
 ENV["CAS_PREFIX"]= "/cas"
 ENV["API_KEY"] = "12345"
 ENV["ADMIN_EMAIL"] = "info@example.org"
-ENV["COUCHDB_URL"] = "http://localhost:5984/alm_test"
 ENV["IMPORT"] = "member"
 
 # set up Code Climate

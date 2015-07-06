@@ -4,40 +4,29 @@ describe Source do
 
   context "CouchDB" do
     before(:each) do
-      subject.put_lagotto_database
+      put_lagotto_data("http://localhost:5984/test")
     end
 
     after(:each) do
-      subject.delete_lagotto_database
+      delete_lagotto_data("http://localhost:5984/test")
     end
 
-    let(:id) { "test" }
-    let(:url) { "#{ENV['COUCHDB_URL']}/#{id}" }
+    let(:url) { "http://localhost:5984/test/4" }
     let(:data) { { "name" => "Fred"} }
     let(:error) { {"error"=>"not_found", "reason"=>"missing"} }
-
-    it "get database info" do
-      rev = subject.put_lagotto_data(url, data: data)
-
-      get_info = subject.get_lagotto_database
-      db_name = Addressable::URI.parse(ENV['COUCHDB_URL']).path[1..-1]
-      expect(get_info["db_name"]).to eq(db_name)
-      expect(get_info["disk_size"]).to be > 0
-      expect(get_info["doc_count"]).to be > 0
-    end
 
     it "put, get and delete data" do
       rev = subject.put_lagotto_data(url, data: data)
       expect(rev).not_to be_nil
 
-      get_response = subject.get_lagotto_data(id)
-      expect(get_response).to include("_id" => id, "_rev" => rev)
+      get_response = subject.get_lagotto_data(url)
+      expect(get_response).to include("_rev" => rev)
 
-      new_rev = subject.save_lagotto_data(id, data: data)
+      new_rev = subject.save_lagotto_data(url, data: data)
       expect(new_rev).not_to be_nil
       expect(new_rev).not_to eq(rev)
 
-      delete_rev = subject.remove_lagotto_data(id)
+      delete_rev = subject.remove_lagotto_data(url)
       expect(delete_rev).not_to be_nil
       expect(delete_rev).not_to eq(rev)
       expect(delete_rev).to include("3-")
@@ -47,22 +36,22 @@ describe Source do
       rev = subject.put_lagotto_data(url, data: data)
       expect(rev).not_to be_nil
 
-      new_rev = subject.get_lagotto_rev(id)
+      new_rev = subject.get_lagotto_rev(url)
       expect(new_rev).not_to be_nil
       expect(new_rev).to eq(rev)
     end
 
-    it "get nil for missing id" do
+    it "get nil for missing url" do
       rev = subject.get_lagotto_rev("xxx")
       expect(rev).to be_blank
     end
 
     it "handle revisions" do
-      rev = subject.save_lagotto_data(id, data: data)
-      new_rev = subject.save_lagotto_data(id, data: data)
+      rev = subject.save_lagotto_data(url, data: data)
+      new_rev = subject.save_lagotto_data(url, data: data)
       expect(new_rev).not_to be_nil
       expect(new_rev).not_to eq(rev)
-      delete_rev = subject.remove_lagotto_data(id)
+      delete_rev = subject.remove_lagotto_data(url)
       expect(delete_rev).not_to eq(new_rev)
     end
 
@@ -76,7 +65,7 @@ describe Source do
     end
 
     it "handle missing data" do
-      get_response = subject.get_lagotto_data(id)
+      get_response = subject.get_lagotto_data(url)
       expect(get_response).to eq(error: "not_found", status: 404)
       expect(Alert.count).to eq(0)
     end
