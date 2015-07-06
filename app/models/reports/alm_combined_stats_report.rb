@@ -1,7 +1,7 @@
 class AlmCombinedStatsReport
   include Reportable::ToCsv
 
-  def initialize(alm_report:, pmc_report:, counter_report:, mendeley_report:)
+  def initialize(alm_report: nil, pmc_report: nil, counter_report: nil, mendeley_report: nil)
     @alm_report = alm_report
     @pmc_report = pmc_report
     @counter_report = counter_report
