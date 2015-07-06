@@ -19,7 +19,7 @@ class PlosImport < Import
                start: offset,
                rows: rows,
                fl: "id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id",
-               fq: "+#{date_range}+doc_type:full",
+               fq: "+#{date_range} +doc_type:full -article_type:\"Issue Image\"",
                wt: "json" }
     url + params.to_query
   end
