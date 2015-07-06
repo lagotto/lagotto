@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?jrid=ajrccm&month=1&password=password&user=username&year=2014
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.1 - http://lagotto-master.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sun, 05 Jul 2015 23:03:45 GMT
+      Server:
+      - Apache
+      Cache-Control:
+      - private
+      Ncbi-Sid:
+      - AEFF20EB599B7D11_0000SID
+      Content-Type:
+      - text/xml
+      Set-Cookie:
+      - ncbi_sid=AEFF20EB599B7D11_0000SID; domain=.nih.gov; path=/; expires=Tue, 05
+        Jul 2016 23:03:45 GMT
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+    body:
+      encoding: UTF-8
+      string: <pmc-web-stat><request year="2014" month="1" jrid="ajrccm" issn="1073-449X"
+        eissn="1535-4970"></request><response status="1" collection="Am J Respir Crit
+        Care Med"><error>authorization error</error></response></pmc-web-stat>
+    http_version: 
+  recorded_at: Sun, 05 Jul 2015 23:03:45 GMT
+recorded_with: VCR 2.9.3

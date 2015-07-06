@@ -135,6 +135,12 @@ FactoryGirl.define do
         FactoryGirl.create(:retrieval_status, :with_twitter_search, work: work)
       end
     end
+
+    factory :work_with_pmc_usage_stats do
+      after :create do |work|
+        FactoryGirl.create(:retrieval_status, :with_pmc, work: work, readers: 0, pdf: 10, html: 50, total: 60)
+      end
+    end
   end
 
   factory :retrieval_status do
@@ -159,6 +165,7 @@ FactoryGirl.define do
     trait(:with_mendeley) { association :source, factory: :mendeley }
     trait(:with_pubmed) { association :source, factory: :pub_med }
     trait(:with_nature) { association :source, factory: :nature }
+    trait(:with_pmc) { association :source, factory: :pmc }
     trait(:with_wos) { association :source, factory: :wos }
     trait(:with_researchblogging) { association :source, factory: :researchblogging }
     trait(:with_scienceseeker) { association :source, factory: :scienceseeker }

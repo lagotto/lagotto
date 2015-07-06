@@ -81,50 +81,63 @@ class Pmc < Source
 
       journals_array.each do |journal|
         filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-        file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
-        document = Nokogiri::XML(file)
-
-        status = document.at_xpath("//pmc-web-stat/response/@status").value
-        if status != "0"
-          error_message = document.at_xpath("//pmc-web-stat/response/error").content
-          message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}"
-          Alert.where(message: message).where(unresolved: true).first_or_create(
-            :exception => "",
-            :class_name => "Net::HTTPInternalServerError",
-            :status => 500,
-            :source_id => id)
-          journals_with_errors << journal
-        else
-          # go through all the works in the xml document
-          document.xpath("//work").each do |work|
-            work = work.to_hash
-            work = work["work"]
-
-            doi = work["meta-data"]["doi"]
-            # sometimes doi metadata are missing
-            break unless doi
-
-            view = work["usage"]
-            view['year'] = year.to_s
-            view['month'] = month.to_s
-
-            # try to get the existing information about the given work
-            data = get_result(url_db + CGI.escape(doi))
-
-            if data['views'].nil?
-              data = { 'views' => [view] }
-            else
-              # update existing entry
-              data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
-              data['views'] << view
-            end
-
-            put_lagotto_data(url_db + CGI.escape(doi), data: data)
-          end
-        end
+        status = parse_file(filename, month, year)
+        journals_with_errors << journal if status != "0"
       end
     end
     journals_with_errors
+  end
+
+  def parse_file(filename, month, year)
+    file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+    document = Nokogiri::XML(file)
+
+    status = document.at_xpath("//pmc-web-stat/response/@status").value
+
+    if status != "0"
+      error_message = document.at_xpath("//pmc-web-stat/response/error").content
+      message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}"
+      Alert.where(message: message).where(unresolved: true).first_or_create(
+        :exception => "",
+        :class_name => "Net::HTTPInternalServerError",
+        :status => 500,
+        :source_id => id)
+    else
+      # go through all the works in the xml document
+      document.xpath("//article").each do |work|
+        data = parse_work(work, month, year)
+        next unless data.present? && data["doi"].present?
+
+        put_lagotto_data(url_db + CGI.escape(data["doi"]), data: data)
+      end
+    end
+    status
+  end
+
+  def parse_work(work, month, year)
+    work = work.to_hash
+    work = work["article"]
+
+    doi = work.fetch("meta-data", {}).fetch("doi", nil)
+    # sometimes doi metadata are missing
+    return nil unless doi.present?
+
+    view = work["usage"]
+    view['doi'] = doi
+    view['year'] = year.to_s
+    view['month'] = month.to_s
+
+    # try to get the existing information about the given work
+    data = get_result(url_db + CGI.escape(doi))
+
+    if data['views'].nil?
+      data = { 'views' => [view] }
+    else
+      # update existing entry
+      data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
+      data['views'] << view
+    end
+    data
   end
 
   def put_database
