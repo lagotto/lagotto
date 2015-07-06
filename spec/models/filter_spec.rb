@@ -158,14 +158,6 @@ describe Filter, :type => :model do
   context "HTML/PDF ratio" do
     subject { FactoryGirl.create(:html_ratio_too_high_error) }
 
-    before(:each) do
-      # subject.put_lagotto_database
-    end
-
-    after(:each) do
-      subject.delete_lagotto_database
-    end
-
     context "ratio too high" do
       let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776") }
       let(:counter) { FactoryGirl.create(:counter) }
