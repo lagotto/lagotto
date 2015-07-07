@@ -78,7 +78,7 @@
         <% end %>
         <% if @work.doi.present? %>
           <dt>DOI</dt>
-          <dd class="doi" %><%= link_to h(@work.doi), @work.doi_as_url %></dd>
+          <dd class="doi" %><%= link_to h(@work.doi_as_url), @work.doi_as_url %></dd>
         <% end %>
         <% if @work.canonical_url.present? %>
           <dt>Publisher URL</dt>
