@@ -78,6 +78,19 @@ ActiveRecord::Schema.define(version: 20150708003940) do
   add_index "api_responses", ["total"], name: "index_api_responses_on_total", using: :btree
   add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
 
+  create_table "data_exports", force: :cascade do |t|
+    t.integer  "size_in_kb",            limit: 4
+    t.string   "url",                   limit: 255
+    t.string   "type",                  limit: 255
+    t.string   "state",                 limit: 255
+    t.datetime "started_exporting_at"
+    t.datetime "finished_exporting_at"
+    t.text     "data",                  limit: 65535
+    t.text     "files",                 limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "data_migrations", force: :cascade do |t|
     t.string "version", limit: 191
   end
