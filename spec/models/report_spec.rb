@@ -20,48 +20,109 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
     end
   end
 
-  context "write csv to file" do
+  describe '.write - write a report to disk' do
+    subject(:write_report){ Report.write(report, contents: contents, filepath: filepath) }
+    let(:report){ double("Some Report") }
+    let(:contents){ "" }
+    let(:filepath){ Rails.root.join("tmp/sample_report_file.txt").to_s }
 
-    before(:each) do
-      FileUtils.rm_rf("#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}")
+    before do
+      expect(File.exists?(filepath)).to eq(false)
     end
 
-    let!(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pcbi.1000204") }
-    let(:csv) { "contents,of,a,csv,file,here" }
-    let(:filename) { "alm_stats" }
-    let(:mendeley) { FactoryGirl.create(:mendeley) }
-
-    it "should write report file" do
-      filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
-      response = subject.write("#{filename}.csv", csv)
-      expect(response).to eq (filepath)
+    after do
+      FileUtils.rm(filepath) if File.exist?(filepath)
     end
 
-    describe "merge and compress csv file" do
-      before(:each) do
-        subject.write("#{filename}.csv", csv)
+    context "given a report, its contents, and a filepath" do
+      let(:contents){ "report contents here" }
+
+      it "writes the report out to disk" do
+        write_report
+        expect(File.exists?(filepath)).to be(true)
       end
 
-      it "should zip report file" do
-        filename = "alm_report"
-        zip_filepath = "#{Rails.root}/public/files/#{filename}.zip"
-        subject.write("#{filename}.csv", csv)
+      it "creates a ReportWriteLog record of the report written" do
+        expect {
+          write_report
+        }.to change(ReportWriteLog, :count).by(1)
 
-        response = subject.zip_file
-        expect(response).to eq(zip_filepath)
-        expect(File.exist?(zip_filepath)).to be true
-        File.delete zip_filepath
-      end
-
-      it "should zip report folder" do
-        zip_filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}.zip"
-        response = subject.zip_folder
-        expect(response).to eq(zip_filepath)
-        expect(File.exist?(zip_filepath)).to be true
-        File.delete zip_filepath
+        log_record = ReportWriteLog.last
+        expect(log_record.filepath).to eq(filepath)
+        expect(log_record.report_type).to eq(report.class.name)
       end
     end
+
+    context "given empty contents" do
+      let(:contents){ "" }
+
+      it "doesn't write the report out to disk" do
+        write_report
+        expect(File.exists?(filepath)).to be(true)
+      end
+
+      it "doesn't create a ReportWriteLog record" do
+        expect {
+          write_report
+        }.to_not change(ReportWriteLog, :count)
+      end
+    end
+
+    context "required arguments" do
+      it "raises an ArgumentError without :contents" do
+        expect{ Report.write(report, filepath: filepath) }.to raise_error(ArgumentError)
+      end
+
+      it "raises an ArgumentError without :filepath" do
+        expect{ Report.write(report, filepath: filepath) }.to raise_error(ArgumentError)
+      end
+    end
+
+
   end
+
+
+  #
+  #   before(:each) do
+  #     FileUtils.rm_rf("#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}")
+  #   end
+  #
+  #   let!(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pcbi.1000204") }
+  #   let(:csv) { "contents,of,a,csv,file,here" }
+  #   let(:filename) { "alm_stats" }
+  #   let(:mendeley) { FactoryGirl.create(:mendeley) }
+  #
+  #   it "should write report file" do
+  #     filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}/#{filename}.csv"
+  #     response = subject.write("#{filename}.csv", csv)
+  #     expect(response).to eq (filepath)
+  #   end
+  #
+  #   describe "merge and compress csv file" do
+  #     before(:each) do
+  #       subject.write("#{filename}.csv", csv)
+  #     end
+  #
+  #     it "should zip report file" do
+  #       filename = "alm_report"
+  #       zip_filepath = "#{Rails.root}/public/files/#{filename}.zip"
+  #       subject.write("#{filename}.csv", csv)
+  #
+  #       response = subject.zip_file
+  #       expect(response).to eq(zip_filepath)
+  #       expect(File.exist?(zip_filepath)).to be true
+  #       File.delete zip_filepath
+  #     end
+  #
+  #     it "should zip report folder" do
+  #       zip_filepath = "#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}.zip"
+  #       response = subject.zip_folder
+  #       expect(response).to eq(zip_filepath)
+  #       expect(File.exist?(zip_filepath)).to be true
+  #       File.delete zip_filepath
+  #     end
+  #   end
+  # end
 
   context "error report" do
     let(:report) { FactoryGirl.create(:error_report_with_admin_user) }
