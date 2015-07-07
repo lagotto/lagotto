@@ -1,17 +1,17 @@
 GIT
-  remote: https://github.com/fly1tkg/state_machine.git
-  revision: 181f758a50698c4564b46a48d5704b48e9b3cf33
-  branch: issue/334
-  specs:
-    state_machine (1.2.0)
-
-GIT
   remote: https://github.com/mfenner/omniauth-orcid.git
   revision: 31859733280f3523f716bafec5e17575cecf5d51
   specs:
     omniauth-orcid (0.6)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
+
+GIT
+  remote: https://github.com/fly1tkg/state_machine.git
+  revision: 181f758a50698c4564b46a48d5704b48e9b3cf33
+  branch: issue/334
+  specs:
+    state_machine (1.2.0)
 
 GEM
   remote: http://rubygems.org/
@@ -495,6 +495,3 @@ DEPENDENCIES
   whenever (~> 0.9.0)
   will_paginate (= 3.0.7)
   will_paginate-bootstrap (~> 1.0.1)
-
-BUNDLED WITH
-   1.10.3
