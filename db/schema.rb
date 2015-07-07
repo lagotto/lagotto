@@ -187,6 +187,13 @@ ActiveRecord::Schema.define(version: 20150708003940) do
   add_index "relations", ["level", "work_id", "related_work_id"], name: "index_relations_on_level_work_related_work", using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
+  create_table "report_write_logs", force: :cascade do |t|
+    t.string   "filepath",    limit: 255
+    t.string   "report_type", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.datetime "created_at"
