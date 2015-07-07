@@ -16,16 +16,12 @@ class Report < ActiveRecord::Base
     end
   end
 
-  # write report into folder with current date in name
-  def self.write(filename, content, options = {})
-    return nil unless filename && content
-
-    date = options[:date] || Time.zone.now.to_date
-    folderpath = "#{Rails.root}/data/report_#{date}"
-    Dir.mkdir folderpath unless Dir.exist? folderpath
-    filepath = "#{folderpath}/#{filename}"
-    if IO.write(filepath, content)
-      filepath
+  def self.write(report, options={})
+    contents = options[:contents] || raise(ArgumentError, "Must supply :contents")
+    filepath = options[:filepath] || raise(ArgumentError, "Must supply :filepath")
+    bytes_written = File.write(filepath, contents)
+    if bytes_written > 0
+      ReportWriteLog.create!(filepath: filepath, report_type: report.class.name)
     else
       nil
     end
