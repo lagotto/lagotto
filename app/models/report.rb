@@ -16,17 +16,6 @@ class Report < ActiveRecord::Base
     end
   end
 
-  def self.write(report, options={})
-    contents = options[:contents] || raise(ArgumentError, "Must supply :contents")
-    filepath = options[:filepath] || raise(ArgumentError, "Must supply :filepath")
-    bytes_written = File.write(filepath, contents)
-    if bytes_written > 0
-      ReportWriteLog.create!(filepath: filepath, report_type: report.class.name)
-    else
-      nil
-    end
-  end
-
   def self.zip_file(options = {})
     date = options[:date] || Time.zone.now.to_date
     filename = "alm_report_#{date}.csv"
