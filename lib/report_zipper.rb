@@ -7,6 +7,14 @@ class ReportZipper
 
   attr_reader :zip_filepath, :filemap
 
+  def self.zip_filename_for(filename)
+    filename.sub(/\.csv$/, ".zip")
+  end
+
+  def self.alm_combined_stats_zip_filename
+    zip_filename_for(ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME)
+  end
+
   def self.zip_alm_combined_stats!
     report_filename = ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME
     alm_stats_write_log = ReportWriteLog.most_recent_with_name(report_filename)
@@ -19,7 +27,7 @@ class ReportZipper
       raise FileNotFoundError, "File not found at #{alm_stats_write_log.filepath} for #{alm_stats_write_log.inspect}"
     end
 
-    zip_filepath = Pathname.new("#{ReportWriter.data_dir}/alm_report.zip")
+    zip_filepath = Pathname.new(ReportWriter.data_dir.join(alm_combined_stats_zip_filename))
     new(
       zip_filepath: zip_filepath,
       filemap: {

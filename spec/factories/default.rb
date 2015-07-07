@@ -554,4 +554,7 @@ FactoryGirl.define do
   factory :status do
     current_version "3.13"
   end
+
+  factory :data_export do
+  end
 end

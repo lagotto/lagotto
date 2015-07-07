@@ -158,6 +158,15 @@ namespace :report do
     ReportZipper.zip_administrative_reports!
   end
 
+  desc 'Export ALM combined stats report to Zenodo'
+  task :export_to_zenodo do
+    alm_combined_stats_zip_record = ReportWriteLog.most_recent_with_name(ReportZipper.alm_combined_stats_zip_filename)
+    raise "Not found" unless alm_combined_stats_record
+
+    data_export = ZenodoDataExport.create!(files: [alm_combined_stats_zip_record.filepath])
+    DataExportJob.perform_later(id: data_export.id)
+  end
+
   desc 'Generate all article stats reports'
   task :all_stats => [:environment, :alm_stats, :mendeley_stats, :pmc_html_stats, :pmc_pdf_stats, :pmc_combined_stats, :pmc_stats, :counter_html_stats, :counter_pdf_stats, :counter_xml_stats, :counter_combined_stats, :counter_stats, :combined_stats, :alm_private_stats, :combined_private_stats, :zip]
 end
