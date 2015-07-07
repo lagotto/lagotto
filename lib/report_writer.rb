@@ -1,8 +1,10 @@
 require 'fileutils'
 
 class ReportWriter
-  DATA_DIR = Rails.root.join("data")
-  REPORT_DIR = DATA_DIR.join("")
+  # +data_dir+ determines where all of the reports are written to.
+  class_attribute :data_dir
+
+  self.data_dir = Rails.root.join("data")
 
   ALM_STATS_CSV_FILENAME = "alm_stats.csv"
   ALM_STATS_PRIVATE_CSV_FILENAME = "alm_private_stats.csv"
@@ -30,7 +32,13 @@ class ReportWriter
   end
 
   def self.default_output_dir
-    "#{Rails.root}/data/report_#{Time.zone.now.to_date}"
+    data_dir.join("report_#{Time.zone.now.to_date}")
+  end
+
+  def self.most_recent_report_dir
+    Dir["#{data_dir}/report_*"].select do |f|
+      File.directory?(f)
+    end.sort.last
   end
 
   def self.instance
