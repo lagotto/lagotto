@@ -154,13 +154,8 @@ namespace :report do
 
   desc 'Zip reports'
   task :zip => :environment do
-    if !Dir.exist? folderpath
-      puts "No reports to compress."
-    elsif Report.zip_file && Report.zip_folder
-      puts "Reports have been compressed."
-    else
-      puts "Reports could not be compressed."
-    end
+    ReportZipper.zip_alm_combined_stats!
+    ReportZipper.zip_administrative_reports!
   end
 
   desc 'Generate all article stats reports'

@@ -8,7 +8,44 @@ describe ReportWriter do
   let(:filename){ "sample_report_file.txt" }
 
   def write_report
-    report_writer.write(report, contents: contents, filename: filename)
+    report_writer.write(report, contents: contents, filename: filename, output: StringIO.new)
+  end
+
+  describe ".default_output_dir" do
+    it "returns the default output directory path for reports based on today's date" do
+      expected_dir = Rails.root.join("data", "report_#{Time.zone.now.to_date}")
+      expect(ReportWriter.default_output_dir).to eq(expected_dir)
+    end
+  end
+
+  describe ".most_recent_report_dir" do
+    let(:data_dir){ Rails.root.join("tmp/sample_reports") }
+
+    before do
+      ReportWriter.data_dir = data_dir
+      FileUtils.mkdir data_dir
+      FileUtils.mkdir data_dir.join("report_2015-05-01")
+      FileUtils.mkdir data_dir.join("report_2015-04-01")
+      FileUtils.mkdir data_dir.join("report_2015-03-01")
+    end
+
+    after do
+      FileUtils.rm_rf data_dir
+    end
+
+    it "returns the path to the most recent report directory currently written on disk" do
+      expect(ReportWriter.most_recent_report_dir).to eq("#{data_dir}/report_2015-05-01")
+    end
+
+    context "and there are no report directories" do
+      before do
+        Dir["#{data_dir}/report*"].each{ |path| FileUtils.rmdir path }
+      end
+
+      it "returns nil" do
+        expect(ReportWriter.most_recent_report_dir).to be(nil)
+      end
+    end
   end
 
   describe '#write - write a report to disk' do
