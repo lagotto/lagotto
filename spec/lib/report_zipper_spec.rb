@@ -33,6 +33,17 @@ describe ReportZipper do
       expect(zip_file.get_entry(report_filename)).to_not be(nil)
     end
 
+    it "includes the appropriate README.md" do
+      zip_filepath = ReportZipper.zip_alm_combined_stats!
+      zip_file = Zip::File.open(zip_filepath)
+
+      expect(zip_file.get_entry("README.md")).to_not be(nil)
+
+      expected_contents = File.read Rails.root.join("docs/readmes/alm_combined_stats_report.md")
+      readme_entry = zip_file.get_entry("README.md")
+      expect(readme_entry.get_input_stream.read).to eq(expected_contents)
+    end
+
     context "and there is no log of a written ALM combined stats report" do
       before { report_write_log.destroy }
 
