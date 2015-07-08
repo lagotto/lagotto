@@ -1,10 +1,47 @@
 require "rails_helper"
 
 describe ZenodoDataExport do
-    subject(:data_export){ ZenodoDataExport.new }
+  subject(:data_export){ FactoryGirl.build(:zenodo_data_export) }
+
+  describe "validations" do
+    it "is valid" do
+      expect(data_export.valid?).to be(true)
+    end
+
+    it "requires :files" do
+      data_export.files = []
+      expect(data_export.valid?).to be(false)
+    end
+
+    it "requires :publication_date" do
+      data_export.publication_date = nil
+      expect(data_export.valid?).to be(false)
+    end
+
+    it "requires :title" do
+      data_export.title = nil
+      expect(data_export.valid?).to be(false)
+    end
+
+    it "requires :description" do
+      data_export.description = nil
+      expect(data_export.valid?).to be(false)
+    end
+
+    it "requires :creators" do
+      data_export.creators = nil
+      expect(data_export.valid?).to be(false)
+    end
+
+    it "requires :keywords" do
+      data_export.keywords = nil
+      expect(data_export.valid?).to be(false)
+    end
+  end
 
   describe "#export!" do
-    subject(:data_export){ ZenodoDataExport.create!(
+    subject(:data_export){ FactoryGirl.create(:zenodo_data_export,
+      publication_date: "2015-03-01".to_date,
       files: files
     )}
 
@@ -29,8 +66,6 @@ describe ZenodoDataExport do
       FileUtils.mkdir(data_dir)
       File.write(file_1, "sample contents")
       File.write(file_2, "sample contents")
-
-      # allow(zenodo_deposit)
     end
 
     after do
@@ -80,11 +115,11 @@ describe ZenodoDataExport do
         }.to change(data_export, :url).to "www.example.com/123"
       end
 
-      it "updates its data to a Hash serialized version of the Zenodo deposition" do
+      it "sets its remote_deposition to a Hash serialized version of the remote Zenodo deposition" do
         allow(zenodo_deposition).to receive(:to_h).and_return(serialized_hash: "here")
         expect {
           data_export.export!(zenodo_client_factory: zenodo_client_factory)
-        }.to change(data_export, :data).to(serialized_hash: "here")
+        }.to change{ data_export.remote_deposition }.to eq(serialized_hash: "here")
       end
     end
 
@@ -141,12 +176,23 @@ describe ZenodoDataExport do
 
   describe "#to_zenodo_deposition_attributes" do
     it "returns the Zenodo deposition attributes representation of this export" do
+      data_export.title = "My title"
+      data_export.description = "My description"
+      data_export.publication_date = "2015-07-01".to_date
+      data_export.creators = ["John Smith", "Margaret Swift"]
+      data_export.publication_date = "2015-07-01".to_date
+      data_export.keywords = ["Palladium", "Silver"]
+
       expect(data_export.to_zenodo_deposition_attributes).to eq({
-        'metadata' => {
-          'title' => '(TEST) Monthly Stats Report',
-          'upload_type' => 'dataset',
-          'description' => '(TEST) Monthly Stats Report',
-          'creators' =>[{'name' => 'Zach Dennis'}]
+        "metadata" => {
+          "upload_type" => "dataset",
+          "publication_date" => "2015-07-01",
+          "title" => "My title",
+          "description" => "My description",
+          "creators" => [{"name" => "John Smith"}, {"name" => "Margaret Swift"}],
+          "keywords" => ["Palladium", "Silver"],
+          "access_right" => "open",
+          "license" => "cc-zero"
         }
       })
     end
