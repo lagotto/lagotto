@@ -7,9 +7,8 @@ class ZenodoDataExport < ::DataExport
 
     def self.build(options={})
       api_key = options[:api_key] || ENV[API_KEY_ENV_VARIABLE_NAME]
-      Zenodo::Client.new(api_key).tap do |client|
-        client.url = options[:zenodo_url] || ENV[URL_ENV_VARIABLE_NAME]
-      end
+      url = options[:zenodo_url] || ENV[URL_ENV_VARIABLE_NAME]
+      Zenodo::Client.new(api_key, url)
     end
   end
 
@@ -27,7 +26,12 @@ class ZenodoDataExport < ::DataExport
   validates :creators, presence: true
   validates :keywords, presence: true
 
+  def finished?
+    !!finished_exporting_at
+  end
+
   def export!(options={})
+    return if finished?
     zenodo_client_factory = options[:zenodo_client_factory] || ZenodoClientFactory
     zenodo_client = zenodo_client_factory.build(options.slice(:api_key, :zenodo_url))
 
@@ -44,21 +48,37 @@ class ZenodoDataExport < ::DataExport
   end
 
   def to_zenodo_deposition_attributes
-    {
-      "metadata" => {
-        "upload_type" => "dataset",
-        "publication_date" => publication_date.to_s,
-        "title" => title,
-        "description" => description,
-        "creators" => creators.map{ |name| {"name" => name } },
-        "keywords" => keywords,
-        "access_right" => "open",
-        "license" => "cc-zero"
-      }
-    }
+    {}.tap do |attrs|
+      attrs["metadata"] = build_metdata_for_deposition_attributes
+
+      if previous_version
+        attrs["metadata"]["related_identifiers"] = build_related_identifiers_for_deposition_metadata
+      end
+    end
   end
 
   private
+
+  def build_metdata_for_deposition_attributes
+    {
+      "upload_type" => "dataset",
+      "publication_date" => publication_date.to_s,
+      "title" => title,
+      "description" => description,
+      "creators" => creators.map{ |name| {"name" => name } },
+      "keywords" => keywords,
+      "access_right" => "open",
+      "license" => "cc-zero"
+    }
+  end
+
+  def build_related_identifiers_for_deposition_metadata
+    if previous_version
+      [
+        { "relation" => "isNewVersionOf", "identifier" => previous_version.remote_deposition["doi"] }
+      ]
+    end
+  end
 
   def ensure_files_exists!
     files.each do |file|
@@ -71,8 +91,6 @@ class ZenodoDataExport < ::DataExport
   end
 
   def perform_upload(zenodo_client)
-    zenodo_client.url = url if url
-
     deposition = zenodo_client.create_deposition(deposition: to_zenodo_deposition_attributes)
 
     files.each do |file|

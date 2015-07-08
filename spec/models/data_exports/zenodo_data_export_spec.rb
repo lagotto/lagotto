@@ -8,6 +8,11 @@ describe ZenodoDataExport do
       expect(data_export.valid?).to be(true)
     end
 
+    it "requires :name" do
+      data_export.name = nil
+      expect(data_export.valid?).to be(false)
+    end
+
     it "requires :files" do
       data_export.files = []
       expect(data_export.valid?).to be(false)
@@ -172,6 +177,14 @@ describe ZenodoDataExport do
       end
     end
 
+    context "and the export is already finished" do
+      before { data_export.update_attribute :finished_exporting_at, 1.day.ago }
+
+      it "does not try to upload to Zenodo again" do
+        expect(zenodo_client_factory).to_not receive(:build)
+        data_export.export!(zenodo_client_factory: zenodo_client_factory)
+      end
+    end
   end
 
   describe "#to_zenodo_deposition_attributes" do
@@ -195,6 +208,39 @@ describe ZenodoDataExport do
           "license" => "cc-zero"
         }
       })
+    end
+
+    context "and there was a previous export with the same name" do
+      subject(:data_export){ FactoryGirl.build(:zenodo_data_export, name: previous_export.name) }
+
+      let!(:previous_export){ FactoryGirl.create(:zenodo_data_export,
+        name: "LagottoMonthlyReport",
+        publication_date: 1.week.ago.to_date,
+        created_at: 1.week.ago,
+        remote_deposition: { "doi" => "10.5072/zenodo.188" }
+      )}
+
+      let(:attrs){ data_export.to_zenodo_deposition_attributes }
+
+      context "and the previous export finished" do
+        before { previous_export.update_attribute :finished_exporting_at, 1.week.ago }
+
+        it "includes sets the related_identifiers for the Zenodo deposition" do
+          expect(attrs["metadata"]).to include(
+            "related_identifiers" => [{
+              "relation" => "isNewVersionOf", "identifier" => previous_export.remote_deposition["doi"]
+            }]
+          )
+        end
+      end
+
+      context "and the previous export did not finish" do
+        before { previous_export.update_attribute :finished_exporting_at, nil }
+
+        it "doesn't include related_identifier information" do
+          expect(attrs["metadata"]).to_not have_key("relation")
+        end
+      end
     end
   end
 end
