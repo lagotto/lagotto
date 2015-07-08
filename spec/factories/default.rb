@@ -554,4 +554,16 @@ FactoryGirl.define do
   factory :status do
     current_version "3.13"
   end
+
+  factory :data_export do
+  end
+
+  factory :zenodo_data_export do
+    files ["path/to/file1.txt"]
+    publication_date Time.zone.now.to_date
+    title "My export"
+    description "My export by Lagotto"
+    creators ["John Doe"]
+    keywords ["apples", "oranges", "bananas"]
+  end
 end

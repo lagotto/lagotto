@@ -1,0 +1,92 @@
+class ZenodoDataExport < ::DataExport
+  class MissingZenodoApiKey < Error ; end
+
+  module ZenodoClientFactory
+    API_KEY_ENV_VARIABLE_NAME = "ZENODO_KEY"
+    URL_ENV_VARIABLE_NAME = "ZENODO_URL"
+
+    def self.build(options={})
+      api_key = options[:api_key] || ENV[API_KEY_ENV_VARIABLE_NAME]
+      Zenodo::Client.new(api_key).tap do |client|
+        client.url = options[:zenodo_url] || ENV[URL_ENV_VARIABLE_NAME]
+      end
+    end
+  end
+
+  # Zenodo deposition attributes: https://zenodo.org/dev#restapi-rep-meta
+  data_attribute :publication_date
+  data_attribute :title
+  data_attribute :description
+  data_attribute :creators, default: []
+  data_attribute :keywords, default: []
+  data_attribute :remote_deposition
+
+  validates :publication_date, presence: true
+  validates :title, presence: true
+  validates :description, presence: true
+  validates :creators, presence: true
+  validates :keywords, presence: true
+
+  def export!(options={})
+    zenodo_client_factory = options[:zenodo_client_factory] || ZenodoClientFactory
+    zenodo_client = zenodo_client_factory.build(options.slice(:api_key, :zenodo_url))
+
+    touch(:started_exporting_at)
+
+    ensure_files_exists!
+
+    result = perform_upload(zenodo_client)
+
+    touch(:finished_exporting_at)
+  rescue Exception => ex
+    update_attributes started_exporting_at:nil, finished_exporting_at:nil
+    raise ex
+  end
+
+  def to_zenodo_deposition_attributes
+    {
+      "metadata" => {
+        "upload_type" => "dataset",
+        "publication_date" => publication_date.to_s,
+        "title" => title,
+        "description" => description,
+        "creators" => creators.map{ |name| {"name" => name } },
+        "keywords" => keywords,
+        "access_right" => "open",
+        "license" => "cc-zero"
+      }
+    }
+  end
+
+  private
+
+  def ensure_files_exists!
+    files.each do |file|
+      unless File.exists?(file)
+        raise FileNotFoundError, <<-ERROR.gsub(/^\s*/)
+          File not found: #{file}
+        ERROR
+      end
+    end
+  end
+
+  def perform_upload(zenodo_client)
+    zenodo_client.url = url if url
+
+    deposition = zenodo_client.create_deposition(deposition: to_zenodo_deposition_attributes)
+
+    files.each do |file|
+      zenodo_client.create_deposition_file(id:deposition['id'], file_or_io:file)
+    end
+
+    zenodo_client.publish_deposition(id:deposition['id'])
+
+    deposition = zenodo_client.get_deposition(id: deposition['id'])
+
+    self.url = deposition["record_url"]
+    self.remote_deposition = deposition.to_h
+
+    save!
+  end
+
+end
