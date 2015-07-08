@@ -156,6 +156,7 @@ namespace :report do
   task :zip => :environment do
     ReportZipper.zip_alm_combined_stats!
     ReportZipper.zip_administrative_reports!
+    puts "Reports have been compressed!"
   end
 
   desc 'Export ALM combined stats report to Zenodo'
