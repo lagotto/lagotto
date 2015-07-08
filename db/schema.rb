@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150708003940) do
+ActiveRecord::Schema.define(version: 20150708224424) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -77,6 +77,18 @@ ActiveRecord::Schema.define(version: 20150708003940) do
   add_index "api_responses", ["created_at"], name: "index_api_responses_created_at", using: :btree
   add_index "api_responses", ["total"], name: "index_api_responses_on_total", using: :btree
   add_index "api_responses", ["unresolved", "id"], name: "index_api_responses_unresolved_id", using: :btree
+
+  create_table "data_exports", force: :cascade do |t|
+    t.string   "url",                   limit: 255
+    t.string   "type",                  limit: 255
+    t.datetime "started_exporting_at"
+    t.datetime "finished_exporting_at"
+    t.text     "data",                  limit: 65535
+    t.text     "files",                 limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",                  limit: 255
+  end
 
   create_table "data_migrations", force: :cascade do |t|
     t.string "version", limit: 191
