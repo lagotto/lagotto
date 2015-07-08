@@ -32,8 +32,8 @@ class ReportZipper
       zip_filepath: zip_filepath,
       filemap: {
         # source path => zip file
-        # zip_utility.add "README.md", "path/to/readme.md"
-        alm_stats_write_log.filepath => File.basename(alm_stats_write_log.filepath)
+        alm_stats_write_log.filepath => File.basename(alm_stats_write_log.filepath),
+        Rails.root.join("docs/readmes/alm_combined_stats_report.md") => "README.md"
       }
     ).zip!
   end
