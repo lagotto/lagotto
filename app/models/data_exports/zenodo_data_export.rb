@@ -13,6 +13,20 @@ class ZenodoDataExport < ::DataExport
     end
   end
 
+  # Zenodo deposition attributes: https://zenodo.org/dev#restapi-rep-meta
+  data_attribute :publication_date
+  data_attribute :title
+  data_attribute :description
+  data_attribute :creators, default: []
+  data_attribute :keywords, default: []
+  data_attribute :remote_deposition
+
+  validates :publication_date, presence: true
+  validates :title, presence: true
+  validates :description, presence: true
+  validates :creators, presence: true
+  validates :keywords, presence: true
+
   def export!(options={})
     zenodo_client_factory = options[:zenodo_client_factory] || ZenodoClientFactory
     zenodo_client = zenodo_client_factory.build(options.slice(:api_key, :zenodo_url))
@@ -31,11 +45,15 @@ class ZenodoDataExport < ::DataExport
 
   def to_zenodo_deposition_attributes
     {
-      'metadata' => {
-        'title' => '(TEST) Monthly Stats Report',
-        'upload_type' => 'dataset',
-        'description' => '(TEST) Monthly Stats Report',
-        'creators' =>[{'name' => 'Zach Dennis'}]
+      "metadata" => {
+        "upload_type" => "dataset",
+        "publication_date" => publication_date.to_s,
+        "title" => title,
+        "description" => description,
+        "creators" => creators.map{ |name| {"name" => name } },
+        "keywords" => keywords,
+        "access_right" => "open",
+        "license" => "cc-zero"
       }
     }
   end
@@ -65,10 +83,10 @@ class ZenodoDataExport < ::DataExport
 
     deposition = zenodo_client.get_deposition(id: deposition['id'])
 
-    update_attributes!(
-      url: deposition["record_url"],
-      data: deposition.to_h
-    )
+    self.url = deposition["record_url"]
+    self.remote_deposition = deposition.to_h
+
+    save!
   end
 
 end
