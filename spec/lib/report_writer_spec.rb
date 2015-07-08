@@ -22,6 +22,7 @@ describe ReportWriter do
     let(:data_dir){ Rails.root.join("tmp/sample_reports") }
 
     before do
+      @original_data_dir = ReportWriter.data_dir
       ReportWriter.data_dir = data_dir
       FileUtils.mkdir data_dir
       FileUtils.mkdir data_dir.join("report_2015-05-01")
@@ -30,6 +31,7 @@ describe ReportWriter do
     end
 
     after do
+      ReportWriter.data_dir = @original_data_dir
       FileUtils.rm_rf data_dir
     end
 

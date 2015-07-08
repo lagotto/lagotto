@@ -4,11 +4,13 @@ describe ReportZipper do
   let(:data_dir){ Rails.root.join("tmp/sample_data_dir") }
 
   before do
+    @original_data_dir = ReportWriter.data_dir
     ReportWriter.data_dir = data_dir
     FileUtils.mkdir data_dir unless File.exists?(data_dir)
   end
 
   after do
+    ReportWriter.data_dir = @original_data_dir
     FileUtils.rm_rf data_dir if File.exists?(data_dir)
   end
 
