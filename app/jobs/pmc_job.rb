@@ -3,7 +3,7 @@ class PmcJob < ActiveJob::Base
 
   def perform(publisher_id, month, year, journal, options={})
     source = Source.visible.where(name: "pmc").first
-    return nil if publisher_id.nil? || month.nil? || year.nil? || journal.nil? || source.nil?
+    return nil if publisher_id.nil? || month.nil? || year.nil? || journal.nil? || source.nil?
 
     dates = source.date_range(month: month, year: year)
     # we have to do this sequentally, as we are updating a single CouchDB document for a work for every month
