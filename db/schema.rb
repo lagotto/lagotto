@@ -249,7 +249,7 @@ ActiveRecord::Schema.define(version: 20150708003940) do
   add_index "reviews", ["state_id"], name: "index_reviews_on_state_id", using: :btree
 
   create_table "sources", force: :cascade do |t|
-    t.string   "type",        limit: 191,                                   null: false
+    t.string   "type",        limit: 191
     t.string   "name",        limit: 191
     t.string   "title",       limit: 255,                                   null: false
     t.datetime "run_at",                    default: '1970-01-01 00:00:00', null: false
@@ -292,7 +292,7 @@ ActiveRecord::Schema.define(version: 20150708003940) do
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255, default: ""
+    t.string   "email",                  limit: 191
     t.string   "encrypted_password",     limit: 255, default: "",     null: false
     t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
@@ -326,11 +326,11 @@ ActiveRecord::Schema.define(version: 20150708003940) do
   end
 
   create_table "works", force: :cascade do |t|
-    t.string   "doi",           limit: 255
+    t.string   "doi",           limit: 191
     t.text     "title",         limit: 65535
     t.date     "published_on"
-    t.string   "pmid",          limit: 255
-    t.string   "pmcid",         limit: 255
+    t.string   "pmid",          limit: 191
+    t.string   "pmcid",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "canonical_url", limit: 65535
@@ -344,9 +344,9 @@ ActiveRecord::Schema.define(version: 20150708003940) do
     t.text     "csl",           limit: 65535
     t.integer  "work_type_id",  limit: 4
     t.boolean  "tracked",                     default: false
-    t.string   "scp",           limit: 255
-    t.string   "wos",           limit: 255
-    t.string   "ark",           limit: 255
+    t.string   "scp",           limit: 191
+    t.string   "wos",           limit: 191
+    t.string   "ark",           limit: 191
     t.string   "arxiv",         limit: 191
   end
 
