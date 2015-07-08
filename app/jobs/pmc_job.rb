@@ -8,8 +8,8 @@ class PmcJob < ActiveJob::Base
     dates = source.date_range(month: month, year: year)
     # we have to do this sequentally, as we are updating a single CouchDB document for a work for every month
     dates.each do |date|
-      filename = get_feed(publisher_id, date[:month], date[:year], journal, options)
-      parse_feed(publisher_id, date[:month], date[:year], journal, options) if filename.present?
+      filename = source.get_feed(publisher_id, date[:month], date[:year], journal, options)
+      source.parse_feed(publisher_id, date[:month], date[:year], journal, options) if filename.present?
     end
   end
 end
