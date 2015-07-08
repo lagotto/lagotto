@@ -42,6 +42,11 @@ describe ZenodoDataExport do
       data_export.keywords = nil
       expect(data_export.valid?).to be(false)
     end
+
+    it "requires :code_repository_url" do
+      data_export.code_repository_url = nil
+      expect(data_export.valid?).to be(false)
+    end
   end
 
   describe "#export!" do
@@ -188,26 +193,50 @@ describe ZenodoDataExport do
   end
 
   describe "#to_zenodo_deposition_attributes" do
-    it "returns the Zenodo deposition attributes representation of this export" do
-      data_export.title = "My title"
-      data_export.description = "My description"
-      data_export.publication_date = "2015-07-01".to_date
-      data_export.creators = ["John Smith", "Margaret Swift"]
-      data_export.publication_date = "2015-07-01".to_date
-      data_export.keywords = ["Palladium", "Silver"]
+    let(:metadata){ data_export.to_zenodo_deposition_attributes["metadata"] }
 
-      expect(data_export.to_zenodo_deposition_attributes).to eq({
-        "metadata" => {
-          "upload_type" => "dataset",
-          "publication_date" => "2015-07-01",
-          "title" => "My title",
-          "description" => "My description",
-          "creators" => [{"name" => "John Smith"}, {"name" => "Margaret Swift"}],
-          "keywords" => ["Palladium", "Silver"],
-          "access_right" => "open",
-          "license" => "cc-zero"
-        }
-      })
+    it "returns the Zenodo deposition attributes representation of this export as Hash" do
+      expect(data_export.to_zenodo_deposition_attributes).to be_kind_of(Hash)
+    end
+
+    it "has a title" do
+      data_export.title = "My title"
+      expect(metadata).to include("title" => "My title")
+    end
+
+    it "has a description" do
+      data_export.description = "My description"
+      expect(metadata).to include("description" => "My description")
+    end
+
+    it "has a publication_date" do
+      data_export.publication_date = "2015-07-01".to_date
+      expect(metadata).to include("publication_date" => "2015-07-01")
+    end
+
+    it "has creators" do
+      data_export.creators = ["John Smith", "Margaret Swift"]
+      expect(metadata).to include("creators" => [{"name" => "John Smith"}, {"name" => "Margaret Swift"}])
+    end
+
+    it "has keywords" do
+      data_export.keywords = ["Palladium", "Silver"]
+      expect(metadata).to include("keywords" => ["Palladium", "Silver"])
+    end
+
+    it "has an access_right" do
+      expect(metadata).to include("access_right" => "open")
+    end
+
+    it "has a license" do
+      expect(metadata).to include("license" => "cc-zero")
+    end
+
+    it "has an attribution to the code repository" do
+      data_export.code_repository_url = "http://somecoderepository"
+      expect(metadata["related_identifiers"]).to include(
+        { "relation" => "isSupplementTo", "identifier" => "http://somecoderepository" }
+      )
     end
 
     context "and there was a previous export with the same name" do
@@ -226,10 +255,8 @@ describe ZenodoDataExport do
         before { previous_export.update_attribute :finished_exporting_at, 1.week.ago }
 
         it "includes sets the related_identifiers for the Zenodo deposition" do
-          expect(attrs["metadata"]).to include(
-            "related_identifiers" => [{
-              "relation" => "isNewVersionOf", "identifier" => previous_export.remote_deposition["doi"]
-            }]
+          expect(attrs["metadata"]["related_identifiers"]).to include(
+            "relation" => "isNewVersionOf", "identifier" => previous_export.remote_deposition["doi"]
           )
         end
       end
@@ -237,7 +264,7 @@ describe ZenodoDataExport do
       context "and the previous export did not finish" do
         before { previous_export.update_attribute :finished_exporting_at, nil }
 
-        it "doesn't include related_identifier information" do
+        it "doesn't include related_identifier for a previous version information" do
           expect(attrs["metadata"]).to_not have_key("relation")
         end
       end

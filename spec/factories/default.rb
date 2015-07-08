@@ -566,5 +566,6 @@ FactoryGirl.define do
     description "My export by Lagotto"
     creators ["John Doe"]
     keywords ["apples", "oranges", "bananas"]
+    code_repository_url "https://some.code.repository"
   end
 end

@@ -20,11 +20,15 @@ class ZenodoDataExport < ::DataExport
   data_attribute :keywords, default: []
   data_attribute :remote_deposition
 
+  # So we can tie our Zenodo export back to the code that generated it
+  data_attribute :code_repository_url
+
   validates :publication_date, presence: true
   validates :title, presence: true
   validates :description, presence: true
   validates :creators, presence: true
   validates :keywords, presence: true
+  validates :code_repository_url, presence: true
 
   def finished?
     !!finished_exporting_at
@@ -50,10 +54,6 @@ class ZenodoDataExport < ::DataExport
   def to_zenodo_deposition_attributes
     {}.tap do |attrs|
       attrs["metadata"] = build_metdata_for_deposition_attributes
-
-      if previous_version
-        attrs["metadata"]["related_identifiers"] = build_related_identifiers_for_deposition_metadata
-      end
     end
   end
 
@@ -68,16 +68,21 @@ class ZenodoDataExport < ::DataExport
       "creators" => creators.map{ |name| {"name" => name } },
       "keywords" => keywords,
       "access_right" => "open",
-      "license" => "cc-zero"
+      "license" => "cc-zero",
+      "related_identifiers" => build_related_identifiers_for_deposition_metadata
     }
   end
 
   def build_related_identifiers_for_deposition_metadata
+    related_identifiers = [
+      { "relation" => "isSupplementTo", "identifier" => code_repository_url }
+    ]
+
     if previous_version
-      [
-        { "relation" => "isNewVersionOf", "identifier" => previous_version.remote_deposition["doi"] }
-      ]
+      related_identifiers << { "relation" => "isNewVersionOf", "identifier" => previous_version.remote_deposition["doi"] }
     end
+
+    related_identifiers
   end
 
   def ensure_files_exists!
