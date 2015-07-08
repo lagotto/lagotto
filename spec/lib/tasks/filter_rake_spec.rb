@@ -83,7 +83,7 @@ describe "filter:all" do
       FactoryGirl.create(:work_not_updated_error)
     end
 
-    let(:output) { "Found 1 work not updated error" }
+    let(:output) { "Found 0 work not updated error" }
 
     it "should run the rake task" do
       expect(capture_stdout { subject.invoke }).to include(output)

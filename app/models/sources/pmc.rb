@@ -42,53 +42,32 @@ class Pmc < Source
     end
   end
 
-  # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
-  def get_feed(month, year, options={})
-    journals_with_errors = []
-    options[:source_id] = id
+  def process_feed(month, year, options={})
+    raise ArgumentError("Missing: month") unless month.present?
+    raise ArgumentError("Missing: year") unless year.present?
 
     publisher_configs.each do |publisher|
       publisher_id = publisher[0]
-      journals_array = publisher[1].journals.to_s.split(" ")
+      journals = publisher[1].journals.to_s.split(" ")
 
-      journals_array.each do |journal|
-        feed_url = get_feed_url(publisher_id, month, year, journal)
-        filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-
-        next if save_to_file(feed_url, filename, options)
-
-        message = "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved"
-        Alert.where(message: message).where(unresolved: true).first_or_create(
-          :exception => "",
-          :class_name => "Net::HTTPInternalServerError",
-          :status => 500,
-          :source_id => id)
-        journals_with_errors << journal
+      journals.each do |journal|
+        PmcJob.perform_later(publisher_id, month, year, journal, options)
+        Rails.logger.info "Queueing pmc import for #{journal}, month #{month}, and year #{year}"
       end
     end
-    journals_with_errors
+    publisher_configs.map { |publisher| publisher[0] }
+  end
+
+  # Retrieve usage stats in XML and store in /data directory
+  def get_feed(publisher_id, month, year, journal, options={})
+    feed_url = get_feed_url(publisher_id, month, year, journal)
+    filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
+    save_to_file(feed_url, filename, options)
   end
 
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
-  def parse_feed(month, year, _options = {})
-    journals_with_errors = []
-
-    publisher_configs.each do |publisher|
-      pc = publisher[1]
-      next if pc.username.nil? || pc.password.nil?
-
-      journals_array = pc.journals.to_s.split(" ")
-
-      journals_array.each do |journal|
-        filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-        status = parse_file(filename, month, year)
-        journals_with_errors << journal if status != "0"
-      end
-    end
-    journals_with_errors
-  end
-
-  def parse_file(filename, month, year)
+  def parse_feed(publisher_id, month, year, journal, options={})
+    filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
     file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
     document = Nokogiri::XML(file)
 
@@ -102,6 +81,7 @@ class Pmc < Source
         :class_name => "Net::HTTPInternalServerError",
         :status => 500,
         :source_id => id)
+      nil
     else
       # go through all the works in the xml document
       document.xpath("//article").each do |work|
@@ -110,8 +90,8 @@ class Pmc < Source
 
         save_work(response[:doi], response[:data])
       end
+      filename
     end
-    status
   end
 
   def parse_work(work, month, year)

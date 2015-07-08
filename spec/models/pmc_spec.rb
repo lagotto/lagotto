@@ -14,13 +14,17 @@ describe Pmc, type: :model, vcr: true do
     let(:month) { a_month_ago.month }
     let(:year) { a_month_ago.year }
 
+    it "should process PMC data" do
+      expect(subject.process_feed(month, year)).to eq([340])
+    end
+
     it "should fetch and save PMC data" do
       config = subject.publisher_configs.first
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
       file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
-      expect(subject.get_feed(month, year)).to be_empty
+      expect(subject.get_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_6_2015.xml")
       expect(File.exist?(file)).to be true
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(0)
@@ -48,12 +52,8 @@ describe Pmc, type: :model, vcr: true do
       config = subject.publisher_configs.first
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
-      expect(subject.parse_feed(month, year)).to be_empty
+      expect(subject.parse_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_1_2014.xml")
       expect(Alert.count).to eq(0)
-    end
-
-    it "should parse file" do
-      expect(subject.parse_file(filename, month, year)).to eq("0")
     end
 
     it "should parse work" do

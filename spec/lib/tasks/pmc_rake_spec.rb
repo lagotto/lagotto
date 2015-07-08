@@ -3,19 +3,19 @@ require 'rails_helper'
 describe "pmc:update" do
   include_context "rake"
 
-  let(:pmc) { FactoryGirl.create(:pmc) }
-  let(:month) { 1.month.ago.month }
-  let(:year) { 1.month.ago.year }
-  let(:output) { "PMC Usage stats for month #{month} and year #{year} have been saved\nPMC Usage stats for month #{month} and year #{year} have been parsed\n" }
-
   before(:each) do
-    allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
     pmc.put_lagotto_data(pmc.url)
   end
 
   after(:each) do
     pmc.delete_lagotto_data(pmc.url)
   end
+
+  let(:pmc) { FactoryGirl.create(:pmc) }
+  let(:date) { Time.zone.now - 1.month }
+  let(:month) { date.month.to_s }
+  let(:year) { date.year.to_s }
+  let(:output) { "Import of PMC usage stats queued for publisher Public Library of Science (PLoS), starting month #{month} and year #{year}\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
