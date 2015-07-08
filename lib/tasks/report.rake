@@ -171,6 +171,7 @@ namespace :report do
     ENV['APPLICATION'] || raise("APPLICATION env variable must be set!")
     ENV['CREATOR'] || raise("CREATOR env variable must be set!")
     ENV['SITENAMELONG'] || raise("SITENAMELONG env variable must be set!")
+    ENV['GITHUB_URL'] || raise("GITHUB_URL env variable must be set!")
 
     alm_combined_stats_zip_record = ReportWriteLog.most_recent_with_name(ReportZipper.alm_combined_stats_zip_filename)
 
@@ -196,7 +197,9 @@ namespace :report do
       title: title,
       description: description,
       creators: [ ENV['CREATOR'] ],
-      keywords: ZENODO_KEYWORDS )
+      keywords: ZENODO_KEYWORDS,
+      code_repository_url: ENV["GITHUB_URL"]
+    )
 
     DataExportJob.perform_later(id: data_export.id)
   end
