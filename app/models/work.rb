@@ -3,6 +3,23 @@ require 'addressable/uri'
 require "builder"
 
 class Work < ActiveRecord::Base
+  class Metrics
+    def self.load_for_works(works, method=:id)
+      metrics_by_id = for_ids works.map(&method)
+      works.each do |work|
+        work.metrics = metrics_by_id[work.id]
+      end
+    end
+
+    def self.for_ids(ids)
+      query = ::Work.where(id: ids).joins(:sources).select("works.id, name, total")
+      query.all.reduce(Hash.new{|h,k| h[k] = []}) do |hsh, model|
+        hsh[model.id] = [ model.name, model.total ]
+        hsh
+      end
+    end
+  end
+
   # include HTTP request helpers
   include Networkable
 
@@ -297,8 +314,12 @@ class Work < ActiveRecord::Base
   alias_method :discussed, :shares
   alias_method :cited, :citations
 
+  def metrics=(metrics)
+    @metrics = metrics
+  end
+
   def metrics
-    sources.pluck(:name, :total)
+    @metrics ||= Metrics.for_ids([id])[id]
   end
 
   def issued

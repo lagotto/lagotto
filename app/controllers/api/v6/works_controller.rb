@@ -87,6 +87,7 @@ class Api::V6::WorksController < Api::BaseController
                                      total_entries: total_entries)
 
     @works = collection.decorate(context: { role: is_admin_or_staff? })
+    arr = Work::Metrics.load_for_works(@works.map(&:object))
   end
 
   def create
