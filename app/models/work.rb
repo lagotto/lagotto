@@ -38,7 +38,7 @@ class Work < ActiveRecord::Base
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
-  before_validation :sanitize_title, :normalize_url, :set_pid
+  before_validation :sanitize_title, :normalize_url, :normalize_doi, :set_pid
   after_create :create_retrievals, if: :tracked
 
   scope :query, ->(query) { where("pid like ?", "%#{query}%") }
@@ -356,6 +356,10 @@ class Work < ActiveRecord::Base
 
   def sanitize_title
     self.title = ActionController::Base.helpers.sanitize(title, tags: %w(b i sc sub sup))
+  end
+
+  def normalize_doi
+    self.doi = doi.downcase
   end
 
   def normalize_url
