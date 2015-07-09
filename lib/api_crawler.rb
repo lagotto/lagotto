@@ -58,7 +58,18 @@ class ApiCrawler
 
     while next_uri do
       benchmark(next_uri) do
-        response_body = Net::HTTP.get(next_uri)
+        http = Net::HTTP.new(next_uri.host, next_uri.port)
+        http.open_timeout = 3600
+        http.read_timeout = 3600
+        response = http.start do |http|
+          path = if next_uri.query
+            next_uri.path.to_s + "?" + next_uri.query
+          else
+            next_uri.path.to_s
+          end
+          http.get path
+        end
+        response_body = response.body
         next_uri = process_response_body_and_get_next_page_uri(response_body)
       end
     end
