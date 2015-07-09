@@ -182,6 +182,14 @@ describe Work, type: :model, vcr: true do
     end
   end
 
+  context "normalize doi" do
+    it "downcase doi" do
+      doi = "10.6085/AA/KNB-LTER-SBC.17.9"
+      work = FactoryGirl.create(:work, doi: doi)
+      expect(work.doi).to eq("10.6085/aa/knb-lter-sbc.17.9")
+    end
+  end
+
   it 'to doi escaped' do
     expect(CGI.escape(work.doi)).to eq(work.doi_escaped)
   end
