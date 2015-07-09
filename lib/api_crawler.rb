@@ -4,15 +4,38 @@ require 'json'
 class ApiCrawler
   attr_reader :url, :output_file
 
-  def self.crawl_works
+  def self.crawl
+    stop_on_page = (ENV["STOP_ON_PAGE"] || 10).to_i
+    crawl_events stop_on_page: stop_on_page
+    crawl_references stop_on_page: stop_on_page
+    crawl_works stop_on_page: stop_on_page
+  end
+
+  def self.crawl_works(crawl_options={})
     output_file = ENV["OUTPUT"] || Rails.root.join("tmp/works.jsondump")
     new(
       url: "http://#{ENV['HOST']}/api/works",
       output_file: output_file,
       benchmark_file: Rails.root.join("#{output_file}.benchmarks")
-    ).crawl(
-      stop_on_page: 1000
-    )
+    ).crawl(crawl_options)
+  end
+
+  def self.crawl_events(crawl_options={})
+    output_file = ENV["OUTPUT"] || Rails.root.join("tmp/events.jsondump")
+    new(
+      url: "http://#{ENV['HOST']}/api/events",
+      output_file: output_file,
+      benchmark_file: Rails.root.join("#{output_file}.benchmarks")
+    ).crawl(crawl_options)
+  end
+
+  def self.crawl_references(crawl_options={})
+    output_file = ENV["OUTPUT"] || Rails.root.join("tmp/references.jsondump")
+    new(
+      url: "http://#{ENV['HOST']}/api/events",
+      output_file: output_file,
+      benchmark_file: Rails.root.join("#{output_file}.benchmarks")
+      ).crawl(crawl_options)
   end
 
   def initialize(options={})
