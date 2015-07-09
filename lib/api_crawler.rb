@@ -2,59 +2,25 @@ require 'net/http'
 require 'json'
 
 class ApiCrawler
-  attr_reader :url, :output_file
-
-  def self.crawl
-    stop_on_page = (ENV["STOP_ON_PAGE"] || 10).to_i
-    crawl_events stop_on_page: stop_on_page
-    crawl_references stop_on_page: stop_on_page
-    crawl_works stop_on_page: stop_on_page
-  end
-
-  def self.crawl_works(crawl_options={})
-    output_file = ENV["OUTPUT"] || Rails.root.join("tmp/works.jsondump")
-    new(
-      url: "http://#{ENV['HOST']}/api/works",
-      output_file: output_file,
-      benchmark_file: Rails.root.join("#{output_file}.benchmarks")
-    ).crawl(crawl_options)
-  end
-
-  def self.crawl_events(crawl_options={})
-    output_file = ENV["OUTPUT"] || Rails.root.join("tmp/events.jsondump")
-    new(
-      url: "http://#{ENV['HOST']}/api/events",
-      output_file: output_file,
-      benchmark_file: Rails.root.join("#{output_file}.benchmarks")
-    ).crawl(crawl_options)
-  end
-
-  def self.crawl_references(crawl_options={})
-    output_file = ENV["OUTPUT"] || Rails.root.join("tmp/references.jsondump")
-    new(
-      url: "http://#{ENV['HOST']}/api/events",
-      output_file: output_file,
-      benchmark_file: Rails.root.join("#{output_file}.benchmarks")
-      ).crawl(crawl_options)
-  end
+  attr_reader :num_pages, :pageno, :start_page, :stop_page, :total_pages, :url
 
   def initialize(options={})
+    @benchmark_output = options[:benchmark_output]
+    @output = options[:output]
+    @num_pages = options[:num_pages] || Float::INFINITY
+    @num_pages_processed = 0
+    @start_page = options[:start_page]
+    @stop_page = options[:stop_page] || Float::INFINITY
     @url = options[:url] || raise(ArgumentError, "Must supply :url")
-    @output_file = options[:output_file] || raise(ArgumentError, "Must supply :output_file")
-    @benchmark_file = options[:benchmark_file]
+    @pageno = options[:start_page] || 0
   end
 
   def crawl(options={})
-    @stop_on_page = options[:stop_on_page] || Float::INFINITY
-    @output = File.open(output_file, "wb")
-    @output.sync = true
-
-    if @benchmark_file
-      @benchmark_output = File.open(@benchmark_file, "wb")
-      @benchmark_output.sync = true
-    end
+    @start_page = options[:start_page] if options[:start_page]
+    @stop_page = options[:stop_page] if options[:stop_page]
 
     next_uri = URI.parse(@url)
+    next_uri.query = {page: @start_page}.to_query if @start_page
 
     while next_uri do
       benchmark(next_uri) do
@@ -69,12 +35,21 @@ class ApiCrawler
           end
           http.get path
         end
-        response_body = response.body
-        next_uri = process_response_body_and_get_next_page_uri(response_body)
+        next_uri = process_response_body_and_get_next_page_uri(next_uri, response.body)
       end
     end
-  ensure
-    @output.close if @output
+  end
+
+  def pages_left?
+    raise "Cannot inquire about the API until you've crawled it!" unless @total_pages
+
+    if limit_paging? && pageno >= stop_page
+      false
+    elsif pageno >= total_pages
+      false
+    else
+      true
+    end
   end
 
   private
@@ -90,17 +65,22 @@ class ApiCrawler
     end
   end
 
-  def process_response_body_and_get_next_page_uri(response_body)
+  def limit_paging?
+    @stop_page != Float::INFINITY
+  end
+
+  def process_response_body_and_get_next_page_uri(request_uri, response_body)
     json = JSON.parse(response_body)
     @output.puts response_body
+    @num_pages_processed += 1
 
     meta = json["meta"] || raise("Missing meta element in:\n #{json.inspect}")
-    page = meta["page"] || raise("Missing page inside of meta element in:\n #{meta.inspect}")
-    total_pages = meta["total_pages"] || raise("Missing total_pages inside of meta element in:\n #{meta.inspect}")
+    @pageno = meta["page"] || raise("Missing page inside of meta element in:\n #{meta.inspect}")
+    @total_pages = meta["total_pages"] || raise("Missing total_pages inside of meta element in:\n #{meta.inspect}")
 
-    if page <= total_pages && page <= @stop_on_page
+    if @pageno <= @total_pages && @pageno <= @stop_page && @num_pages_processed <= @num_pages
       next_uri = URI.parse(@url)
-      next_uri.query = "page=#{page+1}"
+      next_uri.query = {page: @pageno+1}.to_query
       next_uri
     else
       nil

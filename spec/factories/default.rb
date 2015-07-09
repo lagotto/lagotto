@@ -560,6 +560,10 @@ FactoryGirl.define do
     sequence(:name){ |i| "Zenodo Export #{i}"}
   end
 
+  factory :api_snapshot, class: ApiSnapshot, parent: :data_export do
+    url "http://example.com/works"
+  end
+
   factory :zenodo_data_export, class: ZenodoDataExport, parent: :data_export do
     publication_date Time.zone.now.to_date
     title "My export"

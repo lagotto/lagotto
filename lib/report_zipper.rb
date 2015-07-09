@@ -55,7 +55,8 @@ class ReportZipper
 
   def initialize(options={})
     @output = options[:output] || $stdout
-    @zip_filepath = options[:zip_filepath] || raise("Must supply :zip_filepath")
+    zip_filepath = options[:zip_filepath] || raise("Must supply :zip_filepath")
+    @zip_filepath = Pathname.new(zip_filepath)
     @filemap = options[:filemap] || raise("Must supply a filemap, e.g. { source_file => filepath_in_zip }")
   end
 
@@ -66,7 +67,7 @@ class ReportZipper
         zip_utility.add filepath_in_zip, source_path
       end
     end
-    ReportWriteLog.create!(filepath: zip_filepath, report_type: self.class.name)
+    ReportWriteLog.create!(filepath: zip_filepath, report_type: "ZipFile")
     @output.puts "#{zip_filepath.relative_path_from Rails.root} has been created!"
     zip_filepath
   end

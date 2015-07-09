@@ -5,7 +5,7 @@ class DataExport < ActiveRecord::Base
 
   def self.data_attribute(name, options={})
     reader_method, writer_method = name, "#{name}="
-    define_method(reader_method){ self.data[reader_method] || options[:default] }
+    define_method(reader_method){ data.fetch(name){ options[:default] } }
     define_method(writer_method){ |value| self.data[name] = value }
   end
 
