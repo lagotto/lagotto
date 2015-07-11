@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading panel-title" id="api_key" data-model="publisher" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source_id="<%= @source.present? ? @source.name : "" %>" data-sort="<%= @sort.present? ? @sort.name : "" %>" data-publisher_id="<%= @publisher.member_id %>">
+  <div class="panel-heading panel-title" id="api_key" data-model="publisher" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source_id="<%= @source.present? ? @source.name : "" %>" data-sort="<%= @sort.present? ? @sort.name : "" %>" data-publisher_id="<%= @publisher.name %>">
     <% if can?(:manage, Publisher) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
