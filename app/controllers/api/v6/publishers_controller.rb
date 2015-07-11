@@ -25,7 +25,7 @@ class Api::V6::PublishersController < Api::BaseController
   end
 
   def show
-    publisher = Publisher.where(member_id: params[:id]).first
+    publisher = Publisher.where(name: params[:id]).first
     @publisher = publisher.decorate
   end
 end

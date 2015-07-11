@@ -56,7 +56,7 @@ class DataoneImport < Import
       ark = id.starts_with?("ark:/") ? id.split("/")[0..2].join("/") : nil
       if doi.present? || ark.present?
         url = nil
-      elsif id.starts_with?("http://")
+      elsif id =~ /^(http|https)/
         url = get_normalized_url(id)
       elsif publisher_url.present?
         url = publisher.url % { id: id }
