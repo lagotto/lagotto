@@ -58,7 +58,7 @@
         <% end %>
         <% if publishers.length > 1 && @work.publisher_id %>
           <dt>Publisher</dt>
-          <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.member_id) %></dd>
+          <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.name) %></dd>
         <% end %>
         <% if @work.author.present? %>
           <dt><%= "Author".pluralize(@work.author.length) %></dt>
