@@ -359,7 +359,7 @@ class Work < ActiveRecord::Base
   end
 
   def normalize_doi
-    self.doi = doi.downcase
+    self.doi = doi.downcase if doi.present?
   end
 
   def normalize_url

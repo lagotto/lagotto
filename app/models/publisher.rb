@@ -15,38 +15,38 @@ class Publisher < ActiveRecord::Base
 
   after_create { |publisher| CacheJob.perform_later(publisher) }
 
-  def to_param  # overridden, use member_id instead of id
-    member_id
+  def to_param  # overridden, use name instead of id
+    name
   end
 
   def work_count
     if ActionController::Base.perform_caching
-      Rails.cache.read("publisher/#{member_id}/work_count/#{timestamp}").to_i
+      Rails.cache.read("publisher/#{name}/work_count/#{timestamp}").to_i
     else
       works.size
     end
   end
 
   def work_count=(time)
-    Rails.cache.write("publisher/#{member_id}/work_count/#{time}",
+    Rails.cache.write("publisher/#{name}/work_count/#{time}",
                       works.size)
   end
 
   def work_count_by_source(source_id)
     if ActionController::Base.perform_caching
-      Rails.cache.read("publisher/#{member_id}/#{source_id}/work_count/#{timestamp}").to_i
+      Rails.cache.read("publisher/#{name}/#{source_id}/work_count/#{timestamp}").to_i
     else
       works.has_events.by_source(source_id).size
     end
   end
 
   def work_count_by_source=(source_id, time)
-    Rails.cache.write("publisher/#{member_id}/#{source_id}/work_count/#{time}",
+    Rails.cache.write("publisher/#{name}/#{source_id}/work_count/#{time}",
                       works.has_events.by_source(source_id).size)
   end
 
   def cache_key
-    "publisher/#{member_id}-#{timestamp}"
+    "publisher/#{name}-#{timestamp}"
   end
 
   def timestamp

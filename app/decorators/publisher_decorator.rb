@@ -6,7 +6,7 @@ class PublisherDecorator < Draper::Decorator
   end
 
   def id
-    member_id
+    name
   end
 
   def users
