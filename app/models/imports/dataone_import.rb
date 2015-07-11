@@ -81,12 +81,11 @@ class DataoneImport < Import
       csl = {
         "issued" => date_parts,
         "author" => get_authors([item.fetch("author", nil)]),
-        "container-title" => nil,
+        "container-title" => publisher_title,
         "title" => title,
         "type" => type,
         "DOI" => doi,
-        "URL" => url,
-        "publisher" => publisher_title
+        "URL" => url
       }
 
       { doi: doi,
