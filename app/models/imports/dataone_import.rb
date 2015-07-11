@@ -39,13 +39,27 @@ class DataoneImport < Import
 
     items = result.fetch('response', {}).fetch('docs', nil)
     Array(items).map do |item|
+      symbol = item.fetch("authoritativeMN", "").split(":").last
+      publisher = symbol.present? ? Publisher.where(symbol: symbol).first : nil
+      if publisher.present?
+        member_id = publisher.member_id
+        publisher_title = publisher.title
+        publisher_url = publisher.url
+      else
+        member_id = nil
+        publisher_title = nil
+        publisher_url = nil
+      end
+
       id = item.fetch("id", nil)
       doi = get_doi_from_id(id)
       ark = id.starts_with?("ark:/") ? id.split("/")[0..2].join("/") : nil
-      if doi.present?
+      if doi.present? || ark.present?
         url = nil
       elsif id.starts_with?("http://")
         url = get_normalized_url(id)
+      elsif publisher_url.present?
+        url = publisher.url % { id: id }
       else
         url = nil
       end
@@ -61,18 +75,6 @@ class DataoneImport < Import
       year, month, day = date_parts.fetch("date-parts", []).first
       title = item.fetch("title", nil)
 
-      publisher_title = item.fetch("authoritativeMN", nil)
-      publisher_name = item.fetch("authoritativeMN", nil)
-      if publisher_name
-        member_id = publisher_name.to_i(36)
-        publisher = Publisher.where(member_id: member_id).first_or_create(
-          title: publisher_title,
-          name: publisher_name,
-          service: "dataone")
-      else
-        member_id = nil
-      end
-
       type = "dataset"
       work_type_id = WorkType.where(name: type).pluck(:id).first
 
@@ -84,7 +86,7 @@ class DataoneImport < Import
         "type" => type,
         "DOI" => doi,
         "URL" => url,
-        "publisher" => publisher
+        "publisher" => publisher_title
       }
 
       { doi: doi,

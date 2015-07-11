@@ -68,7 +68,7 @@ describe DataoneImport, type: :model, vcr: true do
     it "should get_data default no data" do
       import = DataoneImport.new(from_update_date: "2014-09-07", until_update_date: "2014-09-07")
       response = import.get_data
-      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>25, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
+      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>7, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
     end
 
     it "should get_data timeout error" do
@@ -86,6 +86,8 @@ describe DataoneImport, type: :model, vcr: true do
   end
 
   context "parse_data" do
+    let!(:publisher) { FactoryGirl.create(:publisher, symbol: "DRYAD", title: "Dryad Digital Repository", member_id: 50002) }
+
     it "should parse_data default" do
       import = DataoneImport.new
       body = File.read(fixture_path + 'dataone_import.json')
@@ -99,7 +101,7 @@ describe DataoneImport, type: :model, vcr: true do
       expect(work[:year]).to eq(2014)
       expect(work[:month]).to eq(9)
       expect(work[:day]).to eq(3)
-      expect(work[:publisher_id]).to eq(39875)
+      expect(work[:publisher_id]).to eq(50002)
     end
 
     it "should parse_data missing date" do
@@ -116,7 +118,7 @@ describe DataoneImport, type: :model, vcr: true do
       expect(work[:year]).to be_nil
       expect(work[:month]).to be_nil
       expect(work[:day]).to be_nil
-      expect(work[:publisher_id]).to eq(39875)
+      expect(work[:publisher_id]).to eq(50002)
     end
 
     it "should parse_data missing title" do
@@ -146,11 +148,28 @@ describe DataoneImport, type: :model, vcr: true do
       expect(work[:title]).to eq("Scleral ring and orbit morphology")
     end
 
-    it "should raise error on unknown identifier" do
+    it "should parse DataONE identifier" do
+      publisher = FactoryGirl.create(:publisher, symbol: "KNB", name: "knb", title: "Knowledge Network for Biocomplexity", member_id: 50010, url: "https://cn.dataone.org/cn/v1/resolve/%{id}")
       import = DataoneImport.new
       body = File.read(fixture_path + 'dataone_import.json')
       result = JSON.parse(body)
       result["response"]["docs"][5]["id"] = "knb-lter-arc.10353.1"
+      result["response"]["docs"][5]["authoritativeMN"] = "urn:node:KNB"
+      response = import.parse_data(result)
+      expect(response.length).to eq(61)
+
+      work = response[5]
+      expect(work[:doi]).to be_nil
+      expect(work[:ark]).to be_nil
+      expect(work[:title]).to eq("Scleral ring and orbit morphology")
+    end
+
+    it "should raise error on unknown identifier" do
+      import = DataoneImport.new
+      body = File.read(fixture_path + 'dataone_import.json')
+      result = JSON.parse(body)
+      result["response"]["docs"][5]["id"] = "xxx"
+      result["response"]["docs"][5]["authoritativeMN"] = "urn:node:XXX"
       response = import.parse_data(result)
       expect(response.length).to eq(61)
 
@@ -162,7 +181,7 @@ describe DataoneImport, type: :model, vcr: true do
       expect(Alert.count).to eq(1)
       alert = Alert.first
       expect(alert.class_name).to eq("ActiveModel::MissingAttributeError")
-      expect(alert.message).to eq("No known identifier found in knb-lter-arc.10353.1")
+      expect(alert.message).to eq("No known identifier found in xxx")
     end
   end
 
