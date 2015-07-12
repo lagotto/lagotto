@@ -70,6 +70,11 @@ class Work < ActiveRecord::Base
       work.update_attributes(params.except(:pid, :pmid, :related_works)) if work.present? && params[:tracked]
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
+    elsif e.message.include?("Ark has already been taken") || e.message.include?("key 'index_works_on_ark'")
+      work = Work.where(ark: params[:ark]).first
+      work.update_attributes(params.except(:pid, :ark, :related_works)) if work.present? && params[:tracked]
+      work.update_relations(params.fetch(:related_works, [])) if work.present?
+      work
     elsif e.message.include?("Pid has already been taken") || e.message.include?("key 'index_works_on_pid'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       work.update_attributes(params.except(:pid, :canonical_url, :related_works)) if work.present? && params[:tracked]
@@ -82,6 +87,9 @@ class Work < ActiveRecord::Base
       elsif params[:pmid].present?
         target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
         message = "#{e.message} for pmid #{params[:pmid]}."
+      elsif params[:ark].present?
+        target_url = "http://n2t.net/#{params[:ark]}"
+        message = "#{e.message} for ark #{params[:ark]}."
       else
         target_url = params[:canonical_url]
         message = "#{e.message} for url #{target_url}."
