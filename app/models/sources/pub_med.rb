@@ -20,8 +20,10 @@ class PubMed < Source
 
       if doi.present?
         metadata = get_metadata(doi, "crossref")
+        registration_agency = "crossref"
       else
         metadata = get_metadata(pmid, "pubmed")
+        registration_agency = "pubmed"
       end
 
       if metadata[:error]
@@ -40,6 +42,7 @@ class PubMed < Source
           "type" => metadata.fetch("type", nil),
           "tracked" => tracked,
           "publisher_id" => metadata.fetch("publisher_id", nil),
+          "registration_agency" => registration_agency,
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,
                                 "relation_type" => "cites" }] }

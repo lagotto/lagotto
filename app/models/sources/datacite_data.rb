@@ -16,7 +16,8 @@ class DataciteData < Source
 
       relation_type = RelationType.where(inverse_name: raw_relation_type.underscore).pluck(:name).first
       doi = related_identifier.downcase
-      metadata = get_metadata(doi, get_doi_ra(doi))
+      registration_agency = get_doi_ra(doi)
+      metadata = get_metadata(doi, registration_agency)
 
       if metadata[:error]
         nil
@@ -32,6 +33,7 @@ class DataciteData < Source
           "type" => metadata.fetch("type", nil),
           "tracked" => tracked,
           "publisher_id" => metadata.fetch("publisher_id", nil),
+          "registration_agency" => registration_agency,
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,
                                 "relation_type" => relation_type }] }

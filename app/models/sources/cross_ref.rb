@@ -68,6 +68,7 @@ class CrossRef < Source
             "type" => metadata.fetch("type", nil),
             "tracked" => tracked,
             "publisher_id" => metadata.fetch("publisher_id", nil),
+            "registration_agency" => "crossref",
             "related_works" => [{ "related_work" => work.pid,
                                   "source" => name,
                                   "relation_type" => "cites" }] }

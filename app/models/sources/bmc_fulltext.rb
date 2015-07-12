@@ -48,6 +48,7 @@ class BmcFulltext < Source
         "DOI" => doi,
         "type" => "article-journal",
         "tracked" => tracked,
+        "registration_agency" => "crossref",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
