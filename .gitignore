@@ -21,12 +21,9 @@ capybara-*.html
 /vendor/bundle/*
 /vendor/cookbooks/*
 /log/*
-/data/*
 /tmp/*
-/data/*
 /db/*.sqlite3
 /public/system/*
-/public/files/alm_report.zip
 /public/api/
 /public/api-docs.json
 /public/assets

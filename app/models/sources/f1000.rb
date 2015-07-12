@@ -39,7 +39,7 @@ class F1000 < Source
     end
   end
 
-  # Retrieve f1000 XML feed and store in /data directory.
+  # Retrieve f1000 XML feed and store in /tmp/files directory.
   def get_feed(options={})
     save_to_file(url_feed, filename, options.merge(source_id: id))
   end

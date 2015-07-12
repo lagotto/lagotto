@@ -93,15 +93,6 @@ module ApplicationHelper
     %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable - Faraday::ResourceNotFound ActiveRecord::RecordInvalid - Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError SourceInactiveError - EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
-  def work_statistics_report_path
-    path = "/files/alm_report.zip"
-    if File.exist?("#{Rails.root}/public#{path}")
-      path
-    else
-      nil
-    end
-  end
-
   def author_format(author)
     authors = author.map { |a| a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s }
     case authors.length

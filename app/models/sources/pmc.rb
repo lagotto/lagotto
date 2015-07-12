@@ -58,7 +58,7 @@ class Pmc < Source
     publisher_configs.map { |publisher| publisher[0] }
   end
 
-  # Retrieve usage stats in XML and store in /data directory
+  # Retrieve usage stats in XML and store in /tmp/files directory
   def get_feed(publisher_id, month, year, journal, options={})
     feed_url = get_feed_url(publisher_id, month, year, journal)
     filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
@@ -68,7 +68,7 @@ class Pmc < Source
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
   def parse_feed(publisher_id, month, year, journal, options={})
     filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-    file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+    file = File.open("#{Rails.root}/tmp/files/#{filename}", 'r') { |f| f.read }
     document = Nokogiri::XML(file)
 
     status = document.at_xpath("//pmc-web-stat/response/@status").value

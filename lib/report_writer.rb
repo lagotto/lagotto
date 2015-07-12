@@ -4,7 +4,7 @@ class ReportWriter
   # +data_dir+ determines where all of the reports are written to.
   class_attribute :data_dir
 
-  self.data_dir = Rails.root.join("data")
+  self.data_dir = Rails.root.join("tmp/reports")
 
   ALM_STATS_CSV_FILENAME = "alm_stats.csv"
   ALM_STATS_PRIVATE_CSV_FILENAME = "alm_private_stats.csv"
