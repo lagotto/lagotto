@@ -14,6 +14,12 @@ module Datacitable
       end
     end
 
+    def get_related_identifiers(related_identifiers)
+      [{ "related_work" => work.pid,
+                                "source" => name,
+                                "relation_type" => relation_type }]
+    end
+
     def config_fields
       [:url, :events_url]
     end

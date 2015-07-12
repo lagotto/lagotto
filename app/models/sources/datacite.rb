@@ -9,11 +9,10 @@ class Datacite < Source
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS.fetch(type, nil) if type
 
-      related_identifier = item.fetch("relatedIdentifier", []).reduce(nil) do |sum, i|
+      relation_type = item.fetch("relatedIdentifier", []).reduce(nil) do |sum, i|
         ri = i.split(":",3 )
         sum = ri.last.casecmp(work.doi) == 0 ? ri.first : sum
-      end
-      relation_type = DATACITE_RELATION_TYPE_TRANSLATIONS.fetch(related_identifier, nil) if related_identifier
+      end.underscore
 
       { "author" => get_authors(item.fetch('creator', []), reversed: true, sep: ", "),
         "title" => item.fetch("title", []).first.chomp("."),

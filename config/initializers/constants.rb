@@ -102,35 +102,6 @@ MEDIACURATION_TYPE_TRANSLATIONS = {
   "University page" => "webpage"
 }
 
-# DataCite relationType from DataCite metadata schema: http://dx.doi.org/10.5438/0010
-DATACITE_RELATION_TYPE_TRANSLATIONS = {
-  "Cites" => "cites",
-  "IsCitedBy" => "is_cited_by",
-  "Supplements" => "supplements",
-  "IsSupplementTo" => "is_supplement_to",
-  "Continues" => "continues",
-  "IsContinuedBy" => "is_continued_by",
-  "IsMetadataFor" => "is_metadata_for",
-  "HasMetadata" => "has_metadata",
-  "isNewVersionOf" => "is_new_version_of",
-  "isPreviousVersionOf" => "is_previous_version_of",
-  "IsPartOf" => "is_part_of",
-  "HasPart" => "has_part",
-  "References" => "references",
-  "IsReferencedBy" => "is_referenced_by",
-  "Documents" => "documents",
-  "IsDocumentedBy" => "is_documented_by",
-  "Compiles" => "compiles",
-  "IsCompiledBy" => "is_compiled_by",
-  "IsVariantFormOf" => "is_variant_form_of",
-  "IsOriginalFormOf" => "is_original_form_of",
-  "IsIdenticalTo" => "is_identical_to",
-  "Reviews" => "reviews",
-  "IsReviewedBy" => "is_reviewed_by",
-  "IsDerivedFrom" => "is_derived_from",
-  "IsSourceOf" => "is_source_of"
-}
-
 TYPES_WITH_TITLE = %w(journal-article
                       proceedings-article
                       dissertation
