@@ -45,7 +45,7 @@ module Networkable
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
       response = conn.get url
 
-      File.open("#{Rails.root}tmp/files/#{filename}", 'w') { |file| file.write(response.body) }
+      File.open("#{Rails.root}/tmp/files/#{filename}", 'w') { |file| file.write(response.body) }
       filename
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
