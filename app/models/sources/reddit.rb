@@ -38,6 +38,7 @@ class Reddit < Source
         "URL" => url,
         "type" => "personal_communication",
         "tracked" => tracked,
+        "registration_agency" => "reddit",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "discusses" }] }

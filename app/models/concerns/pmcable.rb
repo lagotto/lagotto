@@ -51,6 +51,7 @@ module Pmcable
         pmcid = ids.fetch("pmcid", nil)
         pmcid = pmcid[3..-1] if pmcid
         author_string = item.fetch("authorString", "").chomp(".")
+        registration_agency = doi.present? ? "crossref" : "pubmed"
 
         { "author" => get_authors(author_string.split(", "), reversed: true),
           "title" => item.fetch("title", "").chomp("."),
@@ -60,6 +61,7 @@ module Pmcable
           "PMID" => pmid,
           "PMCID" => pmcid,
           "type" => "article-journal",
+          "registration_agency" => registration_agency,
           "tracked" => tracked,
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,

@@ -93,6 +93,7 @@ class Wikipedia < Source
         "URL" => url,
         "type" => "entry-encyclopedia",
         "tracked" => tracked,
+        "registration_agency" => "wikipedia",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "references" }] }

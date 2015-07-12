@@ -27,6 +27,7 @@ class Datacite < Source
         "DOI" => doi,
         "type" => type,
         "tracked" => tracked,
+        "registration_agency" => "datacite",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => relation_type }] }

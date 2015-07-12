@@ -58,6 +58,7 @@ module Repoable
           "URL" => url,
           "type" => 'entry',
           "tracked" => tracked,
+          "registration_agency" => name,
           "related_works" => [{ "related_work" => work.pid,
                                 "source" => name,
                                 "relation_type" => "bookmarks" }] }
