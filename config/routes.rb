@@ -42,8 +42,6 @@ Lagotto::Application.routes.draw do
   resources :works, constraints: { :id => /.+/, :format => /html|js/ }
 
   get "oembed", to: "oembed#show"
-
-  get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
   get "/api", to: "api/index#index"
 
   namespace :api, defaults: { format: "json" } do

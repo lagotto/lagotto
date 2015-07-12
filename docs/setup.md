@@ -207,7 +207,7 @@ Lagotto generates a number of email reports:
 
 ![Profile](/images/profile.png)
 
-The **Article Statistics Report** is available to all users, all other reports only to admin and staff users. Users can sign up for these reports in the account preferences.
+The **Work Statistics Report** is available to all users, all other reports only to admin and staff users. Users can sign up for these reports in the account preferences.
 
 Lagotto installs the **Postfix** mailer and the default settings should work in most cases. Mail can otherwise me configure in the `.env` file:
 
@@ -217,16 +217,10 @@ MAIL_PORT=25
 MAIL_DOMAIN=localhost
 ```
 
-We need to process CouchDB data for some sources (Mendeley, Pmc, Counter) in the **Article Statistics Report**, please install the CouchDB design document for this report:
+The reports are generated via the cron jobs mentioned above. Make sure you have correct write permissions for the Work Statistics Report, it is recommended to run the rake task at least once to test for this:
 
 ```sh
-curl -X PUT -d @design_doc/reports.json 'http://localhost:5984/lagotto/_design/reports'
+bin/rake report:all_stats report:zip report:export_to_zenodo RAILS_ENV=production
 ```
 
-The reports are generated via the cron jobs mentioned above. Make sure you have correct write permissions for the Article Statistics Report, it is recommended to run the rake task at least once to test for this:
-
-```sh
-bin/rake report:all_stats RAILS_ENV=production
-```
-
-This rake task generates the monthly report file at `/public/files/alm_report.zip` and this file is then available for download at `/files/alm_report.zip`. Users who have signed up for this report will see a download link in their account preferences. Additional reports are stored as zip file in the `/data` folder.
+This rake task generates the monthly report file and this file is then available for download from the [Zenodo](https://zenodo.org/) data repository. Make sure the `ZENODO_API_KEY`, `SITENAMELONG` and `CREATOR` ENV variables are set correctly. Users who have signed up for this report will be notified by email when the report has been generated.

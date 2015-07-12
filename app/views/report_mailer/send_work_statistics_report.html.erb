@@ -2,4 +2,4 @@
 
 <p><%= number_with_delimiter(@status.works_count) %> Works<br/>
 
-<p><%= link_to "Download report", "http://#{ENV['SERVERNAME']}/files/alm_report.zip" %></p>
+<p>The report is available for download from <%= link_to "Zenodo", ENV['ZENODO_URL'] %>.</p>

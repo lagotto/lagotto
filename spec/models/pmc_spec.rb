@@ -22,7 +22,7 @@ describe Pmc, type: :model, vcr: true do
       config = subject.publisher_configs.first
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
-      file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
+      file = "#{Rails.root}/tmp/files/pmcstat_#{journal}_#{month}_#{year}.xml"
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
       expect(subject.get_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_6_2015.xml")
       expect(File.exist?(file)).to be true
@@ -36,7 +36,7 @@ describe Pmc, type: :model, vcr: true do
     let(:year) { 2014 }
     let(:journal) { "ajrccm" }
     let(:filename) { "pmcstat_#{journal}_#{month}_#{year}.xml" }
-    let(:file) { "#{Rails.root}/data/" + filename }
+    let(:file) { "#{Rails.root}/tmp/files/" + filename }
 
     before(:each) do
       subject.put_lagotto_data(subject.url_db)
