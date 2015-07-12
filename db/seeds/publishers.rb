@@ -147,7 +147,8 @@ if ENV["IMPORT"] == "dataone"
     :title => 'USGS Core Sciences Clearinghouse',
     :service => 'dataone',
     :symbol => 'USGSCSAS',
-    :member_id => '50026')
+    :member_id => '50026',
+    :url => 'https://cn.dataone.org/cn/v1/resolve/%{id}')
   nkn = Publisher.where(name: 'nkn').first_or_create(
     :title => 'Northwest Knowledge Network',
     :service => 'dataone',
