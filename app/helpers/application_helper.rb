@@ -117,8 +117,8 @@ module ApplicationHelper
   end
 
   def description_with_link(report)
-    if report.name == 'work_statistics_report' && work_statistics_report_path
-      h(report.description) + link_to("Download", work_statistics_report_path, :class => 'pull-right')
+    if report.name == 'work_statistics_report'
+      h(report.description) #+ link_to("Download", work_statistics_report_path, :class => 'pull-right')
     else
       h(report.description)
     end

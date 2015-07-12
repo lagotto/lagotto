@@ -220,7 +220,7 @@ MAIL_DOMAIN=localhost
 The reports are generated via the cron jobs mentioned above. Make sure you have correct write permissions for the Work Statistics Report, it is recommended to run the rake task at least once to test for this:
 
 ```sh
-bin/rake report:all_stats report:zip report:export_to_zenodo RAILS_ENV=production
+bin/rake report:all_stats RAILS_ENV=production
 ```
 
 This rake task generates the monthly report file and this file is then available for download from the [Zenodo](https://zenodo.org/) data repository. Make sure the `ZENODO_API_KEY`, `SITENAMELONG` and `CREATOR` ENV variables are set correctly. Users who have signed up for this report will be notified by email when the report has been generated.
