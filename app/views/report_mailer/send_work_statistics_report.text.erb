@@ -2,4 +2,4 @@ This is the Lagotto work statistics report, generated <%= Time.zone.now.to_forma
 
 <%= number_with_delimiter(@status.works_count) %> Works
 
-Download report: <%= "http://#{ENV['SERVERNAME']}/files/alm_report.zip" %>
+Download report from Zenodo: <%= ENV['ZENODO_URL'] %>

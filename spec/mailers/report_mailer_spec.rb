@@ -62,11 +62,11 @@ describe ReportMailer, :type => :mailer do
       expect(mail.body.encoded).to include("This is the Lagotto work statistics report")
     end
 
-    it "provides a link to the admin dashboard" do
+    it "provides a link to Zenodo" do
       body_html = mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source
       expect(body_html).to have_link(
-        "Download report",
-        href: "http://#{ENV['SERVERNAME']}/files/alm_report.zip")
+        "Zenodo",
+        href: ENV['ZENODO_URL'])
     end
   end
 
