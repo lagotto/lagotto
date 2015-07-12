@@ -1,5 +1,5 @@
 class DataExportJob < ActiveJob::Base
-  queue_as :default
+  queue_as :high
 
   def perform(options={})
     data_export = DataExport.find_by_id!(options[:id])
