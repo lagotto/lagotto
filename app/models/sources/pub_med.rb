@@ -19,9 +19,9 @@ class PubMed < Source
       pmid = ids.fetch("pmid", nil)
 
       if doi.present?
-        metadata = get_crossref_metadata(doi)
+        metadata = get_metadata(doi, "crossref")
       else
-        metadata = get_pubmed_metadata(pmid)
+        metadata = get_metadata(pmid, "pubmed")
       end
 
       if metadata[:error]

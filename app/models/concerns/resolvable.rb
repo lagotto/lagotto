@@ -104,6 +104,16 @@ module Resolvable
       rescue_faraday_error(url, e, options)
     end
 
+    def get_metadata(id, service, options = {})
+      case service
+      when "crossref" then get_crossref_metadata(id, options = {})
+      when "datacite" then get_datacite_metadata(id, options = {})
+      when "pubmed" then get_pubmed_metadata(id, options = {})
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    end
+
     def get_crossref_metadata(doi, options = {})
       return {} if doi.blank?
 
@@ -148,6 +158,49 @@ module Resolvable
       rescue_faraday_error(url, e, options)
     end
 
+    def get_datacite_metadata(doi, options = {})
+      return {} if doi.blank?
+
+      conn = faraday_conn('json', options)
+      params = { q: "doi:" + doi,
+                 rows: 1,
+                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated",
+                 wt: "json" }
+      url = "http://search.datacite.org/api?" + URI.encode_www_form(params)
+
+      response = conn.get url, {}, options[:headers]
+
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+
+        metadata = json.fetch("response", {}).fetch("docs", []).first
+
+        return { error: 'Resource not found.', status: 404 } if metadata.blank?
+
+        type = metadata.fetch("resourceTypeGeneral", nil)
+        type = DATACITE_TYPE_TRANSLATIONS.fetch(type, nil) if type
+
+        symbol = metadata.fetch("datacentre_symbol", nil)
+        publisher = symbol.present? ? Publisher.where(symbol: symbol).first : nil
+        publisher_id = publisher.present? ? publisher.member_id : nil
+
+        doi = metadata.fetch("doi", nil)
+        doi = doi.downcase if doi.present?
+
+        { "author" => get_authors(metadata.fetch('creator', []), reversed: true, sep: ", "),
+          "title" => metadata.fetch("title", []).first.chomp("."),
+          "container-title" => metadata.fetch("journal_title", nil),
+          "issued" => get_date_parts_from_parts(metadata.fetch("publicationYear", nil)),
+          "DOI" => doi,
+          "type" => type,
+          "publisher_id" => publisher_id }
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
     def get_pubmed_metadata(pmid, options = {})
       return {} if pmid.blank?
 
@@ -172,6 +225,23 @@ module Resolvable
         metadata["type"] = "article-journal"
 
         metadata
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_doi_ra(doi, options = {})
+      return {} if doi.blank?
+
+      conn = faraday_conn('json', options)
+      url = "http://doi.crossref.org/doiRA/" + doi
+      response = conn.get url, {}, options[:headers]
+
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+        json.first.fetch("RA", "").delete(' ').downcase
       else
         { error: 'Resource not found.', status: 404 }
       end

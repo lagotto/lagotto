@@ -52,7 +52,7 @@ class CrossRef < Source
         nil
       else
         doi = item.fetch("doi", nil)
-        metadata = get_crossref_metadata(doi)
+        metadata = get_metadata(doi, "crossref")
 
         if metadata[:error]
           nil
