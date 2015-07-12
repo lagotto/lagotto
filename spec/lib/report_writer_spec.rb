@@ -13,7 +13,7 @@ describe ReportWriter do
 
   describe ".default_output_dir" do
     it "returns the default output directory path for reports based on today's date" do
-      expected_dir = Rails.root.join("data", "report_#{Time.zone.now.to_date}")
+      expected_dir = Rails.root.join("tmp", "reports", "report_#{Time.zone.now.to_date}")
       expect(ReportWriter.default_output_dir).to eq(expected_dir)
     end
   end
