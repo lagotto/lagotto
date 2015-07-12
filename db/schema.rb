@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710002032) do
+ActiveRecord::Schema.define(version: 20150712092215) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -348,28 +348,29 @@ ActiveRecord::Schema.define(version: 20150710002032) do
   end
 
   create_table "works", force: :cascade do |t|
-    t.string   "doi",           limit: 191
-    t.text     "title",         limit: 65535
+    t.string   "doi",                 limit: 191
+    t.text     "title",               limit: 65535
     t.date     "published_on"
-    t.string   "pmid",          limit: 191
-    t.string   "pmcid",         limit: 191
+    t.string   "pmid",                limit: 191
+    t.string   "pmcid",               limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "canonical_url", limit: 65535
-    t.string   "mendeley_uuid", limit: 255
-    t.integer  "year",          limit: 4,     default: 1970
-    t.integer  "month",         limit: 4
-    t.integer  "day",           limit: 4
-    t.integer  "publisher_id",  limit: 4
-    t.string   "pid_type",      limit: 255,   default: "url", null: false
-    t.text     "pid",           limit: 65535,                 null: false
-    t.text     "csl",           limit: 65535
-    t.integer  "work_type_id",  limit: 4
-    t.boolean  "tracked",                     default: false
-    t.string   "scp",           limit: 191
-    t.string   "wos",           limit: 191
-    t.string   "ark",           limit: 191
-    t.string   "arxiv",         limit: 191
+    t.text     "canonical_url",       limit: 65535
+    t.string   "mendeley_uuid",       limit: 255
+    t.integer  "year",                limit: 4,     default: 1970
+    t.integer  "month",               limit: 4
+    t.integer  "day",                 limit: 4
+    t.integer  "publisher_id",        limit: 4
+    t.string   "pid_type",            limit: 255,   default: "url", null: false
+    t.text     "pid",                 limit: 65535,                 null: false
+    t.text     "csl",                 limit: 65535
+    t.integer  "work_type_id",        limit: 4
+    t.boolean  "tracked",                           default: false
+    t.string   "scp",                 limit: 191
+    t.string   "wos",                 limit: 191
+    t.string   "ark",                 limit: 191
+    t.string   "arxiv",               limit: 191
+    t.string   "registration_agency", limit: 255
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
@@ -387,6 +388,7 @@ ActiveRecord::Schema.define(version: 20150710002032) do
   add_index "works", ["pmid"], name: "index_works_on_pmid", unique: true, using: :btree
   add_index "works", ["published_on"], name: "index_works_on_published_on", using: :btree
   add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
+  add_index "works", ["registration_agency"], name: "index_works_on_registration_agency", length: {"registration_agency"=>191}, using: :btree
   add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id", using: :btree
   add_index "works", ["scp"], name: "index_works_on_scp", unique: true, using: :btree
   add_index "works", ["tracked", "published_on"], name: "index_works_on_tracked_published_on", using: :btree

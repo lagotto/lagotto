@@ -70,6 +70,7 @@ class PlosImport < Import
         day: day,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        registration_agency: "crossref",
         tracked: true,
         csl: csl }
     end

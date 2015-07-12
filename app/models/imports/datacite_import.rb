@@ -90,6 +90,7 @@ class DataciteImport < Import
         day: nil,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        registration_agency: "datacite",
         tracked: true,
         csl: csl }
     end

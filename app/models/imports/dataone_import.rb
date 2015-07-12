@@ -54,12 +54,18 @@ class DataoneImport < Import
       id = item.fetch("id", nil)
       doi = get_doi_from_id(id)
       ark = id.starts_with?("ark:/") ? id.split("/")[0..2].join("/") : nil
-      if doi.present? || ark.present?
+      if doi.present?
         url = nil
+        registration_agency = "datacite"
+      elsif ark.present?
+        url = nil
+        registration_agency = "cdl"
       elsif id =~ /^(http|https)/
         url = get_normalized_url(id)
+        registration_agency = "dataone"
       elsif publisher_url.present?
         url = publisher.url % { id: id }
+        registration_agency = "dataone"
       else
         url = nil
       end
@@ -97,6 +103,7 @@ class DataoneImport < Import
         day: day,
         publisher_id: member_id,
         work_type_id: work_type_id,
+        registration_agency: registration_agency,
         tracked: true,
         csl: csl }
     end

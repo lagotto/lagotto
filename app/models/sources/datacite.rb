@@ -2,6 +2,12 @@ class Datacite < Source
   # include common methods for DataCite
   include Datacitable
 
+  def get_query_url(work)
+    return {} unless work.doi.present? && work.registration_agency == "crossref"
+
+    url % { doi: work.doi_escaped }
+  end
+
   def get_related_works(result, work)
     result["response"] ||= {}
     Array(result["response"]["docs"]).map do |item|

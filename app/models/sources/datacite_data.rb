@@ -2,6 +2,12 @@ class DataciteData < Source
   # include common methods for DataCite
   include Datacitable
 
+  def get_query_url(work)
+    return {} unless work.doi.present? && work.registration_agency == "datacite"
+
+    url % { doi: work.doi_escaped }
+  end
+
   def get_related_works(result, work)
     related_identifiers = result.deep_fetch('response', 'docs', 0, 'relatedIdentifier') { [] }
     related_identifiers.map do |item|
@@ -39,5 +45,9 @@ class DataciteData < Source
 
   def events_url
     "http://search.datacite.org/ui?q=doi:%{doi}"
+  end
+
+  def tracked
+    config.tracked || true
   end
 end
