@@ -3,6 +3,12 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 4.2.1 (July 13, 2015)
+
+[Lagotto 4.2.1](https://github.com/articlemetrics/lagotto/releases/tag/v.4.2.1) was released on July 13, 2015 with the following changes:
+
+* automatically archive all Lagotto releases in zenodo and register a DOI
+
 ## Lagotto 4.2 (July 13, 2015)
 
 [Lagotto 4.2](https://github.com/articlemetrics/lagotto/releases/tag/v.4.2) was released on July 13, 2015 with the following changes:
