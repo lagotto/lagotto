@@ -4,6 +4,7 @@ class ZenodoDataExport < ::DataExport
   module ZenodoClientFactory
     API_KEY_ENV_VARIABLE_NAME = "ZENODO_KEY"
     URL_ENV_VARIABLE_NAME = "ZENODO_URL"
+    PUBLICATION_DOI = "10.3789/isqv25no2.2013.04"
 
     def self.build(options={})
       api_key = options[:api_key] || ENV[API_KEY_ENV_VARIABLE_NAME]
@@ -75,7 +76,8 @@ class ZenodoDataExport < ::DataExport
 
   def build_related_identifiers_for_deposition_metadata
     related_identifiers = [
-      { "relation" => "isSupplementTo", "identifier" => code_repository_url }
+      { "relation" => "isSupplementTo", "identifier" => code_repository_url },
+      { "relation" => "isSupplementTo", "identifier" => PUBLICATION_DOI }
     ]
 
     if previous_version
