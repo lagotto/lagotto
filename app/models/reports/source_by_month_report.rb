@@ -16,7 +16,7 @@ class SourceByMonthReport
         .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.html, months.pdf, months.total")
         .where("(months.year >= :year AND months.month >= :month) OR (months.year > :year)", year: starting_year, month: starting_month)
         .group("works.pid")
-        .order("works.id, year ASC, month ASC")
+        .order("works.published_on, year ASC, month ASC")
         .all
     end
   end

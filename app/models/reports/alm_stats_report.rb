@@ -18,7 +18,7 @@ class AlmStatsReport
         .where("works.tracked = ?", 1)
         .joins("LEFT JOIN retrieval_statuses rs ON works.id = rs.work_id")
         .group("works.id")
-        .order("works.id ASC")
+        .order("works.published_on ASC")
         .all
     end
   end

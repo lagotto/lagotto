@@ -13,7 +13,7 @@ class MendeleyReport
       source_model.works.includes(:retrieval_statuses)
         .group("works.id")
         .select("works.pid, retrieval_statuses.readers, retrieval_statuses.total")
-        .order("works.id ASC")
+        .order("works.published_on ASC")
         .all
     end
   end

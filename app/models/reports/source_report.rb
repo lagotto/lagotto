@@ -15,7 +15,7 @@ class SourceReport
         .group("works.id")
         .select("works.pid, retrieval_statuses.html, retrieval_statuses.pdf, retrieval_statuses.total")
         .all
-        .order("works.id ASC")
+        .order("works.published_on ASC")
     end
   end
 
