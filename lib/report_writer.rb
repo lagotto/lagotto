@@ -22,7 +22,7 @@ class ReportWriter
   COUNTER_COMBINED_STATS_CSV_FILENAME = "counter_combined.csv"
   COUNTER_STATS_CSV_FILENAME = "counter_stats.csv"
 
-  ALM_COMBINED_STATS_CSV_FILENAME = "alm_report.csv"
+  ALM_COMBINED_STATS_FILENAME = "alm_report"
   ALM_COMBINED_STATS_PRIVATE_CSV_FILENAME = "alm_private_report.csv"
 
   attr_reader :output_dir

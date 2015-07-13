@@ -17,7 +17,7 @@ describe ReportZipper do
   describe '.zip_alm_combined_stats!' do
     let!(:report_write_log){ ReportWriteLog.create!(filepath: report_filepath) }
     let(:report_filepath){ data_dir.join(report_filename) }
-    let(:report_filename){ ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME }
+    let(:report_filename){ ReportWriter::ALM_COMBINED_STATS_FILENAME + "_#{Time.zone.now.to_date}.csv" }
 
     before do
       File.write(report_filepath, "sample report contents")

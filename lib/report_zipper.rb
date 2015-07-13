@@ -12,11 +12,11 @@ class ReportZipper
   end
 
   def self.alm_combined_stats_zip_filename
-    zip_filename_for(ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME)
+    zip_filename_for(ReportWriter::ALM_COMBINED_STATS_FILENAME + "_#{Time.zone.now.to_date}.csv")
   end
 
   def self.zip_alm_combined_stats!
-    report_filename = ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME
+    report_filename = ReportWriter::ALM_COMBINED_STATS_FILENAME + "_#{Time.zone.now.to_date}.csv"
     alm_stats_write_log = ReportWriteLog.most_recent_with_name(report_filename)
 
     if alm_stats_write_log.blank?

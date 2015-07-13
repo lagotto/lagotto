@@ -138,7 +138,7 @@ namespace :report do
       counter_report:  CounterReport.new(Source.visible.where(name:"counter").first),
       mendeley_report: MendeleyReport.new(Source.visible.where(name:"mendeley").first)
     )
-    ReportWriter.write report, contents: report.to_csv, filename: ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME
+    ReportWriter.write report, contents: report.to_csv, filename: ReportWriter::ALM_COMBINED_STATS_FILENAME + "_#{Time.zone.now.to_date}.csv"
   end
 
   desc 'Generate CSV file with combined ALM private and public stats'

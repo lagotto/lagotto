@@ -184,7 +184,7 @@ describe "report:combined_stats" do
   include_context "rake"
 
   let!(:source) { FactoryGirl.create(:source) }
-  let(:output) { "Report \"alm_report.csv\" has been written.\n" }
+  let(:output) { "Report \"alm_report_#{Time.zone.now.to_date}.csv\" has been written.\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
@@ -215,7 +215,7 @@ describe "report:zip" do
   include_context "rake"
 
   let(:output_dir){ "#{Rails.root}/tmp/sample_reports" }
-  let(:report_filename){ ReportWriter::ALM_COMBINED_STATS_CSV_FILENAME  }
+  let(:report_filename){ ReportWriter::ALM_COMBINED_STATS_FILENAME + "_#{Time.zone.now.to_date}.csv" }
   let(:report_filepath){ File.join output_dir, report_filename }
 
   before do

@@ -32,7 +32,7 @@ describe MendeleyReport do
 
   describe "#headers" do
     it "returns the column headers for the report" do
-      expect(report.headers).to eq(["pid_type", "pid", "readers", "groups", "total"])
+      expect(report.headers).to eq(["pid", "readers", "groups", "total"])
     end
   end
 
@@ -61,11 +61,6 @@ describe MendeleyReport do
       describe "each line item" do
         let(:first_line_item){ line_items[0] }
         let(:second_line_item){ line_items[1] }
-
-        it "has the pid_type" do
-          expect(first_line_item.field("pid_type")).to eq("doi")
-          expect(second_line_item.field("pid_type")).to eq("doi")
-        end
 
         it "has the pid" do
           expect(first_line_item.field("pid")).to eq(retrieval_status_with_few_readers.work.pid)
@@ -122,9 +117,9 @@ describe MendeleyReport do
 
   describe "#to_csv" do
     let(:expected_csv){ <<-CSV.gsub(/^\s+/, '')
-      pid_type,pid,readers,groups,total
-      doi,#{work_1.pid},1,2,3
-      doi,#{work_2.pid},1319,101,1420
+      pid,readers,groups,total
+      #{work_1.pid},1,2,3
+      #{work_2.pid},1319,101,1420
       CSV
     }
 
