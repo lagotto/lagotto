@@ -73,7 +73,7 @@ class Api::V6::WorksController < Api::BaseController
 
   def index
     source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.where(member_id: params[:publisher_id]).first
+    publisher = Publisher.where(name: params[:publisher_id]).first
 
     collection = get_ids(params)
     collection = get_class_name(collection, params) if params[:class_name]
@@ -139,8 +139,8 @@ class Api::V6::WorksController < Api::BaseController
       collection = Work.joins(:retrieval_statuses)
                    .where("retrieval_statuses.source_id = ?", source.id)
                    .where("retrieval_statuses.total > 0")
-    elsif params[:publisher_id]
-      collection = Work.where(publisher_id: params[:publisher_id])
+    elsif params[:publisher_id] && publisher = Publisher.where(name: params[:publisher_id]).first
+      collection = Work.where(publisher_id: publisher.member_id)
     else
       collection = Work.tracked
     end
