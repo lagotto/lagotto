@@ -263,7 +263,7 @@ module Resolvable
       when id.starts_with?("www.ncbi.nlm.nih.gov/pubmed/")                  then { pmid: id[28..-1] }
       when id.starts_with?("www.ncbi.nlm.nih.gov/pmc/articles/PMC")         then { pmcid: id[37..-1] }
       when id.starts_with?("arxiv.org/abs/")     then { arxiv: id[14..-1] }
-      when id.starts_with?("n2t.net/ark:")       then { ark: id[12..-1] }
+      when id.starts_with?("n2t.net/ark:")       then { ark: id[8..-1] }
 
       when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]) }
       when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]) }
