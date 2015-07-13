@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:00 GMT
+      - Mon, 13 Jul 2015 20:55:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,8 +31,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:00",
-         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:14",
+         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC2763780",
@@ -48,16 +48,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:00 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:02 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -66,7 +66,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:01 GMT
+      - Mon, 13 Jul 2015 20:55:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -80,8 +80,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:01",
-         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:14",
+         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC2782675",
@@ -98,16 +98,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:01 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:03 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -116,7 +116,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:01 GMT
+      - Mon, 13 Jul 2015 20:55:15 GMT
       Server:
       - Apache
       Content-Type:
@@ -130,8 +130,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:01",
-         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:15",
+         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "19308318",
@@ -142,16 +142,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:01 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:03 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -160,7 +160,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:03 GMT
+      - Mon, 13 Jul 2015 20:55:15 GMT
       Server:
       - Apache
       Content-Type:
@@ -174,8 +174,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:03",
-         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:16",
+         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC3051412",
@@ -191,16 +191,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:03 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:04 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -209,7 +209,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:03 GMT
+      - Mon, 13 Jul 2015 20:55:16 GMT
       Server:
       - Apache
       Content-Type:
@@ -223,8 +223,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:03",
-         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:16",
+         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC2824913",
@@ -241,16 +241,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:03 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:04 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -259,7 +259,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:04 GMT
+      - Mon, 13 Jul 2015 20:55:17 GMT
       Server:
       - Apache
       Content-Type:
@@ -273,8 +273,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:04",
-         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:17",
+         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC1976277",
@@ -291,16 +291,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:04 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:05 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -309,7 +309,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:04 GMT
+      - Mon, 13 Jul 2015 20:55:17 GMT
       Server:
       - Apache
       Content-Type:
@@ -323,8 +323,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:04",
-         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:17",
+         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC3098654",
@@ -340,16 +340,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:05 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:06 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -358,7 +358,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:05 GMT
+      - Mon, 13 Jul 2015 20:55:18 GMT
       Server:
       - Apache
       Content-Type:
@@ -372,8 +372,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:05",
-         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:18",
+         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "21116297",
@@ -384,16 +384,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:05 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:06 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -402,7 +402,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:06 GMT
+      - Mon, 13 Jul 2015 20:55:18 GMT
       Server:
       - Apache
       Content-Type:
@@ -416,8 +416,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:06",
-         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:18",
+         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "17927775",
@@ -428,16 +428,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:06 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -446,7 +446,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:06 GMT
+      - Mon, 13 Jul 2015 20:55:19 GMT
       Server:
       - Apache
       Content-Type:
@@ -460,8 +460,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:06",
-         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:19",
+         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "19949811",
@@ -472,16 +472,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:06 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -490,7 +490,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:07 GMT
+      - Mon, 13 Jul 2015 20:55:19 GMT
       Server:
       - Apache
       Content-Type:
@@ -504,8 +504,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:07",
-         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:19",
+         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "18413319",
@@ -516,16 +516,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:07 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -534,7 +534,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:07 GMT
+      - Mon, 13 Jul 2015 20:55:20 GMT
       Server:
       - Apache
       Content-Type:
@@ -548,8 +548,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:07",
-         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:20",
+         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "19252922",
@@ -560,16 +560,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:07 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -578,7 +578,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:08 GMT
+      - Mon, 13 Jul 2015 20:55:20 GMT
       Server:
       - Apache
       Content-Type:
@@ -592,8 +592,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:08",
-         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:21",
+         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC2724239",
@@ -609,16 +609,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:08 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:09 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -627,7 +627,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:08 GMT
+      - Mon, 13 Jul 2015 20:55:21 GMT
       Server:
       - Apache
       Content-Type:
@@ -641,8 +641,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:09",
-         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:21",
+         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC2576030",
@@ -658,16 +658,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:09 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:09 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -676,7 +676,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:09 GMT
+      - Mon, 13 Jul 2015 20:55:22 GMT
       Server:
       - Apache
       Content-Type:
@@ -690,8 +690,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:09",
-         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:22",
+         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "18386391",
@@ -702,16 +702,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:09 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:10 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -720,7 +720,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:10 GMT
+      - Mon, 13 Jul 2015 20:55:22 GMT
       Server:
       - Apache
       Content-Type:
@@ -734,8 +734,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:10",
-         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:22",
+         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC2886697",
@@ -751,16 +751,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:10 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:11 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -769,7 +769,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:10 GMT
+      - Mon, 13 Jul 2015 20:55:23 GMT
       Server:
       - Apache
       Content-Type:
@@ -783,8 +783,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:10",
-         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:23",
+         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "20416284",
@@ -795,16 +795,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:10 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:11 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -813,7 +813,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:11 GMT
+      - Mon, 13 Jul 2015 20:55:23 GMT
       Server:
       - Apache
       Content-Type:
@@ -827,8 +827,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:11",
-         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:23",
+         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -848,16 +848,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:11 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:12 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -866,7 +866,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:11 GMT
+      - Mon, 13 Jul 2015 20:55:24 GMT
       Server:
       - Apache
       Content-Type:
@@ -880,8 +880,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:11",
-         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:24",
+         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "18686574",
@@ -892,16 +892,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:11 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:12 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -910,7 +910,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:12 GMT
+      - Mon, 13 Jul 2015 20:55:24 GMT
       Server:
       - Apache
       Content-Type:
@@ -924,8 +924,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:12",
-         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:24",
+         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "19937527",
@@ -936,16 +936,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:12 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -954,7 +954,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:12 GMT
+      - Mon, 13 Jul 2015 20:55:25 GMT
       Server:
       - Apache
       Content-Type:
@@ -968,8 +968,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:12",
-         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:25",
+         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "21113688",
@@ -980,16 +980,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:13 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -998,7 +998,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:13 GMT
+      - Mon, 13 Jul 2015 20:55:25 GMT
       Server:
       - Apache
       Content-Type:
@@ -1012,8 +1012,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:13",
-         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:26",
+         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmid": "21142998",
@@ -1024,16 +1024,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:13 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:14 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%204.1.1%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%20-%20http://lagotto-master.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto 4.2.1 - http://lagotto-master.local
       Accept:
       - application/json
   response:
@@ -1042,7 +1042,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 06 Jul 2015 19:56:14 GMT
+      - Mon, 13 Jul 2015 20:55:28 GMT
       Server:
       - Apache
       Content-Type:
@@ -1056,8 +1056,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-06 15:56:14",
-         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%204.1.1%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-13 16:55:28",
+         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
          "records": [
            {
             "pmcid": "PMC3443659",
@@ -1073,5 +1073,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 06 Jul 2015 19:56:14 GMT
+  recorded_at: Mon, 13 Jul 2015 20:54:17 GMT
 recorded_with: VCR 2.9.3

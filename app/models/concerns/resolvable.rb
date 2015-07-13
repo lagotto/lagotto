@@ -84,7 +84,7 @@ module Resolvable
       return {} if id.blank?
 
       conn = faraday_conn('json', options)
-      params = { 'tool' => "Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}",
+      params = { 'tool' => "Lagotto - http://#{ENV['SERVERNAME']}",
                  'email' => ENV['ADMIN_EMAIL'],
                  'ids' => id,
                  'idtype' => idtype,
