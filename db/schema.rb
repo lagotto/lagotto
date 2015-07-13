@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713174250) do
+ActiveRecord::Schema.define(version: 20150713220545) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20150713174250) do
   end
 
   add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
+  add_index "days", ["source_id"], name: "days_source_id_fk", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
 
   create_table "filters", force: :cascade do |t|
@@ -161,6 +162,7 @@ ActiveRecord::Schema.define(version: 20150713174250) do
   end
 
   add_index "publisher_options", ["publisher_id", "source_id"], name: "index_publisher_options_on_publisher_id_and_source_id", unique: true, using: :btree
+  add_index "publisher_options", ["source_id"], name: "publisher_options_source_id_fk", using: :btree
 
   create_table "publishers", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -200,6 +202,9 @@ ActiveRecord::Schema.define(version: 20150713174250) do
   end
 
   add_index "relations", ["level", "work_id", "related_work_id"], name: "index_relations_on_level_work_related_work", using: :btree
+  add_index "relations", ["related_work_id"], name: "relations_related_work_id_fk", using: :btree
+  add_index "relations", ["relation_type_id"], name: "relations_relation_type_id_fk", using: :btree
+  add_index "relations", ["source_id"], name: "relations_source_id_fk", using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
   create_table "report_write_logs", force: :cascade do |t|
@@ -288,6 +293,7 @@ ActiveRecord::Schema.define(version: 20150713174250) do
     t.boolean  "eventable",                 default: true
   end
 
+  add_index "sources", ["group_id"], name: "sources_group_id_fk", using: :btree
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
   add_index "sources", ["state"], name: "index_sources_on_state", using: :btree
   add_index "sources", ["type"], name: "index_sources_on_type", unique: true, using: :btree
@@ -393,7 +399,26 @@ ActiveRecord::Schema.define(version: 20150713174250) do
   add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id", using: :btree
   add_index "works", ["scp"], name: "index_works_on_scp", unique: true, using: :btree
   add_index "works", ["tracked", "published_on"], name: "index_works_on_tracked_published_on", using: :btree
+  add_index "works", ["work_type_id"], name: "works_work_type_id_fk", using: :btree
   add_index "works", ["wos", "published_on", "id"], name: "index_works_on_wos_published_on_id", using: :btree
   add_index "works", ["wos"], name: "index_works_on_wos", unique: true, using: :btree
 
+  add_foreign_key "days", "retrieval_statuses", name: "days_retrieval_status_id_fk", on_delete: :cascade
+  add_foreign_key "days", "sources", name: "days_source_id_fk", on_delete: :cascade
+  add_foreign_key "days", "works", name: "days_work_id_fk", on_delete: :cascade
+  add_foreign_key "months", "retrieval_statuses", name: "months_retrieval_status_id_fk", on_delete: :cascade
+  add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
+  add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
+  add_foreign_key "publisher_options", "publishers", primary_key: "member_id", name: "publisher_options_publisher_id_fk", on_delete: :cascade
+  add_foreign_key "publisher_options", "sources", name: "publisher_options_source_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "relation_types", name: "relations_relation_type_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "sources", name: "relations_source_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "works", column: "related_work_id", name: "relations_related_work_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "works", name: "relations_work_id_fk", on_delete: :cascade
+  add_foreign_key "reports_users", "reports", name: "reports_users_report_id_fk", on_delete: :cascade
+  add_foreign_key "reports_users", "users", name: "reports_users_user_id_fk", on_delete: :cascade
+  add_foreign_key "retrieval_statuses", "sources", name: "retrieval_statuses_source_id_fk", on_delete: :cascade
+  add_foreign_key "retrieval_statuses", "works", name: "retrieval_statuses_work_id_fk", on_delete: :cascade
+  add_foreign_key "sources", "groups", name: "sources_group_id_fk", on_delete: :cascade
+  add_foreign_key "works", "work_types", name: "works_work_type_id_fk", on_delete: :cascade
 end

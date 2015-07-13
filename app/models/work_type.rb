@@ -1,5 +1,5 @@
 class WorkType < ActiveRecord::Base
-  has_many :works, dependent: :nullify
+  has_many :works
 
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true, :uniqueness => true
