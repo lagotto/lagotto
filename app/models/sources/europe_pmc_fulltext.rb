@@ -3,7 +3,7 @@ class EuropePmcFulltext < Source
   include Pmcable
 
   def get_query_url(work, options = {})
-    return {} unless work.get_url
+    return {} unless work.get_url && work.registration_agency != "crossref"
 
     query_string = get_query_string(work)
     return {} unless query_string.present?
