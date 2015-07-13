@@ -239,6 +239,12 @@ describe ZenodoDataExport do
       )
     end
 
+    it "has an attribute to a related publication" do
+      expect(metadata["related_identifiers"]).to include(
+        { "relation" => "isSupplementTo", "identifier" => "10.3789/isqv25no2.2013.04" }
+      )
+    end
+
     context "and there was a previous export with the same name" do
       subject(:data_export){ FactoryGirl.build(:zenodo_data_export, name: previous_export.name) }
 

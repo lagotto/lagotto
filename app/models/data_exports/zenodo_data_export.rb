@@ -1,10 +1,11 @@
 class ZenodoDataExport < ::DataExport
   class MissingZenodoApiKey < Error ; end
 
+  PUBLICATION_DOI = "10.3789/isqv25no2.2013.04"
+
   module ZenodoClientFactory
     API_KEY_ENV_VARIABLE_NAME = "ZENODO_KEY"
     URL_ENV_VARIABLE_NAME = "ZENODO_URL"
-    PUBLICATION_DOI = "10.3789/isqv25no2.2013.04"
 
     def self.build(options={})
       api_key = options[:api_key] || ENV[API_KEY_ENV_VARIABLE_NAME]
