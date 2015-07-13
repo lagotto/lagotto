@@ -94,7 +94,7 @@ module ApplicationHelper
   end
 
   def author_format(author)
-    authors = author.map { |a| a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s }
+    authors = Array(author).map { |a| a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s }
     case authors.length
     when 0, 1, 2 then authors.join(" & ")
     when 3, 4 then authors[0..-2].join(", ") + " & " + authors.last
