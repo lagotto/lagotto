@@ -114,4 +114,4 @@ TYPES_WITH_TITLE = %w(journal-article
                       dataset)
 
 ZENODO_KEYWORDS = ["alm","lagotto","article-level metrics","altmetrics",
-  "bibliometrics","mendeley","facebook","twitter","scopus"]
+  "bibliometrics","downloads","citations","mendeley","facebook","twitter"]
