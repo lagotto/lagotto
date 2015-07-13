@@ -3,6 +3,32 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 4.2 (July 13, 2015)
+
+[Lagotto 4.2](https://github.com/articlemetrics/lagotto/releases/tag/v.4.2) was released on July 13, 2015 with the following changes:
+
+* export CSV summary report to Zenodo data repository ([#339](https://github.com/articlemetrics/lagotto/issues/339))
+* process pmc import and parsing in the background ([#363](https://github.com/articlemetrics/lagotto/issues/363))
+* allow wildcard searches for works in the API and admin frontend ([#368](https://github.com/articlemetrics/lagotto/issues/368))
+* added missing author information to v6 API ([#370](https://github.com/articlemetrics/lagotto/issues/370))
+* make sure DOIs are stored in lowercase([#372] (https://github.com/articlemetrics/lagotto/issues/372))
+* optionally load all DataONE member nodes as publishers ([#374](https://github.com/articlemetrics/lagotto/issues/374))
+* added methods to fetch metadata for DataCite DOIs, and to look up the DOI registration agency ([#376](https://github.com/articlemetrics/lagotto/issues/376))
+* added registration agency column to works ([#377](https://github.com/articlemetrics/lagotto/issues/377))
+* store temporary files in tmp folder ([#378](https://github.com/articlemetrics/lagotto/issues/378))
+* fixed name inconsistencies for EuropePMC sources ([#379](https://github.com/articlemetrics/lagotto/issues/379))
+
+The following new ENV variables must be set in the `.env` file to use the new Zenodo export functionality:
+```
+CREATOR=Public Library of Science
+ZENODO_KEY=YOUR_KEY_HERE
+ZENODO_URL=https://zenodo.org/api/
+#ZENODO_URL=https://sandbox.zenodo.org/api/ for testing
+SITENAMELONG="PLOS ALM"
+```
+
+A `ZENODO_KEY` can be obtained by creating a Zenodo account and then a personal access token on the profile page.
+
 ## Lagotto 4.1.1 (July 6, 2015)
 
 [Lagotto 4.1.1](https://github.com/articlemetrics/lagotto/releases/tag/v.4.1.1) was released on July 6, 2015 with the following fixes:
