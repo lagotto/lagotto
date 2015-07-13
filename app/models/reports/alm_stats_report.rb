@@ -15,6 +15,7 @@ class AlmStatsReport
       end
 
       Work.select(select_clause)
+        .where("works.tracked = ?", 1)
         .joins("LEFT JOIN retrieval_statuses rs ON works.id = rs.work_id")
         .group("works.id")
         .order("works.id ASC")

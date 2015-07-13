@@ -37,7 +37,6 @@ shared_examples_for "SourceReport examples" do |options|
 
   describe "#headers" do
     subject(:headers){ report.headers }
-    it { should include("pid_type")}
     it { should include("pid")}
     it { should include("html")}
     it { should include("pdf")}
@@ -74,11 +73,6 @@ shared_examples_for "SourceReport examples" do |options|
       describe "each line item" do
         let(:first_line_item){ line_items[0] }
         let(:second_line_item){ line_items[1] }
-
-        it "has the pid_type" do
-          expect(first_line_item.field("pid_type")).to eq("doi")
-          expect(second_line_item.field("pid_type")).to eq("doi")
-        end
 
         it "has the pid" do
           expect(first_line_item.field("pid")).to eq(retrieval_status_with_few_readers.work.pid)

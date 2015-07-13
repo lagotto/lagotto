@@ -11,6 +11,7 @@ class SourceReport
     def execute
       return [] unless source_model
       source_model.works.includes(:retrieval_statuses)
+        .where("works.tracked = ?", 1)
         .group("works.id")
         .select("works.pid, retrieval_statuses.html, retrieval_statuses.pdf, retrieval_statuses.total")
         .all
@@ -23,7 +24,7 @@ class SourceReport
   end
 
   def headers
-    ["pid_type", "pid", "html", "pdf", "total"]
+    ["pid", "html", "pdf", "total"]
   end
 
   def line_items
@@ -40,7 +41,6 @@ class SourceReport
 
   def build_line_item_for_result(result)
     Reportable::LineItem.new(
-      pid_type: "doi",
       pid: result.pid,
       html: result.html,
       pdf: result.pdf,

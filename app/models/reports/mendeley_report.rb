@@ -23,13 +23,12 @@ class MendeleyReport
   end
 
   def headers
-    ["pid_type", "pid", "readers", "groups", "total"]
+    ["pid", "readers", "groups", "total"]
   end
 
   def line_items
     @line_items ||= results.map do |result|
       Reportable::LineItem.new(
-        pid_type: "doi",
         pid: result.pid,
         readers: result.readers,
         groups: groups_value_for(result),

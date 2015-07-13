@@ -61,7 +61,7 @@ class SourceByMonthReport
   end
 
   def headers
-    ["pid_type", "pid"] + formatted_dates
+    ["pid"] + formatted_dates
   end
 
   def each_line_item(&blk)
@@ -94,7 +94,7 @@ class SourceByMonthReport
   def build_line_items
     Array.new.tap do |line_items|
       results_nested.each_pair do |result, results_by_date_key|
-        attributes = { pid_type: "doi", pid: result.pid }
+        attributes = { pid: result.pid }
         formatted_dates.each do |date_key|
           attributes[date_key] = results_by_date_key[date_key] ||= 0
         end

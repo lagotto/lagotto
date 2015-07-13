@@ -43,7 +43,7 @@ shared_examples_for "SourceByMonthReport examples" do |options|
     let(:formatted_dates){ dates.map { |date| "#{date[:year]}-#{date[:month]}" } }
 
     it "returns the headers including year-month ascending order from the given year/month to the current year/month" do
-      expect(report.headers).to eq ["pid_type", "pid"].concat formatted_dates
+      expect(report.headers).to eq ["pid"].concat formatted_dates
     end
   end
 
@@ -77,11 +77,6 @@ shared_examples_for "SourceByMonthReport examples" do |options|
         let(:work_def_line_item){
           line_items.detect{ |i| i.field("pid") == work_def.pid }
         }
-
-        it "has the pid_type" do
-          expect(work_abc_line_item.field("pid_type")).to eq("doi")
-          expect(work_def_line_item.field("pid_type")).to eq("doi")
-        end
 
         it "has the pid" do
           expect(work_abc_line_item.field("pid")).to eq(work_abc.pid)
