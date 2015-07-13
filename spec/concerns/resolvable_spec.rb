@@ -116,6 +116,11 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(ark: "ark:/13030/m5br8st1")
       end
 
+      it "n2t.net/ark:/90135/q1vm497c" do
+        id = "n2t.net/ark:/90135/q1vm497c"
+        expect(subject.get_id_hash(id)).to eq(ark: "ark:/90135/q1vm497c")
+      end
+
       it "doi/" do
         id = "doi/10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
