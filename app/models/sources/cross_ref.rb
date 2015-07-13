@@ -1,6 +1,6 @@
 class CrossRef < Source
   def get_query_url(work)
-    return {} unless work.doi.present?
+    return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     if work.publisher_id.present?
       # check that we have publisher-specific configuration
@@ -134,5 +134,9 @@ class CrossRef < Source
 
   def by_publisher?
     true
+  end
+
+  def registration_agencies
+    ["crossref"]
   end
 end

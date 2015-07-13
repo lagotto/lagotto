@@ -3,7 +3,7 @@ class Datacite < Source
   include Datacitable
 
   def get_query_url(work)
-    return {} unless work.doi.present? && work.registration_agency == "crossref"
+    return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     url % { doi: work.doi_escaped }
   end
@@ -45,5 +45,9 @@ class Datacite < Source
 
   def events_url
     "http://search.datacite.org/ui?q=relatedIdentifier:%{doi}"
+  end
+
+  def registration_agencies
+    ["crossref", "dataone", "cdl", "github", "bitbucket"]
   end
 end

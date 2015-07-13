@@ -3,7 +3,7 @@ require 'rails_helper'
 describe DataciteData, type: :model, vcr: true do
   subject { FactoryGirl.create(:datacite_data) }
 
-  let(:work) { FactoryGirl.create(:work, :doi => "10.5061/DRYAD.8515") }
+  let(:work) { FactoryGirl.create(:work, :doi => "10.5061/DRYAD.8515", registration_agency: "datacite") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do

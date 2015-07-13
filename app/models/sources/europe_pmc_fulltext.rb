@@ -3,7 +3,7 @@ class EuropePmcFulltext < Source
   include Pmcable
 
   def get_query_url(work, options = {})
-    return {} unless work.get_url && work.registration_agency != "crossref"
+    return {} unless work.get_url && registration_agencies.include?(work.registration_agency)
 
     query_string = get_query_string(work)
     return {} unless query_string.present?
@@ -65,6 +65,10 @@ class EuropePmcFulltext < Source
 
   def rows
     25
+  end
+
+  def registration_agencies
+    ["datacite", "dataone", "cdl", "github", "bitbucket"]
   end
 
   def result_key

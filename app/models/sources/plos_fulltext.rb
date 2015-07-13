@@ -1,7 +1,7 @@
 class PlosFulltext < Source
   def get_query_url(work, options = {})
     # don't query if work is PLOS article
-    return {} if work.doi =~ /^10.1371/
+    return {} if work.doi =~ /^10.1371/ && registration_agencies.include?(work.registration_agency)
 
     query_string = get_query_string(work)
     return {} unless query_string.present?
@@ -82,5 +82,9 @@ class PlosFulltext < Source
 
   def events_url
     "http://www.plosone.org/search/advanced?unformattedQuery=%{query_string}"
+  end
+
+  def registration_agencies
+    ["datacite", "dataone", "cdl", "github", "bitbucket"]
   end
 end

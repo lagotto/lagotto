@@ -3,7 +3,7 @@ class DataciteData < Source
   include Datacitable
 
   def get_query_url(work)
-    return {} unless work.doi.present? && work.registration_agency == "datacite"
+    return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     url % { doi: work.doi_escaped }
   end
@@ -47,6 +47,10 @@ class DataciteData < Source
 
   def events_url
     "http://search.datacite.org/ui?q=doi:%{doi}"
+  end
+
+  def registration_agencies
+    ["datacite"]
   end
 
   def tracked

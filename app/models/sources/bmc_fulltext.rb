@@ -1,7 +1,7 @@
 class BmcFulltext < Source
   def get_query_url(work, options = {})
     # don't query if work is BMC article
-    return {} if work.doi =~ /^10.1186/
+    return {} if work.doi =~ /^10.1186/ && registration_agencies.include?(work.registration_agency)
 
     query_string = get_query_string(work)
     return {} unless query_string.present?
@@ -90,5 +90,9 @@ class BmcFulltext < Source
 
   def events_url
     "http://www.biomedcentral.com/search/results?terms=%{query_string}"
+  end
+
+  def registration_agencies
+    ["datacite", "dataone","cdl", "github", "bitbucket"]
   end
 end
