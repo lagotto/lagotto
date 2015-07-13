@@ -64,6 +64,8 @@ describe Wikipedia, type: :model, vcr: true do
   end
 
   context "parse_data" do
+    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
+
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
@@ -83,7 +85,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(response[:works].length).to eq(637)
       expect(response[:events][:total]).to eq(637)
       expect(response[:events][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(response[:events][:days].length).to eq(97)
+      expect(response[:events][:days].length).to eq(88)
       expect(response[:events][:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
       expect(response[:events][:months].length).to eq(29)
       expect(response[:events][:months].first).to eq(year: 2012, month: 5, total: 5)
@@ -116,7 +118,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(response[:works].length).to eq(10)
       expect(response[:events][:total]).to eq(10)
       expect(response[:events][:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(response[:events][:days].length).to eq(2)
+      expect(response[:events][:days].length).to eq(1)
       expect(response[:events][:days].first).to eq(year: 2013, month: 8, day: 29, total: 6)
       expect(response[:events][:months].length).to eq(3)
       expect(response[:events][:months].first).to eq(year: 2013, month: 8, total: 6)
