@@ -5,10 +5,10 @@ class SourceByMonthReport
   class Query
     attr_reader :source_model, :starting_year, :starting_month
 
-    def initialize(source_model, starting_year: nil, starting_month: nil)
+    def initialize(source_model, options={})
       @source_model = source_model
-      @starting_year = starting_year
-      @starting_month = starting_month
+      @starting_year = options[:starting_year] || raise(ArgumentError, "Must supply :starting_year")
+      @starting_month = options[:starting_month] || raise(ArgumentError, "Must supply :starting_month")
     end
 
     def execute
@@ -50,9 +50,11 @@ class SourceByMonthReport
     result.send(format)
   end
 
-  def initialize(source_model, format: nil, year: nil, month: nil)
-    @format = format
-    @dates = date_range(year:year, month:month)
+  def initialize(source_model, options={})
+    @format = options[:format] || raise(ArgumentError, "Must supply :format")
+    year =options[:year] || raise(ArgumentError, "Must supply :year")
+    month =options[:month] || raise(ArgumentError, "Must supply :month")
+    @dates = date_range(year: year, month: month)
     starting_year, starting_month = @dates.first[:year], @dates.first[:month]
     @query = Query.new(source_model,
       starting_year: starting_year,

@@ -1,11 +1,11 @@
 class AlmCombinedStatsReport
   include Reportable::ToCsv
 
-  def initialize(alm_report: nil, pmc_report: nil, counter_report: nil, mendeley_report: nil)
-    @alm_report = alm_report
-    @pmc_report = pmc_report
-    @counter_report = counter_report
-    @mendeley_report = mendeley_report
+  def initialize(options={})
+    @alm_report = options[:alm_report] || raise(ArgumentError, "Must supply :alm_report")
+    @pmc_report = options[:pmc_report] || raise(ArgumentError, "Must supply :pmc_report")
+    @counter_report = options[:counter_report] || raise(ArgumentError, "Must supply :counter_report")
+    @mendeley_report = options[:mendeley_report] || raise(ArgumentError, "Must supply :mendeley_report")
   end
 
   def headers
