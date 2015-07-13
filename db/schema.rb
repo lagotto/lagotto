@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20150713220545) do
   end
 
   add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
-  add_index "days", ["source_id"], name: "days_source_id_fk", using: :btree
+  add_index "days", ["source_id"], name: "index_days_on_source_id", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
 
   create_table "filters", force: :cascade do |t|
