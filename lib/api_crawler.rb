@@ -78,7 +78,7 @@ class ApiCrawler
     @pageno = meta["page"] || raise("Missing page inside of meta element in:\n #{meta.inspect}")
     @total_pages = meta["total_pages"] || raise("Missing total_pages inside of meta element in:\n #{meta.inspect}")
 
-    if @pageno <= @total_pages && @pageno <= @stop_page && @num_pages_processed <= @num_pages
+    if @pageno <= @total_pages && @pageno < @stop_page && @num_pages_processed <= @num_pages
       next_uri = URI.parse(@url)
       next_uri.query = {page: @pageno+1}.to_query
       next_uri
