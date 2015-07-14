@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714145842) do
+ActiveRecord::Schema.define(version: 20150714174200) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 20150714145842) do
     t.datetime "started_exporting_at"
     t.datetime "finished_exporting_at"
     t.text     "data",                  limit: 65535
-    t.text     "files",                 limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name",                  limit: 255

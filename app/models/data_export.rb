@@ -23,10 +23,8 @@ class DataExport < ActiveRecord::Base
   scope :not_exported, -> { where(started_exporting_at:nil, finished_exporting_at:nil) }
 
   serialize :data, Hash
-  serialize :files, Array
 
   validates :name, presence: true
-  validates :files, presence: true
 
   def export!
     raise NotImplementedError, "Must implement #export! in subclass!"
