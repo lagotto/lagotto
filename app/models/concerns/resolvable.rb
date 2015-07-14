@@ -290,6 +290,7 @@ module Resolvable
       when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
       when id.starts_with?("PMC")                then { pmcid: id[3..-1] }
+      when id.starts_with?("doi_10.")            then { doi: id[4..-1].gsub("_", "/") }
       else { doi: CGI.unescape(id) }
       end
     end

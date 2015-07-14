@@ -156,6 +156,11 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
       end
 
+      it "doi_" do
+        id = "doi_10.5066_F7DZ067M"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5066/F7DZ067M")
+      end
+
       it "id" do
         id = "10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
