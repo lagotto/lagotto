@@ -14,10 +14,11 @@ services:
 
 before_script:
   - cp .env.travis .env
-  - mkdir -p tmp/pids
+  - mkdir -p tmp/pids tmp/files tmp/reports
+  - cd frontend npm install
   - npm install -g istanbul
   - npm install -g codeclimate-test-reporter
-  - curl -X PUT http://localhost:5984/lagotto
+  - bundle exec rake bower:install
   - bundle exec rake db:setup RAILS_ENV=test
 
 script:
