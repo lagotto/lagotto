@@ -39,7 +39,7 @@ describe "/api/v6/publishers", :type => :api do
         data = response["publishers"]
         item = data.first
         expect(item["title"]).to eq(publisher.title)
-        expect(item["id"]).to eq(publisher.member_id)
+        expect(item["id"]).to eq(publisher.name)
         expect(item["other_names"]).to eq(["Public Library of Science",
                                        "Public Library of Science (PLoS)"])
         expect(item["prefixes"]).to eq(["10.1371"])
