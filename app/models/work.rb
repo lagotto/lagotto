@@ -359,7 +359,7 @@ class Work < ActiveRecord::Base
       write_attribute(:published_on, published_on)
     end
   rescue ArgumentError
-    errors.add :published_on, "is not a valid date"
+    errors.add :published_on, "#{date_parts.join('-')} is not a valid date"
   end
 
   def sanitize_title

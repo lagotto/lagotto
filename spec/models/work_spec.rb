@@ -130,7 +130,7 @@ describe Work, type: :model, vcr: true do
     it 'don\'t validate wrong date' do
       work = FactoryGirl.build(:work, month: 2, day: 30)
       expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(published_on: ["is not a valid date"])
+      expect(work.errors.messages).to eq(published_on: ["2012-2-30 is not a valid date"])
     end
 
     it 'don\'t validate date in the future' do
