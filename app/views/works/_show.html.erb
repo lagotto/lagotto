@@ -16,14 +16,15 @@
     <% if can?(:manage, Work) && (controller.action_name == "edit" || (controller.action_name == "update" && !@work.errors.empty?)) %>
       <%= simple_form_for @work, :url => work_path(@work), :html => { :role => "form", :remote => true } do |f| %>
         <%= f.input :title, :input_html => { :rows => 2 } %>
-        <%= f.input :doi, :label => 'DOI', :disabled => @work.pid_type == "doi" %>
-        <%= f.input :canonical_url, :label => 'Canonical URL', :disabled => @work.pid_type == "url" %>
-        <%= f.input :pmid, :label => 'PubMed', :disabled => @work.pid_type == "pmid" %>
-        <%= f.input :pmcid, :label => 'PubMed Central', :disabled => @work.pid_type == "pmcid" %>
-        <%= f.input :wos, :label => 'ArXiV', :disabled => @work.pid_type == "arxiv" %>
-        <%= f.input :wos, :label => 'Web of Science', :disabled => @work.pid_type == "wos" %>
-        <%= f.input :scp, :label => 'Scopus', :disabled => @work.pid_type == "scp" %>
-        <%= f.input :ark, :label => 'Ark', :disabled => @work.pid_type == "ark" %>
+        <%= f.input :doi, :label => 'DOI' %>
+        <%= f.input :canonical_url, :label => 'Canonical URL' %>
+        <%= f.input :pmid, :label => 'PubMed' %>
+        <%= f.input :pmcid, :label => 'PubMed Central' %>
+        <%= f.input :wos, :label => 'ArXiV' %>
+        <%= f.input :wos, :label => 'Web of Science' %>
+        <%= f.input :scp, :label => 'Scopus' %>
+        <%= f.input :ark, :label => 'Ark' %>
+        <%= f.input :dataone, :label => 'DataONE' %>
         <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
         <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
         <% if publishers.length > 1 %>
@@ -107,6 +108,10 @@
         <% if @work.ark.present? %>
           <dt>Ark</dt>
           <dd><%= link_to @work.ark, @work.ark_as_url %></dd>
+        <% end %>
+        <% if @work.dataone.present? %>
+          <dt>DataONE</dt>
+          <dd><%= link_to @work.dataone, @work.dataone_as_url %></dd>
         <% end %>
         <% if @work.mendeley_url.present? %>
           <dt>Mendeley</dt>

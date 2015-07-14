@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713220545) do
+ActiveRecord::Schema.define(version: 20150714070804) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20150713220545) do
   end
 
   add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
-  add_index "days", ["source_id"], name: "index_days_on_source_id", using: :btree
+  add_index "days", ["source_id"], name: "days_source_id_fk", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
 
   create_table "filters", force: :cascade do |t|
@@ -377,6 +377,7 @@ ActiveRecord::Schema.define(version: 20150713220545) do
     t.string   "ark",                 limit: 191
     t.string   "arxiv",               limit: 191
     t.string   "registration_agency", limit: 255
+    t.string   "dataone",             limit: 191
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
@@ -386,6 +387,7 @@ ActiveRecord::Schema.define(version: 20150713220545) do
   add_index "works", ["canonical_url", "published_on", "id"], name: "index_works_on_url_published_on_id", length: {"canonical_url"=>100, "published_on"=>nil, "id"=>nil}, using: :btree
   add_index "works", ["canonical_url"], name: "index_works_on_url", length: {"canonical_url"=>100}, using: :btree
   add_index "works", ["created_at"], name: "index_works_on_created_at", using: :btree
+  add_index "works", ["dataone"], name: "index_works_on_dataone", unique: true, using: :btree
   add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
   add_index "works", ["doi"], name: "index_works_on_doi", unique: true, using: :btree
   add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>191}, using: :btree

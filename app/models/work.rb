@@ -177,6 +177,10 @@ class Work < ActiveRecord::Base
     "http://arxiv.org/abs/#{arxiv}" if arxiv.present?
   end
 
+  def dataone_as_url
+    "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
+  end
+
   def doi_prefix
     doi[/^10\.\d{4,5}/]
   end

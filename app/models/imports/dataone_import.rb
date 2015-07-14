@@ -99,6 +99,7 @@ class DataoneImport < Import
       { doi: doi,
         ark: ark,
         canonical_url: url,
+        dataone: id,
         title: title,
         year: year,
         month: month,

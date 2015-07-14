@@ -184,6 +184,6 @@ class Api::V6::WorksController < Api::BaseController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :dataone, :publisher_id, :year, :month, :day, :tracked)
   end
 end

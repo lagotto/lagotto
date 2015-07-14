@@ -97,6 +97,7 @@ describe DataoneImport, type: :model, vcr: true do
 
       work = response.first
       expect(work[:doi]).to eq("10.5061/dryad.tm8k3")
+      expect(work[:dataone]).to eq("http://dx.doi.org/10.5061/dryad.tm8k3?ver=2014-09-03T10:52:03.591-04:00")
       expect(work[:title]).to eq("Data from: Evolutionary neutrality of mtDNA introgression: evidence from complete mitogenome analysis in roe deer")
       expect(work[:year]).to eq(2014)
       expect(work[:month]).to eq(9)
@@ -161,6 +162,7 @@ describe DataoneImport, type: :model, vcr: true do
       work = response[5]
       expect(work[:doi]).to be_nil
       expect(work[:ark]).to be_nil
+      expect(work[:dataone]).to eq("knb-lter-arc.10353.1")
       expect(work[:title]).to eq("Scleral ring and orbit morphology")
     end
 
