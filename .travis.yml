@@ -15,9 +15,8 @@ services:
 before_script:
   - cp .env.travis .env
   - mkdir -p tmp/pids tmp/files tmp/reports
-  - cd frontend npm install
-  - npm install -g istanbul
-  - npm install -g codeclimate-test-reporter
+  - cd frontend && npm install
+  - cd ../ && npm install -g istanbul codeclimate-test-reporter
   - bundle exec rake db:setup RAILS_ENV=test
 
 script:
