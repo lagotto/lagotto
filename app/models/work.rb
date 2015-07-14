@@ -36,6 +36,8 @@ class Work < ActiveRecord::Base
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
   validates :pid, :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
+  validates :month, numericality: { only_integer: true, less_than_or_equal_to: 12, allow_nil: true }
+  validates :day, numericality: { only_integer: true, less_than_or_equal_to: 31, allow_nil: true }
   validate :validate_published_on
 
   before_validation :sanitize_title, :normalize_url, :normalize_doi, :set_pid

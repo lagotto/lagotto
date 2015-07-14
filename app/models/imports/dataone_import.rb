@@ -79,6 +79,8 @@ class DataoneImport < Import
       publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))
       date_parts = get_date_parts(publication_date)
       year, month, day = date_parts.fetch("date-parts", []).first
+      month = nil if month.to_i > 12
+      day = nil if day.to_i > 31
       title = item.fetch("title", nil)
 
       type = "dataset"

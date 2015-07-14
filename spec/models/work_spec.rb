@@ -133,6 +133,18 @@ describe Work, type: :model, vcr: true do
       expect(work.errors.messages).to eq(published_on: ["2012-2-30 is not a valid date"])
     end
 
+    it 'don\'t validate wrong month' do
+      work = FactoryGirl.build(:work, month: 13, day: 30)
+      expect(work).not_to be_valid
+      expect(work.errors.messages).to eq(month: ["must be less than or equal to 12"], published_on: ["2012-13-30 is not a valid date"])
+    end
+
+    it 'don\'t validate wrong day' do
+      work = FactoryGirl.build(:work, month: 11, day: 32)
+      expect(work).not_to be_valid
+      expect(work.errors.messages).to eq(day: ["must be less than or equal to 31"], published_on: ["2012-11-32 is not a valid date"])
+    end
+
     it 'don\'t validate date in the future' do
       date = Time.zone.now.to_date + 1.day
       work = FactoryGirl.build(:work, year: date.year, month: date.month, day: date.day)
