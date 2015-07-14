@@ -49,7 +49,11 @@ class ZenodoDataExport < ::DataExport
 
     touch(:finished_exporting_at)
   rescue Exception => ex
-    update_attributes started_exporting_at:nil, finished_exporting_at:nil
+    update_attributes(
+      started_exporting_at:nil,
+      finished_exporting_at:nil,
+      failed_at: Time.zone.now
+    )
     raise ex
   end
 
