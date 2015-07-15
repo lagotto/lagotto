@@ -69,7 +69,9 @@ describe ApiSnapshot do
     end
 
     it "has a zip_filepath representing where its zip file should exist; be named" do
-      expect(api_snapshot.zip_filepath).to eq(api_snapshot.snapshot_filepath + ".zip")
+      attrs[:url] = "http://example.com/api/events/foo/bar"
+      expected_path = ApiSnapshot.default_snapshot_dir.join("api_events_foo_bar.zip")
+      expect(api_snapshot.zip_filepath).to eq(expected_path.to_s)
     end
 
     it "is set to snapshot 10 pages at a time" do

@@ -61,7 +61,10 @@ class ApiSnapshot < DataExport
   end
 
   def zip_filepath
-    @zip_filepath ||= Pathname.new("#{snapshot_filepath}.zip").to_s
+    @zip_filepath ||= begin
+      filename_without_extension = snapshot_filename.sub(File.extname(snapshot_filename), "")
+      Pathname.new(File.dirname(snapshot_filepath)).join("#{filename_without_extension}.zip").to_s
+    end
   end
 
   def export!(options={})
