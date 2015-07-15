@@ -39,7 +39,7 @@ Lagotto::Application.configure do
   # config.active_record.schema_format = :sql
 
   # Print deprecation notices to the stderr
-  config.active_support.deprecation = :stder
+  config.active_support.deprecation = :stderr
 
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
 end
