@@ -15,7 +15,7 @@ class ApiCrawler
     @start_page = options[:start_page]
     @stop_page = options[:stop_page] || Float::INFINITY
     @url = options[:url] || raise(ArgumentError, "Must supply :url")
-    @url = "http://#{@url}" unless @url =~ /^https?\/\//
+    @url = "http://#{@url}" unless @url =~ /^https?:\/\//
     @pageno = options[:start_page] || 0
     @http_timeout = options[:http_timeout] || 3600
   end

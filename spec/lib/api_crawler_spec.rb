@@ -26,7 +26,6 @@ describe ApiCrawler do
 
   let(:output){ StringIO.new }
 
-
   def build_response_with_body(options)
     {
       status: options.fetch(:status, 200),
@@ -40,6 +39,20 @@ describe ApiCrawler do
         items: options.fetch(:items, [1,2,3])
       }.to_json
     }
+  end
+
+  describe "constructing" do
+    it "prepends http:// when not provided" do
+      expect(ApiCrawler.new(url:"foo.com").url).to eq("http://foo.com")
+    end
+
+    it "leaves the url alone when http:// is present" do
+      expect(ApiCrawler.new(url:"http://foo.com").url).to eq("http://foo.com")
+    end
+
+    it "leaves the url alone when https:// is present" do
+      expect(ApiCrawler.new(url:"https://foo.com").url).to eq("https://foo.com")
+    end
   end
 
   describe '#crawl' do
