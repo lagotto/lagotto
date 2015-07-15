@@ -31,12 +31,6 @@ describe ApiSnapshot do
     end
   end
 
-  describe ".snapshot_later" do
-    it "creates an ApiSnapshot and queues it up to be performed later" do
-
-    end
-  end
-
   describe "validations" do
     it "is valid" do
       expect(api_snapshot.valid?).to be(true)
