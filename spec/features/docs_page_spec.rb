@@ -63,8 +63,7 @@ describe "docs", type: :feature, js: true do
 
   it "show roadmap" do
     visit "/docs/roadmap"
-
-    expect(page).to have_css ".panel-heading a", text: "4.0 Data-Push Model"
+    expect(page).to have_css ".panel-heading a", text: /\d+\.\d+ Data-Push Model/
   end
 
   it "show contributors" do
