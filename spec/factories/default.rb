@@ -425,7 +425,7 @@ FactoryGirl.define do
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     provider "cas"
     sequence(:uid) { |n| "joe#{n}@example.com" }
-    publisher_id 340
+    association :publisher
 
     factory :admin_user do
       role "admin"
