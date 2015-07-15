@@ -9,10 +9,10 @@ env:
 
 services:
   - couchdb
-  - memcached
   - redis-server
 
 before_script:
+  - memcached -p 11211 &
   - cp .env.travis .env
   - mkdir -p tmp/pids tmp/files tmp/reports
   - cd frontend && npm install
