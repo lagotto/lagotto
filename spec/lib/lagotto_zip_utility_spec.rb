@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe ReportZipper do
+describe LagottoZipUtility do
   let(:data_dir){ Rails.root.join("tmp/sample_data_dir") }
 
   before do
@@ -28,7 +28,7 @@ describe ReportZipper do
     end
 
     it "zips up the ALM combined stats report and stores it on disk" do
-      zip_filepath = ReportZipper.zip_alm_combined_stats!
+      zip_filepath = LagottoZipUtility.zip_alm_combined_stats!
       expect(File.exists?(zip_filepath)).to be(true)
 
       zip_file = Zip::File.open(zip_filepath)
@@ -36,7 +36,7 @@ describe ReportZipper do
     end
 
     it "includes the appropriate README.md" do
-      zip_filepath = ReportZipper.zip_alm_combined_stats!
+      zip_filepath = LagottoZipUtility.zip_alm_combined_stats!
       zip_file = Zip::File.open(zip_filepath)
 
       expect(zip_file.get_entry("README.md")).to_not be(nil)
@@ -49,10 +49,10 @@ describe ReportZipper do
     context "and there is no log of a written ALM combined stats report" do
       before { file_write_log.destroy }
 
-      it "raises a ReportZipper::FileWriteLogNotFoundError" do
+      it "raises a LagottoZipUtility::FileWriteLogNotFoundError" do
         expect {
-          ReportZipper.zip_alm_combined_stats!
-        }.to raise_error(ReportZipper::FileWriteLogNotFoundError, "FileWriteLog record not found for #{report_filename} filename")
+          LagottoZipUtility.zip_alm_combined_stats!
+        }.to raise_error(LagottoZipUtility::FileWriteLogNotFoundError, "FileWriteLog record not found for #{report_filename} filename")
       end
     end
 
@@ -61,10 +61,10 @@ describe ReportZipper do
         FileUtils.rm(report_filepath)
       end
 
-      it "raises a ReportZipper::FileNotFoundError" do
+      it "raises a LagottoZipUtility::FileNotFoundError" do
         expect {
-          ReportZipper.zip_alm_combined_stats!
-        }.to raise_error(ReportZipper::FileNotFoundError, /File not found at #{report_filepath} for/)
+          LagottoZipUtility.zip_alm_combined_stats!
+        }.to raise_error(LagottoZipUtility::FileNotFoundError, /File not found at #{report_filepath} for/)
       end
     end
   end
@@ -86,7 +86,7 @@ describe ReportZipper do
     end
 
     it "zips up the most recent report_YYYY-MM-DD directory and stores it on disk" do
-      zip_filepath = ReportZipper.zip_administrative_reports!
+      zip_filepath = LagottoZipUtility.zip_administrative_reports!
       expect(File.exists?(zip_filepath)).to be(true)
 
       zip_file = Zip::File.open(zip_filepath)
@@ -97,10 +97,10 @@ describe ReportZipper do
     context "and there is no report_YYYY-MM-DD directory on disk" do
       before { FileUtils.rm_rf(report_dir) }
 
-      it "raises a ReportZipper::FileNotFoundError" do
+      it "raises a LagottoZipUtility::FileNotFoundError" do
         expect {
-          ReportZipper.zip_administrative_reports!
-        }.to raise_error(ReportZipper::FileNotFoundError, "No report_YYYY-MM-DD directory found!")
+          LagottoZipUtility.zip_administrative_reports!
+        }.to raise_error(LagottoZipUtility::FileNotFoundError, "No report_YYYY-MM-DD directory found!")
       end
     end
   end

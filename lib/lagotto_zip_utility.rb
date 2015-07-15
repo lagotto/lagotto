@@ -1,6 +1,6 @@
 require 'fileutils'
 
-class ReportZipper
+class LagottoZipUtility
   class Error < ::StandardError ; end
   class FileWriteLogNotFoundError < Error ; end
   class FileNotFoundError < Error ; end

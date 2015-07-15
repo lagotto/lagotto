@@ -154,17 +154,17 @@ namespace :report do
 
   desc 'Zip reports'
   task :zip => :environment do
-    ReportZipper.zip_alm_combined_stats!
-    ReportZipper.zip_administrative_reports!
+    LagottoZipUtility.zip_alm_combined_stats!
+    LagottoZipUtility.zip_administrative_reports!
     puts "Reports have been compressed!"
   end
 
   desc 'Export ALM combined stats report to Zenodo'
   task :export_to_zenodo => [:environment, 'zenodo:requirements_check'] do
-    alm_combined_stats_zip_record = FileWriteLog.most_recent_with_name(ReportZipper.alm_combined_stats_zip_filename)
+    alm_combined_stats_zip_record = FileWriteLog.most_recent_with_name(LagottoZipUtility.alm_combined_stats_zip_filename)
 
     unless alm_combined_stats_zip_record
-      puts  "No zip file (#{File.basename ReportZipper.alm_combined_stats_zip_filename}) found that needs to be exported!"
+      puts  "No zip file (#{File.basename LagottoZipUtility.alm_combined_stats_zip_filename}) found that needs to be exported!"
       next
     end
 

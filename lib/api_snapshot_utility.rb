@@ -37,7 +37,7 @@ class ApiSnapshotUtility
   end
 
   def self.zip(snapshot)
-    zipper = ReportZipper.new(
+    zipper = LagottoZipUtility.new(
       zip_filepath: snapshot.zip_filepath,
       filemap: {
         snapshot.snapshot_filepath => File.basename(snapshot.snapshot_filepath),
