@@ -197,12 +197,12 @@ describe ApiSnapshotUtility do
       expect(File.exists?(api_snapshot.zip_filepath)).to be(true)
     end
 
-    it "writes a record of the zip file to the ReportWriteLog" do
+    it "writes a record of the zip file to the FileWriteLog" do
       expect {
         ApiSnapshotUtility.zip(api_snapshot)
-      }.to change(ReportWriteLog, :count).by(1)
-      expect(ReportWriteLog.last.filepath).to eq(api_snapshot.zip_filepath)
-      expect(ReportWriteLog.last.report_type).to eq("ZipFile")
+      }.to change(FileWriteLog, :count).by(1)
+      expect(FileWriteLog.last.filepath).to eq(api_snapshot.zip_filepath)
+      expect(FileWriteLog.last.file_type).to eq("ZipFile")
     end
 
     it "adds docs/readmes/api_snapshot.md to the zip file as the README file" do

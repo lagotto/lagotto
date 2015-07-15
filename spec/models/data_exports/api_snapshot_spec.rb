@@ -148,9 +148,9 @@ describe ApiSnapshot do
     it "constructs a ReportWritelog of the API snapshot" do
       expect{
         perform_snapshot
-      }.to change(ReportWriteLog, :count).by(1)
-      expect(ReportWriteLog.last.filepath).to eq(api_snapshot.snapshot_filepath)
-      expect(ReportWriteLog.last.report_type).to eq(ApiSnapshot.name)
+      }.to change(FileWriteLog, :count).by(1)
+      expect(FileWriteLog.last.filepath).to eq(api_snapshot.snapshot_filepath)
+      expect(FileWriteLog.last.file_type).to eq(ApiSnapshot.name)
     end
 
     context "and the over-arching API is not finshed being crawled" do

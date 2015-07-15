@@ -161,7 +161,7 @@ namespace :report do
 
   desc 'Export ALM combined stats report to Zenodo'
   task :export_to_zenodo => [:environment, 'zenodo:requirements_check'] do
-    alm_combined_stats_zip_record = ReportWriteLog.most_recent_with_name(ReportZipper.alm_combined_stats_zip_filename)
+    alm_combined_stats_zip_record = FileWriteLog.most_recent_with_name(ReportZipper.alm_combined_stats_zip_filename)
 
     unless alm_combined_stats_zip_record
       puts  "No zip file (#{File.basename ReportZipper.alm_combined_stats_zip_filename}) found that needs to be exported!"

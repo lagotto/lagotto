@@ -108,7 +108,7 @@ class ApiSnapshot < DataExport
       output.puts File.read(in_progress_tempfile.path)
     end
 
-    ReportWriteLog.create! filepath: snapshot_filepath, report_type: "ApiSnapshot"
+    FileWriteLog.create! filepath: snapshot_filepath, file_type: "ApiSnapshot"
 
     if finished?
       touch(:finished_exporting_at)
