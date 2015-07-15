@@ -20,8 +20,8 @@ before_script:
   - bundle exec rake db:setup RAILS_ENV=test
 
 script:
-  - bundle exec rspec
-  - bundle exec teaspoon
+  - bundle exec rspec spec/features
+  # - bundle exec teaspoon
   - CODECLIMATE_REPO_TOKEN=c2515476ac88e8540c23b121b6dadb75188482db1d5c39516208b2ea7485a907 codeclimate < ./coverage/default/lcov.info
 
 after_failure:
