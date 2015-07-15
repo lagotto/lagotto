@@ -1,13 +1,7 @@
 require "rails_helper"
 
 describe ApiSnapshotUtility do
-  def with_env(env)
-    before = env.inject({}) { |h, (k, _)| h[k] = ENV[k]; h }
-    env.each { |k, v| ENV[k] = v }
-    yield
-  ensure
-    before.each { |k, v| ENV[k] = v }
-  end
+  include WithEnv
 
   describe ".snapshot_later" do
     include ActiveJob::TestHelper

@@ -1,9 +1,11 @@
 GIT
-  remote: https://github.com/fly1tkg/state_machine.git
-  revision: 181f758a50698c4564b46a48d5704b48e9b3cf33
-  branch: issue/334
+  remote: https://github.com/zdennis/zenodo.git
+  revision: fd60a0b48f40a94ba29839f3f4bee21144a31b47
   specs:
-    state_machine (1.2.0)
+    zenodo (0.0.7)
+      activesupport (~> 4.1)
+      faraday (~> 0.9)
+      mime-types (~> 2.6)
 
 GIT
   remote: https://github.com/mfenner/omniauth-orcid.git
@@ -14,13 +16,11 @@ GIT
       omniauth-oauth2 (~> 1.1)
 
 GIT
-  remote: https://github.com/zdennis/zenodo.git
-  revision: fd60a0b48f40a94ba29839f3f4bee21144a31b47
+  remote: https://github.com/fly1tkg/state_machine.git
+  revision: 181f758a50698c4564b46a48d5704b48e9b3cf33
+  branch: issue/334
   specs:
-    zenodo (0.0.7)
-      activesupport (~> 4.1)
-      faraday (~> 0.9)
-      mime-types (~> 2.6)
+    state_machine (1.2.0)
 
 GEM
   remote: http://rubygems.org/
@@ -419,6 +419,7 @@ GEM
     will_paginate (3.0.7)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
+    with_env (1.0.0)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -507,7 +508,5 @@ DEPENDENCIES
   whenever (~> 0.9.0)
   will_paginate (= 3.0.7)
   will_paginate-bootstrap (~> 1.0.1)
+  with_env (~> 1.0.0)
   zenodo!
-
-BUNDLED WITH
-   1.10.5
