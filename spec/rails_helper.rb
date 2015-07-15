@@ -30,6 +30,7 @@ require "rack/test"
 require "draper/test/rspec_integration"
 require "devise"
 require "sidekiq/testing"
+require "colorize"
 
 # include required concerns
 include Networkable
@@ -142,6 +143,15 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+  config.before(:each, type: :feature) do
+    unless HeartbeatService.memcached_up?
+      raise <<-EOS.gsub(/^\s*\|/, '').colorize(:red)
+        |Memcached doesn't appear to be running! You will need it running in
+        |order to successfully run feature specs.
+      EOS
+    end
   end
 
   # Configure caching, use ":caching => true" when you need to test this
