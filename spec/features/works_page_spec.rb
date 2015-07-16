@@ -50,7 +50,7 @@ describe "works", type: :feature, js: true do
     end
 
     it "create dataset" do
-      work_type = FactoryGirl.create(:work_type, name: "dataset")
+      work_type = FactoryGirl.create(:work_type, name: "dataset", title: "dataset")
       visit "/works"
       click_link "new-work"
 
