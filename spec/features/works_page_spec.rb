@@ -70,7 +70,7 @@ describe "works", type: :feature, js: true do
       check "work_tracked"
       click_button "Save"
 
-      expect(page).to have_css ".work_title .has-error", text: "can't be blank"
+      expect(page).to have_css ".work_title .help-block", text: "can't be blank"
     end
 
     it "missing doi error" do
@@ -81,7 +81,7 @@ describe "works", type: :feature, js: true do
       check "work_tracked"
       click_button "Save"
 
-      expect(page).to have_css ".work_doi .has-error", text: "must provide at least one persistent identifier"
+      expect(page).to have_css ".work_doi .help-block", text: "must provide at least one persistent identifier"
     end
 
     it "date in future error" do
@@ -94,7 +94,7 @@ describe "works", type: :feature, js: true do
       select "December", from: "work_month"
       click_button "Save"
 
-      expect(page).to have_css ".work_published_on .has-error", text: "is a date in the future"
+      expect(page).to have_css ".work_published_on .help-block", text: "is a date in the future"
     end
   end
 end
