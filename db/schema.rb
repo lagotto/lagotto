@@ -396,7 +396,7 @@ ActiveRecord::Schema.define(version: 20150715173747) do
   add_index "works", ["pmid"], name: "index_works_on_pmid", unique: true, using: :btree
   add_index "works", ["published_on"], name: "index_works_on_published_on", using: :btree
   add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
-  add_index "works", ["registration_agency"], name: "index_works_on_registration_agency", using: :btree
+  add_index "works", ["registration_agency"], name: "index_works_on_registration_agency", length: {"registration_agency"=>191}, using: :btree
   add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id", using: :btree
   add_index "works", ["scp"], name: "index_works_on_scp", unique: true, using: :btree
   add_index "works", ["tracked", "published_on"], name: "index_works_on_tracked_published_on", using: :btree

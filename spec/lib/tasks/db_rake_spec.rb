@@ -8,7 +8,7 @@ describe "db:works:import:crossref", vcr: true do
 
   include_context "rake"
 
-  let(:output) { "Started import of 1576 works in the background...\n" }
+  let(:output) { "Started import of 1523 works in the background...\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")
