@@ -1,4 +1,7 @@
 class Api::V6::EventsController < Api::BaseController
+  # include helper module for DOI resolution
+  include Resolvable
+
   before_filter :authenticate_user_from_token!
 
   swagger_controller :events, "Events"
@@ -20,7 +23,9 @@ class Api::V6::EventsController < Api::BaseController
 
   def index
     if params[:work_id]
-      collection = RetrievalStatus.joins(:work).where("works.pid = ?", params[:work_id])
+      id_hash = get_id_hash(params[:work_id])
+      field = id_hash.keys.first
+      collection = RetrievalStatus.joins(:work).where("works.#{field} = ?", id_hash.fetch(field))
     elsif params[:work_ids]
       collection = RetrievalStatus.joins(:work).where("works.pid IN (?)", params[:work_ids])
     elsif params[:source_id]
@@ -47,4 +52,5 @@ class Api::V6::EventsController < Api::BaseController
 
     @events = collection.decorate
   end
+
 end
