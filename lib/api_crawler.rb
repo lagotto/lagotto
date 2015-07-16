@@ -26,7 +26,7 @@ class ApiCrawler
 
     next_uri = URI.parse(@url)
 
-    next_uri.query = {page: @start_page}.to_query if @start_page
+    next_uri.query = query_params_with_page(next_uri.query, @start_page)
 
     while next_uri do
       benchmark(next_uri) do
@@ -81,11 +81,18 @@ class ApiCrawler
 
     if continue_crawling?
       next_uri = URI.parse(@url)
-      next_uri.query = {page: @pageno+1}.to_query
+      next_uri.query = query_params_with_page(next_uri.query, @pageno+1)
       next_uri
     else
       nil
     end
+  end
+
+  def query_params_with_page(query, page)
+    return query unless page
+    params = Rack::Utils.parse_nested_query(query).with_indifferent_access
+    params[:page] = page
+    params.to_query
   end
 
   def continue_crawling?
