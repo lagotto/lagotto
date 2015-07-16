@@ -95,6 +95,14 @@ describe "/api/v6/events", :type => :api do
         expect(item["by_month"]).not_to be_nil
         expect(item["by_year"]).not_to be_nil
       end
+
+      it "returns a valid JSON response with no events when provided with a bad id/pid" do
+        work.pid = "somebadpidvalue"
+        get uri, nil, headers
+        expect(last_response.status).to eq(200)
+        response = JSON.parse(last_response.body)
+        expect(response["meta"]["total"]).to eq(0)
+      end
     end
   end
 end

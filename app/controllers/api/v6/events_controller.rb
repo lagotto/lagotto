@@ -24,7 +24,8 @@ class Api::V6::EventsController < Api::BaseController
   def index
     if params[:work_id]
       id_hash = get_id_hash(params[:work_id])
-      collection = RetrievalStatus.joins(:work).where("works.doi = ?", id_hash.fetch(:doi))
+      field = id_hash.keys.first
+      collection = RetrievalStatus.joins(:work).where("works.#{field} = ?", id_hash.fetch(field))
     elsif params[:work_ids]
       collection = RetrievalStatus.joins(:work).where("works.pid IN (?)", params[:work_ids])
     elsif params[:source_id]
