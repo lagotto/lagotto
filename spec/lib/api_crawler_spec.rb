@@ -229,36 +229,22 @@ describe ApiCrawler do
     end
 
     context "and an API page returns a malformed response body" do
-      it "raises an error when the response is missing the meta element" do
-        page_1_response = { status:200, body: {}.to_json }
-        stub_request(:get, "www.example.com").to_return page_1_response
-        expect{
-          api_crawler.crawl
-        }.to raise_error(ApiCrawler::MalformedResponseError, "Missing meta element in:\n #{page_1_response[:body]}")
-      end
-
-      it "raises an error when the response is missing the total_pages property" do
-        page_1_response = { status:200, body: {meta: {page: 1}}.to_json }
-        stub_request(:get, "www.example.com").to_return page_1_response
-        expect{
-          api_crawler.crawl
-        }.to raise_error(ApiCrawler::MalformedResponseError, "Missing total_pages property in the meta element in:\n #{page_1_response[:body]}")
-      end
-
-      it "raises an error when the response is missing the page property" do
-        page_1_response = { status:200, body: {meta: {total_pages: 1}}.to_json }
-        stub_request(:get, "www.example.com").to_return page_1_response
-        expect{
-          api_crawler.crawl
-        }.to raise_error(ApiCrawler::MalformedResponseError, "Missing page property in the meta element in:\n #{page_1_response[:body]}")
-      end
-
       it "raises an error when the response is not valid JSON" do
         page_1_response = { status:200, body: "This is not JSON." }
         stub_request(:get, "www.example.com").to_return page_1_response
         expect{
           api_crawler.crawl
         }.to raise_error(ApiCrawler::MalformedResponseError, "Response body was not valid JSON in:\n #{page_1_response[:body]}")
+      end
+    end
+
+    context "and an API page doesn't supply meta information (e.g. no pagination)" do
+      it "crawls the page writing the response to :output" do
+        page_1_response = { status:200, body: {}.to_json }
+        stub_request(:get, "www.example.com").to_return page_1_response
+        api_crawler.crawl
+        output.rewind
+        expect(output.read).to eq("#{page_1_response[:body]}\n")
       end
     end
 
