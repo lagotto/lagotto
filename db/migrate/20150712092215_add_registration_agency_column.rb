@@ -1,7 +1,7 @@
 class AddRegistrationAgencyColumn < ActiveRecord::Migration
   def up
     add_column :works, :registration_agency, :string
-    add_index "works", ["registration_agency"], name: "index_works_on_registration_agency"
+    add_index "works", ["registration_agency"], name: "index_works_on_registration_agency", length: 191
   end
 
   def down

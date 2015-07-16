@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150714070804) do
+ActiveRecord::Schema.define(version: 20150715173747) do
 
   create_table "alerts", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -84,10 +84,10 @@ ActiveRecord::Schema.define(version: 20150714070804) do
     t.datetime "started_exporting_at"
     t.datetime "finished_exporting_at"
     t.text     "data",                  limit: 65535
-    t.text     "files",                 limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name",                  limit: 255
+    t.datetime "failed_at"
   end
 
   create_table "data_migrations", force: :cascade do |t|
@@ -114,6 +114,13 @@ ActiveRecord::Schema.define(version: 20150714070804) do
   add_index "days", ["retrieval_status_id", "year", "month", "day"], name: "index_days_on_retrieval_status_id_and_year_and_month_and_day", using: :btree
   add_index "days", ["source_id"], name: "days_source_id_fk", using: :btree
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
+
+  create_table "file_write_logs", force: :cascade do |t|
+    t.string   "filepath",   limit: 255
+    t.string   "file_type",  limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "filters", force: :cascade do |t|
     t.string   "type",        limit: 255,                  null: false
@@ -205,13 +212,6 @@ ActiveRecord::Schema.define(version: 20150714070804) do
   add_index "relations", ["relation_type_id"], name: "relations_relation_type_id_fk", using: :btree
   add_index "relations", ["source_id"], name: "relations_source_id_fk", using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
-
-  create_table "report_write_logs", force: :cascade do |t|
-    t.string   "filepath",    limit: 255
-    t.string   "report_type", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "reports", force: :cascade do |t|
     t.string   "name",        limit: 255

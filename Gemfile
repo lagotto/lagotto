@@ -85,6 +85,7 @@ group :test do
   gem "webmock", "~> 1.20.0"
   gem 'vcr', '~> 2.9.3'
   gem "poltergeist", "~> 1.5.0"
+  gem "with_env", "~> 1.1.0"
 end
 
 group :test, :development do

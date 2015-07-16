@@ -14,6 +14,9 @@ class ZenodoDataExport < ::DataExport
     end
   end
 
+  # Used to hold the files we're going to package in this export
+  data_attribute :files
+
   # Zenodo deposition attributes: https://zenodo.org/dev#restapi-rep-meta
   data_attribute :publication_date
   data_attribute :title
@@ -25,6 +28,7 @@ class ZenodoDataExport < ::DataExport
   # So we can tie our Zenodo export back to the code that generated it
   data_attribute :code_repository_url
 
+  validates :files, presence: true
   validates :publication_date, presence: true
   validates :title, presence: true
   validates :description, presence: true
@@ -49,7 +53,11 @@ class ZenodoDataExport < ::DataExport
 
     touch(:finished_exporting_at)
   rescue Exception => ex
-    update_attributes started_exporting_at:nil, finished_exporting_at:nil
+    update_attributes(
+      started_exporting_at:nil,
+      finished_exporting_at:nil,
+      failed_at: Time.zone.now
+    )
     raise ex
   end
 

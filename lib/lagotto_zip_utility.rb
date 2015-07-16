@@ -1,8 +1,8 @@
 require 'fileutils'
 
-class ReportZipper
+class LagottoZipUtility
   class Error < ::StandardError ; end
-  class ReportWriteLogNotFoundError < Error ; end
+  class FileWriteLogNotFoundError < Error ; end
   class FileNotFoundError < Error ; end
 
   attr_reader :zip_filepath, :filemap
@@ -17,10 +17,10 @@ class ReportZipper
 
   def self.zip_alm_combined_stats!
     report_filename = ReportWriter::ALM_COMBINED_STATS_FILENAME + "_#{Time.zone.now.to_date}.csv"
-    alm_stats_write_log = ReportWriteLog.most_recent_with_name(report_filename)
+    alm_stats_write_log = FileWriteLog.most_recent_with_name(report_filename)
 
     if alm_stats_write_log.blank?
-      raise ReportWriteLogNotFoundError, "ReportWriteLog record not found for #{report_filename} filename"
+      raise FileWriteLogNotFoundError, "FileWriteLog record not found for #{report_filename} filename"
     end
 
     if !File.exists?(alm_stats_write_log.filepath)
@@ -55,7 +55,8 @@ class ReportZipper
 
   def initialize(options={})
     @output = options[:output] || $stdout
-    @zip_filepath = options[:zip_filepath] || raise("Must supply :zip_filepath")
+    zip_filepath = options[:zip_filepath] || raise("Must supply :zip_filepath")
+    @zip_filepath = Pathname.new(zip_filepath)
     @filemap = options[:filemap] || raise("Must supply a filemap, e.g. { source_file => filepath_in_zip }")
   end
 
@@ -66,7 +67,7 @@ class ReportZipper
         zip_utility.add filepath_in_zip, source_path
       end
     end
-    ReportWriteLog.create!(filepath: zip_filepath, report_type: self.class.name)
+    FileWriteLog.create!(filepath: zip_filepath, file_type: "ZipFile")
     @output.puts "#{zip_filepath.relative_path_from Rails.root} has been created!"
     zip_filepath
   end

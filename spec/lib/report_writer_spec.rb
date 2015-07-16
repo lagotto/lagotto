@@ -69,14 +69,14 @@ describe ReportWriter do
         expect(File.exists?(expected_filepath)).to be(true)
       end
 
-      it "creates a ReportWriteLog record of the report written" do
+      it "creates a FileWriteLog record of the report written" do
         expect {
           write_report
-        }.to change(ReportWriteLog, :count).by(1)
+        }.to change(FileWriteLog, :count).by(1)
 
-        log_record = ReportWriteLog.last
+        log_record = FileWriteLog.last
         expect(log_record.filepath).to eq(expected_filepath)
-        expect(log_record.report_type).to eq(report.class.name)
+        expect(log_record.file_type).to eq(report.class.name)
       end
     end
 
@@ -88,10 +88,10 @@ describe ReportWriter do
         expect(File.exists?(expected_filepath)).to be(false)
       end
 
-      it "doesn't create a ReportWriteLog record" do
+      it "doesn't create a FileWriteLog record" do
         expect {
           write_report
-        }.to_not change(ReportWriteLog, :count)
+        }.to_not change(FileWriteLog, :count)
       end
     end
 

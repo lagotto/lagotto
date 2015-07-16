@@ -558,13 +558,17 @@ FactoryGirl.define do
 
   factory :data_export do
     sequence(:name){ |i| "Zenodo Export #{i}"}
-    files ["path/to/file1.txt"]
+  end
+
+  factory :api_snapshot, class: ApiSnapshot, parent: :data_export do
+    url "http://example.com/works"
   end
 
   factory :zenodo_data_export, class: ZenodoDataExport, parent: :data_export do
     publication_date Time.zone.now.to_date
     title "My export"
     description "My export by Lagotto"
+    files ["path/to/file1.txt"]
     creators ["John Doe"]
     keywords ["apples", "oranges", "bananas"]
     code_repository_url "https://some.code.repository"

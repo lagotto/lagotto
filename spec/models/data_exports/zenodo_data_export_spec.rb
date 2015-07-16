@@ -148,18 +148,29 @@ describe ZenodoDataExport do
     context "and an error is raised during the export" do
       before do
         allow(zenodo_client).to receive(:create_deposition).and_raise("BOOM")
+      end
 
+      def perform_export
         expect {
           data_export.export!(zenodo_client_factory: zenodo_client_factory)
         }.to raise_error
       end
 
       it "doesn't update its started_exporting_at timestamp" do
+        perform_export
         expect(data_export.started_exporting_at).to be(nil)
       end
 
       it "doesn't update its finished_exporting_at timestamp" do
+        perform_export
         expect(data_export.finished_exporting_at).to be(nil)
+      end
+
+      it "sets the failed_at datetime" do
+        expect {
+          perform_export
+        }.to change(data_export, :failed_at).to be_within(5.seconds).of(Time.zone.now)
+
       end
     end
 

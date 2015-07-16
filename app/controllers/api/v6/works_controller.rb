@@ -15,7 +15,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
+    param :query, :sort, :string, :optional, "Sort by source event count descending, by works created at date/time, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
     response :ok
@@ -87,6 +87,7 @@ class Api::V6::WorksController < Api::BaseController
                                      total_entries: total_entries)
 
     @works = collection.decorate(context: { role: is_admin_or_staff? })
+    arr = Work::Metrics.load_for_works(@works.map(&:object))
   end
 
   def create
@@ -165,6 +166,8 @@ class Api::V6::WorksController < Api::BaseController
       collection = collection.joins(:retrieval_statuses)
         .where("retrieval_statuses.source_id = ?", sort.id)
         .order("retrieval_statuses.total DESC")
+    elsif params[:sort] == "created_at"
+      collection.order("works.created_at ASC")
     else
       collection.order("works.published_on DESC")
     end

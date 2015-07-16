@@ -73,7 +73,7 @@ class ReportWriter
     filepath = options[:filepath] || raise(ArgumentError, "Must supply :filepath")
     if contents.length > 0
       File.write(filepath, contents)
-      ReportWriteLog.create!(filepath: filepath, report_type: report.class.name)
+      FileWriteLog.create!(filepath: filepath, file_type: report.class.name)
     end
   end
 
