@@ -53,6 +53,21 @@ describe "/api/v6/events", :type => :api do
         expect(item["by_month"]).not_to be_nil
         expect(item["by_year"]).not_to be_nil
       end
+
+      it "can be sorted by retrieval_statuses.id using the created_at query parameter" do
+        get "/api/events?sort=created_at", nil, headers
+        response = JSON.parse(last_response.body)
+        data = response["events"]
+        actual_work_ids = data.map{ |work| work["work_id"] }
+
+        expected_work_ids = RetrievalStatus.all
+          .includes(:work)
+          .order("retrieval_statuses.id ASC")
+          .map(&:work)
+          .map(&:pid)
+
+        expect(actual_work_ids).to eq(expected_work_ids)
+      end
     end
 
     context "show" do

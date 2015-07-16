@@ -32,8 +32,11 @@ class Api::V6::EventsController < Api::BaseController
     end
 
     collection = collection.joins(:source).where("private <= ?", is_admin_or_staff?)
-
-    if params[:sort]
+    if params[:sort] == "created_at"
+      # use :id for sort order because it is already indexed and it will achieve the same outcome
+      # as the :created_at column since both are intended to go up sequentially
+      collection = collection.order("retrieval_statuses.id ASC")
+    elsif params[:sort]
       sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
       collection = collection.order(sort.to_sym => :desc)
     else

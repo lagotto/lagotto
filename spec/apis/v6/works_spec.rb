@@ -161,7 +161,7 @@ describe "/api/v6/works", :type => :api do
         end).to be true
       end
 
-      it "can be sorted by created_at" do
+      it "can be sorted by works.created_at using the created_at query parameter" do
         get "/api/works?sort=created_at", nil, headers
         response = JSON.parse(last_response.body)
         data = response["works"]
