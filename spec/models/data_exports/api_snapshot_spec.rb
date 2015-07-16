@@ -26,7 +26,7 @@ describe ApiSnapshot do
     it "affects the #snapshot_filepath" do
       attrs[:url] = "http://example.com/api/events"
       ApiSnapshot.snapshot_dir = Rails.root.join("foobarbaz")
-      expected_path = Rails.root.join("foobarbaz/snapshot_#{Time.zone.now.to_date}").join("api_events.jsondump")
+      expected_path = Rails.root.join("foobarbaz/snapshot_#{Time.zone.now.to_date}").join("api_events_#{Time.zone.now.to_date}.jsondump")
       expect(api_snapshot.snapshot_filepath).to eq(expected_path.to_s)
     end
   end
@@ -58,13 +58,13 @@ describe ApiSnapshot do
 
     it "has a snapshot_filepath based on the path portion of the given URL" do
       attrs[:url] = "http://example.com/api/works"
-      expected_path = ApiSnapshot.default_snapshot_dir.join("api_works.jsondump")
+      expected_path = ApiSnapshot.default_snapshot_dir.join("api_works_#{Time.zone.now.to_date}.jsondump")
       expect(api_snapshot.snapshot_filepath).to eq(expected_path.to_s)
     end
 
     it "has a zip_filepath representing where its zip file should exist; be named" do
       attrs[:url] = "http://example.com/api/events/foo/bar"
-      expected_path = ApiSnapshot.default_snapshot_dir.join("api_events_foo_bar.zip")
+      expected_path = ApiSnapshot.default_snapshot_dir.join("api_events_foo_bar_#{Time.zone.now.to_date}.zip")
       expect(api_snapshot.zip_filepath).to eq(expected_path.to_s)
     end
 
@@ -124,7 +124,7 @@ describe ApiSnapshot do
         expect(api_crawler_factory).to receive(:new) do |args|
           expect(args[:benchmark_output]).to be_kind_of(File)
 
-          expected_path = ApiSnapshot.default_snapshot_dir.join("foo_bars.jsondump.benchmark").to_s
+          expected_path = ApiSnapshot.default_snapshot_dir.join("foo_bars_#{Time.zone.now.to_date}.jsondump.benchmark").to_s
           expect(args[:benchmark_output].path).to eq(expected_path)
 
           api_crawler
