@@ -44,7 +44,13 @@ class Api::V6::ReferencesController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
-    collection = collection.includes(:related_work).order("works.published_on DESC")
+    collection = collection.includes(:related_work)
+
+    if params[:sort] == "created_at"
+      collection = collection.order("works.created_at ASC")
+    else
+      collection = collection.order("works.published_on DESC")
+    end
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 

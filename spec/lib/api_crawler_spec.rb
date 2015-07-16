@@ -58,9 +58,11 @@ describe ApiCrawler do
   describe '#crawl' do
     context "and there is only one page" do
       let(:page_1_response){ build_response_with_body(total_pages:1, page: 1) }
+      let(:page_1_response_with_query_params){ build_response_with_body(total_pages:1, page: 1, items: ["query", "params"]) }
 
       before do
         stub_request(:get, "www.example.com").to_return page_1_response
+        stub_request(:get, "www.example.com?foo=bar&baz=2").to_return page_1_response_with_query_params
       end
 
       it "crawls the page writing the response to :output" do
@@ -76,17 +78,30 @@ describe ApiCrawler do
         benchmark_output.rewind
         expect(benchmark_output.read).to match(/^http:\/\/www.example.com took \d+.\d+ seconds$/)
       end
+
+      it "respects any passed in query params" do
+        crawler_options[:url] = "http://www.example.com?foo=bar&baz=2"
+        api_crawler.crawl
+        output.rewind
+        expect(output.read).to eq("#{page_1_response_with_query_params[:body]}\n")
+      end
     end
 
     context "and there are multiple pages" do
       let(:page_1_response){ build_response_with_body(page:1, total_pages:3) }
       let(:page_2_response){ build_response_with_body(page:2, total_pages:3) }
       let(:page_3_response){ build_response_with_body(page:3, total_pages:3) }
+      let(:page_1_response_with_query_params){ build_response_with_body(page: 1, total_pages:3, items: ["query", "params"]) }
+      let(:page_2_response_with_query_params){ build_response_with_body(page: 2, total_pages:3, items: ["query", "params"]) }
+      let(:page_3_response_with_query_params){ build_response_with_body(page: 3, total_pages:3, items: ["query", "params"]) }
 
       before do
         stub_request(:get, "www.example.com").to_return page_1_response
         stub_request(:get, "www.example.com").with(query: hash_including(page:'2')).to_return page_2_response
         stub_request(:get, "www.example.com").with(query: hash_including(page:'3')).to_return page_3_response
+        stub_request(:get, "www.example.com").with(query: {foo:'bar', baz:'1'}).to_return page_1_response_with_query_params
+        stub_request(:get, "www.example.com").with(query: hash_including(foo:'bar', baz:'1', page:'2')).to_return page_2_response_with_query_params
+        stub_request(:get, "www.example.com").with(query: hash_including(foo:'bar', baz:'1', page:'3')).to_return page_3_response_with_query_params
       end
 
       it "crawls all of the pages writing each response to its own line in :output" do
@@ -110,6 +125,32 @@ describe ApiCrawler do
         expect {
           api_crawler.crawl
         }.to change(api_crawler, :pages_left?).to(false)
+      end
+
+      it "respects any passed in query params and continues to pass them along in each request" do
+        crawler_options[:url] = "http://www.example.com/?baz=1&foo=bar"
+        api_crawler.crawl
+        output.rewind
+        expect(output.read).to eq([
+          page_1_response_with_query_params[:body],
+          page_2_response_with_query_params[:body],
+          page_3_response_with_query_params[:body]
+        ].join("\n") + "\n")
+      end
+    end
+
+    context "and the responses include newlines" do
+      let(:page_1_response){ build_response_with_body(total_pages:1, page: 1) }
+
+      before do
+        page_1_response[:body] = "{\"meta\":{\"total_pages\":1, \"page\":1}, \"a\":5\n,\"b\":5}\n"
+        stub_request(:get, "www.example.com").to_return page_1_response
+      end
+
+      it "removes the newlines when writing to :output so that every response is written as a single line" do
+        api_crawler.crawl
+        output.rewind
+        expect(output.read).to eq("#{page_1_response[:body].gsub("\n", "")}\n")
       end
     end
 

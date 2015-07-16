@@ -41,6 +41,20 @@ describe "/api/v6/references", :type => :api do
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})
       end
+
+      it "can be sorted by works.created_at using the created_at query parameter" do
+        get "#{uri}?sort=created_at", nil, headers
+        response = JSON.parse(last_response.body)
+        data = response["references"]
+        actual_work_dois = data.map{ |work| work["DOI"] }
+
+        expected_work_dois = Relation.referencable.includes(:related_work)
+          .order("works.created_at ASC")
+          .map(&:related_work)
+          .map(&:doi)
+
+        expect(actual_work_dois).to eq(expected_work_dois)
+      end
     end
 
     context "show work_id" do

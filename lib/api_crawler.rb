@@ -26,7 +26,7 @@ class ApiCrawler
 
     next_uri = URI.parse(@url)
 
-    next_uri.query = {page: @start_page}.to_query if @start_page
+    next_uri.query = query_params_with_page(next_uri.query, @start_page)
 
     while next_uri do
       benchmark(next_uri) do
@@ -67,25 +67,32 @@ class ApiCrawler
 
   def process_response_body_and_get_next_page_uri(request_uri, response_body)
     begin
-      json = JSON.parse(response_body)
+      json_data = JSON.parse(response_body)
     rescue JSON::ParserError
       raise(MalformedResponseError, "Response body was not valid JSON in:\n #{response_body}")
     end
 
-    @output.puts response_body
+    @output.puts response_body.gsub("\n", "")
     @num_pages_processed += 1
 
-    meta = json["meta"] || raise(MalformedResponseError, "Missing meta element in:\n #{response_body}")
+    meta = json_data["meta"] || raise(MalformedResponseError, "Missing meta element in:\n #{response_body}")
     @pageno = meta["page"] || raise(MalformedResponseError, "Missing page property in the meta element in:\n #{response_body}")
     @total_pages = meta["total_pages"] || raise(MalformedResponseError, "Missing total_pages property in the meta element in:\n #{response_body}")
 
     if continue_crawling?
       next_uri = URI.parse(@url)
-      next_uri.query = {page: @pageno+1}.to_query
+      next_uri.query = query_params_with_page(next_uri.query, @pageno+1)
       next_uri
     else
       nil
     end
+  end
+
+  def query_params_with_page(query, page)
+    return query unless page
+    params = Rack::Utils.parse_nested_query(query).with_indifferent_access
+    params[:page] = page
+    params.to_query
   end
 
   def continue_crawling?

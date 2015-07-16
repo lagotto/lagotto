@@ -224,3 +224,63 @@ bin/rake report:all_stats RAILS_ENV=production
 ```
 
 This rake task generates the monthly report file and this file is then available for download from the [Zenodo](https://zenodo.org/) data repository. Make sure the `ZENODO_API_KEY`, `SITENAMELONG` and `CREATOR` ENV variables are set correctly. Users who have signed up for this report will be notified by email when the report has been generated.
+
+### Snapshotting the API
+
+Lagotto provides the capability to snapshot its API at a given point in time. This makes it possible to download the full data-set from one or more API end-points which can be useful for loading the data into a different system for analysis.
+
+By default, Lagotto will create a snapshot of an end-point, zip it up, and upload it to [Zenodo](http://zenodo.org).
+
+#### Available end-points
+
+To see what end-points are available for snapshotting run the following rake command:
+
+```
+bin/rake -T api:snapshot
+```
+
+#### Creating Snapshots
+
+You can create snapshots by running the below rake tasks:
+
+* `bin/rake api:snapshot:events` - snapshot just the events API
+* `bin/rake api:snapshot:references` - snapshot just the references API
+* `bin/rake api:snapshot:works` - snapshot just the works API
+* `bin/rake api:snapshot:all` - snapshot all three of the API end-points above
+
+#### Environment Requirements
+
+This requires [Zenodo integration](https://zenodo.org/dev) and expects the following environment variables to be configured:
+
+* SERVERNAME: this is used to determine what host to snapshot.
+* ZENODO_KEY: used in posting the zip file to Zenodo
+* ZENODO_URL: used in posting the zip file to Zenodo
+* APPLICATION: used in posting the zip file to Zenodo
+* CREATOR: used in posting the zip file to Zenodo
+* SITENAMELONG: used in posting the zip file to Zenodo
+* GITHUB_URL: used in posting the zip file to Zenodo
+
+Also, you must be running Sidekiq (bin/rake sidekiq:start) in order for the APIs to be snapshotted as the work is done in the background.
+
+_Note: you can register a test Zenodo account using https://sandbox.zenodo.org before integrating with their production environment. Just update the ZENODO_URL and ZENODO_KEY environment variables accordingly._
+
+#### Optional environment variables
+
+The below environment variables can be set to test creating snapshots. It is useful for manual testing and exploration:
+
+* START_PAGE: the page number to start on. The default is nil so it will start on the root page.
+* STOP_PAGE: the page number to stop crawling on (even if there are more pages). The default is nil so it will stop only when there are no more pages to crawl.
+* PAGES_PER_JOB: the number of pages to process per `ApiSnapshotJob`. The default is 10.
+* BENCHMARK: set if you want to benchmark how long each requests takes. This will create a file in the same location as the jsondump file and will append the suffix `.benchmark`. E.g. `api_works.jsondump.benchmark`
+* FILENAME_EXT - this is the filename extension to be used to dump the file. The default is `jsondump`.
+* SNAPSHOT_DIR: the directory to store snapshots in. The default is `LAGOTTO_ROOT/tmp/snapshots/snapshot_YYYY-MM-DD`.
+
+An easy way to test this locally is to run the following:
+
+```
+# Make sure sidekiq is running fresh code
+bin/rake sidekiq:stop && bin/rake sidekiq:start
+
+# Queue up our snapshots and benchmark them
+STOP_PAGE=2 BENCHMARK=1 bin/rake api:snapshot:all
+```
