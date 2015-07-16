@@ -28,6 +28,7 @@ describe "works", type: :feature, js: true do
 
       fill_in "work_title", with: title
       fill_in "work_doi", with: doi
+      check "work_tracked"
       click_button "Save"
 
       expect(page).to have_css "h4.work a", text: title
@@ -39,6 +40,7 @@ describe "works", type: :feature, js: true do
 
       fill_in "work_title", with: title
       fill_in "work_doi", with: doi
+      check "work_tracked"
       select "", from: "work_day"
       select "", from: "work_month"
       select "2013", from: "work_year"
@@ -65,6 +67,7 @@ describe "works", type: :feature, js: true do
       click_link "new-work"
 
       fill_in "work_doi", with: doi
+      check "work_tracked"
       click_button "Save"
 
       expect(page).to have_css ".work_title .has-error", text: "can't be blank"
@@ -75,6 +78,7 @@ describe "works", type: :feature, js: true do
       click_link "new-work"
 
       fill_in "work_title", with: title
+      check "work_tracked"
       click_button "Save"
 
       expect(page).to have_css ".work_doi .has-error", text: "must provide at least one persistent identifier"
@@ -86,6 +90,7 @@ describe "works", type: :feature, js: true do
 
       fill_in "work_title", with: title
       fill_in "work_doi", with: doi
+      check "work_tracked"
       select "December", from: "work_month"
       click_button "Save"
 
