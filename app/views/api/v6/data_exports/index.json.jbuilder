@@ -9,6 +9,6 @@ end
 
 json.data_exports @data_exports do |data_export|
   json.cache! ['v6', data_export], skip_digest: true do
-    json.(data_export, :url, :type, :started_exporting_at, :finished_exporting_at, :failed_at, :state)
+    json.(data_export, :url, :type, :started_exporting_at, :finished_exporting_at, :failed_at, :state, :data)
   end
 end

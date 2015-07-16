@@ -66,6 +66,7 @@ describe "/api/v6/data_exports", :type => :api do
         expect(item["url"]).to eq(finished_data_export.url)
         expect(item["started_exporting_at"]).to_not be_nil
         expect(item["finished_exporting_at"]).to_not be_nil
+        expect(item["data"]).to_not be_nil
 
         item = items.find{ |i| i["state"] == "failed" }
         expect(item["failed_at"]).to_not be_nil
