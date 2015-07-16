@@ -67,15 +67,15 @@ class ApiCrawler
 
   def process_response_body_and_get_next_page_uri(request_uri, response_body)
     begin
-      json = JSON.parse(response_body)
+      json_data = JSON.parse(response_body)
     rescue JSON::ParserError
       raise(MalformedResponseError, "Response body was not valid JSON in:\n #{response_body}")
     end
 
-    @output.puts response_body
+    @output.puts response_body.gsub("\n", "")
     @num_pages_processed += 1
 
-    meta = json["meta"] || raise(MalformedResponseError, "Missing meta element in:\n #{response_body}")
+    meta = json_data["meta"] || raise(MalformedResponseError, "Missing meta element in:\n #{response_body}")
     @pageno = meta["page"] || raise(MalformedResponseError, "Missing page property in the meta element in:\n #{response_body}")
     @total_pages = meta["total_pages"] || raise(MalformedResponseError, "Missing total_pages property in the meta element in:\n #{response_body}")
 

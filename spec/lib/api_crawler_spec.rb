@@ -140,7 +140,17 @@ describe ApiCrawler do
     end
 
     context "and the responses include newlines" do
-      it "removes the newlines when writing to :output" do
+      let(:page_1_response){ build_response_with_body(total_pages:1, page: 1) }
+
+      before do
+        page_1_response[:body] = "{\"meta\":{\"total_pages\":1, \"page\":1}, \"a\":5\n,\"b\":5}\n"
+        stub_request(:get, "www.example.com").to_return page_1_response
+      end
+
+      it "removes the newlines when writing to :output so that every response is written as a single line" do
+        api_crawler.crawl
+        output.rewind
+        expect(output.read).to eq("#{page_1_response[:body].gsub("\n", "")}\n")
       end
     end
 
