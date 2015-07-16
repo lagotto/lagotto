@@ -7,7 +7,7 @@ class ApiSnapshot < DataExport
 
   FILENAME_EXT = 'jsondump'
 
-  # +data_dir+ determines where all of the reports are written to.
+  # +snapshot_dir+ determines where all of the reports are written to.
   class_attribute :snapshot_dir
 
   self.snapshot_dir = Rails.root.join("tmp/snapshots")
@@ -56,7 +56,7 @@ class ApiSnapshot < DataExport
   def snapshot_filepath
     @snapshot_filepath ||= begin
       snapshot_filename = uri.path.gsub(/^\/*/, '').gsub('/', '_')
-      "#{Pathname.new(snapshot_dir).join(snapshot_filename)}.#{filename_ext}"
+      "#{Pathname.new(snapshot_dir).join(snapshot_filename)}_#{snapshot_date}.#{filename_ext}"
     end
   end
 
