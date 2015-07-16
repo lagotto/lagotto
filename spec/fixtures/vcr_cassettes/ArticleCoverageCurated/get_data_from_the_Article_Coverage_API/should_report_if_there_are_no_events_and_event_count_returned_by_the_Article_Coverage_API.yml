@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:33:10 GMT
+      - Thu, 16 Jul 2015 10:19:05 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Ua-Compatible:
@@ -25,9 +25,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - c4cd319256d94b2baaf60952eb866305
+      - 3e59538384236b029f0f8faf6dbb7729
       X-Runtime:
-      - '0.007366'
+      - '0.007720'
       X-Rack-Cache:
       - miss
       X-Powered-By:
@@ -42,5 +42,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"Article not found"}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:22 GMT
+  recorded_at: Thu, 16 Jul 2015 10:19:06 GMT
 recorded_with: VCR 2.9.3

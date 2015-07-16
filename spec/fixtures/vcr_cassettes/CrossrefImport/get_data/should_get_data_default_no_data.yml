@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:35:40 GMT
+      - Tue, 14 Jul 2015 14:23:15 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -30,9 +30,17 @@ http_interactions:
       - application/json;charset=UTF-8
       Content-Length:
       - '189'
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":1000,"items":[],"total-results":0,"facets":{}}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:19:52 GMT
+  recorded_at: Tue, 14 Jul 2015 14:23:15 GMT
 recorded_with: VCR 2.9.3

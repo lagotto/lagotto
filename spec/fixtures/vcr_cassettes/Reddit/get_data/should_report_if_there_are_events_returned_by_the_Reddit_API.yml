@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,16 +17,14 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:24:13 GMT
+      - Tue, 14 Jul 2015 14:22:53 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
-      - '91'
-      Connection:
-      - keep-alive
+      - '105'
       Set-Cookie:
-      - __cfduid=d89bdcb7be6d764e33f7ee0f0005935a41434407053; expires=Tue, 14-Jun-16
-        22:24:13 GMT; path=/; domain=.reddit.com; HttpOnly
+      - __cfduid=db2d14697eb2481f4fcdb1e2eeb2ef2631436883773; expires=Wed, 13-Jul-16
+        14:22:53 GMT; path=/; domain=.reddit.com; HttpOnly
       X-Ua-Compatible:
       - IE=edge
       X-Frame-Options:
@@ -40,21 +38,29 @@ http_interactions:
       Access-Control-Expose-Headers:
       - X-Reddit-Tracking, X-Moose
       X-Reddit-Tracking:
-      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=7gU6QhEoWfe40Zn20BiknEyWKERtZtsq9GZMEJGwN5P1i5sAbI5PQ3C9JC8cn84BDW1HSaXeZxw%3D
+      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=Q%2F9uh%2BY%2FGomUf7M98Rkk%2Fz0BhtyDbF6E4voQEJMAZi42byv%2BZCMtsh1OexzYFoQhVeBZ5C%2F2b9Y%3D
       Cache-Control:
       - no-cache
       X-Moose:
       - majestic
       Cf-Cache-Status:
-      - MISS
+      - EXPIRED
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 1f71af15e6940d7f-SJC
+      - 205de1de30410f8d-FRA
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
-      string: '{"kind": "Listing", "data": {"modhash": "", "children": [], "after":
-        null, "before": null}}'
+      string: '{"kind": "Listing", "data": {"facets": {}, "modhash": "", "children":
+        [], "after": null, "before": null}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:08:25 GMT
+  recorded_at: Tue, 14 Jul 2015 14:22:53 GMT
 recorded_with: VCR 2.9.3

@@ -8,7 +8,53 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - Varnish
+      Location:
+      - https://en.wikipedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=0&sroffset=0&srprop=timestamp&srsearch=%2210.1371%2Fjournal.pone.0044271%22+OR+%22http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%3Adoi%2F10.1371%2Fjournal.pone.0044271%22&srwhat=text
+      Content-Length:
+      - '0'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 14 Jul 2015 14:20:59 GMT
+      X-Varnish:
+      - '522248130'
+      Age:
+      - '0'
+      X-Cache:
+      - cp3031 frontend miss (0), MISS from non_disclosed
+      Set-Cookie:
+      - GeoIP=:::::v4; Path=/; Domain=.wikipedia.org, WMF-Last-Access=14-Jul-2015;Path=/;HttpOnly;Expires=Sat,
+        15 Aug 2015 12:00:00 GMT
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 varnish, 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 14 Jul 2015 14:20:59 GMT
+- request:
+    method: get
+    uri: https://en.wikipedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=0&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +63,13 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - Apache
+      - nginx/1.9.2
+      Date:
+      - Tue, 14 Jul 2015 14:20:59 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
       X-Powered-By:
       - HHVM/3.6.1
       X-Content-Type-Options:
@@ -28,29 +80,27 @@ http_interactions:
       - SAMEORIGIN
       Vary:
       - Accept-Encoding,X-Forwarded-Proto,Cookie
-      Content-Type:
-      - application/json; charset=utf-8
       X-Varnish:
-      - 244899271, 3056261152
+      - 612811884, 889181800, 1380150594
       Via:
-      - 1.1 varnish, 1.1 varnish
-      Date:
-      - Mon, 15 Jun 2015 22:32:52 GMT
+      - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Age:
       - '0'
-      Connection:
-      - keep-alive
       X-Cache:
-      - cp1065 miss (0), cp1068 frontend miss (0)
+      - cp1054 miss (0), cp3005 miss (0), cp3041 frontend miss (0)
+      Strict-Transport-Security:
+      - max-age=31536000
       Set-Cookie:
-      - GeoIP=::::v6; Path=/; Domain=.wikipedia.org:80, WMF-Last-Access=15-Jun-2015;Path=/;HttpOnly;Expires=Fri,
-        17 Jul 2015 12:00:00 GMT
+      - GeoIP=DE:::51.0000:9.0000:v4; Path=/; Domain=.wikipedia.org, WMF-Last-Access=14-Jul-2015;Path=/;HttpOnly;Expires=Sat,
+        15 Aug 2015 12:00:00 GMT
+      X-Analytics:
+      - https=1
     body:
       encoding: UTF-8
       string: '{"batchcomplete":"","query":{"searchinfo":{"totalhits":2},"search":[{"ns":0,"title":"Lesula","timestamp":"2014-05-24T12:54:07Z"},{"ns":0,"title":"Primates
         described in the 2010s","timestamp":"2015-04-23T20:05:36Z"}]}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:04 GMT
+  recorded_at: Tue, 14 Jul 2015 14:21:00 GMT
 - request:
     method: get
     uri: http://commons.wikimedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=6&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
@@ -59,7 +109,53 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - Varnish
+      Location:
+      - https://commons.wikimedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=6&sroffset=0&srprop=timestamp&srsearch=%2210.1371%2Fjournal.pone.0044271%22+OR+%22http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%3Adoi%2F10.1371%2Fjournal.pone.0044271%22&srwhat=text
+      Content-Length:
+      - '0'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 14 Jul 2015 14:21:00 GMT
+      X-Varnish:
+      - '395366770'
+      Age:
+      - '0'
+      X-Cache:
+      - cp3030 frontend miss (0), MISS from non_disclosed
+      Set-Cookie:
+      - GeoIP=:::::v4; Path=/; Domain=.wikimedia.org, WMF-Last-Access=14-Jul-2015;Path=/;HttpOnly;Expires=Sat,
+        15 Aug 2015 12:00:00 GMT
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 varnish, 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 14 Jul 2015 14:21:00 GMT
+- request:
+    method: get
+    uri: https://commons.wikimedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=6&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044271%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271%22&srwhat=text
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -68,7 +164,13 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - Apache
+      - nginx/1.9.2
+      Date:
+      - Tue, 14 Jul 2015 14:21:01 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
       X-Powered-By:
       - HHVM/3.6.1
       X-Content-Type-Options:
@@ -79,33 +181,31 @@ http_interactions:
       - SAMEORIGIN
       Vary:
       - Accept-Encoding,X-Forwarded-Proto,Cookie
-      Content-Type:
-      - application/json; charset=utf-8
       X-Varnish:
-      - 1325747131, 3435133092
+      - 2809742484, 1510021729, 1380156114
       Via:
-      - 1.1 varnish, 1.1 varnish
-      Date:
-      - Mon, 15 Jun 2015 22:32:53 GMT
+      - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Age:
       - '0'
-      Connection:
-      - keep-alive
       X-Cache:
-      - cp1067 miss (0), cp1065 frontend miss (0)
+      - cp1055 miss (0), cp3006 miss (0), cp3041 frontend miss (0)
+      Strict-Transport-Security:
+      - max-age=31536000
       Set-Cookie:
-      - GeoIP=::::v6; Path=/; Domain=.wikimedia.org:80, WMF-Last-Access=15-Jun-2015;Path=/;HttpOnly;Expires=Fri,
-        17 Jul 2015 12:00:00 GMT
+      - GeoIP=DE:::51.0000:9.0000:v4; Path=/; Domain=.wikimedia.org, WMF-Last-Access=14-Jul-2015;Path=/;HttpOnly;Expires=Sat,
+        15 Aug 2015 12:00:00 GMT
+      X-Analytics:
+      - https=1
     body:
       encoding: UTF-8
       string: '{"batchcomplete":"","query":{"searchinfo":{"totalhits":8},"search":[{"ns":6,"title":"File:Cercopithecus
-        lomamiensis Female.jpg","timestamp":"2013-08-29T21:27:22Z"},{"ns":6,"title":"File:Cercopithecus
         lomamiensis Juv.jpg","timestamp":"2013-08-29T21:28:03Z"},{"ns":6,"title":"File:Cercopithecus
+        lomamiensis Female.jpg","timestamp":"2013-08-29T21:27:22Z"},{"ns":6,"title":"File:Cercopithecus
         lomamiensis (Lesula).png","timestamp":"2013-08-29T21:25:48Z"},{"ns":6,"title":"File:Cercopithecus
         lomamiensis MaleP.jpg","timestamp":"2013-08-29T21:29:00Z"},{"ns":6,"title":"File:Cercopithecus
         lomamiensis Male.jpg","timestamp":"2013-08-29T21:28:22Z"},{"ns":6,"title":"File:Journal.pone.0044271.g001.png","timestamp":"2013-08-29T21:14:47Z"},{"ns":6,"title":"File:Cercopithecus
         hamlyni booms - journal.pone.0044271.s015.ogg","timestamp":"2015-02-24T14:34:48Z"},{"ns":6,"title":"File:Cercopithecus
         lomamiensis booms - journal.pone.0044271.s016.ogg","timestamp":"2015-02-24T14:34:48Z"}]}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:05 GMT
+  recorded_at: Tue, 14 Jul 2015 14:21:01 GMT
 recorded_with: VCR 2.9.3

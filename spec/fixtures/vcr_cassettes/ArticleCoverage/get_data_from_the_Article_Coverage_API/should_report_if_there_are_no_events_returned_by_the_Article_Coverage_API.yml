@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:33:06 GMT
+      - Thu, 16 Jul 2015 10:18:36 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Ua-Compatible:
@@ -25,9 +25,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 41dff67e33a5cf6a6512df8ab7cd2f1e
+      - d04039ccef92e9f2eea134f017bb0ca7
       X-Runtime:
-      - '0.005885'
+      - '0.006951'
       X-Rack-Cache:
       - miss
       X-Powered-By:
@@ -42,7 +42,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"Article not found"}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:18 GMT
+  recorded_at: Thu, 16 Jul 2015 10:18:37 GMT
 - request:
     method: get
     uri: http://mediacuration.plos.org/api/v1?doi=10.1371/journal.pone.0008775&state=all
@@ -51,7 +51,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -60,7 +60,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:33:07 GMT
+      - Thu, 16 Jul 2015 10:18:37 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Ua-Compatible:
@@ -68,9 +68,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - fddd34b87ec8ea298c42c0029225071a
+      - 037106dfa39c1b00bb3e09eca525d6b0
       X-Runtime:
-      - '0.078486'
+      - '0.007185'
       X-Rack-Cache:
       - miss
       X-Powered-By:
@@ -85,5 +85,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"error":"Article not found"}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:19 GMT
+  recorded_at: Thu, 16 Jul 2015 10:18:38 GMT
 recorded_with: VCR 2.9.3

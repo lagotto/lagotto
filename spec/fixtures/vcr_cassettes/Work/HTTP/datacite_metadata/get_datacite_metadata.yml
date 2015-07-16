@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -19,15 +19,21 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sat, 11 Jul 2015 19:41:07 GMT
+      - Tue, 14 Jul 2015 14:15:03 GMT
       Content-Type:
       - application/json;charset=UTF-8
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
-      - keep-alive
+      - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTA1LTI5VDE4OjM5OjI1
@@ -45,5 +51,5 @@ http_interactions:
         aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoiRGF0YXNl
         dCJ9XX19Cg==
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 19:51:52 GMT
+  recorded_at: Tue, 14 Jul 2015 14:25:53 GMT
 recorded_with: VCR 2.9.3

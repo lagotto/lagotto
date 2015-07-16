@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 16 Jun 2015 06:55:25 GMT
+      - Thu, 16 Jul 2015 10:19:33 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Ua-Compatible:
@@ -27,9 +27,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a379ab0e4ec95e38b48230b3e57556f3
+      - 52e93ece31cba7fd3e416f60f729a19d
       X-Runtime:
-      - '0.067455'
+      - '0.032688'
       X-Rack-Cache:
       - miss
       X-Powered-By:
@@ -73,5 +73,5 @@ http_interactions:
         Trillion Pieces of Plastic Are Floating in an Ocean Near You [INTERACTIVE]","type":"News","publication":"Popular
         Science","published_on":"2015-05-19T00:00:00Z","link_state":"APPROVED"}]}'
     http_version: 
-  recorded_at: Tue, 16 Jun 2015 06:54:31 GMT
+  recorded_at: Thu, 16 Jul 2015 10:19:34 GMT
 recorded_with: VCR 2.9.3

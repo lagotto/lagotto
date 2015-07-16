@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -19,23 +19,29 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 15 Jun 2015 18:33:13 GMT
+      - Tue, 14 Jul 2015 14:14:16 GMT
       Content-Type:
       - text/html
       Content-Length:
       - '178'
-      Connection:
-      - keep-alive
       Location:
       - https://en.search.wordpress.com/?f=json&q=%2210.1371%2Fjournal.pbio.1002020%22&size=20&t=post
       X-Ac:
       - 1.fra _sat
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body
         bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 18:17:38 GMT
+  recorded_at: Tue, 14 Jul 2015 14:14:16 GMT
 - request:
     method: get
     uri: https://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pbio.1002020%22&size=20&t=post
@@ -44,7 +50,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -55,7 +61,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 15 Jun 2015 18:33:14 GMT
+      - Tue, 14 Jul 2015 14:14:17 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Connection:
@@ -79,5 +85,5 @@ http_interactions:
         prepare for writing my final essay, I decided to gather ten possible sources
         to use for my research. I attempted to find a mix of both historical [&#8230;]"}]'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 18:17:39 GMT
+  recorded_at: Tue, 14 Jul 2015 14:14:17 GMT
 recorded_with: VCR 2.9.3

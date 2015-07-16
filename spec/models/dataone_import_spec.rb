@@ -68,7 +68,7 @@ describe DataoneImport, type: :model, vcr: true do
     it "should get_data default no data" do
       import = DataoneImport.new(from_update_date: "2014-09-07", until_update_date: "2014-09-07")
       response = import.get_data
-      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>7, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
+      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>5, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
     end
 
     it "should get_data timeout error" do

@@ -7,7 +7,7 @@ describe DataciteImport, type: :model, vcr: true do
   context "query_url" do
     it "should have total_results" do
       import = DataciteImport.new
-      expect(import.total_results).to eq(5270460)
+      expect(import.total_results).to eq(5423365)
     end
   end
 
@@ -59,9 +59,9 @@ describe DataciteImport, type: :model, vcr: true do
     it "should get_data default" do
       import = DataciteImport.new
       response = import.get_data
-      expect(response["response"]["numFound"]).to eq(5270460)
+      expect(response["response"]["numFound"]).to eq(5423365)
       work = response["response"]["docs"].first
-      expect(work["doi"]).to eq("10.3929/ETHZ-A-005920166")
+      expect(work["doi"]).to eq("10.5517/CCPW8WP")
       expect(work["title"]).to eq(["Algorithmic solutions for transient faults in communication networks, on swap edges and local algorithms"])
     end
 

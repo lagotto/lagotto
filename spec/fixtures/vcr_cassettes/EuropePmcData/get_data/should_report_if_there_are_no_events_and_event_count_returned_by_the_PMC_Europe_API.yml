@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -18,15 +18,23 @@ http_interactions:
     headers:
       Server:
       - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=1E2BB14FC98F5948A2D1D141DD7F424A; Path=/europepmc/webservices
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 15 Jun 2015 22:35:33 GMT
+      - Tue, 14 Jul 2015 14:26:43 GMT
+      Set-Cookie:
+      - JSESSIONID=9B660BA9945093A076259A745AC0B1BA; Path=/europepmc/webservices
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: '{"version":"4.1","hitCount":0,"request":{"id":"20098740","source":"MED","semanticType":"","page":1}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:19:45 GMT
+  recorded_at: Tue, 14 Jul 2015 14:26:44 GMT
 recorded_with: VCR 2.9.3

@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -29,17 +29,23 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Mon, 15 Jun 2015 18:33:11 GMT
+      - Tue, 14 Jul 2015 14:17:33 GMT
       Server:
       - nginx
       Content-Length:
       - '10160'
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
-      - keep-alive
+      - close
     body:
       encoding: UTF-8
       string: '{"count": 6, "items": [{"files": ["http://files.figshare.com/1114011/Table_1.xls"],
-        "pos_in_sequence": 0, "stats": {"downloads": 0, "page_views": 11, "likes":
+        "pos_in_sequence": 0, "stats": {"downloads": 0, "page_views": 12, "likes":
         0}, "users": ["Bernard E. Pfeil", "Anna Petri", "Bengt Oxelman"], "links":
         [], "tags": ["Molecular systematics", "introgression", "Plant science", "Evolutionary
         processes", "Evolutionary biology", "Evolutionary systematics", "Plant taxonomy",
@@ -120,7 +126,7 @@ http_interactions:
         ["Biological Sciences"], "description": "<p>Both primers were located in regions
         where all <i>Physolychnis</i> and <i>Auriculatae b</i>-copies were identical,
         and differing from the <i>Physolychnis a</i>-copy.</p>"}, {"files": ["http://files.figshare.com/1114008/Figure_2.tif"],
-        "pos_in_sequence": 0, "stats": {"downloads": 0, "page_views": 25, "likes":
+        "pos_in_sequence": 0, "stats": {"downloads": 0, "page_views": 26, "likes":
         0}, "users": ["Bernard E. Pfeil", "Anna Petri", "Bengt Oxelman"], "links":
         [], "tags": ["Molecular systematics", "introgression", "Plant science", "Evolutionary
         processes", "dated", "Evolutionary biology", "Evolutionary systematics", "Plant
@@ -161,5 +167,5 @@ http_interactions:
         c) As a result, we can observe the following gene copy combinations in the
         <i>S. ajanensis</i> group: <i>aa* aa*; ba* ba*; ba* aa</i>*.</p>"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 18:17:35 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:33 GMT
 recorded_with: VCR 2.9.3

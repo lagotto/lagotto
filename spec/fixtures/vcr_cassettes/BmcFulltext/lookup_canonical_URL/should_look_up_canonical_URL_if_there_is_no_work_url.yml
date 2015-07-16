@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.2.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,27 +17,31 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 13 Jul 2015 20:44:59 GMT
+      - Tue, 14 Jul 2015 14:08:24 GMT
       Content-Language:
       - en-US
       Content-Type:
       - application/json;charset=utf-8
-      X-Cacheable:
-      - 'YES'
       Cache-Control:
       - public,max-age=86400
       Last-Modified:
-      - Mon, 13 Jul 2015 20:44:59 GMT
+      - Tue, 14 Jul 2015 14:08:24 GMT
       X-Ua-Device:
       - classic
       Server:
       - BioMed Central Web Server 1.0
       X-Cache:
-      - MISS
-      Connection:
-      - keep-alive
+      - HIT, MISS from non_disclosed
+      X-Cache-Hits:
+      - '1'
       Accept-Ranges:
       - bytes
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: "{\"entries\":[{\"arxId\":\"s13007-014-0041-7\",\"blurbTitle\":\"Mapping
@@ -51,5 +55,5 @@ http_interactions:
         2014, <strong>10<\\/strong>:41\",\"status\":\"LIVE\",\"abstractPath\":\"http://www.plantmethods.com/content/10/1/41/abstract\",\"journal
         Id\":\"10088\",\"published Date\":\"2014-12-30\" }]}\r\n"
     http_version: 
-  recorded_at: Mon, 13 Jul 2015 20:43:57 GMT
+  recorded_at: Tue, 14 Jul 2015 14:14:14 GMT
 recorded_with: VCR 2.9.3

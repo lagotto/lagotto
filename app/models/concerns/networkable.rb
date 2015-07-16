@@ -77,7 +77,7 @@ module Networkable
 
       Faraday.new do |c|
         c.headers['Accept'] = accept_header
-        c.headers['User-Agent'] = "Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}"
+        c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
         c.use      FaradayMiddleware::FollowRedirects, limit: limit, cookie: :all
         c.request  :multipart
         c.request  :json if accept_header == 'application/json'

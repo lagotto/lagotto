@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Jul 2015 19:44:50 GMT
+      - Tue, 14 Jul 2015 14:25:31 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -30,6 +30,14 @@ http_interactions:
       - application/json;charset=UTF-8
       Content-Length:
       - '1063'
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Ecology,
@@ -39,5 +47,5 @@ http_interactions:
         COMMUNITIES"],"alternative-id":["10.1890\/0012-9658(2006)87[2832:TIOPMA]2.0.CO;2"],"type":"journal-article","DOI":"10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","ISSN":["0012-9658"],"URL":"http:\/\/dx.doi.org\/10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","source":"CrossRef","publisher":"Ecological
         Society of America","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433590833541},"volume":"87","member":"http:\/\/id.crossref.org\/member\/792"}}'
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 19:44:51 GMT
+  recorded_at: Tue, 14 Jul 2015 14:25:31 GMT
 recorded_with: VCR 2.9.3

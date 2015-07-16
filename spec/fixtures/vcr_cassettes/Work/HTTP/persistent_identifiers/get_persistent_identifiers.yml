@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://lagotto-master.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.2.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 13 Jul 2015 22:27:13 GMT
+      - Tue, 14 Jul 2015 14:25:30 GMT
       Server:
       - Apache
       Content-Type:
@@ -26,13 +26,21 @@ http_interactions:
       - Accept-Encoding
       X-Ua-Compatible:
       - IE=Edge
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-07-13 18:27:13",
-         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto-master.local",
+         "responseDate": "2015-07-14 10:25:30",
+         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC1762313",
@@ -48,5 +56,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 13 Jul 2015 22:26:04 GMT
+  recorded_at: Tue, 14 Jul 2015 14:25:31 GMT
 recorded_with: VCR 2.9.3

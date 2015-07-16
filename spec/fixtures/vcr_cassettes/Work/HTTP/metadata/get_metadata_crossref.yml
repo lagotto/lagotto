@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Jul 2015 21:11:15 GMT
+      - Tue, 14 Jul 2015 14:25:51 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -30,6 +30,14 @@ http_interactions:
       - application/json;charset=UTF-8
       Content-Length:
       - '1369'
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Agricultural
@@ -40,5 +48,5 @@ http_interactions:
         Catalytic Inactivity\u2013of the Mutant Enzymes"],"editor":[{"affiliation":[],"family":"Janbon","given":"Guilhem"}],"type":"journal-article","DOI":"10.1371\/journal.pone.0000030","ISSN":["1932-6203"],"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0000030","source":"CrossRef","publisher":"Public
         Library of Science (PLoS)","indexed":{"date-parts":[[2015,6,9]],"timestamp":1433813201127},"volume":"1","member":"http:\/\/id.crossref.org\/member\/340"}}'
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 20:51:50 GMT
+  recorded_at: Tue, 14 Jul 2015 14:25:51 GMT
 recorded_with: VCR 2.9.3

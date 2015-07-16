@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -25,7 +25,13 @@ http_interactions:
       Content-Length:
       - '84'
       Date:
-      - Sat, 11 Jul 2015 23:22:37 GMT
+      - Tue, 14 Jul 2015 14:25:28 GMT
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
       - close
     body:
@@ -41,5 +47,5 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:22:37 GMT
+  recorded_at: Tue, 14 Jul 2015 14:25:29 GMT
 recorded_with: VCR 2.9.3

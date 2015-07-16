@@ -179,11 +179,11 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       subject.update_months(data.fetch(:months))
-      expect(subject.months.count).to eq(2)
+      expect(subject.months.count).to eq(3)
 
       month = subject.months.last
       expect(month.year).to eq(2015)
-      expect(month.month).to eq(1)
+      expect(month.month).to eq(7)
       expect(month.total).to eq(2)
       expect(month.readers).to eq(2)
     end
@@ -224,15 +224,15 @@ describe RetrievalStatus, type: :model, vcr: true do
 
     it "success" do
       expect(subject.months.count).to eq(0)
-      expect(subject.perform_get_data).to eq(total: 4, html: 0, pdf: 0, previous_total: 2, skipped: false, update_interval: 31)
-      expect(subject.total).to eq(4)
-      expect(subject.readers).to eq(4)
-      expect(subject.months.count).to eq(2)
+      expect(subject.perform_get_data).to eq(total: 6, html: 0, pdf: 0, previous_total: 2, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(6)
+      expect(subject.readers).to eq(6)
+      expect(subject.months.count).to eq(3)
       expect(subject.days.count).to eq(2)
 
       month = subject.months.last
       expect(month.year).to eq(2015)
-      expect(month.month).to eq(1)
+      expect(month.month).to eq(7)
       expect(month.total).to eq(2)
       expect(month.readers).to eq(2)
 
@@ -257,17 +257,17 @@ describe RetrievalStatus, type: :model, vcr: true do
       subject = FactoryGirl.create(:retrieval_status, total: 50, pdf: 10, html: 40, work: work, source: source)
 
       expect(subject.months.count).to eq(0)
-      expect(subject.perform_get_data).to eq(total: 169, html: 133, pdf: 25, previous_total: 50, skipped: false, update_interval: 31)
-      expect(subject.total).to eq(169)
-      expect(subject.pdf).to eq(25)
-      expect(subject.html).to eq(133)
-      expect(subject.months.count).to eq(7)
+      expect(subject.perform_get_data).to eq(total: 187, html: 146, pdf: 30, previous_total: 50, skipped: false, update_interval: 31)
+      expect(subject.total).to eq(187)
+      expect(subject.pdf).to eq(30)
+      expect(subject.html).to eq(146)
+      expect(subject.months.count).to eq(8)
       expect(subject.days.count).to eq(0)
-      expect(subject.extra.length).to eq(7)
+      expect(subject.extra.length).to eq(8)
 
       month = subject.months.last
       expect(month.year).to eq(2015)
-      expect(month.month).to eq(6)
+      expect(month.month).to eq(7)
       expect(month.total).to eq(4)
       expect(month.pdf).to eq(0)
       expect(month.html).to eq(4)
@@ -362,7 +362,7 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       expect(Alert.count).to eq(2)
       alert = Alert.first
-      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.popsci.com/five-trillion-pieces-plastic-are-floating-ocean-near-you-3.")
+      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.washingtonpost.com/blogs/wonkblog/wp/2014/12/10/good-job-humans-the-ocean-now-contains-5-trillion-pieces-of-floating-plastic/.")
     end
 
     it "success no data" do

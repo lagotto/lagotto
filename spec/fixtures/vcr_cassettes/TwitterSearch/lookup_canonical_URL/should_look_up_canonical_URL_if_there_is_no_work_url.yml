@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
       Authorization:
@@ -23,21 +23,21 @@ http_interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Mon, 15 Jun 2015 18:32:47 GMT
+      - Tue, 14 Jul 2015 14:21:53 GMT
       Server:
       - tsa_f
       Set-Cookie:
-      - guest_id=v1%3A143439316764284270; Domain=.twitter.com; Path=/; Expires=Wed,
-        14-Jun-2017 18:32:47 UTC
+      - guest_id=v1%3A143688371369217331; Domain=.twitter.com; Path=/; Expires=Thu,
+        13-Jul-2017 14:21:53 UTC
       Strict-Transport-Security:
       - max-age=631138519
       X-Connection-Hash:
-      - ced4208bfcd26c9d35737411c4d72cf6
+      - 6e2d8af7fc37050a5fbcf3ce86661f70
       X-Response-Time:
-      - '102'
+      - '106'
     body:
       encoding: UTF-8
       string: '{"errors":[{"code":89,"message":"Invalid or expired token."}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 18:17:12 GMT
+  recorded_at: Tue, 14 Jul 2015 14:21:54 GMT
 recorded_with: VCR 2.9.3

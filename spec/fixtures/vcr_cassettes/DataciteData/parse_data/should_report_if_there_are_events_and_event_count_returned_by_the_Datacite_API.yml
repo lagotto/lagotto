@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -25,7 +25,13 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Sat, 11 Jul 2015 23:25:02 GMT
+      - Tue, 14 Jul 2015 14:17:04 GMT
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
       - close
     body:
@@ -38,7 +44,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:25:02 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:04 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/dryad.8515/1&rows=1&wt=json
@@ -47,7 +53,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -58,15 +64,21 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sat, 11 Jul 2015 23:14:18 GMT
+      - Tue, 14 Jul 2015 14:06:15 GMT
       Content-Type:
       - application/json;charset=UTF-8
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
-      - keep-alive
+      - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTA1LTMwVDA0OjQzOjU2
@@ -81,7 +93,7 @@ http_interactions:
         aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoiRGF0YXNl
         dCJ9XX19Cg==
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:25:03 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/dryad.8515/2
@@ -90,7 +102,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -107,7 +119,13 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Sat, 11 Jul 2015 23:25:04 GMT
+      - Tue, 14 Jul 2015 14:17:04 GMT
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
       - close
     body:
@@ -120,7 +138,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:25:04 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:05 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/dryad.8515/2&rows=1&wt=json
@@ -129,7 +147,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -140,15 +158,21 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sat, 11 Jul 2015 23:14:20 GMT
+      - Tue, 14 Jul 2015 14:06:16 GMT
       Content-Type:
       - application/json;charset=UTF-8
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
-      - keep-alive
+      - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTA1LTMwVDA0OjQ0OjAx
@@ -163,7 +187,7 @@ http_interactions:
         YmxpY2F0aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoi
         RGF0YXNldCJ9XX19Cg==
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:25:05 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1371/journal.ppat.1000446
@@ -172,7 +196,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -189,7 +213,13 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Sat, 11 Jul 2015 23:25:06 GMT
+      - Tue, 14 Jul 2015 14:17:05 GMT
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
       - close
     body:
@@ -202,7 +232,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:25:06 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:05 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1371%2Fjournal.ppat.1000446
@@ -211,7 +241,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -220,7 +250,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 11 Jul 2015 23:25:39 GMT
+      - Tue, 14 Jul 2015 14:17:06 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -233,6 +263,14 @@ http_interactions:
       - application/json;charset=UTF-8
       Content-Length:
       - '1463'
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Molecular
@@ -242,5 +280,5 @@ http_interactions:
         C."}],"type":"journal-article","DOI":"10.1371\/journal.ppat.1000446","ISSN":["1553-7374"],"URL":"http:\/\/dx.doi.org\/10.1371\/journal.ppat.1000446","source":"CrossRef","publisher":"Public
         Library of Science (PLoS)","indexed":{"date-parts":[[2015,6,9]],"timestamp":1433825224462},"volume":"5","member":"http:\/\/id.crossref.org\/member\/340"}}'
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 23:25:39 GMT
+  recorded_at: Tue, 14 Jul 2015 14:17:06 GMT
 recorded_with: VCR 2.9.3

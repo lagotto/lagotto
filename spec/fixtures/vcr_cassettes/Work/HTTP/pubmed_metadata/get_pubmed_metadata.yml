@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.1.1 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -18,19 +18,27 @@ http_interactions:
     headers:
       Server:
       - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=C7DB3E2BC0DA4552A4FBA21CA5C8331F; Path=/europepmc/webservices
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Sat, 11 Jul 2015 19:49:54 GMT
+      - Tue, 14 Jul 2015 14:25:29 GMT
+      Set-Cookie:
+      - JSESSIONID=4416607ED9AF368C55501AAB727E8704; Path=/europepmc/webservices
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: '{"version":"4.1","hitCount":1,"request":{"resultType":"LITE","synonym":false,"query":"ext_id:17183658","page":1},"resultList":{"result":[{"id":"17183658","source":"MED","pmid":"17183658","pmcid":"PMC1762313","title":"Triose
         phosphate isomerase deficiency is caused by altered dimerization--not catalytic
         inactivity--of the mutant enzymes.","authorString":"Ralser M, Heeren G, Breitenbach
         M, Lehrach H, Krobitsch S.","journalTitle":"PLoS One","issue":"1","journalVolume":"1","pubYear":"2006","journalIssn":"1932-6203","pageInfo":"e30","pubType":"journal
-        article; research support, non-u.s. gov''t; research-article","isOpenAccess":"Y","inEPMC":"Y","inPMC":"N","citedByCount":21,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"Y","dbCrossReferenceList":{"dbName":["UNIPROT"]},"hasLabsLinks":"Y","hasTMAccessionNumbers":"N","luceneScore":"17145.695","doi":"10.1371/journal.pone.0000030"}]}}'
+        article; research support, non-u.s. gov''t; research-article","isOpenAccess":"Y","inEPMC":"Y","inPMC":"N","citedByCount":21,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"Y","dbCrossReferenceList":{"dbName":["UNIPROT"]},"hasLabsLinks":"Y","hasTMAccessionNumbers":"N","luceneScore":"17541.688","doi":"10.1371/journal.pone.0000030"}]}}'
     http_version: 
-  recorded_at: Sat, 11 Jul 2015 19:49:54 GMT
+  recorded_at: Tue, 14 Jul 2015 14:25:29 GMT
 recorded_with: VCR 2.9.3

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wos, type: :model, vcr: true do
+describe Wos, type: :model do
   subject { FactoryGirl.create(:wos) }
 
   let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007", wos: nil) }
