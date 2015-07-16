@@ -75,9 +75,15 @@ class ApiCrawler
     @output.puts response_body.gsub("\n", "")
     @num_pages_processed += 1
 
-    meta = json_data["meta"] || raise(MalformedResponseError, "Missing meta element in:\n #{response_body}")
-    @pageno = meta["page"] || raise(MalformedResponseError, "Missing page property in the meta element in:\n #{response_body}")
-    @total_pages = meta["total_pages"] || raise(MalformedResponseError, "Missing total_pages property in the meta element in:\n #{response_body}")
+    meta = json_data["meta"]
+    if meta && meta["page"] && meta["total_pages"]
+      @pageno = meta["page"]
+      @total_pages = meta["total_pages"]
+    else
+      # if we have a page of valid JSON w/o paging information
+      @total_pages ||= 1
+      @pageno = @total_pages
+    end
 
     if continue_crawling?
       next_uri = URI.parse(@url)
