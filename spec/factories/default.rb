@@ -558,6 +558,7 @@ FactoryGirl.define do
 
   factory :data_export do
     sequence(:name){ |i| "Zenodo Export #{i}"}
+    sequence(:url){ |i| "http://example.com/#{i}"}
   end
 
   factory :api_snapshot, class: ApiSnapshot, parent: :data_export do

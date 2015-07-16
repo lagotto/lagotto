@@ -1,6 +1,7 @@
 require "rails_helper"
 
 describe DataExport do
+  subject(:data_export){ FactoryGirl.build(:data_export) }
 
   describe "#previous_version" do
     subject(:data_export){ FactoryGirl.create(:data_export, name: report_name) }
@@ -49,6 +50,27 @@ describe DataExport do
       it "returns nil" do
         expect(export_one_week_ago.previous_version).to be(nil)
       end
+    end
+  end
+
+  describe "#state" do
+    it "is 'pending' when not started, finished, or failed" do
+      expect(data_export.state).to eq("pending")
+    end
+
+    it "is 'processing' when started, but not finished or failed" do
+      data_export.started_exporting_at = Time.zone.now
+      expect(data_export.state).to eq("processing")
+    end
+
+    it "is 'done' when finished" do
+      data_export.finished_exporting_at = Time.zone.now
+      expect(data_export.state).to eq("done")
+    end
+
+    it "is 'failed' when failed"do
+      data_export.failed_at = Time.zone.now
+      expect(data_export.state).to eq("failed")
     end
 
   end

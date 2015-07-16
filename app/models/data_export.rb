@@ -33,4 +33,16 @@ class DataExport < ActiveRecord::Base
   def previous_version
     @previous_version ||= self.class.find_previous_version_of(self)
   end
+
+  def state
+    if failed_at
+      "failed"
+    elsif finished_exporting_at
+      "done"
+    elsif started_exporting_at
+      "processing"
+    else
+      "pending"
+    end
+  end
 end
