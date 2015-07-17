@@ -29,8 +29,6 @@ Detailed instructions on how to start developing are [here](https://github.com/a
 ## Discussion
 Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io). You should follow [@plosalm](https://twitter.com/plosalm) on Twitter for announcements and updates.
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/articlemetrics/lagotto?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
 ## Note on Patches/Pull Requests
 
 * Fork the project
