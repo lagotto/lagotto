@@ -8,10 +8,10 @@ class DataoneUsage < Source
     params = { q: "pid:#{work.dataone} AND isRepeatVisit:false AND inPartialRobotList:false",
                fq: "event:read",
                facet: "true",
-               "facet.range": "dateLogged",
-               "facet.range.start": "#{work.published_on}T00:00:00Z",
-               "facet.range.end": "#{Time.zone.now.to_date}T23:59:59Z",
-               "facet.range.gap": "+1MONTH",
+               "facet.range" => "dateLogged",
+               "facet.range.start" => "#{work.published_on}T00:00:00Z",
+               "facet.range.end" => "#{Time.zone.now.to_date}T23:59:59Z",
+               "facet.range.gap" => "+1MONTH",
                wt: "json" }
     url + params.to_query
   end
