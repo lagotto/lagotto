@@ -80,51 +80,24 @@ describe("formattedDate", function() {
   });
 });
 
-describe("paginateEvents", function() {
-
-});
-
 describe("paginate", function() {
 
 });
 
-describe("urlForWork", function() {
-
+describe("pathForWork", function() {
   it("doi", function() {
-    var work = { "doi": "10.1371/journal.pone.0043007" };
-    expect(urlForWork(work)).toEqual("http://dx.doi.org/10.1371/journal.pone.0043007");
+    var id = "http://doi.org/10.5555/12345678"
+    expect(pathForWork(id)).toEqual("Viewed: 40 • Cited: 10 • Saved: 20 • Discussed: 30");
   });
 
-  it("pmid", function() {
-    var work = { "pmid": "17183658" };
-    expect(urlForWork(work)).toEqual("http://www.ncbi.nlm.nih.gov/pubmed/17183658");
+  it("url", function() {
+    var id = "http://example.com/1234"
+    expect(pathForWork(id)).toEqual("Viewed: 40 • Cited: 10 • Saved: 20 • Discussed: 30");
   });
-
-  it("pmcid", function() {
-    var work = { "pmcid": "1762328" };
-    expect(urlForWork(work)).toEqual("http://www.ncbi.nlm.nih.gov/pmc/works/PMC1762328");
-  });
-
-  it("ark", function() {
-    var work = { "ark": "ark:/13030/m5br8stc" };
-    expect(urlForWork(work)).toEqual("http://n2t.net/ark:/13030/m5br8stc");
-  });
-
-  it("canonical_url", function() {
-    var work = { "canonical_url": "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007" };
-    expect(urlForWork(work)).toEqual("http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007");
-  });
-
-  it("no pid", function() {
-    var work = {};
-    expect(urlForWork(work)).toEqual("");
-  });
-
 });
 
 describe("signpostsToString", function() {
-  var work = { "cited": 10, "saved": 20, "discussed": 30, "viewed": 40,
-               "sources": [{ "name": "citeulike", "title": "CiteULike", "metrics": { "total": 100 }}] },
+  var work = { "events": { "counter": 40, "crossref": 10, "citeulike": 20, "facebook": 30 }},
       source_id = "",
       order = "";
 
@@ -141,15 +114,47 @@ describe("signpostsToString", function() {
   });
 
   it("show signposts only citations", function() {
-    work = { "cited": 10, "saved": 0, "discussed": 0, "viewed": 0,
-             "sources": [{ "name": "citeulike", "title": "CiteULike", "metrics": { "total": 10 }}] };
+    work = { "events": { "crossref": 10 };
     expect(signpostsToString(work, source_id, order)).toEqual("Cited: 10");
   });
 
   it("show signposts no events", function() {
-    work = { "cited": 0, "saved": 0, "discussed": 0, "viewed": 0,
-             "sources": [{ "name": "citeulike", "title": "CiteULike", "metrics": { "total": 0 }}] };
+    var work = { "events": {} };
     expect(signpostsToString(work, source_id, order)).toEqual("");
+  });
+});
+
+describe("signpostsFromWork", function() {
+  var work = { "events": { "counter": 40, "crossref": 10, "citeulike": 20, "facebook": 30 }};
+
+  it("show signposts", function() {
+    expect(signpostsFromWork(work)).toEqual("Viewed: 40 • Cited: 10 • Saved: 20 • Discussed: 30");
+  });
+
+  it("show signposts no events", function() {
+    var work = { "events": {} };
+    expect(signpostsFromWork(work)).toEqual("");
+  });
+});
+
+describe("relationToString", function() {
+  (work, sources, relation_types)
+  var work = { "source_id": "citeulike", "relation_type_id": "cites" },
+      sources = [{ "id": "citeulike", "title": "CiteULike" }],
+      relation_types = [{ "id": "cites", "inverse_tite": "Is cited by" }];
+
+  it("relation", function() {
+    expect(relationToString(work, sources, relation_types)).toEqual("Viewed: 40 • Cited: 10 • Saved: 20 • Discussed: 30");
+  });
+
+  it("relation no sources", function() {
+    var work = { "events": {} };
+    expect(relationToString(work, relation_types)).toEqual("");
+  });
+
+  it("relation no relation_types", function() {
+    var work = { "events": {} };
+    expect(relationToString(work, sources)).toEqual("");
   });
 });
 
