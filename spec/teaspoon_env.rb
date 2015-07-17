@@ -162,7 +162,7 @@ Teaspoon.configure do |config|
 
     # The path that the coverage should be written to - when there's an artifact to write to disk.
     # Note: Relative to `config.root`.
-    #coverage.output_path = "coverage"
+    coverage.output_path = "coverage"
 
     # Assets to be ignored when generating coverage reports. Accepts an array of filenames or regular expressions. The
     # default excludes assets from vendor, gems and support libraries.
