@@ -19,9 +19,11 @@ http_interactions:
       Server:
       - nginx/1.0.0
       Date:
-      - Tue, 14 Jul 2015 14:27:04 GMT
+      - Thu, 16 Jul 2015 21:05:44 GMT
       Content-Type:
       - application/json; charset=utf-8
+      Connection:
+      - keep-alive
       Content-Length:
       - '5688'
       Status:
@@ -29,20 +31,12 @@ http_interactions:
       X-Powered-By:
       - Phusion Passenger (mod_rails/mod_rack) 3.0.21
       X-Runtime:
-      - '129'
+      - '47'
       Cache-Control:
       - private, max-age=0, must-revalidate
       Set-Cookie:
-      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlNGI5NDQwNTFkOWEyZWZlNTNhNzI4ZTYwZmM3NDVjMGQ%3D--6cd06f8bce5761d8ec276d8a06cc4678367288ea;
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlMjQ5ODI0ZGQ3NjM2YjRjMDg0ZmE1NWYzODE3NzdiNjE%3D--182fcb3ee064ac0c871283c775d18c02b11ceb9c;
         path=/; HttpOnly
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
-      Connection:
-      - close
     body:
       encoding: UTF-8
       string: '[{"post":{"percent_complex_words":18.4732,"popularity":0,"created_at":"2012-05-21T10:31:26Z","blog":{"percent_complex_words":19.8033,"popularity":94,"created_at":"2008-11-06T15:50:14Z","title":"Dr
@@ -80,5 +74,5 @@ http_interactions:
         world of science blogging. \u00a0Much of the context here relates to openness.
         \u00a0Yet as far as I can tell, the data collected that make up t...","updated_at":"2012-05-19T13:55:29Z","flesch":-559.625,"url":"feedproxy.google.com/~r/TheTreeOfLife/~3/et-NrG_KTQA/oh-irony-new-openaccess-plosone-paper.html","blog_id":76,"id":734008,"hashed_id":"602855d91588a0722bcf9e36915eaa96e1f2315045f8305b78b77511fa3648c1","num_words":1776,"published_at":"2012-05-12T07:24:00Z","fog":243.602}}]'
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:27:05 GMT
+  recorded_at: Thu, 16 Jul 2015 21:05:42 GMT
 recorded_with: VCR 2.9.3

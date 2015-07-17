@@ -13,37 +13,33 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 503
+      code: 200
       message: ''
     headers:
       Server:
       - nginx/1.0.0
       Date:
-      - Tue, 14 Jul 2015 14:27:04 GMT
+      - Thu, 16 Jul 2015 21:05:41 GMT
       Content-Type:
-      - text/html; charset=iso-8859-1
-      Content-Length:
-      - '323'
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
+      - application/json; charset=utf-8
       Connection:
-      - close
+      - keep-alive
+      Content-Length:
+      - '2'
+      Status:
+      - '200'
+      X-Powered-By:
+      - Phusion Passenger (mod_rails/mod_rack) 3.0.21
+      X-Runtime:
+      - '74'
+      Cache-Control:
+      - private, max-age=0, must-revalidate
+      Set-Cookie:
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlZjQ0ZTZkMDhiMmEyMzA3OWVkYmMzOGRhYjk0NDViMDc%3D--56f8ab6c39e1da207e08a43babe6ce1acef9c9d6;
+        path=/; HttpOnly
     body:
       encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>503 Service Temporarily Unavailable</title>
-        </head><body>
-        <h1>Service Temporarily Unavailable</h1>
-        <p>The server is temporarily unable to service your
-        request due to maintenance downtime or capacity
-        problems. Please try again later.</p>
-        </body></html>
+      string: "[]"
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:27:05 GMT
+  recorded_at: Thu, 16 Jul 2015 21:05:39 GMT
 recorded_with: VCR 2.9.3
