@@ -99,10 +99,12 @@ orcid = Orcid.where(name: 'orcid').first_or_create(
 dataone_counter = DataoneCounter.where(name: 'dataone_counter').first_or_create(
   :title => 'DataONE Counter',
   :description => 'COUNTER Usage data for the DataONE network of ecological and environmental data centers.',
+  :eventable => false,
   :group_id => viewed.id)
 dataone_usage = DataoneUsage.where(name: 'dataone_usage').first_or_create(
   :title => 'DataONE Usage',
   :description => 'Usage data for the DataONE network of ecological and environmental data centers.',
+  :eventable => false,
   :group_id => viewed.id)
 
 # The following sources require passwords/API keys and are installed by default

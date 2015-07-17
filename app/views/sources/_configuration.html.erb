@@ -110,7 +110,7 @@
             <td>Source not made available via API</td>
           </tr>
         <% end %>
-        <% if @source.tracked %>
+        <% if @source.eventable && @source.tracked %>
           <tr>
             <th>Track works</th>
             <td>Track events for works added via this source</td>
