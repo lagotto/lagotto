@@ -27,43 +27,22 @@ class Heartbeat < Sinatra::Base
   end
 
   def mysql
-    Mysql2::Client.new(host: ENV["DB_HOST"],
-                       port: ENV["DB_PORT"],
-                       username: ENV["DB_USERNAME"],
-                       password: ENV["DB_PASSWORD"])
-    "OK"
-  rescue
-    "failed"
+    HeartbeatService.mysql_up? ? "OK" : "failed"
   end
 
   def redis
-    redis_client = Redis.new
-    redis_client.ping == "PONG" ? "OK" : "failed"
-  rescue
-    "failed"
+    HeartbeatService.redis_up? ? "OK" : "failed"
   end
 
   def memcached
-    host = ENV["MEMCACHE_SERVERS"] ||= ENV["HOSTNAME"]
-    memcached_client = Dalli::Client.new("#{host}:11211")
-    memcached_client.version.values.first.nil? ? "failed" : "OK"
-  rescue
-    "failed"
+    HeartbeatService.memcached_up? ? "OK" : "failed"
   end
 
   def sidekiq
-    sidekiq_client = Sidekiq::ProcessSet.new
-    sidekiq_client.size > 0 ? "OK" : "failed"
-  rescue
-    "failed"
+    HeartbeatService.sidekiq_up? ? "OK" : "failed"
   end
 
   def postfix
-    Timeout::timeout(3) do
-      Net::SMTP.start(ENV["MAIL_ADDRESS"], ENV["MAIL_PORT"])
-    end
-    "OK"
-  rescue
-    "failed"
+    HeartbeatService.postfix_up? ? "OK" : "failed"
   end
 end
