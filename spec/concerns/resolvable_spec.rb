@@ -31,6 +31,11 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
       end
 
+      it " downcase" do
+        id = "doi:10.5063/F1PC3085"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5063/f1pc3085")
+      end
+
       it "pmid" do
         id = "pmid:17183658"
         expect(subject.get_id_hash(id)).to eq(pmid: "17183658")
@@ -158,7 +163,7 @@ describe Work, type: :model, vcr: true do
 
       it "doi_" do
         id = "doi_10.5066_F7DZ067M"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.5066/F7DZ067M")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5066/f7dz067m")
       end
 
       it "id" do
