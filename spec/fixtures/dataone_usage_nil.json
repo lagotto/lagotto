@@ -1,0 +1,65 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 3,
+    "params": {
+      "facet": "true",
+      "q": "pid:doi\\:10.5063/F1PC3085 AND isRepeatVisit:false AND inPartialRobotList:false",
+      "facet.range.start": "2014-07-17T00:00:00Z",
+      "facet.range": "dateLogged",
+      "facet.range.gap": "+1MONTH",
+      "facet.range.end": "2015-07-17T23:59:59Z",
+      "wt": "json",
+      "fq": "event:read"
+    }
+  },
+  "response": {
+    "numFound": 0,
+    "start": 0,
+    "docs": [
+    ]
+  },
+  "facet_counts": {
+    "facet_queries": {
+    },
+    "facet_fields": {
+    },
+    "facet_dates": {
+    },
+    "facet_ranges": {
+      "dateLogged": {
+        "counts": [
+          "2014-07-17T00:00:00Z",
+          0,
+          "2014-08-17T00:00:00Z",
+          0,
+          "2014-09-17T00:00:00Z",
+          0,
+          "2014-10-17T00:00:00Z",
+          0,
+          "2014-11-17T00:00:00Z",
+          0,
+          "2014-12-17T00:00:00Z",
+          0,
+          "2015-01-17T00:00:00Z",
+          0,
+          "2015-02-17T00:00:00Z",
+          0,
+          "2015-03-17T00:00:00Z",
+          0,
+          "2015-04-17T00:00:00Z",
+          0,
+          "2015-05-17T00:00:00Z",
+          0,
+          "2015-06-17T00:00:00Z",
+          0,
+          "2015-07-17T00:00:00Z",
+          0
+        ],
+        "gap": "+1MONTH",
+        "start": "2014-07-17T00:00:00Z",
+        "end": "2015-08-17T00:00:00Z"
+      }
+    }
+  }
+}

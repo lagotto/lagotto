@@ -170,6 +170,10 @@ class Work < ActiveRecord::Base
     CGI.escape(doi) if doi.present?
   end
 
+  def dataone_escaped
+    dataone.gsub(/\:/, '\:')  if dataone.present?
+  end
+
   def doi_as_url
     Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
   end

@@ -5,7 +5,7 @@ class DataoneUsage < Source
   def get_query_url(work)
     return {} unless work.dataone.present?
 
-    params = { q: "pid:#{work.dataone} AND isRepeatVisit:false AND inPartialRobotList:false",
+    params = { q: "pid:#{work.dataone_escaped} AND isRepeatVisit:false AND inPartialRobotList:false",
                fq: "event:read",
                facet: "true",
                "facet.range" => "dateLogged",

@@ -5,33 +5,24 @@ module Dataoneable
     def parse_data(result, work, options={})
       return result if result[:error]
 
-      extra = get_extra(result)
-
-      pdf = get_sum(extra, "pdf_views")
-      html = get_sum(extra, "html_views")
-      xml = get_sum(extra, "xml_views")
-      total = pdf + html + xml
+      total = result.fetch("response", {}).fetch("numFound", 0)
+      months = total > 0 ? get_events_by_month(result) : []
 
       { events: {
           source: name,
           work: work.pid,
-          pdf: pdf,
-          html: html,
           total: total,
-          months: get_events_by_month(extra) } }
+          months: months } }
     end
 
-    def get_events_by_month(extra)
-      extra.map do |month|
-        html = month["html_views"].to_i
-        pdf = month["pdf_views"].to_i
-        xml = month["xml_views"].to_i
+    def get_events_by_month(result)
+      counts = result.deep_fetch("facet_counts", "facet_ranges", "dateLogged", "counts") { [] }
+      counts.each_slice(2).map do |item|
+        year, month = *get_year_month(item.first)
 
-        { month: month["month"].to_i,
-          year: month["year"].to_i,
-          html: html,
-          pdf: pdf,
-          total: html + pdf + xml }
+        { month: month,
+          year: year,
+          total: item.last }
       end
     end
 

@@ -241,6 +241,11 @@ describe Work, type: :model, vcr: true do
     end
   end
 
+  it 'dataone escaped' do
+    work = FactoryGirl.create(:work, dataone: "doi:10.5063/F1PC3085")
+    expect(work.dataone_escaped).to eq("doi\\:10.5063/F1PC3085")
+  end
+
   it 'to title escaped' do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
