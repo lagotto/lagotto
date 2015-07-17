@@ -333,6 +333,17 @@ FactoryGirl.define do
     initialize_with { DataoneCounter.where(name: name).first_or_initialize }
   end
 
+  factory :dataone_usage, class: DataoneUsage do
+    type "DataoneUsage"
+    name "dataone_usage"
+    title "DataONE Usage"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataoneUsage.where(name: name).first_or_initialize }
+  end
+
   factory :f1000, class: F1000 do
     type "F1000"
     name "f1000"

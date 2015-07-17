@@ -1,11 +1,11 @@
-class DataoneCounter < Source
+class DataoneUsage < Source
   # include common methods for DataONE
   include Dataoneable
 
   def get_query_url(work)
     return {} unless work.dataone.present?
 
-    params = { q: "pid:#{work.dataone} AND isRepeatVisit:false AND inFullRobotList:false",
+    params = { q: "pid:#{work.dataone} AND isRepeatVisit:false AND inPartialRobotList:false",
                fq: "event:read",
                facet: "true",
                "facet.range": "dateLogged",

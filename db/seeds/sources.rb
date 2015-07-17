@@ -96,6 +96,14 @@ orcid = Orcid.where(name: 'orcid').first_or_create(
   :title => 'ORCID',
   :description => 'ORCID is a persistent author identifier for connecting research and researchers.',
   :group_id => saved.id)
+dataone_counter = DataoneCounter.where(name: 'dataone_counter').first_or_create(
+  :title => 'DataONE Counter',
+  :description => 'COUNTER Usage data for the DataONE network of ecological and environmental data centers.',
+  :group_id => viewed.id)
+dataone_usage = DataoneUsage.where(name: 'dataone_usage').first_or_create(
+  :title => 'DataONE Usage',
+  :description => 'Usage data for the DataONE network of ecological and environmental data centers.',
+  :group_id => viewed.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.where(name: 'crossref').first_or_create(

@@ -1,0 +1,80 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cn.dataone.org/cn/v1/query/logsolr/select?facet=true&facet.range=dateLogged&facet.range.end=2015-07-17T23:59:59Z&facet.range.gap=%2B1MONTH&facet.range.start=2014-07-17T00:00:00Z&fq=event:read&q=pid:http://dx.doi.org/10.5061/dryad.f1cb2?ver=2011-11-15T15:33:05.847-05:00%20AND%20isRepeatVisit:false%20AND%20inPartialRobotList:false&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 400
+      message: ''
+    headers:
+      Date:
+      - Fri, 17 Jul 2015 06:08:07 GMT
+      Cache-Control:
+      - no-cache, no-store
+      Pragma:
+      - no-cache
+      Expires:
+      - Sat, 01 Jan 2000 01:00:00 GMT
+      Last-Modified:
+      - Fri, 17 Jul 2015 06:08:07 GMT
+      Etag:
+      - '"14e9aa0821b"'
+      Content-Type:
+      - text/html;charset=utf-8
+      Content-Length:
+      - '2975'
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "<html><head><title>Apache Tomcat/7.0.26 - Error report</title><style><!--H1
+        {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;}
+        H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;}
+        H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;}
+        BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;}
+        B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;}
+        P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A
+        {color : black;}A.name {color : black;}HR {color : #525D76;}--></style> </head><body><h1>HTTP
+        Status 400 - org.apache.lucene.queryParser.ParseException: Cannot parse 'pid:http://dx.doi.org/10.5061/dryad.f1cb2?ver=2011-11-15T15:33:05.847-05:00
+        AND isRepeatVisit:false AND inPartialRobotList:false': Encountered &quot;
+        &quot;:&quot; &quot;: &quot;&quot; at line 1, column 8.\nWas expecting one
+        of:\n    &lt;EOF&gt; \n    &lt;AND&gt; ...\n    &lt;OR&gt; ...\n    &lt;NOT&gt;
+        ...\n    &quot;+&quot; ...\n    &quot;-&quot; ...\n    &quot;(&quot; ...\n
+        \   &quot;*&quot; ...\n    &quot;^&quot; ...\n    &lt;QUOTED&gt; ...\n    &lt;TERM&gt;
+        ...\n    &lt;FUZZY_SLOP&gt; ...\n    &lt;PREFIXTERM&gt; ...\n    &lt;WILDTERM&gt;
+        ...\n    &quot;[&quot; ...\n    &quot;{&quot; ...\n    &lt;NUMBER&gt; ...\n
+        \   </h1><HR size=\"1\" noshade=\"noshade\"><p><b>type</b> Status report</p><p><b>message</b>
+        <u>org.apache.lucene.queryParser.ParseException: Cannot parse 'pid:http://dx.doi.org/10.5061/dryad.f1cb2?ver=2011-11-15T15:33:05.847-05:00
+        AND isRepeatVisit:false AND inPartialRobotList:false': Encountered &quot;
+        &quot;:&quot; &quot;: &quot;&quot; at line 1, column 8.\nWas expecting one
+        of:\n    &lt;EOF&gt; \n    &lt;AND&gt; ...\n    &lt;OR&gt; ...\n    &lt;NOT&gt;
+        ...\n    &quot;+&quot; ...\n    &quot;-&quot; ...\n    &quot;(&quot; ...\n
+        \   &quot;*&quot; ...\n    &quot;^&quot; ...\n    &lt;QUOTED&gt; ...\n    &lt;TERM&gt;
+        ...\n    &lt;FUZZY_SLOP&gt; ...\n    &lt;PREFIXTERM&gt; ...\n    &lt;WILDTERM&gt;
+        ...\n    &quot;[&quot; ...\n    &quot;{&quot; ...\n    &lt;NUMBER&gt; ...\n
+        \   </u></p><p><b>description</b> <u>The request sent by the client was syntactically
+        incorrect (org.apache.lucene.queryParser.ParseException: Cannot parse 'pid:http://dx.doi.org/10.5061/dryad.f1cb2?ver=2011-11-15T15:33:05.847-05:00
+        AND isRepeatVisit:false AND inPartialRobotList:false': Encountered &quot;
+        &quot;:&quot; &quot;: &quot;&quot; at line 1, column 8.\nWas expecting one
+        of:\n    &lt;EOF&gt; \n    &lt;AND&gt; ...\n    &lt;OR&gt; ...\n    &lt;NOT&gt;
+        ...\n    &quot;+&quot; ...\n    &quot;-&quot; ...\n    &quot;(&quot; ...\n
+        \   &quot;*&quot; ...\n    &quot;^&quot; ...\n    &lt;QUOTED&gt; ...\n    &lt;TERM&gt;
+        ...\n    &lt;FUZZY_SLOP&gt; ...\n    &lt;PREFIXTERM&gt; ...\n    &lt;WILDTERM&gt;
+        ...\n    &quot;[&quot; ...\n    &quot;{&quot; ...\n    &lt;NUMBER&gt; ...\n
+        \   ).</u></p><HR size=\"1\" noshade=\"noshade\"><h3>Apache Tomcat/7.0.26</h3></body></html>"
+    http_version: 
+  recorded_at: Fri, 17 Jul 2015 06:08:07 GMT
+recorded_with: VCR 2.9.3
