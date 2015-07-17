@@ -1,0 +1,64 @@
+class DataoneCounter < Source
+  def get_query_url(work)
+    return {} unless work.dataone.present?
+
+    params = { q: "pid:#{work.dataone} AND isRepeatVisit:false AND inFullRobotList:false",
+               fq: "event:read",
+               facet: "true",
+               "facet.range": "dateLogged",
+               "facet.range.start": "#{work.published_on}T00:00:00Z",
+               "facet.range.end": "#{Time.zone.now.to_date}T23:59:59Z",
+               "facet.range.gap": "+1MONTH",
+               wt: "json" }
+    url + params.to_query
+  end
+
+  def parse_data(result, work, options={})
+    return result if result[:error]
+
+    extra = get_extra(result)
+
+    pdf = get_sum(extra, "pdf_views")
+    html = get_sum(extra, "html_views")
+    xml = get_sum(extra, "xml_views")
+    total = pdf + html + xml
+
+    { events: {
+        source: name,
+        work: work.pid,
+        pdf: pdf,
+        html: html,
+        total: total,
+        months: get_events_by_month(extra) } }
+  end
+
+  def get_events_by_month(extra)
+    extra.map do |month|
+      html = month["html_views"].to_i
+      pdf = month["pdf_views"].to_i
+      xml = month["xml_views"].to_i
+
+      { month: month["month"].to_i,
+        year: month["year"].to_i,
+        html: html,
+        pdf: pdf,
+        total: html + pdf + xml }
+    end
+  end
+
+  def config_fields
+    [:url]
+  end
+
+  def url
+    "https://cn.dataone.org/cn/v1/query/logsolr/select?"
+  end
+
+  def cron_line
+    config.cron_line || "* 4 * * *"
+  end
+
+  def queue
+    config.queue || "high"
+  end
+end

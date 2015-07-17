@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Facebook, type: :model do
+describe Facebook, type: :model, vcr: true do
   subject { FactoryGirl.create(:facebook) }
   let(:headers) do
     { 'Accept'=>'application/json',
