@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PlosFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:plos_fulltext) }
 
-  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", registration_agency: "github") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -27,7 +27,7 @@ describe PlosFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
       response = subject.get_data(work)
       expect(response["response"]["numFound"]).to eq(0)
     end

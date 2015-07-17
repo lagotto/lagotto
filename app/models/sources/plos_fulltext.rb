@@ -1,7 +1,7 @@
 class PlosFulltext < Source
   def get_query_url(work, options = {})
     # don't query if work is PLOS article
-    return {} if work.doi =~ /^10.1371/ && registration_agencies.include?(work.registration_agency)
+    return {} if work.doi =~ /^10.1371/ || !registration_agencies.include?(work.registration_agency)
 
     query_string = get_query_string(work)
     return {} unless query_string.present?
