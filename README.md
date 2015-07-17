@@ -27,7 +27,7 @@ Once the setup is complete (it might take up to 15 minutes), you'll be able to o
 Detailed instructions on how to start developing are [here](https://github.com/articlemetrics/lagotto/blob/master/docs/installation.md). There is extensive documentation - including installation instructions - at the [project website](http://articlemetrics.github.io).
 
 ## Discussion
-Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io). You should follow [@plosalm](https://twitter.com/plosalm) on Twitter for announcements and updates.
+Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io).
 
 ## Note on Patches/Pull Requests
 

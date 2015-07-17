@@ -62,7 +62,7 @@ describe DataciteImport, type: :model, vcr: true do
       expect(response["response"]["numFound"]).to eq(5423365)
       work = response["response"]["docs"].first
       expect(work["doi"]).to eq("10.5517/CCPW8WP")
-      expect(work["title"]).to eq(["Algorithmic solutions for transient faults in communication networks, on swap edges and local algorithms"])
+      expect(work["title"]).to eq(["CCDC 651833: Experimental Crystal Structure Determination"])
     end
 
     it "should get_data default no data" do
