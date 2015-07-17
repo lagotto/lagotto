@@ -85,7 +85,9 @@ function paginate(json) {
 
 // link to individual work
 function pathForWork(id) {
-  if (id.substring(0, 15) === "http://doi.org/") {} ||
+  if (typeof id === "undefined") { return ""; };
+
+  if (id.substring(0, 15) === "http://doi.org/" ||
       id.substring(0, 35) === "http://www.ncbi.nlm.nih.gov/pubmed/" ||
       id.substring(0, 41) === "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" ||
       id.substring(0, 41) === "http://www.ncbi.nlm.nih.gov/pmc/works/PMC" ||
