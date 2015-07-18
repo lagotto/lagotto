@@ -120,7 +120,7 @@ module Configurable
     def languages
       # Default is 25 largest Wikipedias:
       # https://meta.wikimedia.org/wiki/List_of_Wikipedias#All_Wikipedias_ordered_by_number_of_works
-      # temporarily exclude ru because of an OpenSSL issue: https://github.com/articlemetrics/lagotto/issues/303
+      # temporarily exclude ru because of an OpenSSL issue: https://github.com/lagotto/lagotto/issues/303
       config.languages || "en nl de sv fr it es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons"
     end
 

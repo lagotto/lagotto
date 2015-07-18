@@ -1,6 +1,6 @@
 /**
  * ALMViz
- * See https://github.com/articlemetrics/almviz for more details
+ * See https://github.com/lagotto/almviz for more details
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Article level metrics visualization controller.

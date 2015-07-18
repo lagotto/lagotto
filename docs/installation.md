@@ -15,7 +15,7 @@ Lagotto is a typical Ruby on Rails web application, using MySQL (or PostgreSQL, 
 
 [Rspec]: http://rspec.info/
 
-Lagotto is Open Source software licensed with a [MIT License](https://github.com/articlemetrics/lagotto/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source. Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of works.
+Lagotto is Open Source software licensed with a [MIT License](https://github.com/lagotto/lagotto/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source. Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of works.
 
 #### Ruby
 Lagotto requires Ruby 2.x. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby, unfortunately they also introduce additional dependencies, making them not the best choices in a production environment. The Chef script below installs Ruby 2.2 using a PPA for Ubuntu, this PPA is also recommended for manual installations on Ubuntu.
@@ -216,7 +216,7 @@ The [Chef cookbooks](https://supermarket.getchef.com/) needed by the Lagotto coo
 Then install all the required software for Lagotto with:
 
 ```sh
-git clone git://github.com/articlemetrics/lagotto.git
+git clone git://github.com/lagotto/lagotto.git
 cd lagotto
 vagrant up
 ```
@@ -314,7 +314,7 @@ You may have to set the permissions first, depending on your server setup. Passe
 mkdir -p /var/www
 sudo chmod 755 /var/www
 cd /var/www
-git clone git://github.com/articlemetrics/lagotto.git
+git clone git://github.com/lagotto/lagotto.git
 ```
 
 #### Install Bundler and Ruby gems required by the application

@@ -122,7 +122,7 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/mendeley.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/mendeley.rb).
 
 ## Further Documentation
 * [Mendeley API Documentation](http://dev.mendeley.com/methods/)

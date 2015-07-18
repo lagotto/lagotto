@@ -113,7 +113,7 @@ We would for example use `en.wikipedia.org` as `HOST` in the `API URL` below. We
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/wikipedia.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/wikipedia.rb).
 
 ## Further Documentation
 * [Mediawiki API Documentation](http://www.mediawiki.org/wiki/API:Main_page)

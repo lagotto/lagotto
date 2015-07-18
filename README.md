@@ -13,7 +13,7 @@ Lagotto allows a user to track events around research articles and other scholar
 
 1. Install Vagrant: https://www.vagrantup.com/downloads.html
 1. Install Virtualbox: https://www.virtualbox.org/wiki/Downloads
-2. Clone this repository `git clone git@github.com:articlemetrics/lagotto.git`
+2. Clone this repository `git clone git@github.com:lagotto/lagotto.git`
 3. Cd into it
 4. Copy the file `.env.example` to `.env` and make any changes to the configuration as needed
 5. Run `vagrant up`

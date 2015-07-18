@@ -386,7 +386,7 @@ The rate-limits for application-only authentication and search are 450 requests 
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/twitter_search.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/twitter_search.rb).
 
 ## Further Documentation
 * [Twitter Developer Documentation](https://dev.twitter.com/)

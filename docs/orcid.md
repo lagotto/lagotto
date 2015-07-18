@@ -168,7 +168,7 @@ ORCID is a persistent author identifier for connecting research and researchers.
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/orcid.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/orcid.rb).
 
 ## Further Documentation
 * [Searching with the ORCID API](http://support.orcid.org/knowledgebase/articles/132354-searching-with-the-public-api)

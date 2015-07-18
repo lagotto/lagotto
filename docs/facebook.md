@@ -95,7 +95,7 @@ https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/facebook.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/facebook.rb).
 
 ## Further Documentation
 * [Facebook Graph API](https://developers.facebook.com/docs/graph-api/using-graph-api/v2.1)

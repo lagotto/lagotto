@@ -91,7 +91,7 @@ title: "DataCite Data"
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/datacite_data.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/datacite_data.rb).
 
 ## Further Documentation
 * [DataCite Metadata Search](http://search.datacite.org/help.html)

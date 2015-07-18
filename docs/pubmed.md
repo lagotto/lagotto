@@ -70,7 +70,7 @@ title: "PubMed Central"
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/pub_med.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/pub_med.rb).
 
 ## API Documentation
 * [PubMed Central citation data](http://www.pubmedcentral.nih.gov/utils/)

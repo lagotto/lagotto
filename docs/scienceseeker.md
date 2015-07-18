@@ -232,7 +232,7 @@ title: "ScienceSeeker"
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/science_seeker.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/science_seeker.rb).
 
 ## Further Documentation
 * [ScienceSeeker API](http://scienceseeker.org/api)

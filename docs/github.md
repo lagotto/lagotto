@@ -171,4 +171,4 @@ Number of forks and stars for Github repos.
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/github.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/github.rb).
