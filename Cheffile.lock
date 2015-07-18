@@ -13,7 +13,7 @@ SITE
     chef_handler (1.2.0)
     chocolatey (0.4.0)
       windows (~> 1.31)
-    consul (0.10.0)
+    consul (0.10.1)
       golang (~> 1.4)
       libarchive (~> 0.4.0)
       packagecloud (>= 0.0.0)
@@ -74,7 +74,7 @@ SITE
     windows (1.37.0)
       chef_handler (>= 0.0.0)
     xfs (1.1.0)
-    yum (3.6.1)
+    yum (3.6.3)
     yum-epel (0.6.2)
       yum (~> 3.2)
     yum-erlang_solutions (0.2.0)
@@ -86,7 +86,7 @@ SITE
       yum-epel (>= 0.0.0)
 
 GIT
-  remote: git@github.com:PLOS/capistrano-cookbook.git
+  remote: git@github.com:lagotto/capistrano-cookbook.git
   ref: master
   sha: d2f3df1923384745067c2a5b66ec1b8e8fa1d4f2
   specs:
@@ -96,14 +96,14 @@ GIT
       ruby (~> 0.7.0)
 
 GIT
-  remote: git@github.com:PLOS/dotenv-cookbook.git
+  remote: git@github.com:lagotto/dotenv-cookbook.git
   ref: master
   sha: 3818435f4506f80a45f5a924ef880a3b371e0798
   specs:
     dotenv (0.2.2)
 
 GIT
-  remote: git@github.com:PLOS/lagotto-cookbook.git
+  remote: git@github.com:lagotto/lagotto-cookbook.git
   ref: master
   sha: d1d5dcf86de4bbf32e9044efb142f6f3a3f4450e
   specs:
@@ -124,7 +124,7 @@ GIT
       ruby (~> 0.7.0)
 
 GIT
-  remote: git@github.com:PLOS/mysql.git
+  remote: git@github.com:lagotto/mysql.git
   ref: master
   sha: e306cddd572ca4c1906aa533c70092528bb77532
   specs:
@@ -132,7 +132,7 @@ GIT
       yum-mysql-community (>= 0.0.0)
 
 GIT
-  remote: git@github.com:PLOS/mysql_rails-cookbook.git
+  remote: git@github.com:lagotto/mysql_rails-cookbook.git
   ref: master
   sha: 25ddc5987bf5aa10cc3aacfe8482cacf8ac26a64
   specs:
@@ -142,7 +142,7 @@ GIT
       ruby (~> 0.7.0)
 
 GIT
-  remote: git@github.com:PLOS/passenger_nginx-cookbook.git
+  remote: git@github.com:lagotto/passenger_nginx-cookbook.git
   ref: master
   sha: 98fca4bcd2d5d8ce42c38f700d0ffd84d149b9c2
   specs:
@@ -151,7 +151,7 @@ GIT
       ruby (~> 0.7.0)
 
 GIT
-  remote: git@github.com:PLOS/ruby-cookbook.git
+  remote: git@github.com:lagotto/ruby-cookbook.git
   ref: master
   sha: 0a52e4d402ce77cc31d9f50e6a82bb8eb472f9e6
   specs:
