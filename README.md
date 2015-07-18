@@ -29,7 +29,7 @@ Detailed instructions on how to start developing are [here](https://github.com/l
 ## Discussion
 Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io). Use the [Github Issue Tracker](https://github.com/lagotto/lagotto/issues) to follow the ongoing development, or use the [Waffle Board](https://waffle.io/lagotto/lagotto) for a development overview.
 
-[![Stories in Ready](https://badge.waffle.io/lagotto/lagotto.png?label=ready&title=Ready)](https://waffle.io/lagotto/lagotto)
+[![Stories in Progress](https://badge.waffle.io/lagotto/lagotto.svg?label=in%20progress&title=In%20Progress)](https://waffle.io/lagotto/lagotto)
 
 ## Note on Patches/Pull Requests
 
