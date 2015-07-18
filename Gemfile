@@ -57,7 +57,7 @@ gem "uglifier", "~> 2.5.3"
 gem 'coffee-rails', '~> 4.1.0'
 gem "ember-cli-rails"
 
-gem "zenodo", :git => "https://github.com/zdennis/zenodo.git"
+gem "zenodo", "~> 0.0.8"
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'
