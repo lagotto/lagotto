@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/lagotto/lagotto.png?label=ready&title=Ready)](https://waffle.io/lagotto/lagotto)
 # Lagotto
 
 [![Build Status](https://travis-ci.org/lagotto/lagotto.png?branch=master)](https://travis-ci.org/lagotto/lagotto)
@@ -28,7 +27,9 @@ Once the setup is complete (it might take up to 15 minutes), you'll be able to o
 Detailed instructions on how to start developing are [here](https://github.com/lagotto/lagotto/blob/master/docs/installation.md). There is extensive documentation - including installation instructions - at the [Lagotto website](http://lagotto.io).
 
 ## Discussion
-Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io).
+Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io). Use the [Github Issue Tracker](https://github.com/lagotto/lagotto/issues) to follow the ongoing development, or use the [Waffle Board](https://waffle.io/lagotto/lagotto) for a development overview.
+
+[![Stories in Ready](https://badge.waffle.io/lagotto/lagotto.png?label=ready&title=Ready)](https://waffle.io/lagotto/lagotto)
 
 ## Note on Patches/Pull Requests
 

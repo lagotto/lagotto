@@ -144,9 +144,9 @@ GIT
 GIT
   remote: git@github.com:lagotto/passenger_nginx-cookbook.git
   ref: master
-  sha: 98fca4bcd2d5d8ce42c38f700d0ffd84d149b9c2
+  sha: 4d135f153fa9507082fa958301f69873857a871b
   specs:
-    passenger_nginx (0.5.2)
+    passenger_nginx (0.5.3)
       apt (>= 0.0.0)
       ruby (~> 0.7.0)
 
