@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/lagotto/lagotto.png?label=ready&title=Ready)](https://waffle.io/lagotto/lagotto)
 # Lagotto
 
 [![Build Status](https://travis-ci.org/lagotto/lagotto.png?branch=master)](https://travis-ci.org/lagotto/lagotto)
