@@ -6,7 +6,7 @@ describe Work, type: :model, vcr: true do
 
   subject { work }
 
-  it { is_expected.to have_many(:retrieval_statuses).dependent(:destroy) }
+  it { is_expected.to have_many(:retrieval_statuses) }
   it { is_expected.to validate_uniqueness_of(:doi) }
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
@@ -253,6 +253,11 @@ describe Work, type: :model, vcr: true do
   it 'event_counts' do
     work = FactoryGirl.create(:work_with_events)
     expect(work.event_counts(["citeulike", "mendeley"])).to eq(100)
+  end
+
+  it 'metrics' do
+    work = FactoryGirl.create(:work_with_events)
+    expect(work.metrics).to eq([["citeulike", 50], ["mendeley", 50]])
   end
 
   it 'viewed' do
