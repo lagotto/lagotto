@@ -15,6 +15,9 @@ class AddKeys < ActiveRecord::Migration
 
     execute "delete from works where work_type_id not in (select id from work_types);"
 
+    execute "delete from reports_users where user_id not in (select id from users);"
+    execute "delete from reports_users where report_id not in (select id from reports);"
+
     add_foreign_key "days", "retrieval_statuses", name: "days_retrieval_status_id_fk", on_delete: :cascade
     add_foreign_key "days", "sources", name: "days_source_id_fk", on_delete: :cascade
     add_foreign_key "days", "works", name: "days_work_id_fk", on_delete: :cascade
