@@ -13,7 +13,7 @@ class AddKeys < ActiveRecord::Migration
     execute "delete from relations where related_work_id not in (select id from works);"
     execute "delete from relations where relation_type_id not in (select id from relation_types);"
 
-    execute "delete from works where work_tpye_id not in (select id from work_types);"
+    execute "delete from works where work_type_id not in (select id from work_types);"
 
     add_foreign_key "days", "retrieval_statuses", name: "days_retrieval_status_id_fk", on_delete: :cascade
     add_foreign_key "days", "sources", name: "days_source_id_fk", on_delete: :cascade
