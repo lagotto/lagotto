@@ -87,11 +87,11 @@
         <% end %>
         <% if @work.pmid.present? %>
           <dt>PubMed</dt>
-          <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid, @work.pmid_as_url %></dd>
+          <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url, @work.pmid_as_url %></dd>
         <% end %>
         <% if @work.pmcid.present? %>
           <dt>PubMed Central</dt>
-          <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to "PMC#{@work.pmcid}", @work.pmcid_as_url %></dd>
+          <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url, @work.pmcid_as_url %></dd>
         <% end %>
         <% if @work.pmid.present? %>
           <dt>Europe PMC</dt>
