@@ -400,8 +400,12 @@ class Source < ActiveRecord::Base
   end
 
   def insert_retrievals(ids = [])
+    return nil if ids.empty?
+
     sql = "insert into retrieval_statuses (work_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from works"
-    sql += " where works.id not in (#{work_ids.join(',')})" unless ids.empty?
+    sql += " where works.id not in (#{work_ids.join(',')})"
     ActiveRecord::Base.connection.execute sql
+  rescue ActiveRecord::RecordNotUnique => e
+    # sometimes a retrieval_status has already been created in parallel, so we can ignore it
   end
 end
