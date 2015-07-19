@@ -1,5 +1,20 @@
 class AddKeys < ActiveRecord::Migration
   def change
+    # remove orphaned rows before adding foreign keys
+    execute "delete from retrieval_statuses where work_id not in (select id from works);"
+
+    execute "delete from months where work_id not in (select id from works);"
+    execute "delete from months where retrieval_status_id not in (select id from retrieval_statuses);"
+
+    execute "delete from days where work_id not in (select id from works);"
+    execute "delete from days where retrieval_status_id not in (select id from retrieval_statuses);"
+
+    execute "delete from relations where work_id not in (select id from works);"
+    execute "delete from relations where related_work_id not in (select id from works);"
+    execute "delete from relations where relation_type_id not in (select id from relation_types);"
+
+    execute "delete from works where work_tpye_id not in (select id from work_types);"
+
     add_foreign_key "days", "retrieval_statuses", name: "days_retrieval_status_id_fk", on_delete: :cascade
     add_foreign_key "days", "sources", name: "days_source_id_fk", on_delete: :cascade
     add_foreign_key "days", "works", name: "days_work_id_fk", on_delete: :cascade
