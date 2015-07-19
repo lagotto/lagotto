@@ -14,7 +14,7 @@ class Work < ActiveRecord::Base
     def self.for_ids(ids)
       query = ::Work.where(id: ids).joins(:sources).select("works.id, name, total")
       query.all.reduce(Hash.new{|h,k| h[k] = []}) do |hsh, model|
-        hsh[model.id] = [ model.name, model.total ]
+        hsh[model.id] << [ model.name, model.total ]
         hsh
       end
     end
