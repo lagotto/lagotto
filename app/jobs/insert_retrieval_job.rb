@@ -1,7 +1,7 @@
 class InsertRetrievalJob < ActiveJob::Base
   queue_as :critical
 
-  def perform(source, ids = [])
-    source.insert_retrievals(ids)
+  def perform(source)
+    source.insert_retrievals
   end
 end
