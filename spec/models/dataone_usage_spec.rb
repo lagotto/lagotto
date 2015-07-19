@@ -26,7 +26,7 @@ describe DataoneUsage, type: :model, vcr: true do
     it "should catch timeout errors with the DataONE API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
       response = subject.get_data(work, source_id: subject.id)
-      expect(response).to eq(error: "the server responded with status 408 for https://cn.dataone.org/cn/v1/query/logsolr/select?facet.range.end=2015-07-17T23%3A59%3A59Z&facet.range.gap=%2B1MONTH&facet.range.start=2011-07-07T00%3A00%3A00Z&facet.range=dateLogged&facet=true&fq=event%3Aread&q=pid%3Ahttp%5C%3A%2F%2Fdx.doi.org%2F10.5061%2Fdryad.6t94p%3Fver%3D2011-07-07T16%5C%3A35%5C%3A33.823-04%5C%3A00+AND+isRepeatVisit%3Afalse+AND+inPartialRobotList%3Afalse&wt=json", status: 408)
+      expect(response).to eq(error: "the server responded with status 408 for https://cn.dataone.org/cn/v1/query/logsolr/select?facet.range.end=2015-07-19T23%3A59%3A59Z&facet.range.gap=%2B1MONTH&facet.range.start=2011-07-07T00%3A00%3A00Z&facet.range=dateLogged&facet=true&fq=event%3Aread&q=pid%3Ahttp%5C%3A%2F%2Fdx.doi.org%2F10.5061%2Fdryad.6t94p%3Fver%3D2011-07-07T16%5C%3A35%5C%3A33.823-04%5C%3A00+AND+isRepeatVisit%3Afalse+AND+inPartialRobotList%3Afalse&wt=json", status: 408)
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first

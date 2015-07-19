@@ -1,5 +1,5 @@
 class Group < ActiveRecord::Base
-  has_many :sources, -> { order(:title) }, :dependent => :nullify
+  has_many :sources, -> { order(:title) }
 
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true

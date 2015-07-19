@@ -5,6 +5,8 @@ describe RetrievalStatus, type: :model, vcr: true do
 
   it { is_expected.to belong_to(:work) }
   it { is_expected.to belong_to(:source) }
+  it { is_expected.to have_many(:months) }
+  it { is_expected.to have_many(:days) }
 
   describe "use stale_at" do
     subject { FactoryGirl.create(:retrieval_status) }
@@ -269,11 +271,11 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.year).to eq(2015)
       expect(month.month).to eq(7)
       expect(month.total).to eq(4)
-      expect(month.pdf).to eq(0)
-      expect(month.html).to eq(4)
+      expect(month.pdf).to eq(1)
+      expect(month.html).to eq(3)
 
       extra = subject.extra.last
-      expect(extra).to eq("month"=>"6", "year"=>"2015", "pdf_views"=>"0", "xml_views"=>"0", "html_views"=>"4")
+      expect(extra).to eq("month"=>"7", "year"=>"2015", "pdf_views"=>"1", "xml_views"=>"0", "html_views"=>"3")
     end
 
     it "success mendeley" do
@@ -362,7 +364,7 @@ describe RetrievalStatus, type: :model, vcr: true do
 
       expect(Alert.count).to eq(2)
       alert = Alert.first
-      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.washingtonpost.com/blogs/wonkblog/wp/2014/12/10/good-job-humans-the-ocean-now-contains-5-trillion-pieces-of-floating-plastic/.")
+      expect(alert.message).to eq("Validation failed: Published on is a date in the future for url http://www.popsci.com/five-trillion-pieces-plastic-are-floating-ocean-near-you-3.")
     end
 
     it "success no data" do
