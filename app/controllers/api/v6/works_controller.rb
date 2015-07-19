@@ -26,7 +26,6 @@ class Api::V6::WorksController < Api::BaseController
 
   swagger_api :show do
     summary "Show a work"
-    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
     param :path, :id, :string, :required, "Work ID"
     response :ok
     response :unprocessable_entity
@@ -37,7 +36,7 @@ class Api::V6::WorksController < Api::BaseController
   swagger_api :create do
     summary "Create a work"
     notes "Authentication via API key is required"
-    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, dataone, or url)"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -48,7 +47,7 @@ class Api::V6::WorksController < Api::BaseController
     summary "Update a work"
     notes "Authentication via API key is required"
     param :path, :id, :string, :required, "Work ID"
-    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, dataone, or url)"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -130,7 +129,7 @@ class Api::V6::WorksController < Api::BaseController
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "ark", "url"].find { |t| t == params[:type] } || "pid"
+      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "ark", "dataone", "url"].find { |t| t == params[:type] } || "pid"
       type = "canonical_url" if type == "url"
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
       collection = Work.where(works: { type => ids })
