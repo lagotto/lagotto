@@ -37,7 +37,7 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher, primary_key: :member_id
   belongs_to :work_type
-  has_many :retrieval_statuses, :dependent => :destroy
+  has_many :retrieval_statuses
   has_many :sources, :through => :retrieval_statuses
   has_many :alerts, :dependent => :destroy
   has_many :api_responses

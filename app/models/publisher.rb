@@ -4,7 +4,7 @@ class Publisher < ActiveRecord::Base
 
   has_many :users, primary_key: :member_id
   has_many :works, primary_key: :member_id
-  has_many :publisher_options, primary_key: :member_id, :dependent => :destroy
+  has_many :publisher_options, primary_key: :member_id
   has_many :sources, :through => :publisher_options
 
   serialize :prefixes

@@ -39,7 +39,7 @@ class Source < ActiveRecord::Base
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken] }
 
-  has_many :retrieval_statuses, :dependent => :destroy
+  has_many :retrieval_statuses
   has_many :months
   has_many :days
   has_many :works, :through => :retrieval_statuses
