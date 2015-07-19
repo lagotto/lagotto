@@ -3,6 +3,35 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 4.3 (July 20, 2015)
+
+[Lagotto 4.3](https://github.com/lagotto/lagotto/releases/tag/v.4.3) was released on July 20, 2015 with the following changes:
+
+* created snapshop of Lagotto JSON API responses for works, that is then automatically deposited in Zenodo ([#343](https://github.com/lagotto/lagotto/issues/343))
+* fixed failing rspec acceptance tests ([#380](https://github.com/lagotto/lagotto/issues/380))
+* added registration_agency check to some sources ([#381](https://github.com/lagotto/lagotto/issues/381))
+* added foreign_key constraints ([#382](https://github.com/lagotto/lagotto/issues/382))
+* added DataONE identifier ([#384](https://github.com/lagotto/lagotto/issues/384))
+* added two sources for DataONE usage stats ([#394](https://github.com/lagotto/lagotto/issues/394))
+* enamed Github organization from `articlemetrics` to `lagotto` ([#397](https://github.com/lagotto/lagotto/issues/397))
+* fixed nginx installation issue where nodejs can't be found ([#399](https://github.com/lagotto/lagotto/issues/399))
+
+### JSON API snapshots
+
+The snapshots of the Lagotto JSON API require the same ENV variables as the CSV export. Run `bundle exec rake api:snapshot:all` to create the snapshots and export them to Zenodo. More information is available in the `setup` documentation.
+
+### Foreign keys
+
+This release adds foreign keys (supported in Rails core since [Rails 4.2](http://weblog.rubyonrails.org/2014/12/19/Rails-4-2-final/)) to the database to enforce referential integrity.
+
+### Registration agency checks
+
+Some sources now check for the work registration agency, allowing different functionality, e.g. for CrossRef or DataCite DOIs.
+
+### DataONE usage stats
+
+This release adds two sources that collect usage stats from the DataONE repository network. The `dataone_counter` source collects COUNTER-compliant usage stats, whereas the `dataone_usage` source also includes machine usage from some useragents.
+
 ## Lagotto 4.2.1 (July 13, 2015)
 
 [Lagotto 4.2.1](https://github.com/lagotto/lagotto/releases/tag/v.4.2.1) was released on July 13, 2015 with the following changes:
