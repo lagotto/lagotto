@@ -200,8 +200,6 @@ function AlmViz(options) {
       end_date = end_date.setMonth(end_date.getMonth() + 1);
       var numMonths = d3.time.month.utc.range(pub_date, end_date).length;
 
-        console.log(numMonths)
-
       if (monthTotal >= minItems_.minEventsForMonthly &&
         numMonths >= minItems_.minMonthsForMonthly) {
           showMonthly = true;
