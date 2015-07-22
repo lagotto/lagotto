@@ -39,6 +39,9 @@ set :pty, false
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 
+# install/update npm modules and bower components
+set :npm_target_path, -> { release_path.join('frontend') }
+
 # Bugsnag deploy tracking
 set :bugsnag_api_key, ENV["BUGSNAG_KEY"] if ENV["BUGSNAG_KEY"]
 
