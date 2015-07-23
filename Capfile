@@ -10,7 +10,6 @@ require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/passenger'
 require 'whenever/capistrano'
-require 'capistrano/passenger'
 require 'capistrano/npm'
 
 require 'bugsnag/capistrano' if ENV["BUGSNAG_KEY"]
