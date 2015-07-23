@@ -113,6 +113,22 @@ describe "db:works:import:csl" do
   end
 end
 
+describe "db:works:import:doi" do
+  ENV['FILE'] = "spec/fixtures/doi_import.txt"
+
+  include_context "rake"
+
+  let(:output) { "Started import of 100 works in the background...\n" }
+
+  it "prerequisites should include environment" do
+    expect(subject.prerequisites).to include("environment")
+  end
+
+  it "should run the rake task" do
+    expect(capture_stdout { subject.invoke }).to eq(output)
+  end
+end
+
 describe "db:articles:load" do
   # we are not providing a file to import, so this should raise an error
 
