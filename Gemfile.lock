@@ -106,6 +106,7 @@ GEM
       launchy
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    certifi (14.5.14)
     chronic (0.10.2)
     cliver (0.3.2)
     codeclimate-test-reporter (0.4.7)
@@ -332,6 +333,9 @@ GEM
       sass (~> 3.2.2)
       sprockets (~> 2.8, < 3.0)
       sprockets-rails (~> 2.0)
+    sentry-raven (0.14.0)
+      certifi
+      faraday (>= 0.7.6)
     sexp_processor (4.6.0)
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
@@ -488,6 +492,7 @@ DEPENDENCIES
   rubyzip (~> 1.1)
   safe_yaml (~> 1.0.4)
   sass-rails (~> 4.0.4)
+  sentry-raven (~> 0.14.0)
   shoulda-matchers (~> 2.7.0)
   sidekiq (~> 3.3.0)
   simple_form (~> 3.1.0)
