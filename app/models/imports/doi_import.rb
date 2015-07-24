@@ -68,6 +68,6 @@ class DoiImport < Import
           tracked: true,
           csl: csl }
       end
-    end
+    end.compact
   end
 end
