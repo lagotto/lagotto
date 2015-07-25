@@ -79,6 +79,7 @@ Vagrant.configure("2") do |config|
       chef.add_recipe(recipe)
     end
     chef.json.merge!(dna)
+    chef.log_level = ENV["LOG_LEVEL"].to_sym
   end
 
   # allow multiple machines, specified by APP_ENV
