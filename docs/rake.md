@@ -13,6 +13,29 @@ bin/rake -T
 
 Please prepend `RAILS_ENV=production` to all rake commands when running Rails in `production` mode.
 
+## api.rake
+
+Lagotto provides the capability to snapshot its API at a given point in time. This makes it possible to download the full data-set from one or more API end-points which can be useful for loading the data into a different system for analysis.
+
+By default, Lagotto will create a snapshot of an end-point, zip it up, and upload it to [Zenodo](http://zenodo.org).
+
+#### Available end-points
+
+To see what end-points are available for snapshotting run the following rake command:
+
+```
+bin/rake -T api:snapshot
+```
+
+#### Creating Snapshots
+
+You can create snapshots by running the below rake tasks:
+
+* `bin/rake api:snapshot:events` - snapshot just the events API
+* `bin/rake api:snapshot:references` - snapshot just the references API
+* `bin/rake api:snapshot:works` - snapshot just the works API
+* `bin/rake api:snapshot:all` - snapshot all three of the API end-points above
+
 ## db.rake
 
 Bulk-load works via the CrossRef API:
