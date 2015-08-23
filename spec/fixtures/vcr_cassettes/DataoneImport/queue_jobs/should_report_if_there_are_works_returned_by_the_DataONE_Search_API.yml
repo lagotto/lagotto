@@ -1,0 +1,33 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://cn.dataone.org/cn/v1/query/solr/?fl=id,title,author,datePublished,authoritativeMN,dateModified&q=dateModified:%5B2015-04-07T00:00:00Z%20TO%202015-04-08T23:59:59Z%5D%2BformatType:METADATA&rows=0&start=0&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Thu, 25 Jun 2015 04:47:55 GMT
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+    body:
+      encoding: UTF-8
+      string: '{"responseHeader":{"status":0,"QTime":4,"params":{"fl":"id,title,author,datePublished,authoritativeMN,dateModified","start":"0","q":"dateModified:[2015-04-07T00:00:00Z
+        TO 2015-04-08T23:59:59Z]+formatType:METADATA","wt":"json","rows":"0"}},"response":{"numFound":140,"start":0,"docs":[]}}'
+    http_version: 
+  recorded_at: Thu, 25 Jun 2015 04:45:08 GMT
+recorded_with: VCR 2.9.3

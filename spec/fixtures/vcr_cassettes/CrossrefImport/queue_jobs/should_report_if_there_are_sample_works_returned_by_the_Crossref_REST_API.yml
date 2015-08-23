@@ -1,0 +1,125 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/works?filter=from-update-date:2015-04-07,until-update-date:2015-04-08&sample=20
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Thu, 25 Jun 2015 04:52:29 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '22623'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":20,"items":[{"subtitle":[],"subject":["Physics
+        and Astronomy (miscellaneous)"],"license":[{"content-version":"vor","delay-in-days":5,"start":{"date-parts":[[2000,3,6]],"timestamp":952300800000},"URL":"http:\/\/link.aps.org\/licenses\/aps-default-license"}],"issued":{"date-parts":[[2000,3]]},"link":[{"intended-application":"syndication","content-version":"vor","content-type":"unspecified","URL":"http:\/\/link.aps.org\/article\/10.1103\/PhysRevD.61.077902"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1103","author":[{"affiliation":[],"family":"Carter","given":"G.
+        W."},{"affiliation":[],"family":"Jackson","given":"A. D."}],"container-title":["Physical
+        Review D","Phys. Rev. D"],"reference-count":8,"deposited":{"date-parts":[[2015,4,7]],"timestamp":1428364800000},"issue":"7","title":["Finding
+        the pion in the chiral random matrix vacuum"],"type":"journal-article","DOI":"10.1103\/physrevd.61.077902","ISSN":["0556-2821","1089-4918"],"URL":"http:\/\/dx.doi.org\/10.1103\/physrevd.61.077902","source":"CrossRef","publisher":"American
+        Physical Society (APS)","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433909337869},"volume":"61","member":"http:\/\/id.crossref.org\/member\/16"},{"subtitle":[],"issued":{"date-parts":[[2001]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1109","author":[{"affiliation":[],"family":"Daizhan
+        Cheng"},{"affiliation":[],"family":"Guowu Yang"}],"container-title":["Proceedings
+        of the 40th IEEE Conference on Decision and Control (Cat. No.01CH37228)"],"reference-count":0,"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"title":["Linear
+        symmetry of nonlinear systems"],"type":"proceedings-article","DOI":"10.1109\/.2001.981164","ISBN":["http:\/\/id.crossref.org\/isbn\/0-7803-7061-9"],"URL":"http:\/\/dx.doi.org\/10.1109\/.2001.981164","source":"CrossRef","publisher":"Institute
+        of Electrical & Electronics Engineers (IEEE)","indexed":{"date-parts":[[2015,6,11]],"timestamp":1434049205329},"member":"http:\/\/id.crossref.org\/member\/263"},{"subtitle":[],"issued":{"date-parts":[[2015,3]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","update-policy":"http:\/\/dx.doi.org\/10.1007\/springer_crossmark_policy","author":[{"affiliation":[],"family":"Margraf","given":"Marian"},{"affiliation":[],"family":"Pfeiffer","given":"Stefan"}],"container-title":["Datenschutz
+        Datensich","Datenschutz und Datensicherheit - DuD"],"reference-count":14,"page":"246-249","deposited":{"date-parts":[[2015,4,8]],"timestamp":1428451200000},"issue":"4","title":["Benutzerzentrierte
+        Entwicklung f\u00fcr das Internet der Dinge"],"alternative-id":["404"],"type":"journal-article","DOI":"10.1007\/s11623-015-0404-x","ISSN":["1614-0702","1862-2607"],"URL":"http:\/\/dx.doi.org\/10.1007\/s11623-015-0404-x","source":"CrossRef","publisher":"Springer
+        Science + Business Media","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433924067299},"volume":"39","member":"http:\/\/id.crossref.org\/member\/297"},{"subtitle":[],"subject":["Clinical
+        Neurology","Physiology (medical)","Neurology"],"license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,5,1]],"timestamp":1430438400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"issued":{"date-parts":[[2015,5]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0967586814006833?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0967586814006833?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","author":[{"affiliation":[],"family":"Verla","given":"Terence","ORCID":"http:\/\/orcid.org\/0000-0003-4887-8798"},{"affiliation":[],"family":"Marky","given":"Andrew"},{"affiliation":[],"family":"Farber","given":"Harrison"},{"affiliation":[],"family":"Petraglia","given":"Frank
+        W.","suffix":"III"},{"affiliation":[],"family":"Gallis","given":"John"},{"affiliation":[],"family":"Lokhnygina","given":"Yuliya"},{"affiliation":[],"family":"Parente","given":"Beth"},{"affiliation":[],"family":"Hickey","given":"Patrick"},{"affiliation":[],"family":"Turner","given":"Dennis
+        A."},{"affiliation":[],"family":"Lad","given":"Shivanand P."}],"container-title":["Journal
+        of Clinical Neuroscience"],"reference-count":35,"page":"872-876","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"5","funder":[{"award":[],"name":"USA
+        National Center"}],"title":["Impact of advancing age on post-operative complications
+        of deep brain stimulation surgery for essential tremor"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Impact of advancing age on post-operative
+        complications of deep brain stimulation surgery for essential tremor"},{"label":"Journal
+        Title","name":"journaltitle","value":"Journal of Clinical Neuroscience"},{"label":"CrossRef
+        DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.jocn.2014.11.005"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier Ltd. All rights reserved."}],"alternative-id":["S0967586814006833"],"type":"journal-article","DOI":"10.1016\/j.jocn.2014.11.005","ISSN":["0967-5868"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jocn.2014.11.005","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433930759256},"volume":"22","member":"http:\/\/id.crossref.org\/member\/78"},{"subtitle":[],"issued":{"date-parts":[[2008]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.50505","container-title":["CrossRef
+        Listing of Deleted DOIs"],"reference-count":30,"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"title":["CrossRef
+        Listing of Deleted DOIs"],"type":"journal-article","DOI":"10.1007\/s11932-006-0021-4","ISSN":["0000-0000","0000-0000"],"URL":"http:\/\/dx.doi.org\/10.1007\/s11932-006-0021-4","source":"CrossRef","publisher":"CrossRef","indexed":{"date-parts":[[2015,6,5]],"timestamp":1433519399062},"member":"http:\/\/id.crossref.org\/member\/2431"},{"subtitle":[],"issued":{"date-parts":[[null]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","container-title":[],"reference-count":0,"deposited":{"date-parts":[[2015,4,7]],"timestamp":1428364800000},"title":[],"type":"component","DOI":"10.1371\/journal.pone.0121718.g001","URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0121718.g001","source":"CrossRef","publisher":"Public
+        Library of Science (PLoS)","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433918361011},"member":"http:\/\/id.crossref.org\/member\/340"},{"subtitle":["\"L''exercise
+        du savoir et la diff\u00e9rence des sexes\": ein Kolloquium. Geleitet von
+        Monique David-M\u00e9nard, Genevi\u00e8ve Fraisse, Michel Tort. 8.-9.6.1990,
+        Coll\u00e8ge International de Philosophie, Paris"],"issued":{"date-parts":[[1990]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.5840","container-title":["Die
+        Philosophin"],"reference-count":0,"page":"110-110","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"2","title":["Das
+        Geschlecht in der Philosophie"],"editor":[{"affiliation":[],"family":"Deuber-Mankowsky","given":"Astrid"},{"affiliation":[],"family":"Konnertz","given":"Ursula"}],"alternative-id":["philosophin_1990_0001_0002_0110_0110"],"type":"journal-article","DOI":"10.5840\/philosophin_1990_0001_0002_0110_0110","ISSN":["0936-7586"],"URL":"http:\/\/dx.doi.org\/10.5840\/philosophin_1990_0001_0002_0110_0110","source":"CrossRef","publisher":"Philosophy
+        Documentation Center","indexed":{"date-parts":[[2015,6,7]],"timestamp":1433667256641},"volume":"1","member":"http:\/\/id.crossref.org\/member\/3884"},{"subtitle":[],"subject":["Condensed
+        Matter Physics","Electronic, Optical and Magnetic Materials"],"license":[{"content-version":"vor","delay-in-days":9,"start":{"date-parts":[[2007,10,10]],"timestamp":1191974400000},"URL":"http:\/\/link.aps.org\/licenses\/aps-default-license"}],"issued":{"date-parts":[[2007,10]]},"link":[{"intended-application":"syndication","content-version":"vor","content-type":"unspecified","URL":"http:\/\/link.aps.org\/article\/10.1103\/PhysRevB.76.134406"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1103","author":[{"affiliation":[],"family":"Ouyang","given":"Z.
+        W."},{"affiliation":[],"family":"Pecharsky","given":"V. K."},{"affiliation":[],"family":"Gschneidner","given":"K.
+        A."},{"affiliation":[],"family":"Schlagel","given":"D. L."},{"affiliation":[],"family":"Lograsso","given":"T.
+        A."}],"container-title":["Physical Review B","Phys. Rev. B"],"reference-count":37,"deposited":{"date-parts":[[2015,4,7]],"timestamp":1428364800000},"issue":"13","title":["
+        Field step size and temperature effects on the character of the magnetostructural
+        transformation in a    Gd 5   Ge 4    single crystal "],"type":"journal-article","DOI":"10.1103\/physrevb.76.134406","ISSN":["1098-0121","1550-235X"],"URL":"http:\/\/dx.doi.org\/10.1103\/physrevb.76.134406","source":"CrossRef","publisher":"American
+        Physical Society (APS)","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433912611261},"volume":"76","member":"http:\/\/id.crossref.org\/member\/16"},{"subtitle":[],"subject":["Engineering(all)"],"license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2011,1,1]],"timestamp":1293840000000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":927,"start":{"date-parts":[[2013,7,16]],"timestamp":1373932800000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/3.0\/"}],"issued":{"date-parts":[[2011]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1877705811052076?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1877705811052076?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"affiliation":[],"family":"Wang","given":"Haijun"},{"affiliation":[],"family":"Ren","given":"Xuhua"},{"affiliation":[],"family":"Tao","given":"Ranran"}],"container-title":["Procedia
+        Engineering"],"reference-count":18,"page":"1756-1764","deposited":{"date-parts":[[2015,4,8]],"timestamp":1428451200000},"title":["Identification
+        Methods of the Deformation Memory Effect in the Stress Region above Crack
+        Initiation Threshold"],"alternative-id":["S1877705811052076"],"type":"journal-article","DOI":"10.1016\/j.proeng.2011.11.2364","ISSN":["1877-7058"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.proeng.2011.11.2364","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433919505404},"volume":"26","member":"http:\/\/id.crossref.org\/member\/78"},{"subtitle":[],"subject":["Health,
+        Toxicology and Mutagenesis","Public Health, Environmental and Occupational
+        Health"],"issued":{"date-parts":[[1987,10]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.2307","author":[{"affiliation":[],"family":"Mendelsohn","given":"Mortimer
+        L."}],"container-title":["Environmental Health Perspectives"],"reference-count":0,"page":"49","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"title":["Biomarkers
+        in the Detection of Human Heritable and Germinal Mutagenesis"],"type":"journal-article","DOI":"10.2307\/3430433","ISSN":["0091-6765"],"URL":"http:\/\/dx.doi.org\/10.2307\/3430433","source":"CrossRef","publisher":"JSTOR","indexed":{"date-parts":[[2015,6,5]],"timestamp":1433503651689},"volume":"74","member":"http:\/\/id.crossref.org\/member\/1121"},{"subtitle":[],"subject":["Molecular
+        Biology","Microbiology","Genetics"],"issued":{"date-parts":[[1990,3,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1093","author":[{"affiliation":[],"family":"Abeck","given":"D"}],"container-title":["FEMS
+        Microbiology Letters"],"reference-count":0,"page":"41-44","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"1-2","title":["Effect
+        of iron limitation on protein composition and ultrastructure of Haemophilus
+        ducreyi"],"alternative-id":["0378-1097(90)90121-6"],"type":"journal-article","DOI":"10.1016\/0378-1097(90)90121-6","ISSN":["0378-1097"],"URL":"http:\/\/dx.doi.org\/10.1016\/0378-1097(90)90121-6","source":"CrossRef","publisher":"Oxford
+        University Press (OUP)","indexed":{"date-parts":[[2015,6,9]],"timestamp":1433869904351},"volume":"68","member":"http:\/\/id.crossref.org\/member\/286"},{"subtitle":[],"subject":["Rehabilitation"],"issued":{"date-parts":[[1974,8,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1177","container-title":["The
+        British Journal of Occupational Therapy"],"reference-count":0,"page":"145-145","deposited":{"date-parts":[[2015,4,8]],"timestamp":1428451200000},"issue":"8","title":["A
+        Wider View by AGAG: The Political, Health and Welfare Scene"],"type":"journal-article","DOI":"10.1177\/030802267403700816","ISSN":["0308-0226","1477-6006"],"URL":"http:\/\/dx.doi.org\/10.1177\/030802267403700816","source":"CrossRef","publisher":"SAGE
+        Publications","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433925697590},"volume":"37","member":"http:\/\/id.crossref.org\/member\/179"},{"subtitle":[],"issued":{"date-parts":[[null]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","container-title":[],"reference-count":0,"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"title":[],"type":"component","DOI":"10.1371\/journal.pone.0122581.g001","URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0122581.g001","source":"CrossRef","publisher":"Public
+        Library of Science (PLoS)","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433932209618},"member":"http:\/\/id.crossref.org\/member\/340"},{"subtitle":[],"subject":["Internal
+        Medicine","Nutrition and Dietetics","Endocrinology, Diabetes and Metabolism"],"license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2013,4,1]],"timestamp":1364774400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"issued":{"date-parts":[[2013,4]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1751991812001908?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1751991812001908?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"affiliation":[],"family":"Polat","given":"Z."},{"affiliation":[],"family":"Yolcu","given":"S."},{"affiliation":[],"family":"Bayram","given":"S."},{"affiliation":[],"family":"Keles","given":"I.Y."}],"container-title":["Primary
+        Care Diabetes"],"reference-count":0,"page":"83-84","deposited":{"date-parts":[[2015,4,8]],"timestamp":1428451200000},"issue":"1","title":["A
+        descriptive study about blood glucose measurements and factors affecting diabetes
+        in women with two different socio-economic profiles in Istanbul"],"alternative-id":["S1751991812001908"],"type":"journal-article","DOI":"10.1016\/j.pcd.2012.10.070","ISSN":["1751-9918"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.pcd.2012.10.070","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433920305505},"volume":"7","member":"http:\/\/id.crossref.org\/member\/78"},{"subtitle":[],"subject":["Clinical
+        Psychology","Psychiatry and Mental health"],"issued":{"date-parts":[[1977]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1037","author":[{"affiliation":[],"family":"Kirsch","given":"Irving"},{"affiliation":[],"family":"Henry","given":"David"}],"container-title":["Journal
+        of Consulting and Clinical Psychology"],"reference-count":0,"page":"1052-1059","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"6","title":["Extinction
+        versus credibility in the desensitization of speech anxiety."],"alternative-id":["1978-27891-001"],"type":"journal-article","DOI":"10.1037\/\/0022-006x.45.6.1052","ISSN":["0022-006X"],"URL":"http:\/\/dx.doi.org\/10.1037\/\/0022-006x.45.6.1052","source":"CrossRef","publisher":"American
+        Psychological Association (APA)","indexed":{"date-parts":[[2015,6,5]],"timestamp":1433512016684},"volume":"45","member":"http:\/\/id.crossref.org\/member\/15"},{"subtitle":[],"subject":["Psychology(all)"],"issued":{"date-parts":[[1998]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1037","author":[{"affiliation":[],"family":"Chiu","given":"Yu-Wai"},{"affiliation":[],"family":"Ring","given":"Jeffrey
+        M."}],"container-title":["Professional Psychology: Research and Practice"],"reference-count":0,"page":"444-449","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"5","title":["Chinese
+        and Vietnamese immigrant adolescents under pressure: Identifying stressors
+        and interventions."],"alternative-id":["1998-12169-005"],"type":"journal-article","DOI":"10.1037\/\/0735-7028.29.5.444","ISSN":["0735-7028"],"URL":"http:\/\/dx.doi.org\/10.1037\/\/0735-7028.29.5.444","source":"CrossRef","publisher":"American
+        Psychological Association (APA)","indexed":{"date-parts":[[2015,6,5]],"timestamp":1433511562540},"volume":"29","member":"http:\/\/id.crossref.org\/member\/15"},{"subtitle":[],"subject":["Endocrinology"],"issued":{"date-parts":[[2003,8]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1210","author":[{"affiliation":[],"family":"Casse","given":"Al
+        Hassan"},{"affiliation":[],"family":"Desplanches","given":"Dominique"},{"affiliation":[],"family":"Mayet-Sornay","given":"Marie
+        H\u00e9l\u00e8ne"},{"affiliation":[],"family":"Raccurt","given":"Mireille"},{"affiliation":[],"family":"Jegou","given":"Sylvie"},{"affiliation":[],"family":"Morel","given":"G\u00e9rard"}],"container-title":["Endocrinology"],"reference-count":0,"page":"3692-3697","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"8","title":["Growth
+        Hormone Receptor Expression in Atrophying Muscle Fibers of Rats"],"alternative-id":["10.1210\/en.2003--0311"],"type":"journal-article","DOI":"10.1210\/en.2003--0311","ISSN":["0013-7227","1945-7170"],"URL":"http:\/\/dx.doi.org\/10.1210\/en.2003--0311","source":"CrossRef","publisher":"The
+        Endocrine Society","indexed":{"date-parts":[[2015,6,8]],"timestamp":1433800577502},"volume":"144","member":"http:\/\/id.crossref.org\/member\/80"},{"subtitle":[],"subject":["Molecular
+        Biology","Microbiology","Genetics"],"issued":{"date-parts":[[1996,8,1]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1093","author":[{"affiliation":[],"family":"Decker","given":"H"}],"container-title":["FEMS
+        Microbiology Letters"],"reference-count":0,"page":"195-201","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"issue":"2-3","title":["A
+        general approach for cloning and characterizing dNDP-glucose dehydratase genes
+        from actinomycetes"],"alternative-id":["0378-1097(96)00221-2"],"type":"journal-article","DOI":"10.1016\/0378-1097(96)00221-2","ISSN":["0378-1097"],"URL":"http:\/\/dx.doi.org\/10.1016\/0378-1097(96)00221-2","source":"CrossRef","publisher":"Oxford
+        University Press (OUP)","indexed":{"date-parts":[[2015,6,9]],"timestamp":1433869306835},"volume":"141","member":"http:\/\/id.crossref.org\/member\/286"},{"subtitle":[],"subject":["Energy(all)"],"license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2012,1,1]],"timestamp":1325376000000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":571,"start":{"date-parts":[[2013,7,25]],"timestamp":1374710400000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/3.0\/"}],"issued":{"date-parts":[[2012]]},"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1876610212016967?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1876610212016967?httpAccept=text\/plain"}],"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","author":[{"affiliation":[],"family":"Chakaroun","given":"M."},{"affiliation":[],"family":"Lucas","given":"B."},{"affiliation":[],"family":"Ratier","given":"B."},{"affiliation":[],"family":"Aldissi","given":"M."}],"container-title":["Energy
+        Procedia"],"reference-count":22,"page":"102-109","deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"title":["ITO\/Au\/ITO
+        Multilayer Electrodes for CuPc\/C60 Solar Cells"],"alternative-id":["S1876610212016967"],"type":"journal-article","DOI":"10.1016\/j.egypro.2012.11.171","ISSN":["1876-6102"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.egypro.2012.11.171","source":"CrossRef","publisher":"Elsevier
+        BV","indexed":{"date-parts":[[2015,6,10]],"timestamp":1433928450885},"volume":"31","member":"http:\/\/id.crossref.org\/member\/78"},{"subtitle":[],"issued":{"date-parts":[[2009,4,28]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1038","author":[{"affiliation":[],"family":"Louren\u00e7o","given":"An\u00e1lia"},{"affiliation":[],"family":"Louren\u00e7o","given":"An\u00e1lia"},{"affiliation":[],"family":"Carneiro","given":"S\u00f3nia"},{"affiliation":[],"family":"Carreira","given":"Rafael"},{"affiliation":[],"family":"Rocha","given":"Miguel"},{"affiliation":[],"family":"Rocha","given":"Isabel"},{"affiliation":[],"family":"Ferreira","given":"Eug\u00e9nio"}],"container-title":["Nature
+        Precedings"],"reference-count":0,"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"title":["Bringing
+        Text Miners and Biologists Closer Together"],"alternative-id":["10.1038\/npre.2009.3188"],"type":"journal-article","DOI":"10.1038\/npre.2009.3188","ISSN":["1756-0357"],"URL":"http:\/\/dx.doi.org\/10.1038\/npre.2009.3188","source":"CrossRef","publisher":"Nature
+        Publishing Group","indexed":{"date-parts":[[2015,6,5]],"timestamp":1433547662683},"member":"http:\/\/id.crossref.org\/member\/339"}],"total-results":430468,"facets":{}}}'
+    http_version: 
+  recorded_at: Thu, 25 Jun 2015 04:49:41 GMT
+recorded_with: VCR 2.9.3

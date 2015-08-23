@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.plosreports.org/services/rest?doi=10.1371/journal.pone.0116034&method=usage.stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 302
+      message: ''
+    headers:
+      Server:
+      - squid/2.5.STABLE3
+      Date:
+      - Sat, 20 Jun 2015 07:31:10 GMT
+      Content-Length:
+      - '0'
+      Location:
+      - http://ezxcess.antlabs.com/login/index.ant?url=http%3A%2F%2Fwww%2Eplosreports%2Eorg%2Fservices%2Frest%3Fdoi%3D10%2E1371%252Fjournal%2Epone%2E0116034%26method%3Dusage%2Estats
+      X-Cache:
+      - MISS from InnGate300.antlabs.com
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Sat, 20 Jun 2015 07:31:14 GMT
+- request:
+    method: get
+    uri: http://ezxcess.antlabs.com/login/index.ant?url=http://www.plosreports.org/services/rest?doi=10.1371%252Fjournal.pone.0116034%26method=usage.stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sat, 20 Jun 2015 07:31:13 GMT
+      Server:
+      - Apache/2.0.52 (CentOS)
+      Cache-Control:
+      - no-store, no-cache, must-revalidate
+      Pragma:
+      - no-cache
+      Content-Length:
+      - '694'
+      Content-Type:
+      - text/html; charset=UTF-8
+      X-Cache:
+      - MISS from InnGate300.antlabs.com
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" id="ezxcess-antlabs-com">
+            <head>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+                <meta http-equiv="cache-control" content="no-cache, must-revalidate" />
+                <meta http-equiv="refresh" content="0;url=http://ezxcess.antlabs.com/www/pub/login/Jurys/index.php?ip=10.128.3.19&mac=6C%3A40%3A08%3AA8%3AF8%3A12&vlan=Ruckus+Wireless+VLAN&requested_url=http%3A%2F%2Fwww.plosreports.org%2Fservices%2Frest%3Fdoi%3D10.1371%252Fjournal.pone.0116034%26method%3Dusage.stats" />
+            </head>
+        </html>
+    http_version: 
+  recorded_at: Sat, 20 Jun 2015 07:31:17 GMT
+recorded_with: VCR 2.9.3
