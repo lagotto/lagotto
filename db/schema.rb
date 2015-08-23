@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617085746) do
+ActiveRecord::Schema.define(version: 20150624202258) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 255,                                   null: false
@@ -219,18 +219,20 @@ ActiveRecord::Schema.define(version: 20150617085746) do
   add_index "publisher_options", ["publisher_id", "agent_id"], name: "index_publisher_options_on_publisher_id_and_agent_id", unique: true, using: :btree
 
   create_table "publishers", force: :cascade do |t|
-    t.string   "title",       limit: 255
-    t.integer  "member_id",   limit: 4
-    t.text     "prefixes",    limit: 65535
-    t.text     "other_names", limit: 65535
+    t.string   "title",         limit: 255
+    t.integer  "member_id",     limit: 4
+    t.text     "prefixes",      limit: 65535
+    t.text     "other_names",   limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.string   "name",        limit: 255,                                   null: false
-    t.string   "service",     limit: 255
+    t.datetime "cached_at",                   default: '1970-01-01 00:00:00', null: false
+    t.string   "name",          limit: 255,                                   null: false
+    t.string   "service",       limit: 255
+    t.string   "member_symbol", limit: 255
   end
 
   add_index "publishers", ["member_id"], name: "index_publishers_on_member_id", unique: true, using: :btree
+  add_index "publishers", ["member_symbol"], name: "index_publishers_on_member_symbol", using: :btree
 
   create_table "relation_types", force: :cascade do |t|
     t.string   "name",          limit: 255,             null: false
