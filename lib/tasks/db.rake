@@ -29,45 +29,6 @@ namespace :db do
 
   namespace :works do
     namespace :import do
-      desc "Import works from Crossref REST API"
-      task :crossref => :environment do
-        # only run if configuration option ENV['IMPORT'],
-        # or ENV['MEMBER'] and/or ENV['SAMPLE'] are provided
-        exit unless ENV['IMPORT'].present? || ENV['MEMBER'].present? || ENV['SAMPLE'].present?
-
-        case ENV['IMPORT'].to_s.downcase
-        when "member"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:member_id).join(",")
-          sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
-        when "member_sample"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:member_id).join(",")
-          sample = (ENV['SAMPLE'].presence || 20).to_i
-        when "sample"
-          member = ENV['MEMBER'].presence
-          sample = (ENV['SAMPLE'].presence || 20).to_i
-        when "crossref"
-          member = ENV['MEMBER'].presence
-          sample = ENV['SAMPLE'].presence && ENV['SAMPLE'].to_i
-        end
-
-        import = CrossrefImport.new(
-          from_update_date: ENV['FROM_UPDATE_DATE'],
-          until_update_date: ENV['UNTIL_UPDATE_DATE'],
-          from_pub_date: ENV['FROM_PUB_DATE'],
-          until_pub_date: ENV['UNTIL_PUB_DATE'],
-          type: ENV['TYPE'],
-          member: member,
-          issn: ENV['ISSN'],
-          sample: sample)
-        number = ENV['SAMPLE'] || import.total_results
-        if number.to_i > 0
-          import.queue_work_import
-          puts "Started import of #{number} works in the background..."
-        else
-          puts "No works to import."
-        end
-      end
-
       desc "Import works from DataCite API"
       task :datacite => :environment do
         case ENV['IMPORT'].to_s.downcase

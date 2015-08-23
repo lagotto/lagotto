@@ -32,13 +32,15 @@ class Agent < ActiveRecord::Base
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
+  # these fields can remain blank, validations will be skipped
   BLANK_FIELDS = { "crossref" => [:username, :password, :openurl_username],
                    "pmc" => [:journals, :username, :password],
                    "facebook" => [:client_id, :client_secret, :url_linkstat, :access_token],
                    "mendeley" => [:access_token],
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken],
-                   "plos_import" => [:sample] }
+                   "crossref_import" => [:sample, :ignore_members],
+                   "datacite_import" => [:ignore_members] }
 
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
@@ -94,8 +96,8 @@ class Agent < ActiveRecord::Base
     works = Work.tracked
 
     # optionally limit by publication date
-    if options[:from_pub_date] && options[:until_pub_date]
-      works = works.where(published_on: options[:from_pub_date]..options[:until_pub_date])
+    if options[:from_date] && options[:until_date]
+      works = works.where(published_on: options[:from_date]..options[:until_date])
     end
 
     total = 0

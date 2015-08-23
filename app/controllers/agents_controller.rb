@@ -60,22 +60,21 @@ class AgentsController < ApplicationController
 
   def safe_params
     params.require(:agent).permit(:title,
-                                   :group_id,
-                                   :state_event,
-                                   :private,
-                                   :by_publisher,
-                                   :description,
-                                   :workers,
-                                   :queue,
-                                   :rate_limiting,
-                                   :cron_line,
-                                   :timeout,
-                                   :max_failed_queries,
-                                   :url,
-                                   :url_with_type,
-                                   :url_with_title,
-                                   :related_works_url,
-                                   :api_key,
-                                   *@agent.config_fields)
+                                  :group_id,
+                                  :state_event,
+                                  :private,
+                                  :by_publisher,
+                                  :description,
+                                  :queue,
+                                  :rate_limiting,
+                                  :cron_line,
+                                  :timeout,
+                                  :max_failed_queries,
+                                  :url,
+                                  :url_with_type,
+                                  :url_with_title,
+                                  :related_works_url,
+                                  :api_key,
+                                  *@agent.config_fields)
   end
 end
