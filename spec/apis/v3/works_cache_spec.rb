@@ -7,7 +7,7 @@ describe "/api/v3/articles", :type => :api do
   context "caching", :caching => true do
 
     context "index" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
+      let(:works) { FactoryGirl.create_list(:work, 2, :with_events) }
       let(:source_ids) { Source.pluck(:id) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
 
@@ -37,7 +37,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "show" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:source_ids) { Source.pluck(:id) }
       let(:key) { work.decorate(:context => { info: nil, source_ids: source_ids }).cache_key }
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}?api_key=#{api_key}" }

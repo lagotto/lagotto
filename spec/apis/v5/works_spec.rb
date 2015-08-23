@@ -4,7 +4,7 @@ describe "/api/v5/articles", :type => :api do
   context "index" do
 
     context "more than 50 works in query" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 55) }
+      let(:works) { FactoryGirl.create_list(:work, 55, :with_events) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
       let(:uri) { "/api/v5/articles?ids=#{work_list}" }
 
@@ -37,7 +37,7 @@ describe "/api/v5/articles", :type => :api do
     end
 
     context "default information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}" }
 
       it "JSON" do
@@ -77,7 +77,7 @@ describe "/api/v5/articles", :type => :api do
     end
 
     context "summary information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&info=summary" }
 
       it "JSON" do
@@ -107,7 +107,7 @@ describe "/api/v5/articles", :type => :api do
     end
 
     context "detail information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v5/articles?ids=#{work.doi_escaped}&info=detail" }
 
       it "JSON" do
@@ -151,7 +151,7 @@ describe "/api/v5/articles", :type => :api do
     end
 
     context "by publisher" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 10, publisher_id: 340) }
+      let(:works) { FactoryGirl.create_list(:work, 10, :with_events, publisher_id: 340) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
       let(:uri) { "/api/v5/articles?ids=#{work_list}&publisher=340" }
 

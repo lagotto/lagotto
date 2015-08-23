@@ -68,7 +68,7 @@ describe Datacite, type: :model, vcr: true do
       expect(related_work['container-title']).to be_nil
       expect(related_work['issued']).to eq("date-parts"=>[[2011]])
       expect(related_work['type']).to eq("dataset")
-      expect(related_work['related_works']).to eq([{"related_work"=>"doi:10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"_references"}])
+      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"_references"}])
 
       extra = event[:extra].first
       expect(extra[:event_url]).to eq("http://doi.org/10.5061/DRYAD.8515")

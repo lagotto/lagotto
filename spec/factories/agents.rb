@@ -560,4 +560,40 @@ FactoryGirl.define do
 
     initialize_with { PlosImport.where(name: name).first_or_initialize }
   end
+
+  factory :crossref_import, class: CrossrefImport do
+    type "CrossrefImport"
+    name "crossref_import"
+    title "Crossref Import"
+    kind "all"
+    state_event "activate"
+
+    group
+
+    initialize_with { CrossrefImport.where(name: name).first_or_initialize }
+  end
+
+  factory :datacite_import, class: DataciteImport do
+    type "DataciteImport"
+    name "datacite_import"
+    title "Datacite Import"
+    kind "all"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataciteImport.where(name: name).first_or_initialize }
+  end
+
+  factory :dataone_import, class: DataoneImport do
+    type "DataoneImport"
+    name "dataone_import"
+    title "DataONE Import"
+    kind "all"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataoneImport.where(name: name).first_or_initialize }
+  end
 end

@@ -197,7 +197,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
 
       extra = event[:extra].first
-      expect(extra[:event_url]).to eq("http://dx.doi.org/#{extra[:event]['doi']}")
+      expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")
       expect(extra[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(extra[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
       expect(extra[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")

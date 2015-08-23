@@ -7,7 +7,7 @@ describe "/api/v5/articles", :type => :api do
   context "caching", :caching => true do
 
     context "index" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
+      let(:works) { FactoryGirl.create_list(:work, 2, :with_events) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{work_list}&type=doi&api_key=#{api_key}" }
 
@@ -49,7 +49,7 @@ describe "/api/v5/articles", :type => :api do
     end
 
     context "work is updated" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{work.doi_escaped}&api_key=#{api_key}" }
       let(:key) { "jbuilder/v5/#{work.decorate(:context => { source: 'citeulike' }).cache_key}" }
       let(:title) { "Foo" }

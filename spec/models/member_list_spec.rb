@@ -138,7 +138,7 @@ describe MemberList, :type => :model do
       notification = Notification.first
       expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
       expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
-      expect(notification.target_url).to eq("http://dx.doi.org/10.1787/gen_papers-v2008-art6-en")
+      expect(notification.target_url).to eq("http://doi.org/10.1787/gen_papers-v2008-art6-en")
     end
   end
 end

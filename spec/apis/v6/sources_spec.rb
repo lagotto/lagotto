@@ -16,7 +16,7 @@ describe "/api/v6/sources", :type => :api do
 
     context "get events" do
       let!(:source) { FactoryGirl.create(:source) }
-      let!(:works) { FactoryGirl.create_list(:work_with_events, 10) }
+      let!(:works) { FactoryGirl.create_list(:work, 10, :with_events) }
 
       it "JSON" do
         get uri, nil, headers
@@ -50,7 +50,7 @@ describe "/api/v6/sources", :type => :api do
   context "show" do
     context "get response" do
       let(:source) { FactoryGirl.create(:source_with_changes) }
-      let!(:works) { FactoryGirl.create_list(:work_with_events, 5) }
+      let!(:works) { FactoryGirl.create_list(:work, 5, :with_events) }
       let(:user) { FactoryGirl.create(:admin_user) }
       let(:uri) { "/api/sources/#{source.name}" }
 

@@ -4,7 +4,7 @@ describe "/api/v3/articles", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work_with_events, 55) }
+    let(:works) { FactoryGirl.create_list(:work, 55, :with_events) }
 
     context "more than 50 works in query" do
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
@@ -40,7 +40,7 @@ describe "/api/v3/articles", :type => :api do
   context "show" do
 
     context "show summary information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=summary" }
 
       it "JSON" do
@@ -66,7 +66,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "show detail information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=detail" }
 
       it "JSON" do
@@ -98,7 +98,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "show event information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=event" }
 
       it "JSON" do

@@ -226,7 +226,7 @@ describe Work, type: :model, vcr: true do
   end
 
   it 'event_counts' do
-    work = FactoryGirl.create(:work_with_events)
+    work = FactoryGirl.create(:work, :with_events)
     expect(work.event_counts(["citeulike", "mendeley"])).to eq(100)
   end
 
@@ -241,7 +241,7 @@ describe Work, type: :model, vcr: true do
   end
 
   it 'saved' do
-    work = FactoryGirl.create(:work_with_events)
+    work = FactoryGirl.create(:work, :with_events)
     expect(work.saved).to eq(100)
   end
 
@@ -311,12 +311,12 @@ describe Work, type: :model, vcr: true do
   context "associations" do
     it "should create associated events" do
       expect(Event.count).to eq(0)
-      @works = FactoryGirl.create_list(:work_with_events, 2)
+      @works = FactoryGirl.create_list(:work, 2, :with_events)
       expect(Event.count).to eq(4)
     end
 
     it "should delete associated events" do
-      @works = FactoryGirl.create_list(:work_with_events, 2)
+      @works = FactoryGirl.create_list(:work, 2, :with_events)
       expect(Event.count).to eq(4)
       @works.each(&:destroy)
       expect(Event.count).to eq(0)

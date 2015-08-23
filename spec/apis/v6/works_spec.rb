@@ -5,7 +5,7 @@ describe "/api/v6/works", :type => :api do
   let(:jsonp_headers) { { "HTTP_ACCEPT" => "application/javascript" } }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work_with_events, 10) }
+    let(:works) { FactoryGirl.create_list(:work, 10, :with_events) }
 
     context "works found via pid" do
       before(:each) do
@@ -164,7 +164,7 @@ describe "/api/v6/works", :type => :api do
 
     context "by publisher" do
       let(:publisher) { FactoryGirl.create(:publisher) }
-      let(:works) { FactoryGirl.create_list(:work_with_events, 10, publisher_id: publisher.member_id) }
+      let(:works) { FactoryGirl.create_list(:work, 10, :with_events, publisher_id: publisher.member_id) }
       let!(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
       let(:uri) { "/api/works?publisher_id=#{publisher.member_id}" }
 

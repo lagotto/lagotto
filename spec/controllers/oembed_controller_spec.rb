@@ -3,7 +3,7 @@ require 'rails_helper'
 describe OembedController, :type => :controller do
   render_views
 
-  let(:work) { FactoryGirl.create(:work_with_events) }
+  let(:work) { FactoryGirl.create(:work, :with_events) }
   let(:uri) { "/oembed?url=#{work_path(work)}" }
 
   context "discovery" do

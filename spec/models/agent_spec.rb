@@ -212,7 +212,7 @@ describe Agent, :type => :model, vcr: true do
       subject = FactoryGirl.create(:counter)
 
       response = subject.collect_data(work.id)
-      expect(response["uuid"]).to be_present
+      expect(response).to eq(2)
       expect(response["message_type"]).to eq("counter")
       expect(response["source_token"]).to eq(subject.uuid)
 

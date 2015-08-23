@@ -13,7 +13,7 @@ describe "/api/v6/events", :type => :api do
 
   context "index" do
     context "JSON" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 5) }
+      let(:works) { FactoryGirl.create_list(:work, 5, :with_events) }
       let(:work) { works.first }
       let(:work_list) { works.map { |work| "#{work.pid}" }.join(",") }
       let(:uri) { "/api/events?ids=#{work_list}" }
@@ -56,7 +56,7 @@ describe "/api/v6/events", :type => :api do
     end
 
     context "show" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/works/#{work.pid}/events" }
 
       it "JSON" do

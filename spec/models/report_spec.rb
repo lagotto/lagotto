@@ -21,7 +21,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
   end
 
   context "generate csv" do
-    let!(:work) { FactoryGirl.create(:work_with_events) }
+    let!(:work) { FactoryGirl.create(:work, :with_events) }
 
     it "should format the Lagotto data as csv" do
       response = CSV.parse(subject.to_csv)
@@ -37,7 +37,7 @@ describe Report, type: :model, vcr: true, sidekiq: :inline do
       FileUtils.rm_rf("#{Rails.root}/data/report_#{Time.zone.now.to_date.iso8601}")
     end
 
-    let!(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pcbi.1000204") }
+    let!(:work) { FactoryGirl.create(:work, :with_events, doi: "10.1371/journal.pcbi.1000204") }
     let(:csv) { subject.to_csv }
     let(:filename) { "alm_stats" }
     let(:source) { FactoryGirl.create(:source, :mendeley) }

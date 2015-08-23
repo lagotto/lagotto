@@ -3,7 +3,7 @@ require "rails_helper"
 describe WorksController, :type => :controller do
   render_views
 
-  let(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
+  let(:work) { FactoryGirl.create(:work, :with_events, doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
 
   context "show" do
     it "GET doi" do

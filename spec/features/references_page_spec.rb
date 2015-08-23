@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "references", type: :feature, js: true do
-  let!(:work) { FactoryGirl.create(:work_with_events) }
+  let!(:work) { FactoryGirl.create(:work, :with_events) }
 
   it "show references" do
     visit "/references"

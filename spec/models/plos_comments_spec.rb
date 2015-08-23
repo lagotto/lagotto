@@ -98,7 +98,6 @@ describe PlosComments, type: :model, vcr: true do
       expect(related_work['container-title']).to eq("PLOS Comments")
       expect(related_work['issued']).to eq("date-parts"=>[[2013, 10, 27]])
       expect(related_work['type']).to eq("personal_communication")
-      expect(related_work['URL']).to eq("http://dx.doi.org/#{work.doi}")
       expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"plos_comments", "relation_type"=>"discusses"}])
     end
 

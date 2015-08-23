@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Agent, type: :model, vcr: true do
 
   context "HTTP" do
-    let(:work) { FactoryGirl.create(:work_with_events) }
+    let(:work) { FactoryGirl.create(:work, :with_events) }
     let(:url) { "http://127.0.0.1/api/v3/articles/info:doi/#{work.doi}" }
     let(:data) { { "name" => "Fred" } }
     let(:post_data) { { "name" => "Jack" } }
@@ -253,7 +253,7 @@ describe Agent, type: :model, vcr: true do
       end
     end
 
-    context "store source_id with error" do
+    context "store agent_id with error" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
         response = subject.get_result(url, source_id: 1)
@@ -262,7 +262,7 @@ describe Agent, type: :model, vcr: true do
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
         expect(notification.status).to eq(429)
-        expect(notification.source_id).to eq(1)
+        expect(notification.agent_id).to eq(1)
       end
 
       it "get xml" do
@@ -272,7 +272,7 @@ describe Agent, type: :model, vcr: true do
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(notification.source_id).to eq(1)
+        expect(notification.agent_id).to eq(1)
       end
 
       it "get html" do
@@ -281,9 +281,9 @@ describe Agent, type: :model, vcr: true do
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
-        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
+        expect(notification).to eq("Net::HTTPTooManyRequests")
         expect(notification.status).to eq(429)
-        expect(notification.source_id).to eq(1)
+        expect(notification.agent_id).to eq(1)
       end
 
       it "post xml" do
@@ -292,7 +292,7 @@ describe Agent, type: :model, vcr: true do
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(notification.source_id).to eq(1)
+        expect(notification.agent_id).to eq(1)
       end
     end
 

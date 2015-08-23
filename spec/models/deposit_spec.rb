@@ -18,12 +18,12 @@ describe Deposit, :type => :model, vcr: true do
       related_work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007")
       works = [{"author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source"=>"crossref", "relation_type"=>"cites"}]}]
       subject = FactoryGirl.create(:deposit, message_type: "crossref", message: { "works" => works })
-      expect(subject.update_works).to eq(["doi:10.3758/s13423-011-0070-4"])
+      expect(subject.update_works).to eq(["http://doi.org/10.3758/s13423-011-0070-4"])
 
       expect(Work.count).to eq(2)
       work = Work.last
       expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(work.pid).to eq("doi:10.3758/s13423-011-0070-4")
+      expect(work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
 
       expect(work.relations.length).to eq(1)
       relation = Relation.first
@@ -87,6 +87,9 @@ describe Deposit, :type => :model, vcr: true do
       #stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
 
       response = agent.collect_data(work.id)
+
+      notification = Notification.first
+      expect(notification).to eq(2)
       subject = Deposit.where(uuid: response.fetch("uuid")).first
       subject.update_events
 
