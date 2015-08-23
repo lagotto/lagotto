@@ -19,7 +19,6 @@ capybara-*.html
 /frontend/bower_components/*
 /frontend/npm-debug.log
 /vendor/bundle/*
-/vendor/cookbooks/*
 /log/*
 /data/*
 /tmp/*
