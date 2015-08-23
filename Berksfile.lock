@@ -1,32 +1,32 @@
 DEPENDENCIES
   capistrano
-    git: git@github.com:PLOS/capistrano-cookbook.git
-    revision: d2f3df1923384745067c2a5b66ec1b8e8fa1d4f2
+    git: git@github.com:lagotto/capistrano-cookbook.git
+    revision: 2ea31f05454bee581115811009db4a5a38a7cd0c
   consul
   couchdb
   database (~> 2.3.1)
   dotenv
-    git: git@github.com:PLOS/dotenv-cookbook.git
-    revision: 3818435f4506f80a45f5a924ef880a3b371e0798
+    git: git@github.com:lagotto/dotenv-cookbook.git
+    revision: ddabe43d3742c1408af423a7908426bbaea6173f
   lagotto
-    git: git@github.com:PLOS/lagotto-cookbook.git
-    revision: d1d5dcf86de4bbf32e9044efb142f6f3a3f4450e
+    git: git@github.com:lagotto/lagotto-cookbook.git
+    revision: 500a8502849e2e78f6cada1acec68684f020e715
   memcached
   mysql
-    git: git@github.com:PLOS/mysql.git
+    git: git@github.com:lagotto/mysql.git
     revision: e306cddd572ca4c1906aa533c70092528bb77532
   mysql_rails
-    git: git@github.com:PLOS/mysql_rails-cookbook.git
+    git: git@github.com:lagotto/mysql_rails-cookbook.git
     revision: 25ddc5987bf5aa10cc3aacfe8482cacf8ac26a64
   passenger_nginx
-    git: git@github.com:PLOS/passenger_nginx-cookbook.git
+    git: git@github.com:lagotto/passenger_nginx-cookbook.git
     revision: 23ca6144a67a949ef98932f7cfd6561ec1045703
   phantomjs
   postfix
   redisio
   ruby
-    git: git@github.com:PLOS/ruby-cookbook.git
-    revision: 0a52e4d402ce77cc31d9f50e6a82bb8eb472f9e6
+    git: git@github.com:lagotto/ruby-cookbook.git
+    revision: 2925a3d750a2047d11aa607243f87b6fc085efb9
 
 GRAPH
   7-zip (1.0.2)
@@ -37,9 +37,12 @@ GRAPH
     windows (>= 0.0.0)
   aws (2.7.2)
   build-essential (2.2.3)
-  capistrano (0.10.4)
+  capistrano (0.10.15)
+    apt (>= 0.0.0)
     consul (>= 0.0.0)
+    dotenv (~> 0.2.0)
     nodejs (>= 0.0.0)
+    remote_syslog2 (>= 0.0.0)
     ruby (~> 0.7.0)
   chef-sugar (3.1.1)
   chef-vault (1.3.0)
@@ -65,7 +68,7 @@ GRAPH
     mysql-chef_gem (~> 0.0)
     postgresql (>= 1.0.0)
     xfs (>= 0.0.0)
-  dotenv (0.2.2)
+  dotenv (0.2.13)
   erlang (1.5.8)
     apt (>= 1.7.0)
     build-essential (>= 0.0.0)
@@ -77,7 +80,7 @@ GRAPH
   golang (1.5.1)
   homebrew (1.13.0)
     build-essential (>= 2.1.2)
-  lagotto (4.7.13)
+  lagotto (4.7.15)
     apt (>= 0.0.0)
     capistrano (~> 0.10.0)
     consul (>= 0.0.0)
@@ -137,7 +140,8 @@ GRAPH
   redisio (2.3.0)
     build-essential (>= 0.0.0)
     ulimit (>= 0.1.2)
-  ruby (0.7.0)
+  remote_syslog2 (0.2.3)
+  ruby (0.7.4)
     apt (>= 0.0.0)
   runit (1.7.2)
     packagecloud (>= 0.0.0)
