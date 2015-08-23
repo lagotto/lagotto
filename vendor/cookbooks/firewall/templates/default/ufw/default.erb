@@ -1,0 +1,13 @@
+# /etc/default/ufw
+# This file is managed by Chef.  Do not edit.
+
+IPV6=<%= node['firewall']['ufw']['defaults']['ipv6'] %>
+MANAGE_BUILTINS=<%= node['firewall']['ufw']['defaults']['manage_builtins'] %>
+
+<% node['firewall']['ufw']['defaults']['policy'].each do |policy, value| -%>
+<%= "DEFAULT_#{policy.upcase}_POLICY=\"#{value}\"" %>
+<% end -%>
+
+IPT_SYSCTL="<%= node['firewall']['ufw']['defaults']['ipt_sysctl'] %>"
+
+IPT_MODULES="<%= node['firewall']['ufw']['defaults']['ipt_modules'] %>"

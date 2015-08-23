@@ -1,0 +1,46 @@
+{
+  "name": "libarchive",
+  "description": "A library cookbook for extracting archive files",
+  "long_description": "A library cookbook for extracting archive files",
+  "maintainer": "Jamie Winsor",
+  "maintainer_email": "jamie@vialstudios.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "arch": ">= 0.0.0",
+    "mac_os_x": ">= 0.0.0"
+  },
+  "dependencies": {
+    "apt": "~> 2.5",
+    "yum-epel": "~> 0.6"
+  },
+  "recommendations": {
+
+  },
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "providing": {
+
+  },
+  "replacing": {
+
+  },
+  "attributes": {
+
+  },
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "0.6.1",
+  "source_url": "",
+  "issues_url": ""
+}

@@ -1,0 +1,54 @@
+{
+  "name": "selinux",
+  "version": "0.9.0",
+  "description": "Manages SELinux policy state via LWRP or recipes.",
+  "long_description": "Description\n===========\n\nProvides recipes for manipulating SELinux policy enforcement state.\n\nRequirements\n============\n\nRHEL family distribution or other Linux system that uses SELinux.\n\n## Platform:\n\nTested on RHEL 5.8, 6.3\n\nNode Attributes\n===============\n\n* `node['selinux']['state']` - The SELinux policy enforcement state.\n  The state to set  by default, to match the default SELinux state on\n  RHEL. Can be \"enforcing\", \"permissive\", \"disabled\"\n\n* `node['selinux']['booleans']` - A hash of SELinux boolean names and the\n  values they should be set to. Values can be off, false, or 0 to disable;\n  or on, true, or 1 to enable.\n\nResources/Providers\n===================\n\n## selinux\\_state\n\nThe `selinux_state` LWRP is used to manage the SELinux state on the\nsystem. It does this by using the `setenforce` command and rendering\nthe `/etc/selinux/config` file from a template.\n\n### Actions\n\n* `:nothing` - default action, does nothing\n* `:enforcing` - Sets SELinux to enforcing.\n* `:disabled` - Sets SELinux to disabled.\n* `:permissive` - Sets SELinux to permissive.\n\n### Attributes\n\nThe LWRP has no user-settable resource attributes.\n\n### Examples\n\nSimply set SELinux to enforcing or permissive:\n\n    selinux_state \"SELinux Enforcing\" do\n      action :enforcing\n    end\n\n    selinux_state \"SELinux Permissive\" do\n      action :permissive\n    end\n\nThe action here is based on the value of the\n`node['selinux']['state']` attribute, which we convert to lower-case\nand make a symbol to pass to the action.\n\n    selinux_state \"SELinux #{node['selinux']['state'].capitalize}\" do\n      action node['selinux']['state'].downcase.to_sym\n    end\n\nRecipes\n=======\n\nAll the recipes now leverage the LWRP described above.\n\n## default\n\nThe default recipe will use the attribute `node['selinux']['state']`\nin the `selinux_state` LWRP's action. By default, this will be `:enforcing`.\n\n## enforcing\n\nThis recipe will use `:enforcing` as the `selinux_state` action.\n\n## permissive\n\nThis recipe will use `:permissive` as the `selinux_state` action.\n\n## disabled\n\nThis recipe will use `:disabled` as the `selinux_state` action.\n\nUsage\n=====\n\nBy default, this cookbook will have SELinux enforcing by default, as\nthe default recipe uses the `node['selinux']['state']` attribute,\nwhich is \"enforcing.\" This is in line with the policy of enforcing by\ndefault on RHEL family distributions.\n\nThis has complicated considerations when changing the default\nconfiguration of their systems, whether it is with automated\nconfiguration management or manually. Often, third party help forums\nand support sites recommend setting SELinux to \"permissive.\" This\ncookbook can help with that, in two ways.\n\nYou can simply set the attribute in a role applied to the node:\n\n    name \"base\"\n    description \"Base role applied to all nodes.\"\n    default_attributes(\n      \"selinux\" => {\n        \"state\" => \"permissive\"\n      }\n    )\n\nOr, you can apply the recipe to the run list (e.g., in a role):\n\n    name \"base\"\n    description \"Base role applied to all nodes.\"\n    run_list(\n      \"recipe[selinux::permissive]\",\n    )\n\nRoadmap\n=======\n\nAdd LWRP/Libraries for manipulating security contexts for files and\nservices managed by Chef.\n\nLicense and Author\n==================\n\n- Author:: Sean OMeara (<someara@chef.io>)\n- Author:: Joshua Timberman (<joshua@chef.io>)\n\nCopyright:: 2011-2012, Chef Software, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Sam Kottler",
+  "maintainer_email": "shk@linux.com",
+  "license": "Apache",
+  "platforms": {
+    "redhat": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "scientific": ">= 0.0.0",
+    "oracle": ">= 0.0.0",
+    "amazon": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 0.0.0"
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "selinux/state": {
+      "display_name": "SELinux State",
+      "description": "The SELinux policy enforcement state.",
+      "choices": [
+        "enforcing",
+        "permissive",
+        "disabled"
+      ],
+      "recipes": [
+        "selinux::default"
+      ],
+      "type": "string",
+      "default": "enforcing"
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "selinux": "Use LWRP with state attribute to manage SELinux state.",
+    "selinux::enforcing": "Use :enforcing as the action for the selinux_state.",
+    "selinux::permissive": "Use :permissive as the action for the selinux_state.",
+    "selinux::disabled": "Use :disabled as the action for the selinux_state."
+  }
+}

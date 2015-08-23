@@ -1,0 +1,21 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: true
+
+platforms:
+- name: ubuntu-14.10
+- name: centos-6.5
+
+suites:
+- name: default
+  run_list:
+    - recipe[golang_test::default]
+    - recipe[minitest-handler]
+  attributes:
+    go:
+      owner: 'vagrant'
+      group: 'vagrant'
