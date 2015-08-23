@@ -4,7 +4,7 @@ describe Facebook, type: :model, vcr: true do
   subject { FactoryGirl.create(:facebook) }
   let(:headers) do
     { 'Accept'=>'application/json',
-      'User-Agent'=>"Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}" }
+      'User-Agent'=>"Lagotto - http://#{ENV['SERVERNAME']}" }
   end
 
   context "lookup access token" do

@@ -30,6 +30,15 @@ module Dateable
       { 'date-parts' => [[year, month, day].reject { |part| part == 0 }] }
     end
 
+    def get_year_month(iso8601_time)
+      return [nil, nil] if iso8601_time.nil?
+
+      year = iso8601_time[0..3].to_i
+      month = iso8601_time[5..6].to_i
+
+      [year, month]
+    end
+
     def get_date_parts_from_parts(year, month = nil, day = nil)
       { 'date-parts' => [[year.to_i, month.to_i, day.to_i].reject { |part| part == 0 }] }
     end

@@ -180,7 +180,7 @@ For articles without a publisher the `openurl_username` in the `Configuration` t
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/cross_ref.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/cross_ref.rb).
 
 ## Further Documentation
 * [CrossRef Cited-by Linking](http://www.crossref.org/citedby.html)

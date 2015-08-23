@@ -21,7 +21,7 @@ module Authorable
 
     # parse array of author strings into CSL format
     def get_authors(authors, options = { sep: " " })
-      authors.map { |author| get_one_author(author, options) }
+      Array(authors).map { |author| get_one_author(author, options) }
     end
   end
 end

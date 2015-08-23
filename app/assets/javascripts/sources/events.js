@@ -1,6 +1,6 @@
 /**
  * ALMViz
- * See https://github.com/articlemetrics/almviz for more details
+ * See https://github.com/lagotto/almviz for more details
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Article level metrics visualization controller.
@@ -199,8 +199,6 @@ function AlmViz(options) {
       var end_date = new Date();
       end_date = end_date.setMonth(end_date.getMonth() + 1);
       var numMonths = d3.time.month.utc.range(pub_date, end_date).length;
-
-        console.log(numMonths)
 
       if (monthTotal >= minItems_.minEventsForMonthly &&
         numMonths >= minItems_.minMonthsForMonthly) {

@@ -47,7 +47,7 @@ The Lagotto software includes a number of sources. Most sources require a user a
 * [Connotea](/docs/connotea)
 * [Postgenomic](/docs/postgenomic)
 
-Please use the [Issue Tracker](https://github.com/articlemetrics/alm/issues) for questions or feedback regarding sources.
+Please use the [Issue Tracker](https://github.com/lagotto/lagotto/issues) for questions or feedback regarding sources.
 
 <table>
 <tbody>
@@ -265,4 +265,4 @@ Most sources return information about each individual event (citation, bookmark,
 </table>
 
 ## Creating a new source
-Basically, each of the APIs that the ALM application is calling will be defined as a **source**. The ALM application provides a number of services to each source to help it get what it needs. Note the samples provided at [http://github.com/articlemetrics/alm/tree/master/app/models/sources](http://github.com/articlemetrics/alm/tree/master/app/models/sources).
+Basically, each of the APIs that the ALM application is calling will be defined as a **source**. The ALM application provides a number of services to each source to help it get what it needs. Note the samples provided at [http://github.com/lagotto/lagotto/tree/master/app/models/sources](http://github.com/lagotto/lagotto/tree/master/app/models/sources).

@@ -3,7 +3,7 @@ class EuropePmcFulltext < Agent
   include Pmcable
 
   def get_query_url(work, options = {})
-    return {} unless work.get_url
+    return {} unless work.get_url && registration_agencies.include?(work.registration_agency)
 
     query_string = get_query_string(work)
     return {} unless query_string.present?
@@ -33,6 +33,7 @@ class EuropePmcFulltext < Agent
       pmcid = ids.fetch("pmcid", nil)
       pmcid = pmcid[3..-1] if pmcid
       author_string = item.fetch("authorString", "").chomp(".")
+      registration_agency = doi.present? ? "crossref" : "pubmed"
 
       { "author" => get_authors(author_string.split(", "), reversed: true),
         "title" => item.fetch("title", "").chomp("."),
@@ -43,6 +44,7 @@ class EuropePmcFulltext < Agent
         "PMCID" => pmcid,
         "type" => "article-journal",
         "tracked" => tracked,
+        "registration_agency" => registration_agency,
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
@@ -63,6 +65,10 @@ class EuropePmcFulltext < Agent
 
   def rows
     25
+  end
+
+  def registration_agencies
+    ["datacite", "dataone", "cdl", "github", "bitbucket"]
   end
 
   def result_key

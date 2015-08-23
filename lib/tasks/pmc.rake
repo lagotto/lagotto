@@ -8,22 +8,19 @@ namespace :pmc do
     source = Source.active.where(name: "pmc").first
     exit if source.nil?
 
-    dates = source.date_range(month: ENV['MONTH'], year: ENV['YEAR'])
+    date = Time.zone.now - 1.month
+    ENV['MONTH'] ||= date.month.to_s
+    ENV['YEAR'] ||= date.year.to_s
 
-    dates.each do |date|
-      journals_with_errors = source.get_feed(date[:month], date[:year])
-      if journals_with_errors.empty?
-        puts "PMC Usage stats for month #{date[:month]} and year #{date[:year]} have been saved"
-      else
-        puts "PMC Usage stats for month #{date[:month]} and year #{date[:year]} could not be saved for #{journals_with_errors.join(', ')}"
-        exit
+    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options={})
+
+    if publisher_ids.length > 0
+      publisher_ids.each do |publisher_id|
+        publisher = Publisher.where(member_id: publisher_id).first
+        puts "Import of PMC usage stats queued for publisher #{publisher.title}, starting month #{ENV['MONTH']} and year #{ENV['YEAR']}"
       end
-      journals_with_errors = source.parse_feed(date[:month], date[:year])
-      if journals_with_errors.empty?
-        puts "PMC Usage stats for month #{date[:month]} and year #{date[:year]} have been parsed"
-      else
-        puts "PMC Usage stats for month #{date[:month]} and year #{date[:year]} could not be parsed for #{journals_with_errors.join(', ')}"
-      end
+    else
+      puts "No publisher for PMC usage stats found."
     end
   end
 end

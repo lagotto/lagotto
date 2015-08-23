@@ -13,11 +13,11 @@ namespace :mailer do
     puts "Status report sent to #{report.users.count} subscriber(s)"
   end
 
-  desc "Send article statistics report"
-  task :article_statistics_report => :environment do
-    report = Report.where(name: "article_statistics_report").first
-    report.send_article_statistics_report
-    puts "Article statistics report sent to #{report.users.count} subscriber(s)"
+  desc "Send work statistics report"
+  task :work_statistics_report => :environment do
+    report = Report.where(name: "work_statistics_report").first
+    report.send_work_statistics_report
+    puts "Work statistics report sent to #{report.users.count} subscriber(s)"
   end
 
   desc "Rename error report"

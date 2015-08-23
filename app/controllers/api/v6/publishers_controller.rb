@@ -11,8 +11,8 @@ class Api::V6::PublishersController < Api::BaseController
   end
 
   swagger_api :show do
-    summary 'Returns publisher by member ID'
-    param :path, :id, :string, :required, "Member ID"
+    summary 'Returns publisher by name'
+    param :path, :id, :string, :required, "name"
     response :ok
     response :not_found
     response :unprocessable_entity
@@ -25,7 +25,7 @@ class Api::V6::PublishersController < Api::BaseController
   end
 
   def show
-    publisher = Publisher.where(member_id: params[:id]).first
+    publisher = Publisher.where(name: params[:id]).first
     @publisher = publisher.decorate
   end
 end

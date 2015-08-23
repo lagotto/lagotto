@@ -30,7 +30,7 @@ describe ArticleCoverage, type: :model, vcr: true do
     it "should report if there are events returned by the Article Coverage API" do
       response = subject.get_data(work)
       expect(response["doi"]).to eq(work.doi)
-      expect(response["referrals"].length).to eq(8)
+      expect(response["referrals"].length).to eq(9)
       referral = response["referrals"].first
       expect(referral["title"]).to eq("Everything You Know About Your Personal Hygiene Is Wrong ")
     end

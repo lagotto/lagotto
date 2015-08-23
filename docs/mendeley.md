@@ -3,13 +3,13 @@ layout: card
 title: "Mendeley"
 ---
 
-[Mendeley](http://www.mendeley.com) is a reference manager and social bookmarking tool.
+[Mendeley](http://www.mendeley.com) is a reference manager and academic social network.
 
-Mendeley uses OAuth2 authentification, we automatically obtain the access token using the **client_id** and **secret**.
+Mendeley uses OAuth2 authentication, we automatically obtain the access token using the **client_id** and **secret**.
 
 ## Required configuration fields
 
-* **client_id** and **client_secret (secret)**: register your OAuth2 application at https://mix.mendeley.com/portal#/register
+* **client_id** and **client_secret (secret)**: register your OAuth2 application at http://dev.mendeley.com
 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
@@ -122,8 +122,9 @@ Mendeley uses OAuth2 authentification, we automatically obtain the access token 
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/mendeley.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/mendeley.rb).
 
 ## Further Documentation
 * [Mendeley API Documentation](http://dev.mendeley.com/methods/)
-* [Mendeley Open API Developers Google Group](https://groups.google.com/forum/?fromgroups#!forum/mendeley-open-api-developers)
+* [Developer Portal](http://dev.mendeley.com)
+* [API Support](api-support@mendeley.com)

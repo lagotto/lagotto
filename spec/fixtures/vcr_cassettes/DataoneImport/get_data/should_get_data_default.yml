@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 18:34:45 GMT
+      - Tue, 14 Jul 2015 14:21:48 GMT
       Content-Type:
       - text/plain;charset=UTF-8
       Access-Control-Allow-Origin:
@@ -27,7 +27,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjo0NywicGFy
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyNiwicGFy
         YW1zIjp7ImZsIjoiaWQsdGl0bGUsYXV0aG9yLGRhdGVQdWJsaXNoZWQsYXV0
         aG9yaXRhdGl2ZU1OLGRhdGVNb2RpZmllZCIsInN0YXJ0IjoiMCIsInEiOiJk
         YXRlUHVibGlzaGVkOlsxOTE0LTA5LTA1VDAwOjAwOjAwWiBUTyAyMDE0LTA5
@@ -460,5 +460,5 @@ http_interactions:
         ZSI6IjEwMCBkYXRlZCBzdXBlcnRyZWVzIG9mIEV1cm9wZWFuIE1hbW1hbHMi
         fV19fQ==
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 18:19:10 GMT
+  recorded_at: Tue, 14 Jul 2015 14:21:49 GMT
 recorded_with: VCR 2.9.3

@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/dryad.8515x&rows=1&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Tue, 14 Jul 2015 14:15:02 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":0,"start":0,"docs":[]}}
+    http_version: 
+  recorded_at: Tue, 14 Jul 2015 14:25:52 GMT
+recorded_with: VCR 2.9.3

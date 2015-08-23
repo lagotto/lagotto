@@ -20,7 +20,7 @@ gem install bundler
 Then go to the Lagotto git repo that you probably have already cloned in the installation step and install all required dependencies.
 
 ```sh
-git clone git://github.com/articlemetrics/lagotto.git
+git clone git://github.com/lagotto/lagotto.git
 cd lagotto
 bundle install
 ```

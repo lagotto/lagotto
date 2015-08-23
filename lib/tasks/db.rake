@@ -95,6 +95,25 @@ namespace :db do
         end
       end
 
+      desc "Import works from doi file"
+      task :doi => :environment do
+        begin
+          filepath = "#{Rails.root}/#{ENV['FILE']}"
+        rescue Errno::ENOENT, Errno::EISDIR => e
+          puts e.message
+          exit
+        end
+
+        import = DoiImport.new(filepath: filepath)
+        number = import.total_results
+        if number > 0
+          import.queue_work_import
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
+      end
+
       desc "Import works from Sciencetoolbox JSON file"
       task :sciencetoolbox => :environment do
         begin

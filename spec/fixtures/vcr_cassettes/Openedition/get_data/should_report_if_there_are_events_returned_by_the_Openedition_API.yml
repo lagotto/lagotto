@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/xml
   response:
@@ -17,23 +17,27 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:35:24 GMT
+      - Tue, 14 Jul 2015 14:20:36 GMT
       Content-Type:
       - application/xml
       X-Backend:
       - default
       X-Varnish:
-      - '22646496'
+      - '16871619'
       Age:
       - '0'
-      Via:
-      - 1.1 varnish-v4
       Content-Length:
-      - '1369'
-      Connection:
-      - keep-alive
+      - '1361'
       Accept-Ranges:
       - bytes
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 varnish-v4, 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -43,31 +47,31 @@ http_interactions:
         LjAvIgogeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8x
         LjEvIgogeG1sbnM6ZGN0ZXJtcz0iaHR0cDovL3B1cmwub3JnL2RjL3Rlcm1z
         LyIKPgogIDxjaGFubmVsIHJkZjphYm91dD0iaHR0cCUzQSUyRiUyRnNlYXJj
-        aC5vcGVuZWRpdGlvbi5vcmclM0E4MCUyRmZlZWQucGhwJTNGZmllbGQlMjU1
-        QiUyNTVEJTNEQWxsJTI2b3AlMjU1QiUyNTVEJTNEQU5EJTI2cGYlM0RIeXBv
-        dGhlc2VzLm9yZyUyNnElMjU1QiUyNTVEJTNEMTAuMjMwNyUyNTJGNjgzNDIy
-        Ij4KICAgIDx0aXRsZT4xMC4yMzA3LzY4MzQyMiAtIFJlY2hlcmNoZSBPcGVu
-        RWRpdGlvbjwvdGl0bGU+CiAgICA8ZGVzY3JpcHRpb24+Rmx1eCBSU1MgZGUg
-        dm90cmUgcmVjaGVyY2hlOiAxMC4yMzA3LzY4MzQyMjwvZGVzY3JpcHRpb24+
-        CiAgICA8bGluaz5odHRwOi8vc2VhcmNoLm9wZW5lZGl0aW9uLm9yZzo4MDwv
-        bGluaz4KICAgIDxpdGVtcz4KICAgICAgPHJkZjpTZXE+CjxyZGY6bGkgcmVz
-        b3VyY2U9Imh0dHA6Ly9ydWVkZXNmYWNzLmh5cG90aGVzZXMub3JnLz9wPTE2
-        NjYiLz4KICAgICAgPC9yZGY6U2VxPgogICAgPC9pdGVtcz4KICA8L2NoYW5u
-        ZWw+CgoKPGl0ZW0gcmRmOmFib3V0PSJodHRwOi8vcnVlZGVzZmFjcy5oeXBv
-        dGhlc2VzLm9yZy8/cD0xNjY2Ij4KPGxpbms+aHR0cDovL3J1ZWRlc2ZhY3Mu
-        aHlwb3RoZXNlcy5vcmcvP3A9MTY2NjwvbGluaz4KPHRpdGxlPlNhYXJ0amll
-        IEJhYXJ0bWFuIDogbGEgVsOpbnVzIEhvdHRlbnRvdGU8L3RpdGxlPgo8ZGM6
-        ZGF0ZT4yMDEzLTA1LTI3PC9kYzpkYXRlPgo8ZGM6Y3JlYXRvcj5ydWVkZXNm
-        YWNzPC9kYzpjcmVhdG9yPgo8ZGN0ZXJtczppc1BhcnRPZiByZGY6cmVzb3Vy
-        Y2U9Imh0dHA6Ly9ydWVkZXNmYWNzLmh5cG90aGVzZXMub3JnIj5SdWUgZGVz
-        IGZhY3M8L2RjdGVybXM6aXNQYXJ0T2Y+CjxkZXNjcmlwdGlvbj4KPCFbQ0RB
-        VEFbCiAuLi4gLCBubyAzICgxIHNlcHRlbWJyZSAyMDAwKTogNjA2IDYwNy4g
-        ZG9pOjxlbT4xMC4yMzA3PC9lbT4vPGVtPjY4MzQyMjwvZW0+LiDCqyBUaGUg
-        SG90dGVudG90IFZlbnVzIElzIEdvaW5nIEhvbWUgwrsuIFRoZSBKb3VybmFs
-        IG9mIEJsYWNrcyBpbiBIaWdoZXIgRWR1Y2F0aW9uIG5vIDM1ICgxIGF2cmls
-        IDIwMDIpOiA2My4gZG9pOjxlbT4xMC4yMzA3PC9lbT4vMzEzMzg0NS4gVm91
-        cyB0cm91dmVyZXogdG91dGVzCiAuLi4gCl1dPgo8L2Rlc2NyaXB0aW9uPgo8
-        L2l0ZW0+CjwvcmRmOlJERj4KCg==
+        aC5vcGVuZWRpdGlvbi5vcmclMkZmZWVkLnBocCUzRmZpZWxkJTI1NUIlMjU1
+        RCUzREFsbCUyNm9wJTI1NUIlMjU1RCUzREFORCUyNnBmJTNESHlwb3RoZXNl
+        cy5vcmclMjZxJTI1NUIlMjU1RCUzRDEwLjIzMDclMjUyRjY4MzQyMiI+CiAg
+        ICA8dGl0bGU+MTAuMjMwNy82ODM0MjIgLSBSZWNoZXJjaGUgT3BlbkVkaXRp
+        b248L3RpdGxlPgogICAgPGRlc2NyaXB0aW9uPkZsdXggUlNTIGRlIHZvdHJl
+        IHJlY2hlcmNoZTogMTAuMjMwNy82ODM0MjI8L2Rlc2NyaXB0aW9uPgogICAg
+        PGxpbms+aHR0cDovL3NlYXJjaC5vcGVuZWRpdGlvbi5vcmc8L2xpbms+CiAg
+        ICA8aXRlbXM+CiAgICAgIDxyZGY6U2VxPgo8cmRmOmxpIHJlc291cmNlPSJo
+        dHRwOi8vcnVlZGVzZmFjcy5oeXBvdGhlc2VzLm9yZy8/cD0xNjY2Ii8+CiAg
+        ICAgIDwvcmRmOlNlcT4KICAgIDwvaXRlbXM+CiAgPC9jaGFubmVsPgoKCjxp
+        dGVtIHJkZjphYm91dD0iaHR0cDovL3J1ZWRlc2ZhY3MuaHlwb3RoZXNlcy5v
+        cmcvP3A9MTY2NiI+CjxsaW5rPmh0dHA6Ly9ydWVkZXNmYWNzLmh5cG90aGVz
+        ZXMub3JnLz9wPTE2NjY8L2xpbms+Cjx0aXRsZT5TYWFydGppZSBCYWFydG1h
+        biA6IGxhIFbDqW51cyBIb3R0ZW50b3RlPC90aXRsZT4KPGRjOmRhdGU+MjAx
+        My0wNS0yNzwvZGM6ZGF0ZT4KPGRjOmNyZWF0b3I+cnVlZGVzZmFjczwvZGM6
+        Y3JlYXRvcj4KPGRjdGVybXM6aXNQYXJ0T2YgcmRmOnJlc291cmNlPSJodHRw
+        Oi8vcnVlZGVzZmFjcy5oeXBvdGhlc2VzLm9yZyI+UnVlIGRlcyBmYWNzPC9k
+        Y3Rlcm1zOmlzUGFydE9mPgo8ZGVzY3JpcHRpb24+CjwhW0NEQVRBWwogLi4u
+        ICwgbm8gMyAoMSBzZXB0ZW1icmUgMjAwMCk6IDYwNiA2MDcuIGRvaTo8ZW0+
+        MTAuMjMwNzwvZW0+LzxlbT42ODM0MjI8L2VtPi4gwqsgVGhlIEhvdHRlbnRv
+        dCBWZW51cyBJcyBHb2luZyBIb21lIMK7LiBUaGUgSm91cm5hbCBvZiBCbGFj
+        a3MgaW4gSGlnaGVyIEVkdWNhdGlvbiBubyAzNSAoMSBhdnJpbCAyMDAyKTog
+        NjMuIGRvaTo8ZW0+MTAuMjMwNzwvZW0+LzMxMzM4NDUuIFZvdXMgdHJvdXZl
+        cmV6IHRvdXRlcwogLi4uIApdXT4KPC9kZXNjcmlwdGlvbj4KPC9pdGVtPgo8
+        L3JkZjpSREY+Cgo=
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:19:27 GMT
+  recorded_at: Tue, 14 Jul 2015 14:20:27 GMT
 recorded_with: VCR 2.9.3

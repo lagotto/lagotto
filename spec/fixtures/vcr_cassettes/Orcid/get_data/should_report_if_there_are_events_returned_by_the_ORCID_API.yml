@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -23,21 +23,27 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 15 Jun 2015 22:30:32 GMT
+      - Tue, 14 Jul 2015 14:19:14 GMT
       Access-Control-Allow-Origin:
       - "*"
-      Connection:
-      - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=3EF693884E4817F6CBEBF09AB7491954; path=/
+      - X-Mapping-fjhppofk=88C859A65F96A9D2101D5CDCBDC853EB; path=/
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":null,"orcid-search-results":{"orcid-search-result":[{"relevancy-score":{"value":0.66427696},"orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-0159-2197","path":"0000-0002-0159-2197","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":null,"orcid-history":null,"orcid-bio":{"personal-details":{"given-names":{"value":"Jonathan
+      string: '{"message-version":"1.2","orcid-profile":null,"orcid-search-results":{"orcid-search-result":[{"relevancy-score":{"value":0.6677909},"orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-0159-2197","path":"0000-0002-0159-2197","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":null,"orcid-history":null,"orcid-bio":{"personal-details":{"given-names":{"value":"Jonathan
         A."},"family-name":{"value":"Eisen"},"credit-name":null,"other-names":null},"biography":{"value":"","visibility":null},"researcher-urls":{"researcher-url":[{"url-name":{"value":"microBEnet"},"url":{"value":"http://microBE.net"}},{"url-name":{"value":"Tree
         of Life Blog"},"url":{"value":"http://phylogenomics.blogspot.com"}},{"url-name":{"value":"Lab
         Page"},"url":{"value":"http://phylogenomics.wordpress.com"}},{"url-name":{"value":"Twitter"},"url":{"value":"http://twitter.com/phylogenomics"}}],"visibility":null},"contact-details":null,"keywords":{"keyword":[{"value":"evolution,
         genomics, microbiology, ecology, microbial diversity, citizen science, "}],"visibility":null},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35247902700"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35247902700&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":null},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":null,"group-type":null,"client-type":null}}],"num-found":1},"error-desc":null}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:14:44 GMT
+  recorded_at: Tue, 14 Jul 2015 14:19:15 GMT
 recorded_with: VCR 2.9.3

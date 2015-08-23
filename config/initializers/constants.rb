@@ -102,35 +102,6 @@ MEDIACURATION_TYPE_TRANSLATIONS = {
   "University page" => "webpage"
 }
 
-# DataCite relationType from DataCite metadata schema: http://dx.doi.org/10.5438/0010
-DATACITE_RELATION_TYPE_TRANSLATIONS = {
-  "Cites" => "cites",
-  "IsCitedBy" => "_cites",
-  "Supplements" => "supplements",
-  "IsSupplementTo" => "_supplements",
-  "Continues" => "continues",
-  "IsContinuedBy" => "_continues",
-  "IsMetadataFor" => "is_metadata_for",
-  "HasMetadata" => "_is_metadata_for",
-  "isNewVersionOf" => "is_new_version_of",
-  "isPreviousVersionOf" => "_is_new_version_of",
-  "IsPartOf" => "is_part_of",
-  "HasPart" => "_is_part_of",
-  "References" => "references",
-  "IsReferencedBy" => "_references",
-  "Documents" => "documents",
-  "IsDocumentedBy" => "_documents",
-  "Compiles" => "compiles",
-  "IsCompiledBy" => "_compiles",
-  "IsVariantFormOf" => "is_variant_form_of",
-  "IsOriginalFormOf" => "_is_variant_form_of",
-  "IsIdenticalTo" => "is_identical_to",
-  "Reviews" => "reviews",
-  "IsReviewedBy" => "_reviews",
-  "IsDerivedFrom" => "is_derived_from",
-  "IsSourceOf" => "_is_derived_from"
-}
-
 TYPES_WITH_TITLE = %w(journal-article
                       proceedings-article
                       dissertation
@@ -141,3 +112,6 @@ TYPES_WITH_TITLE = %w(journal-article
                       edited-book
                       reference-book
                       dataset)
+
+ZENODO_KEYWORDS = ["alm","lagotto","article-level metrics","altmetrics",
+  "bibliometrics","downloads","citations","mendeley","facebook","twitter"]

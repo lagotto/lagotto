@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:bmc_fulltext) }
 
-  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -29,16 +29,16 @@ describe BmcFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the BMC Search API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
       response = subject.get_data(work)
       expect(response).to eq("entries"=>[])
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
       response = subject.get_data(work)
-      expect(response["entries"].length).to eq(22)
+      expect(response["entries"].length).to eq(24)
       doc = response["entries"].first
-      expect(doc["doi"]).to eq("10.1186/s12864-015-1635-9")
+      expect(doc["doi"]).to eq("10.1186/s12864-015-1739-2")
     end
 
     it "should catch errors with the BMC Search API" do

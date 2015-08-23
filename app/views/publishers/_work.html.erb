@@ -3,11 +3,11 @@
     <div class="btn-group btn-group-sm" id="work-source">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : h(@source.title) %> <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", publisher_path(@publisher.member_id, sort: params[:sort]) %></li>
+        <li><%= link_to "All Sources", publisher_path(@publisher.name, sort: params[:sort]) %></li>
         <% Group.order("id").each do |group| %>
           <% group.sources.active.each_with_index do |source, i| %>
             <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-            <li><%= link_to "Filter by #{source.title}", publisher_path(@publisher.member_id, source_id: source.name) %></li>
+            <li><%= link_to "Filter by #{source.title}", publisher_path(@publisher.name, source_id: source.name) %></li>
           <% end %>
         <% end %>
       </ul>
@@ -17,17 +17,17 @@
     <div class="btn-group btn-group-sm" id="publisher-sort">
       <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
       <ul class="dropdown-menu pull-right">
-        <li><%= link_to "Date", publisher_path(@publisher.member_id, source_id: params[:source_id]) %></li>
+        <li><%= link_to "Date", publisher_path(@publisher.name, source_id: params[:source_id]) %></li>
         <% if @source.nil? %>
           <% Group.order("id").each do |group| %>
             <% group.sources.active.each_with_index do |source, i| %>
               <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-              <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.member_id, source_id: params[:source_id], sort: source.name) %></li>
+              <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.name, source_id: params[:source_id], sort: source.name) %></li>
             <% end %>
           <% end %>
         <% else %>
           <li class="divider"></li>
-          <li><%= link_to "Sort by #{@source.title}", publisher_path(@publisher.member_id, source_id: @source.name, sort: @source.name) %></li>
+          <li><%= link_to "Sort by #{@source.title}", publisher_path(@publisher.name, source_id: @source.name, sort: @source.name) %></li>
         <% end %>
       </ul>
     </div>

@@ -8,10 +8,32 @@ describe Work, type: :model, vcr: true do
     let(:data) { { "name" => "Fred" } }
     let(:post_data) { { "name" => "Jack" } }
 
+    context "get_doi_ra" do
+      it "doi crossref" do
+        doi = "10.1371/journal.pone.0000030"
+        expect(subject.get_doi_ra(doi)).to eq("crossref")
+      end
+
+      it "doi datacite" do
+        doi = "10.5061/dryad.8515"
+        expect(subject.get_doi_ra(doi)).to eq("datacite")
+      end
+
+      it "not found" do
+        doi = "10.1371/xxx"
+        expect(subject.get_doi_ra(doi)).to eq(error: "Resource not found.", status: 404)
+      end
+    end
+
     context "get_id_hash" do
       it "doi" do
         id = "doi:10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+      end
+
+      it " downcase" do
+        id = "doi:10.5063/F1PC3085"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5063/f1pc3085")
       end
 
       it "pmid" do
@@ -99,6 +121,11 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(ark: "ark:/13030/m5br8st1")
       end
 
+      it "n2t.net/ark:/90135/q1vm497c" do
+        id = "n2t.net/ark:/90135/q1vm497c"
+        expect(subject.get_id_hash(id)).to eq(ark: "ark:/90135/q1vm497c")
+      end
+
       it "doi/" do
         id = "doi/10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
@@ -132,6 +159,11 @@ describe Work, type: :model, vcr: true do
       it "PMC" do
         id = "PMC1762313"
         expect(subject.get_id_hash(id)).to eq(pmcid: "1762313")
+      end
+
+      it "doi_" do
+        id = "doi_10.5066_F7DZ067M"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5066/f7dz067m")
       end
 
       it "id" do
@@ -303,7 +335,46 @@ describe Work, type: :model, vcr: true do
     end
 
     context "metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
       let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: "17183658") }
+
+      it "get_metadata crossref" do
+        response = subject.get_metadata(work.doi, "crossref")
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"]).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
+        expect(response["container-title"]).to eq("PLoS ONE")
+        expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to eq(340)
+      end
+
+      it "get_metadata datacite" do
+        work = FactoryGirl.create(:work, doi: "10.5061/dryad.8515")
+        response = subject.get_metadata(work.doi, "datacite")
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
+        expect(response["container-title"]).to be_nil
+        expect(response["issued"]).to eq("date-parts"=>[[2011]])
+        expect(response["type"]).to eq("dataset")
+        expect(response["publisher_id"]).to be_nil
+      end
+
+      it "get_metadata pubmed" do
+        response = subject.get_pubmed_metadata(work.pmid)
+        expect(response["pmid"]).to eq(work.pmid)
+        expect(response["title"]).to eq("Triose phosphate isomerase deficiency is caused by altered dimerization--not catalytic inactivity--of the mutant enzymes")
+        expect(response["container-title"]).to eq("PLoS One")
+        expect(response["issued"]).to eq("date-parts"=>[[2006]])
+        expect(response["type"]).to eq("article-journal")
+        expect(response["publisher_id"]).to be_nil
+      end
+    end
+
+    context "crossref metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
+      let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030") }
 
       it "get_crossref_metadata" do
         response = subject.get_crossref_metadata(work.doi)
@@ -342,6 +413,34 @@ describe Work, type: :model, vcr: true do
         response = subject.get_crossref_metadata("#{work.doi}x")
         expect(response).to eq(error: "Resource not found.", status: 404)
       end
+    end
+
+    context "datacite metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
+      let(:work) { FactoryGirl.create(:work, doi: "10.5061/dryad.8515") }
+
+      it "get_datacite_metadata" do
+        response = subject.get_datacite_metadata(work.doi)
+        expect(response["DOI"]).to eq(work.doi)
+        expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
+        expect(response["container-title"]).to be_nil
+        expect(response["issued"]).to eq("date-parts"=>[[2011]])
+        expect(response["type"]).to eq("dataset")
+        expect(response["publisher_id"]).to be_nil
+      end
+
+      it "get_datacite_metadata with not found error" do
+        ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.5061/dryad.8515", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
+        response = subject.get_datacite_metadata("#{work.doi}x")
+        expect(response).to eq(error: "Resource not found.", status: 404)
+      end
+    end
+
+    context "pubmed metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
+      let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: "17183658") }
 
       it "get_pubmed_metadata" do
         response = subject.get_pubmed_metadata(work.pmid)

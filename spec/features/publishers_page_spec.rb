@@ -1,7 +1,10 @@
 require "rails_helper"
 
 describe "publishers", type: :feature, vcr: true, js: true do
-  before(:each) { sign_in }
+  before(:each) do
+    sign_in
+    Publisher.delete_all
+  end
 
   it "show no publishers" do
     visit "/publishers"

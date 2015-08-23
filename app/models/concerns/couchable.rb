@@ -2,12 +2,12 @@ module Couchable
   extend ActiveSupport::Concern
 
   included do
-    def get_lagotto_data(id = "", options={})
-      get_result("#{ENV['COUCHDB_URL']}/#{id}", options)
+    def get_lagotto_data(url, options={})
+      get_result(url, options)
     end
 
-    def get_lagotto_rev(id, options={})
-      head_lagotto_data("#{ENV['COUCHDB_URL']}/#{id}", options)[:rev]
+    def get_lagotto_rev(url, options={})
+      head_lagotto_data(url, options)[:rev]
     end
 
     def head_lagotto_data(url, options = { timeout: DEFAULT_TIMEOUT })
@@ -22,14 +22,13 @@ module Couchable
       rescue_faraday_error(url, e, options.merge(head: true))
     end
 
-    def save_lagotto_data(id, options = { data: nil })
-      data_rev = get_lagotto_rev(id)
+    def save_lagotto_data(url, options = { data: nil })
+      data_rev = get_lagotto_rev(url)
       if data_rev.present?
-        options[:data][:_id] = "#{id}"
         options[:data][:_rev] = data_rev
       end
 
-      put_lagotto_data("#{ENV['COUCHDB_URL']}/#{id}", options)
+      put_lagotto_data(url, options)
     end
 
     def put_lagotto_data(url, options = { data: nil })
@@ -46,23 +45,23 @@ module Couchable
       rescue_faraday_error(url, e, options)
     end
 
-    def remove_lagotto_data(id)
-      data_rev = get_lagotto_rev(id)
+    def remove_lagotto_data(url)
+      data_rev = get_lagotto_rev(url)
       timestamp = Time.zone.now.utc.iso8601
 
       if data_rev.present?
         params = {'rev' => data_rev }
-        response = delete_lagotto_data("#{ENV['COUCHDB_URL']}/#{id}?#{params.to_query}")
+        response = delete_lagotto_data("#{url}?#{params.to_query}")
       else
         response = nil
       end
 
       if response.nil?
-        Rails.logger.warn "#{timestamp}: CouchDB document #{id} not found"
+        Rails.logger.warn "#{timestamp}: CouchDB document #{url} not found"
       elsif response.respond_to?(:error)
-        Rails.logger.error "#{timestamp}: CouchDB document #{id} could not be deleted: #{response[:error]}"
+        Rails.logger.error "#{timestamp}: CouchDB document #{url} could not be deleted: #{response[:error]}"
       else
-        Rails.logger.info "#{timestamp}: CouchDB document #{id} deleted with rev #{response}"
+        Rails.logger.info "#{timestamp}: CouchDB document #{url} deleted with rev #{response}"
       end
 
       response
@@ -70,7 +69,7 @@ module Couchable
 
     def delete_lagotto_data(url, options={})
       # don't delete database
-      return nil if url == ENV['COUCHDB_URL'] && Rails.env != "test"
+      return nil if Rails.env != "test"
 
       conn = faraday_conn('json', options)
       response = conn.delete url
@@ -78,18 +77,6 @@ module Couchable
       parse_rev(response.body)
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
-    end
-
-    def get_lagotto_database
-      get_lagotto_data
-    end
-
-    def put_lagotto_database
-      put_lagotto_data(ENV['COUCHDB_URL'])
-    end
-
-    def delete_lagotto_database
-      delete_lagotto_data(ENV['COUCHDB_URL'])
     end
 
     def parse_rev(string)

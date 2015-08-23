@@ -45,7 +45,7 @@ module Networkable
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
       response = conn.get url
 
-      File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(response.body) }
+      File.open("#{Rails.root}/tmp/files/#{filename}", 'w') { |file| file.write(response.body) }
       filename
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
@@ -55,7 +55,7 @@ module Networkable
     end
 
     def read_from_file(filename = "tmpdata", options = { content_type: 'xml' })
-      file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+      file = File.open("#{Rails.root}/tmp/files/#{filename}", 'r') { |f| f.read }
       if options[:content_type] == "json"
         JSON.parse(file)
       else
@@ -77,7 +77,7 @@ module Networkable
 
       Faraday.new do |c|
         c.headers['Accept'] = accept_header
-        c.headers['User-Agent'] = "Lagotto #{Lagotto::VERSION} - http://#{ENV['SERVERNAME']}"
+        c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
         c.use      FaradayMiddleware::FollowRedirects, limit: limit, cookie: :all
         c.request  :multipart
         c.request  :json if accept_header == 'application/json'

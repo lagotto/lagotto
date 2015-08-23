@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1890%2F0012-9658(2006)87%5B2832:tiopma%5D2.0.co;2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Tue, 14 Jul 2015 14:25:31 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1063'
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"subject":["Ecology,
+        Evolution, Behavior and Systematics"],"issued":{"date-parts":[[2006,11]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.1890","author":[{"affiliation":[],"family":"Fenton","given":"A."},{"affiliation":[],"family":"Rands","given":"S.
+        A."}],"container-title":["Ecology"],"reference-count":39,"page":"2832-2841","deposited":{"date-parts":[[2011,7,4]],"timestamp":1309737600000},"issue":"11","title":["THE
+        IMPACT OF PARASITE MANIPULATION AND PREDATOR FORAGING BEHAVIOR ON PREDATOR\u2013PREY
+        COMMUNITIES"],"alternative-id":["10.1890\/0012-9658(2006)87[2832:TIOPMA]2.0.CO;2"],"type":"journal-article","DOI":"10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","ISSN":["0012-9658"],"URL":"http:\/\/dx.doi.org\/10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","source":"CrossRef","publisher":"Ecological
+        Society of America","indexed":{"date-parts":[[2015,6,6]],"timestamp":1433590833541},"volume":"87","member":"http:\/\/id.crossref.org\/member\/792"}}'
+    http_version: 
+  recorded_at: Tue, 14 Jul 2015 14:25:31 GMT
+recorded_with: VCR 2.9.3

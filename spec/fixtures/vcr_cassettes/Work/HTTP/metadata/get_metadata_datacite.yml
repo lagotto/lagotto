@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/dryad.8515&rows=1&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Tue, 14 Jul 2015 14:15:01 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
+        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
+        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
+        RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTA1LTI5VDE4OjM5OjI1
+        WiIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41MDYxL0RSWUFELjg1
+        MTUiLCJyZWxhdGVkSWRlbnRpZmllciI6WyJIYXNQYXJ0OkRPSToxMC41MDYx
+        L0RSWUFELjg1MTUvMSIsIkhhc1BhcnQ6RE9JOjEwLjUwNjEvRFJZQUQuODUx
+        NS8yIiwiSXNSZWZlcmVuY2VkQnk6RE9JOjEwLjEzNzEvSk9VUk5BTC5QUEFU
+        LjEwMDA0NDYiLCJJc1JlZmVyZW5jZWRCeTpET0k6Il0sImNyZWF0b3IiOlsi
+        T2xsb21vLCBCZW5qYW1pbiIsIkR1cmFuZCwgUGF0cmljayIsIlBydWdub2xs
+        ZSwgRnJhbmNrIiwiRG91emVyeSwgRW1tYW51ZWwgSi4gUC4iLCJBcm5hdGhh
+        dSwgQ8OpbGluZSIsIk5rb2doZSwgRGlldWRvbm7DqSIsIkxlcm95LCBFcmlj
+        IiwiUmVuYXVkLCBGcmFuw6dvaXMiXSwicHVibGlzaGVyIjoiRHJ5YWQgRGln
+        aXRhbCBSZXBvc2l0b3J5IiwidGl0bGUiOlsiRGF0YSBmcm9tOiBBIG5ldyBt
+        YWxhcmlhIGFnZW50IGluIEFmcmljYW4gaG9taW5pZHMuIl0sInB1YmxpY2F0
+        aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoiRGF0YXNl
+        dCJ9XX19Cg==
+    http_version: 
+  recorded_at: Tue, 14 Jul 2015 14:25:51 GMT
+recorded_with: VCR 2.9.3

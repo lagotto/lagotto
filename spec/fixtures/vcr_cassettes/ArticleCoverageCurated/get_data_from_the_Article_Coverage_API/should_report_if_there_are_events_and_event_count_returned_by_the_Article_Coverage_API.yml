@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:33:09 GMT
+      - Thu, 16 Jul 2015 10:19:05 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Ua-Compatible:
@@ -27,9 +27,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - e80e8bf0917f34a3a219c4a6b84f3abb
+      - 288bba330420bb9fca80186ba5c4d724
       X-Runtime:
-      - '0.012663'
+      - '0.013944'
       X-Rack-Cache:
       - miss
       X-Powered-By:
@@ -46,5 +46,5 @@ http_interactions:
         You Know About Your Personal Hygiene Is Wrong ","type":"News","publication":"Huffington
         Post","published_on":"2013-11-26T00:00:00Z","link_state":"APPROVED"}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:21 GMT
+  recorded_at: Thu, 16 Jul 2015 10:19:05 GMT
 recorded_with: VCR 2.9.3

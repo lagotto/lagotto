@@ -1,5 +1,5 @@
 class RelationType < ActiveRecord::Base
-  has_many :relations, dependent: :nullify
+  has_many :relations
 
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true

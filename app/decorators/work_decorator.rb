@@ -24,7 +24,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def filtered_sources
-    Source.accessible(context[:role]).pluck(:name)
+    @filtered_sources ||= Source.accessible(context[:role]).pluck(:name)
   end
 
   def events

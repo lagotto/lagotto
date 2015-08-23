@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -19,30 +19,36 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 15 Jun 2015 22:20:48 GMT
+      - Tue, 14 Jul 2015 14:10:39 GMT
       Content-Type:
       - application/json;charset=UTF-8
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 non_disclosed:3128 (squid)
       Connection:
-      - keep-alive
+      - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyOX0sInJl
-        c3BvbnNlIjp7Im51bUZvdW5kIjoxLCJzdGFydCI6MCwiZG9jcyI6W3siZGF0
-        YWNlbnRyZV9zeW1ib2wiOiJDREwuRFJZQUQiLCJkYXRhY2VudHJlIjoiQ0RM
-        LkRSWUFEIC0gRHJ5YWQiLCJwcmVmaXgiOiIxMC41MDYxIiwiZG9pIjoiMTAu
-        NTA2MS9EUllBRC44NTE1IiwicmVsYXRlZElkZW50aWZpZXIiOlsiSGFzUGFy
-        dDpET0k6MTAuNTA2MS9EUllBRC44NTE1LzEiLCJIYXNQYXJ0OkRPSToxMC41
-        MDYxL0RSWUFELjg1MTUvMiIsIklzUmVmZXJlbmNlZEJ5OkRPSToxMC4xMzcx
-        L0pPVVJOQUwuUFBBVC4xMDAwNDQ2IiwiSXNSZWZlcmVuY2VkQnk6RE9JOiJd
-        LCJjcmVhdG9yIjpbIk9sbG9tbywgQmVuamFtaW4iLCJEdXJhbmQsIFBhdHJp
-        Y2siLCJQcnVnbm9sbGUsIEZyYW5jayIsIkRvdXplcnksIEVtbWFudWVsIEou
-        IFAuIiwiQXJuYXRoYXUsIEPDqWxpbmUiLCJOa29naGUsIERpZXVkb25uw6ki
-        LCJMZXJveSwgRXJpYyIsIlJlbmF1ZCwgRnJhbsOnb2lzIl0sInB1Ymxpc2hl
-        ciI6IkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeSIsInRpdGxlIjpbIkRhdGEg
-        ZnJvbTogQSBuZXcgbWFsYXJpYSBhZ2VudCBpbiBBZnJpY2FuIGhvbWluaWRz
-        LiJdLCJwdWJsaWNhdGlvblllYXIiOiIyMDExIiwicmVzb3VyY2VUeXBlR2Vu
-        ZXJhbCI6IkRhdGFzZXQifV19fQo=
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyfSwicmVz
+        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
+        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
+        RFJZQUQgLSBEcnlhZCIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41
+        MDYxL0RSWUFELjg1MTUiLCJyZWxhdGVkSWRlbnRpZmllciI6WyJIYXNQYXJ0
+        OkRPSToxMC41MDYxL0RSWUFELjg1MTUvMSIsIkhhc1BhcnQ6RE9JOjEwLjUw
+        NjEvRFJZQUQuODUxNS8yIiwiSXNSZWZlcmVuY2VkQnk6RE9JOjEwLjEzNzEv
+        Sk9VUk5BTC5QUEFULjEwMDA0NDYiLCJJc1JlZmVyZW5jZWRCeTpET0k6Il0s
+        ImNyZWF0b3IiOlsiT2xsb21vLCBCZW5qYW1pbiIsIkR1cmFuZCwgUGF0cmlj
+        ayIsIlBydWdub2xsZSwgRnJhbmNrIiwiRG91emVyeSwgRW1tYW51ZWwgSi4g
+        UC4iLCJBcm5hdGhhdSwgQ8OpbGluZSIsIk5rb2doZSwgRGlldWRvbm7DqSIs
+        Ikxlcm95LCBFcmljIiwiUmVuYXVkLCBGcmFuw6dvaXMiXSwicHVibGlzaGVy
+        IjoiRHJ5YWQgRGlnaXRhbCBSZXBvc2l0b3J5IiwidGl0bGUiOlsiRGF0YSBm
+        cm9tOiBBIG5ldyBtYWxhcmlhIGFnZW50IGluIEFmcmljYW4gaG9taW5pZHMu
+        Il0sInB1YmxpY2F0aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5l
+        cmFsIjoiRGF0YXNldCJ9XX19Cg==
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:15:05 GMT
+  recorded_at: Tue, 14 Jul 2015 14:21:28 GMT
 recorded_with: VCR 2.9.3

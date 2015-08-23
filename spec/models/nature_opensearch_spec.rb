@@ -3,7 +3,7 @@ require 'rails_helper'
 describe NatureOpensearch, type: :model, vcr: true do
   subject { FactoryGirl.create(:nature_opensearch) }
 
-  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
+  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -29,7 +29,7 @@ describe NatureOpensearch, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the Nature OpenSearch API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
       response = subject.get_data(work)
       expect(response["feed"]["opensearch:totalResults"]).to eq(0)
     end

@@ -32,12 +32,18 @@ end
 # set :default_env, { 'DOTENV' => ENV["DOTENV"] }
 
 set :application, ENV["APPLICATION"]
-set :repo_url, 'https://github.com/articlemetrics/lagotto.git'
+set :repo_url, "#{ENV['GITHUB_URL']}.git"
 set :stage, ENV["STAGE"]
 set :pty, false
 
 # Default branch is :master
 set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
+
+# install/update npm modules and bower components
+set :npm_target_path, -> { release_path.join('frontend') }
+
+# restart passenger method
+set :passenger_restart_with_touch, true
 
 # Bugsnag deploy tracking
 set :bugsnag_api_key, ENV["BUGSNAG_KEY"] if ENV["BUGSNAG_KEY"]
@@ -64,7 +70,7 @@ set :log_level, log_level
 set :linked_files, %w{ .env }
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{ log data tmp/pids tmp/sockets vendor/bundle public/files frontend/node_modules frontend/bower_components }
+set :linked_dirs, %w{ log tmp/pids tmp/sockets tmp/files tmp/reports vendor/bundle frontend/node_modules frontend/bower_components }
 
 # Default value for keep_releases is 5
 set :keep_releases, 5

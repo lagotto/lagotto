@@ -1,0 +1,2 @@
+module Reportable
+end

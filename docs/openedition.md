@@ -79,4 +79,4 @@ title: "OpenEdition"
 ```
 
 ## Source Code
-The source code is available [here](https://github.com/articlemetrics/lagotto/blob/master/app/models/sources/openedition.rb).
+The source code is available [here](https://github.com/lagotto/lagotto/blob/master/app/models/sources/openedition.rb).

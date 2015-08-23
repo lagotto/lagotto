@@ -35,7 +35,7 @@ describe PlosComments, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the PLOS comments API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124")
       response = subject.get_data(work)
-      expect(response["data"].length).to eq(31)
+      expect(response["data"].length).to eq(33)
       data = response["data"].first
       expect(data["title"]).to eq("Open Access and the Skewness of Science: It Can't Be Cream All the Way Down")
     end

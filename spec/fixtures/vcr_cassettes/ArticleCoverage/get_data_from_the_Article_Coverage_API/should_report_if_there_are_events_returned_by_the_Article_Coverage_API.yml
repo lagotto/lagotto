@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,19 +17,19 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:33:05 GMT
+      - Thu, 16 Jul 2015 10:18:36 GMT
       Server:
       - Apache/2.2.15 (CentOS)
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Etag:
-      - '"3eaa680e20365244e2b880a48c7c13bc"'
+      - '"7945e8e0acce1e1e2c4bbb4f743b29d9"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 4c8855b9f7deeccdee8ea14341459474
+      - 7f91ebbf55ac43c4660078a40626a4ea
       X-Runtime:
-      - '0.022111'
+      - '0.024873'
       X-Rack-Cache:
       - miss
       X-Powered-By:
@@ -54,7 +54,9 @@ http_interactions:
         - The Atlantic","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://navels.yourwildlife.org/?p=444","language":"English","title":"Belly
         Button Biodiversity \u2013 Results & Data","type":"Blog","publication":"","published_on":"","link_state":""},{"referral":"http://www.huffingtonpost.fr/2013/11/11/avoir-bonne-hygiene_n_4252624.html","language":"French","title":"Bonne
         hygi\u00e8ne personnelle : tout ce que vous croyez savoir est faux","type":"Discussion
-        board","publication":"","published_on":"","link_state":""}]}'
+        board","publication":"","published_on":"","link_state":""},{"referral":"http://www.bbc.com/future/story/20150709-the-curious-truth-about-belly-button-fluff","language":"English","title":"BBC
+        - Future - The curious truth about belly button fluff","type":"Blog","publication":"Jason
+        G Goldman","published_on":"","link_state":""}]}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:17 GMT
+  recorded_at: Thu, 16 Jul 2015 10:18:36 GMT
 recorded_with: VCR 2.9.3

@@ -16,9 +16,9 @@ class PublishersController < ApplicationController
 
   def new
     if params[:query]
-      ids = Publisher.pluck(:member_id)
+      ids = Publisher.pluck(:name)
       publishers = MemberList.new(query: params[:query], per_page: 10).publishers
-      @publishers = publishers.reject { |publisher| ids.include?(publisher.member_id) }
+      @publishers = publishers.reject { |publisher| ids.include?(publisher.name) }
     else
       @publishers = []
     end
@@ -45,7 +45,7 @@ class PublishersController < ApplicationController
   protected
 
   def load_publisher
-    @publisher = Publisher.where(member_id: params[:id]).first
+    @publisher = Publisher.where(name: params[:id]).first
   end
 
   def load_index

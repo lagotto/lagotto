@@ -3,7 +3,7 @@ require 'rails_helper'
 describe EuropePmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc_fulltext) }
 
-  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -29,15 +29,15 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the Europe PMC Search API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
       response = subject.get_data(work)
       expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(78)
-      expect(response["resultList"]["result"].length).to eq(78)
+      expect(response["hitCount"]).to eq(85)
+      expect(response["resultList"]["result"].length).to eq(85)
       result = response["resultList"]["result"].first
       expect(result["doi"]).to eq("10.1186/s12859-015-0546-8")
     end

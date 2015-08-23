@@ -23,7 +23,7 @@ describe "no access for anonymous user", type: :feature, js: true do
 
   it "don't show user profile" do
     visit "/users/me"
-    expect(page).to have_css ".alert-warning", text: "401 Please sign in first."
+    expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 end
 

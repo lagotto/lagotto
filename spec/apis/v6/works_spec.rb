@@ -160,6 +160,15 @@ describe "/api/v6/works", :type => :api do
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
         end).to be true
       end
+
+      it "can be sorted by works.created_at using the created_at query parameter" do
+        get "/api/works?sort=created_at", nil, headers
+        response = JSON.parse(last_response.body)
+        data = response["works"]
+        actual_work_dois = response["works"].map{ |work| work["DOI"] }
+        expected_work_dois = Work.all.order("created_at ASC").limit(10).map(&:doi)
+        expect(actual_work_dois).to eq(expected_work_dois)
+      end
     end
 
     context "by publisher" do

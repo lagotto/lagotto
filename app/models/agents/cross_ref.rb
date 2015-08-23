@@ -1,6 +1,6 @@
 class CrossRef < Agent
   def get_query_url(work)
-    return {} unless work.doi.present?
+    return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     if work.publisher_id.present?
       # check that we have publisher-specific configuration
@@ -52,7 +52,7 @@ class CrossRef < Agent
         nil
       else
         doi = item.fetch("doi", nil)
-        metadata = get_crossref_metadata(doi)
+        metadata = get_metadata(doi, "crossref")
 
         if metadata[:error]
           nil
@@ -68,6 +68,7 @@ class CrossRef < Agent
             "type" => metadata.fetch("type", nil),
             "tracked" => tracked,
             "publisher_id" => metadata.fetch("publisher_id", nil),
+            "registration_agency" => "crossref",
             "related_works" => [{ "related_work" => work.pid,
                                   "source" => name,
                                   "relation_type" => "cites" }] }
@@ -133,5 +134,9 @@ class CrossRef < Agent
 
   def by_publisher?
     true
+  end
+
+  def registration_agencies
+    ["crossref"]
   end
 end

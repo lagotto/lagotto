@@ -27,6 +27,7 @@ class Orcid < Agent
         "URL" => url,
         "type" => 'entry',
         "tracked" => tracked,
+        "registration_agency" => "orcid",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "bookmarks" }] }

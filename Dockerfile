@@ -32,7 +32,7 @@ RUN \
   chmod -R 755 /home/app/lagotto
 
 # Make folders that hold data available as volumes
-VOLUME ["/home/app/lagotto/tmp", "/home/app/lagotto/log", "/home/app/lagotto/data"]
+VOLUME ["/home/app/lagotto/tmp", "/home/app/lagotto/log"]
 
 # Install Ruby gems via bundler, run as app user
 WORKDIR /home/app/lagotto

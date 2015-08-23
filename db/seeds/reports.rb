@@ -19,7 +19,7 @@ status_report = Report.where(name: 'status_report').first_or_create(
 
 work_statistics_report = Report.where(name: 'work_statistics_report').first_or_create(
                 :title => 'Work Statistics Report',
-                :description => 'Generates CSV file with ALM for all works',
+                :description => 'Generates CSV file with event summaries for all works',
                 :interval => 1.month,
                 :private => false)
 

@@ -14,12 +14,12 @@ describe Reddit, type: :model, vcr: true do
     it "should report if there are no events returned by the Reddit API" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0044294", canonical_url: "")
       response = subject.get_data(work)
-      expect(response).to eq("kind"=>"Listing", "data"=>{"modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
+      expect(response).to eq("kind"=>"Listing", "data"=>{"facets"=>{}, "modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
     end
 
     it "should report if there are events returned by the Reddit API" do
       response = subject.get_data(work)
-      expect(response).to eq("kind"=>"Listing", "data"=>{"modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
+      expect(response).to eq("kind"=>"Listing", "data"=>{"facets"=>{}, "modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
     end
 
     it "should catch errors with the Reddit API" do

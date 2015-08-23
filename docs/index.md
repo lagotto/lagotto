@@ -22,7 +22,7 @@ Lagotto is an Open Source application started in March 2009 by the Open Access p
 ## For Publishers and Providers
 Detailed instructions on how to [install](/docs/installation) and [setup](/docs/setup) Lagotto are available in the documentation, and the installation and setup can be done in under an hour.
 
-The following organizations are using Lagotto (live status information available [here](http://articlemetrics.github.io/status/)):
+The following organizations are using Lagotto (live status information available [here](http://lagotto.io/status/)):
 
 * [Public Library of Science (PLOS)](http://article-level-metrics.plos.org/)
 * [Copernicus Publications](http://publications.copernicus.org/services/article_level_metrics.html)
@@ -38,7 +38,7 @@ Users can access the data via the [API](/api), or via one of the client applicat
 
 * [ALM Reports (PLOS)](http://almreports.plos.org/)
 * [rOpenSci R client](http://ropensci.org/tutorials/alm_tutorial.html)
-* [Python client](https://github.com/articlemetrics/pyalm)
+* [Python client](https://github.com/lagotto/pyalm)
 
 ## For Developers
-We always welcome feedback and code contributions, and we have a growing list of [contributors](/docs/contributors). For questions or comments regarding Lagotto, visit the [Lagotto support forum](http://discuss.lagotto.io) or use the [Github issue tracker](https://github.com/articlemetrics/lagotto/issues).
+We always welcome feedback and code contributions, and we have a growing list of [contributors](/docs/contributors). For questions or comments regarding Lagotto, visit the [Lagotto support forum](http://discuss.lagotto.io) or use the [Github issue tracker](https://github.com/lagotto/lagotto/issues).

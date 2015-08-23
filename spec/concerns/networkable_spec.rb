@@ -340,7 +340,7 @@ describe Agent, type: :model, vcr: true do
       let(:filename) { 'test.xml' }
       let(:content) { [{ 'a' => 1 }, { 'b' => 2 }, { 'c' => 3 }] }
 
-      before(:each) { File.open("#{Rails.root}/data/#{filename}", 'w') { |file| file.write(content.to_xml) } }
+      before(:each) { File.open("#{Rails.root}/tmp/files/#{filename}", 'w') { |file| file.write(content.to_xml) } }
 
       it "read XML file" do
         response = subject.read_from_file(filename)
@@ -351,7 +351,7 @@ describe Agent, type: :model, vcr: true do
       it "should catch errors reading a missing file" do
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
-        File.delete("#{Rails.root}/data/#{filename}")
+        File.delete("#{Rails.root}/tmp/files/#{filename}")
         response = subject.read_from_file(filename)
         expect(response).to be_nil
         expect(Notification.count).to eq(1)

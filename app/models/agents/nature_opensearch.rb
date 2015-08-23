@@ -1,7 +1,7 @@
 class NatureOpensearch < Agent
   def get_query_url(work, options = {})
     query_string = get_query_string(work)
-    return {} unless query_string.present?
+    return {} unless query_string.present? && registration_agencies.include?(work.registration_agency)
 
     start_record = options[:start_record] || 1
 
@@ -73,6 +73,7 @@ class NatureOpensearch < Agent
         "URL" => url,
         "type" => "article-journal",
         "tracked" => tracked,
+        "registration_agency" => "crossref",
         "related_works" => [{ "related_work" => work.pid,
                               "source" => name,
                               "relation_type" => "cites" }] }
@@ -97,5 +98,9 @@ class NatureOpensearch < Agent
 
   def rows
     25
+  end
+
+  def registration_agencies
+    ["datacite", "dataone", "cdl", "github", "bitbucket"]
   end
 end

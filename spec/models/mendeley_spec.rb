@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Mendeley, :type => :model do
-
   subject { FactoryGirl.create(:mendeley) }
 
   context "lookup access token" do

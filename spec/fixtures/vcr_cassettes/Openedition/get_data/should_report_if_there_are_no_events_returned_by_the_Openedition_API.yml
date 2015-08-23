@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/xml
   response:
@@ -17,32 +17,36 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 15 Jun 2015 22:35:31 GMT
+      - Tue, 14 Jul 2015 14:20:36 GMT
       Content-Type:
       - application/xml
       X-Backend:
       - default
       X-Varnish:
-      - '24522116'
+      - '17256691'
       Age:
       - '0'
-      Via:
-      - 1.1 varnish-v4
       Content-Length:
-      - '718'
-      Connection:
-      - keep-alive
+      - '710'
       Accept-Ranges:
       - bytes
+      X-Cache:
+      - MISS from non_disclosed
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 varnish-v4, 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<rdf:RDF \n xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n
         xmlns=\"http://purl.org/rss/1.0/\"\n xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n
-        xmlns:dcterms=\"http://purl.org/dc/terms/\"\n>\n  <channel rdf:about=\"http%3A%2F%2Fsearch.openedition.org%3A80%2Ffeed.php%3Ffield%255B%255D%3DAll%26op%255B%255D%3DAND%26pf%3DHypotheses.org%26q%255B%255D%3D10.1371%252Fjournal.pone.0000001\">\n
+        xmlns:dcterms=\"http://purl.org/dc/terms/\"\n>\n  <channel rdf:about=\"http%3A%2F%2Fsearch.openedition.org%2Ffeed.php%3Ffield%255B%255D%3DAll%26op%255B%255D%3DAND%26pf%3DHypotheses.org%26q%255B%255D%3D10.1371%252Fjournal.pone.0000001\">\n
         \   <title>10.1371/journal.pone.0000001 - Recherche OpenEdition</title>\n
         \   <description>Flux RSS de votre recherche: 10.1371/journal.pone.0000001</description>\n
-        \   <link>http://search.openedition.org:80</link>\n    <items>\n      <rdf:Seq>\n
+        \   <link>http://search.openedition.org</link>\n    <items>\n      <rdf:Seq>\n
         \     </rdf:Seq>\n    </items>\n  </channel>\n\n\n</rdf:RDF>\n\n"
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:19:28 GMT
+  recorded_at: Tue, 14 Jul 2015 14:20:27 GMT
 recorded_with: VCR 2.9.3

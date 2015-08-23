@@ -8,7 +8,53 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.0 - http://lagotto-master.local
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Server:
+      - Varnish
+      Location:
+      - https://en.wikipedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=0&sroffset=0&srprop=timestamp&srsearch=%2210.1371%2Fjournal.pone.0044294%22+OR+%22http%3A%2F%2Fwww.plosone.org%2Farticle%2Finfo%3Adoi%2F10.1371%2Fjournal.pone.0044294%22&srwhat=text
+      Content-Length:
+      - '0'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Tue, 14 Jul 2015 14:20:45 GMT
+      X-Varnish:
+      - '3167442265'
+      Age:
+      - '0'
+      X-Cache:
+      - cp3014 frontend miss (0), MISS from non_disclosed
+      Set-Cookie:
+      - GeoIP=:::::v4; Path=/; Domain=.wikipedia.org, WMF-Last-Access=14-Jul-2015;Path=/;HttpOnly;Expires=Sat,
+        15 Aug 2015 12:00:00 GMT
+      X-Cache-Lookup:
+      - MISS from non_disclosed:3128
+      Via:
+      - 1.1 varnish, 1.1 non_disclosed:3128 (squid)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Tue, 14 Jul 2015 14:20:46 GMT
+- request:
+    method: get
+    uri: https://en.wikipedia.org/w/api.php?action=query&continue=&format=json&list=search&srinfo=totalhits&srlimit=50&srnamespace=0&sroffset=0&srprop=timestamp&srsearch=%2210.1371/journal.pone.0044294%22%20OR%20%22http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294%22&srwhat=text
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +63,13 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - Apache
+      - nginx/1.9.2
+      Date:
+      - Tue, 14 Jul 2015 14:20:46 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
       X-Powered-By:
       - HHVM/3.6.1
       X-Content-Type-Options:
@@ -28,26 +80,24 @@ http_interactions:
       - SAMEORIGIN
       Vary:
       - Accept-Encoding,X-Forwarded-Proto,Cookie
-      Content-Type:
-      - application/json; charset=utf-8
       X-Varnish:
-      - 999693888, 3056303912
+      - 2809703710, 1185090533, 1380082998
       Via:
-      - 1.1 varnish, 1.1 varnish
-      Date:
-      - Mon, 15 Jun 2015 22:33:04 GMT
+      - 1.1 varnish, 1.1 varnish, 1.1 varnish
       Age:
       - '0'
-      Connection:
-      - keep-alive
       X-Cache:
-      - cp1066 miss (0), cp1068 frontend miss (0)
+      - cp1055 miss (0), cp3010 miss (0), cp3041 frontend miss (0)
+      Strict-Transport-Security:
+      - max-age=31536000
       Set-Cookie:
-      - GeoIP=::::v6; Path=/; Domain=.wikipedia.org:80, WMF-Last-Access=15-Jun-2015;Path=/;HttpOnly;Expires=Fri,
-        17 Jul 2015 12:00:00 GMT
+      - GeoIP=DE:::51.0000:9.0000:v4; Path=/; Domain=.wikipedia.org, WMF-Last-Access=14-Jul-2015;Path=/;HttpOnly;Expires=Sat,
+        15 Aug 2015 12:00:00 GMT
+      X-Analytics:
+      - https=1
     body:
       encoding: UTF-8
       string: '{"batchcomplete":"","query":{"searchinfo":{"totalhits":0},"search":[]}}'
     http_version: 
-  recorded_at: Mon, 15 Jun 2015 22:17:16 GMT
+  recorded_at: Tue, 14 Jul 2015 14:20:46 GMT
 recorded_with: VCR 2.9.3

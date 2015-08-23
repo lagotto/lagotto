@@ -102,17 +102,8 @@ module ApplicationHelper
     %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable - Faraday::ResourceNotFound ActiveRecord::RecordInvalid - Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError AgentInactiveError - EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
-  def work_statistics_report_path
-    path = "/files/alm_report.zip"
-    if File.exist?("#{Rails.root}/public#{path}")
-      path
-    else
-      nil
-    end
-  end
-
   def author_format(author)
-    authors = author.map { |a| a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s }
+    authors = Array(author).map { |a| a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s }
     case authors.length
     when 0, 1, 2 then authors.join(" & ")
     when 3, 4 then authors[0..-2].join(", ") + " & " + authors.last
@@ -135,8 +126,8 @@ module ApplicationHelper
   end
 
   def description_with_link(report)
-    if report.name == 'work_statistics_report' && work_statistics_report_path
-      h(report.description) + link_to("Download", work_statistics_report_path, :class => 'pull-right')
+    if report.name == 'work_statistics_report'
+      h(report.description) #+ link_to("Download", work_statistics_report_path, :class => 'pull-right')
     else
       h(report.description)
     end
