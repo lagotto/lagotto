@@ -5,7 +5,7 @@ shared_examples_for "SourceByMonthReport examples" do |options|
   include Dateable
 
   subject(:report){ options[:report_class].new(source, format: format, year: year, month: month) }
-  let(:source){ FactoryGirl.create options[:source_factory] }
+  let(:source){ FactoryGirl.create(:source, options[:source_factory]) }
 
   let(:format){ "pdf" }
   let(:year){ 2014 }
