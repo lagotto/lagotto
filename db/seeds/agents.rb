@@ -268,6 +268,21 @@ plos_import = PlosImport.where(name: 'plos_import').first_or_create(
   :description => 'Import works via the PLOS Solr API.',
   :kind => "all",
   :group_id => other.id)
+crossref_import = CrossrefImport.where(name: 'crossref_import').first_or_create(
+  :title => 'CrossRef Import',
+  :description => 'Import works via the CrossRef REST API.',
+  :kind => "all",
+  :group_id => other.id)
+datacite_import = DataciteImport.where(name: 'datacite_import').first_or_create(
+  :title => 'DataCite Import',
+  :description => 'Import works via the DataCite Solr API.',
+  :kind => "all",
+  :group_id => other.id)
+dataone_import = DataoneImport.where(name: 'dataone_import').first_or_create(
+  :title => 'DataONE Import',
+  :description => 'Import works via the DataONE Solr API.',
+  :kind => "all",
+  :group_id => other.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = CrossRef.where(name: 'crossref').first_or_create(
