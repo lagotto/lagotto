@@ -9,6 +9,7 @@ class DataciteData < Agent
   end
 
   def get_related_works(result, work)
+    result.extend Hashie::Extensions::DeepFetch
     related_identifiers = result.deep_fetch('response', 'docs', 0, 'relatedIdentifier') { [] }
     related_identifiers.map do |item|
       raw_relation_type, related_identifier_type, related_identifier = item.split(":",3 )
