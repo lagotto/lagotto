@@ -39,12 +39,6 @@ describe PlosImport, type: :model, vcr: true do
       response = subject.queue_jobs
       expect(response).to eq(466)
     end
-
-    it "should report if there are sample works returned by the PLOS Search API" do
-      subject.sample = 20
-      response = subject.queue_jobs
-      expect(response).to eq(20)
-    end
   end
 
   context "get_data" do
@@ -57,7 +51,7 @@ describe PlosImport, type: :model, vcr: true do
       response = subject.get_data(nil)
       expect(response["response"]["numFound"]).to eq(466)
       doc = response["response"]["docs"].first
-      expect(doc["id"]).to eq("10.1371/journal.pone.0123874")
+      expect(doc["id"]).to eq("10.1371/journal.pone.0123616")
     end
 
     it "should catch errors with the PLOS Search API" do

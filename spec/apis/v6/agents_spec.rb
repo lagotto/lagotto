@@ -19,10 +19,9 @@ describe "/api/v6/agents", :type => :api do
 
       it "JSON" do
         get uri, nil, headers
-        # expect(last_response.status).to eq(200)
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq(agent.name)
         data = response["agents"]
         item = data.first
         expect(item["id"]).to eq(agent.name)
@@ -47,10 +46,9 @@ describe "/api/v6/agents", :type => :api do
 
       it "JSON" do
         get uri, nil, headers
-        #expect(last_response.status).to eq(200)
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq(agent.name)
         data = response["agents"]
         item = data.first
         expect(item["id"]).to eq(agent.name)
@@ -84,7 +82,6 @@ describe "/api/v6/agents", :type => :api do
         #expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq(agent.name)
         data = response["agent"]
         expect(data["id"]).to eq(agent.name)
         expect(data["responses"]["count"]).to eq(5)

@@ -36,9 +36,9 @@ describe BmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the BMC Search API" do
       response = subject.get_data(work)
-      expect(response["entries"].length).to eq(24)
+      expect(response["entries"].length).to eq(25)
       doc = response["entries"].first
-      expect(doc["doi"]).to eq("10.1186/s12864-015-1739-2")
+      expect(doc["doi"]).to eq("10.1186/s12864-015-1724-9")
     end
 
     it "should catch errors with the BMC Search API" do

@@ -19,10 +19,10 @@ describe EuropePmc, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(768)
-      expect(response["citationList"]["citation"].length).to eq(768)
+      expect(response["hitCount"]).to eq(770)
+      expect(response["citationList"]["citation"].length).to eq(770)
       citation = response["citationList"]["citation"].first
-      expect(citation["title"]).to eq("MicroRNAs: target recognition and regulatory functions.")
+      expect(citation["title"]).to eq("The role of site accessibility in microRNA target recognition.")
     end
 
     it "should catch errors with the PMC Europe API" do

@@ -27,7 +27,7 @@ describe Datacite, type: :model, vcr: true do
 
     it "should catch timeout errors with the Datacite API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      response = subject.get_data(work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{work.doi_escaped}&fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier&fq=is_active:true&fq=has_metadata:true&rows=1000&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -68,7 +68,7 @@ describe Datacite, type: :model, vcr: true do
       expect(related_work['container-title']).to be_nil
       expect(related_work['issued']).to eq("date-parts"=>[[2011]])
       expect(related_work['type']).to eq("dataset")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"_references"}])
+      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.ppat.1000446", "source"=>"datacite", "relation_type"=>"is_referenced_by"}])
 
       extra = event[:extra].first
       expect(extra[:event_url]).to eq("http://doi.org/10.5061/DRYAD.8515")

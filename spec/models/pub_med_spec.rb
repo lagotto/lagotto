@@ -72,7 +72,7 @@ describe PubMed, type: :model, vcr: true do
       expect(related_work["PMCID"]).to eq("3292175")
       expect(related_work['author']).to eq([{"affiliation"=>[], "family"=>"Morrison", "given"=>"Shaun F."}, {"affiliation"=>[], "family"=>"Madden", "given"=>"Christopher J."}, {"affiliation"=>[], "family"=>"Tupone", "given"=>"Domenico"}])
       expect(related_work['title']).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
-      expect(related_work['container-title']).to eq("Front. Endocrin.")
+      expect(related_work['container-title']).to eq("Frontiers in Endocrinology")
       expect(related_work['issued']).to eq("date-parts"=>[[2012]])
       expect(related_work['volume']).to eq("3")
       expect(related_work['issue']).to be_nil
@@ -103,7 +103,7 @@ describe PubMed, type: :model, vcr: true do
       expect(related_work["PMCID"]).to eq("3292175")
       expect(related_work['author']).to eq([{"affiliation"=>[], "family"=>"Morrison", "given"=>"Shaun F."}, {"affiliation"=>[], "family"=>"Madden", "given"=>"Christopher J."}, {"affiliation"=>[], "family"=>"Tupone", "given"=>"Domenico"}])
       expect(related_work['title']).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
-      expect(related_work['container-title']).to eq("Front. Endocrin.")
+      expect(related_work['container-title']).to eq("Frontiers in Endocrinology")
       expect(related_work['issued']).to eq("date-parts"=>[[2012]])
       expect(related_work['volume']).to eq("3")
       expect(related_work['issue']).to be_nil

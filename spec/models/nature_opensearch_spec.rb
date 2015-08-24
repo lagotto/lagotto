@@ -36,8 +36,8 @@ describe NatureOpensearch, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
       response = subject.get_data(work)
-      expect(response["feed"]["opensearch:totalResults"]).to eq(15)
-      expect(response["feed"]["entry"].length).to eq(15)
+      expect(response["feed"]["opensearch:totalResults"]).to eq(17)
+      expect(response["feed"]["entry"].length).to eq(17)
       result = response["feed"]["entry"].first
       result.extend Hashie::Extensions::DeepFetch
       expect(result.deep_fetch("sru:recordData", "pam:message", "pam:article", "xhtml:head", "prism:doi") { nil }).to eq("10.1038/nature14486")

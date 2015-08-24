@@ -40,7 +40,7 @@ describe DataciteImport, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(5290308)
+      expect(subject.get_total).to eq(5634618)
     end
 
     it "with no works" do
@@ -56,7 +56,7 @@ describe DataciteImport, type: :model, vcr: true do
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       response = subject.queue_jobs
-      expect(response).to eq(5290308)
+      expect(response).to eq(5634618)
     end
   end
 
@@ -68,9 +68,9 @@ describe DataciteImport, type: :model, vcr: true do
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       response = subject.get_data(nil)
-      expect(response["response"]["numFound"]).to eq(5290308)
+      expect(response["response"]["numFound"]).to eq(5634618)
       doc = response["response"]["docs"].first
-      expect(doc["id"]).to eq("10.1371/journal.pone.0123874")
+      expect(doc["doi"]).to eq("10.5517/CCPW8WP")
     end
 
     it "should catch errors with the Datacite Metadata Search API" do

@@ -32,7 +32,7 @@ describe Ads, type: :model, vcr: true do
 
     it "should catch errors with the ADS API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      response = subject.get_data(work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for https://api.adsabs.harvard.edu/v1/search/query?q=%22doi%3A#{work.doi_escaped}%22&start=0&rows=100&fl=author%2Ctitle%2Cpubdate%2Cidentifier%2Cdoi", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)

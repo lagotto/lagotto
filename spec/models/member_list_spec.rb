@@ -73,15 +73,15 @@ describe MemberList, :type => :model do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = import.parse_data(result)
-      expect(response.length).to eq(10)
+      response = import.parse_data(result, nil)
+      works = response[:works]
+      expect(works.length).to eq(10)
 
-      work = response.first
-      expect(work[:doi]).to eq("10.1787/gen_papers-v2008-art6-en")
-      expect(work[:title]).to eq("Investment climate, capabilities and firm performance")
-      expect(work[:year]).to eq(2008)
-      expect(work[:month]).to eq(7)
-      expect(work[:day]).to eq(26)
+      work = works.first
+      expect(work['DOI']).to eq("10.1787/gen_papers-v2008-art6-en")
+      expect(work['title']).to eq("Investment climate, capabilities and firm performance")
+      expect(work['issued']).to eq("date-parts"=>[[2008, 7, 26]])
+
     end
 
     it "should parse_data incomplete date" do
@@ -89,15 +89,14 @@ describe MemberList, :type => :model do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = import.parse_data(result)
-      expect(response.length).to eq(10)
+      response = import.parse_data(result, nil)
+      works = response[:works]
+      expect(works.length).to eq(10)
 
-      work = response[5]
-      expect(work[:doi]).to eq("10.1007/bf02975686")
-      expect(work[:title]).to eq("Sanitary and meteorological notes")
-      expect(work[:year]).to eq(1884)
-      expect(work[:month]).to eq(8)
-      expect(work[:day]).to be_nil
+      work = works[5]
+      expect(work['DOI']).to eq("10.1007/bf02975686")
+      expect(work['title']).to eq("Sanitary and meteorological notes")
+      expect(work['issued']).to eq("date-parts"=>[[1884, 8]])
     end
   end
 
@@ -107,9 +106,9 @@ describe MemberList, :type => :model do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      items = import.parse_data(result)
-      response = import.import_data(items)
-      expect(response.length).to eq(10)
+      response = import.parse_data(result, nil)
+      works = response[:works]
+      expect(works.length).to eq(10)
       expect(Notification.count).to eq(0)
     end
 
@@ -119,9 +118,9 @@ describe MemberList, :type => :model do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      items = import.parse_data(result)
-      response = import.import_data(items)
-      expect(response.compact.length).to eq(10)
+      response = import.parse_data(result, nil)
+      works = response[:works]
+      expect(works.length).to eq(10)
       expect(Notification.count).to eq(0)
     end
 
@@ -130,15 +129,11 @@ describe MemberList, :type => :model do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      items = import.parse_data(result)
-      items[0][:title] = nil
-      response = import.import_data(items)
-      expect(response.compact.length).to eq(9)
-      expect(Notification.count).to eq(1)
-      notification = Notification.first
-      expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.1787/gen_papers-v2008-art6-en.")
-      expect(notification.target_url).to eq("http://doi.org/10.1787/gen_papers-v2008-art6-en")
+      response = import.parse_data(result, nil)
+      works = response[:works]
+      works[0]['title'] = nil
+      expect(works.compact.length).to eq(10)
+      expect(Notification.count).to eq(0)
     end
   end
 end

@@ -32,8 +32,8 @@ describe Wikipedia, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the Wikipedia API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008776")
       response = subject.get_data(work)
-      expect(response["en"].length).to eq(676)
-      expect(response["en"].first).to eq("title"=>"Lobatus costatus", "url"=>"http://en.wikipedia.org/wiki/Lobatus_costatus", "timestamp"=>"2013-03-21T09:51:18Z")
+      expect(response["en"].length).to eq(627)
+      expect(response["en"].first).to eq("title"=>"Bostrycapulus aculeatus", "url"=>"http://en.wikipedia.org/wiki/Bostrycapulus_aculeatus", "timestamp"=>"2015-03-21T07:47:45Z")
     end
 
     it "should catch timeout errors with the Wikipedia API" do
@@ -86,7 +86,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(637)
       expect(event[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(event[:days].length).to eq(97)
+      expect(event[:days].length).to eq(108)
       expect(event[:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
       expect(event[:months].length).to eq(29)
       expect(event[:months].first).to eq(year: 2012, month: 5, total: 5)

@@ -24,6 +24,11 @@ FactoryGirl.define do
       title "Counter"
     end
 
+    trait(:pmc) do
+      name "pmc"
+      title "PubMed Central Usage Stats"
+    end
+
     trait(:crossref) do
       name "crossref"
       title "CrossRef"

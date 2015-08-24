@@ -148,6 +148,8 @@ FactoryGirl.define do
     trait(:with_wikipedia) { association :source, :wikipedia }
     trait(:with_twitter) { association :source, :twitter}
 
+    trait(:with_work_published_today) { association :work, :published_today }
+
     trait(:with_counter) do
       total 500
       html 400
@@ -298,7 +300,6 @@ FactoryGirl.define do
   #   trait(:refreshed) { scheduled_at 1.month.from_now }
   #   trait(:staleness) { association :agent, factory: :citeulike }
   #   trait(:with_errors) { total 0 }
-  #   trait(:with_work_published_today) { association :work, factory: :work_published_today }
   #   trait(:with_counter_and_work_published_today) do
   #     association :work, factory: :work_published_today
   #     association :agent, factory: :counter
@@ -316,7 +317,16 @@ FactoryGirl.define do
   end
 
   factory :month do
-
+    trait(:with_work) do
+      association :work, :published_today
+      after :build do |month|
+        if month.work.events.any?
+          month.event_id = month.work.events.first.id
+        else
+          month.event = FactoryGirl.create(:event, work: month.work)
+        end
+      end
+    end
   end
 
   factory :report do
@@ -547,5 +557,24 @@ FactoryGirl.define do
     uuid { SecureRandom.uuid }
     message_type "citeulike"
     message { { "works" => [], "events" => [] } }
+  end
+
+  factory :data_export do
+    sequence(:name){ |i| "Zenodo Export #{i}"}
+    sequence(:url){ |i| "http://example.com/#{i}"}
+  end
+
+  factory :api_snapshot, class: ApiSnapshot, parent: :data_export do
+    url "http://example.com/works"
+  end
+
+  factory :zenodo_data_export, class: ZenodoDataExport, parent: :data_export do
+    publication_date Time.zone.now.to_date
+    title "My export"
+    description "My export by Lagotto"
+    files ["path/to/file1.txt"]
+    creators ["John Doe"]
+    keywords ["apples", "oranges", "bananas"]
+    code_repository_url "https://some.code.repository"
   end
 end
