@@ -119,7 +119,7 @@ DOI Date(YYYY-MM-DD) Title
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
-Deletes works and associated rows in the retrieval_statuses table. Use `MEMBER` to delete works from a particular publisher, or `MEMBER=all" to delete all works.
+Deletes works and associated rows in the events table. Use `MEMBER` to delete works from a particular publisher, or `MEMBER=all" to delete all works.
 
 ```sh
 bin/rake db:works:delete MEMBER=340
