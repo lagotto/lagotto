@@ -10,10 +10,10 @@ class SourceReport
 
     def execute
       return [] unless source_model
-      source_model.works.includes(:retrieval_statuses)
+      source_model.works.includes(:events)
         .where("works.tracked = ?", 1)
         .group("works.id")
-        .select("works.pid, retrieval_statuses.html, retrieval_statuses.pdf, retrieval_statuses.total")
+        .select("works.pid, events.html, events.pdf, events.total")
         .all
         .order("works.published_on ASC")
     end
