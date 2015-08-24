@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: https://cn.dataone.org/cn/v1/query/logsolr/select?facet=true&facet.range=dateLogged&facet.range.end=2015-07-31T23:59:59Z&facet.range.gap=%2B1MONTH&facet.range.start=2014-07-31T00:00:00Z&fq=event:read&q=pid:doi%5C:10.5063/F1PC3085%20AND%20isRepeatVisit:false%20AND%20inPartialRobotList:false&wt=json
+    uri: https://cn.dataone.org/cn/v1/query/logsolr/select?facet=true&facet.range=dateLogged&facet.range.end=2015-07-19T23:59:59Z&facet.range.gap=%2B1MONTH&facet.range.start=2014-07-19T00:00:00Z&fq=event:read&q=pid:doi%5C:10.5063/F1PC3085%20AND%20isRepeatVisit:false%20AND%20inPartialRobotList:false&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 31 Jul 2015 22:51:46 GMT
+      - Sun, 23 Aug 2015 21:55:53 GMT
       Content-Type:
       - text/plain;charset=UTF-8
       Access-Control-Allow-Origin:
@@ -26,8 +26,8 @@ http_interactions:
       - Accept-Encoding
     body:
       encoding: UTF-8
-      string: '{"responseHeader":{"status":0,"QTime":1537,"params":{"facet":"true","q":"pid:doi\\:10.5063/F1PC3085
-        AND isRepeatVisit:false AND inPartialRobotList:false","facet.range.start":"2014-07-31T00:00:00Z","facet.range":"dateLogged","facet.range.gap":"+1MONTH","facet.range.end":"2015-07-31T23:59:59Z","wt":"json","fq":"event:read"}},"response":{"numFound":0,"start":0,"docs":[]},"facet_counts":{"facet_queries":{},"facet_fields":{},"facet_dates":{},"facet_ranges":{"dateLogged":{"counts":["2014-07-31T00:00:00Z",0,"2014-08-31T00:00:00Z",0,"2014-09-30T00:00:00Z",0,"2014-10-30T00:00:00Z",0,"2014-11-30T00:00:00Z",0,"2014-12-30T00:00:00Z",0,"2015-01-30T00:00:00Z",0,"2015-02-28T00:00:00Z",0,"2015-03-28T00:00:00Z",0,"2015-04-28T00:00:00Z",0,"2015-05-28T00:00:00Z",0,"2015-06-28T00:00:00Z",0,"2015-07-28T00:00:00Z",0],"gap":"+1MONTH","start":"2014-07-31T00:00:00Z","end":"2015-08-28T00:00:00Z"}}}}'
+      string: '{"responseHeader":{"status":0,"QTime":3,"params":{"facet":"true","q":"pid:doi\\:10.5063/F1PC3085
+        AND isRepeatVisit:false AND inPartialRobotList:false","facet.range.start":"2014-07-19T00:00:00Z","facet.range":"dateLogged","facet.range.gap":"+1MONTH","facet.range.end":"2015-07-19T23:59:59Z","wt":"json","fq":"event:read"}},"response":{"numFound":0,"start":0,"docs":[]},"facet_counts":{"facet_queries":{},"facet_fields":{},"facet_dates":{},"facet_ranges":{"dateLogged":{"counts":["2014-07-19T00:00:00Z",0,"2014-08-19T00:00:00Z",0,"2014-09-19T00:00:00Z",0,"2014-10-19T00:00:00Z",0,"2014-11-19T00:00:00Z",0,"2014-12-19T00:00:00Z",0,"2015-01-19T00:00:00Z",0,"2015-02-19T00:00:00Z",0,"2015-03-19T00:00:00Z",0,"2015-04-19T00:00:00Z",0,"2015-05-19T00:00:00Z",0,"2015-06-19T00:00:00Z",0,"2015-07-19T00:00:00Z",0],"gap":"+1MONTH","start":"2014-07-19T00:00:00Z","end":"2015-08-19T00:00:00Z"}}}}'
     http_version: 
-  recorded_at: Fri, 31 Jul 2015 22:51:47 GMT
+  recorded_at: Sun, 23 Aug 2015 21:56:01 GMT
 recorded_with: VCR 2.9.3

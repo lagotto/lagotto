@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 19 Jul 2015 17:53:03 GMT
+      - Sun, 23 Aug 2015 21:55:00 GMT
       Content-Type:
       - text/plain;charset=UTF-8
       Access-Control-Allow-Origin:
@@ -26,8 +26,8 @@ http_interactions:
       - Accept-Encoding
     body:
       encoding: UTF-8
-      string: '{"responseHeader":{"status":0,"QTime":4,"params":{"facet":"true","q":"pid:doi\\:10.5063/F1PC3085
+      string: '{"responseHeader":{"status":0,"QTime":3,"params":{"facet":"true","q":"pid:doi\\:10.5063/F1PC3085
         AND isRepeatVisit:false AND inFullRobotList:false","facet.range.start":"2014-07-19T00:00:00Z","facet.range":"dateLogged","facet.range.gap":"+1MONTH","facet.range.end":"2015-07-19T23:59:59Z","wt":"json","fq":"event:read"}},"response":{"numFound":0,"start":0,"docs":[]},"facet_counts":{"facet_queries":{},"facet_fields":{},"facet_dates":{},"facet_ranges":{"dateLogged":{"counts":["2014-07-19T00:00:00Z",0,"2014-08-19T00:00:00Z",0,"2014-09-19T00:00:00Z",0,"2014-10-19T00:00:00Z",0,"2014-11-19T00:00:00Z",0,"2014-12-19T00:00:00Z",0,"2015-01-19T00:00:00Z",0,"2015-02-19T00:00:00Z",0,"2015-03-19T00:00:00Z",0,"2015-04-19T00:00:00Z",0,"2015-05-19T00:00:00Z",0,"2015-06-19T00:00:00Z",0,"2015-07-19T00:00:00Z",0],"gap":"+1MONTH","start":"2014-07-19T00:00:00Z","end":"2015-08-19T00:00:00Z"}}}}'
     http_version: 
-  recorded_at: Sun, 19 Jul 2015 17:53:03 GMT
+  recorded_at: Sun, 23 Aug 2015 21:55:08 GMT
 recorded_with: VCR 2.9.3

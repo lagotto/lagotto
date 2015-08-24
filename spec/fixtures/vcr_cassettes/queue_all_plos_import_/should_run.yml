@@ -2,46 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2013-09-04T00:00:00Z%20TO%202013-09-05T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
+    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-08-22T00:00:00Z%20TO%202015-08-23T23:59:59Z%5D%2Bdoc_type:full&q=*:*&rows=0&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 302
-      message: ''
-    headers:
-      Server:
-      - squid/2.5.STABLE3
-      Date:
-      - Sat, 20 Jun 2015 07:30:19 GMT
-      Content-Length:
-      - '0'
-      Location:
-      - http://ezxcess.antlabs.com/login/index.ant?url=http%3A%2F%2Fapi%2Eplos%2Eorg%2Fsearch%3Ffl%3Did%252Cpublication%5Fdate%252Ctitle%5Fdisplay%252Ccross%5Fpublished%5Fjournal%5Fname%252Cauthor%5Fdisplay%252Cvolume%252Cissue%252Celocation%5Fid%26fq%3D%252Bpublication%5Fdate%253A%255B2013%2D09%2D04T00%253A00%253A00Z%2BTO%2B2013%2D09%2D05T23%253A59%253A59Z%255D%252Bdoc%5Ftype%253Afull%26q%3D%252A%253A%252A%26rows%3D0%26start%3D0%26wt%3Djson
-      X-Cache:
-      - MISS from InnGate300.antlabs.com
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: ''
-    http_version: 
-  recorded_at: Sat, 20 Jun 2015 07:30:23 GMT
-- request:
-    method: get
-    uri: http://ezxcess.antlabs.com/login/index.ant?url=http://api.plos.org/search?fl=id%252Cpublication_date%252Ctitle_display%252Ccross_published_journal_name%252Cauthor_display%252Cvolume%252Cissue%252Celocation_id%26fq=%252Bpublication_date%253A%255B2013-09-04T00%253A00%253A00Z%2BTO%2B2013-09-05T23%253A59%253A59Z%255D%252Bdoc_type%253Afull%26q=%252A%253A%252A%26rows=0%26start=0%26wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -50,32 +17,23 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 20 Jun 2015 07:30:19 GMT
+      - Sun, 23 Aug 2015 22:42:14 GMT
       Server:
-      - Apache/2.0.52 (CentOS)
-      Cache-Control:
-      - no-store, no-cache, must-revalidate
-      Pragma:
-      - no-cache
-      Content-Length:
-      - '940'
+      - Apache-Coyote/1.1
+      Last-Modified:
+      - Sun, 23 Aug 2015 07:00:40 GMT
+      Etag:
+      - '"NWU2ODIwMDAwMDAwMDAwMFNvbHI="'
       Content-Type:
-      - text/html; charset=UTF-8
-      X-Cache:
-      - MISS from InnGate300.antlabs.com
+      - application/json;charset=UTF-8
       Connection:
       - close
+      Set-Cookie:
+      - Coyote-2-9514450c=95144521:0; path=/
     body:
       encoding: UTF-8
-      string: |-
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" id="ezxcess-antlabs-com">
-            <head>
-                <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-                <meta http-equiv="cache-control" content="no-cache, must-revalidate" />
-                <meta http-equiv="refresh" content="0;url=http://ezxcess.antlabs.com/www/pub/login/Jurys/index.php?ip=10.128.3.19&mac=6C%3A40%3A08%3AA8%3AF8%3A12&vlan=Ruckus+Wireless+VLAN&requested_url=http%3A%2F%2Fapi.plos.org%2Fsearch%3Ffl%3Did%252Cpublication_date%252Ctitle_display%252Ccross_published_journal_name%252Cauthor_display%252Cvolume%252Cissue%252Celocation_id%26fq%3D%252Bpublication_date%253A%255B2013-09-04T00%253A00%253A00Z%2BTO%2B2013-09-05T23%253A59%253A59Z%255D%252Bdoc_type%253Afull%26q%3D%252A%253A%252A%26rows%3D0%26start%3D0%26wt%3Djson" />
-            </head>
-        </html>
+      string: |
+        {"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Sat, 20 Jun 2015 07:30:23 GMT
+  recorded_at: Sun, 23 Aug 2015 22:42:23 GMT
 recorded_with: VCR 2.9.3

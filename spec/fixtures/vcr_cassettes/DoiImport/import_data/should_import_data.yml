@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:28:34 GMT
+      - Sun, 23 Aug 2015 19:05:50 GMT
       Connection:
       - close
     body:
@@ -38,7 +38,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:35 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:54 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.rcae.2013.04.001
@@ -47,7 +47,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -56,7 +56,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:35 GMT
+      - Sun, 23 Aug 2015 19:05:50 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -77,7 +77,7 @@ http_interactions:
         Gilberto"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Colombian
         Journal of Anesthesiology"],"deposited":{"date-parts":[[2013,4,23]],"timestamp":1366675200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,4]]},"alternative-id":["S2256208713000266"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.rcae.2013.04.001","ISSN":["2256-2087"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:35 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:54 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.mnl.2012.09.014
@@ -86,7 +86,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -103,7 +103,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:35 GMT
+      - Sun, 23 Aug 2015 19:05:50 GMT
       Connection:
       - close
     body:
@@ -116,7 +116,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:36 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:54 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.mnl.2012.09.014
@@ -125,7 +125,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -134,7 +134,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:36 GMT
+      - Sun, 23 Aug 2015 19:05:51 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -156,7 +156,7 @@ http_interactions:
         Leader"],"deposited":{"date-parts":[[2013,1,23]],"timestamp":1358899200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,2]]},"alternative-id":["S1541461212002546"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.mnl.2012.09.014","ISSN":["1541-4612"],"subject":["Leadership
         and Management"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:36 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:54 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.4416/JCST2013-00007
@@ -165,7 +165,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -182,7 +182,7 @@ http_interactions:
       Content-Length:
       - '57'
       Date:
-      - Fri, 24 Jul 2015 06:28:35 GMT
+      - Sun, 23 Aug 2015 19:05:51 GMT
       Connection:
       - close
     body:
@@ -195,7 +195,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:36 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.ajhg.2013.07.008
@@ -204,7 +204,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -221,7 +221,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:28:37 GMT
+      - Sun, 23 Aug 2015 19:05:51 GMT
       Connection:
       - close
     body:
@@ -234,7 +234,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:36 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:55 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.ajhg.2013.07.008
@@ -243,7 +243,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -252,7 +252,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:37 GMT
+      - Sun, 23 Aug 2015 19:05:52 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -280,7 +280,7 @@ http_interactions:
         Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
         \u00a9 2013 The Authors. Published by Elsevier Inc."}]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:37 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/jpet.12025
@@ -289,7 +289,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -306,7 +306,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Fri, 24 Jul 2015 06:28:37 GMT
+      - Sun, 23 Aug 2015 19:05:51 GMT
       Connection:
       - close
     body:
@@ -319,7 +319,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:37 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:55 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fjpet.12025
@@ -328,7 +328,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -337,7 +337,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:37 GMT
+      - Sun, 23 Aug 2015 19:05:52 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -358,7 +358,7 @@ http_interactions:
         of Public Economic Theory"],"deposited":{"date-parts":[[2013,5,2]],"timestamp":1367452800000},"score":1.0,"subtitle":["Charitable
         Giving and Seed Money Effect"],"issued":{"date-parts":[[2013,3,14]]},"URL":"http:\/\/dx.doi.org\/10.1111\/jpet.12025","ISSN":["1097-3923"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:37 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.3103/s002713141305009x
@@ -367,7 +367,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -384,7 +384,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:38 GMT
+      - Sun, 23 Aug 2015 19:05:51 GMT
       Connection:
       - close
     body:
@@ -397,7 +397,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:38 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:56 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.3103%2Fs002713141305009x
@@ -406,7 +406,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -415,7 +415,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:38 GMT
+      - Sun, 23 Aug 2015 19:05:52 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -439,7 +439,7 @@ http_interactions:
         E."}],"member":"http:\/\/id.crossref.org\/member\/1627","container-title":["Moscow
         University Chemistry Bulletin","Moscow Univ. Chem. Bull."],"deposited":{"date-parts":[[2013,12,9]],"timestamp":1386547200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9]]},"alternative-id":["6305"],"URL":"http:\/\/dx.doi.org\/10.3103\/s002713141305009x","ISSN":["0027-1314","1935-0260"],"subject":["Chemistry(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:38 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:56 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1371/journal.pone.0073279
@@ -448,7 +448,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -465,7 +465,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Fri, 24 Jul 2015 06:28:38 GMT
+      - Sun, 23 Aug 2015 19:05:53 GMT
       Connection:
       - close
     body:
@@ -478,7 +478,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:38 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:56 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1371%2Fjournal.pone.0073279
@@ -487,7 +487,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -496,7 +496,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:38 GMT
+      - Sun, 23 Aug 2015 19:05:53 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -519,7 +519,7 @@ http_interactions:
         and Biological Sciences(all)","Medicine(all)","Biochemistry, Genetics and
         Molecular Biology(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:38 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:56 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1088/0031-9155/58/16/5803
@@ -528,7 +528,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -545,7 +545,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Fri, 24 Jul 2015 06:28:38 GMT
+      - Sun, 23 Aug 2015 19:05:53 GMT
       Connection:
       - close
     body:
@@ -558,7 +558,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:38 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:57 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1088%2F0031-9155%2F58%2F16%2F5803
@@ -567,7 +567,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -576,7 +576,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:39 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -597,7 +597,7 @@ http_interactions:
         in Medicine and Biology","Phys. Med. Biol."],"deposited":{"date-parts":[[2013,8,6]],"timestamp":1375747200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8,6]]},"URL":"http:\/\/dx.doi.org\/10.1088\/0031-9155\/58\/16\/5803","ISSN":["0031-9155","1361-6560"],"subject":["Radiology
         Nuclear Medicine and imaging","Radiological and Ultrasound Technology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:38 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.4028/www.scientific.net/amr.749.362
@@ -606,7 +606,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -623,7 +623,7 @@ http_interactions:
       Content-Length:
       - '76'
       Date:
-      - Fri, 24 Jul 2015 06:28:39 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Connection:
       - close
     body:
@@ -636,7 +636,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:57 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.4028%2Fwww.scientific.net%2Famr.749.362
@@ -645,7 +645,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -654,7 +654,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:39 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -669,13 +669,13 @@ http_interactions:
       - '1051'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,6,8]],"timestamp":1433782439414},"reference-count":0,"publisher":"Trans
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,8,10]],"timestamp":1439168883302},"reference-count":0,"publisher":"Trans
         Tech Publications","DOI":"10.4028\/www.scientific.net\/amr.749.362","type":"journal-article","page":"362-365","source":"CrossRef","title":["Analysis
         of Genetic Subtypes and Distribution of Hantavirus in Jilin Area"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.4028","volume":"749","author":[{"affiliation":[],"family":"Zhao","given":"Chen"},{"affiliation":[],"family":"Zhao","given":"Yang"},{"affiliation":[],"family":"Yuan","given":"Zhong
         Hai"},{"affiliation":[],"family":"Sun","given":"Ke Xin"},{"affiliation":[],"family":"Li","given":"Yan"}],"member":"http:\/\/id.crossref.org\/member\/2457","container-title":["AMR","Advanced
-        Materials Research"],"deposited":{"date-parts":[[2013,8,30]],"timestamp":1377820800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8]]},"URL":"http:\/\/dx.doi.org\/10.4028\/www.scientific.net\/amr.749.362","ISSN":["1662-8985"]}}'
+        Materials Research"],"deposited":{"date-parts":[[2015,8,6]],"timestamp":1438819200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8]]},"URL":"http:\/\/dx.doi.org\/10.4028\/www.scientific.net\/amr.749.362","ISSN":["1662-8985"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/tpj.12241
@@ -684,7 +684,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -701,7 +701,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:28:39 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Connection:
       - close
     body:
@@ -714,7 +714,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:58 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Ftpj.12241
@@ -723,7 +723,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -732,7 +732,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:40 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -764,7 +764,7 @@ http_interactions:
         Plant Journal","Plant J"],"deposited":{"date-parts":[[2013,8,27]],"timestamp":1377561600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6,7]]},"URL":"http:\/\/dx.doi.org\/10.1111\/tpj.12241","ISSN":["0960-7412"],"subject":["Plant
         Science","Cell Biology","Genetics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:40 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.2175/193864713813504223
@@ -773,7 +773,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -790,7 +790,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:28:40 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Connection:
       - close
     body:
@@ -803,7 +803,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:40 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:58 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.2175%2F193864713813504223
@@ -812,7 +812,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -821,7 +821,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:41 GMT
+      - Sun, 23 Aug 2015 19:05:55 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -842,7 +842,7 @@ http_interactions:
         A."}],"member":"http:\/\/id.crossref.org\/member\/970","container-title":["Proceedings
         of the Water Environment Federation","proc water environ fed"],"deposited":{"date-parts":[[2014,9,16]],"timestamp":1410825600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,1]]},"alternative-id":["1938-6478(20130101)2013:1L.667;1-"],"URL":"http:\/\/dx.doi.org\/10.2175\/193864713813504223","ISSN":["1938-6478"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.fertnstert.2013.07.1912
@@ -851,7 +851,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -868,7 +868,7 @@ http_interactions:
       Content-Length:
       - '71'
       Date:
-      - Fri, 24 Jul 2015 06:28:41 GMT
+      - Sun, 23 Aug 2015 19:05:54 GMT
       Connection:
       - close
     body:
@@ -881,7 +881,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:58 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.fertnstert.2013.07.1912
@@ -890,7 +890,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -899,7 +899,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:41 GMT
+      - Sun, 23 Aug 2015 19:05:55 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -921,7 +921,7 @@ http_interactions:
         and Sterility"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0015028213026915?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0015028213026915?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2014,11,22]],"timestamp":1416614400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9]]},"alternative-id":["S0015028213026915"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.fertnstert.2013.07.1912","ISSN":["0015-0282"],"subject":["Obstetrics
         and Gynaecology","Reproductive Medicine"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s40278-013-1403-z
@@ -930,7 +930,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -947,7 +947,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:41 GMT
+      - Sun, 23 Aug 2015 19:05:55 GMT
       Connection:
       - close
     body:
@@ -960,7 +960,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:59 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs40278-013-1403-z
@@ -969,7 +969,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -978,7 +978,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:42 GMT
+      - Sun, 23 Aug 2015 19:05:55 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -999,7 +999,7 @@ http_interactions:
         Weekly"],"deposited":{"date-parts":[[2013,4,12]],"timestamp":1365724800000},"score":1.0,"subtitle":["Mildly
         low blood glucose levels in an elderly patient: case report"],"issued":{"date-parts":[[2013,2]]},"alternative-id":["1403"],"URL":"http:\/\/dx.doi.org\/10.1007\/s40278-013-1403-z","ISSN":["0114-9954","1179-2051"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:59 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1108/02580541311311302
@@ -1008,7 +1008,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1025,7 +1025,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:41 GMT
+      - Sun, 23 Aug 2015 19:05:55 GMT
       Connection:
       - close
     body:
@@ -1038,7 +1038,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:59 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1108%2F02580541311311302
@@ -1047,7 +1047,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1056,7 +1056,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:42 GMT
+      - Sun, 23 Aug 2015 19:05:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1077,7 +1077,7 @@ http_interactions:
         key role of leadership"],"issued":{"date-parts":[[2013,3,15]]},"alternative-id":["10.1108\/02580541311311302"],"URL":"http:\/\/dx.doi.org\/10.1108\/02580541311311302","ISSN":["0258-0543"],"subject":["Strategy
         and Management"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:59 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/geb.12100
@@ -1086,7 +1086,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1103,7 +1103,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:28:42 GMT
+      - Sun, 23 Aug 2015 19:05:55 GMT
       Connection:
       - close
     body:
@@ -1116,7 +1116,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:59 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fgeb.12100
@@ -1125,7 +1125,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1134,7 +1134,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:42 GMT
+      - Sun, 23 Aug 2015 19:05:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1172,7 +1172,7 @@ http_interactions:
         assessment models for ecologists"],"issued":{"date-parts":[[2013,8,11]]},"URL":"http:\/\/dx.doi.org\/10.1111\/geb.12100","ISSN":["1466-822X"],"subject":["Global
         and Planetary Change","Ecology, Evolution, Behavior and Systematics","Ecology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:05:59 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1212/wnl.0b013e3182a55fcb
@@ -1181,7 +1181,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1198,7 +1198,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Fri, 24 Jul 2015 06:28:42 GMT
+      - Sun, 23 Aug 2015 19:05:56 GMT
       Connection:
       - close
     body:
@@ -1211,7 +1211,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:43 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:00 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1212%2Fwnl.0b013e3182a55fcb
@@ -1220,7 +1220,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1229,7 +1229,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:44 GMT
+      - Sun, 23 Aug 2015 19:05:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1250,7 +1250,7 @@ http_interactions:
         K."},{"affiliation":[],"family":"Broomall","given":"E. M."}],"member":"http:\/\/id.crossref.org\/member\/276","container-title":["Neurology"],"deposited":{"date-parts":[[2015,3,18]],"timestamp":1426636800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,23]]},"URL":"http:\/\/dx.doi.org\/10.1212\/wnl.0b013e3182a55fcb","ISSN":["0028-3878","1526-632X"],"subject":["Clinical
         Neurology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:44 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.pscychresns.2013.05.007
@@ -1259,7 +1259,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1276,7 +1276,7 @@ http_interactions:
       Content-Length:
       - '71'
       Date:
-      - Fri, 24 Jul 2015 06:28:44 GMT
+      - Sun, 23 Aug 2015 19:05:56 GMT
       Connection:
       - close
     body:
@@ -1289,7 +1289,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:00 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.pscychresns.2013.05.007
@@ -1298,7 +1298,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1307,7 +1307,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:45 GMT
+      - Sun, 23 Aug 2015 19:05:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1333,7 +1333,7 @@ http_interactions:
         (miscellaneous)","Psychiatry and Mental health","Radiology Nuclear Medicine
         and imaging"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.4049/jimmunol.1302033
@@ -1342,7 +1342,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1359,7 +1359,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:28:44 GMT
+      - Sun, 23 Aug 2015 19:05:56 GMT
       Connection:
       - close
     body:
@@ -1372,7 +1372,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:00 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.4049%2Fjimmunol.1302033
@@ -1381,7 +1381,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1390,7 +1390,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:45 GMT
+      - Sun, 23 Aug 2015 19:05:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1412,7 +1412,7 @@ http_interactions:
         E."}],"member":"http:\/\/id.crossref.org\/member\/2487","container-title":["The
         Journal of Immunology"],"deposited":{"date-parts":[[2013,12,6]],"timestamp":1386288000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,11,11]]},"URL":"http:\/\/dx.doi.org\/10.4049\/jimmunol.1302033","ISSN":["0022-1767","1550-6606"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/jeab.48
@@ -1421,7 +1421,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1438,7 +1438,7 @@ http_interactions:
       Content-Length:
       - '53'
       Date:
-      - Fri, 24 Jul 2015 06:28:45 GMT
+      - Sun, 23 Aug 2015 19:05:58 GMT
       Connection:
       - close
     body:
@@ -1451,7 +1451,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:01 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fjeab.48
@@ -1460,7 +1460,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1469,7 +1469,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:45 GMT
+      - Sun, 23 Aug 2015 19:05:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1492,7 +1492,7 @@ http_interactions:
         REINFORCEMENT AND FIXED-RATIO PERFORMANCE"],"issued":{"date-parts":[[2013,9,13]]},"URL":"http:\/\/dx.doi.org\/10.1002\/jeab.48","ISSN":["0022-5002"],"subject":["Experimental
         and Cognitive Psychology","Behavioral Neuroscience"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.4028/www.scientific.net/amm.300-301.1344
@@ -1501,7 +1501,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1518,7 +1518,7 @@ http_interactions:
       Content-Length:
       - '81'
       Date:
-      - Fri, 24 Jul 2015 06:28:45 GMT
+      - Sun, 23 Aug 2015 19:05:58 GMT
       Connection:
       - close
     body:
@@ -1531,7 +1531,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:01 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.4028%2Fwww.scientific.net%2Famm.300-301.1344
@@ -1540,7 +1540,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1549,7 +1549,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:46 GMT
+      - Sun, 23 Aug 2015 19:05:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1564,12 +1564,12 @@ http_interactions:
       - '865'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,6,7]],"timestamp":1433720364777},"reference-count":0,"publisher":"Trans
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,8,10]],"timestamp":1439167936158},"reference-count":0,"publisher":"Trans
         Tech Publications","DOI":"10.4028\/www.scientific.net\/amm.300-301.1344","type":"journal-article","page":"1344-1347","source":"CrossRef","title":["Selective
         Glycine Polymorph Crystallization by Using Silver Nanoparticles"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.4028","volume":"300-301","author":[{"affiliation":[],"family":"Lu","given":"Fei"}],"member":"http:\/\/id.crossref.org\/member\/2457","container-title":["AMM","Applied
-        Mechanics and Materials"],"deposited":{"date-parts":[[2013,3,11]],"timestamp":1362960000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,2]]},"URL":"http:\/\/dx.doi.org\/10.4028\/www.scientific.net\/amm.300-301.1344","ISSN":["1662-7482"]}}'
+        Mechanics and Materials"],"deposited":{"date-parts":[[2015,8,6]],"timestamp":1438819200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,2]]},"URL":"http:\/\/dx.doi.org\/10.4028\/www.scientific.net\/amm.300-301.1344","ISSN":["1662-7482"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1109/led.2013.2242039
@@ -1578,7 +1578,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1595,7 +1595,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:28:45 GMT
+      - Sun, 23 Aug 2015 19:05:58 GMT
       Connection:
       - close
     body:
@@ -1608,7 +1608,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:02 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1109%2Fled.2013.2242039
@@ -1617,7 +1617,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1626,7 +1626,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:48 GMT
+      - Sun, 23 Aug 2015 19:05:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1649,7 +1649,7 @@ http_interactions:
         Electron Device Lett.","IEEE Electron Device Letters"],"deposited":{"date-parts":[[2015,7,15]],"timestamp":1436918400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,3]]},"URL":"http:\/\/dx.doi.org\/10.1109\/led.2013.2242039","ISSN":["0741-3106","1558-0563"],"subject":["Electrical
         and Electronic Engineering","Electronic, Optical and Magnetic Materials"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:48 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.9790/3021-03633136
@@ -1658,7 +1658,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1675,7 +1675,7 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Fri, 24 Jul 2015 06:28:47 GMT
+      - Sun, 23 Aug 2015 19:05:59 GMT
       Connection:
       - close
     body:
@@ -1688,7 +1688,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:48 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:02 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.9790%2F3021-03633136
@@ -1697,7 +1697,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1706,7 +1706,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:48 GMT
+      - Sun, 23 Aug 2015 19:05:59 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1726,7 +1726,7 @@ http_interactions:
         And Strength Analysis Of Composite Bamboo Column Elements"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.9790","volume":"03","author":[{"affiliation":[],"family":"Bhagat","given":"Diwakar"}],"member":"http:\/\/id.crossref.org\/member\/4786","container-title":["IOSR
         Journal of Engineering","IOSRJEN"],"deposited":{"date-parts":[[2013,8,14]],"timestamp":1376438400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6]]},"URL":"http:\/\/dx.doi.org\/10.9790\/3021-03633136","ISSN":["2278-8719","2250-3021"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:48 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/agec.12038
@@ -1735,7 +1735,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1752,7 +1752,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Fri, 24 Jul 2015 06:28:48 GMT
+      - Sun, 23 Aug 2015 19:05:59 GMT
       Connection:
       - close
     body:
@@ -1765,7 +1765,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:48 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:02 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fagec.12038
@@ -1774,7 +1774,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1783,7 +1783,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:49 GMT
+      - Sun, 23 Aug 2015 19:05:59 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1807,7 +1807,7 @@ http_interactions:
         Economics"],"deposited":{"date-parts":[[2014,3,4]],"timestamp":1393891200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6,27]]},"URL":"http:\/\/dx.doi.org\/10.1111\/agec.12038","ISSN":["0169-5150"],"subject":["Agronomy
         and Crop Science","Economics and Econometrics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:48 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1145/2491500.2491501
@@ -1816,7 +1816,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1833,7 +1833,7 @@ http_interactions:
       Content-Length:
       - '61'
       Date:
-      - Fri, 24 Jul 2015 06:28:48 GMT
+      - Sun, 23 Aug 2015 19:05:59 GMT
       Connection:
       - close
     body:
@@ -1846,7 +1846,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:49 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:03 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1145%2F2491500.2491501
@@ -1855,7 +1855,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1864,7 +1864,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:49 GMT
+      - Sun, 23 Aug 2015 19:05:59 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1886,7 +1886,7 @@ http_interactions:
         E."},{"affiliation":[],"family":"Jones","given":"Matt"},{"affiliation":[],"family":"Rodden","given":"Tom"},{"affiliation":[],"family":"Rogers","given":"Yvonne"}],"issued":{"date-parts":[[2013,7,1]]},"URL":"http:\/\/dx.doi.org\/10.1145\/2491500.2491501","ISSN":["1073-0516"],"subject":["Human-Computer
         Interaction"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:49 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1088/1742-6596/451/1/012007
@@ -1895,7 +1895,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1912,7 +1912,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Fri, 24 Jul 2015 06:28:48 GMT
+      - Sun, 23 Aug 2015 19:06:00 GMT
       Connection:
       - close
     body:
@@ -1925,7 +1925,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:49 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:03 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1088%2F1742-6596%2F451%2F1%2F012007
@@ -1934,7 +1934,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1943,7 +1943,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:49 GMT
+      - Sun, 23 Aug 2015 19:06:00 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1963,7 +1963,7 @@ http_interactions:
         fracture of jointed steel plates of bolted joints under impact load"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1088","volume":"451","author":[{"affiliation":[],"family":"Daimaruya","given":"M"},{"affiliation":[],"family":"Fujiki","given":"H"},{"affiliation":[],"family":"Ambarita","given":"H"},{"affiliation":[],"family":"Kobayashi","given":"H"},{"affiliation":[],"family":"Shin","given":"H-S"}],"member":"http:\/\/id.crossref.org\/member\/266","container-title":["J.
         Phys.: Conf. Ser.","Journal of Physics: Conference Series"],"deposited":{"date-parts":[[2013,7,17]],"timestamp":1374019200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,7,17]]},"URL":"http:\/\/dx.doi.org\/10.1088\/1742-6596\/451\/1\/012007","ISSN":["1742-6596"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:49 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s10068-013-0272-9
@@ -1972,7 +1972,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1989,7 +1989,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:50 GMT
+      - Sun, 23 Aug 2015 19:06:00 GMT
       Connection:
       - close
     body:
@@ -2002,7 +2002,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:50 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:03 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs10068-013-0272-9
@@ -2011,7 +2011,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2020,7 +2020,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:50 GMT
+      - Sun, 23 Aug 2015 19:06:00 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2043,7 +2043,7 @@ http_interactions:
         Sci Biotechnol","Food Science and Biotechnology"],"deposited":{"date-parts":[[2013,12,22]],"timestamp":1387670400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10,17]]},"alternative-id":["272"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10068-013-0272-9","ISSN":["1226-7708","2092-6456"],"subject":["Applied
         Microbiology and Biotechnology","Food Science","Biotechnology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:50 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.jand.2013.05.006
@@ -2052,7 +2052,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2069,7 +2069,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:28:50 GMT
+      - Sun, 23 Aug 2015 19:06:00 GMT
       Connection:
       - close
     body:
@@ -2082,7 +2082,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:50 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:04 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.jand.2013.05.006
@@ -2091,7 +2091,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2100,7 +2100,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:51 GMT
+      - Sun, 23 Aug 2015 19:06:00 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2123,7 +2123,7 @@ http_interactions:
         Maillet","given":"Julie"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
         of the Academy of Nutrition and Dietetics"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2212267213005297?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2212267213005297?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,5,9]],"timestamp":1431129600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,7]]},"alternative-id":["S2212267213005297"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jand.2013.05.006","ISSN":["2212-2672"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:51 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.rehab.2013.07.831
@@ -2132,7 +2132,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2149,7 +2149,7 @@ http_interactions:
       Content-Length:
       - '65'
       Date:
-      - Fri, 24 Jul 2015 06:28:51 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Connection:
       - close
     body:
@@ -2162,7 +2162,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:52 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:04 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.rehab.2013.07.831
@@ -2171,7 +2171,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2180,7 +2180,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:52 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2208,7 +2208,7 @@ http_interactions:
         Type","name":"content_type","value":"simple-article"},{"label":"Copyright","name":"copyright","value":"Copyright
         \u00a9 2013 Published by Elsevier Masson SAS"}]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:52 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/s0034-3617(13)70063-8
@@ -2217,7 +2217,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2234,7 +2234,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Fri, 24 Jul 2015 06:28:52 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Connection:
       - close
     body:
@@ -2247,7 +2247,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:52 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:04 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fs0034-3617(13)70063-8
@@ -2256,7 +2256,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2265,7 +2265,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:52 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2286,7 +2286,7 @@ http_interactions:
         Plastics"],"deposited":{"date-parts":[[2013,6,2]],"timestamp":1370131200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,5]]},"alternative-id":["S0034361713700638"],"URL":"http:\/\/dx.doi.org\/10.1016\/s0034-3617(13)70063-8","ISSN":["0034-3617"],"subject":["Polymers
         and Plastics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:52 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/jp309541h
@@ -2295,7 +2295,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2312,7 +2312,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:28:52 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Connection:
       - close
     body:
@@ -2325,7 +2325,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:52 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:05 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1021%2Fjp309541h
@@ -2334,7 +2334,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2343,7 +2343,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:54 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2364,7 +2364,7 @@ http_interactions:
         Journal of Physical Chemistry B","J. Phys. Chem. B"],"deposited":{"date-parts":[[2013,5,2]],"timestamp":1367452800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,5,2]]},"alternative-id":["10.1021\/jp309541h"],"URL":"http:\/\/dx.doi.org\/10.1021\/jp309541h","ISSN":["1520-6106","1520-5207"],"subject":["Physical
         and Theoretical Chemistry","Materials Chemistry","Surfaces, Coatings and Films"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:54 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.eswa.2012.12.084
@@ -2373,7 +2373,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2390,7 +2390,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:28:54 GMT
+      - Sun, 23 Aug 2015 19:06:01 GMT
       Connection:
       - close
     body:
@@ -2403,7 +2403,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:54 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:05 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.eswa.2012.12.084
@@ -2412,7 +2412,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2421,7 +2421,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:54 GMT
+      - Sun, 23 Aug 2015 19:06:02 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2444,7 +2444,7 @@ http_interactions:
         Systems with Applications"],"deposited":{"date-parts":[[2013,3,20]],"timestamp":1363737600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8]]},"alternative-id":["S0957417412013267"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.eswa.2012.12.084","ISSN":["0957-4174"],"subject":["Artificial
         Intelligence","Computer Science Applications","Engineering(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:54 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1093/mnras/sts630
@@ -2453,7 +2453,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2470,7 +2470,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Fri, 24 Jul 2015 06:28:54 GMT
+      - Sun, 23 Aug 2015 19:06:02 GMT
       Connection:
       - close
     body:
@@ -2483,7 +2483,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:54 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:05 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1093%2Fmnras%2Fsts630
@@ -2492,7 +2492,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2501,7 +2501,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:55 GMT
+      - Sun, 23 Aug 2015 19:06:02 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2524,7 +2524,7 @@ http_interactions:
         Notices of the Royal Astronomical Society"],"deposited":{"date-parts":[[2013,2,6]],"timestamp":1360108800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,10]]},"URL":"http:\/\/dx.doi.org\/10.1093\/mnras\/sts630","ISSN":["0035-8711","1365-2966"],"subject":["Space
         and Planetary Science","Astronomy and Astrophysics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:54 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/s0167-1987(13)00124-4
@@ -2533,7 +2533,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2550,7 +2550,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Fri, 24 Jul 2015 06:28:55 GMT
+      - Sun, 23 Aug 2015 19:06:02 GMT
       Connection:
       - close
     body:
@@ -2563,7 +2563,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:55 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:06 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fs0167-1987(13)00124-4
@@ -2572,7 +2572,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2581,7 +2581,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:55 GMT
+      - Sun, 23 Aug 2015 19:06:03 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2602,7 +2602,7 @@ http_interactions:
         and Tillage Research"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0167198713001244?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0167198713001244?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,3,30]],"timestamp":1427673600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10]]},"alternative-id":["S0167198713001244"],"URL":"http:\/\/dx.doi.org\/10.1016\/s0167-1987(13)00124-4","ISSN":["0167-1987"],"subject":["Agronomy
         and Crop Science","Earth-Surface Processes","Soil Science"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:55 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:06 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/s1569-9056(13)62170-3
@@ -2611,7 +2611,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2628,7 +2628,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Fri, 24 Jul 2015 06:28:55 GMT
+      - Sun, 23 Aug 2015 19:06:03 GMT
       Connection:
       - close
     body:
@@ -2641,7 +2641,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:55 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:07 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fs1569-9056(13)62170-3
@@ -2650,7 +2650,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2659,7 +2659,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:55 GMT
+      - Sun, 23 Aug 2015 19:06:04 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2680,7 +2680,7 @@ http_interactions:
         autoaugmentation with rectus muscle backing"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"12","author":[{"affiliation":[],"family":"Vukadinovic","given":"V."},{"affiliation":[],"family":"Bizic","given":"M."},{"affiliation":[],"family":"Stojanovic","given":"B."},{"affiliation":[],"family":"Radojicic","given":"Z."},{"affiliation":[],"family":"Krstic","given":"Z."},{"affiliation":[],"family":"Papoutsakis","given":"M."},{"affiliation":[],"family":"Djordjevic","given":"M."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["European
         Urology Supplements"],"deposited":{"date-parts":[[2013,11,7]],"timestamp":1383782400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10]]},"alternative-id":["S1569905613621703"],"URL":"http:\/\/dx.doi.org\/10.1016\/s1569-9056(13)62170-3","ISSN":["1569-9056"],"subject":["Urology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:55 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/ja3100963
@@ -2689,7 +2689,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2706,7 +2706,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:28:56 GMT
+      - Sun, 23 Aug 2015 19:06:03 GMT
       Connection:
       - close
     body:
@@ -2719,7 +2719,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:56 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:07 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1021%2Fja3100963
@@ -2728,7 +2728,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2737,7 +2737,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:56 GMT
+      - Sun, 23 Aug 2015 19:06:04 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2764,7 +2764,7 @@ http_interactions:
         Am. Chem. Soc.","Journal of the American Chemical Society"],"deposited":{"date-parts":[[2013,1,9]],"timestamp":1357689600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,9]]},"alternative-id":["10.1021\/ja3100963"],"URL":"http:\/\/dx.doi.org\/10.1021\/ja3100963","ISSN":["0002-7863","1520-5126"],"subject":["Chemistry(all)","Colloid
         and Surface Chemistry","Biochemistry","Catalysis"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:56 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s11069-013-0990-6
@@ -2773,7 +2773,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2790,7 +2790,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:56 GMT
+      - Sun, 23 Aug 2015 19:06:03 GMT
       Connection:
       - close
     body:
@@ -2803,7 +2803,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:56 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:07 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs11069-013-0990-6
@@ -2812,7 +2812,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2821,7 +2821,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:56 GMT
+      - Sun, 23 Aug 2015 19:06:04 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2845,7 +2845,7 @@ http_interactions:
         Science and Technology","Earth and Planetary Sciences (miscellaneous)","Atmospheric
         Science"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:56 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:08 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1371/journal.pone.0071183
@@ -2854,7 +2854,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2871,7 +2871,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Fri, 24 Jul 2015 06:28:56 GMT
+      - Sun, 23 Aug 2015 19:06:05 GMT
       Connection:
       - close
     body:
@@ -2884,7 +2884,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:56 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:08 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1371%2Fjournal.pone.0071183
@@ -2893,7 +2893,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2902,7 +2902,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:57 GMT
+      - Sun, 23 Aug 2015 19:06:05 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -2926,7 +2926,7 @@ http_interactions:
         and Biological Sciences(all)","Medicine(all)","Biochemistry, Genetics and
         Molecular Biology(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:57 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:08 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.path.2013.03.008
@@ -2935,7 +2935,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2952,7 +2952,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:28:57 GMT
+      - Sun, 23 Aug 2015 19:06:05 GMT
       Connection:
       - close
     body:
@@ -2965,7 +2965,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:57 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:08 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.path.2013.03.008
@@ -2974,7 +2974,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -2983,7 +2983,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:57 GMT
+      - Sun, 23 Aug 2015 19:06:05 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3004,7 +3004,7 @@ http_interactions:
         Pathology Clinics"],"deposited":{"date-parts":[[2013,5,30]],"timestamp":1369872000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6]]},"alternative-id":["S1875918113000354"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.path.2013.03.008","ISSN":["1875-9181"],"subject":["Pathology
         and Forensic Medicine","Surgery"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:57 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:08 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5566/ias.v32.p45-55
@@ -3013,7 +3013,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3030,7 +3030,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:28:57 GMT
+      - Sun, 23 Aug 2015 19:06:05 GMT
       Connection:
       - close
     body:
@@ -3043,7 +3043,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:57 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:09 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5566%2Fias.v32.p45-55
@@ -3052,7 +3052,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3061,7 +3061,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:59 GMT
+      - Sun, 23 Aug 2015 19:06:05 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3082,7 +3082,7 @@ http_interactions:
         Analysis & Stereology","Image Anal Stereol"],"deposited":{"date-parts":[[2013,4,2]],"timestamp":1364860800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,3,19]]},"URL":"http:\/\/dx.doi.org\/10.5566\/ias.v32.p45-55","ISSN":["1854-5165","1580-3139"],"subject":["Physics
         and Astronomy (miscellaneous)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:59 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:09 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1055/s-0033-1333932
@@ -3091,7 +3091,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3108,7 +3108,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:28:58 GMT
+      - Sun, 23 Aug 2015 19:06:06 GMT
       Connection:
       - close
     body:
@@ -3121,7 +3121,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:59 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:10 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1055%2Fs-0033-1333932
@@ -3130,7 +3130,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3139,7 +3139,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:28:59 GMT
+      - Sun, 23 Aug 2015 19:06:07 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3159,7 +3159,7 @@ http_interactions:
         Hilfe-Kurs f\u00fcr Tierhalter - Betriebswirtschaftliche Kalkulation eines
         Serviceangebotes"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1055","volume":"9","author":[{"affiliation":[],"family":"Soukup","given":"Ute"}],"member":"http:\/\/id.crossref.org\/member\/194","container-title":["team.konkret","tk"],"deposited":{"date-parts":[[2013,10,1]],"timestamp":1380585600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,19]]},"URL":"http:\/\/dx.doi.org\/10.1055\/s-0033-1333932","ISSN":["1869-3202","1869-3210"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:59 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:10 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s10577-013-9348-x
@@ -3168,7 +3168,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3185,7 +3185,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:28:59 GMT
+      - Sun, 23 Aug 2015 19:06:07 GMT
       Connection:
       - close
     body:
@@ -3198,7 +3198,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:59 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:11 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs10577-013-9348-x
@@ -3207,7 +3207,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3216,7 +3216,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:00 GMT
+      - Sun, 23 Aug 2015 19:06:08 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3237,7 +3237,7 @@ http_interactions:
         J."}],"member":"http:\/\/id.crossref.org\/member\/297","container-title":["Chromosome
         Research","Chromosome Res"],"deposited":{"date-parts":[[2013,5,16]],"timestamp":1368662400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,5]]},"alternative-id":["9348"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10577-013-9348-x","ISSN":["0967-3849","1573-6849"],"subject":["Genetics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:28:59 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:11 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.4028/www.scientific.net/amr.807-809.2722
@@ -3246,7 +3246,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3263,7 +3263,7 @@ http_interactions:
       Content-Length:
       - '81'
       Date:
-      - Fri, 24 Jul 2015 06:28:59 GMT
+      - Sun, 23 Aug 2015 19:06:09 GMT
       Connection:
       - close
     body:
@@ -3276,7 +3276,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:00 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:13 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.4028%2Fwww.scientific.net%2Famr.807-809.2722
@@ -3285,7 +3285,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3294,7 +3294,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:01 GMT
+      - Sun, 23 Aug 2015 19:06:10 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3309,12 +3309,12 @@ http_interactions:
       - '889'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,6,8]],"timestamp":1433787746083},"reference-count":0,"publisher":"Trans
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,8,10]],"timestamp":1439169294360},"reference-count":0,"publisher":"Trans
         Tech Publications","DOI":"10.4028\/www.scientific.net\/amr.807-809.2722","type":"journal-article","page":"2722-2725","source":"CrossRef","title":["Microstructural
         Changes during Thermal Fatigue in a Nickel-Base Directionally Solidified Superalloy"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.4028","volume":"807-809","author":[{"affiliation":[],"family":"Zhao","given":"Kai"}],"member":"http:\/\/id.crossref.org\/member\/2457","container-title":["AMR","Advanced
-        Materials Research"],"deposited":{"date-parts":[[2013,9,11]],"timestamp":1378857600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9]]},"URL":"http:\/\/dx.doi.org\/10.4028\/www.scientific.net\/amr.807-809.2722","ISSN":["1662-8985"]}}'
+        Materials Research"],"deposited":{"date-parts":[[2015,8,6]],"timestamp":1438819200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9]]},"URL":"http:\/\/dx.doi.org\/10.4028\/www.scientific.net\/amr.807-809.2722","ISSN":["1662-8985"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:00 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:13 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s11265-013-0778-7
@@ -3323,7 +3323,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3340,7 +3340,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:01 GMT
+      - Sun, 23 Aug 2015 19:06:11 GMT
       Connection:
       - close
     body:
@@ -3353,7 +3353,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:01 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:15 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs11265-013-0778-7
@@ -3362,7 +3362,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3371,7 +3371,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:01 GMT
+      - Sun, 23 Aug 2015 19:06:11 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3394,7 +3394,7 @@ http_interactions:
         and Architecture","Information Systems","Signal Processing","Modelling and
         Simulation","Theoretical Computer Science","Control and Systems Engineering"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:01 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:15 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/jicd.12038
@@ -3403,7 +3403,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3420,7 +3420,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Fri, 24 Jul 2015 06:29:01 GMT
+      - Sun, 23 Aug 2015 19:06:13 GMT
       Connection:
       - close
     body:
@@ -3433,7 +3433,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:01 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:16 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fjicd.12038
@@ -3442,7 +3442,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3451,7 +3451,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:01 GMT
+      - Sun, 23 Aug 2015 19:06:13 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3479,7 +3479,7 @@ http_interactions:
         Chennai India"}],"family":"Joshua","given":"Elizabeth"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["J
         Invest Clin Dent","Journal of Investigative and Clinical Dentistry"],"deposited":{"date-parts":[[2014,8,6]],"timestamp":1407283200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6,18]]},"URL":"http:\/\/dx.doi.org\/10.1111\/jicd.12038","ISSN":["2041-1618"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:01 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:16 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.mimet.2013.07.013
@@ -3488,7 +3488,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3505,7 +3505,7 @@ http_interactions:
       Content-Length:
       - '65'
       Date:
-      - Fri, 24 Jul 2015 06:29:02 GMT
+      - Sun, 23 Aug 2015 19:06:14 GMT
       Connection:
       - close
     body:
@@ -3518,7 +3518,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:01 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:18 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.mimet.2013.07.013
@@ -3527,7 +3527,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3536,7 +3536,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:02 GMT
+      - Sun, 23 Aug 2015 19:06:15 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3558,7 +3558,7 @@ http_interactions:
         of Microbiological Methods"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0167701213002303?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0167701213002303?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,3,29]],"timestamp":1427587200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10]]},"alternative-id":["S0167701213002303"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.mimet.2013.07.013","ISSN":["0167-7012"],"subject":["Molecular
         Biology","Microbiology","Microbiology (medical)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:02 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:18 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/ange.201306511
@@ -3567,7 +3567,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3584,7 +3584,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:02 GMT
+      - Sun, 23 Aug 2015 19:06:16 GMT
       Connection:
       - close
     body:
@@ -3597,7 +3597,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:02 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:19 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fange.201306511
@@ -3606,7 +3606,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3615,7 +3615,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:03 GMT
+      - Sun, 23 Aug 2015 19:06:16 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3637,7 +3637,7 @@ http_interactions:
         E.","suffix":"Jr."},{"affiliation":[],"family":"Smith","given":"Milton R.","suffix":"III"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["Angewandte
         Chemie","Angew. Chem."],"deposited":{"date-parts":[[2014,4,30]],"timestamp":1398816000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,11,12]]},"URL":"http:\/\/dx.doi.org\/10.1002\/ange.201306511","ISSN":["0044-8249"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:02 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:19 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5406/jamerethnhist.33.1.0123
@@ -3646,7 +3646,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3663,7 +3663,7 @@ http_interactions:
       Content-Length:
       - '69'
       Date:
-      - Fri, 24 Jul 2015 06:29:03 GMT
+      - Sun, 23 Aug 2015 19:06:16 GMT
       Connection:
       - close
     body:
@@ -3676,7 +3676,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:03 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:20 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5406%2Fjamerethnhist.33.1.0123
@@ -3685,7 +3685,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3694,7 +3694,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:04 GMT
+      - Sun, 23 Aug 2015 19:06:17 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3715,7 +3715,7 @@ http_interactions:
         of American Ethnic History"],"deposited":{"date-parts":[[2013,10,1]],"timestamp":1380585600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,16]]},"alternative-id":["10.5406\/jamerethnhist.33.1.0123"],"URL":"http:\/\/dx.doi.org\/10.5406\/jamerethnhist.33.1.0123","ISSN":["0278-5927"],"subject":["History","Anthropology","Cultural
         Studies"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:04 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:20 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1088/1367-2630/15/6/065011
@@ -3724,7 +3724,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3741,7 +3741,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Fri, 24 Jul 2015 06:29:04 GMT
+      - Sun, 23 Aug 2015 19:06:17 GMT
       Connection:
       - close
     body:
@@ -3754,7 +3754,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:04 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:21 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1088%2F1367-2630%2F15%2F6%2F065011
@@ -3763,7 +3763,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3772,7 +3772,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:04 GMT
+      - Sun, 23 Aug 2015 19:06:18 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3794,7 +3794,7 @@ http_interactions:
         Journal of Physics","New J. Phys."],"deposited":{"date-parts":[[2013,6,20]],"timestamp":1371686400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6,1]]},"URL":"http:\/\/dx.doi.org\/10.1088\/1367-2630\/15\/6\/065011","ISSN":["1367-2630"],"subject":["Physics
         and Astronomy(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:04 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:21 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1163/18747167-12341257
@@ -3803,7 +3803,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3820,7 +3820,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:04 GMT
+      - Sun, 23 Aug 2015 19:06:19 GMT
       Connection:
       - close
     body:
@@ -3833,7 +3833,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:04 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:22 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1163%2F18747167-12341257
@@ -3842,7 +3842,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3851,7 +3851,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:05 GMT
+      - Sun, 23 Aug 2015 19:06:19 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3873,7 +3873,7 @@ http_interactions:
         of Persianate Studies"],"deposited":{"date-parts":[[2014,2,7]],"timestamp":1391731200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,1]]},"URL":"http:\/\/dx.doi.org\/10.1163\/18747167-12341257","ISSN":["1874-7094","1874-7167"],"subject":["Sociology
         and Political Science","History","Cultural Studies"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:04 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:22 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/s2214-109x(13)70061-5
@@ -3882,7 +3882,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3899,7 +3899,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Fri, 24 Jul 2015 06:29:04 GMT
+      - Sun, 23 Aug 2015 19:06:20 GMT
       Connection:
       - close
     body:
@@ -3912,7 +3912,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:05 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:24 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fs2214-109x(13)70061-5
@@ -3921,7 +3921,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3930,7 +3930,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:05 GMT
+      - Sun, 23 Aug 2015 19:06:21 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -3951,7 +3951,7 @@ http_interactions:
         R"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["The
         Lancet Global Health"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2214109X13700615?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2214109X13700615?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9]]},"alternative-id":["S2214109X13700615"],"URL":"http:\/\/dx.doi.org\/10.1016\/s2214-109x(13)70061-5","ISSN":["2214-109X"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:05 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:24 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.12968/bjon.2013.22.7.420
@@ -3960,7 +3960,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -3977,7 +3977,7 @@ http_interactions:
       Content-Length:
       - '65'
       Date:
-      - Fri, 24 Jul 2015 06:29:05 GMT
+      - Sun, 23 Aug 2015 19:06:22 GMT
       Connection:
       - close
     body:
@@ -3990,7 +3990,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:05 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:26 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.12968%2Fbjon.2013.22.7.420
@@ -3999,7 +3999,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4008,7 +4008,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:05 GMT
+      - Sun, 23 Aug 2015 19:06:22 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4028,7 +4028,7 @@ http_interactions:
         Government response to the Francis report"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.12968","volume":"22","author":[{"affiliation":[],"family":"Tingle","given":"John"}],"member":"http:\/\/id.crossref.org\/member\/5130","container-title":["British
         Journal of Nursing","Br J Nursing"],"deposited":{"date-parts":[[2014,5,26]],"timestamp":1401062400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,4,10]]},"alternative-id":["10.12968\/bjon.2013.22.7.420"],"URL":"http:\/\/dx.doi.org\/10.12968\/bjon.2013.22.7.420","ISSN":["0966-0461"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:05 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:26 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.3368/er.31.4.425
@@ -4037,7 +4037,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4054,7 +4054,7 @@ http_interactions:
       Content-Length:
       - '57'
       Date:
-      - Fri, 24 Jul 2015 06:29:05 GMT
+      - Sun, 23 Aug 2015 19:06:24 GMT
       Connection:
       - close
     body:
@@ -4067,7 +4067,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:06 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:27 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.3368%2Fer.31.4.425
@@ -4076,7 +4076,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4085,7 +4085,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:06 GMT
+      - Sun, 23 Aug 2015 19:06:24 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4097,16 +4097,16 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '853'
+      - '852'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,6,8]],"timestamp":1433796325594},"reference-count":0,"publisher":"University
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,8,2]],"timestamp":1438477457009},"reference-count":0,"publisher":"University
         of Wisconsin Press","issue":"4","DOI":"10.3368\/er.31.4.425","type":"journal-article","page":"425-426","source":"CrossRef","title":["Water"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.3368","volume":"31","author":[{"affiliation":[],"family":"Gerlak","given":"A.
         K."}],"member":"http:\/\/id.crossref.org\/member\/1939","container-title":["Ecological
-        Restoration"],"deposited":{"date-parts":[[2013,10,25]],"timestamp":1382659200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10,24]]},"URL":"http:\/\/dx.doi.org\/10.3368\/er.31.4.425","ISSN":["1522-4740","1543-4079"],"subject":["Nature
-        and Landscape Conservation","Environmental Science(all)","Ecology"]}}'
+        Restoration"],"deposited":{"date-parts":[[2015,7,29]],"timestamp":1438128000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10,24]]},"URL":"http:\/\/dx.doi.org\/10.3368\/er.31.4.425","ISSN":["1522-4740","1543-4079"],"subject":["Ecology","Environmental
+        Science(all)","Nature and Landscape Conservation"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:06 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:27 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1192/bjp.bp.113.120709
@@ -4115,7 +4115,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4132,7 +4132,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:06 GMT
+      - Sun, 23 Aug 2015 19:06:25 GMT
       Connection:
       - close
     body:
@@ -4145,7 +4145,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:06 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:29 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1192%2Fbjp.bp.113.120709
@@ -4154,7 +4154,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4163,7 +4163,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:06 GMT
+      - Sun, 23 Aug 2015 19:06:26 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4185,7 +4185,7 @@ http_interactions:
         British Journal of Psychiatry"],"deposited":{"date-parts":[[2013,5,1]],"timestamp":1367366400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,5,1]]},"URL":"http:\/\/dx.doi.org\/10.1192\/bjp.bp.113.120709","ISSN":["0007-1250"],"subject":["Psychiatry
         and Mental health"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:06 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:29 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.clon.2012.12.005
@@ -4194,7 +4194,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4211,7 +4211,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:29:06 GMT
+      - Sun, 23 Aug 2015 19:06:27 GMT
       Connection:
       - close
     body:
@@ -4224,7 +4224,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:06 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:30 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.clon.2012.12.005
@@ -4233,7 +4233,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4242,7 +4242,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:07 GMT
+      - Sun, 23 Aug 2015 19:06:27 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4263,7 +4263,7 @@ http_interactions:
         Oncology"],"deposited":{"date-parts":[[2013,2,27]],"timestamp":1361923200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,4]]},"alternative-id":["S0936655513000204"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.clon.2012.12.005","ISSN":["0936-6555"],"subject":["Oncology","Radiology
         Nuclear Medicine and imaging"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:06 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:30 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1166/jno.2013.1446
@@ -4272,7 +4272,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4289,7 +4289,7 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Fri, 24 Jul 2015 06:29:06 GMT
+      - Sun, 23 Aug 2015 19:06:28 GMT
       Connection:
       - close
     body:
@@ -4302,7 +4302,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:07 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:32 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1166%2Fjno.2013.1446
@@ -4311,7 +4311,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4320,7 +4320,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:07 GMT
+      - Sun, 23 Aug 2015 19:06:28 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4344,7 +4344,7 @@ http_interactions:
         of Nanoelectronics and Optoelectronics"],"deposited":{"date-parts":[[2013,3,14]],"timestamp":1363219200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,1]]},"alternative-id":["1555-130X(20130101)8:1L.83;1-"],"URL":"http:\/\/dx.doi.org\/10.1166\/jno.2013.1446","ISSN":["1555-130X","1555-1318"],"subject":["Electrical
         and Electronic Engineering","Electronic, Optical and Magnetic Materials"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:07 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:32 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/chin.201352154
@@ -4353,7 +4353,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4370,7 +4370,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:07 GMT
+      - Sun, 23 Aug 2015 19:06:29 GMT
       Connection:
       - close
     body:
@@ -4383,7 +4383,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:07 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:32 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fchin.201352154
@@ -4392,7 +4392,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4401,7 +4401,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:08 GMT
+      - Sun, 23 Aug 2015 19:06:29 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4420,7 +4420,7 @@ http_interactions:
         ChemInform Abstract: Ligand-Free Cu 2 O-Catalyzed Cross Coupling of Nitrogen
         Heterocycles with Iodopyridines. "],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1002","volume":"44","author":[{"affiliation":[],"family":"Teo","given":"Yong-Chua"},{"affiliation":[],"family":"Yong","given":"Fui-Fong"},{"affiliation":[],"family":"Sim","given":"Shirlyn"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["ChemInform"],"deposited":{"date-parts":[[2013,12,5]],"timestamp":1386201600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,12,5]]},"URL":"http:\/\/dx.doi.org\/10.1002\/chin.201352154","ISSN":["0931-7597"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:08 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:32 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5860/choice.51-0977
@@ -4429,7 +4429,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4446,7 +4446,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:08 GMT
+      - Sun, 23 Aug 2015 19:06:33 GMT
       Connection:
       - close
     body:
@@ -4459,7 +4459,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:08 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:36 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5860%2Fchoice.51-0977
@@ -4468,7 +4468,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4477,7 +4477,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:09 GMT
+      - Sun, 23 Aug 2015 19:06:33 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4498,7 +4498,7 @@ http_interactions:
         v.2: Signs of solutions"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.5860","volume":"51","member":"http:\/\/id.crossref.org\/member\/3932","container-title":["Choice
         Reviews Online"],"deposited":{"date-parts":[[2013,10,22]],"timestamp":1382400000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,19]]},"URL":"http:\/\/dx.doi.org\/10.5860\/choice.51-0977","ISSN":["0009-4978","1523-8253"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:09 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:36 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s11548-013-0963-y
@@ -4507,7 +4507,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4524,7 +4524,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:08 GMT
+      - Sun, 23 Aug 2015 19:06:34 GMT
       Connection:
       - close
     body:
@@ -4537,7 +4537,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:09 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:38 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs11548-013-0963-y
@@ -4546,7 +4546,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4555,7 +4555,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:09 GMT
+      - Sun, 23 Aug 2015 19:06:35 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4576,7 +4576,7 @@ http_interactions:
         J CARS","International Journal of Computer Assisted Radiology and Surgery"],"deposited":{"date-parts":[[2014,5,23]],"timestamp":1400803200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,12,10]]},"alternative-id":["963"],"URL":"http:\/\/dx.doi.org\/10.1007\/s11548-013-0963-y","ISSN":["1861-6410","1861-6429"],"subject":["Radiology
         Nuclear Medicine and imaging","Surgery","Health Informatics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:09 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:38 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1109/tcsvt.2012.2210670
@@ -4585,7 +4585,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4602,7 +4602,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:29:09 GMT
+      - Sun, 23 Aug 2015 19:06:36 GMT
       Connection:
       - close
     body:
@@ -4615,7 +4615,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:10 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:39 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1109%2Ftcsvt.2012.2210670
@@ -4624,7 +4624,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4633,7 +4633,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:11 GMT
+      - Sun, 23 Aug 2015 19:06:37 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4655,7 +4655,7 @@ http_interactions:
         for Video Technology"],"deposited":{"date-parts":[[2015,7,15]],"timestamp":1436918400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,3]]},"URL":"http:\/\/dx.doi.org\/10.1109\/tcsvt.2012.2210670","ISSN":["1051-8215","1558-2205"],"subject":["Media
         Technology","Electrical and Electronic Engineering"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:11 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:41 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1134/s0031918x13050116
@@ -4664,7 +4664,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4681,7 +4681,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:11 GMT
+      - Sun, 23 Aug 2015 19:06:39 GMT
       Connection:
       - close
     body:
@@ -4694,7 +4694,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:11 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:42 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1134%2Fs0031918x13050116
@@ -4703,7 +4703,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4712,7 +4712,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:14 GMT
+      - Sun, 23 Aug 2015 19:06:39 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4736,7 +4736,7 @@ http_interactions:
         Physics of Metals and Metallography","Phys. Metals Metallogr."],"deposited":{"date-parts":[[2013,5,24]],"timestamp":1369353600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,5]]},"alternative-id":["9617"],"URL":"http:\/\/dx.doi.org\/10.1134\/s0031918x13050116","ISSN":["0031-918X","1555-6190"],"subject":["Condensed
         Matter Physics","Materials Chemistry"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:14 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:42 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/evj.12124
@@ -4745,7 +4745,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4762,7 +4762,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:29:14 GMT
+      - Sun, 23 Aug 2015 19:06:39 GMT
       Connection:
       - close
     body:
@@ -4775,7 +4775,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:14 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:43 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fevj.12124
@@ -4784,7 +4784,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4793,7 +4793,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:14 GMT
+      - Sun, 23 Aug 2015 19:06:40 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4828,7 +4828,7 @@ http_interactions:
         Vet J","Equine Veterinary Journal"],"deposited":{"date-parts":[[2014,11,12]],"timestamp":1415750400000},"score":1.0,"subtitle":["Outcome
         of synovial foot penetration"],"issued":{"date-parts":[[2013,9,10]]},"URL":"http:\/\/dx.doi.org\/10.1111\/evj.12124","ISSN":["0425-1644"],"subject":["Equine"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:14 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:44 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1177/1468018113499980
@@ -4837,7 +4837,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4854,7 +4854,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:29:14 GMT
+      - Sun, 23 Aug 2015 19:06:41 GMT
       Connection:
       - close
     body:
@@ -4867,7 +4867,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:14 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:45 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1177%2F1468018113499980
@@ -4876,7 +4876,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4885,7 +4885,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:15 GMT
+      - Sun, 23 Aug 2015 19:06:42 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4907,7 +4907,7 @@ http_interactions:
         Monitoring, Policy and Law","Geography, Planning and Development","Sociology
         and Political Science"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:14 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:45 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1044/1092-4388(2013/13-0097)
@@ -4916,7 +4916,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4933,7 +4933,7 @@ http_interactions:
       Content-Length:
       - '69'
       Date:
-      - Fri, 24 Jul 2015 06:29:14 GMT
+      - Sun, 23 Aug 2015 19:06:42 GMT
       Connection:
       - close
     body:
@@ -4946,7 +4946,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:15 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:46 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1044%2F1092-4388(2013%2F13-0097)
@@ -4955,7 +4955,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -4964,7 +4964,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:17 GMT
+      - Sun, 23 Aug 2015 19:06:43 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -4987,7 +4987,7 @@ http_interactions:
         Speech Lang Hear Res","Journal of Speech Language and Hearing Research"],"deposited":{"date-parts":[[2014,6,13]],"timestamp":1402617600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,6,1]]},"URL":"http:\/\/dx.doi.org\/10.1044\/1092-4388(2013\/13-0097)","ISSN":["1092-4388"],"subject":["Speech
         and Hearing"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:17 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:46 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1038/nrg3529
@@ -4996,7 +4996,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5013,7 +5013,7 @@ http_interactions:
       Content-Length:
       - '53'
       Date:
-      - Fri, 24 Jul 2015 06:29:17 GMT
+      - Sun, 23 Aug 2015 19:06:44 GMT
       Connection:
       - close
     body:
@@ -5026,7 +5026,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:17 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:47 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1038%2Fnrg3529
@@ -5035,7 +5035,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5044,7 +5044,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:17 GMT
+      - Sun, 23 Aug 2015 19:06:44 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5065,7 +5065,7 @@ http_interactions:
         Rev Genet","Nature Reviews Genetics"],"deposited":{"date-parts":[[2013,6,18]],"timestamp":1371513600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6,18]]},"alternative-id":["nrg3529"],"URL":"http:\/\/dx.doi.org\/10.1038\/nrg3529","ISSN":["1471-0056","1471-0064"],"subject":["Molecular
         Biology","Genetics(clinical)","Genetics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:17 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:47 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1097/jpo.0b013e31828bf72f
@@ -5074,7 +5074,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5091,7 +5091,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Fri, 24 Jul 2015 06:29:17 GMT
+      - Sun, 23 Aug 2015 19:06:45 GMT
       Connection:
       - close
     body:
@@ -5104,7 +5104,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:17 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:49 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1097%2Fjpo.0b013e31828bf72f
@@ -5113,7 +5113,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5122,7 +5122,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:18 GMT
+      - Sun, 23 Aug 2015 19:06:45 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5143,7 +5143,7 @@ http_interactions:
         Journal of Prosthetics and Orthotics"],"deposited":{"date-parts":[[2013,6,14]],"timestamp":1371168000000},"score":1.0,"subtitle":[""],"issued":{"date-parts":[[2013]]},"URL":"http:\/\/dx.doi.org\/10.1097\/jpo.0b013e31828bf72f","ISSN":["1040-8800"],"subject":["Orthopedics
         and Sports Medicine","Rehabilitation","Biomedical Engineering"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:18 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:49 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1161/circulationaha.113.002432
@@ -5152,7 +5152,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5169,7 +5169,7 @@ http_interactions:
       Content-Length:
       - '71'
       Date:
-      - Fri, 24 Jul 2015 06:29:18 GMT
+      - Sun, 23 Aug 2015 19:06:47 GMT
       Connection:
       - close
     body:
@@ -5182,7 +5182,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:19 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:50 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1161%2Fcirculationaha.113.002432
@@ -5191,7 +5191,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5200,7 +5200,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:19 GMT
+      - Sun, 23 Aug 2015 19:06:47 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5222,7 +5222,7 @@ http_interactions:
         Study"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1161","volume":"128","author":[{"affiliation":[],"family":"Leebmann","given":"J."},{"affiliation":[],"family":"Roeseler","given":"E."},{"affiliation":[],"family":"Julius","given":"U."},{"affiliation":[],"family":"Heigl","given":"F."},{"affiliation":[],"family":"Spitthoever","given":"R."},{"affiliation":[],"family":"Heutling","given":"D."},{"affiliation":[],"family":"Breitenberger","given":"P."},{"affiliation":[],"family":"Maerz","given":"W."},{"affiliation":[],"family":"Lehmacher","given":"W."},{"affiliation":[],"family":"Heibges","given":"A."},{"affiliation":[],"family":"Klingel","given":"R."}],"member":"http:\/\/id.crossref.org\/member\/276","container-title":["Circulation"],"deposited":{"date-parts":[[2014,3,10]],"timestamp":1394409600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,20]]},"URL":"http:\/\/dx.doi.org\/10.1161\/circulationaha.113.002432","ISSN":["0009-7322","1524-4539"],"subject":["Cardiology
         and Cardiovascular Medicine","Physiology (medical)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:19 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:50 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/jcop.21523
@@ -5231,7 +5231,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5248,7 +5248,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Fri, 24 Jul 2015 06:29:19 GMT
+      - Sun, 23 Aug 2015 19:06:48 GMT
       Connection:
       - close
     body:
@@ -5261,7 +5261,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:19 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:52 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fjcop.21523
@@ -5270,7 +5270,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5279,7 +5279,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:19 GMT
+      - Sun, 23 Aug 2015 19:06:48 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5305,7 +5305,7 @@ http_interactions:
         Worker''s Perception of Critical Incidents"],"issued":{"date-parts":[[2013,2,14]]},"URL":"http:\/\/dx.doi.org\/10.1002\/jcop.21523","ISSN":["0090-4392"],"subject":["Social
         Psychology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:19 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:52 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.aprim.2013.01.002
@@ -5314,7 +5314,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5331,7 +5331,7 @@ http_interactions:
       Content-Length:
       - '65'
       Date:
-      - Fri, 24 Jul 2015 06:29:19 GMT
+      - Sun, 23 Aug 2015 19:06:49 GMT
       Connection:
       - close
     body:
@@ -5344,7 +5344,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:19 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:53 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.aprim.2013.01.002
@@ -5353,7 +5353,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5362,7 +5362,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:20 GMT
+      - Sun, 23 Aug 2015 19:06:49 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5385,7 +5385,7 @@ http_interactions:
         Primaria"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0212656713000292?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0212656713000292?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,3,30]],"timestamp":1427673600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,4]]},"alternative-id":["S0212656713000292"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.aprim.2013.01.002","ISSN":["0212-6567"],"subject":["Medicine(all)","Family
         Practice"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:19 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:53 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1177/0040573613495228
@@ -5394,7 +5394,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5411,7 +5411,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:29:19 GMT
+      - Sun, 23 Aug 2015 19:06:49 GMT
       Connection:
       - close
     body:
@@ -5424,7 +5424,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:20 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:53 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1177%2F0040573613495228
@@ -5433,7 +5433,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5442,7 +5442,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:20 GMT
+      - Sun, 23 Aug 2015 19:06:50 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5464,7 +5464,7 @@ http_interactions:
         Today"],"deposited":{"date-parts":[[2013,9,18]],"timestamp":1379462400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,18]]},"URL":"http:\/\/dx.doi.org\/10.1177\/0040573613495228","ISSN":["0040-5736","2044-2556"],"subject":["Religious
         studies"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:20 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:53 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.3121/cmr.2013.1176.ps2-38
@@ -5473,7 +5473,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5490,7 +5490,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Fri, 24 Jul 2015 06:29:20 GMT
+      - Sun, 23 Aug 2015 19:06:51 GMT
       Connection:
       - close
     body:
@@ -5503,7 +5503,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:20 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:55 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.3121%2Fcmr.2013.1176.ps2-38
@@ -5512,7 +5512,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5521,7 +5521,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:20 GMT
+      - Sun, 23 Aug 2015 19:06:51 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5543,7 +5543,7 @@ http_interactions:
         Medicine & Research"],"deposited":{"date-parts":[[2013,10,4]],"timestamp":1380844800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,1]]},"URL":"http:\/\/dx.doi.org\/10.3121\/cmr.2013.1176.ps2-38","ISSN":["1539-4182","1554-6179"],"subject":["Medicine(all)","Community
         and Home Care"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:20 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.jtcvs.2013.02.084
@@ -5552,7 +5552,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5569,7 +5569,7 @@ http_interactions:
       Content-Length:
       - '65'
       Date:
-      - Fri, 24 Jul 2015 06:29:20 GMT
+      - Sun, 23 Aug 2015 19:06:52 GMT
       Connection:
       - close
     body:
@@ -5582,7 +5582,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:20 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:56 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.jtcvs.2013.02.084
@@ -5591,7 +5591,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5600,7 +5600,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:22 GMT
+      - Sun, 23 Aug 2015 19:06:52 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5621,7 +5621,7 @@ http_interactions:
         Journal of Thoracic and Cardiovascular Surgery"],"deposited":{"date-parts":[[2013,10,12]],"timestamp":1381536000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,11]]},"alternative-id":["S0022522313007824"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jtcvs.2013.02.084","ISSN":["0022-5223"],"subject":["Cardiology
         and Cardiovascular Medicine","Pulmonary and Respiratory Medicine","Surgery"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:21 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:56 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1134/s0010508213060130
@@ -5630,7 +5630,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5647,7 +5647,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:22 GMT
+      - Sun, 23 Aug 2015 19:06:52 GMT
       Connection:
       - close
     body:
@@ -5660,7 +5660,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:22 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:57 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1134%2Fs0010508213060130
@@ -5669,7 +5669,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5678,7 +5678,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:23 GMT
+      - Sun, 23 Aug 2015 19:06:53 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5704,7 +5704,7 @@ http_interactions:
         Engineering and Power Technology","Fuel Technology","Physics and Astronomy(all)","Chemical
         Engineering(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:23 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/car.2279
@@ -5713,7 +5713,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5730,7 +5730,7 @@ http_interactions:
       Content-Length:
       - '54'
       Date:
-      - Fri, 24 Jul 2015 06:29:23 GMT
+      - Sun, 23 Aug 2015 19:06:54 GMT
       Connection:
       - close
     body:
@@ -5743,7 +5743,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:23 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:58 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fcar.2279
@@ -5752,7 +5752,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5761,7 +5761,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:23 GMT
+      - Sun, 23 Aug 2015 19:06:56 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5776,7 +5776,7 @@ http_interactions:
       - '1335'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,7,24]],"timestamp":1437698934347},"reference-count":41,"publisher":"Wiley-Blackwell","issue":"5","DOI":"10.1002\/car.2279","type":"journal-article","page":"353-360","source":"CrossRef","title":["Exploring
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,7,25]],"timestamp":1437865811838},"reference-count":41,"publisher":"Wiley-Blackwell","issue":"5","DOI":"10.1002\/car.2279","type":"journal-article","page":"353-360","source":"CrossRef","title":["Exploring
         Pet Loss for Survivors of Child Sexual Abuse: A Hitherto Unchartered Terrain
         of Trauma Impact and Recovery"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1002","volume":"23","author":[{"affiliation":[{"name":"Social
         Justice Research Centre, Edith Cowan University, Joondalup, Australia and
@@ -5788,7 +5788,7 @@ http_interactions:
         Loss for Survivors of Child Sexual Abuse"],"issued":{"date-parts":[[2013,6,25]]},"URL":"http:\/\/dx.doi.org\/10.1002\/car.2279","ISSN":["0952-9136"],"subject":["Pediatrics,
         Perinatology, and Child Health","Law"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:23 GMT
+  recorded_at: Sun, 23 Aug 2015 19:06:59 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.4269/ajtmh.12-0250
@@ -5797,7 +5797,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5814,7 +5814,7 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Fri, 24 Jul 2015 06:29:23 GMT
+      - Sun, 23 Aug 2015 19:06:57 GMT
       Connection:
       - close
     body:
@@ -5827,7 +5827,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:23 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:00 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.4269%2Fajtmh.12-0250
@@ -5836,7 +5836,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5845,7 +5845,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:24 GMT
+      - Sun, 23 Aug 2015 19:06:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5869,7 +5869,7 @@ http_interactions:
         Journal of Tropical Medicine and Hygiene"],"deposited":{"date-parts":[[2013,5,2]],"timestamp":1367452800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,3,18]]},"URL":"http:\/\/dx.doi.org\/10.4269\/ajtmh.12-0250","ISSN":["0002-9637"],"subject":["Parasitology","Infectious
         Diseases","Virology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:24 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/int.21580
@@ -5878,7 +5878,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5895,7 +5895,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:29:24 GMT
+      - Sun, 23 Aug 2015 19:06:58 GMT
       Connection:
       - close
     body:
@@ -5908,7 +5908,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:25 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:02 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fint.21580
@@ -5917,7 +5917,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5926,7 +5926,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:26 GMT
+      - Sun, 23 Aug 2015 19:06:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5951,7 +5951,7 @@ http_interactions:
         Intelligence","Human-Computer Interaction","Software","Theoretical Computer
         Science"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:26 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.17323/1995-459x.2013.3.74.81
@@ -5960,7 +5960,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -5977,7 +5977,7 @@ http_interactions:
       Content-Length:
       - '69'
       Date:
-      - Fri, 24 Jul 2015 06:29:26 GMT
+      - Sun, 23 Aug 2015 19:06:59 GMT
       Connection:
       - close
     body:
@@ -5990,7 +5990,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:26 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:03 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.17323%2F1995-459x.2013.3.74.81
@@ -5999,7 +5999,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6008,7 +6008,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:26 GMT
+      - Sun, 23 Aug 2015 19:07:00 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6032,7 +6032,7 @@ http_interactions:
         \u043d\u0430\u0443\u043a\u0438 \u0438 \u0440\u0435\u0430\u043b\u044c\u043d\u043e\u0433\u043e
         \u0441\u0435\u043a\u0442\u043e\u0440\u0430 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u043a\u0438\u00bb"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.17323","volume":"7","member":"http:\/\/id.crossref.org\/member\/6872","container-title":["FR","Foresight-Russia"],"deposited":{"date-parts":[[2014,12,28]],"timestamp":1419724800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,30]]},"URL":"http:\/\/dx.doi.org\/10.17323\/1995-459x.2013.3.74.81","ISSN":["1995-459X","2312-9972"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:26 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.joen.2012.12.035
@@ -6041,7 +6041,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6058,7 +6058,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:29:26 GMT
+      - Sun, 23 Aug 2015 19:07:00 GMT
       Connection:
       - close
     body:
@@ -6071,7 +6071,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:26 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:04 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.joen.2012.12.035
@@ -6080,7 +6080,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6089,7 +6089,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:27 GMT
+      - Sun, 23 Aug 2015 19:07:01 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6111,7 +6111,7 @@ http_interactions:
         C."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
         of Endodontics"],"deposited":{"date-parts":[[2013,6,20]],"timestamp":1371686400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,7]]},"alternative-id":["S0099239913000253"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.joen.2012.12.035","ISSN":["0099-2399"],"subject":["Dentistry(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:27 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s00350-013-3487-0
@@ -6120,7 +6120,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6137,7 +6137,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:27 GMT
+      - Sun, 23 Aug 2015 19:07:02 GMT
       Connection:
       - close
     body:
@@ -6150,7 +6150,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:27 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:06 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs00350-013-3487-0
@@ -6159,7 +6159,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6168,7 +6168,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:28 GMT
+      - Sun, 23 Aug 2015 19:07:03 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6188,7 +6188,7 @@ http_interactions:
         Wenzel (Hrsg.), Handbuch des Fachanwalts Medizinrecht"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","volume":"31","author":[{"affiliation":[],"family":"G\u00fcnter","given":"Rudolf"}],"member":"http:\/\/id.crossref.org\/member\/297","container-title":["MedR","Medizinrecht"],"deposited":{"date-parts":[[2013,8,27]],"timestamp":1377561600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8]]},"alternative-id":["3487"],"URL":"http:\/\/dx.doi.org\/10.1007\/s00350-013-3487-0","ISSN":["0723-8886","1433-8629"],"subject":["Issues,
         ethics and legal aspects","Health Policy"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:28 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:06 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/chin.201341212
@@ -6197,7 +6197,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6214,7 +6214,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:27 GMT
+      - Sun, 23 Aug 2015 19:07:03 GMT
       Connection:
       - close
     body:
@@ -6227,7 +6227,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:28 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:07 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fchin.201341212
@@ -6236,7 +6236,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6245,7 +6245,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:28 GMT
+      - Sun, 23 Aug 2015 19:07:04 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6264,7 +6264,7 @@ http_interactions:
         Abstract: IUPAC-NIST Solubility Data Series. 94. Rare Earth Metal Iodides
         and Bromides in Water and Aqueous Systems. Part 1. Iodides"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1002","volume":"44","author":[{"affiliation":[],"family":"Mioduski","given":"Tomasz"},{"affiliation":[],"family":"Guminski","given":"Cezary"},{"affiliation":[],"family":"Zeng","given":"Dewen"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["ChemInform"],"deposited":{"date-parts":[[2013,10,8]],"timestamp":1381190400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9,19]]},"URL":"http:\/\/dx.doi.org\/10.1002\/chin.201341212","ISSN":["0931-7597"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:28 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1103/physreva.87.053807
@@ -6273,7 +6273,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6290,7 +6290,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:29:28 GMT
+      - Sun, 23 Aug 2015 19:07:04 GMT
       Connection:
       - close
     body:
@@ -6303,7 +6303,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:29 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:08 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1103%2Fphysreva.87.053807
@@ -6312,7 +6312,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6321,7 +6321,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:29 GMT
+      - Sun, 23 Aug 2015 19:07:05 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6343,7 +6343,7 @@ http_interactions:
         Rev. A","Physical Review A"],"link":[{"intended-application":"syndication","content-version":"vor","content-type":"unspecified","URL":"http:\/\/link.aps.org\/article\/10.1103\/PhysRevA.87.053807"}],"deposited":{"date-parts":[[2015,3,25]],"timestamp":1427241600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,5]]},"URL":"http:\/\/dx.doi.org\/10.1103\/physreva.87.053807","ISSN":["1050-2947","1094-1622"],"subject":["Atomic
         and Molecular Physics, and Optics"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:29 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:08 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1134/s1063783413080179
@@ -6352,7 +6352,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6369,7 +6369,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:29 GMT
+      - Sun, 23 Aug 2015 19:07:06 GMT
       Connection:
       - close
     body:
@@ -6382,7 +6382,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:30 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:09 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1134%2Fs1063783413080179
@@ -6391,7 +6391,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6400,7 +6400,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:30 GMT
+      - Sun, 23 Aug 2015 19:07:06 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6423,7 +6423,7 @@ http_interactions:
         of the Solid State","Phys. Solid State"],"deposited":{"date-parts":[[2013,8,6]],"timestamp":1375747200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8]]},"alternative-id":["714"],"URL":"http:\/\/dx.doi.org\/10.1134\/s1063783413080179","ISSN":["1063-7834","1090-6460"],"subject":["Condensed
         Matter Physics","Electronic, Optical and Magnetic Materials"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:30 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:09 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1177/0954410013479714
@@ -6432,7 +6432,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6449,7 +6449,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:29:31 GMT
+      - Sun, 23 Aug 2015 19:07:07 GMT
       Connection:
       - close
     body:
@@ -6462,7 +6462,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:31 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:11 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1177%2F0954410013479714
@@ -6471,7 +6471,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6480,7 +6480,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:35 GMT
+      - Sun, 23 Aug 2015 19:07:07 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6501,7 +6501,7 @@ http_interactions:
         of the Institution of Mechanical Engineers, Part G: Journal of Aerospace Engineering"],"deposited":{"date-parts":[[2014,2,24]],"timestamp":1393200000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,3,20]]},"URL":"http:\/\/dx.doi.org\/10.1177\/0954410013479714","ISSN":["0954-4100","2041-3025"],"subject":["Mechanical
         Engineering","Aerospace Engineering"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:35 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:11 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/jbmr.1837
@@ -6510,7 +6510,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6527,7 +6527,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:29:35 GMT
+      - Sun, 23 Aug 2015 19:07:08 GMT
       Connection:
       - close
     body:
@@ -6540,7 +6540,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:35 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:12 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fjbmr.1837
@@ -6549,7 +6549,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6558,7 +6558,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:37 GMT
+      - Sun, 23 Aug 2015 19:07:09 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6579,7 +6579,7 @@ http_interactions:
         Bone Miner Res","Journal of Bone and Mineral Research"],"deposited":{"date-parts":[[2013,9,11]],"timestamp":1378857600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,15]]},"URL":"http:\/\/dx.doi.org\/10.1002\/jbmr.1837","ISSN":["0884-0431"],"subject":["Orthopedics
         and Sports Medicine","Endocrinology, Diabetes and Metabolism"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:37 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:12 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.12733/jics20102433
@@ -6588,7 +6588,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6605,7 +6605,7 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Fri, 24 Jul 2015 06:29:37 GMT
+      - Sun, 23 Aug 2015 19:07:10 GMT
       Connection:
       - close
     body:
@@ -6618,7 +6618,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:37 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:13 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.12733%2Fjics20102433
@@ -6627,7 +6627,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6636,7 +6636,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:39 GMT
+      - Sun, 23 Aug 2015 19:07:10 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6659,7 +6659,7 @@ http_interactions:
         Theory and Mathematics","Computer Graphics and Computer-Aided Design","Library
         and Information Sciences","Information Systems"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:13 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1177/1936724412475131
@@ -6668,7 +6668,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6685,7 +6685,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:29:39 GMT
+      - Sun, 23 Aug 2015 19:07:11 GMT
       Connection:
       - close
     body:
@@ -6698,7 +6698,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:15 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1177%2F1936724412475131
@@ -6707,7 +6707,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6716,7 +6716,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:39 GMT
+      - Sun, 23 Aug 2015 19:07:12 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6737,7 +6737,7 @@ http_interactions:
         of Applied Social Science"],"deposited":{"date-parts":[[2013,3,26]],"timestamp":1364256000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,2,19]]},"URL":"http:\/\/dx.doi.org\/10.1177\/1936724412475131","ISSN":["1936-7244","1937-0245"],"subject":["Social
         Sciences(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:15 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1061/(asce)hy.1943-7900.0000778
@@ -6746,7 +6746,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6763,7 +6763,7 @@ http_interactions:
       Content-Length:
       - '72'
       Date:
-      - Fri, 24 Jul 2015 06:29:39 GMT
+      - Sun, 23 Aug 2015 19:07:13 GMT
       Connection:
       - close
     body:
@@ -6776,7 +6776,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:17 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1061%2F(asce)hy.1943-7900.0000778
@@ -6785,7 +6785,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6794,7 +6794,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:40 GMT
+      - Sun, 23 Aug 2015 19:07:13 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6817,7 +6817,7 @@ http_interactions:
         of Hydraulic Engineering","J. Hydraul. Eng."],"deposited":{"date-parts":[[2015,4,17]],"timestamp":1429228800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10]]},"alternative-id":["10.1061\/(ASCE)HY.1943-7900.0000778"],"URL":"http:\/\/dx.doi.org\/10.1061\/(asce)hy.1943-7900.0000778","ISSN":["0733-9429","1943-7900"],"subject":["Mechanical
         Engineering","Water Science and Technology","Civil and Structural Engineering"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:40 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:17 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5588/ijtld.12.0426
@@ -6826,7 +6826,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6843,7 +6843,7 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Fri, 24 Jul 2015 06:29:39 GMT
+      - Sun, 23 Aug 2015 19:07:14 GMT
       Connection:
       - close
     body:
@@ -6856,7 +6856,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:40 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:18 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5588%2Fijtld.12.0426
@@ -6865,7 +6865,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6874,7 +6874,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:41 GMT
+      - Sun, 23 Aug 2015 19:07:15 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6900,7 +6900,7 @@ http_interactions:
         j tuberc lung dis","The International Journal of Tuberculosis and Lung Disease"],"deposited":{"date-parts":[[2013,1,14]],"timestamp":1358121600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,2,1]]},"alternative-id":["1027-3719(20130201)17:2L.225;1-"],"URL":"http:\/\/dx.doi.org\/10.5588\/ijtld.12.0426","ISSN":["1027-3719","1815-7920"],"subject":["Infectious
         Diseases","Pulmonary and Respiratory Medicine"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:18 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.11622/smedj.2013147
@@ -6909,7 +6909,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6926,7 +6926,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:41 GMT
+      - Sun, 23 Aug 2015 19:07:15 GMT
       Connection:
       - close
     body:
@@ -6939,7 +6939,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:19 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.11622%2Fsmedj.2013147
@@ -6948,7 +6948,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -6957,7 +6957,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:42 GMT
+      - Sun, 23 Aug 2015 19:07:16 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -6977,7 +6977,7 @@ http_interactions:
         BMT Data Book Including Cellular Therapy (Third edition)"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.11622","volume":"54","author":[{"affiliation":[],"family":"Hwang","given":"WY"}],"member":"http:\/\/id.crossref.org\/member\/4946","container-title":["Singapore
         Medical Journal","smedj"],"deposited":{"date-parts":[[2013,8,27]],"timestamp":1377561600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8]]},"URL":"http:\/\/dx.doi.org\/10.11622\/smedj.2013147","ISSN":["0037-5675"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:41 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:20 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1055/s-0033-1348221
@@ -6986,7 +6986,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7003,7 +7003,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:41 GMT
+      - Sun, 23 Aug 2015 19:07:16 GMT
       Connection:
       - close
     body:
@@ -7016,7 +7016,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:20 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1055%2Fs-0033-1348221
@@ -7025,7 +7025,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7034,7 +7034,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:42 GMT
+      - Sun, 23 Aug 2015 19:07:17 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7059,7 +7059,7 @@ http_interactions:
         of Internal Medicine III, University of Dresden, \u00adDresden, Germany"}],"family":"Chavakis","given":"T."}],"member":"http:\/\/id.crossref.org\/member\/194","container-title":["Hormone
         and Metabolic Research","Horm Metab Res"],"deposited":{"date-parts":[[2013,9,13]],"timestamp":1379030400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,8,5]]},"URL":"http:\/\/dx.doi.org\/10.1055\/s-0033-1348221","ISSN":["0018-5043","1439-4286"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:20 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s10337-013-2591-7
@@ -7068,7 +7068,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7085,7 +7085,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:42 GMT
+      - Sun, 23 Aug 2015 19:07:17 GMT
       Connection:
       - close
     body:
@@ -7098,7 +7098,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:42 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:21 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs10337-013-2591-7
@@ -7107,7 +7107,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7116,7 +7116,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:43 GMT
+      - Sun, 23 Aug 2015 19:07:18 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7137,7 +7137,7 @@ http_interactions:
         of Liposomes and Countermeasures in Free Drug Analysis"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","volume":"77","author":[{"affiliation":[],"family":"Xu","given":"Meng"},{"affiliation":[],"family":"Li","given":"Cen"},{"affiliation":[],"family":"Liu","given":"Yan"},{"affiliation":[],"family":"Chen","given":"Dan"},{"affiliation":[],"family":"Jiang","given":"Ye"}],"member":"http:\/\/id.crossref.org\/member\/297","container-title":["Chromatographia"],"deposited":{"date-parts":[[2014,2,25]],"timestamp":1393286400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,10,23]]},"alternative-id":["2591"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10337-013-2591-7","ISSN":["0009-5893","1612-1112"],"subject":["Analytical
         Chemistry","Organic Chemistry","Biochemistry","Clinical Biochemistry"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:43 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:22 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/ppe.12038
@@ -7146,7 +7146,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7163,7 +7163,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:29:42 GMT
+      - Sun, 23 Aug 2015 19:07:19 GMT
       Connection:
       - close
     body:
@@ -7176,7 +7176,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:43 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:23 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fppe.12038
@@ -7185,7 +7185,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7194,7 +7194,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:43 GMT
+      - Sun, 23 Aug 2015 19:07:20 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7224,7 +7224,7 @@ http_interactions:
         in birthweight curves"],"issued":{"date-parts":[[2013,2,4]]},"URL":"http:\/\/dx.doi.org\/10.1111\/ppe.12038","ISSN":["0269-5022"],"subject":["Pediatrics,
         Perinatology, and Child Health","Epidemiology"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:43 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:23 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s12541-013-0163-2
@@ -7233,7 +7233,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7250,7 +7250,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:43 GMT
+      - Sun, 23 Aug 2015 19:07:21 GMT
       Connection:
       - close
     body:
@@ -7263,7 +7263,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:43 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:24 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs12541-013-0163-2
@@ -7272,7 +7272,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7281,7 +7281,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:44 GMT
+      - Sun, 23 Aug 2015 19:07:21 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7303,7 +7303,7 @@ http_interactions:
         Journal of Precision Engineering and Manufacturing","Int. J. Precis. Eng.
         Manuf."],"deposited":{"date-parts":[[2013,7,29]],"timestamp":1375056000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,7]]},"alternative-id":["163"],"URL":"http:\/\/dx.doi.org\/10.1007\/s12541-013-0163-2","ISSN":["2234-7593","2005-4602"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:43 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:24 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.transproceed.2012.06.085
@@ -7312,7 +7312,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7329,7 +7329,7 @@ http_interactions:
       Content-Length:
       - '72'
       Date:
-      - Fri, 24 Jul 2015 06:29:43 GMT
+      - Sun, 23 Aug 2015 19:07:22 GMT
       Connection:
       - close
     body:
@@ -7342,7 +7342,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:44 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:25 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.transproceed.2012.06.085
@@ -7351,7 +7351,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7360,7 +7360,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:44 GMT
+      - Sun, 23 Aug 2015 19:07:22 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7380,7 +7380,7 @@ http_interactions:
         Analysis of Rats With Acute Heart Rejection"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"45","author":[{"affiliation":[],"family":"Tao","given":"M."},{"affiliation":[],"family":"Xiu","given":"D.R."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Transplantation
         Proceedings"],"deposited":{"date-parts":[[2013,4,26]],"timestamp":1366934400000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,3]]},"alternative-id":["S0041134512013589"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.transproceed.2012.06.085","ISSN":["0041-1345"],"subject":["Surgery","Transplantation"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:44 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:25 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.cagd.2013.06.005
@@ -7389,7 +7389,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7406,7 +7406,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Fri, 24 Jul 2015 06:29:43 GMT
+      - Sun, 23 Aug 2015 19:07:23 GMT
       Connection:
       - close
     body:
@@ -7419,7 +7419,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:44 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:27 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.cagd.2013.06.005
@@ -7428,7 +7428,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7437,7 +7437,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:44 GMT
+      - Sun, 23 Aug 2015 19:07:23 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7462,7 +7462,7 @@ http_interactions:
         Graphics and Computer-Aided Design","Modelling and Simulation","Aerospace
         Engineering","Automotive Engineering"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:44 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:27 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/cei.12138
@@ -7471,7 +7471,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7488,7 +7488,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Fri, 24 Jul 2015 06:29:45 GMT
+      - Sun, 23 Aug 2015 19:07:24 GMT
       Connection:
       - close
     body:
@@ -7501,7 +7501,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:28 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2Fcei.12138
@@ -7510,7 +7510,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7519,7 +7519,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:45 GMT
+      - Sun, 23 Aug 2015 19:07:25 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7550,7 +7550,7 @@ http_interactions:
         responses in pulmonary sarcoidosis"],"issued":{"date-parts":[[2013,8,6]]},"URL":"http:\/\/dx.doi.org\/10.1111\/cei.12138","ISSN":["0009-9104"],"subject":["Immunology","Immunology
         and Allergy"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:28 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/j.rpemd.2013.12.061
@@ -7559,7 +7559,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7576,7 +7576,7 @@ http_interactions:
       Content-Length:
       - '65'
       Date:
-      - Fri, 24 Jul 2015 06:29:45 GMT
+      - Sun, 23 Aug 2015 19:07:26 GMT
       Connection:
       - close
     body:
@@ -7589,7 +7589,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:30 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fj.rpemd.2013.12.061
@@ -7598,7 +7598,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7607,7 +7607,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:45 GMT
+      - Sun, 23 Aug 2015 19:07:26 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7637,7 +7637,7 @@ http_interactions:
         Type","name":"content_type","value":"simple-article"},{"label":"Copyright","name":"copyright","value":"Copyright
         \u00a9 2014 Published by Elsevier Espa\u00f1a, S.L."}]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:30 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/s10103-012-1252-7
@@ -7646,7 +7646,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7663,7 +7663,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Fri, 24 Jul 2015 06:29:45 GMT
+      - Sun, 23 Aug 2015 19:07:27 GMT
       Connection:
       - close
     body:
@@ -7676,7 +7676,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:31 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1007%2Fs10103-012-1252-7
@@ -7685,7 +7685,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7694,7 +7694,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:45 GMT
+      - Sun, 23 Aug 2015 19:07:28 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7715,7 +7715,7 @@ http_interactions:
         for acute urinary retention in advanced prostate cancer patients"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1007","volume":"28","author":[{"affiliation":[],"family":"Chen","given":"Dong"},{"affiliation":[],"family":"Xue","given":"Boxin"},{"affiliation":[],"family":"Shan","given":"Yuxi"},{"affiliation":[],"family":"Yang","given":"Dongrong"},{"affiliation":[],"family":"Sun","given":"Chuanyang"},{"affiliation":[],"family":"Gao","given":"Jie"}],"member":"http:\/\/id.crossref.org\/member\/297","container-title":["Lasers
         in Medical Science","Lasers Med Sci"],"deposited":{"date-parts":[[2013,8,31]],"timestamp":1377907200000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,3]]},"alternative-id":["1252"],"URL":"http:\/\/dx.doi.org\/10.1007\/s10103-012-1252-7","ISSN":["0268-8921","1435-604X"],"subject":["Dermatology","Surgery"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:45 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:31 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/ange.201208571
@@ -7724,7 +7724,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7741,7 +7741,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Fri, 24 Jul 2015 06:29:46 GMT
+      - Sun, 23 Aug 2015 19:07:28 GMT
       Connection:
       - close
     body:
@@ -7754,7 +7754,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:32 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2Fange.201208571
@@ -7763,7 +7763,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7772,7 +7772,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:46 GMT
+      - Sun, 23 Aug 2015 19:07:29 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7793,7 +7793,7 @@ http_interactions:
         N."},{"affiliation":[],"family":"Fischer","given":"Daniel F."},{"affiliation":[],"family":"Sarpong","given":"Richmond"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["Angewandte
         Chemie","Angew. Chem."],"deposited":{"date-parts":[[2013,2,1]],"timestamp":1359676800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,1,10]]},"URL":"http:\/\/dx.doi.org\/10.1002\/ange.201208571","ISSN":["0044-8249"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:32 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/s1569-1993(13)60202-7
@@ -7802,7 +7802,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7819,7 +7819,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Fri, 24 Jul 2015 06:29:46 GMT
+      - Sun, 23 Aug 2015 19:07:30 GMT
       Connection:
       - close
     body:
@@ -7832,7 +7832,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:33 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1016%2Fs1569-1993(13)60202-7
@@ -7841,7 +7841,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7850,7 +7850,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:46 GMT
+      - Sun, 23 Aug 2015 19:07:30 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7871,7 +7871,7 @@ http_interactions:
         of Cystic Fibrosis"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1569199313602027?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1569199313602027?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,6,4]],"timestamp":1433376000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,6]]},"alternative-id":["S1569199313602027"],"URL":"http:\/\/dx.doi.org\/10.1016\/s1569-1993(13)60202-7","ISSN":["1569-1993"],"subject":["Pediatrics,
         Perinatology, and Child Health","Pulmonary and Respiratory Medicine"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:33 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1177/1757975913502689
@@ -7880,7 +7880,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7897,7 +7897,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Fri, 24 Jul 2015 06:29:46 GMT
+      - Sun, 23 Aug 2015 19:07:31 GMT
       Connection:
       - close
     body:
@@ -7910,7 +7910,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:47 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:35 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1177%2F1757975913502689
@@ -7919,7 +7919,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -7928,7 +7928,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Fri, 24 Jul 2015 06:29:47 GMT
+      - Sun, 23 Aug 2015 19:07:31 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -7950,5 +7950,5 @@ http_interactions:
         with traditional marriage counseling in Zambia"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1177","volume":"20","author":[{"affiliation":[],"family":"Kapambwe","given":"S."},{"affiliation":[],"family":"Parham","given":"G."},{"affiliation":[],"family":"Mwanahamuntu","given":"M."},{"affiliation":[],"family":"Chirwa","given":"S."},{"affiliation":[],"family":"Mwanza","given":"J."},{"affiliation":[],"family":"Amuyunzu-Nyamongo","given":"M."}],"member":"http:\/\/id.crossref.org\/member\/179","container-title":["Global
         Health Promotion"],"deposited":{"date-parts":[[2014,4,10]],"timestamp":1397088000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,12,1]]},"URL":"http:\/\/dx.doi.org\/10.1177\/1757975913502689","ISSN":["1757-9759","1757-9767"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Fri, 24 Jul 2015 06:29:47 GMT
+  recorded_at: Sun, 23 Aug 2015 19:07:35 GMT
 recorded_with: VCR 2.9.3

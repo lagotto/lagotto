@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.0.0
       Date:
-      - Thu, 16 Jul 2015 21:05:41 GMT
+      - Sun, 23 Aug 2015 19:01:07 GMT
       Content-Type:
       - application/json; charset=utf-8
       Connection:
@@ -31,15 +31,15 @@ http_interactions:
       X-Powered-By:
       - Phusion Passenger (mod_rails/mod_rack) 3.0.21
       X-Runtime:
-      - '74'
+      - '122'
       Cache-Control:
       - private, max-age=0, must-revalidate
       Set-Cookie:
-      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlZjQ0ZTZkMDhiMmEyMzA3OWVkYmMzOGRhYjk0NDViMDc%3D--56f8ab6c39e1da207e08a43babe6ce1acef9c9d6;
+      - _nature_blogs_session=BAh7BjoPc2Vzc2lvbl9pZCIlNTc5MjA2ODk1NGFjMmQxOTZiYTZmYzQxMTJiYzBjNzM%3D--8f8c3fd1f6eb6de992a81251868f99e478873b07;
         path=/; HttpOnly
     body:
       encoding: UTF-8
       string: "[]"
     http_version: 
-  recorded_at: Thu, 16 Jul 2015 21:05:39 GMT
+  recorded_at: Sun, 23 Aug 2015 19:01:11 GMT
 recorded_with: VCR 2.9.3

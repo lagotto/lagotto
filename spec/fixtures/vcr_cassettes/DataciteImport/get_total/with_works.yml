@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Thu, 25 Jun 2015 11:31:10 GMT
+      - Sun, 23 Aug 2015 18:49:35 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -27,7 +27,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":5290308,"start":0,"docs":[]}}
+        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":5634618,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Thu, 25 Jun 2015 11:41:30 GMT
+  recorded_at: Sun, 23 Aug 2015 19:01:31 GMT
 recorded_with: VCR 2.9.3

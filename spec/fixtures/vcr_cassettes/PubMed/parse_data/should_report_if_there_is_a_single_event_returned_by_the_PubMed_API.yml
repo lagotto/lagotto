@@ -2,13 +2,51 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%204.2%20-%20http://lagotto-4-2-unstable.local
+    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%20-%20http://lagotto-4-4-unstable.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 301
+      message: ''
+    headers:
+      Date:
+      - Sun, 23 Aug 2015 18:59:39 GMT
+      Server:
+      - Apache
+      Location:
+      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%2540example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto+-+http%253A%252F%252Flagotto-4-4-unstable.local
+      Content-Length:
+      - '399'
+      Content-Type:
+      - text/html; charset=iso-8859-1
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+        <html><head>
+        <title>301 Moved Permanently</title>
+        </head><body>
+        <h1>Moved Permanently</h1>
+        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%2540example.org&amp;format=json&amp;ids=3292175&amp;idtype=pmcid&amp;tool=Lagotto+-+http%253A%252F%252Flagotto-4-4-unstable.local">here</a>.</p>
+        </body></html>
+    http_version: 
+  recorded_at: Sun, 23 Aug 2015 18:59:42 GMT
+- request:
+    method: get
+    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%2540example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%20-%20http%253A%252F%252Flagotto-4-4-unstable.local
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -17,7 +55,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 07 Jun 2015 10:52:14 GMT
+      - Sun, 23 Aug 2015 18:59:39 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,8 +69,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-06-07 06:52:14",
-         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%204.2%20-%20http%3A%2F%2Flagotto-4-2-unstable.local",
+         "responseDate": "2015-08-23 14:59:39",
+         "request": "email=info%2540example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%20-%20http%253A%252F%252Flagotto-4-4-unstable.local",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -52,7 +90,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sun, 07 Jun 2015 10:52:15 GMT
+  recorded_at: Sun, 23 Aug 2015 18:59:42 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.3389%2Ffendo.2012.00005
@@ -61,7 +99,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto 4.2 - http://lagotto-4-2-unstable.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -70,7 +108,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 07 Jun 2015 10:52:15 GMT
+      - Sun, 23 Aug 2015 18:59:39 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -85,11 +123,11 @@ http_interactions:
       - '911'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"subtitle":[],"issued":{"date-parts":[[2012]]},"score":1.0,"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","author":[{"affiliation":[],"family":"Morrison","given":"Shaun
-        F."},{"affiliation":[],"family":"Madden","given":"Christopher J."},{"affiliation":[],"family":"Tupone","given":"Domenico"}],"container-title":["Front.
-        Endocrin.","Frontiers in Endocrinology"],"reference-count":0,"deposited":{"date-parts":[[2015,2,18]],"timestamp":1424217600000},"title":["Central
-        Control of Brown Adipose Tissue Thermogenesis"],"type":"journal-article","DOI":"10.3389\/fendo.2012.00005","ISSN":["1664-2392"],"URL":"http:\/\/dx.doi.org\/10.3389\/fendo.2012.00005","source":"CrossRef","publisher":"Frontiers
-        Media SA","indexed":{"date-parts":[[2015,2,21]],"timestamp":1424477135150},"volume":"3","member":"http:\/\/id.crossref.org\/member\/1965"}}'
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,2,21]],"timestamp":1424477135150},"reference-count":0,"publisher":"Frontiers
+        Media SA","DOI":"10.3389\/fendo.2012.00005","type":"journal-article","source":"CrossRef","title":["Central
+        Control of Brown Adipose Tissue Thermogenesis"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.3389","volume":"3","author":[{"affiliation":[],"family":"Morrison","given":"Shaun
+        F."},{"affiliation":[],"family":"Madden","given":"Christopher J."},{"affiliation":[],"family":"Tupone","given":"Domenico"}],"member":"http:\/\/id.crossref.org\/member\/1965","container-title":["Frontiers
+        in Endocrinology","Front. Endocrin."],"deposited":{"date-parts":[[2015,2,18]],"timestamp":1424217600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2012]]},"URL":"http:\/\/dx.doi.org\/10.3389\/fendo.2012.00005","ISSN":["1664-2392"]}}'
     http_version: 
-  recorded_at: Sun, 07 Jun 2015 10:52:15 GMT
+  recorded_at: Sun, 23 Aug 2015 18:59:42 GMT
 recorded_with: VCR 2.9.3

@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -17,36 +17,30 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 14 Jul 2015 14:00:11 GMT
+      - Sun, 23 Aug 2015 19:01:34 GMT
       Content-Language:
       - en-US
       Content-Type:
       - application/json;charset=utf-8
+      X-Cacheable:
+      - 'YES'
       Cache-Control:
       - public,max-age=86400
       Last-Modified:
-      - Tue, 14 Jul 2015 14:00:11 GMT
+      - Sun, 23 Aug 2015 19:01:34 GMT
       X-Ua-Device:
       - classic
       Server:
       - BioMed Central Web Server 1.0
       X-Cache:
-      - HIT, MISS from non_disclosed
-      X-Cache-Hits:
-      - '1'
-      Content-Length:
-      - '16'
+      - MISS
+      Connection:
+      - keep-alive
       Accept-Ranges:
       - bytes
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
-      Connection:
-      - close
     body:
       encoding: UTF-8
       string: "{\"entries\":[]}\r\n"
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:13:46 GMT
+  recorded_at: Sun, 23 Aug 2015 19:01:41 GMT
 recorded_with: VCR 2.9.3

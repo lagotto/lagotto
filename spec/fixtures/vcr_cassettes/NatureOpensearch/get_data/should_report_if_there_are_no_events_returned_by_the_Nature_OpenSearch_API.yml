@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -25,24 +25,18 @@ http_interactions:
       P3p:
       - CP="CAO DSP LAW IVA IVD HIS OUR UNR STP UNI COM"
       Date:
-      - Tue, 14 Jul 2015 14:20:08 GMT
+      - Sun, 23 Aug 2015 19:09:21 GMT
+      Connection:
+      - keep-alive
       Set-Cookie:
-      - SaneID=63.130.78.69.1436883608450630; path=/; domain=.nature.com, JSESSIONID=qocdy2qvfesyn51zss3a766e;Path=/opensearch
+      - SaneID=63.130.161.201.1440356961089111; path=/; domain=.nature.com, JSESSIONID=1v6kzkn6otq0x5adqqix1j86e;Path=/opensearch
       Expires:
       - Thu, 01-Jan-1970 00:00:00 GMT
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.0 non_disclosed:3128 (squid)
-      Connection:
-      - close
     body:
       encoding: ASCII-8BIT
       string: !binary |-
         CgkJewoJCSJjb21tZW50IjogIm5hdHVyZS5jb20gT3BlblNlYXJjaDogdXJu
-        OnV1aWQ6MjZjZGRhOGQtNDNkNC00ZjRiLWJiMjQtY2IzZDhiMzIyZjU3IiwK
+        OnV1aWQ6ZTdjNGZkM2UtNzUzNC00OTU2LTlkNTYtNTgxNmUzOWM3NmNiIiwK
         CQkibmFtZXNwYWNlcyI6IHsKCQkiXyI6ICJodHRwOi8vd3d3LnczLm9yZy8y
         MDA1L0F0b20iLAoJCSJkYyI6ICJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVu
         dHMvMS4xLyIsCgkJImRpYWciOiAiaHR0cDovL2RvY3Mub2FzaXMtb3Blbi5v
@@ -61,11 +55,11 @@ http_interactions:
         dGl0bGUiOgoJCSJUaGUgbmF0dXJlLmNvbSBPcGVuU2VhcmNoIHNlcnZpY2Ug
         cHJvdmlkZXMgYSBzdHJ1Y3R1cmVkIHJlc291cmNlIGRpc2NvdmVyeSBmYWNp
         bGl0eSBmb3IgY29udGVudCBob3N0ZWQgb24gbmF0dXJlLmNvbS4iCgkJLAoJ
-        CSJpZCI6ICJ1cm46dXVpZDoyNmNkZGE4ZC00M2Q0LTRmNGItYmIyNC1jYjNk
-        OGIzMjJmNTciLAoJCSJhdXRob3IiOiB7CgkJIm5hbWUiOiAibmF0dXJlLmNv
+        CSJpZCI6ICJ1cm46dXVpZDplN2M0ZmQzZS03NTM0LTQ5NTYtOWQ1Ni01ODE2
+        ZTM5Yzc2Y2IiLAoJCSJhdXRob3IiOiB7CgkJIm5hbWUiOiAibmF0dXJlLmNv
         bSIsCgkJInVyaSI6ICJodHRwOi8vd3d3Lm5hdHVyZS5jb20iLAoJCSJlbWFp
         bCI6ICJpbnRlcmZhY2VzQG5hdHVyZS5jb20iCgkJfSwKCQkidXBkYXRlZCI6
-        ICIyMDE1LTA3LTE0VDE0OjIwOjA4KzAwOjAwIiwKCQkicmlnaHRzIjogIsKp
+        ICIyMDE1LTA4LTIzVDE5OjA5OjIxKzAwOjAwIiwKCQkicmlnaHRzIjogIsKp
         IDIwMTUgTmF0dXJlIFB1YmxpY2F0aW9uIEdyb3VwIiwKCQkiaWNvbiI6ICJo
         dHRwOi8vd3d3Lm5hdHVyZS5jb20vb3BlbnNlYXJjaC9jb21tb24vaW1ncy9u
         cGdfaWNvbi5qcGciLAoJCQoJCSJsaW5rIjogWwoJCXsKCQkicmVsIjogInNl
@@ -123,10 +117,10 @@ http_interactions:
         CgkJCgkJIm5wZzpjb3B5cmlnaHQiOiAiwqkgMjAxNSBOYXR1cmUgUHVibGlj
         YXRpb24gR3JvdXAiLAoJCQoJCQkibnBnOmVudHJ5IjogIiIsCgkJCgkJIm5w
         ZzpkYXRhYmFzZVRpdGxlIjogIm5hdHVyZS5jb20gT3BlblNlYXJjaCIsCgkJ
-        Im5wZzpkYXRldGltZSI6ICIyMDE1LTA3LTE0VDE0OjIwOjA4KzAwOjAwIiwK
+        Im5wZzpkYXRldGltZSI6ICIyMDE1LTA4LTIzVDE5OjA5OjIxKzAwOjAwIiwK
         CQkibnBnOmh0dHBBY2NlcHQiOiAiYXBwbGljYXRpb24vanNvbiIsCgkJIm5w
-        ZzpyZXNwb25zZUlkIjogIjI2Y2RkYThkLTQzZDQtNGY0Yi1iYjI0LWNiM2Q4
-        YjMyMmY1NyIKCQl9CgkJCgoJCX0KCQl9CgkJCg==
+        ZzpyZXNwb25zZUlkIjogImU3YzRmZDNlLTc1MzQtNDk1Ni05ZDU2LTU4MTZl
+        MzljNzZjYiIKCQl9CgkJCgoJCX0KCQl9CgkJCg==
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:20:08 GMT
+  recorded_at: Sun, 23 Aug 2015 19:09:24 GMT
 recorded_with: VCR 2.9.3

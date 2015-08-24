@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/xml
   response:
@@ -19,23 +19,17 @@ http_interactions:
       Server:
       - nginx/0.8.31
       Date:
-      - Tue, 14 Jul 2015 14:17:35 GMT
+      - Sun, 23 Aug 2015 19:01:06 GMT
       Content-Type:
       - text/xml; charset=UTF-8
+      Connection:
+      - keep-alive
       Vary:
       - Accept-Encoding
       Mime-Version:
       - '1.0'
       Content-Length:
       - '3368'
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
-      Connection:
-      - close
     body:
       encoding: UTF-8
       string: |
@@ -107,5 +101,5 @@ http_interactions:
 
         </posts>
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:17:35 GMT
+  recorded_at: Sun, 23 Aug 2015 19:01:09 GMT
 recorded_with: VCR 2.9.3
