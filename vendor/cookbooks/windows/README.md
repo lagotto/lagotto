@@ -14,8 +14,10 @@ Version 1.3.0+ of this cookbook requires Chef 0.10.10+.
 * Windows Server 2003 R2
 * Windows 7
 * Windows Server 2008 (R1, R2)
+* Windows 8, 8.1
+* Windows Server 2012 (R2)
 
-The `windows_task` LWRP requires Windows Server 2008 due to its API usage.
+The `windows_task` LWRP requires Windows Server 2008 and above due to its API usage.
 
 ### Cookbooks
 The following cookbooks provided by Chef Software are required as noted:
@@ -53,7 +55,7 @@ end
 ```
 
 ### windows_batch
-(Chef 11.6.0 includes a built-in [batch](http://docs.chef.io/resource_batch.html) resource, so use that in preference to `windows_batch` if possible.)
+This resource is now deprecated and will be removed in a future version of this cookbook.  Chef >= 11.6.0 includes a built-in [batch](http://docs.chef.io/resource_batch.html) resource.
 
 Execute a batch script using the cmd.exe interpreter (much like the script resources for bash, csh, powershell, perl, python and ruby). A temporary file is created and executed like other script resources, rather than run inline. By their nature, Script resources are not idempotent, as they are completely up to the user's imagination. Use the `not_if` or `only_if` meta parameters to guard the resource for idempotence.
 
@@ -87,6 +89,79 @@ windows_batch 'echo some env vars' do
   echo %PATH%
   echo %WINDIR%
   EOH
+end
+```
+
+### windows_certificate
+
+Installs a certificate into the Windows certificate store from a file, and grants read-only access to the private key for designated accounts.
+Due to current limitations in winrm, installing certificated remotely may not work if the operation requires a user profile.  Operations on the local machine store should still work.
+
+#### Actions
+- :create: creates or updates a certificate.
+- :delete: deletes a certificate.
+- :acl_add: adds read-only entries to a certificate's private key ACL.
+
+#### Attribute Parameters
+- source: name attribute. The source file (for create and acl_add), thumprint (for delete and acl_add) or subject (for delete).
+- pfx_password: the password to access the source if it is a pfx file.
+- private_key_acl: array of 'domain\account' entries to be granted read-only access to the certificate's private key. This is not idempotent.
+- store_name: the certificate store to maniplate. One of MY (default : personal store), CA (trusted intermediate store) or ROOT (trusted root store).
+- user_store: if false (default) then use the local machine store; if true then use the current user's store.
+
+#### Examples
+```ruby
+# Add PFX cert to local machine personal store and grant accounts read-only access to private key
+windows_certificate "c:/test/mycert.pfx" do
+	pfx_password	"password"
+	private_key_acl	["acme\fred", "pc\jane"]
+end
+```
+
+```ruby
+# Add cert to trusted intermediate store
+windows_certificate "c:/test/mycert.cer" do
+	store_name	"CA"
+end
+```
+
+```ruby
+# Remove all certicates matching the subject
+windows_certificate "me.acme.com" do
+	action :delete
+end
+```
+
+### windows_certificate_binding
+
+Binds a certificate to an HTTP port in order to enable TLS communication.
+
+#### Actions
+- :create: creates or updates a binding.
+- :delete: deletes a binding.
+
+#### Attribute Parameters
+- cert_name: name attribute. The thumprint(hash) or subject that identifies the certicate to be bound.
+- name_kind: indicates the type of cert_name. One of :subject (default) or :hash.
+- address: the address to bind against. Default is 0.0.0.0 (all IP addresses).
+- port: the port to bind against. Default is 443.
+- app_id: the GUID that defines the application that owns the binding. Default is the values used by IIS.
+- store_name: the store to locate the certificate in. One of MY (default : personal store), CA (trusted intermediate store) or ROOT (trusted root store).
+
+#### Examples
+```ruby
+# Bind the first certificate matching the subject to the default TLS port
+windows_certificate_binding "me.acme.com" do
+end
+```
+
+```ruby
+# Bind a cert from the CA store with the given hash to port 4334
+windows_certificate_binding "me.acme.com" do
+	cert_name	"d234567890a23f567c901e345bc8901d34567890"
+	name_kind	:hash
+	store_name	"CA"
+	port		4334
 end
 ```
 
@@ -171,6 +246,31 @@ Font files should be included in the cookbooks
 
 ```ruby
 windows_font 'Code New Roman.otf'
+```
+
+### windows_http_acl
+Sets the Access Control List for an http URL to grant non-admin accounts permission to open HTTP endpoints.
+
+#### Actions
+- :create: creates or updates the ACL for a URL.
+- :delete: deletes the ACL from a URL.
+
+#### Attribute Parameters
+- url: the name of the url to be created/deleted.
+- user: the name (domain\user) of the user or group to be granted permission to the URL. Mandatory for create. Only one user or group can be granted permission so this replaces any previously defined entry.
+
+#### Examples
+
+```ruby
+windows_http_acl 'http://+:50051/' do
+	user 'pc\\fred'
+end
+```
+
+```ruby
+windows_http_acl 'http://+:50051/' do
+	action :delete
+end
 ```
 
 ### windows_package
@@ -367,6 +467,8 @@ end
 ```
 
 ### windows_reboot
+This resource is now deprecated and will be removed in a future version of this cookbook.  Chef >= 12.0.0 includes a built-in [reboot](http://docs.chef.io/resource_reboot.html) resource.
+
 Sets required data in the node's run_state to notify `WindowsRebootHandler` a reboot is requested.  If Chef run completes successfully a reboot will occur if the `WindowsRebootHandler` is properly registered as a report handler.  As an action of `:request` will cause a node to reboot every Chef run, this resource is usually notified by other resources...ie restart node after a package is installed (see example below).
 
 #### Actions
@@ -399,7 +501,7 @@ end
 ```
 
 ### windows_registry
-(Chef 11.6.0 includes a built-in [registry_key](http://docs.chef.io/resource_registry_key.html) resource, so use that in preference to `windows_registry` if possible.)
+This resource is now deprecated and will be removed in a future version of this cookbook.  Chef >= 11.6.0 includes a built-in [registry_key](http://docs.chef.io/resource_registry_key.html) resource.
 
 Creates and modifies Windows registry keys.
 

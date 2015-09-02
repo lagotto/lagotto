@@ -1,6 +1,18 @@
 apt Cookbook CHANGELOG
 ======================
 
+v2.8.1 (2015-08-18)
+-------------------
+- Handle keyservers as URLs and bare hostnames
+
+v2.8.0 (2015-08-18)
+-------------------
+- Access keyservers on port 80
+- Adds key\_proxy as LWRP attribute for apt\_repository
+- Fix wildcard glob preferences files
+- Fix text output verification for non en\_US locales
+- Quote repo URLs to deal with spaces
+
 v2.7.0 (2015-03-23)
 -------------------
 - Support Debian 8.0

@@ -8,52 +8,47 @@
 module LibArchiveCookbook
   module Helper
     class << self
-      # This can't be a constant since we might not have required 'archive' yet
+      # This can't be a constant since we might not have required 'ffi-libarchive' yet.
       def extract_option_map
         {
-          owner: ::Archive::EXTRACT_OWNER,
-          permissions: ::Archive::EXTRACT_PERM,
-          time: ::Archive::EXTRACT_TIME,
-          no_overwrite: ::Archive::EXTRACT_NO_OVERWRITE,
-          acl: ::Archive::EXTRACT_ACL,
-          fflags: ::Archive::EXTRACT_FFLAGS,
-          extended_information: ::Archive::EXTRACT_XATTR,
-          xattr: ::Archive::EXTRACT_XATTR,
+          owner: Archive::EXTRACT_OWNER,
+          permissions: Archive::EXTRACT_PERM,
+          time: Archive::EXTRACT_TIME,
+          no_overwrite: Archive::EXTRACT_NO_OVERWRITE,
+          acl: Archive::EXTRACT_ACL,
+          fflags: Archive::EXTRACT_FFLAGS,
+          extended_information: Archive::EXTRACT_XATTR,
+          xattr: Archive::EXTRACT_XATTR,
         }
       end
 
       # @param [String] src
       # @param [String] dest
-      # @param [Array] extract_options
+      # @param [Array] options
       #
       # @return [Boolean]
-      def extract(src, dest, extract_options = [])
-        require 'archive'
+      def extract(src, dest, options = [])
+        require 'ffi-libarchive'
 
-        extract_options ||= Array.new
-        extract_options.collect! { |option| extract_option_map[option] }.compact!
+        flags = [options].flatten.map { |option| extract_option_map[option] }.compact.reduce(:|)
+        modified = false
 
         Dir.chdir(dest) do
-          archive       = ::Archive.new(src)
-          archive_files = archive.map { |entry| entry.path }
+          archive = Archive::Reader.open_filename(src)
 
-          existing, missing = archive_files.partition { |f| File.exist?(File.join(dest, f)) }
-          current_times     = existing.reduce({}) { |times, f| times[f] = File.mtime(f); times }
+          archive.each_entry do |e|
+            pathname = File.expand_path(e.pathname)
+            if File.exist?(pathname)
+              modified = true unless File.mtime(pathname) == e.mtime
+            else
+              modified = true
+            end
 
-          archive.extract(extract: extract_options.reduce(:|))
-
-          unless missing.empty?
-            # are all files which were missing no longer missing?
-            still_missing = missing.reject { |f| File.exist?(f) }
-            return true if still_missing.length < missing.length
+            archive.extract(e, flags.to_i)
           end
-
-          # any existing files have their mtimes changed?
-          changed_files = current_times.select { |file, time| File.mtime(file) != time }
-          return true unless changed_files.empty?
         end
 
-        false
+        modified
       end
     end
   end

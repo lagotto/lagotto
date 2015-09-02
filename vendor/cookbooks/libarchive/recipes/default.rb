@@ -5,38 +5,24 @@
 # Author:: Jamie Winsor (<jamie@vialstudios.com>)
 #
 
-if platform_family?("debian")
-  node.set[:apt][:compile_time_update] = true
-  include_recipe "apt::default"
+include_recipe 'apt::default' if platform_family?('debian')
+if platform_family?('redhat')
+  include_recipe 'yum-epel::default' if node[:platform_version].to_i == 5
 end
 
-node.set[:'build-essential'][:compile_time] = true
-include_recipe "build-essential::default"
+package node[:libarchive][:package_name] do
+  version node[:libarchive][:package_version] if node[:libarchive][:package_version]
+  action :nothing
+end.run_action(:upgrade)
 
-case
-when platform_family?("debian")
-  package "libarchive-dev" do
-    action :nothing
-  end.run_action(:install)
-when platform_family?("rhel")
-  package "libarchive" do
-    action :nothing
-  end.run_action(:install)
-  package "libarchive-devel" do
-    action :nothing
-  end.run_action(:install)
-when platform_family?("arch")
-  package "libarchive" do
-    action :nothing
-  end.run_action(:install)
-when platform_family?("mac_os_x")
-  package "libarchive" do
-    action :nothing
-  end.run_action(:install)
+if Chef::Resource::ChefGem.instance_methods(false).include?(:compile_time)
+  chef_gem 'ffi-libarchive' do
+    version '~> 0.2.0'
+    compile_time true
+  end
 else
-  Chef::Application.fatal! "[libarchive] unsupported platform family: #{node[:platform_family]}"
-end
-
-chef_gem "libarchive-ruby" do
-  version "0.0.3"
+  chef_gem 'ffi-libarchive' do
+    version '~> 0.2.0'
+    action :nothing
+  end.run_action(:install)
 end

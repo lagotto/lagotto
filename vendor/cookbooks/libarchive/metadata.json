@@ -7,12 +7,14 @@
   "license": "Apache 2.0",
   "platforms": {
     "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
     "arch": ">= 0.0.0",
     "mac_os_x": ">= 0.0.0"
   },
   "dependencies": {
-    "build-essential": "~> 2.0",
-    "apt": "~> 2.5"
+    "apt": "~> 2.5",
+    "yum-epel": "~> 0.6"
   },
   "recommendations": {
 
@@ -38,7 +40,7 @@
   "recipes": {
 
   },
-  "version": "0.4.4",
+  "version": "0.6.1",
   "source_url": "",
   "issues_url": ""
 }

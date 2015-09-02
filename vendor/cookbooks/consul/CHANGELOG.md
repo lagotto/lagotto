@@ -1,5 +1,6 @@
-# 0.10.1
-Minor fixes. Last major release prior to 1.0.0.
+# 1.0.0
+
+# 0.11
 
 # 0.10
 Fixes several bugs, minor enhancements and changes default version of
@@ -24,7 +25,6 @@ Consul to 0.5.2.
   * Lock to Chef 11 compatible version of libarchive cookbook
 
 # 0.9.0
-
 * Enhancements
   - Adds support for publishing to statsd URL. [@akerekes](https://github.com/akerekes)
   - Adds support for Arch Linux. ([@logankoester](https://github.com/logankoester))

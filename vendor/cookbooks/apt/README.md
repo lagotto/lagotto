@@ -1,8 +1,7 @@
 apt Cookbook
 ============
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/chef-cookbooks/apt?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Cookbook Version](https://img.shields.io/cookbook/v/apt.svg)][cookbook]
 [![Build Status](https://img.shields.io/travis/opscode-cookbooks/apt.svg)][travis]
+[![Cookbook Version](https://img.shields.io/cookbook/v/apt.svg)][cookbook]
 
 [cookbook]: https://community.chef.io/cookbooks/apt
 [travis]: https://travis-ci.org/opscode-cookbooks/apt
@@ -50,11 +49,9 @@ To do this, you need to override the `cache_bypass` attribute with an array of r
 
 ```json
 {
-    ...,
-    'apt': {
-        ...,
-        'cache_bypass': {
-            URL: PROTOCOL
+    "apt": {
+        "cache_bypass": {
+            "URL": "PROTOCOL"
         }
     }
 }
@@ -64,9 +61,9 @@ For example, to prevent caching and directly connect to the repository at `downl
 
 ```json
 {
-    'apt': {
-        'cache_bypass': {
-            'download.oracle.com': 'http'
+    "apt": {
+        "cache_bypass": {
+            "download.oracle.com": "http"
         }
     }
 }
@@ -94,7 +91,7 @@ Attributes
 ### Caching
 
 * `['apt']['cacher_ipaddress']` - use a cacher server (or standard proxy server) not available via search
-* `['apt']['cacher_interface]` - interface to connect to the cacher-ng service, no default.
+* `['apt']['cacher_interface']` - interface to connect to the cacher-ng service, no default.
 * `['apt']['cacher_port']` - port for the cacher-ng service (either client or server), default is '3142'
 * `['apt']['cacher_ssl_support']` - indicates whether the cacher supports upstream SSL servers, default is 'false'
 * `['apt']['cacher_dir']` - directory used by cacher-ng service, default is '/var/cache/apt-cacher-ng'
@@ -105,17 +102,17 @@ Attributes
 ### Unattended Upgrades
 
 * `['apt']['unattended_upgrades']['enable']` - enables unattended upgrades, default is false
-* `['apt']['unattended_upgrades']['update_package_lists']` — automatically update package list (`apt-get update`) daily, default is true
-* `['apt']['unattended_upgrades']['allowed_origins']` — array of allowed apt origins from which to pull automatic upgrades, defaults to a guess at the system's main origin and should almost always be overridden
-* `['apt']['unattended_upgrades']['package_blacklist']` — an array of package which should never be automatically upgraded, defaults to none
-* `['apt']['unattended_upgrades']['auto_fix_interrupted_dpkg']` — attempts to repair dpkg state with `dpkg --force-confold --configure -a` if it exits uncleanly, defaults to false (contrary to the unattended-upgrades default)
-* `['apt']['unattended_upgrades']['minimal_steps']` — Split the upgrade into the smallest possible chunks. This makes the upgrade a bit slower but it has the benefit that shutdown while a upgrade is running is possible (with a small delay). Defaults to false.
-* `['apt']['unattended_upgrades']['install_on_shutdown']` — Install upgrades when the machine is shuting down instead of doing it in the background while the machine is running. This will (obviously) make shutdown slower. Defaults to false.
-* `['apt']['unattended_upgrades']['mail']` — Send email to this address for problems or packages upgrades. Defaults to no email.
-* `['apt']['unattended_upgrades']['mail_only_on_error']` — If set, email will only be set on upgrade errors. Otherwise, an email will be sent after each upgrade. Defaults to true.
+* `['apt']['unattended_upgrades']['update_package_lists']` - automatically update package list (`apt-get update`) daily, default is true
+* `['apt']['unattended_upgrades']['allowed_origins']` - array of allowed apt origins from which to pull automatic upgrades, defaults to a guess at the system's main origin and should almost always be overridden
+* `['apt']['unattended_upgrades']['package_blacklist']` - an array of package which should never be automatically upgraded, defaults to none
+* `['apt']['unattended_upgrades']['auto_fix_interrupted_dpkg']` - attempts to repair dpkg state with `dpkg --force-confold --configure -a` if it exits uncleanly, defaults to false (contrary to the unattended-upgrades default)
+* `['apt']['unattended_upgrades']['minimal_steps']` - Split the upgrade into the smallest possible chunks. This makes the upgrade a bit slower but it has the benefit that shutdown while a upgrade is running is possible (with a small delay). Defaults to false.
+* `['apt']['unattended_upgrades']['install_on_shutdown']` - Install upgrades when the machine is shuting down instead of doing it in the background while the machine is running. This will (obviously) make shutdown slower. Defaults to false.
+* `['apt']['unattended_upgrades']['mail']` - Send email to this address for problems or packages upgrades. Defaults to no email.
+* `['apt']['unattended_upgrades']['mail_only_on_error']` - If set, email will only be set on upgrade errors. Otherwise, an email will be sent after each upgrade. Defaults to true.
 * `['apt']['unattended_upgrades']['remove_unused_dependencies']` Do automatic removal of new unused dependencies after the upgrade. Defaults to false.
-* `['apt']['unattended_upgrades']['automatic_reboot']` — Automatically reboots *without confirmation* if a restart is required after the upgrade. Defaults to false.
-* `['apt']['unattended_upgrades']['dl_limit']` — Limits the bandwidth used by apt to download packages. Value given as an integer in kb/sec. Defaults to nil (no limit).
+* `['apt']['unattended_upgrades']['automatic_reboot']` - Automatically reboots *without confirmation* if a restart is required after the upgrade. Defaults to false.
+* `['apt']['unattended_upgrades']['dl_limit']` - Limits the bandwidth used by apt to download packages. Value given as an integer in kb/sec. Defaults to nil (no limit).
 
 Libraries
 ---------
@@ -151,6 +148,17 @@ Add the Zenoss repo:
 apt_repository 'zenoss' do
   uri        'http://dev.zenoss.org/deb'
   components ['main', 'stable']
+end
+```
+
+Enable Ubuntu [multiverse](https://help.ubuntu.com/community/Repositories/Ubuntu) repositories:
+
+```ruby
+apt_repository 'security-ubuntu-multiverse' do
+  uri        'http://security.ubuntu.com/ubuntu'
+  distribution 'trusty-security'
+  components ['multiverse']
+  deb_src 'true'
 end
 ```
 
@@ -265,7 +273,7 @@ License & Authors
 - Author:: Seth Chisamore (schisamo@chef.io)
 
 ```text
-Copyright 2009-2013, Chef Software, Inc.
+Copyright:: 2009-2015, Chef Software, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
