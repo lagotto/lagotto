@@ -9,14 +9,14 @@ DEPENDENCIES
     revision: ddabe43d3742c1408af423a7908426bbaea6173f
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: 500a8502849e2e78f6cada1acec68684f020e715
+    revision: 88720447e59ae061ba93c0d59fd5e06da9a691d8
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
     revision: e306cddd572ca4c1906aa533c70092528bb77532
   mysql_rails
     git: git@github.com:lagotto/mysql_rails-cookbook.git
-    revision: 25ddc5987bf5aa10cc3aacfe8482cacf8ac26a64
+    revision: bc77a8f3527f2e85af81710abf28012bf8cecdea
   nodejs
   passenger_nginx
     git: git@github.com:lagotto/passenger_nginx-cookbook.git
@@ -80,11 +80,10 @@ GRAPH
   golang (1.5.1)
   homebrew (1.13.0)
     build-essential (>= 2.1.2)
-  lagotto (4.7.15)
+  lagotto (4.8.0)
     apt (>= 0.0.0)
     capistrano (~> 0.10.0)
     consul (>= 0.0.0)
-    couchdb (>= 0.0.0)
     database (~> 2.3.1)
     dotenv (~> 0.2.0)
     memcached (>= 0.0.0)
@@ -110,7 +109,7 @@ GRAPH
   mysql-chef_gem (0.0.5)
     build-essential (>= 0.0.0)
     mysql (>= 0.0.0)
-  mysql_rails (0.3.31)
+  mysql_rails (0.3.32)
     database (~> 2.3.1)
     mysql (~> 5.6.1)
     ruby (~> 0.7.0)
