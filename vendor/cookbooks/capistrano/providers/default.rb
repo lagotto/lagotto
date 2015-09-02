@@ -48,41 +48,23 @@ end
 action :npm_install do
   run_context.include_recipe 'nodejs'
 
-  # create directory for npm packages
-  directory "/var/www/#{new_resource.name}/shared/frontend/node_modules" do
-    owner new_resource.user
-    group new_resource.group
-    mode '0755'
-    action :create
-  end
+  if ::File.exist?("/var/www/#{new_resource.name}/current/frontend/package.json")
+    # create directory for npm packages
+    directory "/var/www/#{new_resource.name}/shared/frontend/node_modules" do
+      owner new_resource.user
+      group new_resource.group
+      mode '0755'
+      action :create
+    end
 
-  # install npm packages, using information in package.json
-  # we need to set $HOME because of a Chef bug: https://tickets.opscode.com/browse/CHEF-2517
-  execute "npm install" do
-    user new_resource.user
-    cwd "/var/www/#{new_resource.name}/shared/frontend"
-    environment ({ 'HOME' => ::Dir.home(new_resource.user), 'USER' => new_resource.user })
-    action :run
-  end
-end
-
-action :bower_install do
-  run_context.include_recipe 'nodejs'
-  run_context.include_recipe 'ruby'
-
-  # provide Rakefile if it doesn't exist, e.g. during testing
-  cookbook_file "Rakefile" do
-    path "/var/www/#{new_resource.name}/shared/Rakefile"
-    owner new_resource.user
-    group new_resource.group
-    cookbook "capistrano"
-    action :create_if_missing
-  end
-
-  execute "bundle exec rake bower:install" do
-    user new_resource.user
-    environment ({ 'HOME' => ::Dir.home(new_resource.user), 'USER' => new_resource.user, 'RAILS_ENV' => new_resource.rails_env })
-    cwd "/var/www/#{new_resource.name}/shared"
+    # install npm packages, using information in package.json
+    # we need to set $HOME because of a Chef bug: https://tickets.opscode.com/browse/CHEF-2517
+    execute "npm install" do
+      user new_resource.user
+      cwd "/var/www/#{new_resource.name}/current/frontend"
+      environment ({ 'HOME' => ::Dir.home(new_resource.user), 'USER' => new_resource.user })
+      action :run
+    end
   end
 end
 
@@ -100,29 +82,19 @@ action :consul_install do
   end
 end
 
-action :remote_syslog_install do
-  # install remote_syslog
-  run_context.include_recipe 'remote_syslog2' if node['remote_syslog2']['config']['destination']['host']
-end
-
 action :precompile_assets do
   run_context.include_recipe 'nodejs'
   run_context.include_recipe 'ruby'
 
-  # provide Rakefile if it doesn't exist, e.g. during testing
-  cookbook_file "Rakefile" do
-    path "/var/www/#{new_resource.name}/current/Rakefile"
-    owner new_resource.user
-    group new_resource.group
-    cookbook "capistrano"
-    action :create_if_missing
-  end
+  if ::File.exist?("/var/www/#{new_resource.name}/current/Gemfile")
+    # make sure we can use the bundle command
 
-  execute "bundle exec rake assets:precompile" do
-    user new_resource.user
-    environment 'RAILS_ENV' => new_resource.rails_env
-    cwd "/var/www/#{new_resource.name}/current"
-    not_if { new_resource.rails_env == "development" }
+    execute "bundle exec rake assets:precompile" do
+      user new_resource.user
+      environment 'RAILS_ENV' => new_resource.rails_env
+      cwd "/var/www/#{new_resource.name}/current"
+      not_if { new_resource.rails_env == "development" }
+    end
   end
 end
 
@@ -149,18 +121,20 @@ end
 action :migrate do
   run_context.include_recipe 'ruby'
 
-  # run database migrations
-  execute "bundle exec rake db:migrate" do
-    user new_resource.user
-    environment 'RAILS_ENV' => new_resource.rails_env
-    cwd "/var/www/#{new_resource.name}/current"
-  end
+  if ::File.exist?("/var/www/#{new_resource.name}/current/config/database.yml")
+    # run database migrations
+    execute "bundle exec rake db:migrate" do
+      user new_resource.user
+      environment 'RAILS_ENV' => new_resource.rails_env
+      cwd "/var/www/#{new_resource.name}/current"
+    end
 
-  # load/reload seed data
-  execute "bundle exec rake db:seed" do
-    user new_resource.user
-    environment 'RAILS_ENV' => new_resource.rails_env
-    cwd "/var/www/#{new_resource.name}/current"
+    # load/reload seed data
+    execute "bundle exec rake db:seed" do
+      user new_resource.user
+      environment 'RAILS_ENV' => new_resource.rails_env
+      cwd "/var/www/#{new_resource.name}/current"
+    end
   end
 end
 

@@ -1,4 +1,4 @@
-actions :deploy, :config, :bundle_install, :npm_install, :bower_install, :consul_install, :remote_syslog_install, :precompile_assets, :ember_build, :migrate, :restart
+actions :deploy, :config, :bundle_install, :npm_install, :consul_install, :precompile_assets, :ember_build, :migrate, :restart
 default_action :deploy
 
 attribute :name, :kind_of => String, :name_attribute => true
