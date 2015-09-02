@@ -31,5 +31,6 @@ action :load do
     ENV["DEPLOY_GROUP"] = new_resource.group
     ENV["RAILS_ENV"] = new_resource.rails_env
     ENV["SERVERS"] = new_resource.servers
+    ENV['DB_HOST'] = new_resource.db_host
   end
 end

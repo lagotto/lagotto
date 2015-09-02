@@ -13,17 +13,19 @@ include_recipe "memcached"
 include_recipe "postfix"
 include_recipe "nodejs"
 
-# install mysql and create configuration file and database
-mysql_rails ENV['DB_NAME'] do
-  username        ENV['DB_USERNAME']
-  password        ENV['DB_PASSWORD']
-  host            ENV['DB_HOST']
-  root_password   ENV['DB_ROOT_PASSWORD']
-  action          :create
+# optionall install mysql and create database
+if ENV['DB_HOST'] == "localhost"
+  mysql_rails ENV['DB_NAME'] do
+    username        ENV['DB_USERNAME']
+    password        ENV['DB_PASSWORD']
+    host            ENV['DB_HOST']
+    root_password   ENV['DB_ROOT_PASSWORD']
+    action          :create
+  end
 end
 
 # install nginx and create configuration file and application root
-passenger_nginx ENV['APPLICATION'] do
+passenger_nginx node["application"] do
   user            ENV['DEPLOY_USER']
   group           ENV['DEPLOY_GROUP']
   rails_env       ENV['RAILS_ENV']
@@ -31,7 +33,7 @@ passenger_nginx ENV['APPLICATION'] do
 end
 
 # create required files and folders, and deploy application
-capistrano ENV['APPLICATION'] do
+capistrano node["application"] do
   user            ENV['DEPLOY_USER']
   group           ENV['DEPLOY_GROUP']
   rails_env       ENV['RAILS_ENV']
