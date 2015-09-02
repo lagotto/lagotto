@@ -1,0 +1,32 @@
+{
+  "name": "dotenv",
+  "description": "Installs dotenv gem and reads ENV variables",
+  "long_description": "dotenv-cookbook\n===============\n\nChef cookbook for dotenv integration\n",
+  "maintainer": "Martin Fenner",
+  "maintainer_email": "martin.fenner@datacite.org",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.2.13",
+  "source_url": "",
+  "issues_url": ""
+}
