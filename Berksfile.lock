@@ -1,7 +1,7 @@
 DEPENDENCIES
   capistrano
     git: git@github.com:lagotto/capistrano-cookbook.git
-    revision: 2ea31f05454bee581115811009db4a5a38a7cd0c
+    revision: 643868b3ad167ff5e48a39560f5e1db25a71155d
   couchdb
   database (~> 2.3.1)
   dotenv
@@ -37,12 +37,11 @@ GRAPH
     windows (>= 0.0.0)
   aws (2.7.2)
   build-essential (2.2.3)
-  capistrano (0.10.15)
+  capistrano (0.10.16)
     apt (>= 0.0.0)
     consul (>= 0.0.0)
     dotenv (~> 0.2.0)
     nodejs (>= 0.0.0)
-    remote_syslog2 (>= 0.0.0)
     ruby (~> 0.7.0)
   chef-sugar (3.1.1)
   chef-vault (1.3.0)
@@ -139,7 +138,6 @@ GRAPH
   redisio (2.3.0)
     build-essential (>= 0.0.0)
     ulimit (>= 0.1.2)
-  remote_syslog2 (0.2.3)
   ruby (0.7.4)
     apt (>= 0.0.0)
   runit (1.7.2)
