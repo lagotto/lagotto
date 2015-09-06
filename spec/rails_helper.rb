@@ -146,7 +146,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
-    unless HeartbeatService.memcached_up?
+    unless Heartbeat.memcached_up?
       raise <<-EOS.gsub(/^\s*\|/, '').colorize(:red)
         |Memcached doesn't appear to be running! You will need it running in
         |order to successfully run feature specs.
