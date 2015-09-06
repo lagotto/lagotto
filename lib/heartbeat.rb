@@ -7,42 +7,66 @@ class Heartbeat < Sinatra::Base
 
     { services: services,
       version: Lagotto::VERSION,
-      status: status }.to_json
-  end
-
-  def status
-    if mysql == "OK" && memcached == "OK" && redis == "OK" && sidekiq == "OK" && postfix == "OK"
-      "OK"
-    else
-      "failed"
-    end
+      status: human_status(services_up?) }.to_json
   end
 
   def services
-    { mysql: mysql,
-      memcached: memcached,
-      redis: redis,
-      sidekiq: sidekiq,
-      postfix: postfix }
+    { mysql: human_status(mysql_up?),
+      memcached: human_status(memcached_up?),
+      redis: human_status(redis_up?),
+      sidekiq: human_status(sidekiq_up?),
+      postfix: human_status(postfix_up?) }
   end
 
-  def mysql
-    HeartbeatService.mysql_up? ? "OK" : "failed"
+  def human_status(service)
+    service ? "OK" : "failed"
   end
 
-  def redis
-    HeartbeatService.redis_up? ? "OK" : "failed"
+  def services_up?
+    [mysql_up?, memcached_up?, redis_up?, sidekiq_up?, postfix_up?].all?
   end
 
-  def memcached
-    HeartbeatService.memcached_up? ? "OK" : "failed"
+  def mysql_up?
+    Mysql2::Client.new(
+      host: ENV["DB_HOST"],
+      port: ENV["DB_PORT"],
+      username: ENV["DB_USERNAME"],
+      password: ENV["DB_PASSWORD"]
+    )
+    true
+  rescue
+    false
   end
 
-  def sidekiq
-    HeartbeatService.sidekiq_up? ? "OK" : "failed"
+  def memcached_up?
+    host = ENV["MEMCACHE_SERVERS"] || ENV["HOSTNAME"]
+    memcached_client = Dalli::Client.new("#{host}:11211")
+    memcached_client.alive!
+    true
+  rescue
+    false
   end
 
-  def postfix
-    HeartbeatService.postfix_up? ? "OK" : "failed"
+  def postfix_up?
+    Timeout::timeout(3) do
+      Net::SMTP.start(ENV["MAIL_ADDRESS"], ENV["MAIL_PORT"])
+    end
+    true
+  rescue
+    false
+  end
+
+  def redis_up?
+    redis_client = Redis.new
+    redis_client.ping == "PONG"
+  rescue
+    false
+  end
+
+  def sidekiq_up?
+    sidekiq_client = Sidekiq::ProcessSet.new
+    sidekiq_client.size > 0
+  rescue
+    false
   end
 end
