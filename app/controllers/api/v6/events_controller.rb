@@ -27,7 +27,8 @@ class Api::V6::EventsController < Api::BaseController
       field = id_hash.keys.first
       collection = RetrievalStatus.joins(:work).where("works.#{field} = ?", id_hash.fetch(field))
     elsif params[:work_ids]
-      collection = RetrievalStatus.joins(:work).where("works.pid IN (?)", params[:work_ids])
+      work_ids = params[:work_ids].split(",").map { |id| get_clean_id(id) }
+      collection = RetrievalStatus.joins(:work).where(works: { type => work_ids })
     elsif params[:source_id]
       collection = RetrievalStatus.joins(:source).where("sources.name = ?", params[:source_id])
     elsif params[:publisher_id]
