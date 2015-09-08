@@ -29,8 +29,8 @@ class Api::V6::ReferencesController < Api::BaseController
     end
 
     if params[:work_ids]
-      work_ids = params[:work_ids].split(",").map { |id| get_clean_id(id) }
-      collection = collection.joins(:work).where(works: { type => work_ids })
+      work_ids = params[:work_ids].split(",")
+      collection = collection.joins(:work).where(works: { "pid" => work_ids })
     end
 
     if params[:q]
