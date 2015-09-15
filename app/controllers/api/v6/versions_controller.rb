@@ -23,7 +23,8 @@ class Api::V6::VersionsController < Api::BaseController
     collection = @work.version_relations
 
     if params[:work_ids]
-      collection = collection.joins(:work).where("works.pid IN (?)", params[:work_ids])
+      work_ids = params[:work_ids].split(",")
+      collection = collection.joins(:work).where(works: { "pid" => work_ids })
     end
 
     if params[:q]
