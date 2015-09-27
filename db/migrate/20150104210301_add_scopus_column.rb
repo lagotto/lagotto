@@ -1,7 +1,7 @@
 class AddScopusColumn < ActiveRecord::Migration
   def up
-    add_column :works, :scp, :string
-    add_column :works, :wos, :string
+    add_column :works, :scp, :string, limit: 191
+    add_column :works, :wos, :string, limit: 191
 
     add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id"
     add_index "works", ["scp"], name: "index_works_on_scp", unique: true
