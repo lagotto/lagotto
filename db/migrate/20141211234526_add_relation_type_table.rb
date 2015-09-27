@@ -1,7 +1,7 @@
 class AddRelationTypeTable < ActiveRecord::Migration
   def up
     add_column :works, :pid_type, :string, null: false
-    add_column :works, :pid, :string, null: false
+    add_column :works, :pid, :string, limit: 191, null: false
     add_column :works, :csl, :text
     add_column :works, :work_type_id, :integer
     add_column :works, :response_id, :integer
