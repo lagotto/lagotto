@@ -16,6 +16,6 @@ class AddPublishersTable < ActiveRecord::Migration
     end
 
     add_column :users, :publisher_id, :integer
-    add_column :articles, :publisher_id, :string
+    add_column :articles, :publisher_id, :string, limit: 191
   end
 end
