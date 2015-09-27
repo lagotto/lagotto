@@ -1,60 +1,37 @@
 namespace :queue do
 
-  desc "Queue stale works"
+  desc "Queue stale works (depreciated)"
   task :stale => :environment do |_, args|
-    if args.extras.empty?
-      sources = Source.active
-    else
-      sources = Source.active.where("name in (?)", args.extras)
-    end
-
-    if sources.empty?
-      puts "No active source found."
-      exit
-    end
-
-    begin
-      start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
-      end_date = Date.parse(ENV['END_DATE']) if ENV['END_DATE']
-    rescue => e
-      # raises error if invalid date supplied
-      puts "Error: #{e.message}"
-      exit
-    end
-    puts "Queueing stale works published from #{start_date} to #{end_date}." if start_date && end_date
-
-    sources.each do |source|
-      count = source.queue_all_works(start_date: start_date, end_date: end_date)
-      puts "#{count} stale works for source #{source.title} have been queued."
-    end
+    Rake::Task["queue:all"].invoke
+    Rake::Task["queue:all"].reenable
   end
 
   desc "Queue all works"
   task :all => :environment do |_, args|
     if args.extras.empty?
-      sources = Source.active
+      agents = Agent.active
     else
-      sources = Source.active.where("name in (?)", args.extras)
+      agents = Agent.active.where("name in (?)", args.extras)
     end
 
-    if sources.empty?
-      puts "No active source found."
+    if agents.empty?
+      puts "No active agent found."
       exit
     end
 
     begin
-      start_date = Date.parse(ENV['START_DATE']) if ENV['START_DATE']
-      end_date = Date.parse(ENV['END_DATE']) if ENV['END_DATE']
+      from_pub_date = ENV['FROM_PUB_DATE'] ? Date.parse(ENV['FROM_PUB_DATE']).iso8601 : nil
+      until_pub_date = ENV['UNTIL_PUB_DATE'] ? Date.parse(ENV['UNTIL_PUB_DATE']).iso8601 : nil
     rescue => e
       # raises error if invalid date supplied
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing all works published from #{start_date} to #{end_date}." if start_date && end_date
+    puts "Queueing all works published from #{from_pub_date} to #{until_pub_date}." if from_pub_date && until_pub_date
 
-    sources.each do |source|
-      count = source.queue_all_works(all: true, start_date: start_date, end_date: end_date)
-      puts "#{count} works for source #{source.title} have been queued."
+    agents.each do |agent|
+      count = agent.queue_jobs(from_pub_date: from_pub_date, until_pub_date: until_pub_date)
+      puts "#{count} works for agent #{agent.title} have been queued."
     end
   end
 
@@ -72,45 +49,26 @@ namespace :queue do
     end
 
     if args.extras.empty?
-      sources = Source.active
+      agents = Agent.active
     else
-      sources = Source.active.where("name in (?)", args.extras)
+      agents = Agent.active.where("name in (?)", args.extras)
     end
 
-    if sources.empty?
-      puts "No active source found."
+    if agents.empty?
+      puts "No active agent found."
       exit
     end
 
-    sources.each do |source|
-      rs = RetrievalStatus.where(work_id: work.id, source_id: source.id).first
+    agents.each do |agent|
+      task = Task.where(work_id: work.id, agent_id: agent.id).first
 
-      if rs.nil?
-        puts "Retrieval Status for work with pid #{args.pid} and source with name #{args.source} does not exist"
+      if task.nil?
+        puts "Task for work with pid #{args.pid} and agent with name #{args.agent} does not exist"
         exit
       end
 
-      source.queue_work_jobs([rs.id], queue: "high")
-      puts "Job for pid #{work.pid} and source #{source.title} has been queued."
-    end
-  end
-
-  desc "Unqueue all works"
-  task :reset => :environment do |_, args|
-    if args.extras.empty?
-      sources = Source.active
-    else
-      sources = Source.active.where("name in (?)", args.extras)
-    end
-
-    if sources.empty?
-      puts "No active source found."
-      exit
-    end
-
-    sources.each do |source|
-      count = source.retrieval_statuses.where("queued_at IS NOT NULL").update_all(queued_at: nil)
-      puts "#{count} works for source #{source.title} have been unqueued."
+      agent.queue_jobs([task.id], queue: "high")
+      puts "Job for pid #{work.pid} and agent #{agent.title} has been queued."
     end
   end
 

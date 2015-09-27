@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -18,24 +18,16 @@ http_interactions:
     headers:
       Server:
       - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=B2AB207A156103405CFA438B7C61BC07; Path=/europepmc/webservices
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 14 Jul 2015 14:16:38 GMT
-      Set-Cookie:
-      - JSESSIONID=CDB9C0D61F10777C11C274D2EE8529EA; Path=/europepmc/webservices
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
-      Connection:
-      - close
+      - Sun, 23 Aug 2015 18:59:12 GMT
     body:
       encoding: UTF-8
-      string: '{"version":"4.1","hitCount":0,"request":{"resultType":"LITE","synonym":false,"query":"\"https://github.com/pymor/pymor\"
+      string: '{"version":"4.2","hitCount":0,"request":{"resultType":"LITE","pageSize":25,"synonym":false,"query":"\"https://github.com/pymor/pymor\"
         OR REF:\"https://github.com/pymor/pymor\"","page":1},"resultList":{"result":[]}}'
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:16:39 GMT
+  recorded_at: Sun, 23 Aug 2015 18:59:16 GMT
 recorded_with: VCR 2.9.3

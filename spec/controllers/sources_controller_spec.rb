@@ -12,7 +12,7 @@ describe SourcesController, :type => :controller do
   end
 
   context "RSS" do
-    let!(:works) { FactoryGirl.create_list(:work_for_feed, 2) }
+    let!(:works) { FactoryGirl.create_list(:work_published_yesterday, 2) }
     let(:source) { FactoryGirl.create(:source) }
 
     it "returns an RSS feed for most-cited (7 days)" do

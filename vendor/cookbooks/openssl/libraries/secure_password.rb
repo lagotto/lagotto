@@ -18,14 +18,13 @@
 # limitations under the License.
 #
 
-include OpenSSLCookbook::Helpers
+require 'openssl'
 
 module Opscode
   module OpenSSL
-    # Generate secure passwords with OpenSSL
     module Password
       def secure_password(length = 20)
-        pw = ''
+        pw = String.new
 
         while pw.length < length
           pw << ::OpenSSL::Random.random_bytes(1).gsub(/\W/, '')

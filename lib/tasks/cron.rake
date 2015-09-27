@@ -25,8 +25,14 @@ namespace :cron do
     Rake::Task["db:api_responses:delete"].invoke
     Rake::Task["db:api_responses:delete"].reenable
 
-    Rake::Task["db:alerts:resolve"].invoke
-    Rake::Task["db:alerts:resolve"].reenable
+    Rake::Task["db:changes:delete"].invoke
+    Rake::Task["db:changes:delete"].reenable
+
+    Rake::Task["db:deposits:delete"].invoke
+    Rake::Task["db:deposits:delete"].reenable
+
+    Rake::Task["db:notifications:resolve"].invoke
+    Rake::Task["db:notifications:resolve"].reenable
   end
 
   desc 'Daily cron import task'
@@ -55,8 +61,8 @@ namespace :cron do
     Rake::Task["f1000:update"].invoke
     Rake::Task["f1000:update"].reenable
 
-    Rake::Task["db:alerts:delete"].invoke
-    Rake::Task["db:alerts:delete"].reenable
+    Rake::Task["db:notifications:delete"].invoke
+    Rake::Task["db:notifications:delete"].reenable
   end
 
   desc 'Monthly cron task'

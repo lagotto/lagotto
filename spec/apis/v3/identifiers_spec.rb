@@ -6,7 +6,7 @@ describe "/api/v3/articles", :type => :api do
   let(:error) { { "error" => "Article not found."} }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work_with_events, 50) }
+    let(:works) { FactoryGirl.create_list(:work, :with_events, 50) }
 
     context "works found via DOI" do
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
@@ -67,18 +67,18 @@ describe "/api/v3/articles", :type => :api do
   context "show" do
 
     context "DOI" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}?api_key=#{api_key}" }
 
       it "no format" do
         get uri
         expect(last_response.status).to eql(200)
 
-        response_work = JSON.parse(last_response.body)
-        response_source = response_work["sources"][0]
-        expect(response_work["doi"]).to eql(work.doi)
-        expect(response_work["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        response = JSON.parse(last_response.body)
+        response_source = response["sources"][0]
+        expect(response["doi"]).to eql(work.doi)
+        expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -90,13 +90,13 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
     end
 
     context "PMID" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/pmid/#{work.pmid}?api_key=#{api_key}" }
 
       it "JSON" do
@@ -109,7 +109,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "PMCID" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/pmcid/PMC#{work.pmcid}?api_key=#{api_key}" }
 
       it "JSON" do
@@ -122,7 +122,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "wrong DOI" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}xx?api_key=#{api_key}" }
 
       it "JSON" do
@@ -133,7 +133,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "work not found when using format as file extension" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}xx" }
 
       it "JSON" do

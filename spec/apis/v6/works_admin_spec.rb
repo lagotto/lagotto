@@ -144,10 +144,10 @@ describe "/api/v6/works", :type => :api do
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 
-        # expect(Alert.count).to eq(1)
-        # alert = Alert.first
-        # expect(alert.class_name).to eq("ActiveModel::ForbiddenAttributesError")
-        # expect(alert.status).to eq(422)
+        # expect(Notification.count).to eq(1)
+        # notification = Notification.first
+        # expect(notification.class_name).to eq("ActiveModel::ForbiddenAttributesError")
+        # expect(notification.status).to eq(422)
       end
     end
 
@@ -162,10 +162,10 @@ describe "/api/v6/works", :type => :api do
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("NoMethodError")
-        expect(alert.status).to eq(422)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("NoMethodError")
+        expect(notification.status).to eq(422)
       end
     end
   end
@@ -261,10 +261,10 @@ describe "/api/v6/works", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["error"]).to eq ("param is missing or the value is empty: work")
 
-        expect(Alert.count).to eq(1)
-        alert = Alert.first
-        expect(alert.class_name).to eq("ActionController::ParameterMissing")
-        expect(alert.status).to eq(400)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("ActionController::ParameterMissing")
+        expect(notification.status).to eq(400)
       end
     end
 
@@ -295,10 +295,10 @@ describe "/api/v6/works", :type => :api do
     #     expect(response["success"]).to be_nil
     #     expect(response["data"]).to be_blank
 
-    #     expect(Alert.count).to eq(1)
-    #     alert = Alert.first
-    #     expect(alert.class_name).to eq("ActiveModel::ForbiddenAttributesError")
-    #     expect(alert.status).to eq(422)
+    #     expect(Notification.count).to eq(1)
+    #     notification = Notification.first
+    #     expect(notification.class_name).to eq("ActiveModel::ForbiddenAttributesError")
+    #     expect(notification.status).to eq(422)
     #   end
     # end
   end

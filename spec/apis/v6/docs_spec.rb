@@ -23,7 +23,7 @@ describe "/api/v6/docs", :type => :api do
   end
 
   context "show" do
-    let(:uri) { "/api/docs/alerts" }
+    let(:uri) { "/api/docs/notifications" }
 
     it "JSON" do
       get uri, nil, headers
@@ -31,8 +31,8 @@ describe "/api/v6/docs", :type => :api do
 
       response = JSON.parse(last_response.body)
       item = response["doc"]
-      expect(item["id"]).to eq ("alerts")
-      expect(item["title"]).to eq ("Alerts")
+      expect(item["id"]).to eq ("notifications")
+      expect(item["title"]).to eq ("Notifications")
       expect(item["layout"]).to eq ("card_list")
       expect(item["content"][0]["subtitle"]).to eq ("Setup")
     end

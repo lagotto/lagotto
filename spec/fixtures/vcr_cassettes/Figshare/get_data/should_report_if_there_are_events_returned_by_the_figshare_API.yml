@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -29,19 +29,13 @@ http_interactions:
       Content-Type:
       - application/json; charset=UTF-8
       Date:
-      - Tue, 14 Jul 2015 14:17:33 GMT
+      - Sun, 23 Aug 2015 18:59:11 GMT
       Server:
       - nginx
       Content-Length:
       - '10160'
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
       Connection:
-      - close
+      - keep-alive
     body:
       encoding: UTF-8
       string: '{"count": 6, "items": [{"files": ["http://files.figshare.com/1114011/Table_1.xls"],
@@ -167,5 +161,5 @@ http_interactions:
         c) As a result, we can observe the following gene copy combinations in the
         <i>S. ajanensis</i> group: <i>aa* aa*; ba* ba*; ba* aa</i>*.</p>"}]}'
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:17:33 GMT
+  recorded_at: Sun, 23 Aug 2015 18:59:15 GMT
 recorded_with: VCR 2.9.3

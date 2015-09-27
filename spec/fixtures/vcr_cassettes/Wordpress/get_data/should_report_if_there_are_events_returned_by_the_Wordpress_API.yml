@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -19,29 +19,23 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 14 Jul 2015 14:14:16 GMT
+      - Sun, 23 Aug 2015 19:10:50 GMT
       Content-Type:
       - text/html
       Content-Length:
       - '178'
+      Connection:
+      - keep-alive
       Location:
       - https://en.search.wordpress.com/?f=json&q=%2210.1371%2Fjournal.pbio.1002020%22&size=20&t=post
       X-Ac:
-      - 1.fra _sat
-      X-Cache:
-      - MISS from non_disclosed
-      X-Cache-Lookup:
-      - MISS from non_disclosed:3128
-      Via:
-      - 1.1 non_disclosed:3128 (squid)
-      Connection:
-      - close
+      - 1.fra _dca
     body:
       encoding: UTF-8
       string: "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body
         bgcolor=\"white\">\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:14:16 GMT
+  recorded_at: Sun, 23 Aug 2015 19:10:53 GMT
 - request:
     method: get
     uri: https://en.search.wordpress.com/?f=json&q=%2210.1371/journal.pbio.1002020%22&size=20&t=post
@@ -50,7 +44,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -61,7 +55,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Tue, 14 Jul 2015 14:14:17 GMT
+      - Sun, 23 Aug 2015 19:10:51 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Connection:
@@ -74,7 +68,7 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Ac:
-      - 1.fra _sat
+      - 1.fra _dca
     body:
       encoding: UTF-8
       string: '[{"title":"Are microbes vital on earth?","link":"https:\/\/johandecelle.wordpress.com\/2014\/12\/22\/are-microbes-vital-on-earth\/","epoch_time":"1419280218","author":"johandecelle","guid":"https:\/\/johandecelle.wordpress.com\/2014\/12\/22\/are-microbes-vital-on-earth\/","content":"Life
@@ -85,5 +79,5 @@ http_interactions:
         prepare for writing my final essay, I decided to gather ten possible sources
         to use for my research. I attempted to find a mix of both historical [&#8230;]"}]'
     http_version: 
-  recorded_at: Tue, 14 Jul 2015 14:14:17 GMT
+  recorded_at: Sun, 23 Aug 2015 19:10:54 GMT
 recorded_with: VCR 2.9.3

@@ -6,7 +6,7 @@ describe Work, type: :model, vcr: true do
 
   subject { work }
 
-  it { is_expected.to have_many(:retrieval_statuses) }
+  it { is_expected.to have_many(:events).dependent(:destroy) }
   it { is_expected.to validate_uniqueness_of(:doi) }
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
@@ -130,19 +130,7 @@ describe Work, type: :model, vcr: true do
     it 'don\'t validate wrong date' do
       work = FactoryGirl.build(:work, month: 2, day: 30)
       expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(published_on: ["2012-2-30 is not a valid date"])
-    end
-
-    it 'don\'t validate wrong month' do
-      work = FactoryGirl.build(:work, month: 13, day: 30)
-      expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(month: ["must be less than or equal to 12"], published_on: ["2012-13-30 is not a valid date"])
-    end
-
-    it 'don\'t validate wrong day' do
-      work = FactoryGirl.build(:work, month: 11, day: 32)
-      expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(day: ["must be less than or equal to 31"], published_on: ["2012-11-32 is not a valid date"])
+      expect(work.errors.messages).to eq(published_on: ["is not a valid date"])
     end
 
     it 'don\'t validate date in the future' do
@@ -194,14 +182,6 @@ describe Work, type: :model, vcr: true do
     end
   end
 
-  context "normalize doi" do
-    it "downcase doi" do
-      doi = "10.6085/AA/KNB-LTER-SBC.17.9"
-      work = FactoryGirl.create(:work, doi: doi)
-      expect(work.doi).to eq("10.6085/aa/knb-lter-sbc.17.9")
-    end
-  end
-
   it 'to doi escaped' do
     expect(CGI.escape(work.doi)).to eq(work.doi_escaped)
   end
@@ -241,23 +221,13 @@ describe Work, type: :model, vcr: true do
     end
   end
 
-  it 'dataone escaped' do
-    work = FactoryGirl.create(:work, dataone: "doi:10.5063/F1PC3085")
-    expect(work.dataone_escaped).to eq("doi\\:10.5063/F1PC3085")
-  end
-
   it 'to title escaped' do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
 
   it 'event_counts' do
-    work = FactoryGirl.create(:work_with_events)
+    work = FactoryGirl.create(:work, :with_events)
     expect(work.event_counts(["citeulike", "mendeley"])).to eq(100)
-  end
-
-  it 'metrics' do
-    work = FactoryGirl.create(:work_with_events)
-    expect(work.metrics).to eq([["citeulike", 50], ["mendeley", 50]])
   end
 
   it 'viewed' do
@@ -271,7 +241,7 @@ describe Work, type: :model, vcr: true do
   end
 
   it 'saved' do
-    work = FactoryGirl.create(:work_with_events)
+    work = FactoryGirl.create(:work, :with_events)
     expect(work.saved).to eq(100)
   end
 
@@ -282,7 +252,7 @@ describe Work, type: :model, vcr: true do
 
   it "events count" do
     Work.all.each do |work|
-      total = work.retrieval_statuses.reduce(0) { |sum, rs| sum + rs.event_count }
+      total = work.events.reduce(0) { |sum, rs| sum + rs.event_count }
       expect(total).to eq(work.events_count)
     end
   end
@@ -339,17 +309,17 @@ describe Work, type: :model, vcr: true do
   end
 
   context "associations" do
-    it "should create associated retrieval_statuses" do
-      expect(RetrievalStatus.count).to eq(0)
-      @works = FactoryGirl.create_list(:work_with_events, 2)
-      expect(RetrievalStatus.count).to eq(4)
+    it "should create associated events" do
+      expect(Event.count).to eq(0)
+      @works = FactoryGirl.create_list(:work, 2, :with_events)
+      expect(Event.count).to eq(4)
     end
 
-    it "should delete associated retrieval_statuses" do
-      @works = FactoryGirl.create_list(:work_with_events, 2)
-      expect(RetrievalStatus.count).to eq(4)
+    it "should delete associated events" do
+      @works = FactoryGirl.create_list(:work, 2, :with_events)
+      expect(Event.count).to eq(4)
       @works.each(&:destroy)
-      expect(RetrievalStatus.count).to eq(0)
+      expect(Event.count).to eq(0)
     end
   end
 end

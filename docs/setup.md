@@ -36,7 +36,6 @@ The following addiotional configuration options are available via the web interf
 
 * whether the source is automatically queueing jobs and not running via cron job (default true)
 * whether the results can be shared via the API (default true)
-* staleness: update interval depending on work publication date (default daily the first 31 days, then 4 times a month up until one year, then monthly)
 * rate-limiting (default 10,000)
 * timeout (default 30 sec)
 * maximum number of failed queries allowed before being disabled (default 200)
@@ -106,8 +105,8 @@ You then have to decide what works you want updated. This can be either a specif
 bin/rake queue:one[10.1371/journal.pone.0036790]
 bin/rake queue:all
 bin/rake queue:all[pubmed,mendeley]
-bin/rake queue:all START_DATE=2013-02-01 END_DATE=2014-02-08
-bin/rake queue:all[pubmed,mendeley] START_DATE=2013-02-01 END_DATE=2014-02-08
+bin/rake queue:all FROM_PUB_DATE=2013-02-01 UNTIL_PUB_DATE=2014-02-08
+bin/rake queue:all[pubmed,mendeley] FROM_PUB_DATE=2013-02-01 UNTIL_PUB_DATE=2014-02-08
 ```
 
 You can then start the workers with:
@@ -119,7 +118,7 @@ bundle exec sidekiq
 ### Background workers
 In a continously updating production system we want to run Sidekiq in the background with the above command. You can monitor the Sidekiq status in the admin dashboard (`/status`).
 
-When we have to update the metrics for a work (determined by the staleness interval), a job is added to the background queue for that source. Sidekiq will then process this job in the background. By default Sidekiq runs 25 processes in parallel.
+When we have to update the metrics for a work, a job is added to the background queue for that source. Sidekiq will then process this job in the background. By default Sidekiq runs 25 processes in parallel.
 
 ### List of background jobs that Lagotto uses
 
@@ -153,8 +152,8 @@ set :output, "log/cron.log"
 
 # Schedule jobs
 # Send report when workers are not running
-# Create alerts by filtering API responses and mail them
-# Delete resolved alerts
+# Create notifications by filtering API responses and mail them
+# Delete resolved notifications
 # Delete API request information, keeping the last 1,000 requests
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report
@@ -200,7 +199,7 @@ Filters check all API responses of the last 24 hours for errors and potential an
 
 ![Filters](/images/filters.png)
 
-These filters will generate alerts that are displayed in the admin panel in various places. More information is available on the [Alerts](/docs/Alerts) page.
+These filters will generate notifications that are displayed in the admin panel in various places. More information is available on the [Alerts](/docs/Alerts) page.
 
 ### Reports
 Lagotto generates a number of email reports:

@@ -1,0 +1,31 @@
+<div class="content">
+  <div class="page-header" id="page-header">
+    <h1 id="api_key" data-api_key="<%= current_user && current_user.api_key %>">Agents</h1>
+  </div>
+
+  <ul class="nav nav-pills" id="nav_index">
+    <li class="active"><a href="#summary" id="summary-pill" data-toggle="tab" title="Summary">Summary</a></li>
+    <% if can?(:read, Notification) %>
+      <li><a href="#responses" id="responses-pill" data-toggle="tab" title="Responses">Responses</a></li>
+    <% end %>
+    <% if can?(:read, Notification) %>
+      <li><a href="#installation" id="installation-pill"  data-toggle="tab" title="Installation">Installation</a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="summary">
+      <%= render :partial => 'summary' %>
+    </div>
+    <% if can?(:read, Notification) %>
+      <div class="tab-pane" id="responses">
+        <%= render :partial => 'responses' %>
+      </div>
+    <% end %>
+    <% if can?(:read, Notification) %>
+      <div class="tab-pane" id="installation">
+        <%= render :partial => 'installation' %>
+      </div>
+    <% end %>
+  </div>
+</div>

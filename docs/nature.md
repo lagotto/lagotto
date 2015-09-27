@@ -8,18 +8,18 @@ Nature Blogs is a science blog aggregator. Since May 1st 2013 API keys are [no l
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=30%><strong>ALM Name</strong></td>
+<td valign="top" width=30%><strong>Lagotto Name</strong></td>
 <td valign="top" width=70%>nature</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: [ 1.day, 1.month, 1.month, 1.month]<br/>requests_per_hour: 200</td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
+<td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
 <td valign="top" width=80%>id<br/>url<br/>date (as published_at)</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>title<br/>blog title<br/>blog url</td>
 </tr>
 <tr>

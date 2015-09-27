@@ -1,0 +1,15 @@
+<div class="content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel panel-source <%= @agent.response_count > 0 ? 'panel-default' : 'panel-warning' %>">
+        <div class="panel-heading">Responses <small class="pull-right">last 24 hours</small></div>
+        <div class="panel-body panel-chart">
+          <p><%= pluralize(number_with_delimiter(@agent.response_count), "response") %> with
+          <%= link_to_if(@agent.error_count > 0 && can?(:manage, @agent), pluralize(number_with_delimiter(@agent.error_count), "error"), notifications_path(:agent_id => @agent.name)) %></p>
+          <p>Average <%= number_with_delimiter(@agent.average_count) %> ms</br>
+          Maximum <%= number_with_delimiter(@agent.maximum_count) %> ms</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -132,14 +132,14 @@ describe AlmCombinedStatsReport do
     let(:counter_report){ CounterReport.new(source_counter) }
     let(:mendeley_report){ MendeleyReport.new(source_mendeley) }
 
-    let(:source_mendeley){ FactoryGirl.create :mendeley }
-    let(:source_pmc){ FactoryGirl.create :pmc }
-    let(:source_counter){ FactoryGirl.create :counter }
+    let(:source_mendeley){ FactoryGirl.create(:source, :mendeley) }
+    let(:source_pmc){ FactoryGirl.create(:source, :pmc) }
+    let(:source_counter){ FactoryGirl.create(:source, :counter) }
 
     let(:work){ FactoryGirl.create(:work) }
 
-    let(:work_retrieval_status_mendeley){
-      FactoryGirl.create(:retrieval_status,
+    let(:work_event_mendeley){
+      FactoryGirl.create(:event,
         work: work,
         source: source_mendeley,
         readers: 1,
@@ -147,8 +147,8 @@ describe AlmCombinedStatsReport do
       )
     }
 
-    let!(:work_retrieval_status_pmc){
-      FactoryGirl.create(:retrieval_status,
+    let!(:work_event_pmc){
+      FactoryGirl.create(:event,
         work: work,
         source: source_pmc,
         pdf: 3,
@@ -157,8 +157,8 @@ describe AlmCombinedStatsReport do
       )
     }
 
-    let!(:work_retrieval_status_counter){
-      FactoryGirl.create(:retrieval_status,
+    let!(:work_event_counter){
+      FactoryGirl.create(:event,
         work: work,
         source: source_counter,
         pdf: 5,
@@ -172,15 +172,15 @@ describe AlmCombinedStatsReport do
         pid:              work.pid,
         publication_date: work.published_on,
         title:            work.title,
-        pmc:              work_retrieval_status_pmc.total,
-        counter:          work_retrieval_status_counter.total,
-        mendeley:         work_retrieval_status_mendeley.total,
-        mendeley_readers: work_retrieval_status_mendeley.readers,
-        mendeley_groups:  work_retrieval_status_mendeley.total - work_retrieval_status_mendeley.readers,
-        pmc_pdf:          work_retrieval_status_pmc.pdf,
-        pmc_html:         work_retrieval_status_pmc.html,
-        counter_pdf:      work_retrieval_status_counter.pdf,
-        counter_html:     work_retrieval_status_counter.html
+        pmc:              work_event_pmc.total,
+        counter:          work_event_counter.total,
+        mendeley:         work_event_mendeley.total,
+        mendeley_readers: work_event_mendeley.readers,
+        mendeley_groups:  work_event_mendeley.total - work_event_mendeley.readers,
+        pmc_pdf:          work_event_pmc.pdf,
+        pmc_html:         work_event_pmc.html,
+        counter_pdf:      work_event_counter.pdf,
+        counter_html:     work_event_counter.html
       )
 
       expect(report.line_items.first).to eq(expected_line_item)

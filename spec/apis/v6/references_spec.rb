@@ -58,7 +58,7 @@ describe "/api/v6/references", :type => :api do
     end
 
     context "show work_id" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let!(:relation) { FactoryGirl.create(:relation, work: work) }
       let(:uri) { "/api/works/#{work.pid}/references" }
 

@@ -1,0 +1,33 @@
+<% unless Agent.visible.empty? %>
+  <% @groups.visible.each do |group| %>
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= group.title %></div>
+      <table class="table" id="<%= group.title %>Table">
+        <thead>
+          <tr>
+            <th class="name">Agent</th>
+            <th>Status</th>
+            <th>Kind</th>
+            <th class="description">Description</th>
+            <th>Next update</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% group.agents.visible.each do |agent| %>
+            <tr>
+              <td><%= link_to agent.title, agent_path(agent) %></td>
+              <td><%= state_label(agent.human_state_name).html_safe %></td>
+              <td><%= kind_label(agent.kind).html_safe %></td>
+              <td><%= h(agent.description) %></td>
+              <td><%= agent.updating? ? CronParser.new(agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+<% else %>
+  <div class="alert alert-info">No active agents found</div>
+<% end %>
+
+<%= javascript_include_tag 'agents/index' %>

@@ -21,19 +21,19 @@ describe EuropePmcData, type: :model, vcr: true do
       response = subject.get_data(work)
       expect(response["hitCount"]).to eq(27737)
       cross_reference = response["dbCrossReferenceList"]["dbCrossReference"].first
-      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03001572")
+      expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03003604")
     end
 
     it "should catch errors with the PMC Europe API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, source_id: subject.id)
+      response = subject.get_data(work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/databaseLinks//1/json", status: 408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -69,11 +69,11 @@ describe EuropePmcData, type: :model, vcr: true do
   #     response = subject.get_data(work, source_id: subject.id)
   #     expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ACCESSION_ID:#{work.doi}", status: 408)
   #     expect(stub).to have_been_requested
-  #     expect(Alert.count).to eq(1)
-  #     alert = Alert.first
-  #     expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-  #     expect(alert.status).to eq(408)
-  #     expect(alert.source_id).to eq(subject.id)
+  #     expect(Notification.count).to eq(1)
+  #     notification = Notification.first
+  #     expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+  #     expect(notification.status).to eq(408)
+  #     expect(notification.source_id).to eq(subject.id)
   #   end
   # end
 
@@ -82,7 +82,7 @@ describe EuropePmcData, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -91,7 +91,7 @@ describe EuropePmcData, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(response).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
@@ -99,9 +99,13 @@ describe EuropePmcData, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(21710)
-      expect(response[:events][:events_url]).to eq("http://europepmc.org/abstract/MED/14624247#fragment-related-bioentities")
-      expect(response[:events][:extra]).to eq("EMBL"=>10, "UNIPROT"=>21700)
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("pmc_europe_data")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(21710)
+      expect(event[:events_url]).to eq("http://europepmc.org/abstract/MED/14624247#fragment-related-bioentities")
+      expect(event[:extra]).to eq("EMBL"=>10, "UNIPROT"=>21700)
     end
 
     it "should catch timeout errors with the PMC Europe API" do
@@ -117,7 +121,7 @@ describe EuropePmcData, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "", :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -126,7 +130,7 @@ describe EuropePmcData, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "pmc_europe_data", work: work.pid, total: 0, events_url: nil, extra: {} })
+      expect(response).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
@@ -135,16 +139,20 @@ describe EuropePmcData, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(1)
-      expect(response[:events][:total]).to eq(1)
 
-      event = response[:works].first
-      expect(event['author']).to eq([{"family"=>"Ha.", "given"=>"Piwowar"}])
-      expect(event['title']).to eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
-      expect(event['container-title']).to eq("PLoS One")
-      expect(event['issued']).to eq("date-parts"=>[[2011]])
-      expect(event['type']).to eq("article-journal")
-      expect(event['URL']).to eq("http://europepmc.org/abstract/MED/21765886")
+      event = response[:events].first
+      expect(event[:source_id]).to eq("pmc_europe_data")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(1)
+
+      expect(response[:works].length).to eq(1)
+      related_work = response[:works].first
+      expect(related_work['author']).to eq([{"family"=>"Ha.", "given"=>"Piwowar"}])
+      expect(related_work['title']).to eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
+      expect(related_work['container-title']).to eq("PLoS One")
+      expect(related_work['issued']).to eq("date-parts"=>[[2011]])
+      expect(related_work['type']).to eq("article-journal")
+      expect(related_work['URL']).to eq("http://europepmc.org/abstract/MED/21765886")
     end
   end
 end

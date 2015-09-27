@@ -119,7 +119,7 @@ DOI Date(YYYY-MM-DD) Title
 
 The rake task splits on white space for the first two elements, and then takes the rest of the line (title) as one element including any whitespace in the title.
 
-Deletes works and associated rows in the retrieval_statuses table. Use `MEMBER` to delete works from a particular publisher, or `MEMBER=all" to delete all works.
+Deletes works and associated rows in the events table. Use `MEMBER` to delete works from a particular publisher, or `MEMBER=all" to delete all works.
 
 ```sh
 bin/rake db:works:delete MEMBER=340
@@ -143,10 +143,10 @@ Uninstall sources. Provide one or more source names as arguments, e.g. `rake db:
 bin/rake db:sources:uninstall
 ```
 
-Deletes all resolved alerts:
+Deletes all resolved notifications:
 
 ```sh
-bin/rake db:alerts:delete
+bin/rake db:notifications:delete
 ```
 
 Delete old API requests (only keep the last 10,000):
@@ -335,13 +335,13 @@ bin/rake sidekiq:monitor
 
 ## filter.rake
 
-Create alerts by filtering API responses
+Create notifications by filtering API responses
 
 ```sh
 bin/rake filter:all
 ```
 
-Unresolve all alerts that have been filtered (e.g. to re-run filters with new settings)
+Unresolve all notifications that have been filtered (e.g. to re-run filters with new settings)
 
 ```sh
 bin/rake filter:unresolve

@@ -30,14 +30,14 @@ describe Twitter, type: :model, vcr: true do
 
     it "should catch errors with the Twitter API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -46,31 +46,33 @@ describe Twitter, type: :model, vcr: true do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq(works: [], events: { source: "twitter", work: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] })
+      expect(response).to eq(works: [], events: [{ source_id: "twitter", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events returned by the Twitter API" do
       body = File.read(fixture_path + 'twitter.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
+
+      event = response[:events].first
+      expect(event[:total]).to eq(2)
+      expect(event[:days].length).to eq(2)
+      expect(event[:days].first).to eq(year: 2012, month: 5, day: 20, total: 1, comments: 1)
+      expect(event[:months].length).to eq(1)
+      expect(event[:months].first).to eq(year: 2012, month: 5, total: 2, comments: 2)
+
       expect(response[:works].length).to eq(2)
-      expect(response[:events][:total]).to eq(2)
-      expect(response[:events][:days].length).to eq(2)
-      expect(response[:events][:days].first).to eq(year: 2012, month: 5, day: 20, total: 1, comments: 1)
-      expect(response[:events][:months].length).to eq(1)
-      expect(response[:events][:months].first).to eq(year: 2012, month: 5, total: 2, comments: 2)
+      related_work = response[:works].first
+      expect(related_work['author']).to eq([{"family"=>"Regrum", "given"=>""}])
+      expect(related_work['title']).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
+      expect(related_work['container-title']).to eq("Twitter")
+      expect(related_work['issued']).to eq("date-parts"=>[[2012, 5, 20]])
+      expect(related_work['type']).to eq("personal_communication")
+      expect(related_work['URL']).to eq("http://twitter.com/regrum/status/204270013081849857")
+      expect(related_work['timestamp']).to eq("2012-05-20T17:59:00Z")
+      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"twitter", "relation_type"=>"discusses"}])
 
-      event = response[:works].first
-      expect(event['author']).to eq([{"family"=>"Regrum", "given"=>""}])
-      expect(event['title']).to eq("Don't be blinded by science http://t.co/YOWRhsXb")
-      expect(event['container-title']).to eq("Twitter")
-      expect(event['issued']).to eq("date-parts"=>[[2012, 5, 20]])
-      expect(event['type']).to eq("personal_communication")
-      expect(event['URL']).to eq("http://twitter.com/regrum/status/204270013081849857")
-      expect(event['timestamp']).to eq("2012-05-20T17:59:00Z")
-      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"twitter", "relation_type"=>"discusses"}])
-
-      extra = response[:events][:extra].first
+      extra = event[:extra].first
       extra = extra[:event]
       expect(extra[:id]).to eq("204270013081849857")
       expect(extra[:text]).to eq("Don't be blinded by science http://t.co/YOWRhsXb")

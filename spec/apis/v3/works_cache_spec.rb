@@ -7,7 +7,7 @@ describe "/api/v3/articles", :type => :api do
   context "caching", :caching => true do
 
     context "index" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
+      let(:works) { FactoryGirl.create_list(:work, 2, :with_events) }
       let(:source_ids) { Source.pluck(:id) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
 
@@ -31,13 +31,13 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"][:total].to_i).to eql(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
     end
 
     context "show" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:source_ids) { Source.pluck(:id) }
       let(:key) { work.decorate(:context => { info: nil, source_ids: source_ids }).cache_key }
       let(:uri) { "/api/v3/articles/info:doi/#{work.doi}?api_key=#{api_key}" }
@@ -57,7 +57,7 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"][:total].to_i).to eql(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -116,7 +116,7 @@ describe "/api/v3/articles", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(total: total)
+        work.events.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
@@ -163,8 +163,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
 
         summary_uri = "#{uri}&info=summary"

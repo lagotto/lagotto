@@ -15,7 +15,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :sort, :string, :optional, "Sort by source event count descending, by works created at date/time, or by publication date descending if left empty."
+    param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
     response :ok
@@ -26,6 +26,7 @@ class Api::V6::WorksController < Api::BaseController
 
   swagger_api :show do
     summary "Show a work"
+    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
     param :path, :id, :string, :required, "Work ID"
     response :ok
     response :unprocessable_entity
@@ -36,7 +37,7 @@ class Api::V6::WorksController < Api::BaseController
   swagger_api :create do
     summary "Create a work"
     notes "Authentication via API key is required"
-    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, dataone, or url)"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -47,7 +48,7 @@ class Api::V6::WorksController < Api::BaseController
     summary "Update a work"
     notes "Authentication via API key is required"
     param :path, :id, :string, :required, "Work ID"
-    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, dataone, or url)"
+    param :work, :type, :hash, :required, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -72,7 +73,7 @@ class Api::V6::WorksController < Api::BaseController
 
   def index
     source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.where(name: params[:publisher_id]).first
+    publisher = Publisher.where(member_id: params[:publisher_id]).first
 
     collection = get_ids(params)
     collection = get_class_name(collection, params) if params[:class_name]
@@ -86,7 +87,6 @@ class Api::V6::WorksController < Api::BaseController
                                      total_entries: total_entries)
 
     @works = collection.decorate(context: { role: is_admin_or_staff? })
-    arr = Work::Metrics.load_for_works(@works.map(&:object))
   end
 
   def create
@@ -129,18 +129,18 @@ class Api::V6::WorksController < Api::BaseController
   # Translate type query parameter into column name
   def get_ids(params)
     if params[:ids]
-      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "ark", "dataone", "url"].find { |t| t == params[:type] } || "pid"
+      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "ark", "url"].find { |t| t == params[:type] } || "pid"
       type = "canonical_url" if type == "url"
       ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
       collection = Work.where(works: { type => ids })
     elsif params[:q]
       collection = Work.query(params[:q])
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
-      collection = Work.joins(:retrieval_statuses)
-                   .where("retrieval_statuses.source_id = ?", source.id)
-                   .where("retrieval_statuses.total > 0")
-    elsif params[:publisher_id] && publisher = Publisher.where(name: params[:publisher_id]).first
-      collection = Work.where(publisher_id: publisher.member_id)
+      collection = Work.joins(:events)
+                   .where("events.source_id = ?", source.id)
+                   .where("events.total > 0")
+    elsif params[:publisher_id]
+      collection = Work.where(publisher_id: params[:publisher_id])
     else
       collection = Work.tracked
     end
@@ -148,11 +148,11 @@ class Api::V6::WorksController < Api::BaseController
 
   def get_class_name(collection, params)
     @class_name = params[:class_name]
-    collection = collection.includes(:alerts).references(:alerts)
-    if @class_name == "All Alerts"
-      collection = collection.where("alerts.unresolved = ?", true)
+    collection = collection.includes(:notifications).references(:notifications)
+    if @class_name == "All Notifications"
+      collection = collection.where("notifications.unresolved = ?", true)
     else
-      collection = collection.where("alerts.unresolved = ?", true).where("alerts.class_name = ?", @class_name)
+      collection = collection.where("notifications.unresolved = ?", true).where("notifications.class_name = ?", @class_name)
     end
   end
 
@@ -160,13 +160,11 @@ class Api::V6::WorksController < Api::BaseController
   # we can't filter and sort by two different sources
   def get_sort(collection, params, source)
     if params[:sort] && source && params[:sort] == params[:source_id]
-      collection = collection.order("retrieval_statuses.total DESC")
+      collection = collection.order("events.total DESC")
     elsif params[:sort] && !source && sort = Source.where(name: params[:sort]).first
-      collection = collection.joins(:retrieval_statuses)
-        .where("retrieval_statuses.source_id = ?", sort.id)
-        .order("retrieval_statuses.total DESC")
-    elsif params[:sort] == "created_at"
-      collection.order("works.created_at ASC")
+      collection = collection.joins(:events)
+        .where("events.source_id = ?", sort.id)
+        .order("events.total DESC")
     else
       collection.order("works.published_on DESC")
     end
@@ -186,6 +184,6 @@ class Api::V6::WorksController < Api::BaseController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :dataone, :publisher_id, :year, :month, :day, :tracked)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
   end
 end

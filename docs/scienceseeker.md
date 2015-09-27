@@ -8,18 +8,18 @@ title: "ScienceSeeker"
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=30%><strong>ALM Name</strong></td>
+<td valign="top" width=30%><strong>Lagotto Name</strong></td>
 <td valign="top" width=70%>scienceseeker</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
-<td valign="top" width=80%>staleness: [ 1.day, 1.day, 1.month, 1.month]</td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
+<td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
 <td valign="top" width=80%>url (as href)<br/>contributor (as author)<br/>date (as updated)</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>title<br/>summary<br/>recommendations</td>
 </tr>
 <tr>

@@ -5,9 +5,14 @@ namespace :cache do
     StatusCacheJob.perform_later
     puts "Cache update for status page has been queued."
 
-    Source.visible.each do |source|
+    Source.active.each do |source|
       CacheJob.perform_later(source)
       puts "Cache update for source #{source.title} has been queued."
+    end
+
+    Agent.visible.each do |agent|
+      CacheJob.perform_later(agent)
+      puts "Cache update for agent #{agent.title} has been queued."
     end
 
     Publisher.all.each do |publisher|

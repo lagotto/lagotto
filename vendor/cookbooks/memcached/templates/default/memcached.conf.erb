@@ -12,7 +12,7 @@
 -d
 
 # Log memcached's output to /var/log/memcached
-logfile <%= @logfilepath %><%= @logfilename %>
+logfile /var/log/memcached.log
 
 # Be verbose
 -v
@@ -52,9 +52,3 @@ logfile <%= @logfilepath %><%= @logfilename %>
 
 # Max object size
 -I <%= @max_object_size %>
-
-# Number of threads to use to process incoming requests. The default is 4.
-<% if @threads %>-t <%= @threads %><% end %>
-
-# Comma separated list of extended or experimental options.
-<% if @experimental_options.any? %>-o <%= @experimental_options.join(', ') %><% end %>

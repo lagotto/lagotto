@@ -47,10 +47,10 @@ module Poise
         # @param klass [Class] Resource class to search for.
         # @param run_context [Chef::RunContext] Context of the current run.
         # @return [Chef::Resource]
-        def self.find(klass, run_context, self_resource: nil)
+        def self.find(klass, run_context)
           CONTAINER_MUTEX.synchronize do
             containers(run_context).reverse_each do |resource|
-              return resource if resource.is_a?(klass) && (!self_resource || self_resource != resource)
+              return resource if resource.is_a?(klass)
             end
             # Nothing found.
             nil

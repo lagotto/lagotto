@@ -1,7 +1,4 @@
 class Api::V6::EventsController < Api::BaseController
-  # include helper module for DOI resolution
-  include Resolvable
-
   before_filter :authenticate_user_from_token!
 
   swagger_controller :events, "Events"
@@ -23,30 +20,24 @@ class Api::V6::EventsController < Api::BaseController
 
   def index
     if params[:work_id]
-      id_hash = get_id_hash(params[:work_id])
-      field = id_hash.keys.first
-      collection = RetrievalStatus.joins(:work).where("works.#{field} = ?", id_hash.fetch(field))
+      collection = Event.joins(:work).where("works.pid = ?", params[:work_id])
     elsif params[:work_ids]
-      work_ids = params[:work_ids].split(",")
-      collection = RetrievalStatus.joins(:work).where(works: { "pid" => work_ids })
+      collection = Event.joins(:work).where("works.pid IN (?)", params[:work_ids])
     elsif params[:source_id]
-      collection = RetrievalStatus.joins(:source).where("sources.name = ?", params[:source_id])
+      collection = Event.joins(:source).where("sources.name = ?", params[:source_id])
     elsif params[:publisher_id]
-      collection = RetrievalStatus.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
+      collection = Event.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
     else
-      collection = RetrievalStatus
+      collection = Event
     end
 
     collection = collection.joins(:source).where("private <= ?", is_admin_or_staff?)
-    if params[:sort] == "created_at"
-      # use :id for sort order because it is already indexed and it will achieve the same outcome
-      # as the :created_at column since both are intended to go up sequentially
-      collection = collection.order("retrieval_statuses.id ASC")
-    elsif params[:sort]
+
+    if params[:sort]
       sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
       collection = collection.order(sort.to_sym => :desc)
     else
-      collection = collection.order("retrieval_statuses.updated_at DESC")
+      collection = collection.order("events.updated_at DESC")
     end
 
     collection = collection.includes(:work, :source, :days, :months)
@@ -56,5 +47,4 @@ class Api::V6::EventsController < Api::BaseController
 
     @events = collection.decorate
   end
-
 end

@@ -32,7 +32,7 @@ We want to separate out the agent functionality from our sources, so that agents
 
 ### Push all API responses through push API
 
-All API responses from external sources should go through the new push API to make the workflow consistent. We can modify the [perform_get_data method](https://github.com/lagotto/lagotto/blob/master/app/models/retrieval_status.rb#L41-L46) to achieve this.
+All API responses from external sources should go through the new push API to make the workflow consistent. We can modify the [perform_get_data method](https://github.com/lagotto/lagotto/blob/master/app/models/event.rb#L41-L46) to achieve this.
 
 ### Rewrite F1000 source as internal agent
 

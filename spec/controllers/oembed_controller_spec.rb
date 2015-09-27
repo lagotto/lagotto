@@ -3,7 +3,7 @@ require 'rails_helper'
 describe OembedController, :type => :controller do
   render_views
 
-  let(:work) { FactoryGirl.create(:work_with_events) }
+  let(:work) { FactoryGirl.create(:work, :with_events) }
   let(:uri) { "/oembed?url=#{work_path(work)}" }
 
   context "discovery" do
@@ -11,7 +11,7 @@ describe OembedController, :type => :controller do
       get work_path(work)
       expect(last_response.status).to eq(200)
       expect(last_response.body).to have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Work oEmbed Profile"][href="#{uri}"]), visible: false)
-      expect(Alert.count).to eq(0)
+      expect(Notification .count).to eq(0)
     end
   end
 

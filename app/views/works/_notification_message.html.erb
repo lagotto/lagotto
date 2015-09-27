@@ -1,0 +1,9 @@
+<% unless @work.notifications.empty? %>
+  <div class="notification notification-warning">
+    <button type="button" class="close" data-dismiss="notification">&times;</button>
+    <h4>Notifications</h4>
+    <% @work.notifications.limit(20).each do |notification| %>
+      <%= notification.message %><%= notification.source.nil? ? "" : " (#{notification.source.title})" %></br>
+    <% end %>
+  </div>
+<% end %>

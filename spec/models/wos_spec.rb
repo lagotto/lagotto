@@ -43,14 +43,14 @@ describe Wos, type: :model, vcr: true do
 
     it "should catch timeout errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(work)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc", status: 408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -60,7 +60,7 @@ describe Wos, type: :model, vcr: true do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
+      expect(response).to eq(events: [{ source_id: "wos", work_id: work.pid, total: 0, events_url: nil }])
     end
 
     it "should report if there are no events returned by the Wos API" do
@@ -68,7 +68,7 @@ describe Wos, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
+      expect(response).to eq(events: [{ source_id: "wos", work_id: work.pid, total: 0, events_url: nil }])
     end
 
     it "should report if there are no events returned by the Wos API with alt response" do
@@ -76,7 +76,7 @@ describe Wos, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "wos", work: work.pid, total: 0, events_url: nil })
+      expect(response).to eq(events: [{ source_id: "wos", work_id: work.pid, total: 0, events_url: nil }])
     end
 
     it "should report if there are events returned by the Wos API" do
@@ -84,8 +84,12 @@ describe Wos, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(1005)
-      expect(response[:events][:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("wos")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(1005)
+      expect(event[:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
       expect(work.wos).to eq("000237966900006")
     end
 
@@ -95,12 +99,12 @@ describe Wos, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
       expect(response).to eq(error: "Web of Science error Server.authentication: 'No matches returned for IP Address' for work #{work.doi}")
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPUnauthorized")
-      expect(alert.message).to include("Web of Science error Server.authentication")
-      expect(alert.status).to eq(401)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPUnauthorized")
+      expect(notification.message).to include("Web of Science error Server.authentication")
+      expect(notification.status).to eq(401)
+      expect(notification.source_id).to eq(subject.id)
     end
 
     it "should catch timeout errors with the Wos API" do

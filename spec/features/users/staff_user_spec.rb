@@ -13,9 +13,9 @@ describe "access for staff user", type: :feature, js: true do
     expect(page).to have_css "h1", "API Requests"
   end
 
-  it "show alerts" do
-    visit "/alerts"
-    expect(page).to have_css ".alert-info", text: "There are currently no alerts"
+  it "show notifications" do
+    visit "/notifications"
+    expect(page).to have_css ".alert-info", text: "There are currently no notifications"
   end
 
   it "show filters" do

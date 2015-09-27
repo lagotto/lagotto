@@ -19,22 +19,22 @@ describe EuropePmc, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(768)
-      expect(response["citationList"]["citation"].length).to eq(768)
+      expect(response["hitCount"]).to eq(770)
+      expect(response["citationList"]["citation"].length).to eq(770)
       citation = response["citationList"]["citation"].first
-      expect(citation["title"]).to eq("MicroRNAs: target recognition and regulatory functions.")
+      expect(citation["title"]).to eq("The role of site accessibility in microRNA target recognition.")
     end
 
     it "should catch errors with the PMC Europe API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, source_id: subject.id)
+      response = subject.get_data(work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/citations/1/json", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -49,28 +49,32 @@ describe EuropePmc, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'europe_pmc_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "pmc_europe", work: work.pid, total: 0, events_url: nil, days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pmc_europe", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'europe_pmc.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(23)
-      expect(response[:events][:total]).to eq(23)
-      expect(response[:events][:days]).to be_empty
-      expect(response[:events][:months]).to be_empty
 
-      event = response[:works].last
-      expect(event['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
-      expect(event['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
-      expect(event['container-title']).to eq("BMC Bioinformatics")
-      expect(event['issued']).to eq("date-parts"=>[[2012]])
-      expect(event['DOI']).to eq("10.1186/1471-2105-13-174")
-      expect(event['PMID']).to eq("22823405")
-      expect(event['PMCID']).to eq("3443659")
-      expect(event['type']).to eq("article-journal")
-      expect(event['related_works']).to eq([{"related_work"=>work.pid, "source"=>"pmc_europe", "relation_type"=>"cites"}])
+      event = response[:events].first
+      expect(event[:source_id]).to eq("pmc_europe")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(23)
+      expect(event[:days]).to be_empty
+      expect(event[:months]).to be_empty
+
+      expect(response[:works].length).to eq(23)
+      related_work = response[:works].last
+      expect(related_work['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
+      expect(related_work['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
+      expect(related_work['container-title']).to eq("BMC Bioinformatics")
+      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
+      expect(related_work['DOI']).to eq("10.1186/1471-2105-13-174")
+      expect(related_work['PMID']).to eq("22823405")
+      expect(related_work['PMCID']).to eq("3443659")
+      expect(related_work['type']).to eq("article-journal")
+      expect(related_work['related_works']).to eq([{"related_work"=>work.pid, "source"=>"pmc_europe", "relation_type"=>"cites"}])
     end
 
     it "should catch timeout errors with the PMC Europe API" do

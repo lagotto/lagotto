@@ -7,7 +7,7 @@ describe "/api/v5/articles", :type => :api do
   context "caching", :caching => true do
 
     context "index" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
+      let(:works) { FactoryGirl.create_list(:work, 2, :with_events) }
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{work_list}&type=doi&api_key=#{api_key}" }
 
@@ -27,7 +27,7 @@ describe "/api/v5/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(response_source["metrics"][:total].to_i).to eql(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"][:total].to_i).to eql(work.events.first.total)
         expect(response_source["events"]).to be_nil
       end
 
@@ -43,13 +43,13 @@ describe "/api/v5/articles", :type => :api do
       #   response_source = response[:sources][0]
       #   response[:doi].should eql(work.doi)
       #   response[:issued]["date-parts"][0].should eql([work.year, work.month, work.day])
-      #   response_source[:metrics][:total].to_i.should eql(work.retrieval_statuses.first.event_count)
+      #   response_source[:metrics][:total].to_i.should eql(work.events.first.event_count)
       #   response_source[:events].should be_nil
       # end
     end
 
     context "work is updated" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/v5/articles?ids=#{work.doi_escaped}&api_key=#{api_key}" }
       let(:key) { "jbuilder/v5/#{work.decorate(:context => { source: 'citeulike' }).cache_key}" }
       let(:title) { "Foo" }
@@ -94,7 +94,7 @@ describe "/api/v5/articles", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(total: total)
+        work.events.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
@@ -146,8 +146,8 @@ describe "/api/v5/articles", :type => :api do
         expect(data["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
 
         response_source = data["sources"][0]
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["readers"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["readers"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
 
         summary_uri = "#{uri}&info=summary"

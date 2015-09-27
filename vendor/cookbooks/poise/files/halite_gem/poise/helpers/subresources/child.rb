@@ -92,7 +92,7 @@ module Poise
             val = args.first
             if val.nil?
               # Unsetting the parent.
-              parent = parent_ref = nil
+              parent = nil
             else
               if val.is_a?(String) && !val.include?('[')
                 raise Poise::Error.new("Cannot use a string #{name} without defining a parent type") if parent_type == Chef::Resource
@@ -117,8 +117,8 @@ module Poise
               if !parent.is_a?(parent_type)
                 raise Poise::Error.new("Parent resource is not an instance of #{parent_type.name}: #{val.inspect}")
               end
-              parent_ref = ParentRef.new(parent)
             end
+            parent_ref = ParentRef.new(parent)
           elsif !parent_ref || !parent_ref.resource
             if parent_default
               parent = if parent_default.is_a?(Chef::DelayedEvaluator)
@@ -127,14 +127,11 @@ module Poise
                 parent_default
               end
             end
-            # The @parent_ref means we won't run this if we previously set
-            # ParentRef.new(nil). This means auto-lookup only happens during
-            # after_created.
-            if !parent && !parent_ref && parent_auto
+            if !parent && parent_auto
               # Automatic sibling lookup for sequential composition.
               # Find the last instance of the parent class as the default parent.
               # This is super flaky and should only be a last resort.
-              parent = Poise::Helpers::Subresources::DefaultContainers.find(parent_type, run_context, self_resource: self)
+              parent = Poise::Helpers::Subresources::DefaultContainers.find(parent_type, run_context)
             end
             # Can't find a valid parent, if it wasn't optional raise an error.
             raise Poise::Error.new("No #{name} found for #{self}") unless parent || parent_optional

@@ -3,23 +3,6 @@ require 'addressable/uri'
 require "builder"
 
 class Work < ActiveRecord::Base
-  class Metrics
-    def self.load_for_works(works, method=:id)
-      metrics_by_id = for_ids works.map(&method)
-      works.each do |work|
-        work.metrics = metrics_by_id[work.id]
-      end
-    end
-
-    def self.for_ids(ids)
-      query = ::Work.where(id: ids).joins(:sources).select("works.id, name, total")
-      query.all.reduce(Hash.new{|h,k| h[k] = []}) do |hsh, model|
-        hsh[model.id] << [ model.name, model.total ]
-        hsh
-      end
-    end
-  end
-
   # include HTTP request helpers
   include Networkable
 
@@ -37,13 +20,13 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher, primary_key: :member_id
   belongs_to :work_type
-  has_many :retrieval_statuses
-  has_many :sources, :through => :retrieval_statuses
-  has_many :alerts, :dependent => :destroy
+  has_many :events, dependent: :destroy
+  has_many :sources, :through => :events
+  has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations
-  has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation'
-  has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation'
+  has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation', :dependent => :destroy
+  has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
   has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
 
@@ -53,20 +36,15 @@ class Work < ActiveRecord::Base
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
   validates :pid, :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
-  validates :month, numericality: { only_integer: true, less_than_or_equal_to: 12, allow_nil: true }
-  validates :day, numericality: { only_integer: true, less_than_or_equal_to: 31, allow_nil: true }
   validate :validate_published_on
 
-  before_validation :sanitize_title, :normalize_url, :normalize_doi, :set_pid
-  after_create :create_retrievals, if: :tracked
+  before_validation :sanitize_title, :normalize_url, :set_pid
 
-  scope :query, ->(query) { where("pid like ?", "%#{query}%") }
+  scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:retrieval_statuses)
-    .where("retrieval_statuses.total > ?", 0)
-    .references(:retrieval_statuses) }
-  scope :by_source, ->(source_id) { joins(:retrieval_statuses)
-    .where("retrieval_statuses.source_id = ?", source_id) }
+  scope :has_events, -> { includes(:events).where("events.total > ?", 0).references(:events) }
+  scope :by_source, ->(source_id) { joins(:events).where("events.source_id = ?", source_id) }
+
   scope :tracked, -> { where("works.tracked = ?", true) }
 
   serialize :csl, JSON
@@ -89,11 +67,6 @@ class Work < ActiveRecord::Base
       work.update_attributes(params.except(:pid, :pmid, :related_works)) if work.present? && params[:tracked]
       work.update_relations(params.fetch(:related_works, [])) if work.present?
       work
-    elsif e.message.include?("Ark has already been taken") || e.message.include?("key 'index_works_on_ark'")
-      work = Work.where(ark: params[:ark]).first
-      work.update_attributes(params.except(:pid, :ark, :related_works)) if work.present? && params[:tracked]
-      work.update_relations(params.fetch(:related_works, [])) if work.present?
-      work
     elsif e.message.include?("Pid has already been taken") || e.message.include?("key 'index_works_on_pid'")
       work = Work.where(canonical_url: params[:canonical_url]).first
       work.update_attributes(params.except(:pid, :canonical_url, :related_works)) if work.present? && params[:tracked]
@@ -106,15 +79,12 @@ class Work < ActiveRecord::Base
       elsif params[:pmid].present?
         target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
         message = "#{e.message} for pmid #{params[:pmid]}."
-      elsif params[:ark].present?
-        target_url = "http://n2t.net/#{params[:ark]}"
-        message = "#{e.message} for ark #{params[:ark]}."
       else
         target_url = params[:canonical_url]
         message = "#{e.message} for url #{target_url}."
       end
 
-      Alert.where(message: message).where(unresolved: true).first_or_create(
+      Notification.where(message: message).where(unresolved: true).first_or_create(
         :exception => "",
         :class_name => "ActiveRecord::RecordInvalid",
         :target_url => target_url)
@@ -159,7 +129,7 @@ class Work < ActiveRecord::Base
   end
 
   def events_count
-    @events_count ||= retrieval_statuses.reduce(0) { |sum, r| sum + r.total }
+    @events_count ||= events.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -318,12 +288,8 @@ class Work < ActiveRecord::Base
   alias_method :discussed, :shares
   alias_method :cited, :citations
 
-  def metrics=(metrics)
-    @metrics = metrics
-  end
-
   def metrics
-    @metrics ||= Metrics.for_ids([id])[id]
+    sources.pluck(:name, :total)
   end
 
   def issued
@@ -390,15 +356,11 @@ class Work < ActiveRecord::Base
       write_attribute(:published_on, published_on)
     end
   rescue ArgumentError
-    errors.add :published_on, "#{date_parts.join('-')} is not a valid date"
+    errors.add :published_on, "is not a valid date"
   end
 
   def sanitize_title
     self.title = ActionController::Base.helpers.sanitize(title, tags: %w(b i sc sub sup))
-  end
-
-  def normalize_doi
-    self.doi = doi.downcase if doi.present?
   end
 
   def normalize_url
@@ -429,13 +391,6 @@ class Work < ActiveRecord::Base
       write_attribute(:pid, pid)
     else
       errors.add :doi, "must provide at least one persistent identifier"
-    end
-  end
-
-  def create_retrievals
-    # Create an empty retrieval record for every installed source for the new work
-    Source.installed.each do |source|
-      RetrievalStatus.where(work_id: id, source_id: source.id).first_or_create
     end
   end
 end

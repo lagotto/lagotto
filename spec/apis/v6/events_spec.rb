@@ -13,7 +13,7 @@ describe "/api/v6/events", :type => :api do
 
   context "index" do
     context "JSON" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 5) }
+      let(:works) { FactoryGirl.create_list(:work, 5, :with_events) }
       let(:work) { works.first }
       let(:work_list) { works.map { |work| "#{work.pid}" }.join(",") }
       let(:uri) { "/api/events?ids=#{work_list}" }
@@ -54,7 +54,7 @@ describe "/api/v6/events", :type => :api do
         expect(item["by_year"]).not_to be_nil
       end
 
-      it "can be sorted by retrieval_statuses.id using the created_at query parameter" do
+      it "can be sorted by events.id using the created_at query parameter" do
         get "/api/events?sort=created_at", nil, headers
         response = JSON.parse(last_response.body)
         data = response["events"]
@@ -62,7 +62,7 @@ describe "/api/v6/events", :type => :api do
 
         expected_work_ids = RetrievalStatus.all
           .includes(:work)
-          .order("retrieval_statuses.id ASC")
+          .order("events.id ASC")
           .map(&:work)
           .map(&:pid)
 
@@ -71,7 +71,7 @@ describe "/api/v6/events", :type => :api do
     end
 
     context "show" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/works/#{work.pid}/events" }
 
       it "JSON" do

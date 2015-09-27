@@ -31,8 +31,8 @@ set :output, "log/cron.log"
 
 # Schedule jobs
 # Send report when workers are not running
-# Create alerts by filtering API responses and mail them
-# Delete resolved alerts
+# Create notifications by filtering API responses and mail them
+# Delete resolved notifications
 # Delete API request information, keeping the last 1,000 requests
 # Delete API response information, keeping responses from the last 24 hours
 # Generate a monthly report

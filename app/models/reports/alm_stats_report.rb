@@ -11,12 +11,12 @@ class AlmStatsReport
     def execute
       select_clause =  "works.pid, works.published_on, works.title"
       source_models.each do |source|
-        select_clause += ", MAX(CASE WHEN rs.source_id = #{source.id} THEN rs.total END) AS #{source.name}"
+        select_clause += ", MAX(CASE WHEN events.source_id = #{source.id} THEN events.total END) AS #{source.name}"
       end
 
       Work.select(select_clause)
         .where("works.tracked = ?", 1)
-        .joins("LEFT JOIN retrieval_statuses rs ON works.id = rs.work_id")
+        .joins("LEFT JOIN events ON works.id = events.work_id")
         .group("works.id")
         .order("works.published_on ASC")
         .all

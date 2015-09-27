@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "sources", type: :feature, js: true do
   let!(:source) { FactoryGirl.create(:source) }
-  let!(:work) { FactoryGirl.create(:work_with_events) }
+  let!(:work) { FactoryGirl.create(:work, :with_events) }
 
   it "show summary" do
     visit "/sources"

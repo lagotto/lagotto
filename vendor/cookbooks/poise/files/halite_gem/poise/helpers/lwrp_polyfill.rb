@@ -129,17 +129,6 @@ module Poise
 
       # Helper to handle load_current_resource for direct subclasses of Provider
       module Provider
-        module LoadCurrentResource
-          def load_current_resource
-            @current_resource = if new_resource
-              new_resource.class.new(new_resource.name, run_context)
-            else
-              # Better than nothing, subclass can overwrite anyway.
-              Chef::Resource.new(nil, run_context)
-            end
-          end
-        end
-
         # @!classmethods
         module ClassMethods
           def included(klass)
@@ -148,11 +137,20 @@ module Poise
 
             # Mask Chef::Provider#load_current_resource because it throws NotImplementedError.
             if klass.is_a?(Class) && klass.superclass == Chef::Provider
-              klass.send(:include, LoadCurrentResource)
+              klass.class_exec do
+                def load_current_resource
+                  @current_resource = if new_resource
+                    new_resource.class.new(new_resource.name, run_context)
+                  else
+                    # Better than nothing, subclass can overwrite anyway.
+                    Chef::Resource.new(nil, run_context)
+                  end
+                end
+              end
             end
 
             # Reinstate the Chef DSL, removed in Chef 12.
-            klass.send(:include, Chef::DSL::Recipe)
+            klass.class_exec { include Chef::DSL::Recipe }
           end
         end
 

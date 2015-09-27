@@ -10,8 +10,8 @@ class Api::V3::WorksController < Api::BaseController
     collection = Work.where(works: { type => ids })
 
     source_ids = get_source_ids(params[:source])
-    collection = collection.where(retrieval_statuses: { source_id: source_ids })
-                           .includes(:retrieval_statuses).references(:retrieval_statuses)
+    collection = collection.where(events: { source_id: source_ids })
+                           .includes(:events).references(:events)
                            .order("works.updated_at DESC")
 
     fail ActiveRecord::RecordNotFound, "Article not found." if collection.blank?
@@ -25,13 +25,16 @@ class Api::V3::WorksController < Api::BaseController
     work = Work.where(key => value)
 
     source_ids = get_source_ids(params[:source])
-    work = work.where(retrieval_statuses: { source_id: source_ids })
-               .includes(:retrieval_statuses).references(:retrieval_statuses)
-               .first
+    work = work.where(events: { source_id: source_ids })
+               .includes(:events).references(:events)
 
-    fail ActiveRecord::RecordNotFound, "Article not found." if work.blank?
+    fail ActiveRecord::RecordNotFound, "Article not found." unless work.first
 
-    @work = work.decorate(context: { info: params[:info], source_ids: source_ids })
+    if ENV["API"] == "rabl"
+      @works = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    else
+      @work = work.first.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+    end
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|

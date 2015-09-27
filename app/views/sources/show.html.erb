@@ -7,12 +7,6 @@
     <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
     <li><a href="#works" data-toggle="tab">Works</a></li>
     <li><a href="#events" data-toggle="tab">Events</a></li>
-    <% if can?(:manage, @source) && @source.state > 0 %>
-      <li><a href="#configuration" data-toggle="tab" title="Configuration">Configuration</a></li>
-    <% end %>
-    <% if @publisher_option && can?(:update, @source) && @source.state > 0 %>
-      <li><a href="#publisher_options" data-toggle="tab" title="Publisher Configuration">Publisher Configuration</a></li>
-    <% end %>
     <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
   </ul>
 
@@ -28,16 +22,6 @@
     <div class="tab-pane" id="events">
       <%= render :partial => 'events_show' %>
     </div>
-    <% if can?(:manage, @source) && @source.state > 0 %>
-      <div class="tab-pane" id="configuration">
-        <%= render :partial => 'configuration' %>
-      </div>
-    <% end %>
-    <% if @publisher_option && can?(:update, @source) && @source.state > 0 %>
-      <div class="tab-pane" id="publisher_options">
-        <%= render :partial => 'publisher_options/configuration' %>
-      </div>
-    <% end %>
     <div class="tab-pane" id="documentation">
       <%= render :partial => 'docs/show' %>
     </div>

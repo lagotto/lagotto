@@ -5,9 +5,6 @@ class SourcesController < ApplicationController
 
   def show
     @doc = Doc.find(@source.name)
-    if current_user && current_user.publisher_id && @source.by_publisher?
-      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
-    end
 
     render :show
   end
@@ -20,15 +17,12 @@ class SourcesController < ApplicationController
 
   def edit
     @doc = Doc.find(@source.name)
-    if current_user && current_user.publisher_id && @source.by_publisher?
-      @publisher_option = PublisherOption.where(publisher_id: current_user.publisher_id, source_id: @source.id).first_or_create
-    end
     render :show
   end
 
   def update
     params[:source] ||= {}
-    params[:source][:state_event] = params[:state_event] if params[:state_event]
+    params[:source][:active] = params[:active] if params[:active]
     @source.update_attributes(safe_params)
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
@@ -36,7 +30,7 @@ class SourcesController < ApplicationController
       @flash = flash
     end
 
-    if params[:state_event]
+    if params[:active]
       @groups = Group.includes(:sources).order("groups.id, sources.title")
       render :index
     else
@@ -58,7 +52,7 @@ class SourcesController < ApplicationController
   def safe_params
     params.require(:source).permit(:title,
                                    :group_id,
-                                   :state_event,
+                                   :active,
                                    :private,
                                    :by_publisher,
                                    :queueable,

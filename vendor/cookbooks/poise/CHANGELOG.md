@@ -1,16 +1,5 @@
 # Changelog
 
-## v2.3.2
-
-* Improve handling of deeply nested subresources.
-
-## v2.3.1
-
-* Ensure a container with a parent link to its own type doesn't use self as the
-  default parent.
-* Improve handling of `load_current_resource` in providers that call it via
-  `super`.
-
 ## v2.3.0
 
 * New helper: `ResourceSubclass`, a helper for subclassing a resource while

@@ -1,227 +1,98 @@
 require 'rails_helper'
 
 describe DataoneImport, type: :model, vcr: true do
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
 
-  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2014, 9, 5)) }
+  subject { FactoryGirl.create(:dataone_import) }
 
-  context "query_url" do
-    it "should have total_results" do
-      import = DataoneImport.new
-      expect(import.total_results).to eq(61)
+  context "get_query_url" do
+    it "default" do
+      expect(subject.get_query_url).to eq("https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=dateModified%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json")
+    end
+
+    it "with zero rows" do
+      expect(subject.get_query_url(rows: 0)).to eq( "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=dateModified%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=0&start=0&wt=json")
+    end
+
+    it "with different from_date and until_date" do
+      expect(subject.get_query_url(from_date: "2015-04-05", until_date: "2015-04-05")).to eq("https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=dateModified%3A%5B2015-04-05T00%3A00%3A00Z+TO+2015-04-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json")
     end
   end
 
-  context "query_url" do
-    it "should have default query_url" do
-      import = DataoneImport.new
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"
-      expect(import.query_url).to eq(url)
+  context "get_total" do
+    it "with works" do
+      expect(subject.get_total).to eq(140)
     end
 
-    it "should have query_url with from_update_date" do
-      import = DataoneImport.new(from_update_date: "2014-09-01")
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B2014-09-01T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-01T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"
-      expect(import.query_url).to eq(url)
+    it "with no works" do
+      expect(subject.get_total(from_date: "2015-04-05", until_date: "2015-04-05")).to eq(0)
+    end
+  end
+
+  context "queue_jobs" do
+    it "should report if there are no works returned by the DataONE Search API" do
+      response = subject.queue_jobs(from_date: "2015-04-05", until_date: "2015-04-05")
+      expect(response).to eq(0)
     end
 
-    it "should have query_url with until_update_date" do
-      import = DataoneImport.new(until_update_date: "2014-09-05")
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"
-      expect(import.query_url).to eq(url)
+    it "should report if there are works returned by the DataONE Search API" do
+      response = subject.queue_jobs
+      expect(response).to eq(140)
     end
 
-    it "should have query_url with from_pub_date" do
-      import = DataoneImport.new(from_pub_date: "2014-09-01")
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"
-      expect(import.query_url).to eq(url)
-    end
-
-    it "should have query_url with until_pub_date" do
-      import = DataoneImport.new(until_pub_date: "2014-09-04")
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-04T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json"
-      expect(import.query_url).to eq(url)
-    end
-
-    it "should have query_url with offset" do
-      import = DataoneImport.new
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=250&wt=json"
-      expect(import.query_url(offset = 250)).to eq(url)
-    end
-
-    it "should have query_url with rows" do
-      import = DataoneImport.new
-      url = "https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=250&start=0&wt=json"
-      expect(import.query_url(offset = 0, rows = 250)).to eq(url)
+    it "should report if there are sample works returned by the DataONE Search API" do
+      subject.sample = 20
+      response = subject.queue_jobs
+      expect(response).to eq(140)
     end
   end
 
   context "get_data" do
-    it "should get_data default" do
-      import = DataoneImport.new
-      response = import.get_data
-      expect(response["response"]["numFound"]).to eq(61)
-      work = response["response"]["docs"][1]
-      expect(work["id"]).to eq("http://dx.doi.org/10.5061/dryad.v8q6c/2?ver=2014-09-04T02:30:11.776-04:00")
-      expect(work["title"]).to eq("White-Browed Sparrow Weaver Genotypes")
+    it "should report if there are no works returned by the DataONE Search API" do
+      response = subject.get_data(nil, from_date: "2015-04-05", until_date: "2015-04-05")
+      expect(response["response"]["numFound"]).to eq(0)
     end
 
-    it "should get_data default no data" do
-      import = DataoneImport.new(from_update_date: "2014-09-07", until_update_date: "2014-09-07")
-      response = import.get_data
-      expect(response).to eq("responseHeader"=>{"status"=>0, "QTime"=>5, "params"=>{"fl"=>"id,title,author,datePublished,authoritativeMN,dateModified", "start"=>"0", "q"=>"datePublished:[2014-09-07T00:00:00Z TO 2014-09-05T23:59:59Z]+dateModified:[2014-09-07T00:00:00Z TO 2014-09-07T23:59:59Z]+formatType:METADATA", "wt"=>"json", "rows"=>"1000"}}, "response"=>{"numFound"=>0, "start"=>0, "docs"=>[]})
+    it "should report if there are works returned by the DataONE Search API" do
+      response = subject.get_data(nil)
+      expect(response["response"]["numFound"]).to eq(140)
+      doc = response["response"]["docs"].first
+      expect(doc["id"]).to eq("http://dx.doi.org/10.5061/dryad.5rg54?ver=2015-04-07T11:30:54.986-04:00")
     end
 
-    it "should get_data timeout error" do
-      import = DataoneImport.new
-      stub = stub_request(:get, import.query_url).to_return(:status => 408)
-      response = import.get_data
-      expect(response).to eq(error: "the server responded with status 408 for https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=datePublished%3A%5B1914-09-05T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BdateModified%3A%5B2014-09-04T00%3A00%3A00Z+TO+2014-09-05T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=1000&start=0&wt=json", status: 408)
+    it "should catch errors with the DataONE Search API" do
+      stub = stub_request(:get, subject.get_query_url(rows: 0, agent_id: subject.id)).to_return(:status => [408])
+      response = subject.get_data(nil, rows: 0, agent_id: subject.id)
+      expect(response).to eq(error: "the server responded with status 408 for https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=dateModified%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=0&start=0&wt=json", :status=>408)
       expect(stub).to have_been_requested
-
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
   context "parse_data" do
-    let!(:publisher) { FactoryGirl.create(:publisher, symbol: "DRYAD", title: "Dryad Digital Repository", member_id: 50002) }
-
-    it "should parse_data default" do
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
+    it "should report if there are no works returned by the DataONE Search API" do
+      body = File.read(fixture_path + 'plos_import_nil.json')
       result = JSON.parse(body)
-      response = import.parse_data(result)
-      expect(response.length).to eq(61)
-
-      work = response.first
-      expect(work[:doi]).to eq("10.5061/dryad.tm8k3")
-      expect(work[:dataone]).to eq("http://dx.doi.org/10.5061/dryad.tm8k3?ver=2014-09-03T10:52:03.591-04:00")
-      expect(work[:title]).to eq("Data from: Evolutionary neutrality of mtDNA introgression: evidence from complete mitogenome analysis in roe deer")
-      expect(work[:year]).to eq(2014)
-      expect(work[:month]).to eq(9)
-      expect(work[:day]).to eq(3)
-      expect(work[:publisher_id]).to eq(50002)
+      expect(subject.parse_data(result, nil)).to eq(works: [])
     end
 
-    it "should parse_data missing date" do
-      import = DataoneImport.new
+    it "should report if there are works returned by the DataONE Search API" do
       body = File.read(fixture_path + 'dataone_import.json')
       result = JSON.parse(body)
-      result["response"]["docs"][5]["datePublished"] = nil
-      response = import.parse_data(result)
-      expect(response.length).to eq(61)
+      response = subject.parse_data(result, nil)
 
-      work = response[5]
-      expect(work[:doi]).to eq("10.5061/dryad.1v8kj/1")
-      expect(work[:title]).to eq("Scleral ring and orbit morphology")
-      expect(work[:year]).to be_nil
-      expect(work[:month]).to be_nil
-      expect(work[:day]).to be_nil
-      expect(work[:publisher_id]).to eq(50002)
-    end
-
-    it "should parse_data missing title" do
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      result["response"]["docs"][5]["title"] = nil
-      response = import.parse_data(result)
-      expect(response.length).to eq(61)
-
-      work = response[5]
-      expect(work[:doi]).to eq("10.5061/dryad.1v8kj/1")
-      expect(work[:title]).to be_nil
-    end
-
-    it "should parse_data ark identifier" do
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      result["response"]["docs"][5]["id"] = "ark:/13030/m5dz07w9/2/cadwsap-s4010832-002.xml"
-      response = import.parse_data(result)
-      expect(response.length).to eq(61)
-
-      work = response[5]
-      expect(work[:doi]).to be_nil
-      expect(work[:ark]).to eq("ark:/13030/m5dz07w9")
-      expect(work[:title]).to eq("Scleral ring and orbit morphology")
-    end
-
-    it "should parse DataONE identifier" do
-      publisher = FactoryGirl.create(:publisher, symbol: "KNB", name: "knb", title: "Knowledge Network for Biocomplexity", member_id: 50010, url: "https://cn.dataone.org/cn/v1/resolve/%{id}")
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      result["response"]["docs"][5]["id"] = "knb-lter-arc.10353.1"
-      result["response"]["docs"][5]["authoritativeMN"] = "urn:node:KNB"
-      response = import.parse_data(result)
-      expect(response.length).to eq(61)
-
-      work = response[5]
-      expect(work[:doi]).to be_nil
-      expect(work[:ark]).to be_nil
-      expect(work[:dataone]).to eq("knb-lter-arc.10353.1")
-      expect(work[:title]).to eq("Scleral ring and orbit morphology")
-    end
-
-    it "should raise error on unknown identifier" do
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      result["response"]["docs"][5]["id"] = "xxx"
-      result["response"]["docs"][5]["authoritativeMN"] = "urn:node:XXX"
-      response = import.parse_data(result)
-      expect(response.length).to eq(61)
-
-      work = response[5]
-      expect(work[:doi]).to be_nil
-      expect(work[:ark]).to be_nil
-      expect(work[:title]).to eq("Scleral ring and orbit morphology")
-
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveModel::MissingAttributeError")
-      expect(alert.message).to eq("No known identifier found in xxx")
-    end
-  end
-
-  context "import_data" do
-    it "should import_data" do
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      items = import.parse_data(result)
-      response = import.import_data(items)
-      expect(response.compact.length).to eq(61)
-      expect(Alert.count).to eq(0)
-    end
-
-    it "should import_data with one existing work" do
-      work = FactoryGirl.create(:work, :doi => "10.5061/dryad.1v8kj/1")
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      items = import.parse_data(result)
-      response = import.import_data(items)
-      expect(response.compact.length).to eq(61)
-      expect(Alert.count).to eq(0)
-    end
-
-    it "should import_data with missing title" do
-      import = DataoneImport.new
-      body = File.read(fixture_path + 'dataone_import.json')
-      result = JSON.parse(body)
-      items = import.parse_data(result)
-      items[0][:title] = nil
-      response = import.import_data(items)
-      expect(response.compact.length).to eq(60)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.5061/dryad.tm8k3.")
-      expect(alert.target_url).to eq("http://doi.org/10.5061/dryad.tm8k3")
+      expect(response[:works].length).to eq(61)
+      related_work = response[:works].last
+      expect(related_work['author']).to eq([{"family"=>"George", "given"=>"Sangster,"}])
+      expect(related_work['title']).to eq("Fig. S1")
+      expect(related_work['container-title']).to be_nil
+      expect(related_work['issued']).to eq("date-parts"=>[[2014, 9, 4]])
+      expect(related_work['type']).to eq("dataset")
+      expect(related_work['DOI']).to eq("10.5061/dryad.m4g2n/1")
     end
   end
 end

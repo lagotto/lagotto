@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Source do
+describe Agent do
 
   context "CouchDB" do
     before(:each) do
@@ -58,16 +58,16 @@ describe Source do
     it "revision conflict" do
       rev = subject.put_lagotto_data(url, data: data)
       new_rev = subject.put_lagotto_data(url, data: data)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPConflict")
-      expect(alert.status).to eq(409)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPConflict")
+      expect(notification.status).to eq(409)
     end
 
     it "handle missing data" do
       get_response = subject.get_lagotto_data(url)
       expect(get_response).to eq(error: "not_found", status: 404)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
   end
 end

@@ -8,7 +8,7 @@ describe "/api/v6/works", :type => :api do
   context "caching", :caching => true do
 
     context "index" do
-      let(:works) { FactoryGirl.create_list(:work_with_events, 2) }
+      let(:works) { FactoryGirl.create_list(:work, 2, :with_events) }
       let(:work_list) { works.map { |work| "#{work.pid}" }.join(",") }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work_list}" }
 
@@ -33,7 +33,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "work is updated" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work.pid}" }
       let(:key) { "jbuilder/v6/#{work.decorate(context: { role: 1 }).cache_key}" }
       let(:title) { "Foo" }
@@ -78,7 +78,7 @@ describe "/api/v6/works", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.retrieval_statuses.first.update_attributes!(total: total)
+        work.events.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 

@@ -36,21 +36,21 @@ describe BmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the BMC Search API" do
       response = subject.get_data(work)
-      expect(response["entries"].length).to eq(24)
+      expect(response["entries"].length).to eq(25)
       doc = response["entries"].first
-      expect(doc["doi"]).to eq("10.1186/s12864-015-1739-2")
+      expect(doc["doi"]).to eq("10.1186/s12864-015-1724-9")
     end
 
     it "should catch errors with the BMC Search API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://www.biomedcentral.com/search/results?terms=#{subject.get_query_string(work)}&format=json", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -64,7 +64,7 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the BMC Search API" do
       body = File.read(fixture_path + 'bmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: { source: "bmc_fulltext", work: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "bmc_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
@@ -72,25 +72,29 @@ describe BmcFulltext, type: :model, vcr: true do
       body = File.read(fixture_path + 'bmc_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("bmc_fulltext")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(16)
+      expect(event[:events_url]).to eq("http://www.biomedcentral.com/search/results?terms=https://github.com/najoshi/sickle")
+      expect(event[:days].length).to eq(9)
+      expect(event[:days].first).to eq(year: 2013, month: 1, day: 30, total: 1)
+      expect(event[:months].length).to eq(11)
+      expect(event[:months].first).to eq(year: 2013, month: 1, total: 1)
+
       expect(response[:works].length).to eq(16)
-      expect(response[:events][:total]).to eq(16)
-      expect(response[:events][:events_url]).to eq("http://www.biomedcentral.com/search/results?terms=https://github.com/najoshi/sickle")
-      expect(response[:events][:days].length).to eq(9)
-      expect(response[:events][:days].first).to eq(year: 2013, month: 1, day: 30, total: 1)
-      expect(response[:events][:months].length).to eq(11)
-      expect(response[:events][:months].first).to eq(year: 2013, month: 1, total: 1)
+      related_work = response[:works].first
+      expect(related_work['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
+      expect(related_work['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")
+      expect(related_work['container-title']).to eq("Plant Methods")
+      expect(related_work['issued']).to eq("date-parts"=>[[2014, 12, 30]])
+      expect(related_work['type']).to eq("article-journal")
+      expect(related_work['DOI']).to eq("10.1186/s13007-014-0041-7")
+      expect(related_work['timestamp']).to eq("2014-12-30T00:00:00Z")
+      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"bmc_fulltext", "relation_type"=>"cites"}])
 
-      event = response[:works].first
-      expect(event['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
-      expect(event['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")
-      expect(event['container-title']).to eq("Plant Methods")
-      expect(event['issued']).to eq("date-parts"=>[[2014, 12, 30]])
-      expect(event['type']).to eq("article-journal")
-      expect(event['DOI']).to eq("10.1186/s13007-014-0041-7")
-      expect(event['timestamp']).to eq("2014-12-30T00:00:00Z")
-      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"bmc_fulltext", "relation_type"=>"cites"}])
-
-      extra = response[:events][:extra].first
+      extra = event[:extra].first
       expect(extra[:event_time]).to eq("2014-12-30T00:00:00Z")
       expect(extra[:event_csl]['author']).to eq([{"family"=>"Etherington", "given"=>"Gj"}, {"family"=>"Monaghan", "given"=>"J"}, {"family"=>"Zipfel", "given"=>"C"}, {"family"=>"Mac Lean", "given"=>"D"}])
       expect(extra[:event_csl]['title']).to eq("Mapping mutations in plant genomes with the user-friendly web application CandiSNP")

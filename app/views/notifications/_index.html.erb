@@ -1,0 +1,204 @@
+<div class="page-header">
+  <div class="btn-toolbar pull-right">
+    <div class="btn-group btn-group-sm">
+      <%= link_to "#{icon("flag")} Filters".html_safe, filters_path, { id: "filters", class: "btn btn-default" } %>
+    </div>
+  </div>
+  <h1 class="pull-left">
+    <%= pluralize(@notifications.count, 'Notification') %>
+  </h1>
+
+  <%= form_tag(notifications_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
+    <div class="form-group">
+      <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
+    </div>
+    <button type="submit" id="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
+    <% unless params[:q].blank? %>
+      <%= link_to "clear", notifications_path(agent_id: params[:agent_id], class_name: params[:class_name], level: params[:level], hostname: params[:hostname]), class: "btn" %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="work">&nbsp;
+  <div class="btn-toolbar pull-left">
+    <% if @servers.length > 1 %>
+      <div class="btn-group btn-group-sm">
+        <a class="btn btn-default dropdown-toggle" id="hostname-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @hostname.nil? ? "All Hosts" : @hostname %> <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><%= link_to "All Hosts", notifications_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %></li>
+          <li class="divider"></li>
+          <% @servers.each do |hostname| %>
+            <li><%= link_to hostname, notifications_path(agent_id: params[:agent_id], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" id="agent-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @agent.nil? ? "All Agents" : @agent.title %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "All Agents", notifications_path(class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <% Group.order("id").each do |group| %>
+          <% unless group.agents.active.empty? %>
+            <li class="divider"></li>
+            <% group.agents.active.each do |agent| %>
+              <li><%= link_to h(agent.title), notifications_path(agent_id: agent.name, class_name: params[:class_name], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+            <% end %>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+    <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" id="level-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @level.nil? ? "All Levels" : @level.titleize %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "All Levels", notifications_path(class_name: params[:class_name], agent_id: params[:agent_id], hostname: params[:hostname], q: params[:q]) %></li>
+        <li class="divider"></li>
+        <% Notification::LEVELS[1..-1].each do |level| %>
+        <li><%= link_to h(level.titleize), notifications_path(level: level.downcase, class_name: params[:class_name], agent_id: params[:agent_id], hostname: params[:hostname], q: params[:q]) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="btn-group btn-group-sm">
+      <a class="btn btn-default dropdown-toggle" id="notification-menu" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Notifications" : h(@class_name) %> <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= link_to "All Notifications", notifications_path(agent_id: params[:agent_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+        <li class="divider"></li>
+        <% notifications.each do |notification| %>
+          <% if notification == "-" %>
+            <li class="divider"></li>
+          <% else %>
+            <li><%= link_to h(notification), notifications_path(class_name: notification, agent_id: params[:agent_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<% if @notifications.size > 0 %>
+  <div class="panel-group" id="notification">
+    <% @notifications.each do |notification| %>
+      <div class="panel panel-default">
+        <div class="panel-heading panel-title panel-list">
+          <% if notification.level != 3 %><span class="pull-right"><%= level_label(notification.level).html_safe %></span><% end %>
+          <%= link_to ((notification.status.blank? ? "" : "[#{notification.status}] ") + h(notification.message)).html_safe, "#notification_#{notification.uuid}", :class => "accordion-toggle", :id => "notification_#{notification.uuid}-link", :data => { :toggle => "collapse", :parent => "#notification" }, :href => "#notification_#{notification.uuid}" %>
+        </div>
+        <div class="panel-collapse collapse" id="notification_<%= notification.uuid %>">
+          <div class="panel-body notification-inner">
+            <% if can?(:destroy, Notification) %>
+              <div class="btn-group btn-group-sm pull-right">
+                <a class="btn btn-default dropdown-toggle" id="notification_<%= notification.uuid %>-delete" data-toggle="dropdown" href="#">
+                  <%= icon("trash") %> <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "by Message", notification_path(notification, q: params[:q],
+                                                                  agent_id: params[:agent_id],
+                                                                  level: params[:level],
+                                                                  class_name: params[:class_name],
+                                                                  hostname: params[:hostname],
+                                                                  page: params[:page]),
+                                                                  method: :delete,
+                                                                  data: { :confirm => 'Are you sure?' },
+                                                                  remote: true,
+                                                                  id: "notification_#{notification.uuid}-delete-message" %></li>
+                  <li><%= link_to "by Class", notification_path(notification, q: params[:q],
+                                                                agent_id: params[:agent_id],
+                                                                level: params[:level],
+                                                                class_name: params[:class_name],
+                                                                hostname: params[:hostname],
+                                                                filter: "class_name",
+                                                                page: params[:page]),
+                                                                method: :delete,
+                                                                data: { :confirm => 'Are you sure?' },
+                                                                remote: true,
+                                                                id: "notification_#{notification.uuid}-delete-class" %></li>
+                  <% unless notification.agent_id.nil? %>
+                    <li><%= link_to "by Source", notification_path(notification, q: params[:q],
+                                                                   agent_id: params[:agent_id],
+                                                                   level: params[:level],
+                                                                   class_name: params[:class_name],
+                                                                   hostname: params[:hostname],
+                                                                   filter: "agent",
+                                                                   page: params[:page]),
+                                                                   method: :delete,
+                                                                   data: { :confirm => 'Are you sure?' },
+                                                                   remote: true,
+                                                                   id: "notification_#{notification.uuid}-delete-agent" %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <p class="class-name"><%= link_to notification.class_name, notifications_path(class_name: h(notification.class_name),
+                                                                            agent_id: params[:agent_id],
+                                                                            level: params[:level],
+                                                                            hostname: params[:hostname],
+                                                                            q: params[:q]) %></p>
+            <% if notification.agent %>
+              <h5>Source</h5>
+              <%= link_to notification.agent.title, agent_path(notification.agent) %>
+            <% end %>
+
+            <% if notification.work %>
+              <h5>Work</h5>
+              <%= link_to notification.work.pid, work_path(notification.work) %>
+            <% end %>
+
+            <h5>Time</h5>
+            <%= notification.created_at.to_s(:friendly) %>
+
+            <% unless notification.hostname.blank? %>
+              <h5>Hostname</h5>
+              <%= notification.hostname %>
+            <% end %>
+
+            <% unless notification.content_type.blank? or notification.content_type == "text/html" %>
+              <h5>Content Type</h5>
+              <%= notification.content_type %>
+            <% end %>
+
+            <% unless notification.target_url.blank? %>
+              <h5>Target URL</h5>
+              <%= link_to notification.target_url, notification.target_url %>
+            <% end %>
+
+            <% if ["Net::HTTPUnauthorized","ActionDispatch::RemoteIp::IpSpoofAttackError"].include? notification.class_name %>
+              <% unless notification.remote_ip.blank? %>
+                <h5>Remote IP</h5>
+                <%= link_to notification.remote_ip, notification.remote_ip %>
+              <% end %>
+
+              <% unless notification.user_agent.blank? %>
+                <h5>User Agent</h5>
+                <%= notification.user_agent %>
+              <% end %>
+            <% end %>
+
+            <% unless notification.details.blank? %>
+              <h5>Details</h5>
+              <%= notification.details %>
+            <% end %>
+
+            <% unless notification.trace.blank? %>
+              <h5>Trace</h5>
+              <%= simple_format(notification.trace) %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="text-center">
+    <%= will_paginate @notifications, :params => { :controller => notifications_path }, :renderer => BootstrapPagination::Rails %>
+  </div>
+<% else %>
+  <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>notifications
+    <% unless @agent.nil? %>
+      for <%= @agent.title %>
+    <% end %>
+    <% unless @level.nil? %>
+      with at least level <em><%= @level.titleize %></em>
+    <% end %>
+    <% unless params[:q].blank? %>
+      with <em><%= params[:q] %></em> in the class name, message or PID
+    <% end %>
+  </div>
+<% end %>

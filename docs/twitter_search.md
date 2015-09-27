@@ -8,7 +8,7 @@ title: "Twitter"
 ## Authentication
 [Application-only authentication](https://dev.twitter.com/docs/auth/application-only-auth) is the preferred method of authentication because the authentication process is simpler and the rate-limits are higher. Application-only authentication uses OAuth2 and the first step is to register your application at the [Twitter Developer website](https://dev.twitter.com/apps) and obtain an `API key` and `API secret` (they are found under the `API Keys` tab).
 
-Please enter `API key` and `API secret` in the ALM configuration settings. The application will automatically fetch and store an OAuth2 `access token` the first time we use the source. To obtain the `access token` yourself, issue the following command:
+Please enter `API key` and `API secret` in the Lagotto configuration settings. The application will automatically fetch and store an OAuth2 `access token` the first time we use the source. To obtain the `access token` yourself, issue the following command:
 
 ```sh
 curl -u API_KEY:API_SECRET -d grant_type=client_credentials https://api.twitter.com/oauth2/token
@@ -33,18 +33,18 @@ The rate-limits for application-only authentication and search are 450 requests 
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=30%><strong>ALM Name</strong></td>
+<td valign="top" width=30%><strong>Lagotto Name</strong></td>
 <td valign="top" width=70%>twitter_search</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
 <td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
 <td valign="top" width=80%>id<br/>url<br/>user<br/>date (as created_at)</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>title</td>
 </tr>
 <tr>

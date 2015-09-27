@@ -9,8 +9,8 @@ class WorksController < ApplicationController
     @q = params[:q]
     @class_name = params[:class_name]
     @publisher = Publisher.where(member_id: params[:publisher_id]).first
-    @source = Source.visible.where(name: params[:source_id]).first
-    @sort = Source.visible.where(name: params[:sort]).first
+    @source = Source.active.where(name: params[:source_id]).first
+    @sort = Source.active.where(name: params[:sort]).first
     @relation_type = RelationType.where(name: params[:relation_type_id]).first
   end
 
@@ -19,7 +19,7 @@ class WorksController < ApplicationController
 
     @groups = Group.order("id")
     @page = params[:page] || 1
-    @source = Source.visible.where(name: params[:source_id]).first
+    @source = Source.active.where(name: params[:source_id]).first
     @relation_type = RelationType.where(name: params[:relation_type_id]).first
     render :show
   end

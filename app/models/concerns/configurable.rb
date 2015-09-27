@@ -17,7 +17,7 @@ module Configurable
     end
 
     def events_url
-
+      config.events_url
     end
 
     def username
@@ -213,53 +213,8 @@ module Configurable
       1.hour
     end
 
-    # The update interval for works depends on work age. We use 4 different intervals that have default settings, but can also be configured individually per source:
-    # * first week: update daily
-    # * first month: update daily
-    # * first year: update every ¼ month
-    # * after one year: update monthly
-    def staleness_week
-      config.staleness_week || 1.day
-    end
-
-    def staleness_week=(value)
-      config.staleness_week = value.to_i
-    end
-
-    def staleness_month
-      config.staleness_month || 1.day
-    end
-
-    def staleness_month=(value)
-      config.staleness_month = value.to_i
-    end
-
-    def staleness_year
-      config.staleness_year || (1.month * 0.25).to_i
-    end
-
-    def staleness_year=(value)
-      config.staleness_year = value.to_i
-    end
-
-    def staleness_all
-      config.staleness_all || 1.month
-    end
-
-    def staleness_all=(value)
-      config.staleness_all = value.to_i
-    end
-
-    def staleness
-      [staleness_week, staleness_month, staleness_year, staleness_all]
-    end
-
-    def staleness_with_limits
-      ["in the last 7 days", "in the last 31 days", "in the last year", "more than a year ago"].zip(staleness)
-    end
-
     def cron_line
-      config.cron_line || "* 4 * * *"
+      config.cron_line || "* 4 1,8,15,22,29 * *"
     end
 
     def cron_line=(value)
@@ -280,6 +235,14 @@ module Configurable
 
     def tracked=(value)
       config.tracked = value
+    end
+
+    def sample
+      config.sample
+    end
+
+    def sample=(value)
+      config.sample = value
     end
 
     # is this source no longer accepting new data?

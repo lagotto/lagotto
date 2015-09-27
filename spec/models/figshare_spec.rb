@@ -31,14 +31,14 @@ describe Figshare, type: :model, vcr: true do
 
     it "should catch timeout errors with the figshare API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://api.figshare.com/v1/publishers/search_for?doi=#{work.doi}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -46,31 +46,33 @@ describe Figshare, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq( events: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
+      expect(subject.parse_data(result, work)).to eq( events: [{ source_id: "figshare", work_id: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil }])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
-      expect(subject.parse_data(result, work)).to eq( events: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
+      expect(subject.parse_data(result, work)).to eq( events: [{ source_id: "figshare", work_id: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil }])
     end
 
     it "should report if there are no events returned by the figshare API" do
       body = File.read(fixture_path + 'figshare_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response).to eq( events: { source: "figshare", work: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil })
+      expect(response).to eq( events: [{ source_id: "figshare", work_id: work.pid, pdf: 0, html: 0, likes: 0, total: 0, extra: nil }])
     end
 
     it "should report if there are events returned by the figshare API" do
       body = File.read(fixture_path + 'figshare.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(14)
-      expect(response[:events][:pdf]).to eq(1)
-      expect(response[:events][:html]).to eq(13)
-      expect(response[:events][:likes]).to eq(0)
-      expect(response[:events][:extra].length).to eq(6)
+
+      event = response[:events].first
+      expect(event[:total]).to eq(14)
+      expect(event[:pdf]).to eq(1)
+      expect(event[:html]).to eq(13)
+      expect(event[:likes]).to eq(0)
+      expect(event[:extra].length).to eq(6)
     end
 
     it "should catch timeout errors with the figshare API" do

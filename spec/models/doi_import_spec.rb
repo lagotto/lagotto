@@ -42,7 +42,7 @@ describe DoiImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(99)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with one existing work" do
@@ -53,7 +53,7 @@ describe DoiImport, type: :model, vcr: true do
       items = import.parse_data(result)
       response = import.import_data(items)
       expect(response.compact.length).to eq(99)
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
 
     it "should import_data with missing title" do
@@ -64,11 +64,11 @@ describe DoiImport, type: :model, vcr: true do
       items[0][:title] = nil
       response = import.import_data(items)
       expect(response.compact.length).to eq(98)
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("ActiveRecord::RecordInvalid")
-      expect(alert.message).to eq("Validation failed: Title can't be blank for doi 10.1016/j.rcae.2013.04.001.")
-      expect(alert.target_url).to eq("http://doi.org/10.1016/j.rcae.2013.04.001")
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("ActiveRecord::RecordInvalid")
+      expect(notification.message).to eq("Validation failed: Title can't be blank for doi 10.1016/j.rcae.2013.04.001.")
+      expect(notification.target_url).to eq("http://doi.org/10.1016/j.rcae.2013.04.001")
     end
   end
 end

@@ -7,11 +7,13 @@ module ApplicationHelper
     when "cas" then link_to "Sign in with PLOS ID", user_omniauth_authorize_path(:cas), :id => "sign_in"
     when "github" then link_to "Sign in with Github", user_omniauth_authorize_path(:github), :id => "sign_in"
     when "orcid" then link_to "Sign in with ORCID", user_omniauth_authorize_path(:orcid), :id => "sign_in"
-    else
+    when "persona" then
       form_tag "/users/auth/persona/callback", id: "persona_form", class: "navbar-form" do
         hidden_field_tag('assertion') +
         button_tag("Sign in with Persona", id: "sign_in_button", class: "btn btn-link persona")
       end.html_safe
+    else
+      link_to "Sign in not configured", "#", :id => "sign_in"
     end
   end
 
@@ -52,6 +54,13 @@ module ApplicationHelper
     end
   end
 
+  def kind_label(kind)
+    case kind
+    when "work" then '<span class="label label-default">work</span>'
+    else '<span class="label label-info">all</span>'
+    end
+  end
+
   def level_label(level)
     case level
     when 1 then '<span class="label label-info">Info</span>'
@@ -89,8 +98,8 @@ module ApplicationHelper
     Publisher.order("name")
   end
 
-  def alerts
-    %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable - Faraday::ResourceNotFound ActiveRecord::RecordInvalid - Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError SourceInactiveError - EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
+  def notifications
+    %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable - Faraday::ResourceNotFound ActiveRecord::RecordInvalid - Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError AgentInactiveError - EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
   end
 
   def author_format(author)
@@ -124,12 +133,12 @@ module ApplicationHelper
     end
   end
 
-  def work_alerts
+  def work_notifications
     %w(EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError CitationMilestoneAlert)
   end
 
   def documents
-    %w(Installation Deployment Setup - Sources API Rake Alerts Styleguide - Releases Roadmap Contributors)
+    %w(Installation Deployment Setup - Sources API Rake Notifications Styleguide - Releases Roadmap Contributors)
   end
 
   def roles

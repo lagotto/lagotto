@@ -34,14 +34,14 @@ describe Bitbucket, type: :model, vcr: true do
 
     it "should catch timeout errors with the bitbucket API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for https://api.bitbucket.org/1.0/repositories/galaxy/galaxy-central", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
@@ -49,13 +49,13 @@ describe Bitbucket, type: :model, vcr: true do
     it "should report if the canonical_url is missing" do
       work = FactoryGirl.build(:work, :canonical_url => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: { source: "bitbucket", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "bitbucket", work_id: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report that there are no events if the canonical_url is not a Bitbucket URL" do
       work = FactoryGirl.build(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: { source: "bitbucket", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "bitbucket", work_id: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are no events and event_count returned by the Bitbucket API" do
@@ -63,18 +63,22 @@ describe Bitbucket, type: :model, vcr: true do
       result = JSON.parse(body)
       extra = { "followers_count"=>0, "forks_count"=>0, "description"=>"Exemplos da Aula 1 do curso de Desenvolvimento Web com Ruby on Rails do ruby+web\r\n\r\nhttp://rubymaisweb.ning.com", "utc_created_on"=>"2012-01-13 14:47:01+00:00" }
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "bitbucket", work: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: extra })
+      expect(response).to eq(events: [{ source_id: "bitbucket", work_id: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: extra }])
     end
 
     it "should report if there are events and event_count returned by the Bitbucket API" do
       body = File.read(fixture_path + 'bitbucket.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work)
-      expect(response[:events][:total]).to eq(434)
-      expect(response[:events][:readers]).to eq(272)
-      expect(response[:events][:likes]).to eq(162)
-      expect(response[:events][:events_url]).to eq("https://bitbucket.org/galaxy/galaxy-central")
-      expect(response[:events][:extra]["followers_count"]).to eq(162)
+
+      event = response[:events].first
+      expect(event[:source_id]).to eq("bitbucket")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(434)
+      expect(event[:readers]).to eq(272)
+      expect(event[:likes]).to eq(162)
+      expect(event[:events_url]).to eq("https://bitbucket.org/galaxy/galaxy-central")
+      expect(event[:extra]["followers_count"]).to eq(162)
     end
 
     it "should catch timeout errors with the Bitbucket API" do

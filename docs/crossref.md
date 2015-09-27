@@ -18,18 +18,18 @@ For articles without a publisher the `openurl_username` in the `Configuration` t
 <table width=100% border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td valign="top" width=30%><strong>ALM Name</strong></td>
+<td valign="top" width=30%><strong>Lagotto Name</strong></td>
 <td valign="top" width=70%>crossref</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Configuration</strong></td>
+<td valign="top" width=20%><strong>Lagotto Configuration</strong></td>
 <td valign="top" width=80%>default</td>
 </tr>
 <tr>
-<td valign="top" width=20%><strong>ALM Core Attributes</strong></td>
-<td valign="top" width=80%>id (as doi)<br/>url (as http://doi.org/DOI)<br/>contributor(s)</td>
+<td valign="top" width=20%><strong>Lagotto Core Attributes</strong></td>
+<td valign="top" width=80%>id (as doi)<br/>url (as http://dx.doi.org/DOI)<br/>contributor(s)</td>
 </tr>
-<td valign="top" width=20%><strong>ALM Other Attributes</strong></td>
+<td valign="top" width=20%><strong>Lagotto Other Attributes</strong></td>
 <td valign="top" width=80%>ISSN<br/>journal title<br/>journal abbreviation<br/>title<br/>volume<br/>issue<br/>first page<br/>year<br/>publication type<br/>citation count</td>
 </tr>
 <tr>

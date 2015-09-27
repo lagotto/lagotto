@@ -31,7 +31,7 @@ if (query) {
         .rollup(function(leaves) {
           return { "works_count": d3.max(leaves, function(d) { return d.works_new_count;}),
                    "events_count": d3.max(leaves, function(d) { return d.events_count;}),
-                   "alerts_count": d3.max(leaves, function(d) { return d.alerts_count;}),
+                   "notifications_count": d3.max(leaves, function(d) { return d.notifications_count;}),
                    "db_size": d3.max(leaves, function(d) { return d.db_size;}),
                   };})
         .entries(day_data);
@@ -44,23 +44,25 @@ if (query) {
         .key(function(d) { return d.timestamp.substr(0,13); })
         .rollup(function(leaves) {
           return { "responses_count": d3.max(leaves, function(d) { return d.responses_count;}),
+                   "deposits_count": d3.max(leaves, function(d) { return d.deposits_count;}),
                    "requests_count": d3.max(leaves, function(d) { return d.requests_count;}),
                    "requests_average": d3.mean(leaves, function(d) { return d.requests_average;}),
                   };})
         .entries(hour_data);
 
-      var sources = d3.entries(data[0].sources);
-      var sources_title = d3.sum(sources, function(g) { return g.value; });
+      var agents = d3.entries(data[0].agents);
+      var agents_title = d3.sum(agents, function(g) { return g.value; });
 
       barViz(by_day, "#chart_works", "works_count", "days");
       barViz(by_day, "#chart_events", "events_count", "days");
-      barViz(by_day, "#chart_alerts", "alerts_count", "days");
+      barViz(by_day, "#chart_notifications", "notifications_count", "days");
       barViz(by_day, "#chart_db_size", "db_size", "days");
 
       barViz(by_hour, "#chart_responses", "responses_count", "hours");
+      barViz(by_hour, "#chart_deposits", "deposits_count", "hours");
       barViz(by_hour, "#chart_requests", "requests_count", "hours");
       barViz(by_hour, "#chart_average", "requests_average", "hours");
 
-      donutViz(sources, "#chart_sources", sources_title, "active", colors, "sources");
+      donutViz(agents, "#chart_agents", agents_title, "active", colors, "agents");
   });
 }

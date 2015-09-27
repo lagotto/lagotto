@@ -4,7 +4,7 @@ describe "/api/v3/articles", :type => :api do
   let(:user) { FactoryGirl.create(:user) }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work_with_events, 55) }
+    let(:works) { FactoryGirl.create_list(:work, 55, :with_events) }
 
     context "more than 50 works in query" do
       let(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
@@ -40,7 +40,7 @@ describe "/api/v3/articles", :type => :api do
   context "show" do
 
     context "show summary information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=summary" }
 
       it "JSON" do
@@ -66,7 +66,7 @@ describe "/api/v3/articles", :type => :api do
     end
 
     context "show detail information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=detail" }
 
       it "JSON" do
@@ -75,10 +75,10 @@ describe "/api/v3/articles", :type => :api do
 
         response = JSON.parse(last_response.body)
         response_source = response["sources"][0]
-        expect(response["doi"]).to eql(work.doi)
+        expect(response).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
       end
 
@@ -91,14 +91,14 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
       end
     end
 
     context "show event information" do
-      let(:work) { FactoryGirl.create(:work_with_events) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:uri) { "/api/v3/articles/doi/#{work.doi_escaped}?info=event" }
 
       it "JSON" do
@@ -109,8 +109,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
       end
 
@@ -123,8 +123,8 @@ describe "/api/v3/articles", :type => :api do
         response_source = response["sources"][0]
         expect(response["doi"]).to eql(work.doi)
         expect(response["publication_date"]).to eql(work.published_on.to_time.utc.iso8601)
-        expect(response_source["metrics"]["total"]).to eq(work.retrieval_statuses.first.total)
-        expect(response_source["metrics"]["shares"]).to eq(work.retrieval_statuses.first.total)
+        expect(response_source["metrics"]["total"]).to eq(work.events.first.total)
+        expect(response_source["metrics"]["shares"]).to eq(work.events.first.total)
         expect(response_source["events"]).not_to be_nil
       end
     end

@@ -6,7 +6,7 @@ describe "Running a SourceByMonthReport for Counter" do
     report_class: CounterByMonthReport
 
   subject(:report){ CounterByMonthReport.new(source, format: format, year: year, month: month) }
-  let(:source){ FactoryGirl.create :counter }
+  let(:source){ FactoryGirl.create(:source, :counter) }
 
   describe "#line_items" do
     describe "when there are months (with stats) for a set of Work(s)" do

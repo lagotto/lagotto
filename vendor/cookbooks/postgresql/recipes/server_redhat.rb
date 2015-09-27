@@ -15,7 +15,6 @@
 # limitations under the License.
 #
 
-include_recipe 'postgresql::config_version'
 include_recipe "postgresql::client"
 
 svc_name = node['postgresql']['server']['service_name']
@@ -78,7 +77,13 @@ if platform_family?("fedora") and node['platform_version'].to_i >= 16
     not_if { ::FileTest.exist?(File.join(dir, "PG_VERSION")) }
   end
 
-else !platform_family?("suse") 
+elsif platform?("redhat") and node['platform_version'].to_i >= 7
+
+  execute "postgresql#{node['postgresql']['version'].split('.').join}-setup initdb #{svc_name}" do
+    not_if { ::FileTest.exist?(File.join(dir, "PG_VERSION")) }
+  end
+
+else !platform_family?("suse")
 
   execute "/sbin/service #{svc_name} initdb #{initdb_locale}" do
     not_if { ::FileTest.exist?(File.join(dir, "PG_VERSION")) }

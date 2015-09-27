@@ -19,24 +19,25 @@ class Status < ActiveRecord::Base
   def collect_status_info
     self.works_count = Work.tracked.count
     self.works_new_count = Work.tracked.last_x_days(0).count
-    self.events_count = RetrievalStatus.joins(:source).where("state > ?", 0)
+    self.events_count = Event.joins(:source).where("sources.active = ?", true)
       .where("name != ?", "relativemetric").sum(:total)
     self.responses_count = ApiResponse.total(1).count
     self.requests_count = ApiRequest.total(1).count
     self.requests_average = ApiRequest.total(1).average("duration").to_i
-    self.alerts_count = Alert.total_errors(0).count
+    self.notifications_count = Notification.total_errors(0).count
+    self.deposits_count = Deposit.done.total(1).count
     self.db_size = get_db_size
-    self.sources_working_count = Source.working.count
-    self.sources_waiting_count = Source.waiting.count
-    self.sources_disabled_count = Source.disabled.count
+    self.agents_working_count = Agent.working.count
+    self.agents_waiting_count = Agent.waiting.count
+    self.agents_disabled_count = Agent.disabled.count
     self.version = Lagotto::VERSION
     self.current_version = get_current_version unless current_version.present?
   end
 
-  def sources
-    { "working" => sources_working_count,
-      "waiting" => sources_waiting_count,
-      "disabled" => sources_disabled_count }
+  def agents
+    { "working" => agents_working_count,
+      "waiting" => agents_waiting_count,
+      "disabled" => agents_disabled_count }
   end
 
   def get_current_version

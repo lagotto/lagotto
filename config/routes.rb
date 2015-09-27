@@ -16,10 +16,13 @@ Lagotto::Application.routes.draw do
   #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
   root :to => "docs#index"
 
-  resources :alerts
+  resources :agents do
+    resources :publisher_options, only: [:show, :edit, :update]
+  end
   resources :api_requests
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
+  resources :notifications
   resources :publishers
   resources :references
 
@@ -32,9 +35,7 @@ Lagotto::Application.routes.draw do
   # redirect old rss routes
   get '/sources/:id.rss', to: redirect { |params, request| "/rss/sources/#{request.params[:id]}?#{request.params.to_query}" }
 
-  resources :sources do
-    resources :publisher_options, only: [:show, :edit, :update]
-  end
+  resources :sources
   resources :status, :only => [:index]
   resources :users
 
@@ -42,6 +43,8 @@ Lagotto::Application.routes.draw do
   resources :works, constraints: { :id => /.+/, :format => /html|js/ }
 
   get "oembed", to: "oembed#show"
+
+  get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
   get "/api", to: "api/index#index"
 
   namespace :api, defaults: { format: "json" } do
@@ -68,12 +71,13 @@ Lagotto::Application.routes.draw do
         resources :events
       end
 
-      resources :alerts
+      resources :agents
       resources :api_requests, only: [:index]
-      resources :data_exports, only: [:index]
+      resources :deposits
       resources :docs, only: [:index, :show]
       resources :events
       resources :groups, only: [:index, :show]
+      resources :notifications
       resources :publishers, concerns: [:workable, :eventable]
       resources :relation_types, only: [:index, :show]
       resources :sources, concerns: [:workable, :eventable] do
@@ -91,5 +95,5 @@ Lagotto::Application.routes.draw do
   end
 
   # rescue routing errors
-  match "*path", to: "alerts#routing_error", via: [:any]
+  match "*path", to: "notifications#routing_error", via: [:get, :post]
 end

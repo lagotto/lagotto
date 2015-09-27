@@ -1,21 +1,22 @@
 class ChangeToUtf8mbEncoding < ActiveRecord::Migration
   UTF8_TEXT_PAIRS = [
     'works' , 'title',
-    'alerts', 'trace'
+    'notifications', 'trace'
   ]
 
   UTF8_MEDIUMTEXT_PAIRS = [
-    'alerts', 'message',
-    'alerts', 'details',
-    'retrieval_statuses', 'extra'
+    'notifications', 'message',
+    'notifications', 'details',
+    'events', 'extra'
   ]
 
   UTF8_INDEX_PAIRS = [
-    'alerts', 'class_name',
+    'notifications', 'class_name',
     'api_requests', 'api_key',
     'data_migrations', 'version',
     'reviews', 'name',
-    'sources', 'type',
+    'agents', 'type',
+    'agents', 'name',
     'sources', 'name',
     'users', 'email',
     'users', 'reset_password_token',

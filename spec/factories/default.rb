@@ -9,7 +9,6 @@ FactoryGirl.define do
     sequence(:ark) { |n| "ark:/13030/m5br8st#{n}" }
     sequence(:canonical_url) { |n| "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.00000#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
-    registration_agency "crossref"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     year { Time.zone.now.to_date.year - 1 }
     month { Time.zone.now.to_date.month }
@@ -21,294 +20,297 @@ FactoryGirl.define do
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
     trait(:not_publisher) { doi '10.1007/s00248-010-9734-2' }
-
-    factory :work_with_events do
+    trait(:published_today) do
+      year { Time.zone.now.to_date.year }
+      month { Time.zone.now.to_date.month }
+      day { Time.zone.now.to_date.day }
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, work: work, readers: 50, events_url: "http://www.citeulike.org/doi/#{work.doi}", extra: [{ "event" =>{ "link" => { "url" => "http://www.citeulike.org/user/klauso/article/12029653" }, "post_time" => "2013-02-15 15:12:04", "tag" => ["call", "newspecies", "otusjolandae"], "linkout" => { "type" => "DOI", "url" => "http://dx.doi.org/10.1371/journal.pone.0053712" }, "username" => "klauso", "article_id" => "12029653" }, "event_time" => "2013-02-15T15:12:04Z", "event_url" => "http://www.citeulike.org/user/klauso/article/12029653" }] )
-        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work, readers: 50, extra: { "title" => "A New Owl Species of the Genus Otus (Aves: Strigidae) from Lombok, Indonesia" } )
+        FactoryGirl.create(:event, retrieved_at: Time.zone.now, work: work)
+      end
+    end
+    trait(:published_yesterday) do
+      year { (Time.zone.now.to_date - 1.day).year }
+      month { (Time.zone.now.to_date - 1.day).month }
+      day { (Time.zone.now.to_date - 1.day).day }
+      after :create do |work|
+        FactoryGirl.create(:event, retrieved_at: Time.zone.now - 1.day, work: work)
+      end
+    end
+
+    trait :with_events do
+      after :create do |work|
+        FactoryGirl.create(:event, work: work, readers: 50, events_url: "http://www.citeulike.org/doi/#{work.doi}", extra: [{ "event" =>{ "link" => { "url" => "http://www.citeulike.org/user/klauso/article/12029653" }, "post_time" => "2013-02-15 15:12:04", "tag" => ["call", "newspecies", "otusjolandae"], "linkout" => { "type" => "DOI", "url" => "http://dx.doi.org/10.1371/journal.pone.0053712" }, "username" => "klauso", "article_id" => "12029653" }, "event_time" => "2013-02-15T15:12:04Z", "event_url" => "http://www.citeulike.org/user/klauso/article/12029653" }] )
+        FactoryGirl.create(:event, :with_mendeley, work: work, readers: 50, extra: { "title" => "A New Owl Species of the Genus Otus (Aves: Strigidae) from Lombok, Indonesia" } )
       end
     end
 
     factory :work_with_events_and_alerts do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, work: work)
-        FactoryGirl.create(:alert, :work => work)
+        FactoryGirl.create(:event, work: work)
+        FactoryGirl.create(:notification, work: work)
       end
     end
 
-    factory :stale_works do
-      after :create do |work|
-        FactoryGirl.create(:retrieval_status, :stale, work: work)
-      end
-    end
+    # factory :stale_works do
+    #   after :create do |work|
+    #     FactoryGirl.create(:task, :stale, work: work)
+    #   end
+    # end
 
-    factory :queued_works do
-      after :create do |work|
-        FactoryGirl.create(:retrieval_status, :queued, work: work)
-      end
-    end
+    # factory :queued_works do
+    #   after :create do |work|
+    #     FactoryGirl.create(:task, :queued, work: work)
+    #   end
+    # end
 
-    factory :refreshed_works do
-      after :create do |work|
-        FactoryGirl.create(:retrieval_status, :refreshed, work: work)
-      end
-    end
-
-    factory :work_for_feed do
-      year { Time.zone.now.to_date.year }
-      month { Time.zone.now.to_date.month }
-      day { Time.zone.now.to_date.day - 1 }
-      after :create do |work|
-        FactoryGirl.create(:retrieval_status, :refreshed, retrieved_at: Time.zone.now - 1.day, work: work)
-      end
-    end
-
-    factory :work_published_today do
-      year { Time.zone.now.to_date.year }
-      month { Time.zone.now.to_date.month }
-      day { Time.zone.now.to_date.day }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.now)] }
-    end
-
-    factory :work_published_last_day do
-      year { Time.zone.now.to_date.year }
-      month { Time.zone.now.to_date.month }
-      day { Time.zone.now.to_date.day - 1 }
-      retrieval_statuses { |work| [work.association(:retrieval_status, retrieved_at: Time.zone.now - 1.day)] }
-    end
+    # factory :refreshed_works do
+    #   after :create do |work|
+    #     FactoryGirl.create(:task, :refreshed, work: work)
+    #   end
+    # end
 
     factory :work_with_errors do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_errors, work: work)
+        FactoryGirl.create(:event, :with_errors, work: work)
       end
     end
 
     factory :work_with_private_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_private, work: work)
+        FactoryGirl.create(:event, :with_private, work: work)
       end
     end
 
     factory :work_with_crossref_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_crossref, work: work)
+        FactoryGirl.create(:event, :with_crossref, work: work)
       end
     end
 
     factory :work_with_pubmed_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_pubmed, work: work)
+        FactoryGirl.create(:event, :with_pubmed, work: work)
       end
     end
 
     factory :work_with_mendeley_events do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_mendeley, work: work)
+        FactoryGirl.create(:event, :with_mendeley, work: work)
       end
     end
 
     factory :work_with_nature_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_nature, work: work)
+        FactoryGirl.create(:event, :with_nature, work: work)
       end
     end
 
     factory :work_with_researchblogging_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_researchblogging, work: work)
+        FactoryGirl.create(:event, :with_researchblogging, work: work)
       end
     end
 
     factory :work_with_wos_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_wos, work: work)
+        FactoryGirl.create(:event, :with_wos, work: work)
       end
     end
 
     factory :work_with_counter_citations do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_counter, work: work)
+        FactoryGirl.create(:event, :with_counter, work: work)
       end
     end
 
     factory :work_with_tweets do
       after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_twitter_search, work: work)
-      end
-    end
-
-    factory :work_with_pmc_usage_stats do
-      after :create do |work|
-        FactoryGirl.create(:retrieval_status, :with_pmc, work: work, readers: 0, pdf: 10, html: 50, total: 60)
+        FactoryGirl.create(:event, :with_twitter, work: work)
       end
     end
   end
 
-  factory :retrieval_status do
+  factory :event do
     total 50
     readers 50
     retrieved_at { Time.zone.now - 1.month }
-    sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
 
     association :work
-    association :source, factory: :citeulike
+    association :source
 
-    trait(:missing_mendeley) do
-      association :work, :missing_mendeley, factory: :work
-      association :source, factory: :mendeley
-    end
-    trait(:stale) { scheduled_at 1.month.ago }
-    trait(:queued) { queued_at 1.hour.ago }
-    trait(:refreshed) { scheduled_at 1.month.from_now }
-    trait(:staleness) { association :source, factory: :citeulike }
-    trait(:with_errors) { total 0 }
     trait(:with_private) { association :source, private: true }
-    trait(:with_mendeley) { association :source, factory: :mendeley }
-    trait(:with_pubmed) { association :source, factory: :pub_med }
-    trait(:with_nature) { association :source, factory: :nature }
-    trait(:with_pmc) { association :source, factory: :pmc }
-    trait(:with_wos) { association :source, factory: :wos }
-    trait(:with_researchblogging) { association :source, factory: :researchblogging }
-    trait(:with_scienceseeker) { association :source, factory: :scienceseeker }
-    trait(:with_wikipedia) { association :source, factory: :wikipedia }
-    trait(:with_twitter_search) { association :source, factory: :twitter_search }
-    trait(:with_work_published_today) { association :work, factory: :work_published_today, retrieval_statuses: [] }
-    trait(:with_counter_and_work_published_today) do
-      association :work, factory: :work_published_today
-      association :source, factory: :counter
-    end
-    trait(:with_crossref_and_work_published_today) do
-      association :work, factory: :work_published_today
-      association :source, factory: :crossref
-    end
+    trait(:with_mendeley) { association :source, :mendeley }
+    trait(:with_pubmed) { association :source, :pub_med }
+    trait(:with_nature) { association :source, :nature }
+    trait(:with_wos) { association :source, :wos }
+    trait(:with_researchblogging) { association :source, :researchblogging }
+    trait(:with_scienceseeker) { association :source, :scienceseeker }
+    trait(:with_wikipedia) { association :source, :wikipedia }
+    trait(:with_twitter) { association :source, :twitter}
+
+    trait(:with_work_published_today) { association :work, :published_today }
 
     trait(:with_counter) do
       total 500
       html 400
       pdf 100
       readers 0
-      association :work, factory: :work_published_last_day
-      association :source, factory: :counter
+      association :work, :published_yesterday
+      association :source, :counter
     end
 
-    trait(:with_counter_last_day) do
+    trait(:with_counter_yesterday) do
       total 500
       html 400
       pdf 100
       readers 0
-      association :work, factory: :work_published_last_day
-      association :source, factory: :counter
-      after :create do |rs|
-        last_day = Time.zone.now.to_date - 1.day
-        FactoryGirl.create(:day, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
-                                   year: last_day.year,
-                                   month: last_day.month,
-                                   day: last_day.day,
-                                   html: rs.html,
-                                   pdf: rs.pdf,
-                                   readers: rs.readers,
-                                   total: rs.total)
+      association :work, :published_yesterday
+      association :source, :counter
+      after :create do |event|
+        FactoryGirl.create(:day, event: event,
+                                   work: event.work,
+                                   source: event.source,
+                                   year: (Time.zone.now.to_date - 1.day).year,
+                                   month: (Time.zone.now.to_date - 1.day).month,
+                                   day: (Time.zone.now.to_date - 1.day).day,
+                                   html: event.html,
+                                   pdf: event.pdf,
+                                   readers: event.readers,
+                                   total: event.total)
       end
     end
 
-    trait(:with_counter_current_day) do
+    trait(:with_counter_today) do
       total 250
       html 200
       pdf 50
       readers 0
-      association :work, factory: :work_published_last_day
-      association :source, factory: :counter
-      after :create do |rs|
-        FactoryGirl.create(:day, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
+      association :work, :published_today
+      association :source, :counter
+      after :create do |event|
+        FactoryGirl.create(:day, event: event,
+                                   work: event.work,
+                                   source: event.source,
                                    year: Time.zone.now.to_date.year,
                                    month: Time.zone.now.to_date.month,
                                    day: Time.zone.now.to_date.day,
-                                   html: rs.html,
-                                   pdf: rs.pdf,
-                                   readers: rs.readers,
-                                   total: rs.total)
+                                   html: event.html,
+                                   pdf: event.pdf,
+                                   readers: event.readers,
+                                   total: event.total)
       end
     end
 
     trait(:with_crossref) do
       readers 0
       total 25
-      association :work, factory: :work_published_last_day
-      association :source, factory: :crossref
+      association :work, :published_yesterday
+      association :source, :crossref
     end
 
-    trait(:with_crossref_last_day) do
+    trait(:with_crossref_yesterday) do
       readers 0
       total 25
-      association :work, factory: :work_published_last_day
-      association :source, factory: :crossref
-      after :create do |rs|
-        last_day = Time.zone.now.to_date - 1.day
-        FactoryGirl.create(:day, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
-                                   year: last_day.year,
-                                   month: last_day.month,
-                                   day: last_day.day,
-                                   total: 20,
-                                   readers: rs.readers)
+      association :work, :published_yesterday
+      association :source, :crossref
+      after :create do |event|
+        FactoryGirl.create(:day, event: event,
+                                 work: event.work,
+                                 source: event.source,
+                                 year: (Time.zone.now.to_date - 1.day).year,
+                                 month: (Time.zone.now.to_date - 1.day).month,
+                                 day: (Time.zone.now.to_date - 1.day).day,
+                                 total: 20,
+                                 readers: event.readers)
       end
     end
 
-    trait(:with_crossref_current_day) do
+    trait(:with_crossref_today) do
       readers 0
       total 20
-      association :work, factory: :work_published_last_day
-      association :source, factory: :crossref
-      after :create do |rs|
-        FactoryGirl.create(:day, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
-                                   year: Time.zone.now.to_date.year,
-                                   month: Time.zone.now.to_date.month,
-                                   day: Time.zone.now.to_date.day,
-                                   total: rs.total,
-                                   readers: rs.readers)
+      association :work, :published_today
+      association :source, :crossref
+      after :create do |event|
+        FactoryGirl.create(:day, event: event,
+                                 work: event.work,
+                                 source: event.source,
+                                 year: Time.zone.now.to_date.year,
+                                 month: Time.zone.now.to_date.month,
+                                 day: Time.zone.now.to_date.day,
+                                 total: event.total,
+                                 readers: event.readers)
       end
     end
 
     trait(:with_crossref_last_month) do
       readers 0
       total 25
-      association :source, factory: :crossref
-      after :create do |rs|
+      association :source, :crossref
+      after :create do |event|
         last_month = Time.zone.now.to_date - 1.month
-        FactoryGirl.create(:month, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
+        FactoryGirl.create(:month, event: event,
+                                   work: event.work,
+                                   source: event.source,
                                    year: last_month.year,
                                    month: last_month.month,
                                    total: 20,
-                                   readers: rs.readers)
+                                   readers: event.readers)
       end
     end
 
     trait(:with_crossref_current_month) do
       readers 0
       total 20
-      association :source, factory: :crossref
-      after :create do |rs|
-        FactoryGirl.create(:month, retrieval_status: rs,
-                                   work: rs.work,
-                                   source: rs.source,
+      association :source, :crossref
+      after :create do |event|
+        FactoryGirl.create(:month, event: event,
+                                   work: event.work,
+                                   source: event.source,
                                    year: Time.zone.now.to_date.year,
                                    month: Time.zone.now.to_date.month,
-                                   total: rs.total,
-                                   readers: rs.readers)
+                                   total: event.total,
+                                   readers: event.readers)
       end
     end
 
-    initialize_with { RetrievalStatus.where(work_id: work.id, source_id: source.id).first_or_initialize }
+    initialize_with { Event.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
+
+  # factory :task do
+  #   retrieved_at { Time.zone.now - 1.month }
+  #   sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
+
+  #   association :work
+  #   association :agent, factory: :citeulike
+
+  #   trait(:with_mendeley) { association :agent, factory: :mendeley }
+  #   trait(:with_pubmed) { association :agent, factory: :pub_med }
+  #   trait(:with_nature) { association :agent, factory: :nature }
+  #   trait(:with_wos) { association :agent, factory: :wos }
+  #   trait(:with_researchblogging) { association :agent, factory: :researchblogging }
+  #   trait(:with_scienceseeker) { association :agent, factory: :scienceseeker }
+  #   trait(:with_wikipedia) { association :agent, factory: :wikipedia }
+  #   trait(:with_twitter_search) { association :agent, factory: :twitter_search }
+  #   trait(:missing_mendeley) do
+  #     association :work, :missing_mendeley, factory: :work
+  #     association :agent, factory: :mendeley
+  #   end
+  #   trait(:stale) { scheduled_at 1.month.ago }
+  #   trait(:queued) { queued_at 1.hour.ago }
+  #   trait(:refreshed) { scheduled_at 1.month.from_now }
+  #   trait(:staleness) { association :agent, factory: :citeulike }
+  #   trait(:with_errors) { total 0 }
+  #   trait(:with_counter_and_work_published_today) do
+  #     association :work, factory: :work_published_today
+  #     association :agent, factory: :counter
+  #   end
+  #   trait(:with_crossref_and_work_published_today) do
+  #     association :work, factory: :work_published_today
+  #     association :agent, factory: :crossref
+  #   end
+
+  #   initialize_with { Task.where(work_id: work.id, agent_id: agent.id).first_or_initialize }
+  # end
 
   factory :day do
 
@@ -316,12 +318,12 @@ FactoryGirl.define do
 
   factory :month do
     trait(:with_work) do
-      association :work, factory: :work_published_today
+      association :work, :published_today
       after :build do |month|
-        if month.work.retrieval_statuses.any?
-          month.retrieval_status_id = month.work.retrieval_statuses.first.id
+        if month.work.events.any?
+          month.event_id = month.work.events.first.id
         else
-          month.retrieval_status = FactoryGirl.create(:retrieval_status, work: month.work)
+          month.event = FactoryGirl.create(:event, work: month.work)
         end
       end
     end
@@ -372,7 +374,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :alert do
+  factory :notification do
     exception "An exception"
     class_name "Net::HTTPRequestTimeOut"
     message "The request timed out."
@@ -385,7 +387,7 @@ FactoryGirl.define do
     status 408
     content_type "text/html"
 
-    factory :alert_with_source do
+    factory :notification_with_source do
       source
     end
   end
@@ -404,6 +406,10 @@ FactoryGirl.define do
 
   factory :api_response do
     duration 200
+    agent_id 1
+  end
+
+  factory :change do
     total 10
     previous_total 5
     update_interval 7
@@ -425,7 +431,7 @@ FactoryGirl.define do
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     provider "cas"
     sequence(:uid) { |n| "joe#{n}@example.com" }
-    association :publisher
+    publisher_id 340
 
     factory :admin_user do
       role "admin"
@@ -448,7 +454,7 @@ FactoryGirl.define do
 
   factory :publisher_option do
     id 1
-    source_id 1
+    agent_id 1
     publisher_id 340
     username "username"
     password "password"
@@ -500,15 +506,6 @@ FactoryGirl.define do
     initialize_with { EventCountIncreasingTooFastError.where(name: name).first_or_initialize }
   end
 
-  factory :api_too_slow_error, class: ApiResponseTooSlowError do
-    type "ApiResponseTooSlowError"
-    name "ApiResponseTooSlowError"
-    title "API too slow error"
-    active true
-
-    initialize_with { ApiResponseTooSlowError.where(name: name).first_or_initialize }
-  end
-
   factory :source_not_updated_error, class: SourceNotUpdatedError do
     type "SourceNotUpdatedError"
     name "SourceNotUpdatedError"
@@ -543,7 +540,7 @@ FactoryGirl.define do
   factory :relation do
     association :work
     association :related_work
-    association :source, factory: :crossref
+    association :source, :crossref
     association :relation_type
 
     before :create do |reference_relation|
@@ -554,6 +551,12 @@ FactoryGirl.define do
 
   factory :status do
     current_version "3.13"
+  end
+
+  factory :deposit do
+    uuid { SecureRandom.uuid }
+    message_type "citeulike"
+    message { { "works" => [], "events" => [] } }
   end
 
   factory :data_export do

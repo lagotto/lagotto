@@ -3,7 +3,7 @@ require "rails_helper"
 describe WorksController, :type => :controller do
   render_views
 
-  let(:work) { FactoryGirl.create(:work_with_events, doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
+  let(:work) { FactoryGirl.create(:work, :with_events, doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
 
   context "show" do
     it "GET doi" do
@@ -25,7 +25,6 @@ describe WorksController, :type => :controller do
     end
 
     it "GET canonical_url" do
-      pp work.canonical_url
       get "/works/#{work.canonical_url}"
       expect(last_response.status).to eq(200)
       expect(last_response.body).to include(work.canonical_url)
@@ -47,7 +46,7 @@ describe WorksController, :type => :controller do
 
   context "errors" do
     it "redirects to the home page for an unknown work" do
-      get "/works/doi/x"
+      get "/works/doi:x"
       expect(last_response.status).to eq(404)
       expect(last_response.body).to include("The page you are looking for doesn&#39;t exist.")
     end

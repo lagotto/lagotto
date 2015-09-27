@@ -6,7 +6,7 @@ describe "Running a SourceReport for Counter" do
     report_class: CounterReport
 
   subject(:report){ CounterReport.new(source) }
-  let(:source){ FactoryGirl.create :counter }
+  let(:source){ FactoryGirl.create(:source, :counter) }
 
   describe "#headers" do
     subject(:headers){ report.headers }
@@ -14,13 +14,13 @@ describe "Running a SourceReport for Counter" do
   end
 
   describe "#line_items" do
-    describe "when there are retrieval_statuses for works" do
-      let!(:retrieval_statuses){ [
-        retrieval_status_with_readers
+    describe "when there are events for works" do
+      let!(:events){ [
+        event_with_readers
       ] }
 
-      let(:retrieval_status_with_readers){
-        FactoryGirl.create(:retrieval_status, :with_work_published_today,
+      let(:event_with_readers){
+        FactoryGirl.create(:event, :with_work_published_today,
           source: source,
           html: 6,
           pdf: 7,

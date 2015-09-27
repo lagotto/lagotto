@@ -14,59 +14,41 @@ describe Pmc, type: :model, vcr: true do
     let(:month) { a_month_ago.month }
     let(:year) { a_month_ago.year }
 
-    it "should process PMC data" do
-      expect(subject.process_feed(month, year)).to eq([340])
-    end
-
     it "should fetch and save PMC data" do
       config = subject.publisher_configs.first
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
-      file = "#{Rails.root}/tmp/files/pmcstat_#{journal}_#{month}_#{year}.xml"
       stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
-      expect(subject.get_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_6_2015.xml")
+      expect(subject.get_feed(month, year)).to be_empty
+      file = "#{Rails.root}/data/pmcstat_#{journal}_#{month}_#{year}.xml"
       expect(File.exist?(file)).to be true
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
   end
 
   context "parse PMC data" do
-    let(:month) { 1 }
-    let(:year) { 2014 }
-    let(:journal) { "ajrccm" }
-    let(:filename) { "pmcstat_#{journal}_#{month}_#{year}.xml" }
-    let(:file) { "#{Rails.root}/tmp/files/" + filename }
+    let(:a_month_ago) { Time.zone.now - 1.month }
+    let(:month) { a_month_ago.month }
+    let(:year) { a_month_ago.year }
 
     before(:each) do
       subject.put_lagotto_data(subject.url_db)
-      FileUtils.cp(fixture_path + 'pmc_alt.xml', file)
     end
 
     after(:each) do
       subject.delete_lagotto_data(subject.url_db)
-      FileUtils.rm file
     end
 
     it "should parse PMC data" do
       config = subject.publisher_configs.first
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
-      expect(subject.parse_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_1_2014.xml")
-      expect(Alert.count).to eq(0)
-    end
-
-    it "should parse work" do
-      document = Nokogiri::XML(File.read(file))
-      work = document.xpath("//article").first
-      expect(subject.parse_work(work, month, year)).to eq(doi: "10.1164/rccm.200612-1772OC", data: {"views"=>[{"unique-ip"=>"17", "full-text"=>"20", "pdf"=>"3", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2014", "month"=>"1"}]})
-    end
-
-    it "should save work" do
-      document = Nokogiri::XML(File.read(file))
-      work = document.xpath("//article").first
-      response = subject.parse_work(work, month, year)
-      expect(subject.save_work(response[:doi], response[:data])).to match /^1-/
+      stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
+      expect(subject.get_feed(month, year)).to be_empty
+      expect(subject.parse_feed(month, year)).to be_empty
+      expect(stub).to have_been_requested
+      expect(Notification.count).to eq(0)
     end
   end
 
@@ -80,12 +62,12 @@ describe Pmc, type: :model, vcr: true do
     end
 
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.create(:work, doi: nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       expect(subject.get_data(work)).to eq({})
     end
 
     it "should report if there are no events returned by the PMC API" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0044294")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
@@ -94,7 +76,7 @@ describe Pmc, type: :model, vcr: true do
     end
 
     it "should report if there are events returned by the PMC API" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pbio.1001420")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'pmc.json')
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
       response = subject.get_data(work)
@@ -103,52 +85,56 @@ describe Pmc, type: :model, vcr: true do
     end
 
     it "should catch errors with the PMC API" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000001")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :source_id => subject.id })
+      response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://127.0.0.1:5984/pmc_usage_stats_test/#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
-      expect(Alert.count).to eq(1)
-      alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
-      expect(alert.status).to eq(408)
-      expect(alert.source_id).to eq(subject.id)
+      expect(Notification.count).to eq(1)
+      notification = Notification.first
+      expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(notification.status).to eq(408)
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 
   context "parse_data" do
     it "should report that there are no events if the doi is missing" do
-      work = FactoryGirl.create(:work, doi: nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: { source: "pmc", work: work.pid, pdf: 0, html: 0, total: 0, events_url: nil, extra: [], months: [] })
+      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "pmc", work_id: work.pid, pdf: 0, html: 0, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the PMC API" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0044294")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'pmc_nil.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response).to eq(events: { source: "pmc", work: work.pid, :pdf=>0, :html=>0, :total=>0, :events_url=>nil, :extra=>[{"unique-ip"=>"0", "full-text"=>"0", "pdf"=>"0", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2013", "month"=>"10"}], :months=>[{:month=>10, :year=>2013, :html=>0, :pdf=>0, :total=>0}]})
+      expect(response).to eq(events: [{ source_id: "pmc", work_id: work.pid, :pdf=>0, :html=>0, :total=>0, :events_url=>nil, :extra=>[{"unique-ip"=>"0", "full-text"=>"0", "pdf"=>"0", "abstract"=>"0", "scanned-summary"=>"0", "scanned-page-browse"=>"0", "figure"=>"0", "supp-data"=>"0", "cited-by"=>"0", "year"=>"2013", "month"=>"10"}], :months=>[{:month=>10, :year=>2013, :html=>0, :pdf=>0, :total=>0}]}])
     end
 
     it "should report if there are events returned by the PMC API" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pbio.1001420")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pbio.1001420")
       body = File.read(fixture_path + 'pmc.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:events][:extra].length).to eq(2)
-      expect(response[:events][:total]).to eq(13)
-      expect(response[:events][:pdf]).to eq(4)
-      expect(response[:events][:html]).to eq(9)
-      expect(response[:events][:events_url]).to eq("http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}")
-      expect(response[:events][:months]).to eq([{:month=>9, :year=>2013, :html=>3, :pdf=>2, :total=>5}, {:month=>10, :year=>2013, :html=>6, :pdf=>2, :total=>8}])
+
+      event = response[:events].first
+      expect(event[:extra].length).to eq(2)
+      expect(event[:source_id]).to eq("pmc")
+      expect(event[:work_id]).to eq(work.pid)
+      expect(event[:total]).to eq(13)
+      expect(event[:pdf]).to eq(4)
+      expect(event[:html]).to eq(9)
+      expect(event[:events_url]).to eq("http://www.ncbi.nlm.nih.gov/pmc/works/PMC#{work.pmcid}")
+      expect(event[:months]).to eq([{:month=>9, :year=>2013, :html=>3, :pdf=>2, :total=>5}, {:month=>10, :year=>2013, :html=>6, :pdf=>2, :total=>8}])
     end
 
     it "should catch timeout errors with the PMC API" do
-      work = FactoryGirl.create(:work, doi: "10.2307/683422")
+      work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://127.0.0.1:5984/pmc_usage_stats_test/", status: 408 }
       response = subject.parse_data(result, work)
       expect(response).to eq(result)

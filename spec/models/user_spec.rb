@@ -41,7 +41,7 @@ describe User, type: :model, vcr: true do
 
     it "admin can" do
       ability = Ability.new(user)
-      expect(ability).to be_able_to(:manage, Alert.new)
+      expect(ability).to be_able_to(:manage, Notification.new)
     end
   end
 
@@ -50,8 +50,8 @@ describe User, type: :model, vcr: true do
 
     it "staff can" do
       ability = Ability.new(user)
-      expect(ability).not_to be_able_to(:manage, Alert.new)
-      expect(ability).to be_able_to(:read, Alert.new)
+      expect(ability).not_to be_able_to(:manage, Notification.new)
+      expect(ability).to be_able_to(:read, Notification.new)
     end
   end
 
@@ -60,7 +60,7 @@ describe User, type: :model, vcr: true do
 
     it "user can" do
       ability = Ability.new(user)
-      expect(ability).not_to be_able_to(:read, Alert.new)
+      expect(ability).not_to be_able_to(:read, Notification.new)
     end
   end
 end

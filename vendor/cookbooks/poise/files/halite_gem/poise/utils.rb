@@ -161,11 +161,6 @@ module Poise
     # @param args [Array<Object>] Arguments to check.
     # @return [void]
     def check_block_arity!(block, args)
-      # Convert the block to a lambda-style proc. You can't make this shit up.
-      obj = Object.new
-      obj.define_singleton_method(:block, &block)
-      block  = obj.method(:block).to_proc
-      # Check
       required_args = block.arity < 0 ? ~block.arity : block.arity
       if args.length < required_args || (block.arity >= 0 && args.length > block.arity)
         raise ArgumentError.new("wrong number of arguments (#{args.length} for #{required_args}#{block.arity < 0 ? '+' : ''})")

@@ -3,7 +3,7 @@ class Api::V5::WorksController < Api::BaseController
   before_filter :authenticate_user_from_token_param!
 
   def show
-    @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)
+    @work = @work.includes(:events).references(:events)
       .decorate(context: { info: params[:info], source_id: params[:source_id], role: is_admin_or_staff? })
 
     fresh_when last_modified: @work.updated_at
@@ -44,9 +44,9 @@ class Api::V5::WorksController < Api::BaseController
     elsif params[:q]
       collection = Work.query(params[:q])
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
-      collection = Work.joins(:retrieval_statuses)
-                   .where("retrieval_statuses.source_id = ?", source.id)
-                   .where("retrieval_statuses.total > 0")
+      collection = Work.joins(:events)
+                   .where("events.source_id = ?", source.id)
+                   .where("events.total > 0")
     else
       collection = Work
     end
@@ -54,11 +54,11 @@ class Api::V5::WorksController < Api::BaseController
 
   def get_class_name(collection, params)
     @class_name = params[:class_name]
-    collection = collection.includes(:alerts).references(:alerts)
-    if @class_name == "All Alerts"
-      collection = collection.where("alerts.unresolved = ?", true)
+    collection = collection.includes(:notifications).references(:notifications)
+    if @class_name == "All Notifications"
+      collection = collection.where("notifications.unresolved = ?", true)
     else
-      collection = collection.where("alerts.unresolved = ?", true).where("alerts.class_name = ?", @class_name)
+      collection = collection.where("notifications.unresolved = ?", true).where("notifications.class_name = ?", @class_name)
     end
   end
 
@@ -66,11 +66,11 @@ class Api::V5::WorksController < Api::BaseController
   # we can't filter and sort by two different sources
   def get_order(collection, params, source)
     if params[:order] && source && params[:order] == params[:source_id]
-      collection = collection.order("retrieval_statuses.total DESC")
+      collection = collection.order("events.total DESC")
     elsif params[:order] && !source && order = Source.where(name: params[:order]).first
-      collection = collection.joins(:retrieval_statuses)
-        .where("retrieval_statuses.source_id = ?", order.id)
-        .order("retrieval_statuses.total DESC")
+      collection = collection.joins(:events)
+        .where("events.source_id = ?", order.id)
+        .order("events.total DESC")
     else
       collection = collection.order("published_on DESC")
     end

@@ -40,12 +40,10 @@ module Poise
         include Chef::DSL::Recipe
 
         attr_reader :subresources
-        attr_reader :subcontexts
 
         def initialize(*args)
           super
           @subresources = NoPrintingResourceCollection.new
-          @subcontexts = []
         end
 
         def after_created
@@ -76,18 +74,12 @@ module Poise
               # Step back so we re-run the "current" resource, which is now the
               # container.
               collection.iterator.skip_back
-              Chef::Log.debug("Collection: #{@run_context.resource_collection.map(&:to_s).join(', ')}")
             end
             @run_context.resource_collection.insert(order_fixer)
-            @subcontexts.each do |ctx|
-              ctx.resource_collection.each do |r|
-                Chef::Log.debug("   * #{r}")
-                # Fix the subresource to use the outer run context.
-                r.run_context = @run_context
-                @run_context.resource_collection.insert(r)
-              end
+            @subresources.each do |r|
+              Chef::Log.debug("   * #{r}")
+              @run_context.resource_collection.insert(r)
             end
-            Chef::Log.debug("Collection: #{@run_context.resource_collection.map(&:to_s).join(', ')}")
           end
         end
 
@@ -101,7 +93,7 @@ module Poise
           created_at ||= caller[0]
           # Run this inside a subcontext to avoid adding to the current resource collection.
           # It will end up added later, indirected via @subresources to ensure ordering.
-          @subcontexts << subcontext_block do
+          subcontext_block do
             namespace = if self.class.container_namespace == true
               # If the value is true, use the name of the container resource.
               self.name
@@ -192,7 +184,6 @@ module Poise
           def included(klass)
             super
             klass.extend(ClassMethods)
-            klass.const_get(:HIDDEN_IVARS) << :@subcontexts
           end
         end
 
