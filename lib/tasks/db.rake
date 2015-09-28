@@ -56,12 +56,12 @@ namespace :db do
 
       desc "Import works with RelatedIdentifiers from DataCite API"
       task :datacite_related => :environment do
-        import = DataciteRelated.new(
-          from_date: ENV['FROM_UPDATE_DATE'],
-          until_date: ENV['UNTIL_UPDATE_DATE'])
-        number = import.total_results
+        import = DataciteRelated.where(name: 'datacite_related').first
+        options = { from_date: ENV['FROM_UPDATE_DATE'],
+                    until_date: ENV['UNTIL_UPDATE_DATE'] }
+        number = import.total_results(options)
         if number > 0
-          import.queue_work_import
+          import.queue_work_import(options)
           puts "Started import of #{number} works in the background..."
         else
           puts "No works to import."
