@@ -59,6 +59,10 @@ openedition = Source.where(name: 'openedition').first_or_create(
                   'Revues.org, Hypotheses and Calenda in the humanities and ' \
                   'social sciences.',
   :group_id => discussed.id)
+datacite_related = Source.where(name: 'datacite_related').first_or_create(
+  :title => 'DataCite Related',
+  :description => 'Import works with relatedIdentifiers via the DataCite Solr API.',
+  :group_id => other.id)
 
 # The following sources require passwords/API keys and are installed by default
 crossref = Source.where(name: 'crossref').first_or_create(
@@ -278,6 +282,11 @@ datacite_import = DataciteImport.where(name: 'datacite_import').first_or_create(
   :description => 'Import works via the DataCite Solr API.',
   :kind => "all",
   :group_id => other.id)
+datacite_related = DataciteRelated.where(name: 'datacite_related').first_or_create(
+    :title => 'DataCite Related',
+    :description => 'Import works with relatedIdentifiers via the DataCite Solr API.',
+    :kind => "all",
+    :group_id => other.id)
 dataone_import = DataoneImport.where(name: 'dataone_import').first_or_create(
   :title => 'DataONE Import',
   :description => 'Import works via the DataONE Solr API.',

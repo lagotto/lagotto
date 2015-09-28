@@ -143,12 +143,12 @@ ActiveRecord::Schema.define(version: 20150824064105) do
     t.integer  "likes",        limit: 4,        default: 0,                     null: false
   end
 
-  add_index "events", ["source_id", "total", "retrieved_at"], name: "index_retrieval_statuses_source_id_event_count_retr_at_desc", using: :btree
-  add_index "events", ["source_id", "total"], name: "index_retrieval_statuses_source_id_event_count_desc", using: :btree
-  add_index "events", ["source_id", "work_id", "total"], name: "index_retrieval_statuses_source_id_article_id_event_count_desc", using: :btree
+  add_index "events", ["source_id", "total", "retrieved_at"], name: "index_events_source_id_total_retrieved_at_desc", using: :btree
+  add_index "events", ["source_id", "total"], name: "index_events_source_id_total_desc", using: :btree
+  add_index "events", ["source_id", "work_id", "total"], name: "index_events_source_id_work_id_total_desc", using: :btree
   add_index "events", ["source_id"], name: "index_events_on_source_id", using: :btree
-  add_index "events", ["source_id"], name: "index_rs_on_soure_id_queued_at_scheduled_at", using: :btree
-  add_index "events", ["work_id", "source_id", "total"], name: "index_rs_on_article_id_soure_id_event_count", using: :btree
+  add_index "events", ["source_id"], name: "index_events_on_soure_id_queued_at_scheduled_at", using: :btree
+  add_index "events", ["work_id", "source_id", "total"], name: "index_events_on_work_id_source_id_total", using: :btree
   add_index "events", ["work_id", "source_id"], name: "index_events_on_work_id_and_source_id", unique: true, using: :btree
   add_index "events", ["work_id", "total"], name: "index_events_on_work_id_and_total", using: :btree
   add_index "events", ["work_id"], name: "index_events_on_work_id", using: :btree
@@ -236,6 +236,7 @@ ActiveRecord::Schema.define(version: 20150824064105) do
     t.datetime "updated_at"
   end
 
+  add_index "publisher_options", ["agent_id"], name: "publisher_options_agent_id_fk", using: :btree
   add_index "publisher_options", ["publisher_id", "agent_id"], name: "index_publisher_options_on_publisher_id_and_agent_id", unique: true, using: :btree
 
   create_table "publishers", force: :cascade do |t|
@@ -248,7 +249,7 @@ ActiveRecord::Schema.define(version: 20150824064105) do
     t.datetime "cached_at",                   default: '1970-01-01 00:00:00', null: false
     t.string   "name",          limit: 255,                                   null: false
     t.string   "service",       limit: 255
-    t.string   "member_symbol", limit: 255
+    t.string   "member_symbol", limit: 191
     t.string   "symbol",        limit: 255
     t.text     "url",           limit: 65535
   end
@@ -277,6 +278,9 @@ ActiveRecord::Schema.define(version: 20150824064105) do
   end
 
   add_index "relations", ["level", "work_id", "related_work_id"], name: "index_relations_on_level_work_related_work", using: :btree
+  add_index "relations", ["related_work_id"], name: "relations_related_work_id_fk", using: :btree
+  add_index "relations", ["relation_type_id"], name: "relations_relation_type_id_fk", using: :btree
+  add_index "relations", ["source_id"], name: "relations_source_id_fk", using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
@@ -326,6 +330,7 @@ ActiveRecord::Schema.define(version: 20150824064105) do
   end
 
   add_index "sources", ["active"], name: "index_sources_on_active", using: :btree
+  add_index "sources", ["group_id"], name: "sources_group_id_fk", using: :btree
   add_index "sources", ["name"], name: "index_sources_on_name", unique: true, using: :btree
 
   create_table "status", force: :cascade do |t|
@@ -432,14 +437,26 @@ ActiveRecord::Schema.define(version: 20150824064105) do
   add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id", using: :btree
   add_index "works", ["scp"], name: "index_works_on_scp", unique: true, using: :btree
   add_index "works", ["tracked", "published_on"], name: "index_works_on_tracked_published_on", using: :btree
+  add_index "works", ["work_type_id"], name: "works_work_type_id_fk", using: :btree
   add_index "works", ["wos", "published_on", "id"], name: "index_works_on_wos_published_on_id", using: :btree
   add_index "works", ["wos"], name: "index_works_on_wos", unique: true, using: :btree
 
   add_foreign_key "days", "events", name: "days_event_id_fk", on_delete: :cascade
   add_foreign_key "days", "sources", name: "days_source_id_fk", on_delete: :cascade
   add_foreign_key "days", "works", name: "days_work_id_fk", on_delete: :cascade
+  add_foreign_key "events", "sources", name: "events_source_id_fk", on_delete: :cascade
+  add_foreign_key "events", "works", name: "events_work_id_fk", on_delete: :cascade
   add_foreign_key "months", "events", name: "months_event_id_fk", on_delete: :cascade
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
   add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
+  add_foreign_key "publisher_options", "agents", name: "publisher_options_agent_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "publishers", primary_key: "member_id", name: "publisher_options_publisher_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "relation_types", name: "relations_relation_type_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "sources", name: "relations_source_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "works", column: "related_work_id", name: "relations_related_work_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "works", name: "relations_work_id_fk", on_delete: :cascade
+  add_foreign_key "reports_users", "reports", name: "reports_users_report_id_fk", on_delete: :cascade
+  add_foreign_key "reports_users", "users", name: "reports_users_user_id_fk", on_delete: :cascade
+  add_foreign_key "sources", "groups", name: "sources_group_id_fk", on_delete: :cascade
+  add_foreign_key "works", "work_types", name: "works_work_type_id_fk", on_delete: :cascade
 end

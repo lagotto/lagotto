@@ -185,7 +185,7 @@ module Resolvable
         publisher_id = publisher.present? ? publisher.member_id : nil
 
         doi = metadata.fetch("doi", nil)
-        doi = doi.downcase if doi.present?
+        doi = doi.upcase if doi.present?
 
         { "author" => get_authors(metadata.fetch('creator', []), reversed: true, sep: ", "),
           "title" => metadata.fetch("title", []).first.chomp("."),
@@ -259,14 +259,14 @@ module Resolvable
       id = id.gsub(/(http|https):\/+(\w+)/, '\1://\2')
 
       case
-      when id.starts_with?("doi.org/")           then { doi: CGI.unescape(id[8..-1]).downcase }
+      when id.starts_with?("doi.org/")           then { doi: CGI.unescape(id[8..-1]).upcase }
       when id.starts_with?("www.ncbi.nlm.nih.gov/pubmed/")                  then { pmid: id[28..-1] }
       when id.starts_with?("www.ncbi.nlm.nih.gov/pmc/articles/PMC")         then { pmcid: id[37..-1] }
       when id.starts_with?("arxiv.org/abs/")     then { arxiv: id[14..-1] }
       when id.starts_with?("n2t.net/ark:")       then { ark: id[8..-1] }
 
-      when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]).downcase }
-      when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]).downcase }
+      when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]).upcase }
+      when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]).upcase }
       when id.starts_with?("http://www.ncbi.nlm.nih.gov/pubmed/")           then { pmid: id[35..-1] }
       when id.starts_with?("http://www.ncbi.nlm.nih.gov/pmc/articles/PMC")  then { pmcid: id[44..-1] }
       when id.starts_with?("http://arxiv.org/abs/")                         then { arxiv: id[21..-1] }
@@ -274,7 +274,7 @@ module Resolvable
       when id.starts_with?("http:")              then { canonical_url: PostRank::URI.clean(id) }
       when id.starts_with?("https:")             then { canonical_url: PostRank::URI.clean(id) }
 
-      when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]).downcase }
+      when id.starts_with?("doi:")               then { doi: CGI.unescape(id[4..-1]).upcase }
       when id.starts_with?("pmid:")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid:PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid:")             then { pmcid: id[6..-1] }
@@ -283,15 +283,15 @@ module Resolvable
       when id.starts_with?("scp:")               then { scp: id[4..-1] }
       when id.starts_with?("ark:")               then { ark: id }
 
-      when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]).downcase }
-      when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]).downcase }
+      when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]).upcase }
+      when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]).upcase }
       when id.starts_with?("10.")                then { doi: CGI.unescape(id) }
       when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
       when id.starts_with?("PMC")                then { pmcid: id[3..-1] }
-      when id.starts_with?("doi_10.")            then { doi: id[4..-1].gsub("_", "/").downcase }
-      else { doi: CGI.unescape(id).downcase }
+      when id.starts_with?("doi_10.")            then { doi: id[4..-1].gsub("_", "/").upcase }
+      else { doi: CGI.unescape(id).upcase }
       end
     end
 

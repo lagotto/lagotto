@@ -26,7 +26,7 @@ DEPENDENCIES
   redisio
   ruby
     git: git@github.com:lagotto/ruby-cookbook.git
-    revision: 2925a3d750a2047d11aa607243f87b6fc085efb9
+    revision: 3926fd9a0a25f2fbf5e25831a681ffd046f5d1a5
 
 GRAPH
   7-zip (1.0.2)
@@ -138,8 +138,9 @@ GRAPH
   redisio (2.3.0)
     build-essential (>= 0.0.0)
     ulimit (>= 0.1.2)
-  ruby (0.7.4)
+  ruby (0.7.6)
     apt (>= 0.0.0)
+    build-essential (>= 0.0.0)
   runit (1.7.2)
     packagecloud (>= 0.0.0)
   selinux (0.9.0)
