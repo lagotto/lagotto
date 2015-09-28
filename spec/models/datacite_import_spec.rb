@@ -25,7 +25,7 @@ describe DataciteImport, type: :model, vcr: true do
 
     it "ignoring member_symbol" do
       FactoryGirl.create(:publisher, member_symbol: "CDL.DRYAD", service: "datacite")
-      subject = FactoryGirl.create(:datacite_import, ignore_members: true)
+      subject = FactoryGirl.create(:datacite_import, only_publishers: false)
       expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D&fq=has_metadata%3Atrue&fq=is_active%3Atrue&wt=json")
     end
 

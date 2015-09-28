@@ -4,7 +4,7 @@ module UserAuthMacros
                                provider: ENV["OMNIAUTH"],
                                uid: "12345",
                                name: "Joe Smith",
-                               email: "joe_#{ENV['OMNIAUTH']}@example.com",
+                               email: "joe_#{ENV["OMNIAUTH"]}@example.com",
                                authentication_token: "12345",
                                role: role)
     visit "/"

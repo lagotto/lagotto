@@ -5,6 +5,20 @@ describe CrossrefImport, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:crossref_import) }
 
+  context "config_fields" do
+    it "url_fields" do
+      expect(subject.url_fields).to eq([:url])
+    end
+
+    it "publisher_fields" do
+      expect(subject.publisher_fields).to eq([:sample, :only_publishers])
+    end
+
+    it "other_fields" do
+      expect(subject.other_fields).to be_empty
+    end
+  end
+
   context "get_query_url" do
     it "default" do
       expect(subject.get_query_url).to eq("http://api.crossref.org/works?filter=from-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08&offset=0&rows=1000")
@@ -23,9 +37,9 @@ describe CrossrefImport, type: :model, vcr: true do
       expect(subject.get_query_url).to eq("http://api.crossref.org/works?filter=from-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08%2Cmember%3A340&offset=0&rows=1000")
     end
 
-    it "ignoring member_id" do
+    it "only publishers" do
       FactoryGirl.create(:publisher)
-      subject = FactoryGirl.create(:crossref_import, ignore_members: true)
+      subject = FactoryGirl.create(:crossref_import, only_publishers: false)
       expect(subject.get_query_url).to eq("http://api.crossref.org/works?filter=from-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08&offset=0&rows=1000")
     end
 

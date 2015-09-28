@@ -7,6 +7,8 @@ ENV["CAS_PREFIX"]= "/cas"
 ENV["API_KEY"] = "12345"
 ENV["ADMIN_EMAIL"] = "info@example.org"
 ENV["IMPORT"] = "member"
+ENV["ZENODO_KEY"] = "123"
+ENV["ZENODO_URL"] = "https://sandbox.zenodo.org/api/"
 
 # set up Code Climate
 require "codeclimate-test-reporter"
@@ -146,7 +148,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
-    unless HeartbeatService.memcached_up?
+    unless Heartbeat.memcached_up?
       raise <<-EOS.gsub(/^\s*\|/, '').colorize(:red)
         |Memcached doesn't appear to be running! You will need it running in
         |order to successfully run feature specs.

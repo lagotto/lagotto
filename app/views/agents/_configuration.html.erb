@@ -24,10 +24,12 @@
 
         <% unless @agent.by_publisher? %>
           <% @agent.publisher_fields.each do |field| %>
-            <% if field == "password" %>
+            <% if field == :password %>
               <%= f.input field, :as => :string %>
-            <% elsif field == "expires_at" %>
+            <% elsif field == :expires_at %>
               <%= f.input field, :as => :hidden %>
+            <% elsif field == :only_publishers %>
+              <%= f.input field, :as => :boolean, label: "Only publishers", checked_value: true, unchecked_value: false, input_html: { checked: @agent.only_publishers }, hint: "Import only works from included publishers" %>
             <% else %>
               <%= f.input field %>
             <% end %>
@@ -75,6 +77,8 @@
               <th><%= field.to_s.gsub(/_/, " ").capitalize %></th>
               <% if [:username, :password, :client_id, :secret, :access_token, :api_key].include?(field) && cannot?(:manage, Agent) %>
                 <td><em>hidden</em></td>
+              <% elsif field == :only_publishers %>
+                <td><%= @agent.send(field) ? "Import only works from included publishers" : "Import works from all publishers" %></td>
               <% else %>
                 <td><%= @agent.send(field) %></td>
               <% end %>

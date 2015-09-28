@@ -55,13 +55,5 @@ module Importable
     def tracked
       config.tracked || true
     end
-
-    def ignore_members
-      config.ignore_members || false
-    end
-
-    def ignore_members=(value)
-      config.ignore_members = value
-    end
   end
 end

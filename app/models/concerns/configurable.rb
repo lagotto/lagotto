@@ -237,6 +237,14 @@ module Configurable
       config.tracked = value
     end
 
+    def only_publishers
+      config.only_publishers || true
+    end
+
+    def only_publishers=(value)
+      config.only_publishers = value
+    end
+
     def sample
       config.sample
     end

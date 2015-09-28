@@ -7,7 +7,12 @@ class CrossrefImport < Agent
     rows = options[:rows].presence || job_batch_size
     from_date = options[:from_date].presence || (Time.zone.now.to_date - 1.day).iso8601
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
-    member = Publisher.where(service: "crossref").pluck(:member_id)
+
+    if only_publishers
+      member = Publisher.where(service: "crossref").pluck(:member_id)
+    else
+      member = nil
+    end
 
     filter = "from-update-date:#{from_date}"
     filter += ",until-update-date:#{until_date}"
@@ -96,7 +101,7 @@ class CrossrefImport < Agent
   end
 
   def config_fields
-    [:url, :sample, :ignore_members]
+    [:url, :sample, :only_publishers]
   end
 
   def url

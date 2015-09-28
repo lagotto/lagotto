@@ -8,7 +8,7 @@ class DataciteImport < Agent
     from_date = options[:from_date].presence || (Time.zone.now.to_date - 1.day).iso8601
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
 
-    unless ignore_members
+    if only_publishers
       member = Publisher.where(service: "datacite").pluck(:member_symbol)
       datacentre_symbol = member.blank? ? nil : "datacentre_symbol:" + member.join("+OR+")
     else
@@ -53,7 +53,7 @@ class DataciteImport < Agent
   end
 
   def config_fields
-    [:url, :ignore_members]
+    [:url, :only_publishers]
   end
 
   def url

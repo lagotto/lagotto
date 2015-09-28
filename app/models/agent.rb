@@ -39,8 +39,8 @@ class Agent < ActiveRecord::Base
                    "mendeley" => [:access_token],
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken],
-                   "crossref_import" => [:sample, :ignore_members],
-                   "datacite_import" => [:ignore_members] }
+                   "crossref_import" => [:sample, :only_publishers],
+                   "datacite_import" => [:only_publishers] }
 
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
