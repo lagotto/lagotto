@@ -1,23 +1,23 @@
 DEPENDENCIES
   capistrano
     git: git@github.com:lagotto/capistrano-cookbook.git
-    revision: 2ea31f05454bee581115811009db4a5a38a7cd0c
+    revision: 643868b3ad167ff5e48a39560f5e1db25a71155d
   consul
   couchdb
   database (~> 2.3.1)
   dotenv
     git: git@github.com:lagotto/dotenv-cookbook.git
-    revision: ddabe43d3742c1408af423a7908426bbaea6173f
+    revision: 6291989921ef6880f70cfa255fa6c4a48f37219a
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: 500a8502849e2e78f6cada1acec68684f020e715
+    revision: 8ab82fdbfe254ebf1e8587405a3843cf60982666
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
     revision: e306cddd572ca4c1906aa533c70092528bb77532
   mysql_rails
     git: git@github.com:lagotto/mysql_rails-cookbook.git
-    revision: 25ddc5987bf5aa10cc3aacfe8482cacf8ac26a64
+    revision: 75746eaa26e00330b4cb5e894ebf3eae20cbddc4
   passenger_nginx
     git: git@github.com:lagotto/passenger_nginx-cookbook.git
     revision: 23ca6144a67a949ef98932f7cfd6561ec1045703
@@ -26,34 +26,33 @@ DEPENDENCIES
   redisio
   ruby
     git: git@github.com:lagotto/ruby-cookbook.git
-    revision: 2925a3d750a2047d11aa607243f87b6fc085efb9
+    revision: 3926fd9a0a25f2fbf5e25831a681ffd046f5d1a5
 
 GRAPH
   7-zip (1.0.2)
     windows (>= 1.2.2)
-  apt (2.8.1)
+  apt (2.8.2)
   ark (0.9.0)
     7-zip (>= 0.0.0)
     windows (>= 0.0.0)
   aws (2.7.2)
   build-essential (2.2.3)
-  capistrano (0.10.15)
+  capistrano (0.10.16)
     apt (>= 0.0.0)
     consul (>= 0.0.0)
     dotenv (~> 0.2.0)
     nodejs (>= 0.0.0)
-    remote_syslog2 (>= 0.0.0)
     ruby (~> 0.7.0)
   chef-sugar (3.1.1)
   chef-vault (1.3.0)
   chef_handler (1.2.0)
   chocolatey (0.4.0)
     windows (~> 1.31)
-  consul (1.1.1)
+  consul (1.2.0)
     chef-vault (>= 0.0.0)
     chocolatey (>= 0.0.0)
     firewall (~> 1.6)
-    golang (~> 1.4)
+    golang (>= 0.0.0)
     libartifact (~> 1.3)
     poise (~> 2.2)
     poise-service (~> 1.0)
@@ -68,7 +67,7 @@ GRAPH
     mysql-chef_gem (~> 0.0)
     postgresql (>= 1.0.0)
     xfs (>= 0.0.0)
-  dotenv (0.2.13)
+  dotenv (0.2.14)
   erlang (1.5.8)
     apt (>= 1.7.0)
     build-essential (>= 0.0.0)
@@ -80,11 +79,10 @@ GRAPH
   golang (1.5.1)
   homebrew (1.13.0)
     build-essential (>= 2.1.2)
-  lagotto (4.7.15)
+  lagotto (4.8.1)
     apt (>= 0.0.0)
     capistrano (~> 0.10.0)
     consul (>= 0.0.0)
-    couchdb (>= 0.0.0)
     database (~> 2.3.1)
     dotenv (~> 0.2.0)
     memcached (>= 0.0.0)
@@ -98,10 +96,10 @@ GRAPH
   libarchive (0.6.1)
     apt (~> 2.5)
     yum-epel (~> 0.6)
-  libartifact (1.3.2)
+  libartifact (1.3.3)
     libarchive (~> 0.6)
-    poise (~> 2.0)
-  memcached (1.7.2)
+    poise (~> 2.2)
+  memcached (1.8.0)
     runit (~> 1.0)
     yum (~> 3.0)
     yum-epel (>= 0.0.0)
@@ -110,27 +108,27 @@ GRAPH
   mysql-chef_gem (0.0.5)
     build-essential (>= 0.0.0)
     mysql (>= 0.0.0)
-  mysql_rails (0.3.31)
+  mysql_rails (0.3.33)
     database (~> 2.3.1)
     mysql (~> 5.6.1)
     ruby (~> 0.7.0)
-  nodejs (2.4.0)
+  nodejs (2.4.2)
     apt (>= 0.0.0)
     ark (>= 0.0.0)
     build-essential (>= 0.0.0)
     homebrew (>= 0.0.0)
     yum-epel (>= 0.0.0)
-  openssl (4.3.2)
+  openssl (4.4.0)
     chef-sugar (>= 3.1.1)
-  packagecloud (0.0.19)
+  packagecloud (0.1.0)
   passenger_nginx (0.5.4)
     apt (>= 0.0.0)
     ruby (~> 0.7.0)
   phantomjs (1.0.3)
     build-essential (>= 0.0.0)
     chocolatey (>= 0.0.0)
-  poise (2.3.0)
-  poise-service (1.0.1)
+  poise (2.4.0)
+  poise-service (1.0.2)
     poise (~> 2.0)
   postfix (3.7.0)
   postgresql (3.4.16)
@@ -140,20 +138,20 @@ GRAPH
   redisio (2.3.0)
     build-essential (>= 0.0.0)
     ulimit (>= 0.1.2)
-  remote_syslog2 (0.2.3)
-  ruby (0.7.4)
+  ruby (0.7.6)
     apt (>= 0.0.0)
+    build-essential (>= 0.0.0)
   runit (1.7.2)
     packagecloud (>= 0.0.0)
   selinux (0.9.0)
   ulimit (0.3.3)
-  windows (1.38.1)
+  windows (1.38.2)
     chef_handler (>= 0.0.0)
   xfs (1.1.0)
-  yum (3.6.3)
-  yum-epel (0.6.2)
+  yum (3.7.1)
+  yum-epel (0.6.3)
     yum (~> 3.2)
-  yum-erlang_solutions (0.2.0)
-    yum (~> 3.0)
-  yum-mysql-community (0.1.17)
+  yum-erlang_solutions (0.2.2)
+    yum (~> 3.2)
+  yum-mysql-community (0.1.18)
     yum (>= 3.0)
