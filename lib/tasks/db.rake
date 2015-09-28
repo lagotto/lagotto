@@ -56,20 +56,9 @@ namespace :db do
 
       desc "Import works with RelatedIdentifiers from DataCite API"
       task :datacite_related => :environment do
-        case ENV['IMPORT'].to_s.downcase
-        when "member"
-          member = ENV['MEMBER'].presence || Publisher.pluck(:name).join(",")
-        else
-          member = ENV['MEMBER'].presence
-        end
-
         import = DataciteRelated.new(
-          from_update_date: ENV['FROM_UPDATE_DATE'],
-          until_update_date: ENV['UNTIL_UPDATE_DATE'],
-          from_pub_date: ENV['FROM_PUB_DATE'],
-          until_pub_date: ENV['UNTIL_PUB_DATE'],
-          type: ENV['TYPE'],
-          member: member)
+          from_date: ENV['FROM_UPDATE_DATE'],
+          until_date: ENV['UNTIL_UPDATE_DATE'])
         number = import.total_results
         if number > 0
           import.queue_work_import
