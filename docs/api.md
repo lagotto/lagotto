@@ -6,8 +6,7 @@ title: "API"
 ## Basic Information
 
 * a live version of the API (using [Swagger](http://swagger.io/)) is [here](/api)
-* version 5 of the API was released April 24, 2014 (ALM 2.14).
-* version 6 of the API was released April, 2015 (Lagotto 4.0).
+* version 6 of the API was released May 5, 2015 (Lagotto 4.0).
 
 ### Base URL
 * API calls start with `/api/`. API versioning is done via the request header, e.g. `Accept: application/json; version=6`, and currently defaults to `version=6`.
@@ -20,7 +19,7 @@ The default media type is JSON. The media type is set in the header, e.g. "Accep
 ### API Key
 Almost all information regarding works (with the exception of sources that don't allow redistribution of data) is available without API keys since the Lagotto 3.12.7 release (January 9, 2015). An API key is required to add/update works, and to access some of the internal data of the application. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. By default the ALM application uses [Mozilla Persona](http://www.mozilla.org/en-US/persona/), but it can also be configured to use other services usch as OAuth and CAS. For the PLOS ALM application you need to sign in with your [PLOS account](http://register.plos.org/ambra-registration/register.action).
 
-For the v5 API the API key shoould be part of the URL in the format `?api_key=API_KEY`. The v6 API requires the API key in the header in the format `Authorization: Token token=API_KEY`.
+The v6 API requires the API key in the header in the format `Authorization: Token token=API_KEY`. Previous versions of the API expect the API key as part of the URL in the format `?api_key=API_KEY`.
 
 ### Meta
 Every API response starts with a `meta` object that starts with basic information such as `message-type` and number of results (`total`).
@@ -40,14 +39,21 @@ Every API response starts with a `meta` object that starts with basic informatio
 Specify one or more works by a comma-separated list of pids in the `ids` parameter. These DOIs have to be URL-escaped, e.g. `%2F` for `/`:
 
 ```sh
-/api/v5/articles?ids=doi:10.1371%2Fjournal.pone.0036240
-/api/v5/articles?ids=doi:10.1371%2Fjournal.pone.0036240,doi:10.1371%2Fjournal.pbio.0020413
+/api/works?ids=http://doi.org/10.1371%2Fjournal.pone.0036240
+/api/works?ids=http://doi.org/10.1371%2Fjournal.pone.0036240,http://doi.org/10.1371%2Fjournal.pbio.0020413
+```
+
+Alternatively you can specify the identifier with the `type` query parameter, e.g.
+
+```sh
+/api/works?ids=10.1371%2Fjournal.pone.0036240&type=doi
+/api/works?ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413&type=doi
 ```
 
 Queries for up to 50 works at a time are supported. With many ids, in particular DOIs or URLs, the size limit of the query URL might be reached. It is therefore advisable to put the ids into the body of a POST, and include an `X-HTTP-Method-Override: GET` header:
 
 ```sh
-curl -X POST -d "ids=10.1371%2Fjournal.pone.0036240,10.1371%2Fjournal.pbio.0020413" -H "Authorization: Token token=API_KEY" -H "X-HTTP-Method-Override: GET" "http://alm.plos.org/api/works"
+curl -X POST -d "ids=http://doi.org/10.1371%2Fjournal.pone.0036240,http://doi.org/10.1371%2Fjournal.pbio.0020413" -H "Authorization: Token token=API_KEY" -H "X-HTTP-Method-Override: GET" "http://alm.plos.org/api/works"
 ```
 
 ### Events
@@ -81,6 +87,7 @@ All dates and times with the exception of publication dates are in ISO 8601 form
       31
     ]
 ```
+
 `date-parts` is a nested array of year, month, day, with only the year being required.
 
 ## Additional Parameters
@@ -89,7 +96,7 @@ All dates and times with the exception of publication dates are in ISO 8601 form
 The API supports queries for DOI, PubMed ID, PubMed Central ID, ArXiV ID, Scopus ID, Web of Science ID, ark, and publisher URL. The pid is used if no type is given in the query. The following queries are all for the same work:
 
 ```sh
-/api/works?ids=doi:10.1371%2Fjournal.pmed.1001361
+/api/works?ids=http://doi.org/10.1371%2Fjournal.pmed.1001361
 /api/works?ids=10.1371%2Fjournal.pmed.1001361&type=doi
 /api/works?ids=23300388&type=pmid
 /api/works?ids=PMC3531501&type=pmcid
@@ -99,7 +106,7 @@ The API supports queries for DOI, PubMed ID, PubMed Central ID, ArXiV ID, Scopus
 ```
 
 ### publisher_id=x
-Only show works from a given publisher, using the publisher CrossRef ID. The response format is the same as the default response.
+Only show works from a given publisher, using the publisher member ID for CrossRef DOI names and data center symbol for DataCite DOI names. The response format is the same as the default response.
 
 ```sh
 /api/works?publisher_id=340
@@ -230,7 +237,7 @@ Results of the v6 API are paged with 1000 results per page. Use `per_page` to pi
 }
 ```
 
-#### /api/works/doi:10.1371/journal.pgen.1003182
+#### /api/works/http://doi.org/10.1371/journal.pgen.1003182
 
 ```json
 {

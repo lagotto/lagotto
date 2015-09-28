@@ -5,7 +5,7 @@ module Importable
     def get_total(options={})
       query_url = get_query_url(options.merge(rows: 0))
       result = get_result(query_url, options)
-      total = result.fetch("response", {}).fetch("numFound", 0)
+      result.fetch("response", {}).fetch("numFound", 0)
     end
 
     def queue_jobs(options={})
@@ -31,7 +31,7 @@ module Importable
 
     def get_data(_work, options={})
       query_url = get_query_url(options)
-      result = get_result(query_url, options)
+      get_result(query_url, options)
     end
 
     def parse_data(result, _work, options={})

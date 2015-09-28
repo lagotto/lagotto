@@ -10,7 +10,7 @@ class AddReviewsTable < ActiveRecord::Migration
     end
 
     create_table :reviews do |t|
-      t.string :name
+      t.string :name, limit: 191
       t.integer :state_id
       t.text :message
       t.integer :input

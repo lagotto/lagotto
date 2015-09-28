@@ -2,7 +2,7 @@ class AddErrorMessagesTable < ActiveRecord::Migration
   def self.up
     create_table :error_messages do |t|
       t.integer :source_id
-      t.string :class_name
+      t.string :class_name, limit: 191
       t.text :message
       t.text :trace
       t.string :target_url

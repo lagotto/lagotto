@@ -54,6 +54,20 @@ namespace :db do
         end
       end
 
+      desc "Import works with RelatedIdentifiers from DataCite API"
+      task :datacite_related => :environment do
+        import = DataciteRelated.where(name: 'datacite_related').first
+        options = { from_date: ENV['FROM_UPDATE_DATE'],
+                    until_date: ENV['UNTIL_UPDATE_DATE'] }
+        number = import.total_results(options)
+        if number > 0
+          import.queue_work_import(options)
+          puts "Started import of #{number} works in the background..."
+        else
+          puts "No works to import."
+        end
+      end
+
       desc "Import works from DataONE Solr API"
       task :dataone => :environment do
         import = DataoneImport.new(

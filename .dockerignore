@@ -1,7 +1,6 @@
 .env
 .bundle
 .git
-data/*
 log/*
 tmp/*
 vendor/bundle/*

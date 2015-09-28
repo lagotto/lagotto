@@ -1,7 +1,7 @@
 class AddIdentifiersIndex < ActiveRecord::Migration
   def up
-    remove_column :users, :username
-    change_column :users, :email, :string, null: true
+    remove_column :users, :username, limit: 191
+    change_column :users, :email, :string, limit: 191, null: true
 
     add_index "works", ["pmid", "published_on", "id"], name: "index_works_on_pmid_published_on_id"
     add_index "works", ["pmid"], name: "index_works_on_pmid", unique: true

@@ -61,6 +61,8 @@ Lagotto::Application.routes.draw do
     end
 
     scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
+      match 'references', to: 'references#index', via: [:get, :post]
+
       concern :workable do
         resources :works, constraints: { :id => /.+?/, format: false }
       end
@@ -77,7 +79,6 @@ Lagotto::Application.routes.draw do
       resources :groups, only: [:index, :show]
       resources :notifications
       resources :publishers, concerns: [:workable, :eventable]
-      resources :references
       resources :relation_types, only: [:index, :show]
       resources :sources, concerns: [:workable, :eventable] do
         resources :months
