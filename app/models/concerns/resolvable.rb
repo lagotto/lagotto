@@ -236,12 +236,12 @@ module Resolvable
       return {} if doi.blank?
 
       conn = faraday_conn('json', options)
-      url = "http://doi.crossref.org/doiRA/" + doi
+      url = "http://api.crossref.org/works/#{doi}/agency"
       response = conn.get url, {}, options[:headers]
 
       if is_json?(response.body)
         json = JSON.parse(response.body)
-        json.first.fetch("RA", "").delete(' ').downcase
+        json.fetch('message', {}).fetch('agency', {}).fetch('id', nil)
       else
         { error: 'Resource not found.', status: 404 }
       end
@@ -285,7 +285,7 @@ module Resolvable
 
       when id.starts_with?("doi/")               then { doi: CGI.unescape(id[4..-1]).upcase }
       when id.starts_with?("info:doi/")          then { doi: CGI.unescape(id[9..-1]).upcase }
-      when id.starts_with?("10.")                then { doi: CGI.unescape(id) }
+      when id.starts_with?("10.")                then { doi: CGI.unescape(id).upcase }
       when id.starts_with?("pmid/")              then { pmid: id[5..-1] }
       when id.starts_with?("pmcid/PMC")          then { pmcid: id[9..-1] }
       when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }

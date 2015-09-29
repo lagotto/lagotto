@@ -28,12 +28,12 @@ describe Work, type: :model, vcr: true do
     context "get_id_hash" do
       it "doi" do
         id = "doi:10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: '10.1371/JOURNAL.PONE.0000030')
       end
 
       it " downcase" do
         id = "doi:10.5063/F1PC3085"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.5063/f1pc3085")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5063/F1PC3085")
       end
 
       it "pmid" do
@@ -93,12 +93,12 @@ describe Work, type: :model, vcr: true do
 
       it "http://doi.org" do
         id = "http://doi.org/10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
       it "http://dx.doi.org" do
         id = "http://dx.doi.org/10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
       it "http://www.ncbi.nlm.nih.gov/pubmed/" do
@@ -128,17 +128,17 @@ describe Work, type: :model, vcr: true do
 
       it "doi/" do
         id = "doi/10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
       it "info:doi/" do
         id = "info:doi/10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
       it "10." do
         id = "10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
       it "pmid/" do
@@ -163,12 +163,12 @@ describe Work, type: :model, vcr: true do
 
       it "doi_" do
         id = "doi_10.5066_F7DZ067M"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.5066/f7dz067m")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.5066/F7DZ067M")
       end
 
       it "id" do
         id = "10.1371/journal.pone.0000030"
-        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/journal.pone.0000030")
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
     end
 
@@ -350,7 +350,7 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_metadata datacite" do
-        work = FactoryGirl.create(:work, doi: "10.5061/dryad.8515")
+        work = FactoryGirl.create(:work, doi: "10.5061/DRYAD.8515")
         response = subject.get_metadata(work.doi, "datacite")
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
@@ -403,7 +403,7 @@ describe Work, type: :model, vcr: true do
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
         expect(response["container-title"]).to eq("European Journal of Pharmacology")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 10]])
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 9, 8]])
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to eq(78)
       end
@@ -418,7 +418,7 @@ describe Work, type: :model, vcr: true do
     context "datacite metadata" do
       before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
 
-      let(:work) { FactoryGirl.create(:work, doi: "10.5061/dryad.8515") }
+      let(:work) { FactoryGirl.create(:work, doi: "10.5061/DRYAD.8515") }
 
       it "get_datacite_metadata" do
         response = subject.get_datacite_metadata(work.doi)
