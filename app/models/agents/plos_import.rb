@@ -3,7 +3,7 @@ class PlosImport < Agent
   include Importable
 
   def get_query_url(options={})
-    offset = options[:offset].presence || 0
+    offset = options[:offset].to_i
     rows = options[:rows].presence || job_batch_size
     from_date = options[:from_date].presence || (Time.zone.now.to_date - 1.day).iso8601
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
@@ -13,7 +13,7 @@ class PlosImport < Agent
                start: offset,
                rows: rows,
                fl: "id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id",
-               fq: "+#{date_range}+doc_type:full",
+               fq: "#{date_range}+doc_type:full",
                wt: "json" }
     url + params.to_query
   end

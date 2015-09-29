@@ -3,7 +3,7 @@ class CrossrefImport < Agent
   include Importable
 
   def get_query_url(options={})
-    offset = options[:offset].presence || 0
+    offset = options[:offset].to_i
     rows = options[:rows].presence || job_batch_size
     from_date = options[:from_date].presence || (Time.zone.now.to_date - 1.day).iso8601
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
@@ -29,7 +29,7 @@ class CrossrefImport < Agent
   def get_total(options={})
     query_url = get_query_url(options.merge(rows: 0))
     result = get_result(query_url, options)
-    total = result.fetch('message', {}).fetch('total-results', 0)
+    result.fetch('message', {}).fetch('total-results', 0)
   end
 
   def queue_jobs(options={})

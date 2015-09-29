@@ -22,7 +22,7 @@ class SourcesController < ApplicationController
 
   def update
     params[:source] ||= {}
-    params[:source][:active] = params[:active] if params[:active]
+    params[:source][:active] = params[:active] == "1" if params[:active]
     @source.update_attributes(safe_params)
     if @source.invalid?
       error_messages = @source.errors.full_messages.join(', ')
@@ -72,7 +72,6 @@ class SourcesController < ApplicationController
                                    :url_with_type,
                                    :url_with_title,
                                    :related_works_url,
-                                   :api_key,
-                                   *@source.config_fields)
+                                   :api_key)
   end
 end

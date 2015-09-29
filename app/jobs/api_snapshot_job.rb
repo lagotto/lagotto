@@ -19,7 +19,7 @@ class ApiSnapshotJob < ActiveJob::Base
       ApiSnapshotUtility.export_to_zenodo(api_snapshot)
     end
   rescue Exception => ex
-    Alert.create(exception: ex, details: options.inspect)
+    Notification.create(exception: ex, details: options.inspect)
   end
 
 end

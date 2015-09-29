@@ -9,17 +9,12 @@ class DataciteRelated < Agent
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
 
     updated = "updated:[#{from_date}T00:00:00Z TO #{until_date}T23:59:59Z]"
-    has_metadata = "has_metadata:true"
-    is_active = "is_active:true"
-    fq_list = [updated, has_metadata, is_active]
-
     params = { q: "relatedIdentifier:*",
                start: offset,
                rows: rows,
                fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,updated",
-               fq: fq_list.compact,
-               wt: "json",
-               sort: "updated asc" }
+               fq: "#{updated} AND has_metadata:true AND is_active:true",
+               wt: "json" }
     url +  URI.encode_www_form(params)
   end
 
@@ -65,7 +60,7 @@ class DataciteRelated < Agent
       next if related_identifier.blank? || related_identifier_type != "DOI"
 
       relation_type = RelationType.where(inverse_name: raw_relation_type.underscore).pluck(:name).first
-      doi = related_identifier.upcase
+      doi = related_identifier.strip.upcase
       registration_agency = get_doi_ra(doi)
       metadata = get_metadata(doi, registration_agency)
 

@@ -299,7 +299,7 @@ class Agent < ActiveRecord::Base
   end
 
   def publisher_config(publisher_id)
-    conf = publisher_configs.find { |conf| conf[0] == publisher_id }
+    conf = publisher_configs.find { |c| c[0] == publisher_id }
     conf.nil? ? OpenStruct.new : conf[1]
   end
 

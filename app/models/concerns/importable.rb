@@ -11,9 +11,7 @@ module Importable
     def queue_jobs(options={})
       return 0 unless active?
 
-      query_url = get_query_url(options.merge(rows: 0))
-      result = get_result(query_url, options)
-      total = result.fetch("response", {}).fetch("numFound", 0)
+      total = get_total(options)
 
       if total > 0
         # walk through paginated results

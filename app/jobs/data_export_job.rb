@@ -5,6 +5,6 @@ class DataExportJob < ActiveJob::Base
     data_export = DataExport.find_by_id!(options[:id])
     data_export.export!
   rescue Exception => ex
-    Alert.create(exception: ex)
+    Notification.create(exception: ex)
   end
 end
