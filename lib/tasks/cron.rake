@@ -35,24 +35,6 @@ namespace :cron do
     Rake::Task["db:notifications:resolve"].reenable
   end
 
-  desc 'Daily cron import task'
-  task :import => :environment do
-    case ENV['IMPORT']
-    when "crossref", "member", "sample", "member_sample"
-      Rake::Task["db:works:import:crossref"].invoke
-      Rake::Task["db:works:import:crossref"].reenable
-    when "datacite"
-      Rake::Task["db:works:import:datacite"].invoke
-      Rake::Task["db:works:import:datacite"].reenable
-    when "plos"
-      Rake::Task["db:works:import:plos"].invoke
-      Rake::Task["db:works:import:plos"].reenable
-    when "dataone"
-      Rake::Task["db:works:import:dataone"].invoke
-      Rake::Task["db:works:import:dataone"].reenable
-    end
-  end
-
   desc 'Weekly cron task'
   task :weekly => :environment do
     Rake::Task["mailer:status_report"].invoke
