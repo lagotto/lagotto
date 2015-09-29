@@ -361,13 +361,23 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_metadata pubmed" do
-        response = subject.get_pubmed_metadata(work.pmid)
+        response = subject.get_metadata(work.pmid, "pubmed")
         expect(response["pmid"]).to eq(work.pmid)
         expect(response["title"]).to eq("Triose phosphate isomerase deficiency is caused by altered dimerization--not catalytic inactivity--of the mutant enzymes")
         expect(response["container-title"]).to eq("PLoS One")
         expect(response["issued"]).to eq("date-parts"=>[[2006]])
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to be_nil
+      end
+
+      it "get_metadata orcid" do
+        orcid = "0000-0002-0159-2197"
+        response = subject.get_metadata(orcid, "orcid")
+        expect(response["title"]).to eq("ORCID profile for Jonathan A. Eisen")
+        expect(response["container-title"]).to eq("ORCID Registry")
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
+        expect(response["type"]).to eq("entry")
+        expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
     end
 
@@ -456,6 +466,26 @@ describe Work, type: :model, vcr: true do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
         response = subject.get_pubmed_metadata("#{work.pmid}x")
         expect(response).to eq(error: "Resource not found.", status: 404)
+      end
+    end
+
+    context "orcid metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
+      let(:orcid) { "0000-0002-0159-2197" }
+
+      it "get_orcid_metadata" do
+        response = subject.get_orcid_metadata(orcid)
+        expect(response["title"]).to eq("ORCID profile for Jonathan A. Eisen")
+        expect(response["container-title"]).to eq("ORCID Registry")
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
+        expect(response["type"]).to eq("entry")
+        expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
+      end
+
+      it "get_orcid_metadata with not found error" do
+        response = subject.get_orcid_metadata("#{orcid}x")
+        expect(response).to eq(error: {"message-version"=>"1.2", "orcid-profile"=>nil, "orcid-search-results"=>nil, "error-desc"=>{"value"=>"Not found : No entity found for query"}}, status: 404)
       end
     end
   end

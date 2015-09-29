@@ -109,6 +109,7 @@ module Resolvable
       when "crossref" then get_crossref_metadata(id, options = {})
       when "datacite" then get_datacite_metadata(id, options = {})
       when "pubmed" then get_pubmed_metadata(id, options = {})
+      when "orcid" then get_orcid_metadata(id, options = {})
       else
         { error: 'Resource not found.', status: 404 }
       end
@@ -194,6 +195,42 @@ module Resolvable
           "DOI" => doi,
           "type" => type,
           "publisher_id" => publisher_id }
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_orcid_metadata(orcid, options = {})
+      return {} if orcid.blank?
+
+      conn = faraday_conn('json', options)
+      url = "http://pub.orcid.org/v1.2/#{orcid}/orcid-bio"
+      response = conn.get url, {}, options[:headers]
+
+      if is_json?(response.body)
+        json = JSON.parse(response.body)
+
+        metadata = json.fetch("orcid-profile", nil)
+
+        return { error: 'Resource not found.', status: 404 } if metadata[:error]
+
+        metadata.extend Hashie::Extensions::DeepFetch
+        personal_details = metadata.deep_fetch("orcid-bio", "personal-details") { {} }
+        personal_details.extend Hashie::Extensions::DeepFetch
+        author = { "family" => personal_details.deep_fetch("family-name", "value") { nil },
+                   "given" => personal_details.deep_fetch("given-names", "value") { nil } }
+        url = metadata.deep_fetch("orcid-identifier", "uri") { nil }
+        timestamp = Time.zone.now.utc.iso8601
+
+        { "author" => [author],
+          "title" => "ORCID profile for #{author.fetch('given', '')} #{author.fetch('family', '')}",
+          "container-title" => "ORCID Registry",
+          "issued" => get_date_parts(timestamp),
+          "timestamp" => timestamp,
+          "URL" => url,
+          "type" => 'entry' }
       else
         { error: 'Resource not found.', status: 404 }
       end

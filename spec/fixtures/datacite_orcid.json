@@ -1,0 +1,1094 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 36
+  },
+  "response": {
+    "numFound": 62,
+    "start": 0,
+    "docs": [
+      {
+        "datacentre_symbol": "TIB.PANGAEA",
+        "updated": "2015-04-08T03:01:59Z",
+        "doi": "10.1594/PANGAEA.733793",
+        "creator": [
+          "Grobe, Hannes",
+          "Spieß, Volkhard"
+        ],
+        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
+        "title": [
+          "Paleomagnetic measurements of 10 sediment profiles from the Antarctic continental slope"
+        ],
+        "resourceTypeGeneral": "Collection",
+        "nameIdentifier": [
+          "ORCID:0000-0002-4133-2218"
+        ],
+        "publicationYear": "1989"
+      },
+      {
+        "datacentre_symbol": "TIB.PANGAEA",
+        "updated": "2015-04-08T03:02:00Z",
+        "doi": "10.1594/PANGAEA.733883",
+        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
+        "creator": [
+          "Spieß, Volkhard",
+          "Grobe, Hannes"
+        ],
+        "title": [
+          "Metadata and number of samples per gravity corer sediment profile"
+        ],
+        "resourceTypeGeneral": "Dataset",
+        "nameIdentifier": [
+          "ORCID:0000-0002-4133-2218"
+        ],
+        "publicationYear": "2010"
+      },
+      {
+        "datacentre_symbol": "TIB.PANGAEA",
+        "updated": "2015-04-08T03:02:02Z",
+        "doi": "10.1594/PANGAEA.771774",
+        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
+        "creator": [
+          "Hillenbrand, Claus-Dieter",
+          "Melles, Martin",
+          "Kuhn, Gerhard",
+          "Larter, Robert D"
+        ],
+        "title": [
+          "Last glacial maximum sediment record of the southern Weddell Sea shelf, supplement to: Hillenbrand, Claus-Dieter; Melles, Martin; Kuhn, Gerhard; Larter, Robert D (2012): Marine geological constraints for the grounding-line position of the Antarctic Ice Sheet on the southern Weddell Sea shelf at the Last Glacial Maximum. Quaternary Science Reviews, 32, 25-47"
+        ],
+        "resourceTypeGeneral": "Collection",
+        "nameIdentifier": [
+          "ORCID:0000-0002-8414-7389"
+        ],
+        "publicationYear": "2011"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:29Z",
+        "doi": "10.6084/M9.FIGSHARE.735810",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Ant Species Presence Data for Summer 2012 at the Fort Worth Nature Center, Texas"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:29Z",
+        "doi": "10.6084/M9.FIGSHARE.735811",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Pitfall Trap Locations in the Fort Worth Nature Center"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:40Z",
+        "doi": "10.6084/M9.FIGSHARE.1041547",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Jills of All Trades: Ant Diversity and Versatility in the Cross Timbers Ecoregion"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "BL.ADS",
+        "updated": "2015-04-08T08:54:57Z",
+        "doi": "10.5284/1030449",
+        "publisher": "Archaeology Data Service",
+        "creator": [
+          "Allen, Martyn",
+          "Brindle, Tom",
+          "Smith, Alex",
+          "Richards, Julian D",
+          "Evans, Tim",
+          "Holbrook, Neil",
+          "Fulford, Michael",
+          "Blick, Nathan"
+        ],
+        "title": [
+          "The Rural Settlement of Roman Britain: an online resource"
+        ],
+        "resourceTypeGeneral": "Dataset",
+        "nameIdentifier": [
+          "ORCID:0000-0003-3938-899X",
+          "ORCID:0000-0002-2725-6730"
+        ],
+        "publicationYear": "2015"
+      },
+      {
+        "datacentre_symbol": "TIB.PANGAEA",
+        "updated": "2015-04-07T03:02:46Z",
+        "doi": "10.1594/PANGAEA.843846",
+        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
+        "creator": [
+          "Fietzke, Jan",
+          "Ragazzola, Federica",
+          "Halfar, Jochen",
+          "Dietze, Heiner",
+          "Foster, Laura C",
+          "Hansteen, Thor H",
+          "Eisenhauer, Anton",
+          "Steneck, Robert S"
+        ],
+        "title": [
+          "Seasonality in pH and temperature for shallow zones of the Bering Sea from measurements of coral Clathromorphum nereostratum, supplement to: Fietzke, Jan; Ragazzola, Federica; Halfar, Jochen; Dietze, Heiner; Foster, Laura C; Hansteen, Thor H; Eisenhauer, Anton; Steneck, Robert S (2015): Century-scale trends and seasonality in pH and temperature for shallow zones of the Bering Sea. Proceedings of the National Academy of Sciences, 201419216"
+        ],
+        "resourceTypeGeneral": "Collection",
+        "nameIdentifier": [
+          "ORCID:0000-0002-0931-8707"
+        ],
+        "publicationYear": "2015"
+      },
+      {
+        "datacentre_symbol": "TIB.PANGAEA",
+        "updated": "2015-04-07T03:02:46Z",
+        "doi": "10.1594/PANGAEA.843860",
+        "creator": [
+          "Fütterer, Dieter K",
+          "Grobe, Hannes"
+        ],
+        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
+        "title": [
+          "Documentation of sediment core PS1619-2"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-4133-2218"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "TIB.PANGAEA",
+        "updated": "2015-04-07T03:02:47Z",
+        "doi": "10.1594/PANGAEA.843865",
+        "creator": [
+          "Fütterer, Dieter K",
+          "Grobe, Hannes"
+        ],
+        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
+        "title": [
+          "Documentation of sediment core PS1637-3"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-4133-2218"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T11:44:34Z",
+        "doi": "10.6084/M9.FIGSHARE.707350",
+        "creator": [
+          "Manuel Sebastin"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Working memory for visual and haptic targets: A study using the interference paradigm"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-9964-6984"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T11:44:34Z",
+        "doi": "10.6084/M9.FIGSHARE.707351",
+        "creator": [
+          "Manuel Sebastin"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Theta power modulations during the explicit recognition of unfamiliar 3-D objects explored haptically"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-9964-6984"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:35Z",
+        "doi": "10.6084/M9.FIGSHARE.778701",
+        "creator": [
+          "Ann Mayo",
+          "Jody Kocsis",
+          "Benjamin J. Swartz",
+          "Graeme Taylor"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Pedillus terminalis and mimic species"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:35Z",
+        "doi": "10.6084/M9.FIGSHARE.779705",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Ants in the Grassland:their imortance and potential as indicators of ecosystem health"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:30Z",
+        "doi": "10.6084/M9.FIGSHARE.745301",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Behavioral Model for Comanche harvester ant interactions"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:30Z",
+        "doi": "10.6084/M9.FIGSHARE.745313",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "The courtship behavior of two Zygoballus sp. (Araneae: Salticidae): Final Summer Project Report (1983)"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:32Z",
+        "doi": "10.6084/M9.FIGSHARE.746960",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Ant Sampling Sites in the Fort Worth Nature Center"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:32Z",
+        "doi": "10.6084/M9.FIGSHARE.760716",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Door Construction Behavior in the Mygalomorph Spider Family Antrodiaetidae and One Member of the Family Ctenizidae (Araneae: Mygalomorphae)"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:35Z",
+        "doi": "10.6084/M9.FIGSHARE.769272",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Testing central place foraging theory in the ant genus Pogonmyrmex: a review of the literature from 1997 - 2008"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:32Z",
+        "doi": "10.6084/M9.FIGSHARE.769271",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Determination of sex ratios in ants"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:32Z",
+        "doi": "10.6084/M9.FIGSHARE.769270",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Preliminary Assessment  of the Arthropod and Ant Assemblages of Todd Island, March 14 and 28, 2010 (Fort Worth Nature Center, Fort Worth, Texas)"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2013",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T03:09:59Z",
+        "doi": "10.6084/M9.FIGSHARE.1368269",
+        "creator": [
+          "Peter Arend"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "ABO phenotype and innate isoagglutinin specificities as they arise from glycosidic exclusion and relate to human reproduction.  A hypothesis*"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-4000-4167"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T03:22:11Z",
+        "doi": "10.6084/M9.FIGSHARE.1368484",
+        "creator": [
+          "Jorge H Ramirez"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Database - Medical Education - Part I - The Double Standard Test. (version 1.0)"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-6176-2816"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T04:17:39Z",
+        "doi": "10.6084/M9.FIGSHARE.1368488",
+        "creator": [
+          "Ijcsis Editor"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "A Novel Approach to Malware Detection using Static Classification"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0003-3796-827X"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T10:04:57Z",
+        "doi": "10.6084/M9.FIGSHARE.1368581",
+        "creator": [
+          "smund Ervik"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Domain decomposition without the agonizing pain"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0003-1073-887X"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T13:40:59Z",
+        "doi": "10.6084/M9.FIGSHARE.1368663",
+        "creator": [
+          "Fredy RS Gutierrez"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Science Metrics In Colombia"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-9873-8342"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Collection"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T15:36:38Z",
+        "doi": "10.6084/M9.FIGSHARE.1368671",
+        "creator": [
+          "Michel Crucifix",
+          "nabila bounceur",
+          "Richard Wilkinson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Global sensitivity analysis of the climatevegetation system to astronomical forcing: an emulator-based approach"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3437-4911"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T17:49:57Z",
+        "doi": "10.6084/M9.FIGSHARE.1368728",
+        "creator": [
+          "Fredy RS Gutierrez"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Factors associated with Human T. cruzi infection"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-9873-8342"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T19:15:46Z",
+        "doi": "10.6084/M9.FIGSHARE.1368744",
+        "creator": [
+          "Juergen Wastl"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Circle-based construction Rosette Map f86v"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-7757-8001"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T19:18:10Z",
+        "doi": "10.6084/M9.FIGSHARE.1368745",
+        "creator": [
+          "Juergen Wastl"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Square based construction Rosette Map"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-7757-8001"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T19:35:40Z",
+        "doi": "10.6084/M9.FIGSHARE.1368746",
+        "creator": [
+          "Juergen Wastl"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Circling a square: The geometry of Beinecke MS408 folio 86v and how to construct the scaffold of the Rosette map with compass and straightedge"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-7757-8001"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-07T23:28:15Z",
+        "doi": "10.6084/M9.FIGSHARE.1368761",
+        "creator": [
+          "Jorge H Ramirez"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Acta 01 de 2015  Departamento de Ciencias Fisiolgicas (ECB)  Facultad de Salud - Universidad del Valle"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-6176-2816"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T01:46:24Z",
+        "doi": "10.6084/M9.FIGSHARE.1368774",
+        "creator": [
+          "Rob Davidson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Tools for reproducible and accessible science: KnitR, VMs and OMERO"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-0311-9774"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T07:37:07Z",
+        "doi": "10.6084/M9.FIGSHARE.1370882",
+        "creator": [
+          "Michael Hoy"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Robot Navigation for Monitoring Unsteady Environmental Boundaries without Field Gradient Estimation"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-6921-5307"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Collection"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T07:39:11Z",
+        "doi": "10.6084/M9.FIGSHARE.1370854",
+        "creator": [
+          "Peter Arend"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "ABO phenotype and innate isoagglutinin specificities as they arise from glycosidic exclusion and relate to human reproduction.  A hypothesis*"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-4000-4167"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T10:13:29Z",
+        "doi": "10.6084/M9.FIGSHARE.1226424",
+        "creator": [
+          "Carlos Cotta",
+          "Rafael Nogueras"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Color mememaps of self-balancing strategies"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-8478-7549"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T14:05:30Z",
+        "doi": "10.6084/M9.FIGSHARE.1371006",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Comanche harvester ant colonies in GL site of FWNC"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T14:12:36Z",
+        "doi": "10.6084/M9.FIGSHARE.1371005",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Comanche harvester ant colonies at EP in the FWNC"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:22:41Z",
+        "doi": "10.6084/M9.FIGSHARE.1371077",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Survey of 3'GG gRNA sites in 6 genomes"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Collection"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:30Z",
+        "doi": "10.6084/M9.FIGSHARE.1371009",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Caenorhabditis elegans annotated 3 prime GG motif gRNAs"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:30Z",
+        "doi": "10.6084/M9.FIGSHARE.1371008",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Caenorhabditis elegans 3 prime GG gRNAs per Gene"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:30Z",
+        "doi": "10.6084/M9.FIGSHARE.1371010",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Danio rerio 3 prime GG gRNAs per Gene"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:31Z",
+        "doi": "10.6084/M9.FIGSHARE.1371011",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Drosophila melanogaster 3 prime GG gRNAs per Gene"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:33Z",
+        "doi": "10.6084/M9.FIGSHARE.1371013",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Homo sapiens 3 prime GG gRNAs per Gene"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:33Z",
+        "doi": "10.6084/M9.FIGSHARE.1371014",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Mus musculus 3 prime GG gRNAs per Gene"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:34Z",
+        "doi": "10.6084/M9.FIGSHARE.1371012",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Drosophila melanogaster annotated 3 prime GG motif gRNAs"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:34Z",
+        "doi": "10.6084/M9.FIGSHARE.1371015",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Saccharomyces cerevisiae 3 prime GG gRNAs per Gene"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:36Z",
+        "doi": "10.6084/M9.FIGSHARE.1371017",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Danio rerio annotated 3 prime GG motif gRNAs"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:38Z",
+        "doi": "10.6084/M9.FIGSHARE.1371018",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Mus musculus annotated 3 prime GG motif gRNAs"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:37Z",
+        "doi": "10.6084/M9.FIGSHARE.1371016",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Saccharomyces cerevisiae annotated 3 prime GG motif gRNAs"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T17:35:37Z",
+        "doi": "10.6084/M9.FIGSHARE.1371019",
+        "creator": [
+          "Elisha Roberson"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Homo sapiens annotated 3 prime GG motif gRNAs"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5921-2399"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T20:30:18Z",
+        "doi": "10.6084/M9.FIGSHARE.1371114",
+        "creator": [
+          "Andy Mabbett"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "2015-04-03 WikiArabia GLAM-wiki"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5882-6823"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T20:32:25Z",
+        "doi": "10.6084/M9.FIGSHARE.1337953",
+        "creator": [
+          "Andy Mabbett"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "ORCID in Wikipedia"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0001-5882-6823"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T23:41:41Z",
+        "doi": "10.6084/M9.FIGSHARE.1371137",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Comanche  harvester ant in the Southwest Nature Preserve, Arlington, Texas"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T23:48:49Z",
+        "doi": "10.6084/M9.FIGSHARE.1371138",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Comanche harvester ant in Todd Island (1)in the Fort Worth Nature Center"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T23:55:26Z",
+        "doi": "10.6084/M9.FIGSHARE.1371139",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Comanche harvester ant on Todd Island (2) in the Fort Worth Nature Center"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2015",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:38Z",
+        "doi": "10.6084/M9.FIGSHARE.1014351",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "RDA Triplot of  Ant Species Presence and Soil Type"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:38Z",
+        "doi": "10.6084/M9.FIGSHARE.1014348",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "RDA Triplot of Species Presence"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:40Z",
+        "doi": "10.6084/M9.FIGSHARE.1014352",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "RDA Triplot of Ant Species Abundance at th Fort Worth Nature Center, Texas"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Image"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:38Z",
+        "doi": "10.6084/M9.FIGSHARE.1008321",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Tracking the Comanche Harvester Ant in the Fort Worth Nature Center"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:37Z",
+        "doi": "10.6084/M9.FIGSHARE.1008320",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Nest Distribution of the Comanche Harvester Ant"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Dataset"
+      },
+      {
+        "datacentre_symbol": "CDL.DIGSCI",
+        "updated": "2015-04-08T13:56:35Z",
+        "doi": "10.6084/M9.FIGSHARE.999239",
+        "creator": [
+          "Ann Mayo"
+        ],
+        "publisher": "Figshare",
+        "title": [
+          "Nest Structure of the Comanche Harvester Ant"
+        ],
+        "nameIdentifier": [
+          "ORCID:0000-0002-3546-1048"
+        ],
+        "publicationYear": "2014",
+        "resourceTypeGeneral": "Dataset"
+      }
+    ]
+  }
+}
