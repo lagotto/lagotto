@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.47SD5/1
+    uri: http://api.crossref.org/works/10.5061/DRYAD.47SD5/1/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -16,29 +16,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:03:50 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '60'
-      Date:
-      - Mon, 28 Sep 2015 14:38:39 GMT
-      Connection:
-      - close
+      - '160'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.47SD5/1",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.47sd5\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:49 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:49 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
@@ -47,7 +43,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -58,7 +54,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:50 GMT
+      - Tue, 29 Sep 2015 18:50:59 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -70,18 +66,18 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":2},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:49 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:50 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.1111/MEC.12069
+    uri: http://api.crossref.org/works/10.1111/MEC.12069/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -89,29 +85,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:03:52 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '55'
-      Date:
-      - Mon, 28 Sep 2015 14:38:39 GMT
-      Connection:
-      - close
+      - '155'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.1111/MEC.12069",
-         "RA": "CrossRef"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1111\/mec.12069","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:50 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:51 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2FMEC.12069
@@ -120,7 +112,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -129,7 +121,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 28 Sep 2015 14:38:40 GMT
+      - Tue, 29 Sep 2015 19:03:52 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -156,16 +148,16 @@ http_interactions:
         Ecology","Mol Ecol"],"deposited":{"date-parts":[[2015,9,9]],"timestamp":1441756800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2012,11,5]]},"URL":"http:\/\/dx.doi.org\/10.1111\/mec.12069","ISSN":["0962-1083"],"subject":["Genetics","Ecology,
         Evolution, Behavior and Systematics"]}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:50 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:51 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.47SD5
+    uri: http://api.crossref.org/works/10.5061/DRYAD.47SD5/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -173,29 +165,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:03:53 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '58'
-      Date:
-      - Mon, 28 Sep 2015 14:38:40 GMT
-      Connection:
-      - close
+      - '157'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.47SD5",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.47sd5","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:50 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:52 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
@@ -204,7 +192,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -215,7 +203,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:51 GMT
+      - Tue, 29 Sep 2015 18:51:02 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -229,16 +217,16 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:50 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:52 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.H22N9/1
+    uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/1/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -246,29 +234,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:03:55 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '60'
-      Date:
-      - Mon, 28 Sep 2015 14:38:40 GMT
-      Connection:
-      - close
+      - '160'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.H22N9/1",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:51 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:54 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9/1&rows=1&wt=json
@@ -277,7 +261,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -288,7 +272,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:52 GMT
+      - Tue, 29 Sep 2015 18:51:04 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -302,16 +286,16 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:00Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.H22N9"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["INDIV_DATA"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:51 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:54 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.H22N9/2
+    uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/2/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -319,29 +303,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:03:56 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '60'
-      Date:
-      - Mon, 28 Sep 2015 14:38:40 GMT
-      Connection:
-      - close
+      - '160'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.H22N9/2",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9\/2","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:51 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:55 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9/2&rows=1&wt=json
@@ -350,7 +330,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -361,7 +341,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:52 GMT
+      - Tue, 29 Sep 2015 18:51:05 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -375,16 +355,16 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:33:42Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9/2","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.H22N9"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["NB OCCUPATION_DATA"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:51 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:56 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.1002/ECE3.563
+    uri: http://api.crossref.org/works/10.1002/ECE3.563/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -392,29 +372,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:00 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '54'
-      Date:
-      - Mon, 28 Sep 2015 14:38:42 GMT
-      Connection:
-      - close
+      - '154'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.1002/ECE3.563",
-         "RA": "CrossRef"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1002\/ece3.563","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:51 GMT
+  recorded_at: Tue, 29 Sep 2015 19:03:59 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2FECE3.563
@@ -423,7 +399,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -432,7 +408,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 28 Sep 2015 14:38:42 GMT
+      - Tue, 29 Sep 2015 19:04:00 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -457,16 +433,16 @@ http_interactions:
         Av. Am\u00e9rico Vespucio s\/n 41092 Seville Spain"}],"family":"Potti","given":"Jaime"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["Ecol
         Evol","Ecology and Evolution"],"deposited":{"date-parts":[[2015,9,9]],"timestamp":1441756800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,11]]},"URL":"http:\/\/dx.doi.org\/10.1002\/ece3.563","ISSN":["2045-7758"]}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:52 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:00 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.NK151/1
+    uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/1/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -474,29 +450,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:01 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '60'
-      Date:
-      - Mon, 28 Sep 2015 14:38:42 GMT
-      Connection:
-      - close
+      - '160'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.NK151/1",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:52 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:00 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151/1&rows=1&wt=json
@@ -505,7 +477,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -516,7 +488,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:53 GMT
+      - Tue, 29 Sep 2015 18:51:10 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -544,16 +516,16 @@ http_interactions:
         dXRhdGlvbiBhY2N1bXVsYXRpb24uIl0sInB1YmxpY2F0aW9uWWVhciI6IjIw
         MTMiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoiRGF0YXNldCJ9XX19Cg==
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:52 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:01 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.NK151/2
+    uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/2/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -561,29 +533,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:02 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '60'
-      Date:
-      - Mon, 28 Sep 2015 14:38:43 GMT
-      Connection:
-      - close
+      - '160'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.NK151/2",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151\/2","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:53 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:01 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151/2&rows=1&wt=json
@@ -592,7 +560,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -603,7 +571,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:54 GMT
+      - Tue, 29 Sep 2015 18:51:12 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -615,7 +583,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDA3OjMzOjA2
@@ -629,16 +597,16 @@ http_interactions:
         aXgiXSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdl
         bmVyYWwiOiJEYXRhc2V0In1dfX0K
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:53 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:03 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.1111/MEC.12533
+    uri: http://api.crossref.org/works/10.1111/MEC.12533/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -646,29 +614,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:04 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '55'
-      Date:
-      - Mon, 28 Sep 2015 14:38:44 GMT
-      Connection:
-      - close
+      - '155'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.1111/MEC.12533",
-         "RA": "CrossRef"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1111\/mec.12533","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:54 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:04 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2FMEC.12533
@@ -677,7 +641,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -686,7 +650,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 28 Sep 2015 14:38:44 GMT
+      - Tue, 29 Sep 2015 19:04:05 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -723,16 +687,16 @@ http_interactions:
         Evolution, Behavior and Systematics"],"assertion":[{"group":{"label":"Publication
         History","name":"publication_history"},"label":"Published Online","name":"published_online","value":"2013-11-06"}]}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:54 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:04 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.NK151
+    uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -740,29 +704,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:05 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '58'
-      Date:
-      - Mon, 28 Sep 2015 14:38:44 GMT
-      Connection:
-      - close
+      - '157'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.NK151",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:54 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:05 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151&rows=1&wt=json
@@ -771,7 +731,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -782,7 +742,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:55 GMT
+      - Tue, 29 Sep 2015 18:51:14 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -813,16 +773,16 @@ http_interactions:
         XSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdlbmVy
         YWwiOiJEYXRhc2V0In1dfX0K
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:54 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:05 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.NK151
+    uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -830,29 +790,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:06 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '58'
-      Date:
-      - Mon, 28 Sep 2015 14:38:44 GMT
-      Connection:
-      - close
+      - '157'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.NK151",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:55 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:06 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151&rows=1&wt=json
@@ -861,7 +817,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -872,7 +828,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:56 GMT
+      - Tue, 29 Sep 2015 18:51:15 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -884,7 +840,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDA3OjMzOjI3
@@ -903,16 +859,16 @@ http_interactions:
         XSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdlbmVy
         YWwiOiJEYXRhc2V0In1dfX0K
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:55 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:06 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.H22N9
+    uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -920,29 +876,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:07 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '58'
-      Date:
-      - Mon, 28 Sep 2015 14:38:45 GMT
-      Connection:
-      - close
+      - '157'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.H22N9",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:55 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:07 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9&rows=1&wt=json
@@ -951,7 +903,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -962,7 +914,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:56 GMT
+      - Tue, 29 Sep 2015 18:51:16 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -976,16 +928,16 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:02Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.H22N9/1","HasPart:DOI:10.5061/DRYAD.H22N9/2","IsReferencedBy:DOI:10.1002/ECE3.563","IsReferencedBy:DOI:"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["Data from: Nonrandom dispersal drives phenotypic divergence within a bird population"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:55 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:07 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.H22N9
+    uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -993,29 +945,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:09 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '58'
-      Date:
-      - Mon, 28 Sep 2015 14:38:45 GMT
-      Connection:
-      - close
+      - '157'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.H22N9",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:56 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:08 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9&rows=1&wt=json
@@ -1024,7 +972,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1035,7 +983,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:56 GMT
+      - Tue, 29 Sep 2015 18:51:17 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -1049,16 +997,16 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:02Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.H22N9/1","HasPart:DOI:10.5061/DRYAD.H22N9/2","IsReferencedBy:DOI:10.1002/ECE3.563","IsReferencedBy:DOI:"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["Data from: Nonrandom dispersal drives phenotypic divergence within a bird population"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:56 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:08 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.QT984/1
+    uri: http://api.crossref.org/works/10.5061/DRYAD.QT984/1/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1066,29 +1014,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:10 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '60'
-      Date:
-      - Mon, 28 Sep 2015 14:38:45 GMT
-      Connection:
-      - close
+      - '160'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.QT984/1",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.qt984\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:56 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:09 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.QT984/1&rows=1&wt=json
@@ -1097,7 +1041,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1108,7 +1052,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:57 GMT
+      - Tue, 29 Sep 2015 18:51:20 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -1120,18 +1064,18 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T16:06:15Z","prefix":"10.5061","doi":"10.5061/DRYAD.QT984/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.QT984"],"creator":["Eggers, Florian","Slotte, Aril","Libungan, Lisa Anne","Johannessen, Arne","Kvamme, Cecilie","Moland, Even","Olsen, Esben Moland","Nash, Richard D. M."],"publisher":"Dryad Digital Repository","title":["Data 2012 Landvik"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":2},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T16:06:15Z","prefix":"10.5061","doi":"10.5061/DRYAD.QT984/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.QT984"],"creator":["Eggers, Florian","Slotte, Aril","Libungan, Lisa Anne","Johannessen, Arne","Kvamme, Cecilie","Moland, Even","Olsen, Esben Moland","Nash, Richard D. M."],"publisher":"Dryad Digital Repository","title":["Data 2012 Landvik"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:56 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:10 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.1371/JOURNAL.PONE.0111985
+    uri: http://api.crossref.org/works/10.1371/JOURNAL.PONE.0111985/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1139,29 +1083,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:12 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '66'
-      Date:
-      - Mon, 28 Sep 2015 14:38:46 GMT
-      Connection:
-      - close
+      - '166'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.1371/JOURNAL.PONE.0111985",
-         "RA": "CrossRef"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1371\/journal.pone.0111985","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:56 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:11 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1371%2FJOURNAL.PONE.0111985
@@ -1170,7 +1110,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1179,7 +1119,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 28 Sep 2015 14:38:47 GMT
+      - Tue, 29 Sep 2015 19:04:12 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1205,16 +1145,16 @@ http_interactions:
         and Biological Sciences(all)","Medicine(all)","Biochemistry, Genetics and
         Molecular Biology(all)"]}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:56 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:11 GMT
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.QT984
+    uri: http://api.crossref.org/works/10.5061/DRYAD.QT984/agency
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1222,29 +1162,25 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 19:04:13 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '58'
-      Date:
-      - Mon, 28 Sep 2015 14:38:46 GMT
-      Connection:
-      - close
+      - '157'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/DRYAD.QT984",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.qt984","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:57 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:12 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.QT984&rows=1&wt=json
@@ -1253,7 +1189,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-datacite-det.local
+      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
   response:
@@ -1264,7 +1200,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 28 Sep 2015 14:25:58 GMT
+      - Tue, 29 Sep 2015 18:51:25 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -1276,7 +1212,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDE2OjA2OjAy
@@ -1294,5 +1230,5 @@ http_interactions:
         dGF0cyJdLCJwdWJsaWNhdGlvblllYXIiOiIyMDE0IiwicmVzb3VyY2VUeXBl
         R2VuZXJhbCI6IkRhdGFzZXQifV19fQo=
     http_version: 
-  recorded_at: Mon, 28 Sep 2015 14:38:57 GMT
+  recorded_at: Tue, 29 Sep 2015 19:04:15 GMT
 recorded_with: VCR 2.9.3

@@ -20,17 +20,17 @@ namespace :queue do
     end
 
     begin
-      from_pub_date = ENV['FROM_PUB_DATE'] ? Date.parse(ENV['FROM_PUB_DATE']).iso8601 : nil
-      until_pub_date = ENV['UNTIL_PUB_DATE'] ? Date.parse(ENV['UNTIL_PUB_DATE']).iso8601 : nil
+      from_date = ENV['FROM_DATE'] ? Date.parse(ENV['FROM_DATE']).iso8601 : (Time.zone.now.to_date - 1.day).iso8601
+      until_date = ENV['UNTIL_DATE'] ? Date.parse(ENV['UNTIL_DATE']).iso8601 : Time.zone.now.to_date.iso8601
     rescue => e
       # raises error if invalid date supplied
       puts "Error: #{e.message}"
       exit
     end
-    puts "Queueing all works published from #{from_pub_date} to #{until_pub_date}." if from_pub_date && until_pub_date
+    puts "Queueing all works published from #{from_date} to #{until_date}."
 
     agents.each do |agent|
-      count = agent.queue_jobs(from_pub_date: from_pub_date, until_pub_date: until_pub_date)
+      count = agent.queue_jobs(from_date: from_date, until_date: until_date)
       puts "#{count} works for agent #{agent.title} have been queued."
     end
   end

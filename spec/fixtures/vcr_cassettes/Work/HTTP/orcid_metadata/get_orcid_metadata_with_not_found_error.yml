@@ -1,0 +1,37 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-0159-2197x/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Tue, 29 Sep 2015 11:15:52 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":null,"orcid-search-results":null,"error-desc":{"value":"Not
+        found : No entity found for query"}}'
+    http_version: 
+  recorded_at: Tue, 29 Sep 2015 11:15:52 GMT
+recorded_with: VCR 2.9.3

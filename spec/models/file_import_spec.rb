@@ -12,7 +12,7 @@ describe FileImport, type: :model, vcr: true do
       expect(response["items"].length).to eq(2)
 
       item = response["items"].first
-      expect(item["doi"]).to eq("10.1371/journal.pone.0040259")
+      expect(item["doi"]).to eq("10.1371/JOURNAL.PONE.0040259")
       expect(item["issued"]["date-parts"]).to eq([[2012, 7, 11]])
       expect(item["title"]).to eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
     end
@@ -24,7 +24,7 @@ describe FileImport, type: :model, vcr: true do
       expect(response["items"].length).to eq(2)
 
       item = response["items"].first
-      expect(item["doi"]).to eq("10.1371/journal.pone.0040259")
+      expect(item["doi"]).to eq("10.1371/JOURNAL.PONE.0040259")
       expect(item["issued"]["date-parts"]).to eq([[2012, 8]])
       expect(item["title"]).to eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
     end
@@ -36,7 +36,7 @@ describe FileImport, type: :model, vcr: true do
       expect(response["items"].length).to eq(2)
 
       item = response["items"].first
-      expect(item["doi"]).to eq("10.1371/journal.pone.0040259")
+      expect(item["doi"]).to eq("10.1371/JOURNAL.PONE.0040259")
       expect(item["issued"]["date-parts"]).to eq([[2011]])
       expect(item["title"]).to eq(["The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
     end
@@ -48,7 +48,7 @@ describe FileImport, type: :model, vcr: true do
       expect(response["items"].length).to eq(1)
 
       item = response["items"].first
-      expect(item["doi"]).to eq("10.1371/journal.pone.0040259")
+      expect(item["doi"]).to eq("10.1371/JOURNAL.PONE.0040259")
       expect(item["issued"]["date-parts"]).to eq([[]])
       expect(item["title"]).to eq(["Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming"])
     end
@@ -61,7 +61,7 @@ describe FileImport, type: :model, vcr: true do
       expect(response["items"].length).to eq(5)
 
       item = response["items"].first
-      expect(item["doi"]).to eq("10.1371/journal.pone.0103093")
+      expect(item["doi"]).to eq("10.1371/JOURNAL.PONE.0103093")
       expect(item["issued"]["date-parts"]).to eq([[2014, 7, 29]])
       expect(item["title"]).to eq(["Capsaicin Induces “Brite” Phenotype in Differentiating 3T3-L1 Preadipocytes"])
     end

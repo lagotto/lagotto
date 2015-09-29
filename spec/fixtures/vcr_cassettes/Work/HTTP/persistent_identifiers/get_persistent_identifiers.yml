@@ -17,13 +17,13 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 22:40:12 GMT
+      - Mon, 28 Sep 2015 22:03:59 GMT
       Server:
       - Apache
       Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%2540example.org&format=json&ids=10.1371%252Fjournal.pone.0000030&idtype=doi&tool=Lagotto+-+http%253A%252F%252Flagotto-4-4-unstable.local
+      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=10.1371%2Fjournal.pone.0000030&idtype=doi&tool=Lagotto+-+http%3A%2F%2Flagotto-4-4-unstable.local
       Content-Length:
-      - '422'
+      - '412'
       Content-Type:
       - text/html; charset=iso-8859-1
     body:
@@ -34,13 +34,13 @@ http_interactions:
         <title>301 Moved Permanently</title>
         </head><body>
         <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%2540example.org&amp;format=json&amp;ids=10.1371%252Fjournal.pone.0000030&amp;idtype=doi&amp;tool=Lagotto+-+http%253A%252F%252Flagotto-4-4-unstable.local">here</a>.</p>
+        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=10.1371%2Fjournal.pone.0000030&amp;idtype=doi&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-4-4-unstable.local">here</a>.</p>
         </body></html>
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 22:40:22 GMT
+  recorded_at: Mon, 28 Sep 2015 21:46:47 GMT
 - request:
     method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%2540example.org&format=json&ids=10.1371%252Fjournal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http%253A%252F%252Flagotto-4-4-unstable.local
+    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://lagotto-4-4-unstable.local
     body:
       encoding: US-ASCII
       string: ''
@@ -51,11 +51,11 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 404
+      code: 200
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 22:40:13 GMT
+      - Mon, 28 Sep 2015 22:03:59 GMT
       Server:
       - Apache
       Content-Type:
@@ -68,11 +68,23 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-         "status": "error",
-         "message": "ID type of '10.1371%2Fjournal.pone.0000030' is unknown",
-         "responseDate": "2015-08-23 18:40:13",
-         "request": "email=info%2540example.org;format=json;ids=10.1371%252Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%253A%252F%252Flagotto-4-4-unstable.local"
+         "status": "ok",
+         "responseDate": "2015-09-28 18:03:59",
+         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto-4-4-unstable.local",
+         "records": [
+           {
+            "pmcid": "PMC1762313",
+            "pmid": "17183658",
+            "doi": "10.1371/journal.pone.0000030",
+            "versions": [
+              {
+               "pmcid": "PMC1762313.1",
+               "current": "true"
+              }
+            ]
+           }
+         ]
         }
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 22:40:22 GMT
+  recorded_at: Mon, 28 Sep 2015 21:46:47 GMT
 recorded_with: VCR 2.9.3

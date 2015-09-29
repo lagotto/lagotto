@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/dryad.8515&rows=1&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.8515&rows=1&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,31 +19,35 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sun, 23 Aug 2015 22:28:15 GMT
+      - Mon, 28 Sep 2015 21:50:59 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
       - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxOX0sInJl
-        c3BvbnNlIjp7Im51bUZvdW5kIjoxLCJzdGFydCI6MCwiZG9jcyI6W3siZGF0
-        YWNlbnRyZV9zeW1ib2wiOiJDREwuRFJZQUQiLCJkYXRhY2VudHJlIjoiQ0RM
-        LkRSWUFEIC0gRHJ5YWQiLCJ1cGRhdGVkIjoiMjAxNC0wNS0yOVQxODozOToy
-        NVoiLCJwcmVmaXgiOiIxMC41MDYxIiwiZG9pIjoiMTAuNTA2MS9EUllBRC44
-        NTE1IiwicmVsYXRlZElkZW50aWZpZXIiOlsiSGFzUGFydDpET0k6MTAuNTA2
-        MS9EUllBRC44NTE1LzEiLCJIYXNQYXJ0OkRPSToxMC41MDYxL0RSWUFELjg1
-        MTUvMiIsIklzUmVmZXJlbmNlZEJ5OkRPSToxMC4xMzcxL0pPVVJOQUwuUFBB
-        VC4xMDAwNDQ2IiwiSXNSZWZlcmVuY2VkQnk6RE9JOiJdLCJjcmVhdG9yIjpb
-        Ik9sbG9tbywgQmVuamFtaW4iLCJEdXJhbmQsIFBhdHJpY2siLCJQcnVnbm9s
-        bGUsIEZyYW5jayIsIkRvdXplcnksIEVtbWFudWVsIEouIFAuIiwiQXJuYXRo
-        YXUsIEPDqWxpbmUiLCJOa29naGUsIERpZXVkb25uw6kiLCJMZXJveSwgRXJp
-        YyIsIlJlbmF1ZCwgRnJhbsOnb2lzIl0sInB1Ymxpc2hlciI6IkRyeWFkIERp
-        Z2l0YWwgUmVwb3NpdG9yeSIsInRpdGxlIjpbIkRhdGEgZnJvbTogQSBuZXcg
-        bWFsYXJpYSBhZ2VudCBpbiBBZnJpY2FuIGhvbWluaWRzLiJdLCJwdWJsaWNh
-        dGlvblllYXIiOiIyMDExIiwicmVzb3VyY2VUeXBlR2VuZXJhbCI6IkRhdGFz
-        ZXQifV19fQo=
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
+        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
+        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
+        RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTA1LTI5VDE4OjM5OjI1
+        WiIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41MDYxL0RSWUFELjg1
+        MTUiLCJyZWxhdGVkSWRlbnRpZmllciI6WyJIYXNQYXJ0OkRPSToxMC41MDYx
+        L0RSWUFELjg1MTUvMSIsIkhhc1BhcnQ6RE9JOjEwLjUwNjEvRFJZQUQuODUx
+        NS8yIiwiSXNSZWZlcmVuY2VkQnk6RE9JOjEwLjEzNzEvSk9VUk5BTC5QUEFU
+        LjEwMDA0NDYiLCJJc1JlZmVyZW5jZWRCeTpET0k6Il0sImNyZWF0b3IiOlsi
+        T2xsb21vLCBCZW5qYW1pbiIsIkR1cmFuZCwgUGF0cmljayIsIlBydWdub2xs
+        ZSwgRnJhbmNrIiwiRG91emVyeSwgRW1tYW51ZWwgSi4gUC4iLCJBcm5hdGhh
+        dSwgQ8OpbGluZSIsIk5rb2doZSwgRGlldWRvbm7DqSIsIkxlcm95LCBFcmlj
+        IiwiUmVuYXVkLCBGcmFuw6dvaXMiXSwicHVibGlzaGVyIjoiRHJ5YWQgRGln
+        aXRhbCBSZXBvc2l0b3J5IiwidGl0bGUiOlsiRGF0YSBmcm9tOiBBIG5ldyBt
+        YWxhcmlhIGFnZW50IGluIEFmcmljYW4gaG9taW5pZHMuIl0sInB1YmxpY2F0
+        aW9uWWVhciI6IjIwMTEiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoiRGF0YXNl
+        dCJ9XX19Cg==
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 22:40:17 GMT
+  recorded_at: Mon, 28 Sep 2015 21:46:37 GMT
 recorded_with: VCR 2.9.3

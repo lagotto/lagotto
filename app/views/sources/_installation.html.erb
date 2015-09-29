@@ -22,9 +22,9 @@
               <% if can?(:manage, Notification) %>
                 <td>
                   <% if source.human_state_name != "active" %>
-                    <%= link_to 'Activate', source_path(source, active: true), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
+                    <%= link_to 'Activate', source_path(source, active: '1'), :method => :put, :data => { :confirm => 'Are you sure?' }, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{source.name}-status", :title => "Activate Source" %>
                   <% else %>
-                    <%= link_to 'Inactivate', source_path(source, active: false), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
+                    <%= link_to 'Inactivate', source_path(source, active: '0'), :method => :put, :remote => true, :class => 'btn btn-info btn-sm', :id => "#{source.name}-status", :title => "Inactivate Source" %>
                   <% end %>
                 </td>
               <% end %>

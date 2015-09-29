@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5061/dryad.8515
+    uri: http://api.crossref.org/works/10.5061/dryad.8515/agency
     body:
       encoding: US-ASCII
       string: ''
@@ -16,27 +16,23 @@ http_interactions:
       code: 200
       message: ''
     headers:
+      Date:
+      - Tue, 29 Sep 2015 10:30:33 GMT
       Server:
-      - Apache-Coyote/1.1
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '57'
-      Date:
-      - Sun, 23 Aug 2015 22:40:09 GMT
-      Connection:
-      - close
+      - '156'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5061/dryad.8515",
-         "RA": "Data Cite"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.8515","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 22:40:19 GMT
+  recorded_at: Tue, 29 Sep 2015 10:30:32 GMT
 recorded_with: VCR 2.9.3

@@ -624,6 +624,18 @@ FactoryGirl.define do
     initialize_with { DataciteRelated.where(name: name).first_or_initialize }
   end
 
+  factory :datacite_orcid, class: DataciteOrcid do
+    type "DataciteOrcid"
+    name "datacite_orcid"
+    title "Datacite ORCID Links"
+    kind "all"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataciteOrcid.where(name: name).first_or_initialize }
+  end
+
   factory :dataone_import, class: DataoneImport do
     type "DataoneImport"
     name "dataone_import"

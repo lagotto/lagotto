@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 18:59:55 GMT
+      - Tue, 29 Sep 2015 20:36:02 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -5112,7 +5112,7 @@ http_interactions:
         Publishing Group","issue":"2","DOI":"10.1016\/s0002-9270(01)04028-x","type":"journal-article","page":"334-340","source":"CrossRef","title":["A
         population-based cohort study comparing laparoscopic cholecystectomy and open
         cholecystectomy"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1038","volume":"97","author":[{"affiliation":[],"family":"Zacks","given":"S"}],"member":"http:\/\/id.crossref.org\/member\/339","container-title":["The
-        American Journal of Gastroenterology"],"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2002,2]]},"alternative-id":["S0002-9270(01)04028-X"],"URL":"http:\/\/dx.doi.org\/10.1016\/s0002-9270(01)04028-x","ISSN":["0002-9270"],"subject":["Gastroenterology"]}],"total-results":420863,"facets":{}}}'
+        American Journal of Gastroenterology"],"deposited":{"date-parts":[[2015,4,9]],"timestamp":1428537600000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2002,2]]},"alternative-id":["S0002-9270(01)04028-X"],"URL":"http:\/\/dx.doi.org\/10.1016\/s0002-9270(01)04028-x","ISSN":["0002-9270"],"subject":["Gastroenterology"]}],"total-results":415496,"facets":{}}}'
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 19:00:08 GMT
+  recorded_at: Tue, 29 Sep 2015 20:35:19 GMT
 recorded_with: VCR 2.9.3

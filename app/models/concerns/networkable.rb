@@ -182,12 +182,11 @@ module Networkable
     end
 
     def level_by_status(status)
-      level =
-        case status
-        # temporary network problems should be WARN not ERROR
-        when 408, 502, 503, 504 then 2
-        else 3
-        end
+      case status
+      # temporary network problems should be WARN not ERROR
+      when 408, 502, 503, 504 then 2
+      else 3
+      end
     end
 
     # currently supported by twitter, github, ads and ads_fulltext

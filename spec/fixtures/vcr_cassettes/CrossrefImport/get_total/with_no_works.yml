@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 18:59:51 GMT
+      - Tue, 29 Sep 2015 20:35:50 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -32,7 +32,7 @@ http_interactions:
       - '190'
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":63811,"facets":{}}}'
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":61732,"facets":{}}}'
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 18:59:54 GMT
+  recorded_at: Tue, 29 Sep 2015 20:35:07 GMT
 recorded_with: VCR 2.9.3

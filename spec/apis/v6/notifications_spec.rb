@@ -51,7 +51,7 @@ describe "/api/v6/notifications", :type => :api do
     end
 
     context "with source" do
-      let(:uri) { "/api/notifications?source_id=citeulike" }
+      let(:uri) { "/api/notifications?agent_id=citeulike" }
 
       before(:each) do
         FactoryGirl.create_list(:notification, 2)

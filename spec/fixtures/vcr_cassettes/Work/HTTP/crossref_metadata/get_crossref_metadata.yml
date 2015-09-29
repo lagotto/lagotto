@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 22:40:13 GMT
+      - Mon, 28 Sep 2015 22:04:03 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -40,5 +40,5 @@ http_interactions:
         and Biological Sciences(all)","Medicine(all)","Biochemistry, Genetics and
         Molecular Biology(all)"]}}'
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 22:40:22 GMT
+  recorded_at: Mon, 28 Sep 2015 21:46:51 GMT
 recorded_with: VCR 2.9.3

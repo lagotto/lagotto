@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.1371/xxx
+    uri: http://api.crossref.org/works/10.1371/xxx/agency
     body:
       encoding: US-ASCII
       string: ''
@@ -13,30 +13,24 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
+      code: 404
       message: ''
     headers:
-      Server:
-      - Apache-Coyote/1.1
-      Content-Type:
-      - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
-      Content-Length:
-      - '56'
       Date:
-      - Sun, 23 Aug 2015 22:40:10 GMT
-      Connection:
-      - close
+      - Tue, 29 Sep 2015 10:30:35 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '19'
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.1371/xxx",
-         "status": "Invalid DOI"
-        }
-        ]
+      string: Resource not found.
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 22:40:21 GMT
+  recorded_at: Tue, 29 Sep 2015 10:30:35 GMT
 recorded_with: VCR 2.9.3
