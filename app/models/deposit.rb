@@ -81,6 +81,8 @@ class Deposit < ActiveRecord::Base
       type = item.fetch("type", nil)
       work_type_id = WorkType.where(name: type).pluck(:id).first
       related_works = item.fetch("related_works", [])
+      registration_agency = item.fetch("registration_agency", nil)
+      tracked = = item.fetch("tracked", false)
 
       csl = {
         "author" => item.fetch("author", []),
@@ -100,7 +102,8 @@ class Deposit < ActiveRecord::Base
         month: month,
         day: day,
         work_type_id: work_type_id,
-        tracked: false,
+        tracked: tracked,
+        registration_agency: registration_agency,
         csl: csl,
         related_works: related_works }
 
