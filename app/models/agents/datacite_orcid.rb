@@ -87,6 +87,10 @@ class DataciteOrcid < Agent
     config.cron_line || "40 18 * * *"
   end
 
+  def timeout
+    config.timeout || 120
+  end
+
   def job_batch_size
     config.job_batch_size || 200
   end

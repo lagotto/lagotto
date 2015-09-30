@@ -94,6 +94,10 @@ class DataciteRelated < Agent
     "http://search.datacite.org/api?"
   end
 
+  def timeout
+    config.timeout || 600
+  end
+
   def job_batch_size
     config.job_batch_size || 200
   end
