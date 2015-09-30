@@ -25,7 +25,7 @@ class DataciteRelated < Agent
     items = result.fetch('response', {}).fetch('docs', nil)
     Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi", nil)
-      pid = "http://doi.org/{doi}"
+      pid = "http://doi.org/#{doi}"
       related_identifiers = item.fetch('relatedIdentifier', [])
       related_works = get_related_works(related_identifiers, pid)
 

@@ -25,7 +25,7 @@ class DataciteOrcid < Agent
     items = result.fetch('response', {}).fetch('docs', nil)
     Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi", nil)
-      pid = "http://doi.org/{doi}"
+      pid = "http://doi.org/#{doi}"
       name_identifiers = item.fetch('nameIdentifier', [])
       related_works = get_related_works(name_identifiers, pid)
 
@@ -67,7 +67,7 @@ class DataciteOrcid < Agent
         "issued" => metadata.fetch("issued", {}),
         "URL" => metadata.fetch("URL", nil),
         "type" => metadata.fetch("type", nil),
-        "tracked" => tracked,
+        "tracked" => false,
         "registration_agency" => "orcid",
         "related_works" => [{ "related_work" => pid,
                               "source" => name,
