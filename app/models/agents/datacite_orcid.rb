@@ -67,7 +67,7 @@ class DataciteOrcid < Agent
         "issued" => metadata.fetch("issued", {}),
         "URL" => metadata.fetch("URL", nil),
         "type" => metadata.fetch("type", nil),
-        "tracked" => false,
+        "tracked" => tracked,
         "registration_agency" => "orcid",
         "related_works" => [{ "related_work" => pid,
                               "source" => name,

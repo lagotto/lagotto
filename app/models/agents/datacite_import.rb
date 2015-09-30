@@ -45,7 +45,7 @@ class DataciteImport < Agent
         "issued" => { "date-parts" => [[year]] },
         "DOI" => item.fetch("doi", nil),
         "publisher_id" => publisher_id,
-        "tracked" => tracked,
+        "tracked" => true,
         "type" => type }
     end
   end
