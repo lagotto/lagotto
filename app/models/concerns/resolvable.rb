@@ -187,9 +187,11 @@ module Resolvable
 
         doi = metadata.fetch("doi", nil)
         doi = doi.upcase if doi.present?
+        title = metadata.fetch("title", []).first
+        title = title.chomp(".") if title.present?
 
         { "author" => get_authors(metadata.fetch('creator', []), reversed: true, sep: ", "),
-          "title" => metadata.fetch("title", []).first.chomp("."),
+          "title" => title,
           "container-title" => metadata.fetch("journal_title", nil),
           "issued" => get_date_parts_from_parts(metadata.fetch("publicationYear", nil)),
           "DOI" => doi,

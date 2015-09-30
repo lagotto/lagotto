@@ -150,14 +150,16 @@ class Agent < ActiveRecord::Base
 
     data = parse_data(data, work, work_id: work_id, agent_id: id)
 
-    # push to deposit API if no error and we have collected events
-    return {} if data[:error].present? || data.fetch(:events, [{}]).first.fetch(:total, 0) == 0
+    # push to deposit API if no error and we have collected works and/or events
+    return {} if data[:error].present? || (data.fetch(:works, []).length == 0 && data.fetch(:events, [{}]).first.fetch(:total, 0) == 0)
 
-    deposit = Deposit.create(uuid: SecureRandom.uuid,
+    deposit = Deposit.create!(uuid: SecureRandom.uuid,
                              source_token: uuid,
                              message_type: message_type,
                              message: data)
 
+    Rails.logger.info deposit.uuid
+    
     { "uuid" => deposit.uuid,
       "source_token" => deposit.source_token,
       "message_type" => deposit.message_type }

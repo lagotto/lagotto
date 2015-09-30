@@ -46,7 +46,7 @@ class DataciteOrcid < Agent
           "DOI" => doi,
           "publisher_id" => publisher_id,
           "registration_agency" => "datacite",
-          "tracked" => tracked,
+          "tracked" => true,
           "type" => type }]
 
         sum += work + related_works
@@ -81,5 +81,13 @@ class DataciteOrcid < Agent
 
   def url
     "http://search.datacite.org/api?"
+  end
+
+  def cron_line
+    config.cron_line || "40 18 * * *"
+  end
+
+  def job_batch_size
+    config.job_batch_size || 200
   end
 end

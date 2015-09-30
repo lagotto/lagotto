@@ -46,7 +46,7 @@ class DataciteRelated < Agent
           "DOI" => doi,
           "publisher_id" => publisher_id,
           "registration_agency" => "datacite",
-          "tracked" => tracked,
+          "tracked" => true,
           "type" => type }]
 
         sum += work + related_works
@@ -76,7 +76,7 @@ class DataciteRelated < Agent
           "title" => metadata.fetch("title", nil),
           "DOI" => doi,
           "type" => metadata.fetch("type", nil),
-          "tracked" => tracked,
+          "tracked" => true,
           "publisher_id" => metadata.fetch("publisher_id", nil),
           "registration_agency" => registration_agency,
           "related_works" => [{ "related_work" => pid,
@@ -92,5 +92,9 @@ class DataciteRelated < Agent
 
   def url
     "http://search.datacite.org/api?"
+  end
+
+  def job_batch_size
+    config.job_batch_size || 200
   end
 end
