@@ -49,10 +49,10 @@ describe "no button for staff user", type: :feature, js: true do
     expect(page).to_not have_css ".status", text: "Actions"
   end
 
-  it "don't show alert delete button" do
-    alert = FactoryGirl.create(:alert)
-    visit "/alerts"
+  it "don't show notification delete button" do
+    notification = FactoryGirl.create(:notification)
+    visit "/notifications"
     click_link "[408] The request timed out."
-    expect(page).to_not have_css "#alert_#{alert.id}-delete"
+    expect(page).to_not have_css "#notification_#{notification.id}-delete"
   end
 end

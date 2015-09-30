@@ -86,7 +86,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(637)
       expect(event[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(event[:days].length).to eq(108)
+      expect(event[:days].length).to eq(115)
       expect(event[:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
       expect(event[:months].length).to eq(29)
       expect(event[:months].first).to eq(year: 2012, month: 5, total: 5)

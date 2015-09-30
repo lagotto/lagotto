@@ -31,7 +31,7 @@ RSpec.describe DataExportJob, :type => :job do
       it "logs the error as an Alert" do
         expect {
           DataExportJob.new.perform(id: 99)
-        }.to change(Alert, :count).by(1)
+        }.to change(Notification, :count).by(1)
       end
     end
   end
