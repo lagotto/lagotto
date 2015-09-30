@@ -82,7 +82,7 @@ class Deposit < ActiveRecord::Base
       work_type_id = WorkType.where(name: type).pluck(:id).first
       related_works = item.fetch("related_works", [])
       registration_agency = item.fetch("registration_agency", nil)
-      tracked = = item.fetch("tracked", false)
+      tracked = item.fetch("tracked", false)
 
       csl = {
         "author" => item.fetch("author", []),
