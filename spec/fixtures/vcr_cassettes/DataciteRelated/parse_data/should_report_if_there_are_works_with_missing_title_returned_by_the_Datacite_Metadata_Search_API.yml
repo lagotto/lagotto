@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:18 GMT
+      - Wed, 30 Sep 2015 19:24:37 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -34,7 +34,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.47sd5\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:17 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:07 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
@@ -54,7 +54,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:27 GMT
+      - Wed, 30 Sep 2015 19:11:45 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -66,9 +66,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":16},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:17 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:07 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111/MEC.12069/agency
@@ -86,7 +86,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:19 GMT
+      - Wed, 30 Sep 2015 19:24:40 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -103,7 +103,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1111\/mec.12069","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:18 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:10 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2FMEC.12069
@@ -121,7 +121,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:19 GMT
+      - Wed, 30 Sep 2015 19:24:42 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -148,7 +148,7 @@ http_interactions:
         Ecology","Mol Ecol"],"deposited":{"date-parts":[[2015,9,9]],"timestamp":1441756800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2012,11,5]]},"URL":"http:\/\/dx.doi.org\/10.1111\/mec.12069","ISSN":["0962-1083"],"subject":["Genetics","Ecology,
         Evolution, Behavior and Systematics"]}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:18 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:11 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.47SD5/agency
@@ -166,7 +166,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:20 GMT
+      - Wed, 30 Sep 2015 19:24:48 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -183,7 +183,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.47sd5","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:19 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:18 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
@@ -203,7 +203,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:29 GMT
+      - Wed, 30 Sep 2015 19:11:57 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -215,9 +215,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:19 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:19 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/1/agency
@@ -235,7 +235,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:21 GMT
+      - Wed, 30 Sep 2015 19:24:57 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -252,7 +252,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:20 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:26 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9/1&rows=1&wt=json
@@ -272,7 +272,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:30 GMT
+      - Wed, 30 Sep 2015 19:12:04 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -284,9 +284,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:00Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.H22N9"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["INDIV_DATA"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":8},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:00Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.H22N9"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["INDIV_DATA"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:20 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:27 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/2/agency
@@ -304,7 +304,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:22 GMT
+      - Wed, 30 Sep 2015 19:24:59 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -321,7 +321,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9\/2","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:21 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:28 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9/2&rows=1&wt=json
@@ -341,7 +341,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:31 GMT
+      - Wed, 30 Sep 2015 19:12:06 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -355,7 +355,7 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:33:42Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9/2","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.H22N9"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["NB OCCUPATION_DATA"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:22 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:29 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002/ECE3.563/agency
@@ -373,7 +373,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:23 GMT
+      - Wed, 30 Sep 2015 19:25:03 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -390,7 +390,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1002\/ece3.563","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:23 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:33 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1002%2FECE3.563
@@ -408,7 +408,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:23 GMT
+      - Wed, 30 Sep 2015 19:25:08 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -433,7 +433,7 @@ http_interactions:
         Av. Am\u00e9rico Vespucio s\/n 41092 Seville Spain"}],"family":"Potti","given":"Jaime"}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["Ecol
         Evol","Ecology and Evolution"],"deposited":{"date-parts":[[2015,9,9]],"timestamp":1441756800000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,11]]},"URL":"http:\/\/dx.doi.org\/10.1002\/ece3.563","ISSN":["2045-7758"]}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:23 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:38 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/1/agency
@@ -451,7 +451,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:24 GMT
+      - Wed, 30 Sep 2015 19:25:13 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -468,7 +468,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:23 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:43 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151/1&rows=1&wt=json
@@ -488,7 +488,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:33 GMT
+      - Wed, 30 Sep 2015 19:12:21 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -500,23 +500,23 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
-        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
-        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
-        RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDA3OjMzOjI1
-        WiIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41MDYxL0RSWUFELk5L
-        MTUxLzEiLCJyZWxhdGVkSWRlbnRpZmllciI6WyJJc1BhcnRPZjpET0k6MTAu
-        NTA2MS9EUllBRC5OSzE1MSJdLCJjcmVhdG9yIjpbIlBlbGxpbm8sIE1hcmNv
-        IiwiSG9qc2dhYXJkLCBEaWVnbyIsIlNjaG11dHplciwgVGhvbWFzIiwiU2No
-        b2x6LCBVd2UiLCJWb2dlbCwgSGVpa28iLCJIw7ZyYW5kbCwgRWx2aXJhIiwi
-        U2hhcmJlbCwgVGltIl0sInB1Ymxpc2hlciI6IkRyeWFkIERpZ2l0YWwgUmVw
-        b3NpdG9yeSIsInRpdGxlIjpbIkFzZXh1YWwgZ2Vub21lIGV2b2x1dGlvbiBp
-        biB0aGUgYXBvbWljdGljIFJhbnVuY3VsdXMgYXVyaWNvbXVzIGNvbXBsZXg6
-        IGV4YW1pbmluZyB0aGUgZWZmZWN0cyBvZiBoeWJyaWRpemF0aW9uIGFuZCBt
-        dXRhdGlvbiBhY2N1bXVsYXRpb24uIl0sInB1YmxpY2F0aW9uWWVhciI6IjIw
-        MTMiLCJyZXNvdXJjZVR5cGVHZW5lcmFsIjoiRGF0YXNldCJ9XX19Cg==
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxMn0sInJl
+        c3BvbnNlIjp7Im51bUZvdW5kIjoxLCJzdGFydCI6MCwiZG9jcyI6W3siZGF0
+        YWNlbnRyZV9zeW1ib2wiOiJDREwuRFJZQUQiLCJkYXRhY2VudHJlIjoiQ0RM
+        LkRSWUFEIC0gRHJ5YWQiLCJ1cGRhdGVkIjoiMjAxNC0xMS0wNlQwNzozMzoy
+        NVoiLCJwcmVmaXgiOiIxMC41MDYxIiwiZG9pIjoiMTAuNTA2MS9EUllBRC5O
+        SzE1MS8xIiwicmVsYXRlZElkZW50aWZpZXIiOlsiSXNQYXJ0T2Y6RE9JOjEw
+        LjUwNjEvRFJZQUQuTksxNTEiXSwiY3JlYXRvciI6WyJQZWxsaW5vLCBNYXJj
+        byIsIkhvanNnYWFyZCwgRGllZ28iLCJTY2htdXR6ZXIsIFRob21hcyIsIlNj
+        aG9seiwgVXdlIiwiVm9nZWwsIEhlaWtvIiwiSMO2cmFuZGwsIEVsdmlyYSIs
+        IlNoYXJiZWwsIFRpbSJdLCJwdWJsaXNoZXIiOiJEcnlhZCBEaWdpdGFsIFJl
+        cG9zaXRvcnkiLCJ0aXRsZSI6WyJBc2V4dWFsIGdlbm9tZSBldm9sdXRpb24g
+        aW4gdGhlIGFwb21pY3RpYyBSYW51bmN1bHVzIGF1cmljb211cyBjb21wbGV4
+        OiBleGFtaW5pbmcgdGhlIGVmZmVjdHMgb2YgaHlicmlkaXphdGlvbiBhbmQg
+        bXV0YXRpb24gYWNjdW11bGF0aW9uLiJdLCJwdWJsaWNhdGlvblllYXIiOiIy
+        MDEzIiwicmVzb3VyY2VUeXBlR2VuZXJhbCI6IkRhdGFzZXQifV19fQo=
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:24 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:43 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/2/agency
@@ -534,7 +534,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:27 GMT
+      - Wed, 30 Sep 2015 19:25:19 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -551,7 +551,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151\/2","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:26 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:49 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151/2&rows=1&wt=json
@@ -571,7 +571,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:36 GMT
+      - Wed, 30 Sep 2015 19:12:27 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -583,7 +583,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDA3OjMzOjA2
@@ -597,7 +597,7 @@ http_interactions:
         aXgiXSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdl
         bmVyYWwiOiJEYXRhc2V0In1dfX0K
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:27 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:50 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111/MEC.12533/agency
@@ -615,7 +615,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:29 GMT
+      - Wed, 30 Sep 2015 19:25:25 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -632,7 +632,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1111\/mec.12533","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:28 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:55 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1111%2FMEC.12533
@@ -650,7 +650,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:29 GMT
+      - Wed, 30 Sep 2015 19:25:28 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -687,7 +687,7 @@ http_interactions:
         Evolution, Behavior and Systematics"],"assertion":[{"group":{"label":"Publication
         History","name":"publication_history"},"label":"Published Online","name":"published_online","value":"2013-11-06"}]}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:28 GMT
+  recorded_at: Wed, 30 Sep 2015 19:22:58 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/agency
@@ -705,7 +705,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:30 GMT
+      - Wed, 30 Sep 2015 19:25:30 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -722,7 +722,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:29 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:00 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151&rows=1&wt=json
@@ -742,7 +742,93 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:39 GMT
+      - Wed, 30 Sep 2015 19:12:37 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxfSwicmVz
+        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
+        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
+        RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDA3OjMzOjI3
+        WiIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41MDYxL0RSWUFELk5L
+        MTUxIiwicmVsYXRlZElkZW50aWZpZXIiOlsiSGFzUGFydDpET0k6MTAuNTA2
+        MS9EUllBRC5OSzE1MS8xIiwiSGFzUGFydDpET0k6MTAuNTA2MS9EUllBRC5O
+        SzE1MS8yIiwiSXNSZWZlcmVuY2VkQnk6RE9JOjEwLjExMTEvTUVDLjEyNTMz
+        IiwiSXNSZWZlcmVuY2VkQnk6RE9JOiJdLCJjcmVhdG9yIjpbIlBlbGxpbm8s
+        IE1hcmNvIiwiSG9qc2dhYXJkLCBEaWVnbyIsIlNjaG11dHplciwgVGhvbWFz
+        IiwiU2Nob2x6LCBVd2UiLCJIw7ZyYW5kbCwgRWx2aXJhIiwiVm9nZWwsIEhl
+        aWtvIiwiU2hhcmJlbCwgVGltb3RoeSBGLiJdLCJwdWJsaXNoZXIiOiJEcnlh
+        ZCBEaWdpdGFsIFJlcG9zaXRvcnkiLCJ0aXRsZSI6WyJEYXRhIGZyb206IEFz
+        ZXh1YWwgZ2Vub21lIGV2b2x1dGlvbiBpbiB0aGUgYXBvbWljdGljIFJhbnVu
+        Y3VsdXMgYXVyaWNvbXVzIGNvbXBsZXg6IGV4YW1pbmluZyB0aGUgZWZmZWN0
+        cyBvZiBoeWJyaWRpemF0aW9uIGFuZCBtdXRhdGlvbiBhY2N1bXVsYXRpb24i
+        XSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdlbmVy
+        YWwiOiJEYXRhc2V0In1dfX0K
+    http_version: 
+  recorded_at: Wed, 30 Sep 2015 19:23:00 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/agency
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Wed, 30 Sep 2015 19:25:35 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '157'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151","agency":{"id":"datacite","label":"DataCite"}}}'
+    http_version: 
+  recorded_at: Wed, 30 Sep 2015 19:23:05 GMT
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151&rows=1&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Wed, 30 Sep 2015 19:12:42 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -773,93 +859,7 @@ http_interactions:
         XSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdlbmVy
         YWwiOiJEYXRhc2V0In1dfX0K
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:29 GMT
-- request:
-    method: get
-    uri: http://api.crossref.org/works/10.5061/DRYAD.NK151/agency
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Date:
-      - Tue, 29 Sep 2015 19:04:31 GMT
-      Server:
-      - http-kit
-      Access-Control-Allow-Headers:
-      - X-Requested-With
-      Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept
-      Content-Type:
-      - application/json;charset=UTF-8
-      Content-Length:
-      - '157'
-    body:
-      encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.nk151","agency":{"id":"datacite","label":"DataCite"}}}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:30 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.NK151&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Tue, 29 Sep 2015 18:51:41 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
-        cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
-        Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
-        RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDA3OjMzOjI3
-        WiIsInByZWZpeCI6IjEwLjUwNjEiLCJkb2kiOiIxMC41MDYxL0RSWUFELk5L
-        MTUxIiwicmVsYXRlZElkZW50aWZpZXIiOlsiSGFzUGFydDpET0k6MTAuNTA2
-        MS9EUllBRC5OSzE1MS8xIiwiSGFzUGFydDpET0k6MTAuNTA2MS9EUllBRC5O
-        SzE1MS8yIiwiSXNSZWZlcmVuY2VkQnk6RE9JOjEwLjExMTEvTUVDLjEyNTMz
-        IiwiSXNSZWZlcmVuY2VkQnk6RE9JOiJdLCJjcmVhdG9yIjpbIlBlbGxpbm8s
-        IE1hcmNvIiwiSG9qc2dhYXJkLCBEaWVnbyIsIlNjaG11dHplciwgVGhvbWFz
-        IiwiU2Nob2x6LCBVd2UiLCJIw7ZyYW5kbCwgRWx2aXJhIiwiVm9nZWwsIEhl
-        aWtvIiwiU2hhcmJlbCwgVGltb3RoeSBGLiJdLCJwdWJsaXNoZXIiOiJEcnlh
-        ZCBEaWdpdGFsIFJlcG9zaXRvcnkiLCJ0aXRsZSI6WyJEYXRhIGZyb206IEFz
-        ZXh1YWwgZ2Vub21lIGV2b2x1dGlvbiBpbiB0aGUgYXBvbWljdGljIFJhbnVu
-        Y3VsdXMgYXVyaWNvbXVzIGNvbXBsZXg6IGV4YW1pbmluZyB0aGUgZWZmZWN0
-        cyBvZiBoeWJyaWRpemF0aW9uIGFuZCBtdXRhdGlvbiBhY2N1bXVsYXRpb24i
-        XSwicHVibGljYXRpb25ZZWFyIjoiMjAxMyIsInJlc291cmNlVHlwZUdlbmVy
-        YWwiOiJEYXRhc2V0In1dfX0K
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:32 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:05 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/agency
@@ -877,7 +877,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:33 GMT
+      - Wed, 30 Sep 2015 19:25:41 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -894,7 +894,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:32 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:11 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9&rows=1&wt=json
@@ -914,7 +914,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:43 GMT
+      - Wed, 30 Sep 2015 19:12:48 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -926,9 +926,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:02Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.H22N9/1","HasPart:DOI:10.5061/DRYAD.H22N9/2","IsReferencedBy:DOI:10.1002/ECE3.563","IsReferencedBy:DOI:"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["Data from: Nonrandom dispersal drives phenotypic divergence within a bird population"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":13},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:02Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.H22N9/1","HasPart:DOI:10.5061/DRYAD.H22N9/2","IsReferencedBy:DOI:10.1002/ECE3.563","IsReferencedBy:DOI:"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["Data from: Nonrandom dispersal drives phenotypic divergence within a bird population"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:34 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:11 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.H22N9/agency
@@ -946,7 +946,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:35 GMT
+      - Wed, 30 Sep 2015 19:25:47 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -963,7 +963,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.h22n9","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:35 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:17 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.H22N9&rows=1&wt=json
@@ -983,7 +983,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:44 GMT
+      - Wed, 30 Sep 2015 19:12:55 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -997,7 +997,7 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T07:34:02Z","prefix":"10.5061","doi":"10.5061/DRYAD.H22N9","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.H22N9/1","HasPart:DOI:10.5061/DRYAD.H22N9/2","IsReferencedBy:DOI:10.1002/ECE3.563","IsReferencedBy:DOI:"],"creator":["Camacho, Carlos","Canal, David","Potti, Jaime"],"publisher":"Dryad Digital Repository","title":["Data from: Nonrandom dispersal drives phenotypic divergence within a bird population"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:35 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:18 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.QT984/1/agency
@@ -1015,7 +1015,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:36 GMT
+      - Wed, 30 Sep 2015 19:25:49 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1032,7 +1032,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.qt984\/1","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:36 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:19 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.QT984/1&rows=1&wt=json
@@ -1052,7 +1052,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:45 GMT
+      - Wed, 30 Sep 2015 19:12:57 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -1064,9 +1064,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T16:06:15Z","prefix":"10.5061","doi":"10.5061/DRYAD.QT984/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.QT984"],"creator":["Eggers, Florian","Slotte, Aril","Libungan, Lisa Anne","Johannessen, Arne","Kvamme, Cecilie","Moland, Even","Olsen, Esben Moland","Nash, Richard D. M."],"publisher":"Dryad Digital Repository","title":["Data 2012 Landvik"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":20},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-06T16:06:15Z","prefix":"10.5061","doi":"10.5061/DRYAD.QT984/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.QT984"],"creator":["Eggers, Florian","Slotte, Aril","Libungan, Lisa Anne","Johannessen, Arne","Kvamme, Cecilie","Moland, Even","Olsen, Esben Moland","Nash, Richard D. M."],"publisher":"Dryad Digital Repository","title":["Data 2012 Landvik"],"publicationYear":"2014","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:36 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:20 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1371/JOURNAL.PONE.0111985/agency
@@ -1084,7 +1084,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:37 GMT
+      - Wed, 30 Sep 2015 19:25:55 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1101,7 +1101,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1371\/journal.pone.0111985","agency":{"id":"crossref","label":"CrossRef"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:37 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:24 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.1371%2FJOURNAL.PONE.0111985
@@ -1119,7 +1119,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:37 GMT
+      - Wed, 30 Sep 2015 19:25:58 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1145,7 +1145,7 @@ http_interactions:
         and Biological Sciences(all)","Medicine(all)","Biochemistry, Genetics and
         Molecular Biology(all)"]}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:37 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:28 GMT
 - request:
     method: get
     uri: http://api.crossref.org/works/10.5061/DRYAD.QT984/agency
@@ -1163,7 +1163,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 29 Sep 2015 19:04:38 GMT
+      - Wed, 30 Sep 2015 19:26:02 GMT
       Server:
       - http-kit
       Access-Control-Allow-Headers:
@@ -1180,7 +1180,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.5061\/dryad.qt984","agency":{"id":"datacite","label":"DataCite"}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:37 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:32 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated&q=doi:10.5061/DRYAD.QT984&rows=1&wt=json
@@ -1200,7 +1200,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 18:51:47 GMT
+      - Wed, 30 Sep 2015 19:13:10 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -1212,7 +1212,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjowfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsImRhdGFjZW50cmUiOiJDREwu
         RFJZQUQgLSBEcnlhZCIsInVwZGF0ZWQiOiIyMDE0LTExLTA2VDE2OjA2OjAy
@@ -1230,5 +1230,5 @@ http_interactions:
         dGF0cyJdLCJwdWJsaWNhdGlvblllYXIiOiIyMDE0IiwicmVzb3VyY2VUeXBl
         R2VuZXJhbCI6IkRhdGFzZXQifV19fQo=
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:04:38 GMT
+  recorded_at: Wed, 30 Sep 2015 19:23:33 GMT
 recorded_with: VCR 2.9.3

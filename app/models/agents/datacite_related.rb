@@ -9,7 +9,7 @@ class DataciteRelated < Agent
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
 
     updated = "updated:[#{from_date}T00:00:00Z TO #{until_date}T23:59:59Z]"
-    params = { q: "relatedIdentifier:*",
+    params = { q: "relatedIdentifier:DOI\\:*",
                start: offset,
                rows: rows,
                fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,updated",

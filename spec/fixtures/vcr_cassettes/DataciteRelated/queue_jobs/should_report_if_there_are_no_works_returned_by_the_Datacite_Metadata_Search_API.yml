@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,updated&fq=updated:%5B2009-04-07T00:00:00Z%20TO%202009-04-08T23:59:59Z%5D%20AND%20has_metadata:true%20AND%20is_active:true&q=relatedIdentifier:*&rows=0&start=0&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,updated&fq=updated:%5B2009-04-07T00:00:00Z%20TO%202009-04-08T23:59:59Z%5D%20AND%20has_metadata:true%20AND%20is_active:true&q=relatedIdentifier:DOI%5C:*&rows=0&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 19:45:41 GMT
+      - Wed, 30 Sep 2015 19:14:43 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -33,5 +33,5 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 19:57:49 GMT
+  recorded_at: Wed, 30 Sep 2015 19:25:06 GMT
 recorded_with: VCR 2.9.3
