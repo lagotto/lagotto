@@ -258,6 +258,15 @@ namespace :db do
     end
   end
 
+  namespace :changes do
+
+    desc "Delete all changes older than 24 hours"
+    task :delete => :environment do
+      count = Change.where("created_at < ?", Time.zone.now - 1.day).delete_all
+      puts "Deleted #{count} changes"
+    end
+  end
+
   namespace :deposits do
 
     desc "Delete all completed deposits older than 24 hours"
