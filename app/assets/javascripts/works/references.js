@@ -79,7 +79,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#results").append("span")
       .text(relation[1]);
     d3.select("#results").append("p")
-      .text(signpostsToString(work, sources, source_id, sort));
+      .text(signpostsToString(work, sources, source_id));
   }
 
   d3.select("div#rss").style("display", "inline");
