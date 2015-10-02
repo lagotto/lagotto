@@ -21,55 +21,19 @@ class DataciteRelated < Agent
     url +  URI.encode_www_form(params)
   end
 
-  def get_works(result)
-    # return early if an error occured
-    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
-
-    items = result.fetch('response', {}).fetch('docs', nil)
+  def get_related_works(items)
     Array(items).reduce([]) do |sum, item|
-      doi = item.fetch("doi", nil)
+      doi = item.fetch("doi")
       pid = "http://doi.org/#{doi}"
-      related_identifiers = item.fetch('relatedIdentifier', [])
-      related_works = get_related_works(related_identifiers, pid)
+      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
 
-      if related_works.empty?
-        sum
-      else
-        year = item.fetch("publicationYear", nil).to_i
-        type = item.fetch("resourceTypeGeneral", nil)
-        type = DATACITE_TYPE_TRANSLATIONS[type] if type
-        publisher_symbol = item.fetch("datacentre_symbol", nil)
-        publisher_id = publisher_symbol.to_i(36)
+      sum += related_identifiers.map do |related_item|
+        raw_relation_type, _related_identifier_type, related_identifier = related_item.split(':', 3)
+        relation_type = RelationType.where(inverse_name: raw_relation_type.underscore).pluck(:name).first
+        doi = related_identifier.strip.upcase
+        registration_agency = get_doi_ra(doi)
+        metadata = get_metadata(doi, registration_agency)
 
-        work = [{
-          "author" => get_authors(item.fetch("creator", []), reversed: true, sep: ", "),
-          "container-title" => nil,
-          "title" => item.fetch("title", []).first,
-          "issued" => { "date-parts" => [[year]] },
-          "DOI" => doi,
-          "publisher_id" => publisher_id,
-          "registration_agency" => "datacite",
-          "tracked" => true,
-          "type" => type }]
-
-        sum += work + related_works
-      end
-    end
-  end
-
-  def get_related_works(related_identifiers, pid)
-    related_identifiers.map do |item|
-      raw_relation_type, related_identifier_type, related_identifier = item.split(':', 3)
-      next if related_identifier.blank? || related_identifier_type != "DOI"
-
-      relation_type = RelationType.where(inverse_name: raw_relation_type.underscore).pluck(:name).first
-      doi = related_identifier.strip.upcase
-      registration_agency = get_doi_ra(doi)
-      metadata = get_metadata(doi, registration_agency)
-
-      if metadata[:error]
-        nil
-      else
         { "issued" => metadata.fetch("issued", {}),
           "author" => metadata.fetch("author", []),
           "container-title" => metadata.fetch("container-title", nil),
@@ -86,7 +50,19 @@ class DataciteRelated < Agent
                                 "source" => name,
                                 "relation_type" => relation_type }] }
       end
-    end.compact
+    end
+  end
+
+  def get_events(items)
+    Array(items).map do |item|
+      doi = item.fetch("doi", nil)
+      pid = "http://doi.org/#{doi}"
+      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
+
+      { source_id: name,
+        work_id: pid,
+        total: related_identifiers.length }
+    end
   end
 
   def config_fields

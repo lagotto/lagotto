@@ -25,7 +25,7 @@ class DataciteOrcid < Agent
     Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi")
       pid = "http://doi.org/#{doi}"
-      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:/ }
+      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
 
       sum += name_identifiers.map do |related_item|
         orcid = related_item.split(':', 2).last
@@ -51,7 +51,7 @@ class DataciteOrcid < Agent
     Array(items).map do |item|
       doi = item.fetch("doi", nil)
       pid = "http://doi.org/#{doi}"
-      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:/ }
+      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
 
       { source_id: name,
         work_id: pid,

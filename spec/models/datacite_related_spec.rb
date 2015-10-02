@@ -79,7 +79,7 @@ describe DataciteRelated, type: :model, vcr: true do
     it "should report if there are no works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_related_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, nil)).to eq(works: [])
+      expect(subject.parse_data(result, nil)).to eq(:works=>[], :events=>[])
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
@@ -95,6 +95,10 @@ describe DataciteRelated, type: :model, vcr: true do
       expect(related_work['issued']).to eq("date-parts"=>[[2014]])
       expect(related_work['type']).to eq("dataset")
       expect(related_work['DOI']).to eq("10.5061/DRYAD.QT984")
+
+      expect(response[:events].length).to eq(10)
+      event = response[:events].first
+      expect(event).to eq(:source_id=>"datacite_related", :work_id=>"http://doi.org/10.5061/DRYAD.47SD5", :total=>2)
     end
 
     it "should report if there are works with incomplete date returned by the Datacite Metadata Search API" do
@@ -103,13 +107,13 @@ describe DataciteRelated, type: :model, vcr: true do
       response = subject.parse_data(result, nil)
 
       expect(response[:works].length).to eq(26)
-      related_work = response[:works][14]
-      expect(related_work['author']).to eq([{"family"=>"Pellino", "given"=>"Marco"}, {"family"=>"Hojsgaard", "given"=>"Diego"}, {"family"=>"Schmutzer", "given"=>"Thomas"}, {"family"=>"Scholz", "given"=>"Uwe"}, {"family"=>"Hörandl", "given"=>"Elvira"}, {"family"=>"Vogel", "given"=>"Heiko"}, {"family"=>"Sharbel", "given"=>"Timothy F."}])
-      expect(related_work['title']).to eq("Data from: Asexual genome evolution in the apomictic Ranunculus auricomus complex: examining the effects of hybridization and mutation accumulation")
+      related_work = response[:works][10]
+      expect(related_work['author']).to eq([{"family"=>"Crawford", "given"=>"Lindsay A."}, {"family"=>"Koscinski", "given"=>"Daria"}, {"family"=>"Keyghobadi", "given"=>"Nusha"}])
+      expect(related_work['title']).to eq("Extracted information from AFLP studies")
       expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2013]])
+      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
       expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.NK151")
+      expect(related_work['DOI']).to eq("10.5061/DRYAD.47SD5/1")
     end
 
     it "should report if there are works with missing title returned by the Datacite Metadata Search API" do
@@ -119,7 +123,7 @@ describe DataciteRelated, type: :model, vcr: true do
       response = subject.parse_data(result, nil)
 
       expect(response[:works].length).to eq(26)
-      related_work = response[:works][15]
+      related_work = response[:works][5]
       expect(related_work['title']).to be_nil
       expect(related_work['container-title']).to be_nil
       expect(related_work['type']).to eq("dataset")
