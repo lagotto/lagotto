@@ -224,7 +224,8 @@ module Resolvable
         author = { "family" => personal_details.deep_fetch("family-name", "value") { nil },
                    "given" => personal_details.deep_fetch("given-names", "value") { nil } }
         url = metadata.deep_fetch("orcid-identifier", "uri") { nil }
-        timestamp = Time.zone.now.utc.iso8601
+        submission_date = metadata.deep_fetch("orcid-history", "submission-date", "value") { nil }
+        timestamp = get_iso8601_from_epoch(submission_date)
 
         { "author" => [author],
           "title" => "ORCID profile for #{author.fetch('given', '')} #{author.fetch('family', '')}",

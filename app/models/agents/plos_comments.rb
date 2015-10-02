@@ -21,7 +21,7 @@ class PlosComments < Agent
         total: total,
         events_url: events_url,
         extra: get_extra(result, work),
-        days: get_events_by_day(related_works, work),
+        days: get_events_by_day(related_works, work.published_on),
         months: get_events_by_month(related_works) }] }
   end
 

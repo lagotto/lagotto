@@ -375,7 +375,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(orcid, "orcid")
         expect(response["title"]).to eq("ORCID profile for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
+        expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
@@ -478,7 +478,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_orcid_metadata(orcid)
         expect(response["title"]).to eq("ORCID profile for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
+        expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end

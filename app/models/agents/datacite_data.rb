@@ -1,11 +1,14 @@
 class DataciteData < Agent
-  # include common methods for DataCite
-  include Datacitable
-
   def get_query_url(work)
     return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     url % { doi: work.doi_escaped }
+  end
+
+  def get_events_url(work)
+    return {} unless events_url.present? && work.doi.present?
+
+    events_url % { doi: work.doi_escaped }
   end
 
   def get_related_works(result, work)
@@ -40,6 +43,10 @@ class DataciteData < Agent
                                 "relation_type" => relation_type }] }
       end
     end.compact
+  end
+
+  def config_fields
+    [:url, :events_url]
   end
 
   def url

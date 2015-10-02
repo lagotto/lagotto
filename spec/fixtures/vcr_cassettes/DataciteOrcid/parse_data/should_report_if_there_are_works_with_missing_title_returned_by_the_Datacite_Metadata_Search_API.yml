@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:24 GMT
+      - Fri, 02 Oct 2015 08:51:51 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -35,7 +35,7 @@ http_interactions:
         Data Publisher"},"url":{"value":"http://www.pangaea.de"}}],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"DE","visibility":"PUBLIC"}}},"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"7003808390"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003808390&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:23 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:51 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-4133-2218/orcid-bio
@@ -57,13 +57,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:24 GMT
+      - Fri, 02 Oct 2015 08:51:51 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-4133-2218","path":"0000-0002-4133-2218","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1351069178043},"submission-date":{"value":1351065546414},"last-modified-date":{"value":1441054180209},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Hannes"},"family-name":{"value":"Grobe"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Personal
@@ -71,7 +71,7 @@ http_interactions:
         Data Publisher"},"url":{"value":"http://www.pangaea.de"}}],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"DE","visibility":"PUBLIC"}}},"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"7003808390"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003808390&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:24 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:51 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-8414-7389/orcid-bio
@@ -93,13 +93,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:25 GMT
+      - Fri, 02 Oct 2015 08:51:51 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-8414-7389","path":"0000-0002-8414-7389","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":null,"submission-date":{"value":1380885308462},"last-modified-date":{"value":1437250258118},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Robert"},"family-name":{"value":"Larter"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"Marine
@@ -111,7 +111,7 @@ http_interactions:
         cruises, several as Chief Scientist.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"7003885261"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003885261&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:24 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:51 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -133,52 +133,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:25 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
-        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
-        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
-        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
-        of Science degree from Western Carolina University in 1988; a Master of Divinity
-        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
-        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
-        Ann completed the Doctor of Philosophy degree in quantitative biology from
-        the University of Texas at Arlington in 2015. She is now an associate professor
-        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
-        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
-        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
-        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:25 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:26 GMT
+      - Fri, 02 Oct 2015 08:51:52 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -201,7 +156,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:25 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:52 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -223,7 +178,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:26 GMT
+      - Fri, 02 Oct 2015 08:51:52 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -246,7 +201,52 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:25 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:52 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:51:53 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
+        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
+        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
+        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
+        of Science degree from Western Carolina University in 1988; a Master of Divinity
+        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
+        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
+        Ann completed the Doctor of Philosophy degree in quantitative biology from
+        the University of Texas at Arlington in 2015. She is now an associate professor
+        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
+        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
+        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
+        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:51:53 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0003-3938-899X/orcid-bio
@@ -268,13 +268,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:27 GMT
+      - Fri, 02 Oct 2015 08:51:53 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0003-3938-899X","path":"0000-0003-3938-899X","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1376091161786},"submission-date":{"value":1376068797597},"last-modified-date":{"value":1441990574304},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Julian"},"family-name":{"value":"Richards"},"credit-name":{"value":"Julian
@@ -287,7 +287,7 @@ http_interactions:
         Informatics"},{"value":"Anglo-Saxon and Viking archaeology"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"8762551700"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=8762551700&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:26 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:53 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-2725-6730/orcid-bio
@@ -309,19 +309,19 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:28 GMT
+      - Fri, 02 Oct 2015 08:51:53 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-2725-6730","path":"0000-0002-2725-6730","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1376564094473},"submission-date":{"value":1376563136567},"last-modified-date":{"value":1441796275749},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Tim"},"family-name":{"value":"Evans"},"credit-name":{"value":"Tim
         N.L. Evans","visibility":"PUBLIC"},"other-names":null},"biography":null,"researcher-urls":null,"contact-details":null,"keywords":null,"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:28 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:53 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-0931-8707/orcid-bio
@@ -343,19 +343,19 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:29 GMT
+      - Fri, 02 Oct 2015 08:51:54 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-0931-8707","path":"0000-0002-0931-8707","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1362135368554},"submission-date":{"value":1362135368554},"last-modified-date":{"value":1437758241067},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Heiner"},"family-name":{"value":"Dietze"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"7006463280"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7006463280&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:28 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:54 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-4133-2218/orcid-bio
@@ -377,43 +377,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:29 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-4133-2218","path":"0000-0002-4133-2218","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1351069178043},"submission-date":{"value":1351065546414},"last-modified-date":{"value":1441054180209},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Hannes"},"family-name":{"value":"Grobe"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Personal
-        home page"},"url":{"value":"http://www.awi.de/People/show?hgrobe"}},{"url-name":{"value":"PANGAEA
-        Data Publisher"},"url":{"value":"http://www.pangaea.de"}}],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"DE","visibility":"PUBLIC"}}},"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
-        Author ID"},"external-id-reference":{"value":"7003808390"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003808390&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:28 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-4133-2218/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:30 GMT
+      - Fri, 02 Oct 2015 08:51:54 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -427,7 +391,43 @@ http_interactions:
         Data Publisher"},"url":{"value":"http://www.pangaea.de"}}],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"DE","visibility":"PUBLIC"}}},"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"7003808390"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003808390&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:29 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:54 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-4133-2218/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:51:55 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-4133-2218","path":"0000-0002-4133-2218","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1351069178043},"submission-date":{"value":1351065546414},"last-modified-date":{"value":1441054180209},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Hannes"},"family-name":{"value":"Grobe"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Personal
+        home page"},"url":{"value":"http://www.awi.de/People/show?hgrobe"}},{"url-name":{"value":"PANGAEA
+        Data Publisher"},"url":{"value":"http://www.pangaea.de"}}],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"DE","visibility":"PUBLIC"}}},"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
+        Author ID"},"external-id-reference":{"value":"7003808390"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003808390&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:51:55 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-9964-6984/orcid-bio
@@ -449,7 +449,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:32 GMT
+      - Fri, 02 Oct 2015 08:51:55 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -520,7 +520,7 @@ http_interactions:
         eXBlIjpudWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9y
         LWRlc2MiOm51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:31 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:55 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-9964-6984/orcid-bio
@@ -542,7 +542,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:32 GMT
+      - Fri, 02 Oct 2015 08:51:55 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -613,7 +613,7 @@ http_interactions:
         eXBlIjpudWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9y
         LWRlc2MiOm51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:31 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:55 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -635,52 +635,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:33 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
-        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
-        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
-        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
-        of Science degree from Western Carolina University in 1988; a Master of Divinity
-        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
-        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
-        Ann completed the Doctor of Philosophy degree in quantitative biology from
-        the University of Texas at Arlington in 2015. She is now an associate professor
-        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
-        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
-        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
-        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:32 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:33 GMT
+      - Fri, 02 Oct 2015 08:51:56 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -703,7 +658,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:32 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:56 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -725,52 +680,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:34 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
-        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
-        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
-        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
-        of Science degree from Western Carolina University in 1988; a Master of Divinity
-        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
-        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
-        Ann completed the Doctor of Philosophy degree in quantitative biology from
-        the University of Texas at Arlington in 2015. She is now an associate professor
-        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
-        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
-        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
-        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:33 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:34 GMT
+      - Fri, 02 Oct 2015 08:51:56 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -793,7 +703,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:33 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:56 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -815,7 +725,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:35 GMT
+      - Fri, 02 Oct 2015 08:51:56 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -838,7 +748,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:34 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:56 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -860,7 +770,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:35 GMT
+      - Fri, 02 Oct 2015 08:51:57 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -883,7 +793,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:34 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:57 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -905,7 +815,52 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:36 GMT
+      - Fri, 02 Oct 2015 08:51:57 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
+        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
+        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
+        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
+        of Science degree from Western Carolina University in 1988; a Master of Divinity
+        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
+        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
+        Ann completed the Doctor of Philosophy degree in quantitative biology from
+        the University of Texas at Arlington in 2015. She is now an associate professor
+        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
+        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
+        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
+        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:51:57 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:51:58 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -928,7 +883,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:35 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:58 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -950,7 +905,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:36 GMT
+      - Fri, 02 Oct 2015 08:51:58 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -973,7 +928,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:35 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:58 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -995,7 +950,52 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:38 GMT
+      - Fri, 02 Oct 2015 08:51:58 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
+        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
+        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
+        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
+        of Science degree from Western Carolina University in 1988; a Master of Divinity
+        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
+        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
+        Ann completed the Doctor of Philosophy degree in quantitative biology from
+        the University of Texas at Arlington in 2015. She is now an associate professor
+        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
+        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
+        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
+        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:51:58 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:51:59 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -1018,7 +1018,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:37 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:59 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-4000-4167/orcid-bio
@@ -1040,13 +1040,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:38 GMT
+      - Fri, 02 Oct 2015 08:51:59 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -1125,7 +1125,7 @@ http_interactions:
         IjpudWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9yLWRl
         c2MiOm51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:38 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:59 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-6176-2816/orcid-bio
@@ -1147,13 +1147,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:39 GMT
+      - Fri, 02 Oct 2015 08:51:59 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -1221,7 +1221,7 @@ http_interactions:
         dWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9yLWRlc2Mi
         Om51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:38 GMT
+  recorded_at: Fri, 02 Oct 2015 08:51:59 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0003-3796-827X/orcid-bio
@@ -1243,13 +1243,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:40 GMT
+      - Fri, 02 Oct 2015 08:52:00 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0003-3796-827X","path":"0000-0003-3796-827X","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"DIRECT","completion-date":null,"submission-date":{"value":1428379147498},"last-modified-date":{"value":1428379897026},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":false},"verified-primary-email":{"value":false},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"IJCSIS"},"family-name":{"value":"Editorial"},"credit-name":null,"other-names":{"other-name":[{"value":"IJCSIS
@@ -1257,7 +1257,7 @@ http_interactions:
         Journal of Computer Science and Information Security"},"url":{"value":"https://sites.google.com/site/ijcsis/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"IJCSIS,
         computer science, information security"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:40 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:00 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0003-1073-887X/orcid-bio
@@ -1279,13 +1279,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:41 GMT
+      - Fri, 02 Oct 2015 08:52:00 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -1317,7 +1317,7 @@ http_interactions:
         RVIiLCJncm91cC10eXBlIjpudWxsLCJjbGllbnQtdHlwZSI6bnVsbH0sIm9y
         Y2lkLXNlYXJjaC1yZXN1bHRzIjpudWxsLCJlcnJvci1kZXNjIjpudWxsfQ==
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:40 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:00 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-9873-8342/orcid-bio
@@ -1339,7 +1339,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:41 GMT
+      - Fri, 02 Oct 2015 08:52:01 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -1449,7 +1449,7 @@ http_interactions:
         dWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9yLWRlc2Mi
         Om51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:41 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:01 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3437-4911/orcid-bio
@@ -1471,7 +1471,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:42 GMT
+      - Fri, 02 Oct 2015 08:52:01 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -1484,7 +1484,7 @@ http_interactions:
         dynamical systems, statistics"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"6602665711"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=6602665711&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:41 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:01 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-9873-8342/orcid-bio
@@ -1506,13 +1506,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:42 GMT
+      - Fri, 02 Oct 2015 08:52:01 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -1616,7 +1616,7 @@ http_interactions:
         dWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9yLWRlc2Mi
         Om51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:41 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:01 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-7757-8001/orcid-bio
@@ -1638,79 +1638,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:43 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-7757-8001","path":"0000-0001-7757-8001","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"MEMBER_REFERRED","completion-date":null,"submission-date":{"value":1397576857584},"last-modified-date":{"value":1441622603957},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Juergen"},"family-name":{"value":"Wastl"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"Head
-        of Research Information,  Research Strategy Office, University of Cambridge","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"GB","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"cytochrome
-        c6A, rubredoxin"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
-        Author ID"},"external-id-reference":{"value":"6701844405"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=6701844405&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:42 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0001-7757-8001/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:43 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-7757-8001","path":"0000-0001-7757-8001","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"MEMBER_REFERRED","completion-date":null,"submission-date":{"value":1397576857584},"last-modified-date":{"value":1441622603957},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Juergen"},"family-name":{"value":"Wastl"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"Head
-        of Research Information,  Research Strategy Office, University of Cambridge","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"GB","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"cytochrome
-        c6A, rubredoxin"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
-        Author ID"},"external-id-reference":{"value":"6701844405"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=6701844405&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:42 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0001-7757-8001/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:44 GMT
+      - Fri, 02 Oct 2015 08:52:02 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -1724,7 +1652,79 @@ http_interactions:
         c6A, rubredoxin"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"6701844405"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=6701844405&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:43 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:02 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0001-7757-8001/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:52:02 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-7757-8001","path":"0000-0001-7757-8001","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"MEMBER_REFERRED","completion-date":null,"submission-date":{"value":1397576857584},"last-modified-date":{"value":1441622603957},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Juergen"},"family-name":{"value":"Wastl"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"Head
+        of Research Information,  Research Strategy Office, University of Cambridge","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"GB","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"cytochrome
+        c6A, rubredoxin"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
+        Author ID"},"external-id-reference":{"value":"6701844405"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=6701844405&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:52:02 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0001-7757-8001/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:52:02 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-7757-8001","path":"0000-0001-7757-8001","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"MEMBER_REFERRED","completion-date":null,"submission-date":{"value":1397576857584},"last-modified-date":{"value":1441622603957},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Juergen"},"family-name":{"value":"Wastl"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"Head
+        of Research Information,  Research Strategy Office, University of Cambridge","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[],"visibility":"PUBLIC"},"contact-details":{"email":[],"address":{"country":{"value":"GB","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"cytochrome
+        c6A, rubredoxin"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
+        Author ID"},"external-id-reference":{"value":"6701844405"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=6701844405&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:52:02 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-6176-2816/orcid-bio
@@ -1746,7 +1746,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:44 GMT
+      - Fri, 02 Oct 2015 08:52:03 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -1820,7 +1820,7 @@ http_interactions:
         dWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9yLWRlc2Mi
         Om51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:43 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:03 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-0311-9774/orcid-bio
@@ -1842,13 +1842,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:45 GMT
+      - Fri, 02 Oct 2015 08:52:03 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-0311-9774","path":"0000-0002-0311-9774","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1369289843141},"submission-date":{"value":1369280234116},"last-modified-date":{"value":1440139646040},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Rob"},"family-name":{"value":"Davidson"},"credit-name":{"value":"R.
@@ -1860,7 +1860,7 @@ http_interactions:
         multivariate, statistics"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"C-8721-2015"},"external-id-url":{"value":"http://www.researcherid.com/rid/C-8721-2015"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"37012006500"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=37012006500&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:44 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:03 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-6921-5307/orcid-bio
@@ -1882,18 +1882,18 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:46 GMT
+      - Fri, 02 Oct 2015 08:52:04 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-6921-5307","path":"0000-0001-6921-5307","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"DIRECT","completion-date":null,"submission-date":{"value":1426357880074},"last-modified-date":{"value":1429174146409},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Michael"},"family-name":{"value":"Hoy"},"credit-name":null,"other-names":null},"biography":null,"researcher-urls":null,"contact-details":null,"keywords":null,"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:46 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:04 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-4000-4167/orcid-bio
@@ -1915,7 +1915,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:47 GMT
+      - Fri, 02 Oct 2015 08:52:04 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2000,7 +2000,7 @@ http_interactions:
         IjpudWxsfSwib3JjaWQtc2VhcmNoLXJlc3VsdHMiOm51bGwsImVycm9yLWRl
         c2MiOm51bGx9
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:46 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:04 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-8478-7549/orcid-bio
@@ -2022,13 +2022,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:47 GMT
+      - Fri, 02 Oct 2015 08:52:04 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-8478-7549","path":"0000-0001-8478-7549","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"ES"},"orcid-history":{"creation-method":"WEBSITE","completion-date":null,"submission-date":{"value":1380185307931},"last-modified-date":{"value":1437243335377},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Carlos"},"family-name":{"value":"Cotta"},"credit-name":null,"other-names":{"other-name":[{"value":"Carlos
@@ -2037,7 +2037,7 @@ http_interactions:
         Metaheuristics"},{"value":"Memetic Algorithms"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"G-2356-2010"},"external-id-url":{"value":"http://www.researcherid.com/rid/G-2356-2010"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"7003400589"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003400589&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:46 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:04 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2059,7 +2059,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:49 GMT
+      - Fri, 02 Oct 2015 08:52:05 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2082,7 +2082,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:48 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:05 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2104,7 +2104,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:50 GMT
+      - Fri, 02 Oct 2015 08:52:05 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2127,7 +2127,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:49 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:05 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2149,7 +2149,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:50 GMT
+      - Fri, 02 Oct 2015 08:52:05 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2164,7 +2164,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:49 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:05 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2186,7 +2186,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:52 GMT
+      - Fri, 02 Oct 2015 08:52:06 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2201,7 +2201,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:51 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:06 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2223,7 +2223,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:52 GMT
+      - Fri, 02 Oct 2015 08:52:06 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2238,7 +2238,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:51 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:06 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2260,7 +2260,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:53 GMT
+      - Fri, 02 Oct 2015 08:52:07 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2275,7 +2275,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:52 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:07 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2297,7 +2297,44 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:53 GMT
+      - Fri, 02 Oct 2015 08:52:07 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-5921-2399","path":"0000-0001-5921-2399","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1352487567457},"submission-date":{"value":1352486733971},"last-modified-date":{"value":1441249714228},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Elisha"},"family-name":{"value":"Roberson"},"credit-name":{"value":"Elisha
+        D.O. Roberson","visibility":"PUBLIC"},"other-names":null},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Figshare"},"url":{"value":"http://figshare.com/authors/Elisha_Roberson/98532"}},{"url-name":{"value":"GitHub"},"url":{"value":"http://github.com/robersonlab"}},{"url-name":{"value":"Faculty
+        page"},"url":{"value":"http://rheumatology.wustl.edu/faculty/roberson.html"}},{"url-name":{"value":"Lab
+        homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
+        Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:52:07 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:52:07 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2312,7 +2349,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:53 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:07 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2334,7 +2371,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:54 GMT
+      - Fri, 02 Oct 2015 08:52:08 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2349,7 +2386,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:53 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:08 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2371,7 +2408,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:54 GMT
+      - Fri, 02 Oct 2015 08:52:08 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2386,7 +2423,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:53 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:08 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2408,7 +2445,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:55 GMT
+      - Fri, 02 Oct 2015 08:52:08 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2423,7 +2460,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:54 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:08 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2445,7 +2482,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:56 GMT
+      - Fri, 02 Oct 2015 08:52:09 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2460,7 +2497,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:56 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:09 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2482,7 +2519,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:57 GMT
+      - Fri, 02 Oct 2015 08:52:09 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2497,7 +2534,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:56 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:09 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2519,7 +2556,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:57 GMT
+      - Fri, 02 Oct 2015 08:52:10 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2534,7 +2571,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:56 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:09 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
@@ -2556,13 +2593,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:47:59 GMT
+      - Fri, 02 Oct 2015 08:52:10 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-5921-2399","path":"0000-0001-5921-2399","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1352487567457},"submission-date":{"value":1352486733971},"last-modified-date":{"value":1441249714228},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Elisha"},"family-name":{"value":"Roberson"},"credit-name":{"value":"Elisha
@@ -2571,44 +2608,7 @@ http_interactions:
         homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
         Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:58 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0001-5921-2399/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:47:59 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-5921-2399","path":"0000-0001-5921-2399","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1352487567457},"submission-date":{"value":1352486733971},"last-modified-date":{"value":1441249714228},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Elisha"},"family-name":{"value":"Roberson"},"credit-name":{"value":"Elisha
-        D.O. Roberson","visibility":"PUBLIC"},"other-names":null},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Figshare"},"url":{"value":"http://figshare.com/authors/Elisha_Roberson/98532"}},{"url-name":{"value":"GitHub"},"url":{"value":"http://github.com/robersonlab"}},{"url-name":{"value":"Faculty
-        page"},"url":{"value":"http://rheumatology.wustl.edu/faculty/roberson.html"}},{"url-name":{"value":"Lab
-        homepage"},"url":{"value":"http://www.robersonlab.org"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"J-1747-2012"},"external-id-url":{"value":"http://www.researcherid.com/rid/J-1747-2012"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
-        Author ID"},"external-id-reference":{"value":"35262605900"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35262605900&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:59 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:10 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5882-6823/orcid-bio
@@ -2630,13 +2630,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:00 GMT
+      - Fri, 02 Oct 2015 08:52:10 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-5882-6823","path":"0000-0001-5882-6823","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":null,"submission-date":{"value":1350558242988},"last-modified-date":{"value":1441972339155},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Andy"},"family-name":{"value":"Mabbett"},"credit-name":null,"other-names":{"other-name":[{"value":"Pigsonthewing"}],"visibility":"PUBLIC"}},"biography":{"value":"Wikipedian
@@ -2648,7 +2648,7 @@ http_interactions:
         Floyd"},{"value":"Wikidata"},{"value":"Wikimedia"},{"value":"Wikipedia"},{"value":"open
         data"},{"value":"pigsonthewing"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ISNI"},"external-id-reference":{"value":"0000000031979523"},"external-id-url":{"value":"http://isni.org/isni/0000000031979523"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0003-0412-1857","path":"0000-0003-0412-1857","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"D-1054-2013"},"external-id-url":{"value":"http://www.researcherid.com/rid/D-1054-2013"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:47:59 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:10 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0001-5882-6823/orcid-bio
@@ -2670,13 +2670,13 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:00 GMT
+      - Fri, 02 Oct 2015 08:52:11 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
     body:
       encoding: UTF-8
       string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0001-5882-6823","path":"0000-0001-5882-6823","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":null,"submission-date":{"value":1350558242988},"last-modified-date":{"value":1441972339155},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Andy"},"family-name":{"value":"Mabbett"},"credit-name":null,"other-names":{"other-name":[{"value":"Pigsonthewing"}],"visibility":"PUBLIC"}},"biography":{"value":"Wikipedian
@@ -2688,7 +2688,7 @@ http_interactions:
         Floyd"},{"value":"Wikidata"},{"value":"Wikimedia"},{"value":"Wikipedia"},{"value":"open
         data"},{"value":"pigsonthewing"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ISNI"},"external-id-reference":{"value":"0000000031979523"},"external-id-url":{"value":"http://isni.org/isni/0000000031979523"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0003-0412-1857","path":"0000-0003-0412-1857","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}},{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"ResearcherID"},"external-id-reference":{"value":"D-1054-2013"},"external-id-url":{"value":"http://www.researcherid.com/rid/D-1054-2013"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0001-7707-4137","path":"0000-0001-7707-4137","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:00 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:11 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2710,52 +2710,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:01 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
-        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
-        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
-        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
-        of Science degree from Western Carolina University in 1988; a Master of Divinity
-        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
-        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
-        Ann completed the Doctor of Philosophy degree in quantitative biology from
-        the University of Texas at Arlington in 2015. She is now an associate professor
-        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
-        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
-        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
-        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:00 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:48:01 GMT
+      - Fri, 02 Oct 2015 08:52:11 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2778,7 +2733,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:00 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:11 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2800,52 +2755,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:02 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
-        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
-        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
-        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
-        of Science degree from Western Carolina University in 1988; a Master of Divinity
-        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
-        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
-        Ann completed the Doctor of Philosophy degree in quantitative biology from
-        the University of Texas at Arlington in 2015. She is now an associate professor
-        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
-        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
-        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
-        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:01 GMT
-- request:
-    method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Tue, 29 Sep 2015 17:48:02 GMT
+      - Fri, 02 Oct 2015 08:52:12 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2868,7 +2778,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:01 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:12 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2890,7 +2800,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:03 GMT
+      - Fri, 02 Oct 2015 08:52:12 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2913,7 +2823,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:02 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:12 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2935,7 +2845,97 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:04 GMT
+      - Fri, 02 Oct 2015 08:52:12 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
+        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
+        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
+        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
+        of Science degree from Western Carolina University in 1988; a Master of Divinity
+        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
+        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
+        Ann completed the Doctor of Philosophy degree in quantitative biology from
+        the University of Texas at Arlington in 2015. She is now an associate professor
+        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
+        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
+        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
+        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:52:12 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:52:13 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=AF19869FCBC8E56B35B634621027FFDD; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-3546-1048","path":"0000-0002-3546-1048","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1372469052279},"submission-date":{"value":1372468815675},"last-modified-date":{"value":1439662416128},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Ann"},"family-name":{"value":"Mayo"},"credit-name":{"value":"Ann
+        Mayo","visibility":"PUBLIC"},"other-names":{"other-name":[{"value":"A. B.
+        Mayo"}],"visibility":"PUBLIC"}},"biography":{"value":"Ann Burgess Mayo received
+        a Bachelor of Science degree from Hampden-Sydney College in 1984, a Master
+        of Science degree from Western Carolina University in 1988; a Master of Divinity
+        degree from Louisville Presbyterian Theological Seminary in 1994, a Master
+        of Theology degree from Louisville Presbyterian Theological Seminary in 1996.
+        Ann completed the Doctor of Philosophy degree in quantitative biology from
+        the University of Texas at Arlington in 2015. She is now an associate professor
+        in the Life Sciences Department at Weatherford College in Weatherford, Texas.
+        She continues to study ants in North Central Texas focusing on their ecology.","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"Ant
+        Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
+        ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Fri, 02 Oct 2015 08:52:13 GMT
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 02 Oct 2015 08:52:13 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -2958,7 +2958,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:04 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:13 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -2980,7 +2980,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:05 GMT
+      - Fri, 02 Oct 2015 08:52:13 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -3003,7 +3003,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:04 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:13 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -3025,7 +3025,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:08 GMT
+      - Fri, 02 Oct 2015 08:52:14 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -3048,7 +3048,7 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:07 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:14 GMT
 - request:
     method: get
     uri: http://pub.orcid.org/v1.2/0000-0002-3546-1048/orcid-bio
@@ -3070,7 +3070,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 29 Sep 2015 17:48:08 GMT
+      - Fri, 02 Oct 2015 08:52:14 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
@@ -3093,5 +3093,5 @@ http_interactions:
         Ecology and Other Adventures: my open science notebook"},"url":{"value":"http://onsnetwork.org/mayonotebook/"}}],"visibility":"PUBLIC"},"contact-details":{"email":[{"value":"amayo@wc.edu","primary":true,"current":true,"verified":true,"visibility":"PUBLIC","source":"0000-0002-3546-1048","source-client-id":null}],"address":{"country":{"value":"US","visibility":"PUBLIC"}}},"keywords":{"keyword":[{"value":"ant,
         ecology"}],"visibility":"PUBLIC"},"external-identifiers":null,"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:07 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:14 GMT
 recorded_with: VCR 2.9.3

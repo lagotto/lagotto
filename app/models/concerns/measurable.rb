@@ -29,14 +29,16 @@ module Measurable
     def get_iso8601_from_time(time)
       return nil if time.blank?
 
-      Time.zone.parse(time).utc.iso8601
+      Time.zone.parse(time.to_s).utc.iso8601
     end
 
     def get_iso8601_from_epoch(epoch)
       return nil if epoch.blank?
 
-      Time.at(epoch.to_i).utc.iso8601
+      # handle milliseconds
+      epoch = epoch.to_i
+      epoch = epoch / 1000 if epoch > 9999999999
+      Time.at(epoch).utc.iso8601
     end
-
   end
 end

@@ -31,7 +31,7 @@ class TwitterSearch < Agent
         total: related_works.length,
         events_url: get_events_url(work),
         extra: extra,
-        days: get_events_by_day(related_works, work, metrics: :comments),
+        days: get_events_by_day(related_works, work.published_on, metrics: :comments),
         months: get_events_by_month(related_works, metrics: :comments) }] }
   end
 

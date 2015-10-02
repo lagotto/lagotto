@@ -2,6 +2,9 @@ class DataciteImport < Agent
   # include common methods for Import
   include Importable
 
+  # include common methods for DataCite
+  include Datacitable
+
   def get_query_url(options={})
     offset = options[:offset].to_i
     rows = options[:rows].presence || job_batch_size

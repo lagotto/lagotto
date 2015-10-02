@@ -76,7 +76,7 @@ class Wikipedia < Agent
         total: total,
         events_url: events_url,
         extra: get_extra(result),
-        days: get_events_by_day(related_works, work, options),
+        days: get_events_by_day(related_works, work.published_on, options),
         months: get_events_by_month(related_works, options) }] }
   end
 

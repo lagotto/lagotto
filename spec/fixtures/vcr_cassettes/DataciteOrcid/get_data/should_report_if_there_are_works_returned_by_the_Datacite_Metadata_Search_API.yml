@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,nameIdentifier,updated&fq=updated:%5B2015-04-07T00:00:00Z%20TO%202015-04-08T23:59:59Z%5D%20AND%20has_metadata:true%20AND%20is_active:true&q=nameIdentifier:ORCID%5C:*&rows=1000&start=0&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,nameIdentifier,updated&fq=updated:%5B2015-04-07T00:00:00Z%20TO%202015-04-08T23:59:59Z%5D%20AND%20has_metadata:true%20AND%20is_active:true&q=nameIdentifier:ORCID%5C:*&rows=200&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Tue, 29 Sep 2015 17:35:19 GMT
+      - Fri, 02 Oct 2015 08:39:44 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -31,7 +31,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjozMX0sInJl
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjo1NX0sInJl
         c3BvbnNlIjp7Im51bUZvdW5kIjo2Miwic3RhcnQiOjAsImRvY3MiOlt7ImRh
         dGFjZW50cmVfc3ltYm9sIjoiVElCLlBBTkdBRUEiLCJ1cGRhdGVkIjoiMjAx
         NS0wNC0wOFQwMzowMTo1OVoiLCJkb2kiOiIxMC4xNTk0L1BBTkdBRUEuNzMz
@@ -530,5 +530,5 @@ http_interactions:
         b25ZZWFyIjoiMjAxNCIsInJlc291cmNlVHlwZUdlbmVyYWwiOiJEYXRhc2V0
         In1dfX0K
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 17:48:10 GMT
+  recorded_at: Fri, 02 Oct 2015 08:52:39 GMT
 recorded_with: VCR 2.9.3

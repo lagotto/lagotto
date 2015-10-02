@@ -39,7 +39,7 @@ module Repoable
           total: total,
           events_url: events_url,
           extra: extra,
-          days: get_events_by_day(related_works, work, options.merge(metrics: :readers)),
+          days: get_events_by_day(related_works, work.published_on, options.merge(metrics: :readers)),
           months: get_events_by_month(related_works, options.merge(metrics: :readers)) }.compact] }
     end
 

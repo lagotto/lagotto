@@ -55,4 +55,26 @@ describe Source do
       end
     end
   end
+
+  describe 'get_iso8601_from_epoch' do
+    it 'should handle seconds' do
+      result = subject.get_iso8601_from_epoch(1350426975)
+      expect(result).to eq("2012-10-16T22:36:15Z")
+    end
+
+    it 'should handle milliseconds' do
+      result = subject.get_iso8601_from_epoch(1350426975660)
+      expect(result).to eq("2012-10-16T22:36:15Z")
+    end
+
+    it 'should handle strings' do
+      result = subject.get_iso8601_from_epoch("1350426975")
+      expect(result).to eq("2012-10-16T22:36:15Z")
+    end
+
+    it 'should handle nil' do
+      result = subject.get_iso8601_from_epoch(nil)
+      expect(result).to be_nil
+    end
+  end
 end

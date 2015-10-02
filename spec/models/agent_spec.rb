@@ -21,18 +21,18 @@ describe Agent, :type => :model, vcr: true do
       events = [{ "timestamp" => time.utc.iso8601 },
                 { "timestamp" => time.utc.iso8601 },
                 { "timestamp" => time_two.utc.iso8601 }]
-      expect(subject.get_events_by_day(events, work)).to eq([{:year=>2013, :month=>8, :day=>5, :total=>2}, {:year=>2013, :month=>8, :day=>29, :total=>1}])
+      expect(subject.get_events_by_day(events, work.published_on)).to eq([{:year=>2013, :month=>8, :day=>5, :total=>2}, {:year=>2013, :month=>8, :day=>29, :total=>1}])
     end
 
     it "should handle empty lists" do
       events = []
-      expect(subject.get_events_by_day(events, work)).to eq([])
+      expect(subject.get_events_by_day(events, work.published_on)).to eq([])
     end
 
     it "should handle events without timestamp" do
       time = Time.zone.now - 1.month
       events = [{ }, { "timestamp" => time.utc.iso8601 }]
-      expect(subject.get_events_by_day(events, work)).to eq([{:year=>2013, :month=>8, :day=>5, :total=>1}])
+      expect(subject.get_events_by_day(events, work.published_on)).to eq([{:year=>2013, :month=>8, :day=>5, :total=>1}])
     end
   end
 

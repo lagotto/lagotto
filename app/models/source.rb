@@ -46,8 +46,8 @@ class Source < ActiveRecord::Base
     (active ? "active" : "inactive")
   end
 
-  def get_events_by_day(events, work, options={})
-    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - work.published_on > 30 }
+  def get_events_by_day(events, publication_date, options={})
+    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - publication_date > 30 }
 
     options[:metrics] ||= :total
     events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|

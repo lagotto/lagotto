@@ -159,7 +159,7 @@ class Agent < ActiveRecord::Base
                              message: data)
 
     Rails.logger.info deposit.uuid
-    
+
     { "uuid" => deposit.uuid,
       "source_token" => deposit.source_token,
       "message_type" => deposit.message_type }
@@ -212,12 +212,12 @@ class Agent < ActiveRecord::Base
         total: metrics[:total],
         events_url: events_url,
         extra: extra,
-        days: get_events_by_day(related_works, work, options),
+        days: get_events_by_day(related_works, work.published_on, options),
         months: get_events_by_month(related_works, options) }.compact] }
   end
 
-  def get_events_by_day(events, work, options={})
-    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - work.published_on > 30 }
+  def get_events_by_day(events, publication_date, options={})
+    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - publication_date > 30 }
 
     options[:metrics] ||= :total
     events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|

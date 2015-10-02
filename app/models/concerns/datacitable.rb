@@ -2,14 +2,37 @@ module Datacitable
   extend ActiveSupport::Concern
 
   included do
-    def get_events_url(work)
-      return {} unless events_url.present? && work.doi.present?
+    def parse_data(result, _work, options={})
+      result = { error: "No hash returned." } unless result.is_a?(Hash)
+      return result if result[:error]
 
-      events_url % { doi: work.doi_escaped }
+      items = result.fetch('response', {}).fetch('docs', nil)
+      works = get_works(items)
+      related_works = get_related_works(items)
+      events = get_events(items)
+
+      { works: works + related_works,
+        events: events }
     end
 
-    def config_fields
-      [:url, :events_url]
+    def get_works(items)
+      Array(items).map do |item|
+        year = item.fetch("publicationYear", nil).to_i
+        type = item.fetch("resourceTypeGeneral", nil)
+        type = DATACITE_TYPE_TRANSLATIONS[type] if type
+        publisher_symbol = item.fetch("datacentre_symbol", nil)
+        publisher_id = publisher_symbol.to_i(36)
+
+        { "author" => get_authors(item.fetch("creator", []), reversed: true, sep: ", "),
+          "container-title" => nil,
+          "title" => item.fetch("title", []).first,
+          "issued" => { "date-parts" => [[year]] },
+          "DOI" => item.fetch("doi", nil),
+          "publisher_id" => publisher_id,
+          "registration_agency" => "datacite",
+          "tracked" => true,
+          "type" => type }
+      end
     end
   end
 end
