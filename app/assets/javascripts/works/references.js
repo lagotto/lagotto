@@ -25,7 +25,7 @@ queue()
   .await(function(error, s, r, w) {
     if (error) { return console.warn(error); }
     eventsViz(w, s.sources, r.relation_types);
-    paginate(w);
+    paginate(w, "#content");
 });
 
 // add data to page

@@ -24,7 +24,7 @@ queue()
   .await(function(error, s, w) {
     if (error) { return console.warn(error); }
     worksViz(w, s.sources);
-    paginate(w);
+    paginate(w, "#content");
 });
 
 // add data to page

@@ -30,7 +30,7 @@ queue()
   .await(function(error, s, w) {
     if (error) { return console.warn(error); }
     worksViz(w, s.sources);
-    if (model !== "source") { paginate(w); }
+    if (model !== "source") { paginate(w, "#content"); }
 });
 
 // add data to page

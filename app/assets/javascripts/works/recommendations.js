@@ -26,7 +26,7 @@ queue()
   .await(function(error, s, r, w) {
     if (error) { return console.warn(error); }
     recommendationsViz(w, s.sources, r.relation_types);
-    paginate(w);
+    paginate(w, "#content-recommendations");
 });
 
 // add data to page

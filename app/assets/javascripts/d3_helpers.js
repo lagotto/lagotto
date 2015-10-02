@@ -62,12 +62,12 @@ function formattedDate(date, len) {
 }
 
 // pagination
-function paginate(json) {
+function paginate(json, tag) {
   if ((json.meta.page !== "") && json.meta.total_pages > 1) {
     var prev = (json.meta.page > 1) ? "«" : null;
     var next = (json.meta.page < json.meta.total_pages) ? "»" : null;
 
-    d3.select("#content").append("div")
+    d3.select(tag).append("div")
       .attr("id", "paginator")
       .attr("class", "text-center");
 
