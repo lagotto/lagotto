@@ -29,17 +29,8 @@ class DataciteOrcid < Agent
 
       sum += name_identifiers.map do |related_item|
         orcid = related_item.split(':', 2).last
-        metadata = get_metadata(orcid, "orcid")
 
-        { "author" => metadata.fetch("author", []),
-          "title" => metadata.fetch("title", nil),
-          "container-title" => metadata.fetch("container-title", nil),
-          "issued" => metadata.fetch("issued", {}),
-          "timestamp" => metadata.fetch("timestamp", nil),
-          "URL" => metadata.fetch("URL", nil),
-          "type" => metadata.fetch("type", nil),
-          "tracked" => false,
-          "registration_agency" => "orcid",
+        { "URL" => "http://orcid.org/#{orcid}",
           "related_works" => [{ "related_work" => pid,
                                 "source" => name,
                                 "relation_type" => "bookmarks" }] }

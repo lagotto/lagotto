@@ -90,45 +90,12 @@ describe DataciteOrcid, type: :model, vcr: true do
 
       expect(response[:works].length).to eq(125)
       related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Mayo", "given"=>"Ann"}])
-      expect(related_work['title']).to eq("ORCID profile for Ann Mayo")
-      expect(related_work['container-title']).to eq("ORCID Registry")
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 6, 29]])
-      expect(related_work['type']).to eq("entry")
       expect(related_work['URL']).to eq("http://orcid.org/0000-0002-3546-1048")
+      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.6084/M9.FIGSHARE.999239", "source"=>"datacite_orcid", "relation_type"=>"bookmarks"}])
 
       expect(response[:events].length).to eq(62)
       event = response[:events].first
       expect(event).to eq(:source_id=>"datacite_orcid", :work_id=>"http://doi.org/10.1594/PANGAEA.733793", :total=>1)
-    end
-
-    it "should report if there are works with incomplete date returned by the Datacite Metadata Search API" do
-      body = File.read(fixture_path + 'datacite_orcid.json')
-      result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
-
-      expect(response[:works].length).to eq(125)
-      related_work = response[:works][0]
-      expect(related_work['author']).to eq([{"family"=>"Grobe", "given"=>"Hannes"}, {"family"=>"Spieß", "given"=>"Volkhard"}])
-      expect(related_work['title']).to eq("Paleomagnetic measurements of 10 sediment profiles from the Antarctic continental slope")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[1989]])
-      expect(related_work['type']).to be_nil
-      expect(related_work['DOI']).to eq("10.1594/PANGAEA.733793")
-    end
-
-    it "should report if there are works with missing title returned by the Datacite Metadata Search API" do
-      body = File.read(fixture_path + 'datacite_orcid.json')
-      result = JSON.parse(body)
-      result["response"]["docs"][5]["title"] = []
-      response = subject.parse_data(result, nil)
-
-      expect(response[:works].length).to eq(125)
-      related_work = response[:works][5]
-      expect(related_work['title']).to be_nil
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.6084/M9.FIGSHARE.1041547")
     end
   end
 end

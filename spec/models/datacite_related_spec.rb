@@ -83,51 +83,19 @@ describe DataciteRelated, type: :model, vcr: true do
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
+      FactoryGirl.create(:relation_type, :has_part)
       body = File.read(fixture_path + 'datacite_related.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, nil)
 
       expect(response[:works].length).to eq(26)
       related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Eggers", "given"=>"Florian"}, {"family"=>"Slotte", "given"=>"Aril"}, {"family"=>"Libungan", "given"=>"Lísa Anne"}, {"family"=>"Johannessen", "given"=>"Arne"}, {"family"=>"Kvamme", "given"=>"Cecilie"}, {"family"=>"Moland", "given"=>"Even"}, {"family"=>"Olsen", "given"=>"Esben Moland"}, {"family"=>"Nash", "given"=>"Richard D. M."}])
-      expect(related_work['title']).to eq("Data from: Seasonal dynamics of Atlantic herring (Clupea harengus L.) populations spawning in the vicinity of marginal habitats")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2014]])
-      expect(related_work['type']).to eq("dataset")
       expect(related_work['DOI']).to eq("10.5061/DRYAD.QT984")
+      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.5061/DRYAD.QT984/1", "source"=>"datacite_related", "relation_type"=>"has_part"}])
 
       expect(response[:events].length).to eq(10)
       event = response[:events].first
       expect(event).to eq(:source_id=>"datacite_related", :work_id=>"http://doi.org/10.5061/DRYAD.47SD5", :total=>2)
-    end
-
-    it "should report if there are works with incomplete date returned by the Datacite Metadata Search API" do
-      body = File.read(fixture_path + 'datacite_related.json')
-      result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
-
-      expect(response[:works].length).to eq(26)
-      related_work = response[:works][10]
-      expect(related_work['author']).to eq([{"family"=>"Crawford", "given"=>"Lindsay A."}, {"family"=>"Koscinski", "given"=>"Daria"}, {"family"=>"Keyghobadi", "given"=>"Nusha"}])
-      expect(related_work['title']).to eq("Extracted information from AFLP studies")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.47SD5/1")
-    end
-
-    it "should report if there are works with missing title returned by the Datacite Metadata Search API" do
-      body = File.read(fixture_path + 'datacite_related.json')
-      result = JSON.parse(body)
-      result["response"]["docs"][5]["title"] = []
-      response = subject.parse_data(result, nil)
-
-      expect(response[:works].length).to eq(26)
-      related_work = response[:works][5]
-      expect(related_work['title']).to be_nil
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.NK151/2")
     end
   end
 end

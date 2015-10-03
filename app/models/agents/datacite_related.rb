@@ -29,23 +29,12 @@ class DataciteRelated < Agent
 
       sum += related_identifiers.map do |related_item|
         raw_relation_type, _related_identifier_type, related_identifier = related_item.split(':', 3)
-        relation_type = RelationType.where(inverse_name: raw_relation_type.underscore).pluck(:name).first
         doi = related_identifier.strip.upcase
-        registration_agency = get_doi_ra(doi)
-        metadata = get_metadata(doi, registration_agency)
 
-        { "issued" => metadata.fetch("issued", {}),
-          "author" => metadata.fetch("author", []),
-          "container-title" => metadata.fetch("container-title", nil),
-          "volume" => metadata.fetch("volume", nil),
-          "issue" => metadata.fetch("issue", nil),
-          "page" => metadata.fetch("page", nil),
-          "title" => metadata.fetch("title", nil),
-          "DOI" => doi,
-          "type" => metadata.fetch("type", nil),
-          "tracked" => true,
-          "publisher_id" => metadata.fetch("publisher_id", nil),
-          "registration_agency" => registration_agency,
+        # find relation_type, default to "references" otherwise
+        relation_type = RelationType.where(inverse_name: raw_relation_type.underscore).pluck(:name).first || 'references'
+
+        { "DOI" => doi,
           "related_works" => [{ "related_work" => pid,
                                 "source" => name,
                                 "relation_type" => relation_type }] }

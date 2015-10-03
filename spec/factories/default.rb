@@ -7,6 +7,7 @@ FactoryGirl.define do
     sequence(:wos) { |n| "00023796690000#{n}" }
     sequence(:scp) { |n| "3384533872#{n}" }
     sequence(:ark) { |n| "ark:/13030/m5br8st#{n}" }
+    registration_agency "crossref"
     sequence(:canonical_url) { |n| "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.00000#{n}" }
     mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
@@ -532,6 +533,12 @@ FactoryGirl.define do
       name "is_cited_by"
       title "Is cited by"
       inverse_name "cites"
+    end
+
+    trait(:has_part) do
+      name "has_part"
+      title "Has part"
+      inverse_name "is_part_of"
     end
 
     initialize_with { RelationType.where(name: name).first_or_initialize }

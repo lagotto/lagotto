@@ -41,7 +41,7 @@ class Work < ActiveRecord::Base
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
-  before_validation :sanitize_title, :normalize_url, :set_pid
+  before_validation :set_pid, :set_metadata, :sanitize_title, :normalize_url
 
   scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
@@ -266,6 +266,10 @@ class Work < ActiveRecord::Base
     @mendeley_url ||= events_url("mendeley")
   end
 
+  def orcid
+    Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
+  end
+
   def views
     names = ENV["VIEWED"] ? ENV["VIEWED"].split(",") : ["pmc", "counter"]
     @views || event_counts(names)
@@ -395,5 +399,50 @@ class Work < ActiveRecord::Base
     else
       errors.add :doi, "must provide at least one persistent identifier"
     end
+  end
+
+  # collect missing metadata for doi, orcid
+  def set_metadata
+    return if registration_agency.present? && title.present? && year.present?
+
+    if doi.present?
+      ra = registration_agency || get_doi_ra(doi)
+      return nil unless ra.present?
+
+      write_attribute(:registration_agency, ra)
+      write_attribute(:tracked, true)
+      metadata = get_metadata(doi, ra)
+    elsif orcid.present?
+      write_attribute(:registration_agency, "orcid")
+      write_attribute(:tracked, false)
+      metadata = get_metadata(orcid, "orcid")
+    else
+      return nil
+    end
+
+    write_metadata(metadata)
+  end
+
+  def write_metadata(metadata)
+    csl = {
+      "author" => metadata.fetch("author", []),
+      "container-title" => metadata.fetch("container-title", nil),
+      "volume" => metadata.fetch("volume", nil),
+      "page" => metadata.fetch("page", nil),
+      "issue" => metadata.fetch("issue", nil) }
+
+    type = metadata.fetch("type", nil)
+    work_type_id = WorkType.where(name: type).pluck(:id).first
+
+    date_parts = Array(metadata.fetch("issued", {}).fetch("date-parts", []).first)
+    year, month, day = date_parts[0], date_parts[1], date_parts[2]
+
+    write_attribute(:csl, csl)
+    write_attribute(:title, metadata.fetch("title", nil))
+    write_attribute(:publisher_id, metadata.fetch("publisher_id", nil))
+    write_attribute(:year, year)
+    write_attribute(:month, month)
+    write_attribute(:day, day)
+    write_attribute(:work_type_id, work_type_id)
   end
 end
