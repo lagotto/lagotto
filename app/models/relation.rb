@@ -11,6 +11,7 @@ class Relation < ActiveRecord::Base
   scope :referencable, -> { where("level > 0") }
   scope :versionable, -> { where("level = 0") }
   scope :similar, ->(work_id) { where("total > ?", 0) }
+  scope :last_x_days, ->(duration) { where("relations.created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
 
   def timestamp
     updated_at.utc.iso8601

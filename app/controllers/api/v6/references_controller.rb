@@ -14,6 +14,7 @@ class Api::V6::ReferencesController < Api::BaseController
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
+    param :query, :recent, :integer, :optional, "Limit to references created last x days"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
     response :ok
     response :unprocessable_entity
@@ -46,6 +47,10 @@ class Api::V6::ReferencesController < Api::BaseController
     end
 
     collection = collection.includes(:related_work)
+
+    if params[:recent]
+      collection = collection.last_x_days(params[:recent].to_i)
+    end
 
     if params[:sort] == "created_at"
       collection = collection.order("works.created_at ASC")

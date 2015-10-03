@@ -205,8 +205,8 @@ module Resolvable
       else
         { error: 'Resource not found.', status: 404 }
       end
-    # rescue *NETWORKABLE_EXCEPTIONS => e
-    #   rescue_faraday_error(url, e, options)
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
     end
 
     def get_orcid_metadata(orcid, options = {})
