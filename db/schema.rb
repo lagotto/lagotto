@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824064105) do
+ActiveRecord::Schema.define(version: 20151003064054) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -277,6 +277,7 @@ ActiveRecord::Schema.define(version: 20150824064105) do
   end
 
   add_index "relations", ["level", "work_id", "related_work_id"], name: "index_relations_on_level_work_related_work", using: :btree
+  add_index "relations", ["work_id", "related_work_id", "source_id"], name: "index_relations_on_work_id_and_related_work_id_and_source_id", unique: true, using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
