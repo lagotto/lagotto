@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003064054) do
+ActiveRecord::Schema.define(version: 20151003114427) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -277,6 +277,9 @@ ActiveRecord::Schema.define(version: 20151003064054) do
   end
 
   add_index "relations", ["level", "work_id", "related_work_id"], name: "index_relations_on_level_work_related_work", using: :btree
+  add_index "relations", ["related_work_id"], name: "relations_related_work_id_fk", using: :btree
+  add_index "relations", ["relation_type_id"], name: "relations_relation_type_id_fk", using: :btree
+  add_index "relations", ["source_id"], name: "relations_source_id_fk", using: :btree
   add_index "relations", ["work_id", "related_work_id", "source_id"], name: "index_relations_on_work_id_and_related_work_id_and_source_id", unique: true, using: :btree
   add_index "relations", ["work_id", "related_work_id"], name: "index_relationships_on_work_id_related_work_id", using: :btree
 
@@ -443,4 +446,8 @@ ActiveRecord::Schema.define(version: 20151003064054) do
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
   add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "publishers", primary_key: "member_id", name: "publisher_options_publisher_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "relation_types", name: "relations_relation_type_id_fk"
+  add_foreign_key "relations", "sources", name: "relations_source_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "works", column: "related_work_id", name: "relations_related_work_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "works", name: "relations_work_id_fk", on_delete: :cascade
 end
