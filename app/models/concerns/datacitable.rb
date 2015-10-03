@@ -34,5 +34,15 @@ module Datacitable
           "type" => type }
       end
     end
+
+    # override this method
+    def get_related_works(items)
+      []
+    end
+
+    # override this method
+    def get_events(items)
+      []
+    end
   end
 end

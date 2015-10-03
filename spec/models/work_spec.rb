@@ -121,10 +121,9 @@ describe Work, type: :model, vcr: true do
       expect(work).to be_valid
     end
 
-    it 'don\'t validate date with missing year, month and day' do
+    it 'look up date for missing year, month and day' do
       work = FactoryGirl.build(:work, year: nil, month: nil, day: nil)
-      expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(year: ["is not a number"], published_on: ["is before 1650"])
+      expect(work).to be_valid
     end
 
     it 'don\'t validate wrong date' do

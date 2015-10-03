@@ -90,7 +90,7 @@ describe DataciteImport, type: :model, vcr: true do
     it "should report if there are no works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, nil)).to eq(works: [])
+      expect(subject.parse_data(result, nil)).to eq(:works=>[], :events=>[])
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do

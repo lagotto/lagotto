@@ -1,0 +1,79 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1371/journal.pbio.1002020/agency
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sat, 03 Oct 2015 08:02:00 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '166'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work-agency","message-version":"1.0.0","message":{"DOI":"10.1371\/journal.pbio.1002020","agency":{"id":"crossref","label":"CrossRef"}}}'
+    http_version: 
+  recorded_at: Sat, 03 Oct 2015 08:02:00 GMT
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1371%2Fjournal.pbio.1002020
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sat, 03 Oct 2015 08:02:03 GMT
+      Server:
+      - http-kit
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '1107'
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,6,9]],"timestamp":1433863960541},"reference-count":0,"publisher":"Public
+        Library of Science (PLoS)","issue":"12","DOI":"10.1371\/journal.pbio.1002020","type":"journal-article","page":"e1002020","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pbio.corrections_policy","source":"CrossRef","title":["Life
+        in a World without Microbes"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"12","author":[{"affiliation":[],"family":"Gilbert","given":"Jack
+        A."},{"affiliation":[],"family":"Neufeld","given":"Josh D."}],"member":"http:\/\/id.crossref.org\/member\/340","container-title":["PLoS
+        Biology","PLoS Biol"],"deposited":{"date-parts":[[2014,12,16]],"timestamp":1418688000000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,12,16]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pbio.1002020","ISSN":["1545-7885"],"subject":["Immunology
+        and Microbiology(all)","Agricultural and Biological Sciences(all)","Neuroscience(all)","Biochemistry,
+        Genetics and Molecular Biology(all)"]}}'
+    http_version: 
+  recorded_at: Sat, 03 Oct 2015 08:02:03 GMT
+recorded_with: VCR 2.9.3

@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier&fq=has_metadata:true&q=relatedIdentifier:10.1371/journal.ppat.1000446&rows=1000&wt=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.1.19
+      Date:
+      - Sat, 03 Oct 2015 09:28:37 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoxMH0sInJl
+        c3BvbnNlIjp7Im51bUZvdW5kIjoxLCJzdGFydCI6MCwiZG9jcyI6W3siZGF0
+        YWNlbnRyZV9zeW1ib2wiOiJDREwuRFJZQUQiLCJkYXRhY2VudHJlIjoiQ0RM
+        LkRSWUFEIC0gRHJ5YWQiLCJwcmVmaXgiOiIxMC41MDYxIiwiZG9pIjoiMTAu
+        NTA2MS9EUllBRC44NTE1IiwicmVsYXRlZElkZW50aWZpZXIiOlsiSGFzUGFy
+        dDpET0k6MTAuNTA2MS9EUllBRC44NTE1LzEiLCJIYXNQYXJ0OkRPSToxMC41
+        MDYxL0RSWUFELjg1MTUvMiIsIklzUmVmZXJlbmNlZEJ5OkRPSToxMC4xMzcx
+        L0pPVVJOQUwuUFBBVC4xMDAwNDQ2IiwiSXNSZWZlcmVuY2VkQnk6RE9JOiJd
+        LCJjcmVhdG9yIjpbIk9sbG9tbywgQmVuamFtaW4iLCJEdXJhbmQsIFBhdHJp
+        Y2siLCJQcnVnbm9sbGUsIEZyYW5jayIsIkRvdXplcnksIEVtbWFudWVsIEou
+        IFAuIiwiQXJuYXRoYXUsIEPDqWxpbmUiLCJOa29naGUsIERpZXVkb25uw6ki
+        LCJMZXJveSwgRXJpYyIsIlJlbmF1ZCwgRnJhbsOnb2lzIl0sInB1Ymxpc2hl
+        ciI6IkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeSIsInRpdGxlIjpbIkRhdGEg
+        ZnJvbTogQSBuZXcgbWFsYXJpYSBhZ2VudCBpbiBBZnJpY2FuIGhvbWluaWRz
+        LiJdLCJwdWJsaWNhdGlvblllYXIiOiIyMDExIiwicmVzb3VyY2VUeXBlR2Vu
+        ZXJhbCI6IkRhdGFzZXQifV19fQo=
+    http_version: 
+  recorded_at: Sat, 03 Oct 2015 09:41:34 GMT
+recorded_with: VCR 2.9.3
