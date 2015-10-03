@@ -23,7 +23,12 @@ module Datacitable
         publisher_symbol = item.fetch("datacentre_symbol", nil)
         publisher_id = publisher_symbol.to_i(36)
 
-        { "author" => get_authors(item.fetch("creator", []), reversed: true, sep: ", "),
+        xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
+        xml = Hash.from_xml(xml).fetch("resource", {})
+        authors = xml.fetch("creators", {}).fetch("creator", [])
+        authors = [authors] if authors.is_a?(Hash)
+
+        { "author" => get_hashed_authors(authors),
           "container-title" => nil,
           "title" => item.fetch("title", []).first,
           "issued" => { "date-parts" => [[year]] },

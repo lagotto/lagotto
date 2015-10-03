@@ -30,29 +30,6 @@ class DataciteImport < Agent
     url +  URI.encode_www_form(params)
   end
 
-  def get_works(result)
-    # return early if an error occured
-    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
-
-    items = result.fetch('response', {}).fetch('docs', nil)
-    Array(items).map do |item|
-      year = item.fetch("publicationYear", nil).to_i
-      type = item.fetch("resourceTypeGeneral", nil)
-      type = DATACITE_TYPE_TRANSLATIONS[type] if type
-      publisher_symbol = item.fetch("datacentre_symbol", nil)
-      publisher_id = publisher_symbol.to_i(36)
-
-      { "author" => get_authors(item.fetch("creator", []), reversed: true, sep: ", "),
-        "container-title" => nil,
-        "title" => item.fetch("title", []).first,
-        "issued" => { "date-parts" => [[year]] },
-        "DOI" => item.fetch("doi", nil),
-        "publisher_id" => publisher_id,
-        "tracked" => true,
-        "type" => type }
-    end
-  end
-
   def config_fields
     [:url, :only_publishers]
   end

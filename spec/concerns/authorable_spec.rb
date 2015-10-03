@@ -21,6 +21,33 @@ describe Agent do
     end
   end
 
+  describe "get_one_hashed_author" do
+    it 'should return the author in CSL format' do
+      author = { "creatorName" => "Alexander W. Zaranek" }
+      result = subject.get_one_hashed_author(author)
+      expect(result).to eq("family"=>"Zaranek", "given"=>"Alexander W.")
+    end
+
+    it 'should handle authors with incomplete names' do
+      author = { "creatorName" => "Zaranek" }
+      result = subject.get_one_hashed_author(author)
+      expect(result).to eq("given"=>"Zaranek")
+    end
+
+    it 'should handle author in comma-delimited format' do
+      author = { "creatorName" => "Zaranek, Alexander W." }
+      result = subject.get_one_hashed_author(author)
+      expect(result).to eq("family"=>"Zaranek", "given"=>"Alexander W.")
+    end
+
+    it 'should handle ORCID identifiers' do
+      author = { "creatorName" => "Moore, Jonathan",
+                 "nameIdentifier" => "0000-0002-5486-0407" }
+      result = subject.get_one_hashed_author(author)
+      expect(result).to eq("family"=>"Moore", "given"=>"Jonathan", "id"=>"http://orcid.org/0000-0002-5486-0407")
+    end
+  end
+
   describe "get_authors" do
     it 'should return the authors in CSL format' do
       authors = ["Madeline P. Ball", "Alexander W. Zaranek"]

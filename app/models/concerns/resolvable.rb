@@ -165,7 +165,7 @@ module Resolvable
       conn = faraday_conn('json', options)
       params = { q: "doi:" + doi,
                  rows: 1,
-                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,updated",
+                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated",
                  wt: "json" }
       url = "http://search.datacite.org/api?" + URI.encode_www_form(params)
 
@@ -181,16 +181,20 @@ module Resolvable
         type = metadata.fetch("resourceTypeGeneral", nil)
         type = DATACITE_TYPE_TRANSLATIONS.fetch(type, nil) if type
 
-        symbol = metadata.fetch("datacentre_symbol", nil)
-        publisher = symbol.present? ? Publisher.where(symbol: symbol).first : nil
-        publisher_id = publisher.present? ? publisher.member_id : nil
+        publisher_symbol = metadata.fetch("datacentre_symbol", nil)
+        publisher_id = publisher_symbol.present? ? publisher_symbol.to_i(36) : nil
 
         doi = metadata.fetch("doi", nil)
         doi = doi.upcase if doi.present?
         title = metadata.fetch("title", []).first
         title = title.chomp(".") if title.present?
 
-        { "author" => get_authors(metadata.fetch('creator', []), reversed: true, sep: ", "),
+        xml = Base64.decode64(metadata.fetch('xml', "PGhzaD48L2hzaD4=\n"))
+        xml = Hash.from_xml(xml).fetch("resource", {})
+        authors = xml.fetch("creators", {}).fetch("creator", [])
+        authors = [authors] if authors.is_a?(Hash)
+
+        { "author" => get_hashed_authors(authors),
           "title" => title,
           "container-title" => metadata.fetch("journal_title", nil),
           "issued" => get_date_parts_from_parts(metadata.fetch("publicationYear", nil)),
@@ -200,8 +204,8 @@ module Resolvable
       else
         { error: 'Resource not found.', status: 404 }
       end
-    rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options)
+    # rescue *NETWORKABLE_EXCEPTIONS => e
+    #   rescue_faraday_error(url, e, options)
     end
 
     def get_orcid_metadata(orcid, options = {})

@@ -355,14 +355,15 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_metadata datacite" do
-        work = FactoryGirl.create(:work, doi: "10.5061/DRYAD.8515")
+        work = FactoryGirl.create(:work, doi: "10.6084/M9.FIGSHARE.156595")
         response = subject.get_metadata(work.doi, "datacite")
         expect(response["DOI"]).to eq(work.doi)
-        expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
+        expect(response["title"]).to eq("Uncovering Impact - Moving beyond the journal article and beyond the impact factor")
         expect(response["container-title"]).to be_nil
-        expect(response["issued"]).to eq("date-parts"=>[[2011]])
+        expect(response["author"]).to eq([{"family"=>"Trends", "given"=>"Research"}, {"family"=>"Piwowar", "given"=>"Heather", "id"=>"http://orcid.org/0000-0003-1613-5981"}])
+        expect(response["issued"]).to eq("date-parts"=>[[2013]])
         expect(response["type"]).to eq("dataset")
-        expect(response["publisher_id"]).to be_nil
+        expect(response["publisher_id"]).to eq(16041)
       end
 
       it "get_metadata pubmed" do
@@ -440,9 +441,10 @@ describe Work, type: :model, vcr: true do
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
         expect(response["container-title"]).to be_nil
+        expect(response["author"]).to eq([{"family"=>"Ollomo", "given"=>"Benjamin"}, {"family"=>"Durand", "given"=>"Patrick"}, {"family"=>"Prugnolle", "given"=>"Franck"}, {"family"=>"Douzery", "given"=>"Emmanuel J. P."}, {"family"=>"Arnathau", "given"=>"Céline"}, {"family"=>"Nkoghe", "given"=>"Dieudonné"}, {"family"=>"Leroy", "given"=>"Eric"}, {"family"=>"Renaud", "given"=>"François"}])
         expect(response["issued"]).to eq("date-parts"=>[[2011]])
         expect(response["type"]).to eq("dataset")
-        expect(response["publisher_id"]).to be_nil
+        expect(response["publisher_id"]).to eq(16041)
       end
 
       it "get_datacite_metadata with not found error" do

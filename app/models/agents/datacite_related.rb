@@ -15,7 +15,7 @@ class DataciteRelated < Agent
     params = { q: "relatedIdentifier:DOI\\:*",
                start: offset,
                rows: rows,
-               fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,updated",
+               fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,xml,updated",
                fq: "#{updated} AND has_metadata:true AND is_active:true",
                wt: "json" }
     url +  URI.encode_www_form(params)

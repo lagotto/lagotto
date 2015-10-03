@@ -15,7 +15,7 @@ class DataciteOrcid < Agent
     params = { q: "nameIdentifier:ORCID\\:*",
                start: offset,
                rows: rows,
-               fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,nameIdentifier,updated",
+               fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,nameIdentifier,xml,updated",
                fq: "#{updated} AND has_metadata:true AND is_active:true",
                wt: "json" }
     url +  URI.encode_www_form(params)

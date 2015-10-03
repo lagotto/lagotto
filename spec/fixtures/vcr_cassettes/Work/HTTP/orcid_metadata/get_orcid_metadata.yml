@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://pub.orcid.org/v1.2/0000-0002-0159-2197/orcid-bio
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-4-4-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Sat, 03 Oct 2015 10:17:39 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - X-Mapping-fjhppofk=78450B9E27FBE763139F665D0D628187; path=/
+    body:
+      encoding: UTF-8
+      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-0159-2197","path":"0000-0002-0159-2197","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1350431231944},"submission-date":{"value":1350426975660},"last-modified-date":{"value":1438504568103},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Jonathan
+        A."},"family-name":{"value":"Eisen"},"credit-name":null,"other-names":{"other-name":[],"visibility":"PUBLIC"}},"biography":{"value":"","visibility":"PUBLIC"},"researcher-urls":{"researcher-url":[{"url-name":{"value":"microBEnet"},"url":{"value":"http://microBE.net"}},{"url-name":{"value":"Tree
+        of Life Blog"},"url":{"value":"http://phylogenomics.blogspot.com"}},{"url-name":{"value":"Lab
+        Page"},"url":{"value":"http://phylogenomics.wordpress.com"}},{"url-name":{"value":"Twitter"},"url":{"value":"http://twitter.com/phylogenomics"}}],"visibility":"PUBLIC"},"contact-details":null,"keywords":{"keyword":[{"value":"evolution,
+        genomics, microbiology, ecology, microbial diversity, citizen science, "},{"value":"microbiomes,
+        DNA repair,"}],"visibility":"PUBLIC"},"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
+        Author ID"},"external-id-reference":{"value":"35247902700"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=35247902700&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":null,"source-date":null}}],"visibility":"PUBLIC"},"delegation":null,"applications":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
+    http_version: 
+  recorded_at: Sat, 03 Oct 2015 10:17:39 GMT
+recorded_with: VCR 2.9.3

@@ -1,6 +1,8 @@
 module Authorable
   extend ActiveSupport::Concern
 
+  require "namae"
+
   included do
     # parse author string into CSL format
     def get_one_author(author, options = { sep: " " })
@@ -22,6 +24,36 @@ module Authorable
     # parse array of author strings into CSL format
     def get_authors(authors, options = { sep: " " })
       Array(authors).map { |author| get_one_author(author, options) }
+    end
+
+    # parse array of author hashes into CSL format
+    def get_hashed_authors(authors)
+      Array(authors).map { |author| get_one_hashed_author(author) }
+    end
+
+    def get_one_hashed_author(author)
+      raw_name = author.fetch("creatorName", nil)
+      names = Namae.parse(raw_name)
+      if names.present?
+        name = names.first
+        id = get_name_identifier(author)
+
+        { "family" => name.family,
+          "given" => name.given,
+          "id" => id }.compact
+      else
+        { "literal" => raw_name }
+      end
+    end
+
+    def get_name_identifier(author)
+      name_identifier = author.fetch("nameIdentifier", nil)
+      name_identifier_scheme = author.fetch("nameIdentifierScheme", "orcid").downcase
+      if name_identifier.present? && name_identifier_scheme == "orcid"
+        "http://orcid.org/#{name_identifier}"
+      else
+        nil
+      end
     end
   end
 end
