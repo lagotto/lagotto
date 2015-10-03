@@ -36,11 +36,11 @@ module Authorable
       names = Namae.parse(raw_name)
       if names.present?
         name = names.first
-        id = get_name_identifier(author)
+        orcid = get_name_identifier(author)
 
         { "family" => name.family,
           "given" => name.given,
-          "id" => id }.compact
+          "ORCID" => orcid }.compact
       else
         { "literal" => raw_name }
       end
