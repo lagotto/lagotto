@@ -276,12 +276,18 @@ module Resolvable
       return {} if doi.blank?
 
       conn = faraday_conn('json', options)
-      url = "http://api.crossref.org/works/#{doi}/agency"
+      url = "http://doi.crossref.org/doiRA/" + CGI.unescape(doi)
       response = conn.get url, {}, options[:headers]
 
       if is_json?(response.body)
         json = JSON.parse(response.body)
-        json.fetch('message', {}).fetch('agency', {}).fetch('id', nil)
+        ra = json.first.fetch("RA", nil)
+        if ra.present?
+          ra.delete(' ').downcase
+        else
+          error = json.first.fetch("status", "An error occured")
+          { error: error, status: 400 }
+        end
       else
         { error: 'Resource not found.', status: 404 }
       end

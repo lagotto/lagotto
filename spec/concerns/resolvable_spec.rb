@@ -14,14 +14,19 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_doi_ra(doi)).to eq("crossref")
       end
 
+      it "doi crossref escaped" do
+        doi = "10.1371%2Fjournal.pone.0000030"
+        expect(subject.get_doi_ra(doi)).to eq("crossref")
+      end
+
       it "doi datacite" do
         doi = "10.5061/dryad.8515"
         expect(subject.get_doi_ra(doi)).to eq("datacite")
       end
 
-      it "not found" do
+      it "invalid DOI" do
         doi = "10.1371/xxx"
-        expect(subject.get_doi_ra(doi)).to eq(error: "Resource not found.", status: 404)
+        expect(subject.get_doi_ra(doi)).to eq(error: "Invalid DOI", status: 400)
       end
     end
 
