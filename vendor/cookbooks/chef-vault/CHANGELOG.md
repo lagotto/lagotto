@@ -1,6 +1,11 @@
 chef-vault
 ==========
 
+v1.3.1 (2015-09-30)
+-------------------
+- Refactor of the chef-vault resource, adding environment property
+- Various test fixes
+
 v1.3.0 (2015-04-09)
 -------------------
 

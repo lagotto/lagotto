@@ -22,6 +22,7 @@ require 'poise'
 module PoiseService
   module Resources
     # (see PoiseServiceUser::Resource)
+    # @since 1.0.0
     module PoiseServiceUser
       # A `poise_service_user` resource to create service users/groups.
       #
@@ -67,6 +68,7 @@ module PoiseService
 
       # Provider for `poise_service_user`.
       #
+      # @since 1.0.0
       # @see Resource
       # @provides poise_service_user
       class Provider < Chef::Provider

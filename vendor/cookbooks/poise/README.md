@@ -10,7 +10,7 @@
 ## What is Poise?
 
 The poise cookbook is a set of libraries for writing reusable cookbooks. It
-providers helpers for common patterns and a standard structure to make it easier to create flexible cookbooks.
+provides helpers for common patterns and a standard structure to make it easier to create flexible cookbooks.
 
 ## Writing your first resource
 

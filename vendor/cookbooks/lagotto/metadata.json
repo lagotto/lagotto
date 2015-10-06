@@ -1,0 +1,45 @@
+{
+  "name": "lagotto",
+  "description": "Install and configure the Lagotto application",
+  "long_description": "Lagotto Cookbook\n================\n\nChef cookbook for installing the Lagotto application. More information [here](https://github.com/articlemetrics/lagotto).\n",
+  "maintainer": "Martin Fenner",
+  "maintainer_email": "mfenner@plos.org",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "apt": ">= 0.0.0",
+    "memcached": ">= 0.0.0",
+    "postfix": ">= 0.0.0",
+    "mysql": ">= 0.0.0",
+    "database": "~> 2.3.1",
+    "redisio": ">= 0.0.0",
+    "nodejs": ">= 0.0.0",
+    "consul": ">= 0.0.0",
+    "ruby": "~> 0.7.0",
+    "dotenv": "~> 0.2.0",
+    "passenger_nginx": "~> 0.5.0",
+    "mysql_rails": "~> 0.3.0",
+    "capistrano": "~> 0.10.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "4.8.2",
+  "source_url": "",
+  "issues_url": ""
+}

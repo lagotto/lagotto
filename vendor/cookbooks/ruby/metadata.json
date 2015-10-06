@@ -1,0 +1,34 @@
+{
+  "name": "ruby",
+  "description": "Installs Ruby using the Brightbox Ruby PPA",
+  "long_description": "Ruby Cookbook\n==============\nInstalls Ruby using the Brightbox Ruby PPA.\n\n\nRequirements\n------------\nRequires Chef 0.10.10+ and Ohai 0.6.10+ for `platform_family` attribute use.\n\n### Platforms\nTested on the following platforms:\n\n- Ubuntu 12.04, 14.04\n\n### Cookbooks\nOpscode cookbooks:\n\n- apt\n- build-essential\n\n\nAttributes\n----------\n### Ruby\n* `node['ruby']['version']` - Can be `ruby1.9.1`, `ruby2.0` or `ruby2.1`, Defaults to `ruby2.1`. `ruby1.9.1` is Ruby 1.9.3.\n* `node['ruby']['install_dev_package']` - whether to also install the Ruby dev package. Defaults to `true`.\n* `node['ruby']['packages']` - additional packages to install. Defaults to `%w{ curl git libxml2-dev libxslt-dev libmysqlclient-dev nodejs }`\n* `node['ruby']['gems']` - Ruby gems to install. Defaults to `%w{ bundler }`.\n\n### Rails\n* `node['ruby']['user']` - defaults to `vagrant`.\n* `node['ruby']['group']` - defaults to `www-data`.\n* `node['ruby']['rails_env']` - Rails environment. Defaults to `development`.\n* `node['ruby']['db']` - database settings. Defaults to\n\n```\n{ 'username' => 'vagrant', 'password' => SecureRandom.hex(10), 'host' => 'localhost' }\n```\n\n\nRecipes\n-------\n### default\nInstalls Ruby from the [Brightbox Ruby PPA](https://launchpad.net/~brightbox/+archive/ubuntu/ruby-ng). Also installs the `bundler` gem, the `curl` and `git` packages, the `libxml2-dev` and `libxslt-dev` libraries required by the `nokogiri` gem, the `libmysqlclient-dev` library required by the `myslq2` gem, and `nodejs` as Javascript runtime.\n\n### empty\nNothing is installed. Use this recipe to include the above attributes only.\n\n\nLicense & Authors\n-----------------\n- Author: Martin Fenner (<mfenner@plos.org>)\n\n```text\nCopyright: 2014, Public Library of Science\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n```\n",
+  "maintainer": "Martin Fenner",
+  "maintainer_email": "martin.fenner@datacite.org",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "apt": ">= 0.0.0",
+    "build-essential": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.7.6",
+  "source_url": "",
+  "issues_url": ""
+}

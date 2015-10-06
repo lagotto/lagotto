@@ -44,6 +44,7 @@ attribute :color_update_local, :kind_of => String, :regex => /.*/, :default => n
 attribute :color_update_remote, :kind_of => String, :regex => /.*/, :default => nil
 attribute :commands, :kind_of => String, :regex => /.*/, :default => nil
 attribute :debuglevel, :kind_of => String, :regex => /^\d+$/, :default => '2'
+attribute :deltarpm, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :diskspacecheck, :kind_of => [TrueClass, FalseClass], :default => nil
 attribute :distroverpkg, :kind_of => String, :regex => /.*/, :default => nil
 attribute :enable_group_conditionals, :kind_of => [TrueClass, FalseClass], :default => nil

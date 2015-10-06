@@ -180,7 +180,7 @@ module PoiseService
           # Don't trigger a restart if the template doesn't already exist, this
           # prevents restarting on the run that first creates the service.
           restart_on_update = options.fetch('restart_on_update', new_resource.restart_on_update)
-          if restart_on_update && ::File.exists?(path)
+          if restart_on_update && ::File.exist?(path)
             mode = restart_on_update.to_s == 'immediately' ? :immediately : :delayed
             notifies :restart, new_resource, mode
           end

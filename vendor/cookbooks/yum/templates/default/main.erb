@@ -65,6 +65,11 @@ commands=<%= @config.commands %>
 <% if @config.debuglevel %>
 debuglevel=<%= @config.debuglevel %>
 <% end %>
+<% if @config.deltarpm == true %>
+deltarpm=1
+<% elsif @config.deltarpm == false %>
+deltarpm=0
+<% end %>
 <% if @config.diskspacecheck %>
 diskspacecheck=<%= @config.diskspacecheck %>
 <% end %>

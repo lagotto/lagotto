@@ -1,0 +1,34 @@
+{
+  "name": "mysql_rails",
+  "description": "Installs and configures MySQL for Rails applications",
+  "long_description": "Mysql_Rails Cookbook\n====================\n\nChef cookbook to configure MySQL for Rails.\n\n\nRequirements\n------------\nRequires Chef 0.10.10+ and Ohai 0.6.10+ for `platform_family` attribute use.\n\n### Platforms\nTested on the following platforms:\n\n- Ubuntu 12.04, 14.04\n\n### Cookbooks\nOpscode cookbooks:\n\n- mysql\n- database\n\n\nResources/Providers\n-------\n\n### mysql_rails\n\nThe `msql_rails` LWRP installs and configures MySQL for Rails.\n\n# Attribute Parameters\n\n* `name` - Name of the application. Used together with `rails_env` for the name of the MySQL database.\n* `rails_env` - Rails enviroment, defaults to `production`.\n* `user` - MySQL user. Defaults to `root`.\n* `password` - MySQL password for `db_user`. Defaults to an empty string.\n* `host` - MySQL host. Defaults to `localhost`.\n\n\nUsage\n-----\nFor example, to run install MySQL, create a database named `myproj_production`, and a user named `boss`, run:\n\n```ruby\nmysql_rails \"myproj\" do\n  username    \"boss\"\n  password    \"youguessit\"\n  host        \"localhost\"\n  rails_env   \"production\"\nend\n```\n\n\nLicense & Authors\n-----------------\n- Author: Martin Fenner (<mfenner@plos.org>)\n\n```text\nCopyright: 2014, Public Library of Science\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n```\n",
+  "maintainer": "Martin Fenner",
+  "maintainer_email": "mfenner@plos.org",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "mysql": "~> 5.6.1",
+    "database": "~> 2.3.1",
+    "ruby": "~> 0.7.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.3.33",
+  "source_url": "",
+  "issues_url": ""
+}

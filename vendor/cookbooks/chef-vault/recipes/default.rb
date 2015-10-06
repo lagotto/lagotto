@@ -2,7 +2,7 @@
 # Cookbook Name:: chef-vault
 # Recipe:: default
 #
-# Author: Joshua Timberman <joshua@getchef.com>
+# Author: Joshua Timberman <joshua@chef.io>
 #
 # Copyright (c) 2013, Opscode, Inc.
 #
@@ -18,11 +18,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-chef_gem 'chef-vault' do
-  version node['chef-vault']['version']
-  compile_time true if Chef::Resource::ChefGem.instance_methods(false).
-                                               include?(:compile_time)
-  source node['chef-vault']['gem_source'] if node['chef-vault']['gem_source']
+if Chef::Resource::ChefGem.instance_methods(false).include?(:compile_time)
+  chef_gem 'chef-vault' do # ~FC009
+    source node['chef-vault']['gem_source']
+    version node['chef-vault']['version']
+    compile_time true
+  end
+else
+  chef_gem 'chef-vault' do
+    source node['chef-vault']['gem_source']
+    version node['chef-vault']['version']
+    action :nothing
+  end.run_action(:install)
 end
 
 require 'chef-vault'

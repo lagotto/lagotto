@@ -27,7 +27,7 @@ module PoiseService
       end
 
       def pid
-        IO.read(pid_file).to_i if ::File.exists?(pid_file)
+        IO.read(pid_file).to_i if ::File.exist?(pid_file)
       end
 
       private

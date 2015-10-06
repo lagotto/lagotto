@@ -1,10 +1,7 @@
 yum Cookbook
 ============
-
-[![Join the chat at https://gitter.im/chef-cookbooks/yum](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/chef-cookbooks/yum?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+[![Build Status](https://travis-ci.org/chef-cookbooks/yum.svg?branch=master)](http://travis-ci.org/chef-cookbooks/yum)
 [![Cookbook Version](https://img.shields.io/cookbook/v/yum.svg)](https://supermarket.chef.io/cookbooks/yum)
-[![Travis status](http://img.shields.io/travis/chef-cookbooks/yum.svg)](https://travis-ci.org/chef-cookbooks/yum)
 
 The Yum cookbook exposes the `yum_globalconfig` and `yum_repository`
 resources that allows a user to both control global behavior and make
@@ -278,3 +275,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+This is a test

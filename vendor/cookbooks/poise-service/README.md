@@ -125,7 +125,7 @@ that are passed down to the service provider and can be used to control how it
 creates and manages the service. These can be set in the `poise_service`
 resource using the `options` method, in node attributes or via the
 `poise_service_options` resource. The options from all sources are merged
-together into a single hash based.
+together in to a single hash.
 
 When setting options in the resource you can either set them for all providers:
 
@@ -167,7 +167,7 @@ poise_service_options 'myapp' do
 end
 ```
 
-Unlike resource attributes, service options can be different for each provide.
+Unlike resource attributes, service options can be different for each provider.
 Not all providers support the same options so make sure to the check the
 documentation for each provider to see what options the use.
 
@@ -190,9 +190,8 @@ end
 
 #### Attributes
 
-* `service_name` – Name of the service. *(name attribute)*
-* `for_provider` – Provider to set options for. If set, the resource must be
-  defined and reachable before the `poise_service_options` resource.
+* `resource` – Name of the service. *(name attribute)*
+* `for_provider` – Provider to set options for.
 
 All other attribute keys will be used as options data.
 

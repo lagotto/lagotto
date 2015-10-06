@@ -15,7 +15,6 @@
 #
 
 require 'poise_service/resources/poise_service'
-require 'poise_service/resources/poise_service_test'
 require 'poise_service/resources/poise_service_user'
 
 

@@ -1,7 +1,7 @@
 apt Cookbook
 ============
-[![Cookbook Version](https://img.shields.io/cookbook/v/apt.svg)][cookbook]
 [![Build Status](https://img.shields.io/travis/opscode-cookbooks/apt.svg)][travis]
+[![Cookbook Version](https://img.shields.io/cookbook/v/apt.svg)][cookbook]
 
 [cookbook]: https://community.chef.io/cookbooks/apt
 [travis]: https://travis-ci.org/opscode-cookbooks/apt
@@ -273,7 +273,7 @@ License & Authors
 - Author:: Seth Chisamore (schisamo@chef.io)
 
 ```text
-Copyright 2009-2013, Chef Software, Inc.
+Copyright:: 2009-2015, Chef Software, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -31,6 +31,10 @@ module Poise
         # is used to show the value of @subresources during Chef's error formatting.
         # @api private
         class NoPrintingResourceCollection < Chef::ResourceCollection
+          def inspect
+            to_text
+          end
+
           def to_text
             "[#{all_resources.map(&:to_s).join(', ')}]"
           end
@@ -40,10 +44,12 @@ module Poise
         include Chef::DSL::Recipe
 
         attr_reader :subresources
+        attr_reader :subcontexts
 
         def initialize(*args)
           super
           @subresources = NoPrintingResourceCollection.new
+          @subcontexts = []
         end
 
         def after_created
@@ -74,12 +80,30 @@ module Poise
               # Step back so we re-run the "current" resource, which is now the
               # container.
               collection.iterator.skip_back
+              Chef::Log.debug("Collection: #{@run_context.resource_collection.map(&:to_s).join(', ')}")
             end
             @run_context.resource_collection.insert(order_fixer)
-            @subresources.each do |r|
-              Chef::Log.debug("   * #{r}")
-              @run_context.resource_collection.insert(r)
+            @subcontexts.each do |ctx|
+              # Copy all resources to the outer context.
+              ctx.resource_collection.each do |r|
+                Chef::Log.debug("   * #{r}")
+                # Fix the subresource to use the outer run context.
+                r.run_context = @run_context
+                @run_context.resource_collection.insert(r)
+              end
+              # Copy all notifications to the outer context.
+              %w{immediate delayed}.each do |notification_type|
+                ctx.send(:"#{notification_type}_notification_collection").each do |key, notifications|
+                  notifications.each do |notification|
+                    parent_notifications = @run_context.send(:"#{notification_type}_notification_collection")[key]
+                    unless parent_notifications.any? { |existing_notification| existing_notification.duplicates?(notification) }
+                      parent_notifications << notification
+                    end
+                  end
+                end
+              end
             end
+            Chef::Log.debug("Collection: #{@run_context.resource_collection.map(&:to_s).join(', ')}")
           end
         end
 
@@ -93,7 +117,7 @@ module Poise
           created_at ||= caller[0]
           # Run this inside a subcontext to avoid adding to the current resource collection.
           # It will end up added later, indirected via @subresources to ensure ordering.
-          subcontext_block do
+          @subcontexts << subcontext_block do
             namespace = if self.class.container_namespace == true
               # If the value is true, use the name of the container resource.
               self.name
@@ -132,11 +156,19 @@ module Poise
           resource.first
         end
 
+        # Register a resource as part of this container. Returns true if the
+        # resource was added to the collection and false if it was already
+        # known.
+        #
+        # @note Return value added in 2.4.0.
+        # @return [Boolean]
         def register_subresource(resource)
           subresources.lookup(resource)
+          false
         rescue Chef::Exceptions::ResourceNotFound
           Chef::Log.debug("[#{self}] Adding #{resource} to subresources")
           subresources.insert(resource)
+          true
         end
 
         private
@@ -184,6 +216,8 @@ module Poise
           def included(klass)
             super
             klass.extend(ClassMethods)
+            klass.const_get(:HIDDEN_IVARS) << :@subcontexts
+            klass.const_get(:FORBIDDEN_IVARS) << :@subcontexts
           end
         end
 

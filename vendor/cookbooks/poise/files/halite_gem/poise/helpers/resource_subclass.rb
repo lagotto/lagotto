@@ -27,8 +27,8 @@ module Poise
       include ResourceName
 
       module ClassMethods
-        def subclass_providers!(superclass_resource_name=nil)
-          resource_name = self.resource_name
+        def subclass_providers!(superclass_resource_name=nil, resource_name: nil)
+          resource_name ||= self.resource_name
           superclass_resource_name ||= if superclass.respond_to?(:resource_name)
             superclass.resource_name
           elsif superclass.respond_to?(:dsl_name)
@@ -57,6 +57,7 @@ module Poise
           else
             subclass_resource_equivalents << superclass_resource_name
           end
+          subclass_resource_equivalents.uniq!
         end
 
         # An array of names for the resources this class is equivalent to for
