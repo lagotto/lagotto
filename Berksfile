@@ -17,7 +17,6 @@ cookbook "mysql",
 cookbook "database", "~> 2.3.1"
 cookbook "memcached"
 cookbook "phantomjs"
-cookbook "couchdb"
 cookbook "postfix"
 cookbook "redisio"
 cookbook "consul"

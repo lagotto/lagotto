@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
   required_plugins = %w{ vagrant-omnibus vagrant-bindfs vagrant-capistrano-push dotenv }
 
   unless installed_plugins(required_plugins).empty?
-    puts "Plugins have been installed, please rerun vagrant."
+    puts "Plugins need to be installed, please install them and rerun vagrant."
     exit
   end
 
@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
   config.omnibus.chef_version = :latest
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "chef/ubuntu-14.04"
+  config.vm.box = "bento/ubuntu-14.04"
 
   # Enable provisioning with chef solo
   config.vm.provision :chef_solo do |chef|
