@@ -422,7 +422,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  addressable (~> 2.3.5)
+  addressable (~> 2.3.8)
   better_errors (~> 2.0.0)
   binding_of_caller (~> 0.7.2)
   brakeman (~> 2.6.0)
