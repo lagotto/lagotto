@@ -1,5 +1,5 @@
 class Api::V6::EventsController < Api::BaseController
-  before_filter :authenticate_user_from_token!
+  before_filter :authenticate_user_from_token!, :load_work
 
   swagger_controller :events, "Events"
 
@@ -19,10 +19,11 @@ class Api::V6::EventsController < Api::BaseController
   end
 
   def index
-    if params[:work_id]
-      collection = Event.joins(:work).where("works.pid = ?", params[:work_id])
+    if @work
+      collection = @work.events
     elsif params[:work_ids]
-      collection = Event.joins(:work).where("works.pid IN (?)", params[:work_ids])
+      work_ids = params[:work_ids].split(",")
+      collection = Event.joins(:work).where(works: { "pid" => work_ids })
     elsif params[:source_id]
       collection = Event.joins(:source).where("sources.name = ?", params[:source_id])
     elsif params[:publisher_id]
@@ -46,5 +47,19 @@ class Api::V6::EventsController < Api::BaseController
     collection = collection.paginate(per_page: per_page, :page => params[:page])
 
     @events = collection.decorate
+  end
+
+  protected
+
+  def load_work
+    return nil unless params[:work_id].present?
+
+    id_hash = get_id_hash(params[:work_id])
+    if id_hash.respond_to?("key")
+      key, value = id_hash.first
+      @work = Work.where(key => value).first
+    else
+      @work = nil
+    end
   end
 end

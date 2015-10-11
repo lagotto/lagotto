@@ -123,7 +123,7 @@ function AlmViz(options) {
       if (source.group_id !== group.id) { return; }
 
       events = data.filter(function(d) { return d.source_id === source.id; })[0];
-      if (events.total === 0) { return; }
+      if (typeof events === "undefined" || events.total === 0) { return; }
 
       // Only add the group row the first time
       if (!$groupRow) {
