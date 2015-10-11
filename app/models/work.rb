@@ -34,14 +34,14 @@ class Work < ActiveRecord::Base
   has_many :versions, :through => :version_relations
 
   validates :pid, :title, presence: true
-  validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, allow_blank: true
+  validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, case_sensitive: false, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
-  validates :pid, :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
+  validates :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
 
-  before_validation :set_pid, :set_metadata, :sanitize_title, :normalize_url
+  before_validation :set_metadata, :sanitize_title, :normalize_url
 
   scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
@@ -52,68 +52,47 @@ class Work < ActiveRecord::Base
 
   serialize :csl, JSON
 
-  # this is faster than first_or_create
   def self.find_or_create(params)
-    work = self.create!(params.except(:related_works))
+    work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :related_works))
     work.update_relations(params.fetch(:related_works, []))
     work
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
-    # update work if work exists
-    # raise an error for other RecordInvalid errors such as missing title
-    if e.message.include?("Doi has already been taken") || e.message.include?("key 'index_works_on_doi'")
-      work = Work.where(doi: params[:doi]).first
-      work.update_attributes(params.except(:pid, :doi, :related_works)) if work.present? && params[:tracked]
-      work.update_relations(params.fetch(:related_works, [])) if work.present?
-      work
-    elsif e.message.include?("Pmid has already been taken") || e.message.include?("key 'index_works_on_pmid'")
-      work = Work.where(pmid: params[:pmid]).first
-      work.update_attributes(params.except(:pid, :pmid, :related_works)) if work.present? && params[:tracked]
-      work.update_relations(params.fetch(:related_works, [])) if work.present?
-      work
-    elsif e.message.include?("Pid has already been taken") || e.message.include?("key 'index_works_on_pid'")
-      work = Work.where(canonical_url: params[:canonical_url]).first
-      work.update_attributes(params.except(:pid, :canonical_url, :related_works)) if work.present? && params[:tracked]
-      work.update_relations(params.fetch(:related_works, [])) if work.present?
-      work
-    else
-      if params[:doi].present?
-        target_url = "http://doi.org/#{params[:doi]}"
-        message = "#{e.message} for doi #{params[:doi]}."
-      elsif params[:pmid].present?
-        target_url = "http://www.ncbi.nlm.nih.gov/pubmed/#{params[:pmid]}"
-        message = "#{e.message} for pmid #{params[:pmid]}."
-      else
-        target_url = params[:canonical_url]
-        message = "#{e.message} for url #{target_url}."
-      end
-
-      Notification.where(message: message).where(unresolved: true).first_or_create(
-        :exception => "",
-        :class_name => "ActiveRecord::RecordInvalid",
-        :target_url => target_url)
-      nil
-    end
   end
 
   def update_relations(data)
     Array(data).map do |item|
-      related_work = Work.where(pid: item.fetch("related_work")).first
-      source = Source.where(name: item.fetch("source")).first
-      relation_name = item.fetch("relation_type", "cited")
-      relation_type = RelationType.where(name: relation_name).first
+      # mix symbol and string keys
+      item = item.with_indifferent_access
+      pid = item.fetch(:pid, nil)
+      next unless pid.present?
 
-      next unless relation_type.present?
+      id_hash = get_id_hash(pid)
+      item = item.merge(id_hash)
+
+      source = Source.where(name: item.fetch(:source)).first
+      relation_name = item.fetch(:relation_type, "is_referenced_by")
+      relation_type = RelationType.where(name: relation_name).first
+      related_work = Work.where(pid: pid).first_or_create(item.except(:source, :relation_type))
+
+      unless related_work.persisted?
+        message = "No metadata for #{pid} found"
+        Notification.where(message: message).where(unresolved: true).first_or_create(
+          class_name: "Net::HTTPNotFound",
+          target_url: pid)
+        next
+      end
+
+      next unless relation_type.present? && source.present?
       inverse_relation_type = RelationType.where(name: relation_type.inverse_name).first
-      next unless related_work.present? && source.present? && inverse_relation_type.present?
+      next unless inverse_relation_type.present?
 
       Relation.where(work_id: id,
                      related_work_id: related_work.id,
-                     source_id: source.id).first_or_create(
+                     source_id: source.id).first_or_create!(
                        relation_type_id: relation_type.id,
                        level: relation_type.level)
       Relation.where(work_id: related_work.id,
                      related_work_id: id,
-                     source_id: source.id).first_or_create(
+                     source_id: source.id).first_or_create!(
                        relation_type_id: inverse_relation_type.id,
                        level: inverse_relation_type.level)
     end
@@ -147,34 +126,6 @@ class Work < ActiveRecord::Base
     dataone.gsub(/\:/, '\:')  if dataone.present?
   end
 
-  def doi_as_url
-    Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
-  end
-
-  def pmid_as_url
-    "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}" if pmid.present?
-  end
-
-  def pmid_as_europepmc_url
-    "http://europepmc.org/abstract/MED/#{pmid}" if pmid.present?
-  end
-
-  def pmcid_as_url
-    "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}" if pmcid.present?
-  end
-
-  def ark_as_url
-    "http://n2t.net/#{ark}" if ark.present?
-  end
-
-  def arxiv_as_url
-    "http://arxiv.org/abs/#{arxiv}" if arxiv.present?
-  end
-
-  def dataone_as_url
-    "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
-  end
-
   def doi_prefix
     doi[/^10\.\d{4,5}/]
   end
@@ -183,17 +134,13 @@ class Work < ActiveRecord::Base
     return true if canonical_url.present?
     return false unless doi.present?
 
-    url = get_canonical_url(doi_as_url, work_id: id)
+    url = get_canonical_url(pid, work_id: id)
 
     if url.present? && url.is_a?(String)
       update_attributes(:canonical_url => url)
     else
       false
     end
-  end
-
-  def url
-    doi_as_url.presence || pmid_as_url.presence || canonical_url
   end
 
   # call Pubmed API to get missing identifiers
@@ -224,6 +171,10 @@ class Work < ActiveRecord::Base
 
   def all_urls
     [canonical_url, pmid_as_europepmc_url].compact
+  end
+
+  def pmid_as_europepmc_url
+    "http://europepmc.org/abstract/MED/#{pmid}" if pmid.present?
   end
 
   def canonical_url_escaped
@@ -267,7 +218,7 @@ class Work < ActiveRecord::Base
   end
 
   def orcid
-    Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
+    Array(/^http:\/\/orcid\.org\/(.+)/.match(canonical_url)).last
   end
 
   def views
@@ -382,22 +333,6 @@ class Work < ActiveRecord::Base
       errors.add :canonical_url, "only http and https URLs are supported"
     else
       self.canonical_url = url
-    end
-  end
-
-  # pid is required, use doi, pmid, pmcid, arxiv, or canonical url in that order
-  def set_pid
-    pid = doi_as_url.presence ||
-          pmid_as_url.presence ||
-          pmcid_as_url.presence ||
-          canonical_url.presence ||
-          arxiv_as_url.presence ||
-          ark_as_url.presence
-
-    if pid.present?
-      write_attribute(:pid, pid)
-    else
-      errors.add :doi, "must provide at least one persistent identifier"
     end
   end
 

@@ -32,18 +32,14 @@ module Importable
       get_result(query_url, options)
     end
 
-    def parse_data(result, _work, options={})
-      return result if result[:error]
-
-      { works: get_works(result) }
-    end
+    # def parse_data(result, _work, options={})
+    #   return result if result[:error]
+    #
+    #   { works: get_works(result) }
+    # end
 
     def cron_line
       config.cron_line || "40 17 * * *"
-    end
-
-    def queue
-      config.queue || "high"
     end
 
     def job_batch_size

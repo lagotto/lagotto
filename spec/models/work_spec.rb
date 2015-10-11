@@ -7,7 +7,7 @@ describe Work, type: :model, vcr: true do
   subject { work }
 
   it { is_expected.to have_many(:events).dependent(:destroy) }
-  it { is_expected.to validate_uniqueness_of(:doi) }
+  it { is_expected.to validate_uniqueness_of(:doi).case_insensitive }
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
 
@@ -122,7 +122,7 @@ describe Work, type: :model, vcr: true do
     end
 
     it 'look up date for missing year, month and day' do
-      work = FactoryGirl.build(:work, year: nil, month: nil, day: nil)
+      work = FactoryGirl.build(:work, year: nil, month: nil, day: nil, pid: "http://doi.org/10.5555/12345678")
       expect(work).to be_valid
     end
 
@@ -185,41 +185,6 @@ describe Work, type: :model, vcr: true do
     expect(CGI.escape(work.doi)).to eq(work.doi_escaped)
   end
 
-  it 'doi as url' do
-    expect(Addressable::URI.encode("http://doi.org/#{work.doi}")).to eq(work.doi_as_url)
-  end
-
-  context "pid" do
-    it 'for doi' do
-      expect(work.to_param).to eq "http://doi.org/#{work.doi}"
-    end
-
-    it 'for pmid' do
-      work = FactoryGirl.create(:work, doi: nil)
-      expect(work.to_param).to eq "http://www.ncbi.nlm.nih.gov/pubmed/#{work.pmid}"
-    end
-
-    it 'for pmcid' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
-      expect(work.to_param).to eq "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{work.pmcid}"
-    end
-
-    it 'for canonical_url' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0043007")
-      expect(work.to_param).to eq work.canonical_url
-    end
-
-    it 'for arxiv' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: nil, arxiv: "1503.04201")
-      expect(work.to_param).to eq "http://arxiv.org/abs/#{work.arxiv}"
-    end
-
-    it 'for ark' do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil, canonical_url: nil)
-      expect(work.to_param).to eq "http://n2t.net/#{work.ark}"
-    end
-  end
-
   it 'to title escaped' do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
@@ -260,25 +225,9 @@ describe Work, type: :model, vcr: true do
     expect(Work.has_events.all? { |work| work.events_count > 0 }).to be true
   end
 
-  context "url" do
-    it "should use doi as url" do
-      expect(work.url).to eq(work.doi_as_url)
-    end
-
-    it "should use pmid as url if doi is not present" do
-      work = FactoryGirl.create(:work, doi: nil)
-      expect(work.url).to eq(work.pmid_as_url)
-    end
-
-    it "should use canonical_url if doi and pmid are not present" do
-      work = FactoryGirl.create(:work, doi: nil, pmid: nil)
-      expect(work.url).to eq(work.canonical_url)
-    end
-  end
-
   context "get_url" do
     it 'should get_url' do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: nil)
+      work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030", canonical_url: nil)
       url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
       expect(work.get_url).not_to be_nil
       expect(work.canonical_url).to eq(url)

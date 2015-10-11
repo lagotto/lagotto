@@ -21,27 +21,50 @@ class DataciteOrcid < Agent
     url +  URI.encode_www_form(params)
   end
 
-  def get_related_works(items)
-    Array(items).reduce([]) do |sum, item|
-      doi = item.fetch("doi")
-      pid = "http://doi.org/#{doi}"
+  def get_works(items)
+    Array(items).map do |item|
+      doi = item.fetch("doi", nil)
+      pid = doi_as_url(doi)
+      year = item.fetch("publicationYear", nil).to_i
+      type = item.fetch("resourceTypeGeneral", nil)
+      type = DATACITE_TYPE_TRANSLATIONS[type] if type
+      publisher_symbol = item.fetch("datacentre_symbol", nil)
+      publisher_id = publisher_symbol.present? ? publisher_symbol.to_i(36) : nil
+
+      xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
+      xml = Hash.from_xml(xml).fetch("resource", {})
+      authors = xml.fetch("creators", {}).fetch("creator", [])
+      authors = [authors] if authors.is_a?(Hash)
+
       name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
+      related_works = name_identifiers.map { |work| get_related_work(work) }
 
-      sum += name_identifiers.map do |related_item|
-        orcid = related_item.split(':', 2).last
-
-        { "URL" => "http://orcid.org/#{orcid}",
-          "related_works" => [{ "related_work" => pid,
-                                "source" => name,
-                                "relation_type" => "bookmarks" }] }
-      end
+      { "pid" => pid,
+        "DOI" => doi,
+        "author" => get_hashed_authors(authors),
+        "container-title" => nil,
+        "title" => item.fetch("title", []).first,
+        "issued" => { "date-parts" => [[year]] },
+        "publisher_id" => publisher_id,
+        "registration_agency" => "datacite",
+        "tracked" => true,
+        "type" => type,
+        "related_works" => related_works }
     end
+  end
+
+  def get_related_work(work)
+    orcid = work.split(':', 2).last
+    pid = "http://orcid.org/#{orcid}"
+
+    { "pid" => pid,
+      "source" => name,
+      "relation_type" => "is_bookmarked_by" }
   end
 
   def get_events(items)
     Array(items).map do |item|
-      doi = item.fetch("doi", nil)
-      pid = "http://doi.org/#{doi}"
+      pid = doi_as_url(item.fetch("doi"))
       name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
 
       { source_id: name,

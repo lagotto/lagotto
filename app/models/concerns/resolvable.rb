@@ -2,6 +2,7 @@ module Resolvable
   extend ActiveSupport::Concern
 
   included do
+    require "addressable/uri"
 
     def get_canonical_url(url, options = { timeout: 120 })
       conn = faraday_conn('html', options)
@@ -62,24 +63,72 @@ module Resolvable
     end
 
     def get_normalized_url(url)
-      PostRank::URI.clean(url)
+      url = PostRank::URI.clean(url)
+      if PostRank::URI.valid?(url)
+        url
+      end
     rescue Addressable::URI::InvalidURIError => e
       { error: e.message }
     end
 
-    def get_url_from_doi(doi)
-      Addressable::URI.encode("http://doi.org/#{doi}")
+    def doi_as_url(doi)
+      Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
+    end
+
+    def pmid_as_url(pmid)
+      "http://www.ncbi.nlm.nih.gov/pubmed/#{pmid}" if pmid.present?
+    end
+
+    def pmcid_as_url(pmcid)
+      "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC#{pmcid}" if pmcid.present?
+    end
+
+    def ark_as_url(ark)
+      "http://n2t.net/#{ark}" if ark.present?
+    end
+
+    def arxiv_as_url(arxiv)
+      "http://arxiv.org/abs/#{arxiv}" if arxiv.present?
+    end
+
+    def dataone_as_url(dataone)
+      "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
     end
 
     def get_doi_from_id(id)
-      if id.starts_with?("http://doi.org/") || id.starts_with?("http://dx.doi.org/")
-        uri = URI.parse(id)
+      if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(id)
+        uri = Addressable::URI.parse(id)
         uri.path[1..-1]
       elsif id.starts_with?("doi:")
         id[4..-1]
       end
     end
 
+    def get_pid(options)
+      id_hash = options.compact
+
+      if id_hash.present?
+        id_as_pid(id_hash)
+      else
+        { error: "must provide at least one persistent identifier" }
+      end
+    end
+
+    def id_as_pid(id_hash)
+      key, value = id_hash.first
+      case key
+      when :doi then doi_as_url(value)
+      when :pmid then pmid_as_url(value)
+      when :pmcid then pmcid_as_url(value)
+      when :arxiv then arxiv_as_url(value)
+      when :ark then ark_as_url(value)
+      when :dataone then dataone_as_url(value)
+      when :canonical_url then value
+      else nil
+      end
+    end
+
+    # documentation at http://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/
     def get_persistent_identifiers(id, idtype, options = { timeout: 120 })
       return {} if id.blank?
 

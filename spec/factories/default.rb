@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :work, aliases: [:related_work] do
+    sequence(:pid) { |n| "http://doi.org/10.1371/journal.pone.00000#{n}" }
     sequence(:doi) { |n| "10.1371/journal.pone.00000#{n}" }
     sequence(:pmid) { |n| "1897483#{n}" }
     sequence(:pmcid) { |n| "256885#{n}" }

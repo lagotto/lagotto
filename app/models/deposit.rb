@@ -1,4 +1,9 @@
 class Deposit < ActiveRecord::Base
+  # include helper module for DOI resolution
+  include Resolvable
+
+  after_commit :queue_deposit_job, :on => :create
+
   state_machine :initial => :waiting do
     state :waiting, value: 0
     state :working, value: 1
@@ -27,8 +32,6 @@ class Deposit < ActiveRecord::Base
   end
 
   serialize :message, JSON
-
-  after_create :queue_deposit_job
 
   validates :uuid, presence: true, :uniqueness => true
   validates :message_type, presence: true
@@ -70,19 +73,23 @@ class Deposit < ActiveRecord::Base
 
   def update_works
     message.fetch("works", []).map do |item|
+      pid = item.fetch("pid", nil)
       doi = item.fetch("DOI", nil)
       pmid = item.fetch("PMID", nil)
       pmcid = item.fetch("PMCID", nil)
       arxiv = item.fetch("arxiv", nil)
+      ark = item.fetch("ark", nil)
       canonical_url = item.fetch("URL", nil)
+
       title = item.fetch("title", nil)
       date_parts = item.fetch("issued", {}).fetch("date-parts", [[]]).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
       type = item.fetch("type", nil)
       work_type_id = WorkType.where(name: type).pluck(:id).first
-      related_works = item.fetch("related_works", [])
       registration_agency = item.fetch("registration_agency", nil)
       tracked = item.fetch("tracked", false)
+
+      related_works = item.fetch("related_works", [])
 
       csl = {
         "author" => item.fetch("author", []),
@@ -92,10 +99,12 @@ class Deposit < ActiveRecord::Base
         "issue" => item.fetch("issue", nil) }
 
       i = {
+        pid: pid,
         doi: doi,
         pmid: pmid,
         pmcid: pmcid,
         arxiv: arxiv,
+        ark: ark,
         canonical_url: canonical_url,
         title: title,
         year: year,

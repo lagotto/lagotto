@@ -88,10 +88,12 @@ describe DataciteRelated, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, nil)
 
-      expect(response[:works].length).to eq(26)
-      related_work = response[:works].last
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.QT984")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.5061/DRYAD.QT984/1", "source"=>"datacite_related", "relation_type"=>"has_part"}])
+      expect(response[:works].length).to eq(10)
+      work = response[:works].first
+      expect(work['DOI']).to eq("10.5061/DRYAD.47SD5")
+      expect(work['related_works'].length).to eq(2)
+      related_work = work['related_works'].last
+      expect(related_work).to eq("pid"=>"http://doi.org/10.1111/MEC.12069", "source"=>"datacite_related", "relation_type"=>"is_referenced_by")
 
       expect(response[:events].length).to eq(10)
       event = response[:events].first

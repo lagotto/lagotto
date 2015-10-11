@@ -181,7 +181,7 @@ describe Work, type: :model, vcr: true do
       it "get_canonical_url" do
         work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
         url = "http://journals.plos.org/plosone/article?id=#{work.doi_escaped}"
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(url)
         expect(Notification.count).to eq(0)
       end
@@ -203,7 +203,7 @@ describe Work, type: :model, vcr: true do
         url = "#{clean_url}/"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(clean_url)
         expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
@@ -215,7 +215,7 @@ describe Work, type: :model, vcr: true do
         clean_url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(clean_url)
         expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
@@ -226,7 +226,7 @@ describe Work, type: :model, vcr: true do
         url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(url)
         expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
@@ -237,29 +237,29 @@ describe Work, type: :model, vcr: true do
         url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_canonical.html'))
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(url)
         expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with <meta property='og:url'/>" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030")
         url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
-        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, work.pid).to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_opengraph.html'))
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(url)
         expect(Notification.count).to eq(0)
         expect(stub).to have_been_requested
       end
 
       it "get_canonical_url with <link rel='canonical'/> mismatch" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030")
         url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
-        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, work.pid).to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work.html'))
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(error: "Canonical URL mismatch: http://dx.plos.org/10.1371/journal.pone.0000030 for http://journals.plos.org/plosone/article?id=#{work.doi_escaped}", status: 404)
         expect(Notification.count).to eq(1)
         notification = Notification.first
@@ -270,11 +270,11 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url with landing page" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.3109/09286586.2014.926940")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.3109/09286586.2014.926940", doi: "10.3109/09286586.2014.926940")
         url = "http://informahealthcare.com/action/cookieabsent"
-        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
+        stub = stub_request(:get, work.pid).to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(error: "DOI #{work.doi} could not be resolved", status: 404)
         expect(Notification.count).to eq(1)
         notification = Notification.first
@@ -284,10 +284,10 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url with not found error" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030")
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
-        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
+        stub = stub_request(:get, work.pid).to_return(:status => 404, :body => File.read(fixture_path + 'doi_not_found.html'))
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(error: "DOI #{work.doi} could not be resolved", status: 404)
         expect(Notification.count).to eq(1)
         notification = Notification.first
@@ -297,10 +297,10 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url unauthorized error" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
-        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 401)
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
-        expect(response).to eq(error: "the server responded with status 401 for http://doi.org/#{work.doi}", status: 401)
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030")
+        stub = stub_request(:get, work.pid).to_return(:status => 401)
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
+        expect(response).to eq(error: "the server responded with status 401 for #{work.pid}", status: 401)
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPUnauthorized")
@@ -309,10 +309,10 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url with timeout error" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
-        stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => [408])
-        response = subject.get_canonical_url(work.doi_as_url, work_id: work.id)
-        expect(response).to eq(error: "the server responded with status 408 for http://doi.org/#{work.doi}", status: 408)
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030")
+        stub = stub_request(:get, work.pid).to_return(:status => [408])
+        response = subject.get_canonical_url(work.pid, work_id: work.id)
+        expect(response).to eq(error: "connect timeout reached for #{work.pid}", status: 408)
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
@@ -360,7 +360,7 @@ describe Work, type: :model, vcr: true do
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Uncovering Impact - Moving beyond the journal article and beyond the impact factor")
         expect(response["container-title"]).to be_nil
-        expect(response["author"]).to eq([{"family"=>"Trends", "given"=>"Research"}, {"family"=>"Piwowar", "given"=>"Heather", "id"=>"http://orcid.org/0000-0003-1613-5981"}])
+        expect(response["author"]).to eq([{"family"=>"Trends", "given"=>"Research"}, {"family"=>"Piwowar", "given"=>"Heather", "ORCID"=>"http://orcid.org/0000-0003-1613-5981"}])
         expect(response["issued"]).to eq("date-parts"=>[[2013]])
         expect(response["type"]).to eq("dataset")
         expect(response["publisher_id"]).to eq(16041)
@@ -493,6 +493,45 @@ describe Work, type: :model, vcr: true do
       it "get_orcid_metadata with not found error" do
         response = subject.get_orcid_metadata("#{orcid}x")
         expect(response).to eq(error: {"message-version"=>"1.2", "orcid-profile"=>nil, "orcid-search-results"=>nil, "error-desc"=>{"value"=>"Not found : No entity found for query"}}, status: 404)
+      end
+    end
+
+    context "clean identifiers" do
+      let(:url) { "http://journals.PLOS.org/plosone/article?id=10.1371%2Fjournal.pone.0000030&utm_source=FeedBurner#stuff" }
+      let(:doi) { "10.5061/dryad.8515" }
+      let(:id) { "http://doi.org/10.5061/dryad.8515" }
+
+      it "get_normalized_url" do
+        response = subject.get_normalized_url(url)
+        expect(response).to eq("http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
+      end
+
+      it "get_normalized_url invalid url" do
+        url = "article?id=10.1371%2Fjournal.pone.0000030"
+        response = subject.get_normalized_url(url)
+        expect(response).to be_nil
+      end
+
+      it "doi_as_url" do
+        response = subject.doi_as_url(doi)
+        expect(response).to eq("http://doi.org/10.5061/dryad.8515")
+      end
+
+      it "get_doi_from_id" do
+        response = subject.get_doi_from_id(id)
+        expect(response).to eq("10.5061/dryad.8515")
+      end
+
+      it "get_doi_from_id https" do
+        id = "https://doi.org/10.5061/dryad.8515"
+        response = subject.get_doi_from_id(id)
+        expect(response).to eq("10.5061/dryad.8515")
+      end
+
+      it "get_doi_from_id dx.doi.org" do
+        id = "http://dx.doi.org/10.5061/dryad.8515"
+        response = subject.get_doi_from_id(id)
+        expect(response).to eq("10.5061/dryad.8515")
       end
     end
   end

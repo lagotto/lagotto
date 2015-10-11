@@ -90,7 +90,7 @@ class CrossRef < Agent
       if item.empty?
         nil
       else
-        url = get_url_from_doi(item.fetch('doi', nil))
+        url = doi_as_url(item.fetch('doi', nil))
 
         { event: item,
           event_url: url,

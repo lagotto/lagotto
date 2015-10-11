@@ -88,10 +88,12 @@ describe DataciteOrcid, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, nil)
 
-      expect(response[:works].length).to eq(125)
-      related_work = response[:works].last
-      expect(related_work['URL']).to eq("http://orcid.org/0000-0002-3546-1048")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.6084/M9.FIGSHARE.999239", "source"=>"datacite_orcid", "relation_type"=>"bookmarks"}])
+      expect(response[:works].length).to eq(62)
+      work = response[:works].first
+      expect(work['DOI']).to eq("10.1594/PANGAEA.733793")
+      expect(work['related_works'].length).to eq(1)
+      related_work = work['related_works'].first
+      expect(related_work).to eq("pid"=>"http://orcid.org/0000-0002-4133-2218", "source"=>"datacite_orcid", "relation_type"=>"is_bookmarked_by")
 
       expect(response[:events].length).to eq(62)
       event = response[:events].first
