@@ -71,7 +71,7 @@ class Work < ActiveRecord::Base
       source = Source.where(name: item.fetch(:source)).first
       relation_name = item.fetch(:relation_type, "is_referenced_by")
       relation_type = RelationType.where(name: relation_name).first
-      related_work = Work.where(pid: pid).first_or_create(item.except(:source, :relation_type))
+      related_work = Work.where(pid: pid).first_or_create(item.except(:pid, :source, :relation_type))
 
       unless related_work.persisted?
         message = "No metadata for #{pid} found"
@@ -87,12 +87,12 @@ class Work < ActiveRecord::Base
 
       Relation.where(work_id: id,
                      related_work_id: related_work.id,
-                     source_id: source.id).first_or_create!(
+                     source_id: source.id).first_or_create(
                        relation_type_id: relation_type.id,
                        level: relation_type.level)
       Relation.where(work_id: related_work.id,
                      related_work_id: id,
-                     source_id: source.id).first_or_create!(
+                     source_id: source.id).first_or_create(
                        relation_type_id: inverse_relation_type.id,
                        level: inverse_relation_type.level)
     end
