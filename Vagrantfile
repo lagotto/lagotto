@@ -1,23 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-begin
-  # requires librarian-chef plugin
-  require "librarian/action"
-
-  # workaround for shared folders with vmware and lxc providers
-  # see https://github.com/applicationsonline/librarian/issues/151
-  class Librarian::Action::Install < Librarian::Action::Base
-    def create_install_path
-      FileUtils.rm_rf("#{install_path}/.", secure: true) if install_path.exist?
-      install_path.mkpath
-    end
-  end
-rescue LoadError
-  $stderr.puts "Please install librarian-chef plugin with \"vagrant plugin install librarian-chef\""
-  exit
-end
-
 def installed_plugins(required_plugins)
   required_plugins.reduce([]) do |missing, plugin|
     if Vagrant.has_plugin?(plugin)
@@ -53,10 +36,10 @@ Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here.
 
   # Check if required plugins are installed.
-  required_plugins = %w{ vagrant-omnibus vagrant-librarian-chef vagrant-bindfs vagrant-capistrano-push dotenv }
+  required_plugins = %w{ vagrant-omnibus vagrant-bindfs vagrant-capistrano-push dotenv }
 
   unless installed_plugins(required_plugins).empty?
-    puts "Plugins have been installed, please rerun vagrant."
+    puts "Plugins need to be installed, then rerun vagrant."
     exit
   end
 
@@ -67,7 +50,7 @@ Vagrant.configure("2") do |config|
   config.omnibus.chef_version = :latest
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "chef/ubuntu-14.04"
+  config.vm.box = "bento/ubuntu-14.04"
 
   # Enable provisioning with chef solo
   config.vm.provision :chef_solo do |chef|
