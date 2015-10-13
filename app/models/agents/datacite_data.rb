@@ -26,7 +26,8 @@ class DataciteData < Agent
       if metadata[:error]
         nil
       else
-        { "issued" => metadata.fetch("issued", {}),
+        { "pid" => doi_as_url(doi),
+          "issued" => metadata.fetch("issued", {}),
           "author" => metadata.fetch("author", []),
           "container-title" => metadata.fetch("container-title", nil),
           "volume" => metadata.fetch("volume", nil),
@@ -38,9 +39,9 @@ class DataciteData < Agent
           "tracked" => tracked,
           "publisher_id" => metadata.fetch("publisher_id", nil),
           "registration_agency" => registration_agency,
-          "related_works" => [{ "related_work" => work.pid,
-                                "source" => name,
-                                "relation_type" => relation_type }] }
+          "related_works" => [{ "pid" => work.pid,
+                                "source_id" => name,
+                                "relation_type_id" => relation_type }] }
       end
     end.compact
   end

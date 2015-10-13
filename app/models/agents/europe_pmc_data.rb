@@ -35,16 +35,17 @@ class EuropePmcData < Agent
     Array(related_works).map do |item|
       url = item['pmid'].nil? ? nil : "http://europepmc.org/abstract/MED/#{item['pmid']}"
 
-      { "author" => get_authors([item.fetch('authorString', "")]),
+      { "pid" => url,
+        "author" => get_authors([item.fetch('authorString', "")]),
         "title" => item.fetch('title', nil),
         "container-title" => item.fetch('journalTitle', nil),
         "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
         "URL" => url,
         "type" => 'article-journal',
         "tracked" => tracked,
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "cites" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "cites" }] }
     end
   end
 

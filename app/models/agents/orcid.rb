@@ -19,7 +19,8 @@ class Orcid < Agent
       url = item.deep_fetch("orcid-profile", "orcid-identifier", "uri") { nil }
       timestamp = Time.zone.now.utc.iso8601
 
-      { "author" => [author],
+      { "pid" => url,
+        "author" => [author],
         "title" => "ORCID profile for #{author.fetch('given', '')} #{author.fetch('family', '')}",
         "container-title" => "ORCID Registry",
         "issued" => get_date_parts(timestamp),
@@ -28,9 +29,9 @@ class Orcid < Agent
         "type" => 'entry',
         "tracked" => tracked,
         "registration_agency" => "orcid",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "bookmarks" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "bookmarks" }] }
     end
   end
 

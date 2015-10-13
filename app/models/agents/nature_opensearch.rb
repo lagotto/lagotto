@@ -64,7 +64,8 @@ class NatureOpensearch < Agent
       timestamp = item.fetch("prism:publicationDate", nil)
       timestamp = "#{timestamp}T00:00:00Z"
 
-      { "author" => get_authors(item.fetch("dc:creator", [])),
+      { "pid" => doi_as_url(doi),
+        "author" => get_authors(item.fetch("dc:creator", [])),
         "title" => item.fetch("dc:title", ""),
         "container-title" => item.fetch("prism:publicationName", nil),
         "issued" => get_date_parts(timestamp),
@@ -74,9 +75,9 @@ class NatureOpensearch < Agent
         "type" => "article-journal",
         "tracked" => tracked,
         "registration_agency" => "crossref",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "cites" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "cites" }] }
     end
   end
 

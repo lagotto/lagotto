@@ -23,7 +23,8 @@ class Datacite < Agent
         sum = ri.last.casecmp(work.doi) == 0 ? ri.first : sum
       end.underscore
 
-      { "author" => get_authors(item.fetch('creator', []), reversed: true, sep: ", "),
+      { "pid" => doi_as_url(doi),
+        "author" => get_authors(item.fetch('creator', []), reversed: true, sep: ", "),
         "title" => item.fetch("title", []).first.chomp("."),
         "container-title" => item.fetch("journal_title", nil),
         "issued" => get_date_parts_from_parts(item.fetch("publicationYear", nil)),
@@ -31,9 +32,9 @@ class Datacite < Agent
         "type" => type,
         "tracked" => tracked,
         "registration_agency" => "datacite",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => relation_type }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => relation_type }] }
     end.compact
   end
 

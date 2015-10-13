@@ -14,18 +14,20 @@ class Openedition < Agent
     related_works = [related_works] if related_works.is_a?(Hash)
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("date", nil))
+      url = item.fetch('link', nil)
 
-      { "author" => get_authors([item.fetch('creator', "")]),
+      { "pid" => url,
+        "author" => get_authors([item.fetch('creator', "")]),
         "title" => item.fetch('title', nil),
         "container-title" => nil,
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
-        "URL" => item.fetch('link', nil),
+        "URL" => url,
         "type" => 'post',
         "tracked" => tracked,
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

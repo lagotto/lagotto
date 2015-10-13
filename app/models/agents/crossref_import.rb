@@ -84,13 +84,14 @@ class CrossrefImport < Agent
 
       type = item.fetch("type", nil)
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
-      work_type_id = WorkType.where(name: type).pluck(:id).first
+      doi = item.fetch("DOI", nil)
 
-      { "author" => item.fetch("author", []),
+      { "pid" => doi_as_url(doi),
+        "author" => item.fetch("author", []),
         "container-title" => item.fetch("container-title", []).first,
         "title" => title,
         "issued" => { "date-parts" => [date_parts] },
-        "DOI" => item.fetch("DOI", nil),
+        "DOI" => doi,
         "publisher_id" => publisher_id,
         "volume" => item.fetch("volume", nil),
         "issue" => item.fetch("issue", nil),

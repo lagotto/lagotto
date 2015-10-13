@@ -29,7 +29,8 @@ class Twitter < Agent
       timestamp = get_iso8601_from_time(data['created_at'])
       url = "http://twitter.com/#{user}/status/#{data['id_str']}"
 
-      { "author" => get_authors([user_name]),
+      { "pid" => url,
+        "author" => get_authors([user_name]),
         "title" => data.fetch('text') { '' },
         "container-title" => 'Twitter',
         "issued" => get_date_parts(timestamp),
@@ -38,9 +39,9 @@ class Twitter < Agent
         "type" => 'personal_communication',
         "tracked" => tracked,
         "registration_agency" => "twitter",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

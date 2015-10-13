@@ -15,17 +15,19 @@ class ScienceSeeker < Agent
     Array(related_works).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       timestamp = get_iso8601_from_time(item.fetch("updated", nil))
+      url = item.fetch("link", {}).fetch("href", nil)
 
-      { "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
+      { "pid" => url,
+        "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
         "title" => item.fetch('title', nil),
         "container-title" => item.fetch('source', {}).fetch('title', ""),
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
-        "URL" => item.fetch("link", {}).fetch("href", nil),
+        "URL" => url,
         "type" => 'post',
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

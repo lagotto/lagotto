@@ -57,7 +57,8 @@ class CrossRef < Agent
         if metadata[:error]
           nil
         else
-          { "issued" => metadata.fetch("issued", {}),
+          { "pid" => doi_as_url(doi),
+            "issued" => metadata.fetch("issued", {}),
             "author" => metadata.fetch("author", []),
             "container-title" => metadata.fetch("container-title", nil),
             "volume" => metadata.fetch("volume", nil),
@@ -69,9 +70,9 @@ class CrossRef < Agent
             "tracked" => tracked,
             "publisher_id" => metadata.fetch("publisher_id", nil),
             "registration_agency" => "crossref",
-            "related_works" => [{ "related_work" => work.pid,
-                                  "source" => name,
-                                  "relation_type" => "cites" }] }
+            "related_works" => [{ "pid" => work.pid,
+                                  "source_id" => name,
+                                  "relation_type_id" => "cites" }] }
         end
       end
     end.compact

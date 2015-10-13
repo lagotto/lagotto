@@ -16,7 +16,8 @@ class Nature < Agent
       url = item.fetch("post", {}).fetch("url", nil)
       url = "http://#{url}" unless url.blank? || url.start_with?("http://")
 
-      { "author" => nil,
+      { "pid" => url,
+        "author" => nil,
         "title" => item.deep_fetch('post', 'title') { '' },
         "container-title" => item.deep_fetch('post', 'blog', 'title') { '' },
         "issued" => get_date_parts(timestamp),
@@ -24,9 +25,9 @@ class Nature < Agent
         "URL" => url,
         "type" => 'post',
         "tracked" => tracked,
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

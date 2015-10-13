@@ -35,7 +35,8 @@ class EuropePmcFulltext < Agent
       author_string = item.fetch("authorString", "").chomp(".")
       registration_agency = doi.present? ? "crossref" : "pubmed"
 
-      { "author" => get_authors(author_string.split(", "), reversed: true),
+      { "pid" => doi,
+        "author" => get_authors(author_string.split(", "), reversed: true),
         "title" => item.fetch("title", "").chomp("."),
         "container-title" => item.fetch(container_title_key, nil),
         "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
@@ -45,9 +46,9 @@ class EuropePmcFulltext < Agent
         "type" => "article-journal",
         "tracked" => tracked,
         "registration_agency" => registration_agency,
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "cites" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "cites" }] }
     end
   end
 

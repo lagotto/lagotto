@@ -21,15 +21,18 @@ class PubMed < Agent
       if doi.present?
         metadata = get_metadata(doi, "crossref")
         registration_agency = "crossref"
+        pid = doi_as_url(doi)
       else
         metadata = get_metadata(pmid, "pubmed")
         registration_agency = "pubmed"
+        pid = pmid_as_url(pmid)
       end
 
       if metadata[:error]
         nil
       else
-        { "issued" => metadata.fetch("issued", {}),
+        { "pid" => pid,
+          "issued" => metadata.fetch("issued", {}),
           "author" => metadata.fetch("author", []),
           "container-title" => metadata.fetch("container-title", nil),
           "volume" => metadata.fetch("volume", nil),
@@ -43,9 +46,9 @@ class PubMed < Agent
           "tracked" => tracked,
           "publisher_id" => metadata.fetch("publisher_id", nil),
           "registration_agency" => registration_agency,
-          "related_works" => [{ "related_work" => work.pid,
-                                "source" => name,
-                                "relation_type" => "cites" }] }
+          "related_works" => [{ "pid" => work.pid,
+                                "source_id" => name,
+                                "relation_type_id" => "cites" }] }
       end
     end.compact
   end

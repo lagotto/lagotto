@@ -26,12 +26,14 @@ class PlosImport < Agent
     Array(items).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("publication_date", nil))
       date_parts = get_date_parts(timestamp)
+      doi = item.fetch("id", nil)
 
-      { "author" => get_authors(item.fetch("author_display", [])),
+      { "pid" => doi_as_url(doi),
+        "author" => get_authors(item.fetch("author_display", [])),
         "container-title" => item.fetch("cross_published_journal_name", []).first,
         "title" => item.fetch("title_display", nil),
         "issued" => date_parts,
-        "DOI" => item.fetch("id", nil),
+        "DOI" => doi,
         "publisher_id" => publisher_id,
         "volume" => item.fetch("volume", nil),
         "issue" => item.fetch("issue", nil),

@@ -50,7 +50,8 @@ class TwitterSearch < Agent
       timestamp = get_iso8601_from_time(item.fetch('created_at', nil))
       url = "http://twitter.com/#{user}/status/#{item.fetch('id_str', '')}"
 
-      { "author" => get_authors([user_name]),
+      { "pid" => url,
+        "author" => get_authors([user_name]),
         "title" => item.fetch('text', ""),
         "container-title" => "Twitter",
         "issued" => get_date_parts(timestamp),
@@ -59,9 +60,9 @@ class TwitterSearch < Agent
         "type" => "personal_communication",
         "tracked" => tracked,
         "registration_agency" => "twitter",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => "twitter",
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => "twitter",
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

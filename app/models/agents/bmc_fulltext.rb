@@ -40,7 +40,8 @@ class BmcFulltext < Agent
       title = Nokogiri::HTML::fragment(item.fetch("bibliograhyTitle", ""))
       container_title = Nokogiri::HTML::fragment(item.fetch("longCitation", ""))
 
-      { "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
+      { "pid" => doi_as_url(doi),
+        "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
         "title" => title.at_css("p").text,
         "container-title" => container_title.at_css("em").text,
         "issued" => get_date_parts(timestamp),
@@ -49,9 +50,9 @@ class BmcFulltext < Agent
         "type" => "article-journal",
         "tracked" => tracked,
         "registration_agency" => "crossref",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "cites" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "cites" }] }
     end
   end
 

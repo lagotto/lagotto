@@ -30,7 +30,8 @@ class Reddit < Agent
       timestamp = get_iso8601_from_epoch(data.fetch('created_utc', nil))
       url = data.fetch('url', nil)
 
-      { "author" => get_authors([data.fetch('author', "")]),
+      { "pid" => url,
+        "author" => get_authors([data.fetch('author', "")]),
         "title" => data.fetch("title", ""),
         "container-title" => "Reddit",
         "issued" => get_date_parts(timestamp),
@@ -39,9 +40,9 @@ class Reddit < Agent
         "type" => "personal_communication",
         "tracked" => tracked,
         "registration_agency" => "reddit",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

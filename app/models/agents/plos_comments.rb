@@ -28,17 +28,19 @@ class PlosComments < Agent
   def get_related_works(result, work)
     Array(result['data']).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("created", nil))
+      url = work.doi
 
-      { "author" => get_authors([item.fetch('creatorFormattedName', "")]),
+      { "pid" => doi_as_url(doi),
+        "author" => get_authors([item.fetch('creatorFormattedName', "")]),
         "title" => item.fetch('title', nil),
         "container-title" => 'PLOS Comments',
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
-        "URL" => work.doi_as_url,
+        "URL" => url,
         "type" => 'personal_communication',
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 

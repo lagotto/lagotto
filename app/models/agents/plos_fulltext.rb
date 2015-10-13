@@ -36,7 +36,8 @@ class PlosFulltext < Agent
       timestamp = get_iso8601_from_time(item.fetch("publication_date", nil))
       doi = item.fetch("id", nil)
 
-      { "author" => get_authors(item.fetch("author_display", [])),
+      { "pid" => doi_as_url(doi),
+        "author" => get_authors(item.fetch("author_display", [])),
         "title" => item.fetch("title", ""),
         "container-title" => item.fetch("cross_published_journal_name", []).first,
         "issued" => get_date_parts(timestamp),
@@ -45,9 +46,9 @@ class PlosFulltext < Agent
         "type" => "article-journal",
         "tracked" => tracked,
         "registration_agency" => "crossref",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "cites" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "cites" }] }
     end
   end
 

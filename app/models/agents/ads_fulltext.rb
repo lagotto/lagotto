@@ -19,18 +19,20 @@ class AdsFulltext < Agent
       next unless arxiv.present?
 
       arxiv = arxiv.gsub(/\A\D*(\d{4}\.\d{4,5})D*/, '\1')
+      url = "http://arxiv.org/abs/#{arxiv}"
 
-      { "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
+      { "pid" => url,
+        "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
         "title" => item.fetch("title", []).first.chomp("."),
         "container-title" => "ArXiV",
         "issued" => get_date_parts(item.fetch("pubdate", nil)),
-        "URL" => "http://arxiv.org/abs/#{arxiv}",
+        "URL" => url,
         "arxiv" => arxiv,
         "type" => "article-journal",
         "tracked" => tracked,
         "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "cites" }] }
+                              "source_id" => name,
+                              "relation_type_id" => "cites" }] }
     end.compact
   end
 

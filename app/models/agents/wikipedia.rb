@@ -85,7 +85,8 @@ class Wikipedia < Agent
       timestamp = item.fetch("timestamp", nil)
       url = item.fetch("url", nil)
 
-      { "author" => nil,
+      { "pid" => url,
+        "author" => nil,
         "title" => item.fetch("title", ""),
         "container-title" => "Wikipedia",
         "issued" => get_date_parts(timestamp),
@@ -94,9 +95,9 @@ class Wikipedia < Agent
         "type" => "entry-encyclopedia",
         "tracked" => tracked,
         "registration_agency" => "wikipedia",
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "references" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "references" }] }
     end
   end
 

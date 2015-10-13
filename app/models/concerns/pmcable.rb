@@ -64,8 +64,8 @@ module Pmcable
           "registration_agency" => registration_agency,
           "tracked" => tracked,
           "related_works" => [{ "related_work" => work.pid,
-                                "source" => name,
-                                "relation_type" => "cites" }] }
+                                "source_id" => name,
+                                "relation_type_id" => "cites" }] }
       end
     end
   end

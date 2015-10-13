@@ -7,19 +7,21 @@ class ArticleCoverageCurated < Agent
       timestamp = get_iso8601_from_time(item.fetch('published_on', nil))
       type = item.fetch("type", nil)
       type = MEDIACURATION_TYPE_TRANSLATIONS.fetch(type, nil) if type
+      url = item.fetch('referral', nil)
 
       {
+        "pid" => url,
         "author" => nil,
         "title" => item.fetch("title", ""),
         "container-title" => item.fetch("publication", ""),
         "issued" => get_date_parts(timestamp),
         "timestamp" => timestamp,
-        "URL" => item.fetch('referral', nil),
+        "URL" => url,
         "type" => type,
         "tracked" => true,
-        "related_works" => [{ "related_work" => work.pid,
-                              "source" => name,
-                              "relation_type" => "discusses" }] }
+        "related_works" => [{ "pid" => work.pid,
+                              "source_id" => name,
+                              "relation_type_id" => "discusses" }] }
     end
   end
 
