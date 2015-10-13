@@ -30,7 +30,7 @@ class AdsFulltext < Agent
         "arxiv" => arxiv,
         "type" => "article-journal",
         "tracked" => tracked,
-        "related_works" => [{ "related_work" => work.pid,
+        "related_works" => [{ "pid" => work.pid,
                               "source_id" => name,
                               "relation_type_id" => "cites" }] }
     end.compact

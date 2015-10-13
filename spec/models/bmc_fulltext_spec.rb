@@ -92,7 +92,7 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(related_work['type']).to eq("article-journal")
       expect(related_work['DOI']).to eq("10.1186/s13007-014-0041-7")
       expect(related_work['timestamp']).to eq("2014-12-30T00:00:00Z")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"bmc_fulltext", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"bmc_fulltext", "relation_type_id"=>"cites"}])
 
       extra = event[:extra].first
       expect(extra[:event_time]).to eq("2014-12-30T00:00:00Z")

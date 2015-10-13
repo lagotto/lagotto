@@ -78,7 +78,7 @@ describe PubMed, type: :model, vcr: true do
       expect(related_work['issue']).to be_nil
       expect(related_work['page']).to be_nil
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"pub_med", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"pub_med", "relation_type_id"=>"cites"}])
 
       extra = event[:extra].first
       expect(extra[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + extra[:event])
@@ -109,7 +109,7 @@ describe PubMed, type: :model, vcr: true do
       expect(related_work['issue']).to be_nil
       expect(related_work['page']).to be_nil
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"pub_med", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"pub_med", "relation_type_id"=>"cites"}])
     end
 
     it "should catch timeout errors with the PubMed API" do

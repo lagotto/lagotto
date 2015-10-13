@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Reddit, type: :model, vcr: true do
   subject { FactoryGirl.create(:reddit) }
 
-  let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.ppat.0008776", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.ppat.0008776") }
+  let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.ppat.0008776", doi: "10.1371/journal.ppat.0008776", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.ppat.0008776") }
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do

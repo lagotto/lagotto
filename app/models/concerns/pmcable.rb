@@ -51,9 +51,17 @@ module Pmcable
         pmcid = ids.fetch("pmcid", nil)
         pmcid = pmcid[3..-1] if pmcid
         author_string = item.fetch("authorString", "").chomp(".")
-        registration_agency = doi.present? ? "crossref" : "pubmed"
 
-        { "author" => get_authors(author_string.split(", "), reversed: true),
+        if doi.present?
+          registration_agency = "crossref"
+          pid = doi_as_url(doi)
+        else
+          registration_agency = "pubmed"
+          pid = pmid_as_url(pmid)
+        end
+
+        { "pid" => pid,
+          "author" => get_authors(author_string.split(", "), reversed: true),
           "title" => item.fetch("title", "").chomp("."),
           "container-title" => item.fetch(container_title_key, nil),
           "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
@@ -63,7 +71,7 @@ module Pmcable
           "type" => "article-journal",
           "registration_agency" => registration_agency,
           "tracked" => tracked,
-          "related_works" => [{ "related_work" => work.pid,
+          "related_works" => [{ "pid" => work.pid,
                                 "source_id" => name,
                                 "relation_type_id" => "cites" }] }
       end
