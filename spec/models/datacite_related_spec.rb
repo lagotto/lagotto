@@ -93,7 +93,7 @@ describe DataciteRelated, type: :model, vcr: true do
       expect(work['DOI']).to eq("10.5061/DRYAD.47SD5")
       expect(work['related_works'].length).to eq(2)
       related_work = work['related_works'].last
-      expect(related_work).to eq("pid"=>"http://doi.org/10.1111/MEC.12069", "source"=>"datacite_related", "relation_type"=>"is_referenced_by")
+      expect(related_work).to eq("pid"=>"http://doi.org/10.1111/MEC.12069", "source_id"=>"datacite_related", "relation_type_id"=>"is_referenced_by")
 
       expect(response[:events].length).to eq(10)
       event = response[:events].first
