@@ -74,6 +74,8 @@ class Api::V6::DepositsController < Api::BaseController
   private
 
   def safe_params
-    params.require(:deposit).permit(:uuid, :message_type, :source_token, :callback, message: [works: [], events: []])
+    works = [:pid, :DOI, related_works: [:pid, :source, :relation_type]]
+    events = [:source_id, :work_id, :pdf, :html, :readers, :comments, :likes, :total]
+    params.require(:deposit).permit(:uuid, :message_type, :source_token, :callback, message: { works: works, events: events })
   end
 end

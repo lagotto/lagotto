@@ -68,10 +68,10 @@ class Work < ActiveRecord::Base
       id_hash = get_id_hash(pid)
       item = item.merge(id_hash)
 
-      source = Source.where(name: item.fetch(:source)).first
-      relation_name = item.fetch(:relation_type, "is_referenced_by")
+      source = Source.where(name: item.fetch(:source_id)).first
+      relation_name = item.fetch(:relation_type_id, "is_referenced_by")
       relation_type = RelationType.where(name: relation_name).first
-      related_work = Work.where(pid: pid).first_or_create(item.except(:pid, :source, :relation_type))
+      related_work = Work.where(pid: pid).first_or_create(item.except(:pid, :source_id, :relation_type_id))
 
       unless related_work.persisted?
         message = "No metadata for #{pid} found"

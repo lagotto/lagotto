@@ -61,8 +61,8 @@ class DataciteRelated < Agent
     relation_type = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
 
     { "pid" => pid,
-      "source" => name,
-      "relation_type" => relation_type }
+      "source_id" => name,
+      "relation_type_id" => relation_type }
   end
 
   def get_events(items)

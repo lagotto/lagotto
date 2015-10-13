@@ -58,8 +58,8 @@ class DataciteOrcid < Agent
     pid = "http://orcid.org/#{orcid}"
 
     { "pid" => pid,
-      "source" => name,
-      "relation_type" => "is_bookmarked_by" }
+      "source_id" => name,
+      "relation_type_id" => "is_bookmarked_by" }
   end
 
   def get_events(items)

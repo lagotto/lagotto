@@ -2,6 +2,7 @@ class Deposit < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  before_create :create_uuid
   after_commit :queue_deposit_job, :on => :create
 
   state_machine :initial => :waiting do
@@ -33,8 +34,7 @@ class Deposit < ActiveRecord::Base
 
   serialize :message, JSON
 
-  validates :uuid, presence: true, :uniqueness => true
-  validates :message_type, presence: true
+  validates :source_token, presence: true
   validates :message, presence: true
 
   scope :by_state, ->(state) { where("state = ?", state) }
@@ -195,5 +195,10 @@ class Deposit < ActiveRecord::Base
 
   def cache_key
     "deposit/#{uuid}-#{timestamp}"
+  end
+
+  def create_uuid
+    write_attribute(:uuid, SecureRandom.uuid) if uuid.blank?
+    write_attribute(:message_type, 'default') if message_type.blank?
   end
 end
