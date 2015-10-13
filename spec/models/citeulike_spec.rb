@@ -89,7 +89,7 @@ describe Citeulike, type: :model, vcr: true do
       expect(related_work['issued']).to eq("date-parts"=>[[2006, 6, 13]])
       expect(related_work['type']).to eq("entry")
       expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
-      expect(related_work["related_works"]).to eq([{"related_work"=> work.pid, "source"=>"citeulike", "relation_type"=>"bookmarks"}])
+      expect(related_work["related_works"]).to eq([{"pid"=> work.pid, "source_id"=>"citeulike", "relation_type_id"=>"bookmarks"}])
 
       extra = event[:extra].first
       expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")
@@ -119,7 +119,7 @@ describe Citeulike, type: :model, vcr: true do
       expect(related_work['issued']).to eq("date-parts"=>[[2006, 6, 13]])
       expect(related_work['type']).to eq("entry")
       expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
-      expect(related_work["related_works"]).to eq([{"related_work"=> work.pid, "source"=>"citeulike", "relation_type"=>"bookmarks"}])
+      expect(related_work["related_works"]).to eq([{"pid"=> work.pid, "source_id"=>"citeulike", "relation_type_id"=>"bookmarks"}])
 
       extra = event[:extra].first
       expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")

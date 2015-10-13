@@ -100,7 +100,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       expect(related_work['container-title']).to eq("O'Really?")
       expect(related_work['issued']).to eq("date-parts"=>[[2012, 5, 18]])
       expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.pone.0035869", "source"=>"scienceseeker", "relation_type"=>"discusses"}])
+      expect(related_work['related_works']).to eq([{"pid"=>"http://doi.org/10.1371/journal.pone.00000180", "source_id"=>"scienceseeker", "relation_type_id"=>"discusses"}])
 
       extra = event[:extra].first
       expect(extra[:event_time]).to eq("2012-05-18T07:58:34Z")
@@ -137,7 +137,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       expect(related_work['container-title']).to eq("O'Really?")
       expect(related_work['issued']).to eq("date-parts"=>[[2012, 5, 18]])
       expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.pone.0035869", "source"=>"scienceseeker", "relation_type"=>"discusses"}])
+      expect(related_work['related_works']).to eq([{"pid"=>"http://doi.org/10.1371/journal.pone.00000181", "source_id"=>"scienceseeker", "relation_type_id"=>"discusses"}])
 
       extra = event[:extra].first
       expect(extra[:event_time]).to eq("2012-05-18T07:58:34Z")

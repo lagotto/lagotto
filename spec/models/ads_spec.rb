@@ -72,7 +72,7 @@ describe Ads, type: :model, vcr: true do
       expect(related_work['type']).to eq("article-journal")
       expect(related_work['URL']).to eq("http://arxiv.org/abs/1503.04201")
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"ads", "relation_type"=>"is_previous_version_of"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"ads", "relation_type_id"=>"is_previous_version_of"}])
     end
   end
 end

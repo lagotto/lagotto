@@ -78,7 +78,7 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(16)
       expect(event[:events_url]).to eq("http://www.biomedcentral.com/search/results?terms=https://github.com/najoshi/sickle")
-      expect(event[:days].length).to eq(9)
+      expect(event[:days].length).to eq(11)
       expect(event[:days].first).to eq(year: 2013, month: 1, day: 30, total: 1)
       expect(event[:months].length).to eq(11)
       expect(event[:months].first).to eq(year: 2013, month: 1, total: 1)

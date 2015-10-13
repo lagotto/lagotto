@@ -141,7 +141,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(response[:works].length).to eq(31)
       related_work = response[:works].first
       expect(related_work["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(related_work['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
+      expect(related_work['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(related_work['title']).to eq("Audiotactile interactions in temporal perception")
       expect(related_work['container-title']).to eq("Psychonomic Bulletin & Review")
       expect(related_work['issued']).to eq("date-parts"=>[[2011, 3, 12]])
@@ -149,7 +149,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(related_work['issue']).to eq("3")
       expect(related_work['page']).to eq("429-454")
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"crossref", "relation_type_id"=>"cites"}])
 
       event = response[:works].first
       expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
@@ -161,7 +161,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(event['issue']).to eq("3")
       expect(event['page']).to eq("429-454")
       expect(event['type']).to eq("article-journal")
-      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
+      expect(event['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"crossref", "relation_type_id"=>"cites"}])
 
       extra = response[:events][:extra].first
       expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")
@@ -186,7 +186,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(response[:works].length).to eq(1)
       related_work = response[:works].first
       expect(related_work["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(related_work['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
+      expect(related_work['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
       expect(related_work['title']).to eq("Audiotactile interactions in temporal perception")
       expect(related_work['container-title']).to eq("Psychonomic Bulletin & Review")
       expect(related_work['issued']).to eq("date-parts"=>[[2011, 3, 12]])
@@ -194,7 +194,7 @@ describe CrossRef, type: :model, vcr: true do
       expect(related_work['issue']).to eq("3")
       expect(related_work['page']).to eq("429-454")
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"crossref", "relation_type_id"=>"cites"}])
 
       extra = event[:extra].first
       expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")

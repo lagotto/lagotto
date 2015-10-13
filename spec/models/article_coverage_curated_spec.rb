@@ -93,7 +93,7 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(related_work['issued']).to eq("date-parts"=>[[2013, 11, 20]])
       expect(related_work['timestamp']).to eq("2013-11-20T00:00:00Z")
       expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.1371/journal.pone.0047712", "source"=>"article_coverage_curated", "relation_type"=>"discusses"}])
+      expect(related_work['related_works']).to eq([{"pid"=>"http://doi.org/10.1371/journal.pone.0047712", "source_id"=>"article_coverage_curated", "relation_type_id"=>"discusses"}])
 
       extra = event[:extra].first
       expect(extra[:event_time]).to be_nil

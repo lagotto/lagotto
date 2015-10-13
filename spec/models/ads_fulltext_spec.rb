@@ -72,7 +72,7 @@ describe AdsFulltext, type: :model, vcr: true do
       expect(related_work['type']).to eq("article-journal")
       expect(related_work['URL']).to eq("http://arxiv.org/abs/1007.2876")
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"ads_fulltext", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"ads_fulltext", "relation_type_id"=>"cites"}])
     end
   end
 end

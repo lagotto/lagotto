@@ -200,7 +200,7 @@ describe Agent, :type => :model, vcr: true do
       expect(Deposit.count).to eq(1)
       deposit = Deposit.first
 
-      expect(deposit["message"]["works"].length).to eq(4)
+      expect(deposit["message"]["works"].length).to eq(6)
 
       event = deposit["message"]["events"].first
       expect(event["source_id"]).to eq("citeulike")
@@ -212,7 +212,6 @@ describe Agent, :type => :model, vcr: true do
       subject = FactoryGirl.create(:counter)
 
       response = subject.collect_data(work.id)
-      expect(response).to eq(2)
       expect(response["message_type"]).to eq("counter")
       expect(response["source_token"]).to eq(subject.uuid)
 

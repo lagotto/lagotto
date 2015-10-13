@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Wikipedia, type: :model, vcr: true do
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
 
   subject { FactoryGirl.create(:wikipedia) }
 
@@ -86,7 +87,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(637)
       expect(event[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(event[:days].length).to eq(115)
+      expect(event[:days].length).to eq(88)
       expect(event[:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
       expect(event[:months].length).to eq(29)
       expect(event[:months].first).to eq(year: 2012, month: 5, total: 5)
@@ -100,7 +101,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(related_work['timestamp']).to eq("2013-03-21T09:51:18Z")
       expect(related_work['URL']).to eq("http://en.wikipedia.org/wiki/Lobatus_costatus")
       expect(related_work['type']).to eq("entry-encyclopedia")
-      expect(related_work['related_works']).to eq([{"related_work"=>work.pid, "source"=>"wikipedia", "relation_type"=>"references"}])
+      expect(related_work['related_works']).to eq([{"pid"=>work.pid, "source_id"=>"wikipedia", "relation_type_id"=>"references"}])
 
       extra = event[:extra].first
       expect(extra[:event_url]).to eq("http://en.wikipedia.org/wiki/Lobatus_costatus")
@@ -123,7 +124,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(10)
       expect(event[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work)}")
-      expect(event[:days].length).to eq(2)
+      expect(event[:days].length).to eq(1)
       expect(event[:days].first).to eq(year: 2013, month: 8, day: 29, total: 6)
       expect(event[:months].length).to eq(3)
       expect(event[:months].first).to eq(year: 2013, month: 8, total: 6)
@@ -137,7 +138,7 @@ describe Wikipedia, type: :model, vcr: true do
       expect(related_work['timestamp']).to eq("2014-05-24T12:54:07Z")
       expect(related_work['URL']).to eq("http://en.wikipedia.org/wiki/Lesula")
       expect(related_work['type']).to eq("entry-encyclopedia")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"wikipedia", "relation_type"=>"references"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"wikipedia", "relation_type_id"=>"references"}])
 
       extra = event[:extra].first
       expect(extra[:event_url]).to eq("http://en.wikipedia.org/wiki/Lesula")

@@ -70,7 +70,7 @@ describe Twitter, type: :model, vcr: true do
       expect(related_work['type']).to eq("personal_communication")
       expect(related_work['URL']).to eq("http://twitter.com/regrum/status/204270013081849857")
       expect(related_work['timestamp']).to eq("2012-05-20T17:59:00Z")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"twitter", "relation_type"=>"discusses"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"twitter", "relation_type_id"=>"discusses"}])
 
       extra = event[:extra].first
       extra = extra[:event]

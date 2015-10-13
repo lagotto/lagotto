@@ -77,7 +77,7 @@ describe Orcid, type: :model, vcr: true do
       expect(related_work['issued']).to eq("date-parts"=>[[2013, 9, 5]])
       expect(related_work['timestamp']).to eq("2013-09-05T00:00:00Z")
       expect(related_work['type']).to eq("entry")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"orcid", "relation_type"=>"bookmarks"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"orcid", "relation_type_id"=>"bookmarks"}])
     end
   end
 end

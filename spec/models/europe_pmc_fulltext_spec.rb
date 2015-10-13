@@ -82,7 +82,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       expect(related_work['container-title']).to eq("PLoS Genet")
       expect(related_work['issued']).to eq("date-parts"=>[[2012]])
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"europe_pmc_fulltext", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"europe_pmc_fulltext", "relation_type_id"=>"cites"}])
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do

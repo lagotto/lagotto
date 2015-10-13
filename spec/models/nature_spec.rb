@@ -73,7 +73,7 @@ describe Nature, type: :model, vcr: true do
       expect(related_work['container-title']).to eq("bjoern.brembs.blog : a neuroscientist's blog")
       expect(related_work['issued']).to eq("date-parts"=>[[2012, 6, 19]])
       expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source"=>"nature", "relation_type"=>"discusses"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"nature", "relation_type_id"=>"discusses"}])
     end
 
     it "should catch timeout errors with the Nature Blogs APi" do

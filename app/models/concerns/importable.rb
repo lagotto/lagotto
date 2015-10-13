@@ -38,6 +38,11 @@ module Importable
     #   { works: get_works(result) }
     # end
 
+    # override this method
+    def get_related_works(result, work)
+      []
+    end
+
     def cron_line
       config.cron_line || "40 17 * * *"
     end

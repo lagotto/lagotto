@@ -74,7 +74,7 @@ describe EuropePmc, type: :model, vcr: true do
       expect(related_work['PMID']).to eq("22823405")
       expect(related_work['PMCID']).to eq("3443659")
       expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"related_work"=>work.pid, "source"=>"pmc_europe", "relation_type"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=>work.pid, "source_id"=>"pmc_europe", "relation_type_id"=>"cites"}])
     end
 
     it "should catch timeout errors with the PMC Europe API" do

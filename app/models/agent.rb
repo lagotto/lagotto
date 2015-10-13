@@ -154,7 +154,8 @@ class Agent < ActiveRecord::Base
     return {} if data[:error].present? || (data.fetch(:works, []).length == 0 && data.fetch(:events, [{}]).first.fetch(:total, 0) == 0)
 
     deposit = Deposit.create!(source_token: uuid,
-                              message: data)
+                              message: data,
+                              message_type: name)
 
     { "uuid" => deposit.uuid,
       "source_token" => deposit.source_token,
