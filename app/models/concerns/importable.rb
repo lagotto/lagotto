@@ -32,11 +32,25 @@ module Importable
       get_result(query_url, options)
     end
 
-    # def parse_data(result, _work, options={})
-    #   return result if result[:error]
-    #
-    #   { works: get_works(result) }
-    # end
+    def parse_data(result, options={})
+      result = { error: "No hash returned." } unless result.is_a?(Hash)
+      return result if result[:error]
+
+      items = result.fetch('response', {}).fetch('docs', nil)
+
+      { works: get_works(items),
+        events: get_events(items) }
+    end
+
+    # override this method
+    def get_works(items)
+      []
+    end
+
+    # override this method
+    def get_events(items)
+      []
+    end
 
     # override this method
     def get_related_works(result, options)

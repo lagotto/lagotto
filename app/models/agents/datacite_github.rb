@@ -2,9 +2,6 @@ class DataciteGithub < Agent
   # include common methods for Import
   include Importable
 
-  # include common methods for DataCite
-  include Datacitable
-
   def get_query_url(options={})
     offset = options[:offset].to_i
     rows = options[:rows].presence || job_batch_size
@@ -62,36 +59,21 @@ class DataciteGithub < Agent
     # get parent repo
     # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
     full_name = URI.parse(related_identifier).path[1..-1]
-    owner, repo, _tree, release = full_name.split('/', 4)
+    owner, repo, _tail = full_name.split('/', 3)
     owner_url = "https://github.com/#{owner}"
     repo_url = "https://github.com/#{owner}/#{repo}"
 
-    owner_metadata = get_metadata(owner_url, "github_owner").merge(
-      { "pid" => owner_url,
-        "source_id" => name,
-        "relation_type_id" => "compiles" })
-    return [] if owner_metadata[:error]
-
-    metadata = get_metadata(repo_url, "github")
-    return [] if metadata[:error]
-
-    title = metadata.fetch('title', nil).to_s
-    title = title + " " + release if title.present?
-
-    repo_metadata = metadata.merge(
-      { "pid" => repo_url,
-        "source_id" => name,
-        "relation_type_id" => "has_part",
-        "related_works" => [owner_metadata] })
-
-    release_metadata = metadata.merge(
-      { "pid" => related_identifier,
-        "URL" => related_identifier,
-        "title" => title,
-        "source_id" => name,
-        "relation_type_id" => relation_type,
-        "related_works" => [repo_metadata] })
-
+    owner_metadata = { "pid" => owner_url,
+                       "source_id" => name,
+                       "relation_type_id" => "compiles" }
+    repo_metadata = { "pid" => repo_url,
+                      "source_id" => name,
+                      "relation_type_id" => "has_part",
+                      "related_works" => [owner_metadata] }
+    release_metadata = { "pid" => related_identifier,
+                         "source_id" => name,
+                         "relation_type_id" => relation_type,
+                         "related_works" => [repo_metadata] }
     [release_metadata]
   end
 
