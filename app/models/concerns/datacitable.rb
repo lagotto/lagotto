@@ -2,7 +2,7 @@ module Datacitable
   extend ActiveSupport::Concern
 
   included do
-    def parse_data(result, _work, options={})
+    def parse_data(result, options={})
       result = { error: "No hash returned." } unless result.is_a?(Hash)
       return result if result[:error]
 

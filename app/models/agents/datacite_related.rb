@@ -57,7 +57,7 @@ class DataciteRelated < Agent
     raw_relation_type, _related_identifier_type, related_identifier = work.split(':', 3)
     pid = doi_as_url(related_identifier.strip.upcase)
 
-    # find relation_type, default to "references" otherwise
+    # find relation_type, default to "is_referenced_by" otherwise
     relation_type = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
 
     { "pid" => pid,

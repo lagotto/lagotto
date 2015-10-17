@@ -136,34 +136,34 @@ class Agent < ActiveRecord::Base
     end
   end
 
-  def collect_data(work_id, options={})
-    work = work_id.nil? ? nil : Work.where(id: work_id).first
-    pid = work.nil? ? nil : work.pid
+  def collect_data(options = {})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    pid = work.present? ? work.pid : nil
     message_type = source_id || name
 
-    data = get_data(work, options.merge(timeout: timeout, work_id: work_id, agent_id: id))
+    data = get_data(options.merge(timeout: timeout, agent_id: id))
 
     if ENV["LOGSTASH_PATH"].present?
       # write API response from external agent to log/agent.log, using agent name and work pid as tags
       AGENT_LOGGER.tagged(name, pid) { AGENT_LOGGER.info "#{result.inspect}" }
     end
 
-    data = parse_data(data, work, work_id: work_id, agent_id: id)
+    data = parse_data(data, options.merge(agent_id: id))
 
     # push to deposit API if no error and we have collected works and/or events
     return {} if data[:error].present? || (data.fetch(:works, []).length == 0 && data.fetch(:events, [{}]).first.fetch(:total, 0) == 0)
 
     deposit = Deposit.create!(source_token: uuid,
                               message: data,
-                              message_type: name)
+                              message_type: message_type)
 
     { "uuid" => deposit.uuid,
       "source_token" => deposit.source_token,
       "message_type" => deposit.message_type }
   end
 
-  def get_data(work, options={})
-    query_url = get_query_url(work)
+  def get_data(options={})
+    query_url = get_query_url(options)
     return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
     result = get_result(query_url, options.merge(request_options))
@@ -175,7 +175,7 @@ class Agent < ActiveRecord::Base
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, work, options = {})
+  def parse_data(result, options = {})
     if !result.is_a?(Hash)
       # make sure we have a hash
       result = { 'data' => result }
@@ -188,6 +188,8 @@ class Agent < ActiveRecord::Base
       # return early if an error occured that is not a not_found error
       return result
     end
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
     extra = get_extra(result)

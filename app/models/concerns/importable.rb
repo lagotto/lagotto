@@ -27,7 +27,7 @@ module Importable
       total
     end
 
-    def get_data(_work, options={})
+    def get_data(options={})
       query_url = get_query_url(options)
       get_result(query_url, options)
     end
@@ -39,7 +39,7 @@ module Importable
     # end
 
     # override this method
-    def get_related_works(result, work)
+    def get_related_works(result, options)
       []
     end
 
