@@ -159,6 +159,8 @@ module Resolvable
       when "datacite" then get_datacite_metadata(id, options = {})
       when "pubmed" then get_pubmed_metadata(id, options = {})
       when "orcid" then get_orcid_metadata(id, options = {})
+      when "github" then get_github_metadata(id, options = {})
+      when "github_owner" then get_github_owner_metadata(id, options = {})
       else
         { error: 'Resource not found.', status: 404 }
       end
@@ -282,7 +284,7 @@ module Resolvable
         timestamp = get_iso8601_from_epoch(submission_date) || Time.zone.now.utc.iso8601
 
         { "author" => [author],
-          "title" => "ORCID profile for #{author.fetch('given', '')} #{author.fetch('family', '')}",
+          "title" => "ORCID record for #{author.fetch('given', '')} #{author.fetch('family', '')}",
           "container-title" => "ORCID Registry",
           "issued" => get_date_parts(timestamp),
           "timestamp" => timestamp,
@@ -293,6 +295,87 @@ module Resolvable
       end
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
+    end
+
+    def get_github_metadata(url, options = {})
+      return {} if url.blank?
+
+      full_name = URI.parse(url).path[1..-1]
+      owner, repo, _tail = full_name.split('/', 3)
+
+      conn = faraday_conn('json', options)
+      api_url = "https://api.github.com/repos/#{owner}/#{repo}"
+      response = conn.get api_url, {}, options[:headers]
+
+      if is_json?(response.body)
+        metadata = JSON.parse(response.body)
+
+        return { error: 'Resource not found.', status: 404 } if metadata["message"] == "Not Found"
+
+        author = get_github_owner(owner)
+        timestamp = metadata.fetch('created_at', nil)
+
+        { "author" => get_one_author(author),
+          "title" => metadata.fetch('description', nil),
+          "container-title" => "Github",
+          "issued" => get_date_parts(timestamp),
+          "timestamp" => timestamp,
+          "URL" => url,
+          "type" => 'computer_program' }
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_github_owner_metadata(url, options = {})
+      return {} if url.blank?
+
+      full_name = URI.parse(url).path[1..-1]
+      owner, _tail = full_name.split('/', 2)
+
+      conn = faraday_conn('json', options)
+      api_url = "https://api.github.com/users/#{owner}"
+      response = conn.get api_url, {}, options[:headers]
+
+      if is_json?(response.body)
+        metadata = JSON.parse(response.body)
+
+        return { error: 'Resource not found.', status: 404 } if metadata["message"] == "Not Found"
+
+        author = metadata.fetch('name', nil).to_s
+        timestamp = metadata.fetch('created_at', nil)
+
+        { "author" => get_one_author(author),
+          "title" => "Github profile for #{author}",
+          "container-title" => "Github",
+          "issued" => get_date_parts(timestamp),
+          "timestamp" => timestamp,
+          "URL" => url,
+          "type" => 'entry' }
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_github_owner(owner)
+      conn = faraday_conn('json')
+      url = "https://api.github.com/users/#{owner}"
+      response = conn.get url
+
+      if is_json?(response.body)
+        metadata = JSON.parse(response.body)
+        return nil if metadata["message"] == "Not Found"
+
+        metadata.fetch('name', nil)
+      else
+        nil
+      end
+    rescue *NETWORKABLE_EXCEPTIONS
+      nil
     end
 
     def get_pubmed_metadata(pmid, options = {})

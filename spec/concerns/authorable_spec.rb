@@ -11,12 +11,12 @@ describe Agent do
     it 'should handle authors with incomplete names' do
       author = "Zaranek"
       result = subject.get_one_author(author)
-      expect(result).to eq("family"=>"Zaranek", "given"=>"")
+      expect(result).to eq("given"=>"Zaranek")
     end
 
     it 'should handle author in comma-delimited format' do
       author = "Zaranek, Alexander W."
-      result = subject.get_one_author(author, sep: ", ", reversed: true)
+      result = subject.get_one_author(author)
       expect(result).to eq("family"=>"Zaranek", "given"=>"Alexander W.")
     end
   end
@@ -57,7 +57,7 @@ describe Agent do
 
     it 'should handle author in comma-delimited format' do
       authors = ["Ball, Madeline P.", "Zaranek, Alexander W."]
-      result = subject.get_authors(authors, sep: ", ", reversed: true)
+      result = subject.get_authors(authors)
       expect(result).to eq([{"family"=>"Ball", "given"=>"Madeline P."}, {"family"=>"Zaranek", "given"=>"Alexander W."}])
     end
   end

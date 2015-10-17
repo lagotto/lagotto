@@ -312,7 +312,7 @@ describe Work, type: :model, vcr: true do
         work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030")
         stub = stub_request(:get, work.pid).to_return(:status => [408])
         response = subject.get_canonical_url(work.pid, work_id: work.id)
-        expect(response).to eq(error: "connect timeout reached for #{work.pid}", status: 408)
+        expect(response).to eq(error: "the server responded with status 408 for #{work.pid}", status: 408)
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
@@ -384,6 +384,16 @@ describe Work, type: :model, vcr: true do
         expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
+      end
+
+      it "get_metadata github" do
+        url = "https://github.com/lagotto/lagotto"
+        response = subject.get_metadata(url, "github")
+        expect(response["title"]).to eq("Tracking events around scholarly content")
+        expect(response["container-title"]).to eq("Github")
+        expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 2]])
+        expect(response["type"]).to eq("computer_program")
+        expect(response["URL"]).to eq("https://github.com/lagotto/lagotto")
       end
     end
 
@@ -493,6 +503,26 @@ describe Work, type: :model, vcr: true do
       it "get_orcid_metadata with not found error" do
         response = subject.get_orcid_metadata("#{orcid}x")
         expect(response).to eq(error: {"message-version"=>"1.2", "orcid-profile"=>nil, "orcid-search-results"=>nil, "error-desc"=>{"value"=>"Not found : No entity found for query"}}, status: 404)
+      end
+    end
+
+    context "github metadata" do
+      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
+
+      let(:url) { "https://github.com/lagotto/lagotto" }
+
+      it "get_github_metadata" do
+        response = subject.get_github_metadata(url)
+        expect(response["title"]).to eq("Tracking events around scholarly content")
+        expect(response["container-title"]).to eq("Github")
+        expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 2]])
+        expect(response["type"]).to eq("computer_program")
+        expect(response["URL"]).to eq("https://github.com/lagotto/lagotto")
+      end
+
+      it "get_github_metadata with not found error" do
+        response = subject.get_github_metadata("#{url}x")
+        expect(response).to eq(:error=>{"message"=>"Not Found", "documentation_url"=>"https://developer.github.com/v3"}, :status=>404)
       end
     end
 

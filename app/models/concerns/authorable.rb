@@ -5,25 +5,23 @@ module Authorable
 
   included do
     # parse author string into CSL format
-    def get_one_author(author, options = { sep: " " })
+    def get_one_author(author)
       return "" if author.blank?
 
-      name_parts = author.split(options[:sep])
-      if options[:reversed]
-        family = name_parts.first
-        given = name_parts.length > 1 ? name_parts[1..-1].join(" ") : ""
-      else
-        family = name_parts.last
-        given = name_parts.length > 1 ? name_parts[0..-2].join(" ") : ""
-      end
+      names = Namae.parse(author)
+      if names.present?
+        name = names.first
 
-      { "family" => String(family).titleize,
-        "given" => String(given).titleize }
+        { "family" => name.family,
+          "given" => name.given }.compact
+      else
+        { "literal" => author }
+      end
     end
 
     # parse array of author strings into CSL format
-    def get_authors(authors, options = { sep: " " })
-      Array(authors).map { |author| get_one_author(author, options) }
+    def get_authors(authors)
+      Array(authors).map { |author| get_one_author(author) }
     end
 
     # parse array of author hashes into CSL format
@@ -33,17 +31,10 @@ module Authorable
 
     def get_one_hashed_author(author)
       raw_name = author.fetch("creatorName", nil)
-      names = Namae.parse(raw_name)
-      if names.present?
-        name = names.first
-        orcid = get_name_identifier(author)
 
-        { "family" => name.family,
-          "given" => name.given,
-          "ORCID" => orcid }.compact
-      else
-        { "literal" => raw_name }
-      end
+      author_hsh = get_one_author(raw_name)
+      author_hsh["ORCID"] = get_name_identifier(author)
+      author_hsh.compact
     end
 
     def get_name_identifier(author)
