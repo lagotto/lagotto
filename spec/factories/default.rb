@@ -542,6 +542,18 @@ FactoryGirl.define do
       inverse_name "is_part_of"
     end
 
+    trait(:is_supplement_to) do
+      name "is_supplement_to"
+      title "Is supplement to"
+      inverse_name "has_supplement"
+    end
+
+    trait(:is_compiled_by) do
+      name "is_compiled_by"
+      title "Is compiled by"
+      inverse_name "compiles"
+    end
+
     initialize_with { RelationType.where(name: name).first_or_initialize }
   end
 

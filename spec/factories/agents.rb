@@ -627,13 +627,26 @@ FactoryGirl.define do
   factory :datacite_orcid, class: DataciteOrcid do
     type "DataciteOrcid"
     name "datacite_orcid"
-    title "Datacite ORCID Links"
+    title "Datacite ORCID"
     kind "all"
     state_event "activate"
 
     group
 
     initialize_with { DataciteOrcid.where(name: name).first_or_initialize }
+  end
+
+  factory :datacite_github, class: DataciteGithub do
+    type "DataciteGithub"
+    name "datacite_github"
+    title "Datacite Github"
+    kind "all"
+    state_event "activate"
+    personal_access_token "EXAMPLE"
+
+    group
+
+    initialize_with { DataciteGithub.where(name: name).first_or_initialize }
   end
 
   factory :dataone_import, class: DataoneImport do
