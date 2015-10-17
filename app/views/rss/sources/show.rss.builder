@@ -13,7 +13,7 @@ xml.rss :version => "2.0" do
           xml.title event.work.title
           xml.description pluralize(event.total, "#{@source.title} event")
           xml.pubDate event.work.published_on.to_time.utc.to_s(:rfc822)
-          xml.link event.work.url
+          xml.link event.work.pid
           xml.guid event.work.pid
         end
       end
