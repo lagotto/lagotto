@@ -5,7 +5,7 @@ class Rss::WorksController < ApplicationController
     format_options = params.slice :source
 
     @page = params[:page] || 1
-    @source = Source.visible.where(name: params[:source_id]).first
+    @source = Source.active.where(name: params[:source_id]).first
     @relation_type = RelationType.where(name: params[:relation_type_id]).first
 
     render :show
