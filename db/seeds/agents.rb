@@ -68,6 +68,10 @@ Source.where(name: 'datacite_github').first_or_create(
   :title => 'DataCite Github',
   :description => 'Import works with Github relatedIdentifiers via the DataCite Solr API.',
   :group_id => saved.id)
+Source.where(name: 'crossref_orcid').first_or_create(
+  :title => 'CrossRef ORCID',
+  :description => 'Import works with ORCID identifiers via the CrossRef REST API.',
+  :group_id => saved.id)
 
 # The following sources require passwords/API keys and are installed by default
 Source.where(name: 'crossref').first_or_create(
@@ -280,6 +284,11 @@ CrossrefImport.where(name: 'crossref_import').first_or_create(
   :description => 'Import works via the CrossRef REST API.',
   :kind => "all",
   :group_id => other.id)
+CrossrefOrcid.where(name: 'crossref_orcid').first_or_create(
+  :title => 'CrossRef ORCID',
+  :description => 'Import works with ORCID identifiers via the CrossRef REST API.',
+  :kind => "all",
+  :group_id => saved.id)
 DataciteImport.where(name: 'datacite_import').first_or_create(
   :title => 'DataCite Import',
   :description => 'Import works via the DataCite Solr API.',

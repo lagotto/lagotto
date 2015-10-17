@@ -600,6 +600,18 @@ FactoryGirl.define do
     initialize_with { CrossrefImport.where(name: name).first_or_initialize }
   end
 
+  factory :crossref_orcid, class: CrossrefOrcid do
+    type "CrossrefOrcid"
+    name "crossref_orcid"
+    title "Crossref ORCID"
+    kind "all"
+    state_event "activate"
+
+    group
+
+    initialize_with { CrossrefOrcid.where(name: name).first_or_initialize }
+  end
+
   factory :datacite_import, class: DataciteImport do
     type "DataciteImport"
     name "datacite_import"
