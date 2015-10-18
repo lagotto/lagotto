@@ -93,11 +93,11 @@ describe DataciteGithub, type: :model, vcr: true do
       expect(work['DOI']).to eq("10.5281/ZENODO.16668")
       expect(work['related_works'].length).to eq(1)
       related_work = work['related_works'].first
-      expect(related_work.except("related_works")).to eq("author"=>{"family"=>"Karczewski", "given"=>"Konrad"}, "title"=>"", "container-title"=>"Github", "issued"=>{"date-parts"=>[[2014, 4, 1]]}, "timestamp"=>"2014-04-01T00:30:51Z", "URL"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta", "type"=>"computer_program", "pid"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta", "source_id"=>"datacite_github", "relation_type_id"=>"is_supplement_to")
+      expect(related_work.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta", "source_id"=>"datacite_github", "relation_type_id"=>"is_supplement_to")
       related_repo = related_work["related_works"].first
-      expect(related_repo.except("related_works")).to eq("author"=>{"family"=>"Karczewski", "given"=>"Konrad"}, "title"=>"", "container-title"=>"Github", "issued"=>{"date-parts"=>[[2014, 4, 1]]}, "timestamp"=>"2014-04-01T00:30:51Z", "URL"=>"https://github.com/konradjk/loftee", "type"=>"computer_program", "pid"=>"https://github.com/konradjk/loftee", "source_id"=>"datacite_github", "relation_type_id"=>"has_part")
+      expect(related_repo.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee", "source_id"=>"datacite_github", "relation_type_id"=>"has_part")
       related_owner = related_repo["related_works"].first
-      expect(related_owner).to eq("author"=>{"family"=>"Karczewski", "given"=>"Konrad"}, "title"=>"Github profile for Konrad Karczewski", "container-title"=>"Github", "issued"=>{"date-parts"=>[[2012, 2, 19]]}, "timestamp"=>"2012-02-19T10:43:45Z", "URL"=>"https://github.com/konradjk", "type"=>"entry", "pid"=>"https://github.com/konradjk", "source_id"=>"datacite_github", "relation_type_id"=>"compiles")
+      expect(related_owner).to eq("pid"=>"https://github.com/konradjk", "source_id"=>"datacite_github", "relation_type_id"=>"compiles")
 
       expect(response[:events].length).to eq(20)
       event = response[:events].first

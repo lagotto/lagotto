@@ -100,7 +100,7 @@ describe CrossrefImport, type: :model, vcr: true do
 
     it "should catch errors with the Crossref REST API" do
       stub = stub_request(:get, subject.get_query_url(rows: 0, agent_id: subject.id)).to_return(:status => [408])
-      response = subject.get_data(nil, rows: 0, agent_id: subject.id)
+      response = subject.get_data(rows: 0, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=from-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08&offset=0&rows=0", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -115,13 +115,13 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should report if there are no works returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, nil)).to eq(works: [])
+      expect(subject.parse_data(result)).to eq(works: [])
     end
 
     it "should report if there are works returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(10)
       related_work = response[:works].first
@@ -137,7 +137,7 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should report if there are works with incomplete date returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(10)
       related_work = response[:works][5]
@@ -152,7 +152,7 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should report if there are works with date in the future returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_import_future.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(1)
       related_work = response[:works].first
@@ -167,7 +167,7 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should report if there are works with title as second item returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(10)
       related_work = response[:works][2]
@@ -181,7 +181,7 @@ describe CrossrefImport, type: :model, vcr: true do
       body = File.read(fixture_path + 'crossref_import.json')
       result = JSON.parse(body)
       result["message"]["items"][5]["title"] = []
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(10)
       related_work = response[:works][5]
@@ -196,7 +196,7 @@ describe CrossrefImport, type: :model, vcr: true do
       result = JSON.parse(body)
       result["message"]["items"][5]["title"] = []
       result["message"]["items"][5]["type"] = "journal-issue"
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(10)
       related_work = response[:works][5]
@@ -212,7 +212,7 @@ describe CrossrefImport, type: :model, vcr: true do
       result["message"]["items"][5]["title"] = []
       result["message"]["items"][5]["container-title"] = []
       result["message"]["items"][5]["type"] = "journal-issue"
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(10)
       related_work = response[:works][5]

@@ -379,7 +379,7 @@ describe Work, type: :model, vcr: true do
       it "get_metadata orcid" do
         orcid = "0000-0002-0159-2197"
         response = subject.get_metadata(orcid, "orcid")
-        expect(response["title"]).to eq("ORCID profile for Jonathan A. Eisen")
+        expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
         expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
         expect(response["type"]).to eq("entry")
@@ -394,6 +394,26 @@ describe Work, type: :model, vcr: true do
         expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 2]])
         expect(response["type"]).to eq("computer_program")
         expect(response["URL"]).to eq("https://github.com/lagotto/lagotto")
+      end
+
+      it "get_metadata github_owner" do
+        url = "https://github.com/lagotto"
+        response = subject.get_metadata(url, "github_owner")
+        expect(response["title"]).to eq("Github profile for Lagotto")
+        expect(response["container-title"]).to eq("Github")
+        expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 1]])
+        expect(response["type"]).to eq("entry")
+        expect(response["URL"]).to eq("https://github.com/lagotto")
+      end
+
+      it "get_metadata github_release" do
+        url = "https://github.com/lagotto/lagotto/tree/v.4.3"
+        response = subject.get_metadata(url, "github_release")
+        expect(response["title"]).to eq("Lagotto 4.3")
+        expect(response["container-title"]).to eq("Github")
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 7, 19]])
+        expect(response["type"]).to eq("computer_program")
+        expect(response["URL"]).to eq("https://github.com/lagotto/lagotto/tree/v.4.3")
       end
     end
 
@@ -493,7 +513,7 @@ describe Work, type: :model, vcr: true do
 
       it "get_orcid_metadata" do
         response = subject.get_orcid_metadata(orcid)
-        expect(response["title"]).to eq("ORCID profile for Jonathan A. Eisen")
+        expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
         expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
         expect(response["type"]).to eq("entry")

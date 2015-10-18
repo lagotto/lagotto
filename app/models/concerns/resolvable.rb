@@ -161,6 +161,7 @@ module Resolvable
       when "orcid" then get_orcid_metadata(id, options = {})
       when "github" then get_github_metadata(id, options = {})
       when "github_owner" then get_github_owner_metadata(id, options = {})
+      when "github_release" then get_github_release_metadata(id, options = {})
       else
         { error: 'Resource not found.', status: 404 }
       end
@@ -354,6 +355,38 @@ module Resolvable
           "timestamp" => timestamp,
           "URL" => url,
           "type" => 'entry' }
+      else
+        { error: 'Resource not found.', status: 404 }
+      end
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
+    end
+
+    def get_github_release_metadata(url, options = {})
+      return {} if url.blank?
+
+      full_name = URI.parse(url).path[1..-1]
+      owner, repo, _tree, release = full_name.split('/', 4)
+
+      conn = faraday_conn('json', options)
+      api_url = "https://api.github.com/repos/#{owner}/#{repo}/releases/tags/#{release}"
+      response = conn.get api_url, {}, options[:headers]
+
+      if is_json?(response.body)
+        metadata = JSON.parse(response.body)
+
+        return { error: 'Resource not found.', status: 404 } if metadata["message"] == "Not Found"
+
+        author = get_github_owner(owner)
+        timestamp = metadata.fetch('created_at', nil)
+
+        { "author" => get_one_author(author),
+          "title" => metadata.fetch('name', nil),
+          "container-title" => "Github",
+          "issued" => get_date_parts(timestamp),
+          "timestamp" => timestamp,
+          "URL" => url,
+          "type" => 'computer_program' }
       else
         { error: 'Resource not found.', status: 404 }
       end

@@ -71,7 +71,7 @@ class Work < ActiveRecord::Base
       source = Source.where(name: item.fetch(:source_id)).first
       relation_name = item.fetch(:relation_type_id, "is_referenced_by")
       relation_type = RelationType.where(name: relation_name).first
-      related_work = Work.where(pid: pid).first_or_create(item.except(:pid, :source_id, :relation_type_id))
+      related_work = Work.where(pid: pid).first_or_create(item.except(:pid, :source_id, :relation_type_id, :related_works))
 
       unless related_work.persisted?
         message = "No metadata for #{pid} found"
@@ -221,6 +221,18 @@ class Work < ActiveRecord::Base
     Array(/^http:\/\/orcid\.org\/(.+)/.match(canonical_url)).last
   end
 
+  def github
+    Array(/^https:\/\/github\.com\/(.+)\/(.+)/.match(canonical_url)).last
+  end
+
+  def github_release
+    Array(/^https:\/\/github\.com\/(.+)\/(.+)\/tree\/(.+)/.match(canonical_url)).last
+  end
+
+  def github_owner
+    Array(/^https:\/\/github\.com\/(.+)/.match(canonical_url)).last
+  end
+
   def views
     names = ENV["VIEWED"] ? ENV["VIEWED"].split(",") : ["pmc", "counter"]
     @views || event_counts(names)
@@ -336,7 +348,7 @@ class Work < ActiveRecord::Base
     end
   end
 
-  # collect missing metadata for doi, orcid
+  # collect missing metadata for doi, pmid, orcid, github
   def set_metadata
     return if registration_agency.present? && title.present? && year.present?
 
@@ -351,6 +363,18 @@ class Work < ActiveRecord::Base
       write_attribute(:registration_agency, "orcid")
       write_attribute(:tracked, false)
       metadata = get_metadata(orcid, "orcid")
+    elsif github_release.present?
+      write_attribute(:registration_agency, "github")
+      write_attribute(:tracked, false)
+      metadata = get_metadata(canonical_url, "github_release")
+    elsif github.present?
+      write_attribute(:registration_agency, "github")
+      write_attribute(:tracked, true)
+      metadata = get_metadata(canonical_url, "github")
+    elsif github_owner.present?
+      write_attribute(:registration_agency, "github")
+      write_attribute(:tracked, false)
+      metadata = get_metadata(canonical_url, "github_owner")
     else
       return nil
     end
