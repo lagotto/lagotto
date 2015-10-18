@@ -124,14 +124,18 @@ class Deposit < ActiveRecord::Base
   def update_events
     message.fetch("events", []).map do |item|
       source = Source.where(name: item.fetch("source_id", nil)).first
-      work = Work.where(pid: item.fetch("work_id",nil)).first
+      work = Work.where(pid: item.fetch("work_id", nil)).first
       next unless source.present? && work.present?
 
       total = item.fetch("total", 0)
 
       # only create event row if we have at least one event
       if total > 0
-        event = Event.where(source_id: source.id, work_id: work.id).first_or_create
+        begin
+          event = Event.where(source_id: source.id, work_id: work.id).first_or_create
+        rescue ActiveRecord::RecordNotUnique
+          event = Event.where(source_id: source.id, work_id: work.id).first
+        end
       else
         event = Event.where(source_id: source.id, work_id: work.id).first
       end

@@ -53,7 +53,11 @@ class Work < ActiveRecord::Base
   serialize :csl, JSON
 
   def self.find_or_create(params)
-    work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :source_id, :relation_type_id, :related_works))
+    begin
+      work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :source_id, :relation_type_id, :related_works))
+    rescue ActiveRecord::RecordNotUnique
+      work = Work.where(pid: params.fetch(:pid, nil)).first
+    end
     work.update_relations(params.fetch(:related_works, []))
     work
   end
