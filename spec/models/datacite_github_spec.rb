@@ -91,13 +91,13 @@ describe DataciteGithub, type: :model, vcr: true do
       expect(response[:works].length).to eq(20)
       work = response[:works].first
       expect(work['DOI']).to eq("10.5281/ZENODO.16668")
-      expect(work['related_works'].length).to eq(1)
+      expect(work['related_works'].length).to eq(2)
       related_work = work['related_works'].first
       expect(related_work.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta", "source_id"=>"datacite_github", "relation_type_id"=>"is_supplement_to")
       related_repo = related_work["related_works"].first
-      expect(related_repo.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee", "source_id"=>"datacite_github", "relation_type_id"=>"has_part")
+      expect(related_repo.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee", "source_id"=>"datacite_github", "relation_type_id"=>"is_part_of")
       related_owner = related_repo["related_works"].first
-      expect(related_owner).to eq("pid"=>"https://github.com/konradjk", "source_id"=>"datacite_github", "relation_type_id"=>"compiles")
+      expect(related_owner).to eq("pid"=>"https://github.com/konradjk", "source_id"=>"datacite_github", "relation_type_id"=>"is_compiled_by")
 
       expect(response[:events].length).to eq(20)
       event = response[:events].first
