@@ -19,7 +19,7 @@ module Importable
 
         (0...total_pages).each do |page|
           options[:offset] = page * job_batch_size
-          AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(nil, self, options)
+          AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options)
         end
       end
 

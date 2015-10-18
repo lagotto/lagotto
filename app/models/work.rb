@@ -53,7 +53,7 @@ class Work < ActiveRecord::Base
   serialize :csl, JSON
 
   def self.find_or_create(params)
-    work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :related_works))
+    work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :source_id, :relation_type_id, :related_works))
     work.update_relations(params.fetch(:related_works, []))
     work
   end
@@ -71,7 +71,8 @@ class Work < ActiveRecord::Base
       source = Source.where(name: item.fetch(:source_id)).first
       relation_name = item.fetch(:relation_type_id, "is_referenced_by")
       relation_type = RelationType.where(name: relation_name).first
-      related_work = Work.where(pid: pid).first_or_create(item.except(:pid, :source_id, :relation_type_id, :related_works))
+      # recursion for nested related_works
+      related_work = Work.find_or_create(item)
 
       unless related_work.persisted?
         message = "No metadata for #{pid} found"
