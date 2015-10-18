@@ -15,6 +15,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
+    param :query, :registration_agency, :string, :optional, "Registration agency"
     param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
@@ -76,14 +77,16 @@ class Api::V6::WorksController < Api::BaseController
     publisher = Publisher.where(member_id: params[:publisher_id]).first
 
     collection = get_ids(params)
+    collection = collection.where(registration_agency: params[:registration_agency]) if params[:registration_agency]
     collection = get_class_name(collection, params) if params[:class_name]
     collection = get_sort(collection, params, source)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
+    page = params[:page] && params[:per_page].to_i > 0 ? params[:per_page].to_i : 1
     total_entries = get_total_entries(params, source, publisher)
 
     collection = collection.paginate(per_page: per_page,
-                                     page: params[:page],
+                                     page: page,
                                      total_entries: total_entries)
 
     @works = collection.decorate(context: { role: is_admin_or_staff? })
@@ -173,7 +176,7 @@ class Api::V6::WorksController < Api::BaseController
   # use cached counts for total number of results
   def get_total_entries(params, source, publisher)
     case
-    when params[:ids] || params[:q] || params[:class_name] then nil # can't be cached
+    when params[:ids] || params[:q] || params[:class_name] || params[:registration_agency] then nil # can't be cached
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
