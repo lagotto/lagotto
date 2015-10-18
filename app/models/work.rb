@@ -90,16 +90,29 @@ class Work < ActiveRecord::Base
       inverse_relation_type = RelationType.where(name: relation_type.inverse_name).first
       next unless inverse_relation_type.present?
 
-      Relation.where(work_id: id,
-                     related_work_id: related_work.id,
-                     source_id: source.id).first_or_create(
-                       relation_type_id: relation_type.id,
-                       level: relation_type.level)
-      Relation.where(work_id: related_work.id,
-                     related_work_id: id,
-                     source_id: source.id).first_or_create(
-                       relation_type_id: inverse_relation_type.id,
-                       level: inverse_relation_type.level)
+      begin
+        Relation.where(work_id: id,
+                       related_work_id: related_work.id,
+                       source_id: source.id).first_or_create(
+                         relation_type_id: relation_type.id,
+                         level: relation_type.level)
+      rescue ActiveRecord::RecordNotUnique
+        Relation.where(work_id: id,
+                       related_work_id: related_work.id,
+                       source_id: source.id).first
+      end
+
+      begin
+        Relation.where(work_id: related_work.id,
+                       related_work_id: id,
+                       source_id: source.id).first_or_create(
+                         relation_type_id: inverse_relation_type.id,
+                         level: inverse_relation_type.level)
+      rescue ActiveRecord::RecordNotUnique
+        Relation.where(work_id: related_work.id,
+                       related_work_id: id,
+                       source_id: source.id).first
+      end
     end
   end
 
