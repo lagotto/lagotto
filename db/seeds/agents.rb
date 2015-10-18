@@ -248,6 +248,7 @@ Github.where(name: 'github').first_or_create(
   :title => 'Github',
   :description => 'GitHub is a web-based Git repository hosting service.',
   :source_id => "github",
+  :kind => "all",
   :group_id => saved.id)
 Bitbucket.where(name: 'bitbucket').first_or_create(
   :title => 'Bitbucket',

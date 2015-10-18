@@ -21,7 +21,7 @@ class AgentJob < ActiveJob::Base
   end
 
   rescue_from StandardError do |exception|
-    ids, agent = arguments
+    agent, _options = arguments
     agent_id = agent.nil? ? nil : agent.id
 
     Notification.where(message: exception.message).where(unresolved: true).first_or_create(
@@ -30,10 +30,9 @@ class AgentJob < ActiveJob::Base
       agent_id: agent_id)
   end
 
-  def perform(ids, agent, options={})
-    case agent.kind
-    when "work" then
-      Array(ids).each do |id|
+  def perform(agent, options={})
+    if options[:ids].present? then
+      Array(options[:ids]).each do |id|
         # check for failed queries and rate-limiting
         agent.work_after_check
         fail AgentInactiveError, "#{agent.title} is not in working state" unless agent.working?
@@ -75,7 +74,7 @@ class AgentJob < ActiveJob::Base
   end
 
   after_perform do |job|
-    ids, agent = job.arguments
+    agent, _options = job.arguments
     agent.wait_after_check
   end
 end
