@@ -316,7 +316,7 @@ module Resolvable
         author = get_github_owner(owner)
         timestamp = metadata.fetch('created_at', nil)
 
-        { "author" => get_one_author(author),
+        { "author" => [get_one_author(author)],
           "title" => metadata.fetch('description', nil),
           "container-title" => "Github",
           "issued" => get_date_parts(timestamp),
@@ -348,7 +348,7 @@ module Resolvable
         author = metadata.fetch('name', nil).to_s
         timestamp = metadata.fetch('created_at', nil)
 
-        { "author" => get_one_author(author),
+        { "author" => [get_one_author(author)],
           "title" => "Github profile for #{author}",
           "container-title" => "Github",
           "issued" => get_date_parts(timestamp),
@@ -380,7 +380,7 @@ module Resolvable
         author = get_github_owner(owner)
         timestamp = metadata.fetch('created_at', nil)
 
-        { "author" => get_one_author(author),
+        { "author" => [get_one_author(author)],
           "title" => metadata.fetch('name', nil),
           "container-title" => "Github",
           "issued" => get_date_parts(timestamp),
