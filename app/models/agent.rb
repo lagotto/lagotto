@@ -137,16 +137,14 @@ class Agent < ActiveRecord::Base
   end
 
   def collect_data(options = {})
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-    pid = work.present? ? work.pid : nil
     message_type = source_id || name
 
     data = get_data(options.merge(timeout: timeout, agent_id: id))
 
-    if ENV["LOGSTASH_PATH"].present?
-      # write API response from external agent to log/agent.log, using agent name and work pid as tags
-      AGENT_LOGGER.tagged(name, pid) { AGENT_LOGGER.info "#{result.inspect}" }
-    end
+    # if ENV["LOGSTASH_PATH"].present?
+    #   # write API response from external agent to log/agent.log, using agent name and work pid as tags
+    #   AGENT_LOGGER.tagged(name, pid) { AGENT_LOGGER.info "#{result.inspect}" }
+    # end
 
     data = parse_data(data, options.merge(agent_id: id))
 
