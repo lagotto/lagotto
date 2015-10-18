@@ -103,6 +103,7 @@ module ApplicationHelper
   end
 
   def author_format(author)
+    author = [author] if author.is_a?(Hash)
     authors = Array(author).map do |a|
       name = a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s
       a["ORCID"].present? ? "<a href=\"/works/#{a["ORCID"]}\">#{name}</a>" : name

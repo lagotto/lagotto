@@ -65,10 +65,10 @@ class DataciteGithub < Agent
 
     owner_metadata = { "pid" => owner_url,
                        "source_id" => name,
-                       "relation_type_id" => "compiles" }
+                       "relation_type_id" => "is_compiled_by" }
     repo_metadata = { "pid" => repo_url,
                       "source_id" => name,
-                      "relation_type_id" => "has_part",
+                      "relation_type_id" => "is_part_of",
                       "related_works" => [owner_metadata] }
     release_metadata = { "pid" => related_identifier,
                          "source_id" => name,
