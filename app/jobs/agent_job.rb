@@ -31,7 +31,7 @@ class AgentJob < ActiveJob::Base
   end
 
   def perform(agent, options={})
-    if options[:ids].present? then
+    if options[:ids].present?
       Array(options[:ids]).each do |id|
         # check for failed queries and rate-limiting
         agent.work_after_check
@@ -49,7 +49,7 @@ class AgentJob < ActiveJob::Base
         # store API response result and duration in api_responses table
         response = { work_id: id, agent_id: agent.id }
         ActiveSupport::Notifications.instrument("api_response.get") do |payload|
-          response.merge!(agent.collect_data(work_id: id))
+          response.merge!(agent.collect_data(options.merge(work_id: id)))
           payload.merge!(response)
         end
       end
@@ -67,7 +67,7 @@ class AgentJob < ActiveJob::Base
       # store API response result and duration in api_responses table
       response = { agent_id: agent.id }
       ActiveSupport::Notifications.instrument("api_response.get") do |payload|
-        response.merge!(agent.collect_data)
+        response.merge!(agent.collect_data(options))
         payload.merge!(response)
       end
     end
