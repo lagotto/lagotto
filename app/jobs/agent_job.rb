@@ -49,7 +49,7 @@ class AgentJob < ActiveJob::Base
         # store API response result and duration in api_responses table
         response = { work_id: id, agent_id: agent.id }
         ActiveSupport::Notifications.instrument("api_response.get") do |payload|
-          response.merge!(agent.collect_data(id))
+          response.merge!(agent.collect_data(work_id: id))
           payload.merge!(response)
         end
       end
