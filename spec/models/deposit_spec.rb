@@ -5,9 +5,7 @@ describe Deposit, :type => :model, vcr: true do
 
   subject { FactoryGirl.create(:deposit) }
 
-  it { is_expected.to validate_presence_of(:uuid) }
   it { is_expected.to validate_uniqueness_of(:uuid) }
-  it { is_expected.to validate_presence_of(:message_type) }
   it { is_expected.to validate_presence_of(:message) }
 
   describe "update_works" do
@@ -86,7 +84,7 @@ describe Deposit, :type => :model, vcr: true do
       body = File.read(fixture_path + 'citeulike.xml')
       #stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
 
-      response = agent.collect_data(work.id)
+      response = agent.collect_data(work_id: work.id)
 
       notification = Notification.first
       expect(notification).to eq(2)
@@ -108,7 +106,7 @@ describe Deposit, :type => :model, vcr: true do
       body = File.read(fixture_path + 'mendeley.json')
       stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
 
-      response = agent.collect_data(work.id)
+      response = agent.collect_data(work_id: work.id)
       subject = Deposit.where(uuid: response.fetch("uuid")).first
       subject.update_events
 
