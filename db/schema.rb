@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003114427) do
+ActiveRecord::Schema.define(version: 20151021084639) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -398,15 +398,15 @@ ActiveRecord::Schema.define(version: 20151003114427) do
     t.datetime "updated_at"
     t.text     "canonical_url",       limit: 65535
     t.string   "mendeley_uuid",       limit: 255
-    t.integer  "year",                limit: 4,     default: 1970
+    t.integer  "year",                limit: 4,        default: 1970
     t.integer  "month",               limit: 4
     t.integer  "day",                 limit: 4
-    t.integer  "publisher_id",        limit: 4
-    t.string   "pid_type",            limit: 255,   default: "url", null: false
-    t.text     "pid",                 limit: 65535,                 null: false
-    t.text     "csl",                 limit: 65535
+    t.integer  "publisher_id",        limit: 8
+    t.string   "pid_type",            limit: 255,      default: "url", null: false
+    t.text     "pid",                 limit: 65535,                    null: false
+    t.text     "csl",                 limit: 16777215
     t.integer  "work_type_id",        limit: 4
-    t.boolean  "tracked",             limit: 1,     default: false
+    t.boolean  "tracked",             limit: 1,        default: false
     t.string   "scp",                 limit: 191
     t.string   "wos",                 limit: 191
     t.string   "ark",                 limit: 191
