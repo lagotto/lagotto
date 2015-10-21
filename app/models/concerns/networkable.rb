@@ -119,7 +119,6 @@ module Networkable
 
         message = parse_error_response(error.message)
         message = "#{message} for #{url}"
-        message = "#{message} with rev #{options[:data][:rev]}" if class_name == Net::HTTPConflict
         message = "#{message}. Rate-limit #{get_rate_limit_limit(headers)} exceeded." if class_name == Net::HTTPTooManyRequests
 
         Notification.where(message: message).where(unresolved: true).first_or_create(
