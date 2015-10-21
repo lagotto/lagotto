@@ -103,13 +103,15 @@ module ApplicationHelper
   end
 
   def author_format(author)
-    return '' if author.blank?
-
     author = [author] if author.is_a?(Hash)
     authors = Array(author).map do |a|
-      name = a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s
-      a["ORCID"].present? ? "<a href=\"/works/#{a["ORCID"]}\">#{name}</a>" : name
-    end
+      if author.is_a?(Hash)
+        name = a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s
+        a["ORCID"].present? ? "<a href=\"/works/#{a["ORCID"]}\">#{name}</a>" : name
+      else
+        nil
+      end
+    end.compact
 
     fa = case authors.length
          when 0, 1, 2 then authors.join(" & ")
