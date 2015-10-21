@@ -2,7 +2,7 @@ class MemberList
   # include HTTP request helpers
   include Networkable
 
-  attr_accessor :query, :offset, :per_page, :no_network, :publishers, :total_entries
+  attr_accessor :query, :offset, :per_page, :url, :no_network, :publishers, :total_entries
 
   def self.per_page
     15
@@ -25,26 +25,26 @@ class MemberList
   end
 
   def query_url
-    url = "http://api.crossref.org/members?"
     params = { query: query, offset: offset, rows: per_page }
     url + params.to_query
   end
 
-  def get_data(options={})
-    result = get_result(query_url, options)
+  def url
+    "http://api.crossref.org/members?"
+  end
 
-    # extend hash fetch method to nested hashes
-    result.extend Hashie::Extensions::DeepFetch
+  def get_data(options={})
+    get_result(query_url, options)
   end
 
   def parse_data(result)
     # return early if an error occured
-    return result if result["status"] != "ok"
+    return [] if result[:error] || result["status"] != "ok"
 
     # total number of results for pagination
-    @total_entries = result.deep_fetch('message', 'total-results') { 0 }
+    @total_entries = result.fetch('message', {}).fetch('total-results', 0)
 
-    items = result['message'] && result.deep_fetch('message', 'items') { nil }
+    items = result['message'] && result.fetch('message', {}).fetch('items', nil)
 
     # return array of unsaved ActiveRecord objects
     Array(items).map do |item|
