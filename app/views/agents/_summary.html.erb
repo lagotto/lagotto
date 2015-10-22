@@ -7,7 +7,6 @@
           <tr>
             <th class="name">Agent</th>
             <th>Status</th>
-            <th>Kind</th>
             <th class="description">Description</th>
             <th>Next update</th>
           </tr>
@@ -17,7 +16,6 @@
             <tr>
               <td><%= link_to agent.title, agent_path(agent) %></td>
               <td><%= state_label(agent.human_state_name).html_safe %></td>
-              <td><%= kind_label(agent.kind).html_safe %></td>
               <td><%= h(agent.description) %></td>
               <td><%= agent.updating? ? CronParser.new(agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "" %></td>
             </tr>
