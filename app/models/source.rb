@@ -15,6 +15,7 @@ class Source < ActiveRecord::Base
   include Hashie::Extensions::DeepFetch
 
   has_many :events, :dependent => :destroy
+  has_many :relations, :dependent => :destroy
   has_many :months
   has_many :days
   has_many :works, :through => :events
