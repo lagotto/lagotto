@@ -5,9 +5,6 @@ class AgentJob < ActiveJob::Base
   # include HTTP request helpers
   include Networkable
 
-  # include CouchDB helpers
-  include Couchable
-
   include CustomError
 
   queue_as :default

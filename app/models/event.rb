@@ -181,21 +181,6 @@ class Event < ActiveRecord::Base
   alias_method :display_name, :title
   alias_method :update_date, :timestamp
 
-  def import_from_couchdb
-    # import only for works with dois because we changed the pid format in lagotto 4.0
-    return false unless total > 0 && work.doi.present?
-
-    data = get_lagotto_data("#{source.name}:#{work.doi_escaped}").with_indifferent_access
-    return true if data.blank? || data[:error]
-
-    update_days(data["events_by_day"])
-
-    # only update monthly data for sources where we can't regenerate them
-    return true unless ['crossref', 'datacite', 'europe_pmc', 'europe_pmc_data', 'facebook', 'figshare', 'mendeley', 'pubmed', 'scopus', 'wos'].include?(source.name)
-
-    update_months(data["events_by_month"])
-  end
-
   def update_days(data)
     Array(data).map { |item| Day.where(event_id: id,
                                 day: item[:day],
