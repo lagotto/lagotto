@@ -2,9 +2,6 @@ class ApiResponse < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  # include CouchDB helpers
-  include Couchable
-
   belongs_to :agent
 
   scope :unresolved, -> { where(unresolved: true) }

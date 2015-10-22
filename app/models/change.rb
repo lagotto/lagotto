@@ -2,9 +2,6 @@ class Change < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  # include CouchDB helpers
-  include Couchable
-
   belongs_to :source
   belongs_to :event
 
