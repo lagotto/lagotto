@@ -248,7 +248,6 @@ Github.where(name: 'github').first_or_create(
   :title => 'Github',
   :description => 'GitHub is a web-based Git repository hosting service.',
   :source_id => "github",
-  :kind => "all",
   :group_id => saved.id)
 Bitbucket.where(name: 'bitbucket').first_or_create(
   :title => 'Bitbucket',
@@ -278,45 +277,37 @@ Orcid.where(name: 'orcid').first_or_create(
 PlosImport.where(name: 'plos_import').first_or_create(
   :title => 'PLOS Import',
   :description => 'Import works via the PLOS Solr API.',
-  :kind => "all",
   :group_id => other.id)
 CrossrefImport.where(name: 'crossref_import').first_or_create(
   :title => 'CrossRef Import',
   :description => 'Import works via the CrossRef REST API.',
-  :kind => "all",
   :group_id => other.id)
 CrossrefOrcid.where(name: 'crossref_orcid').first_or_create(
   :title => 'CrossRef ORCID',
   :description => 'Import works with ORCID identifiers via the CrossRef REST API.',
-  :kind => "all",
   :group_id => saved.id)
 DataciteImport.where(name: 'datacite_import').first_or_create(
   :title => 'DataCite Import',
   :description => 'Import works via the DataCite Solr API.',
-  :kind => "all",
   :group_id => other.id)
 DataciteRelated.where(name: 'datacite_related').first_or_create(
     :title => 'DataCite Related',
     :description => 'Import works with relatedIdentifiers via the DataCite Solr API.',
-    :kind => "all",
     :source_id => 'datacite_related',
     :group_id => cited.id)
 DataciteOrcid.where(name: 'datacite_orcid').first_or_create(
     :title => 'DataCite ORCID',
     :description => 'Import works with ORCID nameIdentifiers via the DataCite Solr API.',
-    :kind => "all",
     :source_id => 'datacite_orcid',
     :group_id => saved.id)
 DataciteGithub.where(name: 'datacite_github').first_or_create(
     :title => 'DataCite Github',
     :description => 'Import works with Github relatedIdentifiers via the DataCite Solr API.',
-    :kind => "all",
     :source_id => 'datacite_github',
     :group_id => saved.id)
 DataoneImport.where(name: 'dataone_import').first_or_create(
   :title => 'DataONE Import',
   :description => 'Import works via the DataONE Solr API.',
-  :kind => "all",
   :group_id => other.id)
 
 # The following sources require passwords/API keys and are installed by default
@@ -390,7 +381,6 @@ F1000.where(name: 'f1000').first_or_create(
   :title => "F1000Prime",
   :description => "Post-publication peer review of the biomedical literature.",
   :source_id => "f1000",
-  :kind => "all",
   :group_id => recommended.id)
 Figshare.where(name: 'figshare').first_or_create(
   :title => "Figshare",
