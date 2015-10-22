@@ -72,7 +72,7 @@ class Api::V6::ReferencesController < Api::BaseController
   # use cached counts for total number of results
   def get_total_entries(params, source)
     case
-    when params[:work_ids] || params[:q] || params[:relation_type] || params[:recent] then nil # can't be cached
+    when params[:work_id] || params[:work_ids] || params[:q] || params[:relation_type] || params[:recent] then nil # can't be cached
     when source then source.relation_count
     else Relation.count_all
     end
