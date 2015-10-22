@@ -4,7 +4,6 @@ class AddPlosImportAgent < ActiveRecord::Migration
     plos_import = PlosImport.where(name: 'plos_import').first_or_create(
       :title => 'PLOS Import',
       :description => 'Import works via the PLOS Solr API.',
-      :kind => "all",
       :group_id => other.id)
   end
 end

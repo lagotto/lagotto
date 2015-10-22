@@ -54,13 +54,6 @@ module ApplicationHelper
     end
   end
 
-  def kind_label(kind)
-    case kind
-    when "work" then '<span class="label label-default">work</span>'
-    else '<span class="label label-info">all</span>'
-    end
-  end
-
   def level_label(level)
     case level
     when 1 then '<span class="label label-info">Info</span>'
