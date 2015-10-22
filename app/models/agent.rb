@@ -14,9 +14,6 @@ class Agent < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  # include CouchDB helpers
-  include Couchable
-
   # include author methods
   include Authorable
 
