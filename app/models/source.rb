@@ -2,9 +2,6 @@ class Source < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
-  # include CouchDB helpers
-  include Couchable
-
   # include date methods concern
   include Dateable
 
