@@ -154,6 +154,7 @@ class Source < ActiveRecord::Base
     # loop through cached attributes we want to update
     [:event_count,
      :work_count,
+     :relation_count,
      :with_events_by_day_count,
      :without_events_by_day_count,
      :not_updated_by_day_count,

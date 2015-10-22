@@ -19,6 +19,7 @@ class Status < ActiveRecord::Base
   def collect_status_info
     self.works_count = Work.tracked.count
     self.works_new_count = Work.tracked.last_x_days(0).count
+    self.relations_count = Relation.count
     self.events_count = Event.joins(:source).where("sources.active = ?", true)
       .where("name != ?", "relativemetric").sum(:total)
     self.responses_count = ApiResponse.total(1).count

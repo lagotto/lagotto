@@ -8,7 +8,7 @@ class Relation < ActiveRecord::Base
   validates :related_work_id, :presence => true
   validates :relation_type_id, :presence => true
 
-  scope :referencable, -> { where("level > 0") }
+  scope :referencable, -> { where("level = 1") }
   scope :versionable, -> { where("level = 0") }
   scope :similar, ->(work_id) { where("total > ?", 0) }
   scope :last_x_days, ->(duration) { where("relations.created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
@@ -19,5 +19,9 @@ class Relation < ActiveRecord::Base
 
   def cache_key
     "#{id}/#{timestamp}"
+  end
+
+  def self.count_all
+    Status.first && Status.first.relations_count
   end
 end

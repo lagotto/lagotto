@@ -23,6 +23,14 @@ module Countable
       cache_write("work_count", works.has_events.size, time)
     end
 
+    def relation_count
+      cache_read("relation_count", relations.size)
+    end
+
+    def relation_count=(time)
+      cache_write("relation_count", relations.size, time)
+    end
+
     def relative_work_count
       if works_count > 0
         work_count * 100.0 / works_count

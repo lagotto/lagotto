@@ -59,10 +59,23 @@ class Api::V6::ReferencesController < Api::BaseController
     end
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
+    page = params[:page] && params[:per_page].to_i > 0 ? params[:page].to_i : 1
+    total_entries = get_total_entries(params, source)
 
-    collection = collection.paginate(per_page: per_page, page: params[:page])
+    collection = collection.paginate(per_page: per_page,
+                                     page: page,
+                                     total_entries: total_entries)
 
     @reference_relations = collection.decorate
+  end
+
+  # use cached counts for total number of results
+  def get_total_entries(params, source)
+    case
+    when params[:work_ids] || params[:q] || params[:relation_type] || params[:recent] then nil # can't be cached
+    when source then source.relation_count
+    else Relation.count_all
+    end
   end
 
   protected

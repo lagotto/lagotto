@@ -28,7 +28,7 @@ class Work < ActiveRecord::Base
   has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations
-  has_many :reference_relations, -> { where "level > 0" }, class_name: 'Relation', :dependent => :destroy
+  has_many :reference_relations, -> { where "level = 1" }, class_name: 'Relation', :dependent => :destroy
   has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
   has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
