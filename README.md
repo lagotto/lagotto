@@ -5,7 +5,7 @@
 [![Code Climate Test Coverage](https://codeclimate.com/github/lagotto/lagotto/coverage.png)](https://codeclimate.com/github/lagotto/lagotto)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20046.svg)](http://doi.org/10.5281/zenodo.20046)
 
-Lagotto allows a user to track events around research articles and other scholarly outputs, including how often a work has been viewed, cited, saved, discussed and recommended. The application was called Article-Level Metrics (ALM) until September 2014 and was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Visit the [Lagotto website](http://lagotto.io) to learn more.
+Lagotto allows a user to track events around research articles and other scholarly outputs, including how often a work has been viewed, cited, saved, discussed and recommended. The application was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Visit the [Lagotto website](http://lagotto.io) to learn more.
 
 ## How to start developing now?
 
