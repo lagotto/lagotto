@@ -166,36 +166,30 @@ Source.where(name: 'ads_fulltext').first_or_create(
   :description => "Astrophysics Data System Fulltext Search.",
   :group_id => cited.id)
 
-# These sources are installed and activated by default
 Citeulike.where(name: 'citeulike').first_or_create(
   :title => 'CiteULike',
   :description => 'CiteULike is a free social bookmarking service for scholarly content.',
-  :state_event => 'activate',
   :source_id => "citeulike",
   :group_id => saved.id)
 PubMed.where(name: 'pubmed').first_or_create(
   :title => 'PubMed Central',
   :description => 'PubMed Central is a free full-text archive of biomedical ' \
                   'literature at the National Library of Medicine.',
-  :state_event => 'activate',
   :source_id => "pubmed",
   :group_id => cited.id)
 Wordpress.where(name: 'wordpress').first_or_create(
   :title => 'Wordpress.com',
   :description => 'Wordpress.com is one of the largest blog hosting platforms.',
-  :state_event => 'activate',
   :source_id => "wordpress",
   :group_id => discussed.id)
 Reddit.where(name: 'reddit').first_or_create(
   :title => 'Reddit',
   :description => 'User-generated news links.',
-  :state_event => 'activate',
   :source_id => "reddit",
   :group_id => discussed.id)
 Wikipedia.where(name: 'wikipedia').first_or_create(
   :title => 'Wikipedia',
   :description => 'Wikipedia is a free encyclopedia that everyone can edit.',
-  :state_event => 'activate',
   :source_id => "wikipedia",
   :group_id => discussed.id)
 Datacite.where(name: 'datacite').first_or_create(
