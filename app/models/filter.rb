@@ -2,6 +2,12 @@ class Filter < ActiveRecord::Base
   extend ActionView::Helpers::NumberHelper
   extend ActionView::Helpers::TextHelper
 
+  # these fields can remain blank, validations will be skipped
+  BLANK_FIELDS = { "CitationMilestoneAlert" => [:source_ids],
+                   "EventCountDecreasingError" => [:source_ids],
+                   "EventCountIncreasingTooFastError" => [:source_ids],
+                   "SourceNotUpdatedError" => [:source_ids] }
+
   # include HTTP request helpers
   include Networkable
 
@@ -89,9 +95,16 @@ class Filter < ActiveRecord::Base
     get_config_fields.map { |f| f[:field_name].to_sym }
   end
 
+  def allowed_blank_fields
+    BLANK_FIELDS.fetch(name, [])
+  end
+
   # Custom validation
   def validate_config_fields
     config_fields.each do |field|
+
+      # Some fields can be blank
+      next if allowed_blank_fields.include?(field)
       errors.add(field, "can't be blank") if send(field).blank?
     end
   end
