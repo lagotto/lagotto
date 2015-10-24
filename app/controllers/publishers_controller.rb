@@ -1,11 +1,10 @@
 class PublishersController < ApplicationController
-  before_filter :load_publisher, only: [:show, :update, :destroy]
-  before_filter :new_publisher, only: [:create]
+  before_filter :load_publisher, only: [:show, :destroy]
+  before_filter :load_index, only: [:index]
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 
   def index
-    load_index
   end
 
   def show
@@ -15,46 +14,46 @@ class PublishersController < ApplicationController
   end
 
   def new
-    if params[:query]
-      ids = Publisher.pluck(:name)
-      publishers = MemberList.new(query: params[:query], per_page: 10).publishers
-      @publishers = publishers.reject { |publisher| ids.include?(publisher.name) }
+    if params[:q]
+      collection = Publisher.inactive.query(params[:q])
     else
-      @publishers = []
+      collection = Publisher.none
     end
+    @publishers = collection.order(:title).paginate(:page => params[:page])
 
     render :index
   end
 
   def create
-    @publisher.save
+    @publisher = Publisher.where(name: params[:id]).first
+    @publisher.update_attributes(active: true) if @publisher.present?
+
     load_index
     render :index
   end
 
   def destroy
-    @publisher.destroy
+    @publisher.update_attributes(active: false)
     redirect_to publishers_path
-  end
-
-  def new_publisher
-    params[:publisher] = JSON.parse(params[:publisher], symbolize_names: true)
-    @publisher = Publisher.new(safe_params)
   end
 
   protected
 
   def load_publisher
-    @publisher = Publisher.where(name: params[:id]).first
+    @publisher = Publisher.active.where(name: params[:id]).first
+    fail ActiveRecord::RecordNotFound unless @publisher.present?
   end
 
   def load_index
-    @publishers = Publisher.order(:title).paginate(:page => params[:page]).all
+    collection = Publisher.active
+    collection = collection.query(params[:q]) if params[:q]
+
+    @publishers = collection.order(:title).paginate(:page => params[:page])
   end
 
   private
 
   def safe_params
-    params.require(:publisher).permit(:title, :name, :member_id, :service, :other_names=> [], :prefixes => [])
+    params.require(:publisher).permit(:title, :name, :registration_agency, :active, :other_names=> [], :prefixes => [])
   end
 end

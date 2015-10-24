@@ -2,18 +2,23 @@ class Publisher < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  has_many :users, primary_key: :member_id
-  has_many :works, primary_key: :member_id
-  has_many :publisher_options, primary_key: :member_id
+  has_many :users
+  has_many :works
+  has_many :publisher_options
   has_many :sources, :through => :publisher_options
 
   serialize :prefixes
   serialize :other_names
 
   validates :title, :presence => true
-  validates :name, :member_id, :presence => true, :uniqueness => true
+  validates :name, :presence => true, :uniqueness => true
 
   after_create { |publisher| CacheJob.perform_later(publisher) }
+
+  scope :order_by_name, -> { order("publishers.title") }
+  scope :active, -> { where(active: true).order_by_name }
+  scope :inactive, -> { where(active: false).order_by_name }
+  scope :query, ->(query) { where("title like ?", "#{query}%") }
 
   def to_param  # overridden, use name instead of id
     name

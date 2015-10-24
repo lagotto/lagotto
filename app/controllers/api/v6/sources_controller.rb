@@ -23,6 +23,8 @@ class Api::V6::SourcesController < Api::BaseController
 
   def show
     source = Source.where(name: params[:id]).first
+    fail ActiveRecord::RecordNotFound unless source.present?
+
     @source = source.decorate
   end
 end

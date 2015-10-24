@@ -44,8 +44,9 @@ class DataoneImport < Agent
       date_parts = get_date_parts(publication_date)
       year, month, day = date_parts.fetch("date-parts", []).first
 
-      publisher_symbol = item.fetch("authoritativeMN", nil)
-      publisher_id = publisher_symbol.present? ? publisher_symbol.to_i(36) : nil
+      datacentre_symbol = item.fetch("authoritativeMN", nil)
+      publisher = Publisher.where(name: datacentre_symbol).first
+      publisher_id = publisher.present? ? publisher.id : nil
 
       { "author" => get_authors([item.fetch("author", nil)]),
         "container-title" => nil,

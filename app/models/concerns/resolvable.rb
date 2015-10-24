@@ -199,8 +199,11 @@ module Resolvable
           metadata["title"] = metadata["container-title"][0].presence || "No title"
         end
 
+        publisher_id = metadata["member"][30..-1].to_i if metadata["member"]
+        publisher = Publisher.where(name: publisher_id).first
+        metadata["publisher_id"] = publisher.present? ? publisher.id : nil
+
         metadata["container-title"] = metadata.fetch("container-title", [])[0]
-        metadata["publisher_id"] = metadata["member"][30..-1].to_i if metadata["member"]
         metadata["type"] = CROSSREF_TYPE_TRANSLATIONS[metadata["type"]] if metadata["type"]
         metadata["author"] = metadata["author"].map { |author| author.except("affiliation") }
 
@@ -234,8 +237,9 @@ module Resolvable
         type = metadata.fetch("resourceTypeGeneral", nil)
         type = DATACITE_TYPE_TRANSLATIONS.fetch(type, nil) if type
 
-        publisher_symbol = metadata.fetch("datacentre_symbol", nil)
-        publisher_id = publisher_symbol.present? ? publisher_symbol.to_i(36) : nil
+        datacentre_symbol = metadata.fetch("datacentre_symbol", nil)
+        publisher = Publisher.where(name: datacentre_symbol).first
+        publisher_id = publisher.present? ? publisher.id : nil
 
         doi = metadata.fetch("doi", nil)
         doi = doi.upcase if doi.present?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151022035021) do
+ActiveRecord::Schema.define(version: 20151023210643) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -67,8 +67,8 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.integer  "previous_total",  limit: 4
     t.datetime "created_at"
     t.integer  "update_interval", limit: 4
-    t.boolean  "unresolved",      limit: 1, default: true
-    t.boolean  "skipped",         limit: 1, default: false
+    t.boolean  "unresolved",                default: true
+    t.boolean  "skipped",                   default: false
   end
 
   add_index "changes", ["created_at"], name: "index_changes_created_at", using: :btree
@@ -164,7 +164,7 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.string   "name",        limit: 191,                  null: false
     t.string   "title",       limit: 255,                  null: false
     t.text     "description", limit: 65535
-    t.boolean  "active",      limit: 1,     default: true
+    t.boolean  "active",                    default: true
     t.text     "config",      limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -207,7 +207,7 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.integer  "status",       limit: 4
     t.string   "content_type", limit: 255
     t.text     "details",      limit: 16777215
-    t.boolean  "unresolved",   limit: 1,        default: true
+    t.boolean  "unresolved",                    default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "remote_ip",    limit: 255
@@ -239,22 +239,20 @@ ActiveRecord::Schema.define(version: 20151022035021) do
   add_index "publisher_options", ["publisher_id", "agent_id"], name: "index_publisher_options_on_publisher_id_and_agent_id", unique: true, using: :btree
 
   create_table "publishers", force: :cascade do |t|
-    t.string   "title",         limit: 255
-    t.integer  "member_id",     limit: 4
-    t.text     "prefixes",      limit: 65535
-    t.text     "other_names",   limit: 65535
+    t.string   "title",               limit: 255
+    t.text     "prefixes",            limit: 65535
+    t.text     "other_names",         limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "cached_at",                   default: '1970-01-01 00:00:00', null: false
-    t.string   "name",          limit: 255,                                   null: false
-    t.string   "service",       limit: 255
-    t.string   "member_symbol", limit: 191
-    t.string   "symbol",        limit: 255
-    t.text     "url",           limit: 65535
+    t.datetime "cached_at",                         default: '1970-01-01 00:00:00', null: false
+    t.string   "name",                limit: 191,                                   null: false
+    t.string   "registration_agency", limit: 255
+    t.text     "url",                 limit: 65535
+    t.boolean  "active",                            default: false
   end
 
-  add_index "publishers", ["member_id"], name: "index_publishers_on_member_id", unique: true, using: :btree
-  add_index "publishers", ["member_symbol"], name: "index_publishers_on_member_symbol", using: :btree
+  add_index "publishers", ["name"], name: "index_publishers_on_name", using: :btree
+  add_index "publishers", ["registration_agency"], name: "index_publishers_on_registration_agency", length: {"registration_agency"=>191}, using: :btree
 
   create_table "relation_types", force: :cascade do |t|
     t.string   "name",          limit: 255,             null: false
@@ -290,7 +288,7 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.string   "title",       limit: 255
     t.text     "description", limit: 65535
     t.text     "config",      limit: 65535
-    t.boolean  "private",     limit: 1,     default: true
+    t.boolean  "private",                   default: true
   end
 
   create_table "reports_users", id: false, force: :cascade do |t|
@@ -307,7 +305,7 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.text     "message",    limit: 65535
     t.integer  "input",      limit: 4
     t.integer  "output",     limit: 4
-    t.boolean  "unresolved", limit: 1,     default: true
+    t.boolean  "unresolved",               default: true
     t.datetime "started_at"
     t.datetime "ended_at"
     t.datetime "created_at"
@@ -320,13 +318,13 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.string   "name",        limit: 191
     t.string   "title",       limit: 255,                                   null: false
     t.integer  "group_id",    limit: 4,                                     null: false
-    t.boolean  "private",     limit: 1,     default: false
+    t.boolean  "private",                   default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description", limit: 65535
-    t.boolean  "active",      limit: 1,     default: false
+    t.boolean  "active",                    default: false
     t.datetime "cached_at",                 default: '1970-01-01 00:00:00', null: false
-    t.boolean  "eventable",   limit: 1,     default: true
+    t.boolean  "eventable",                 default: true
   end
 
   add_index "sources", ["active"], name: "index_sources_on_active", using: :btree
@@ -408,7 +406,7 @@ ActiveRecord::Schema.define(version: 20151022035021) do
     t.text     "pid",                 limit: 65535,                    null: false
     t.text     "csl",                 limit: 16777215
     t.integer  "work_type_id",        limit: 4
-    t.boolean  "tracked",             limit: 1,        default: false
+    t.boolean  "tracked",                              default: false
     t.string   "scp",                 limit: 191
     t.string   "wos",                 limit: 191
     t.string   "ark",                 limit: 191
@@ -451,7 +449,7 @@ ActiveRecord::Schema.define(version: 20151022035021) do
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
   add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "agents", name: "publisher_options_agent_id_fk", on_delete: :cascade
-  add_foreign_key "publisher_options", "publishers", primary_key: "member_id", name: "publisher_options_publisher_id_fk", on_delete: :cascade
+  add_foreign_key "publisher_options", "publishers", name: "publisher_options_publisher_id_fk", on_delete: :cascade
   add_foreign_key "relations", "relation_types", name: "relations_relation_type_id_fk", on_delete: :cascade
   add_foreign_key "relations", "sources", name: "relations_source_id_fk", on_delete: :cascade
   add_foreign_key "relations", "works", column: "related_work_id", name: "relations_related_work_id_fk", on_delete: :cascade

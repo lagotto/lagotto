@@ -8,7 +8,7 @@ class WorksController < ApplicationController
     @page = params[:page] || 1
     @q = params[:q]
     @class_name = params[:class_name]
-    @publisher = Publisher.where(member_id: params[:publisher_id]).first
+    @publisher = Publisher.where(name: params[:publisher_id]).first
     @source = Source.active.where(name: params[:source_id]).first
     @sort = Source.active.where(name: params[:sort]).first
     @relation_type = RelationType.where(name: params[:relation_type_id]).first

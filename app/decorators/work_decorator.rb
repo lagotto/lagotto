@@ -36,6 +36,12 @@ class WorkDecorator < Draper::Decorator
     published_on.nil? ? nil : published_on.to_time.utc.iso8601
   end
 
+  def publisher_id
+    if model.publisher.present?
+      model.publisher.name
+    end
+  end
+
   def url
     canonical_url
   end

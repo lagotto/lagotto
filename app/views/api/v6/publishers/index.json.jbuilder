@@ -1,7 +1,7 @@
 json.meta do
   json.status "ok"
   json.set! :"message-type", "publisher-list"
-  json.set! :"message-version", "6.0.0"
+  json.set! :"message-version", "6.0.1"
   json.total @publishers.total_entries
   json.total_pages @publishers.per_page > 0 ? @publishers.total_pages : 1
   json.page @publishers.total_entries > 0 ? @publishers.current_page : 1

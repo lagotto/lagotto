@@ -74,7 +74,7 @@ class Api::V6::WorksController < Api::BaseController
 
   def index
     source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.where(member_id: params[:publisher_id]).first
+    publisher = Publisher.where(name: params[:publisher_id]).first
 
     collection = get_ids(params)
     collection = collection.where(registration_agency: params[:registration_agency]) if params[:registration_agency]
@@ -142,7 +142,7 @@ class Api::V6::WorksController < Api::BaseController
       collection = Work.joins(:events)
                    .where("events.source_id = ?", source.id)
                    .where("events.total > 0")
-    elsif params[:publisher_id]
+    elsif params[:publisher_id] && publisher = Publisher.where(name: params[:publisher_id]).first
       collection = Work.where(publisher_id: params[:publisher_id])
     else
       collection = Work.tracked

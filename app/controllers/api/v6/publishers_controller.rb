@@ -20,12 +20,16 @@ class Api::V6::PublishersController < Api::BaseController
   end
 
   def index
-    collection = Publisher.order(:name).paginate(:page => params[:page]).all
+    collection = Publisher.active
+    collection = collection.query(params[:q]) if params[:q]
+    collection = collection.order(:title).paginate(:page => params[:page])
     @publishers = collection.decorate
   end
 
   def show
-    publisher = Publisher.where(name: params[:id]).first
+    publisher = Publisher.active.where(name: params[:id]).first
+    fail ActiveRecord::RecordNotFound unless publisher.present?
+
     @publisher = publisher.decorate
   end
 end
