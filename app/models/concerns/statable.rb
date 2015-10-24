@@ -79,7 +79,8 @@ module Statable
       end
 
       event :uninstall do
-        transition any - [:available, :retired] => :retired
+        transition any - [:available] => :retired, :if => :obsolete?
+        transition any - [:available] => :available
       end
 
       event :activate do
