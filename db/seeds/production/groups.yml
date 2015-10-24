@@ -1,0 +1,22 @@
+# Load groups
+options:
+  find_existing_by: ['name']
+records:
+  - sprig_id: viewed
+    name: viewed
+    title: Viewed
+  - sprig_id: saved
+    name: saved
+    title: Saved
+  - sprig_id: discussed
+    name: discussed
+    title: Discussed
+  - sprig_id: cited
+    name: cited
+    title: Cited
+  - sprig_id: recommended
+    name: recommended
+    title: Recommended
+  - sprig_id: other
+    name: other
+    title: Other

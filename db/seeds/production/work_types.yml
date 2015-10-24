@@ -1,0 +1,87 @@
+# Load resource_types
+# From CSL: https://github.com/citation-style-language/schema/blob/master/csl-data.json
+options:
+  find_existing_by: ['name']
+records:
+  - name: article
+    title: Article
+  - name: article-journal
+    title: Journal Article
+    container: Journal
+  - name: article-magazine
+    title: Magazine Article
+    container: Magazine
+  - name: article-newspaper
+    title: Newspaper Article
+    container: Newspaper
+  - name: bill
+    title: Bill
+  - name: book
+    title: Book
+  - name: broadcase
+    title: Broadcast
+  - name: chapter
+    title: Chapter
+    container: Book
+  - name: dataset
+    title: Dataset
+  - name: entry
+    title: Entry
+  - name: entry-dictionary
+    title: Dictionary Entry
+    container: Dictionary
+  - name: entry-encyclopedia
+    title: Encyclopedia Entry
+    container: Encyclopedia
+  - name: figure
+    title: Figure
+  - name: graphic
+    title: Graphic
+  - name: interview
+    title: Interview
+  - name: legal_case
+    title: Legal Case
+  - name: legislation
+    title: Legislation
+  - name: manuscript
+    title: Manuscript
+  - name: map
+    title: Map
+  - name: motion_picture
+    title: Motion Picture
+  - name: musical_score
+    title: Musical Score
+  - name: pamphlet
+    title: Pamphlet
+  - name: paper-conference
+    title: Conference Paper
+    container: Conference
+  - name: patent
+    title: Patent
+  - name: personal_communication
+    title: Personal Communication
+  - name: post
+    title: Post
+  - name: post-weblog
+    title: Blog Post
+    container: Blog
+  - name: report
+    title: Report
+  - name: review
+    title: Review
+  - name: review-book
+    title: Book Review
+  - name: song
+    title: Song
+  - name: speech
+    title: Speech
+  - name: thesis
+    title: Thesis
+  - name: treaty
+    title: Treaty
+  - name: webpage
+    title: Webpage
+    container: Website
+  # custom work type, will be added to CSL spec
+  - name: computer_program
+    title: Computer Program
