@@ -90,13 +90,13 @@ describe DataciteOrcid, type: :model, vcr: true do
       expect(response[:works].length).to eq(62)
       work = response[:works].first
       expect(work['DOI']).to eq("10.1594/PANGAEA.733793")
-      expect(work['related_works'].length).to eq(1)
-      related_work = work['related_works'].first
-      expect(related_work).to eq("pid"=>"http://orcid.org/0000-0002-4133-2218", "source_id"=>"datacite_orcid", "relation_type_id"=>"is_bookmarked_by")
+      expect(work['contributors'].length).to eq(1)
+      contributor = work['contributors'].first
+      expect(contributor).to eq("pid"=>"http://orcid.org/0000-0002-4133-2218", "source_id"=>"datacite_orcid")
 
       expect(response[:events].length).to eq(62)
       event = response[:events].first
-      expect(event).to eq(:source_id=>"datacite_orcid", :work_id=>"http://doi.org/10.1594/PANGAEA.733793", :total=>1)
+      expect(event).to eq(:source_id=>"datacite_orcid", :work_id=>"http://doi.org/10.1594/PANGAEA.733793", :total=>1, :extra=>[{"nameIdentifier"=>"ORCID:0000-0002-4133-2218"}])
     end
   end
 end

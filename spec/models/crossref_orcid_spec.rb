@@ -73,7 +73,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(1782)
+      expect(response).to eq(1782)
       item = response["message"]["items"].first
       expect(item["DOI"]).to eq("10.1016/j.mmcr.2014.03.001")
     end
@@ -106,13 +106,13 @@ describe CrossrefOrcid, type: :model, vcr: true do
       expect(response[:works].length).to eq(10)
       related_work = response[:works].first
       expect(related_work['DOI']).to eq("10.1016/j.mmcr.2014.03.001")
-      expect(related_work['related_works'].length).to eq(1)
-      related_work = related_work['related_works'].first
-      expect(related_work).to eq("pid"=>"http://orcid.org/0000-0001-9344-779X", "source_id"=>"crossref_orcid", "relation_type_id"=>"is_bookmarked_by")
+      expect(related_work['contributors'].length).to eq(1)
+      contributor = related_work['contributors'].first
+      expect(contributor).to eq("pid"=>"http://orcid.org/0000-0001-9344-779X", "source_id"=>"crossref_orcid")
 
       expect(response[:events].length).to eq(10)
       event = response[:events].first
-      expect(event).to eq(:source_id=>"crossref_orcid", :work_id=>"http://doi.org/10.1016/j.mmcr.2014.03.001", :total=>1)
+      expect(event).to eq(:source_id=>"crossref_orcid", :work_id=>"http://doi.org/10.1016/j.mmcr.2014.03.001", :total=>1, :extra=>[{"affiliation"=>[], "family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}])
     end
   end
 end

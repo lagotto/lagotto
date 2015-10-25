@@ -90,6 +90,7 @@ class Deposit < ActiveRecord::Base
       tracked = item.fetch("tracked", false)
 
       related_works = item.fetch("related_works", [])
+      contributors = item.fetch("contributors", [])
 
       csl = {
         "author" => item.fetch("author", []),
@@ -114,7 +115,8 @@ class Deposit < ActiveRecord::Base
         tracked: tracked,
         registration_agency: registration_agency,
         csl: csl,
-        related_works: related_works }
+        related_works: related_works,
+        contributors: contributors }
 
       w = Work.find_or_create(i)
       w ? w.pid : nil
@@ -161,6 +163,12 @@ class Deposit < ActiveRecord::Base
       update_days(event, days)
 
       event
+    end
+  end
+
+  def update_contributors
+    message.fetch("contributors", []).map do |item|
+
     end
   end
 
