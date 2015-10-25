@@ -20,6 +20,7 @@ Lagotto::Application.routes.draw do
     resources :publisher_options, only: [:show, :edit, :update]
   end
   resources :api_requests
+  resources :contributors, constraints: { :id => /.+/ }
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
   resources :notifications
@@ -73,6 +74,8 @@ Lagotto::Application.routes.draw do
 
       resources :agents
       resources :api_requests, only: [:index]
+      resources :contributor_roles, only: [:index, :show]
+      resources :contributors
       resources :deposits
       resources :docs, only: [:index, :show]
       resources :events

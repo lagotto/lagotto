@@ -25,8 +25,10 @@ class DataciteRelated < Agent
       year = item.fetch("publicationYear", nil).to_i
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS[type] if type
-      publisher_symbol = item.fetch("datacentre_symbol", nil)
-      publisher_id = publisher_symbol.present? ? publisher_symbol.to_i(36) : nil
+
+      datacentre_symbol = item.fetch("datacentre_symbol", nil)
+      publisher = Publisher.where(name: datacentre_symbol).first
+      publisher_id = publisher.present? ? publisher.id : nil
 
       xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
       xml = Hash.from_xml(xml).fetch("resource", {})

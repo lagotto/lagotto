@@ -15,7 +15,6 @@ FactoryGirl.define do
     year { Time.zone.now.to_date.year - 1 }
     month { Time.zone.now.to_date.month }
     day { Time.zone.now.to_date.day }
-    publisher_id 340
     tracked true
     csl {{}}
 
@@ -433,7 +432,6 @@ FactoryGirl.define do
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     provider "cas"
     sequence(:uid) { |n| "joe#{n}@example.com" }
-    publisher_id 340
 
     factory :admin_user do
       role "admin"
@@ -445,11 +443,10 @@ FactoryGirl.define do
 
   factory :publisher do
     name "340"
-    member_id 340
     title 'Public Library of Science (PLoS)'
     other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
     prefixes ["10.1371"]
-    service "crossref"
+    registration_agency "crossref"
 
     initialize_with { Publisher.where(member_id: member_id).first_or_initialize }
   end
@@ -457,7 +454,7 @@ FactoryGirl.define do
   factory :publisher_option do
     id 1
     agent_id 1
-    publisher_id 340
+    publisher_id 1
     username "username"
     password "password"
 
@@ -577,6 +574,10 @@ FactoryGirl.define do
     uuid { SecureRandom.uuid }
     message_type "citeulike"
     message { { "works" => [], "events" => [] } }
+  end
+
+  factory :contributor do
+    pid "http://orcid.org/0000-0002-0159-2197"
   end
 
   factory :data_export do

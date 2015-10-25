@@ -88,7 +88,11 @@ module ApplicationHelper
   end
 
   def publishers
-    Publisher.order("name")
+    Publisher.active.order("name")
+  end
+
+  def contributors
+    Contributor.order("family_name")
   end
 
   def notifications
@@ -98,14 +102,19 @@ module ApplicationHelper
   def author_format(author)
     author = [author] if author.is_a?(Hash)
     authors = Array(author).map do |a|
-      name = a.fetch("given", nil).to_s + " " + a.fetch("family", nil).to_s
-      a["ORCID"].present? ? "<a href=\"/works/#{a["ORCID"]}\">#{name}</a>" : name
+      name = [a.fetch("given", nil), a.fetch("family", nil)].compact.join(' ')
+      if a["ORCID"].present?
+        pid_short = CGI.escape(a["ORCID"].gsub(/(http|https):\/+(\w+)/, '\2'))
+        "<a href=\"/contributors/#{pid_short}\">#{name}</a>"
+      else
+        name
+      end
     end.compact
 
     fa = case authors.length
-         when 0, 1, 2 then authors.join(" & ")
-         when 3, 4, 5, 6, 7 then authors[0..-2].join(", ") + " & " + authors.last
-         else authors[0..5].join(", ") + " … & " + authors.last
+         when 0..2 then authors.join(" & ")
+         when 3..20 then authors[0..-2].join(", ") + " & " + authors.last
+         else authors[0..19].join(", ") + " … & " + authors.last
          end
     fa.html_safe
   end

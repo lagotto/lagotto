@@ -32,6 +32,8 @@ class Work < ActiveRecord::Base
   has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
   has_many :references, :through => :reference_relations, source: :work
   has_many :versions, :through => :version_relations
+  has_many :contributions
+  has_many :contributors, :through => :contributions
 
   validates :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, case_sensitive: false, allow_blank: true
@@ -54,11 +56,12 @@ class Work < ActiveRecord::Base
 
   def self.find_or_create(params)
     begin
-      work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :source_id, :relation_type_id, :related_works))
+      work = Work.where(pid: params.fetch(:pid, nil)).first_or_create(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
     rescue ActiveRecord::RecordNotUnique
       work = Work.where(pid: params.fetch(:pid, nil)).first
     end
     work.update_relations(params.fetch(:related_works, []))
+    work.update_contributions(params.fetch(:contributors, []))
     work
   end
 
@@ -116,6 +119,38 @@ class Work < ActiveRecord::Base
     end
   end
 
+  def update_contributions(data)
+    Array(data).map do |item|
+      # mix symbol and string keys
+      item = item.with_indifferent_access
+      pid = item.fetch(:pid, nil)
+      next unless pid.present?
+
+      source = Source.where(name: item.fetch(:source_id)).first
+
+      # recursion for nested contributors
+      contributor = Contributor.where(pid: pid).first_or_create
+
+      unless contributor.persisted?
+        message = "No metadata for #{pid} found"
+        Notification.where(message: message).where(unresolved: true).first_or_create(
+          class_name: "Net::HTTPNotFound",
+          target_url: pid)
+        next
+      end
+
+      begin
+        Contribution.where(work_id: id,
+                           contributor_id: contributor.id,
+                           source_id: source.id).first_or_create
+      rescue ActiveRecord::RecordNotUnique
+        Contribution.where(work_id: id,
+                           contributor_id: contributor.id,
+                           source_id: source.id).first
+      end
+    end
+  end
+
   def self.per_page
     50
   end
@@ -124,8 +159,12 @@ class Work < ActiveRecord::Base
     Status.first && Status.first.works_count
   end
 
-  def to_param
-    pid
+  def to_param  # overridden, use pid instead of id
+    short_pid
+  end
+
+  def short_pid
+    pid.gsub(/(http|https):\/+(\w+)/, '\2')
   end
 
   def events_count
@@ -366,7 +405,7 @@ class Work < ActiveRecord::Base
     end
   end
 
-  # collect missing metadata for doi, pmid, orcid, github
+  # collect missing metadata for doi, pmid, github
   def set_metadata
     return if registration_agency.present? && title.present? && year.present?
 
@@ -377,10 +416,6 @@ class Work < ActiveRecord::Base
       write_attribute(:registration_agency, ra)
       write_attribute(:tracked, true)
       metadata = get_metadata(doi, ra)
-    elsif orcid.present?
-      write_attribute(:registration_agency, "orcid")
-      write_attribute(:tracked, false)
-      metadata = get_metadata(orcid, "orcid")
     elsif github_release.present?
       write_attribute(:registration_agency, "github")
       write_attribute(:tracked, false)
@@ -397,6 +432,7 @@ class Work < ActiveRecord::Base
       return nil
     end
 
+    return if metadata[:error].present?
     write_metadata(metadata)
   end
 

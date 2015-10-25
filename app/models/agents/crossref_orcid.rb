@@ -76,15 +76,17 @@ class CrossrefOrcid < Agent
       if title.blank? && !TYPES_WITH_TITLE.include?(item["type"])
         title = item["container-title"][0].presence || "No title"
       end
-      publisher_id = item.fetch("member", nil)
-      publisher_id = publisher_id[30..-1].to_i if publisher_id
+
+      member = item.fetch("member", "")[30..-1]
+      publisher = Publisher.where(name: member).first
+      publisher_id = publisher.present? ? publisher.id : nil
 
       type = item.fetch("type", nil)
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       doi = item.fetch("DOI", nil)
 
       authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
-      related_works = authors_with_orcid.map { |work| get_related_work(work) }
+      contributors = authors_with_orcid.map { |work| get_contributor(work) }
 
       { "pid" => doi_as_url(doi),
         "author" => item.fetch("author", []),
@@ -98,14 +100,13 @@ class CrossrefOrcid < Agent
         "page" => item.fetch("page", nil),
         "type" => type,
         "tracked" => tracked,
-        "related_works" => related_works }
+        "contributors" => contributors }
     end
   end
 
-  def get_related_work(work)
-    { "pid" => work['ORCID'],
-      "source_id" => name,
-      "relation_type_id" => "is_bookmarked_by" }
+  def get_contributor(work)
+    { "pid" => work.fetch('ORCID', nil),
+      "source_id" => name }
   end
 
   def get_events(items)
@@ -115,7 +116,8 @@ class CrossrefOrcid < Agent
 
       { source_id: name,
         work_id: pid,
-        total: authors_with_orcid.length }
+        total: authors_with_orcid.length,
+        extra: authors_with_orcid }
     end
   end
 

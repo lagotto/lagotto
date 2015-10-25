@@ -10,6 +10,7 @@ if (!params.empty()) {
   var q = params.attr('data-q');
   var class_name = params.attr('data-class_name');
   var publisher_id = params.attr('data-publisher_id');
+  var contributor_id = params.attr('data-contributor_id');
   var source_id = params.attr('data-source_id');
   var sort = params.attr('data-sort');
   var model = params.attr('data-model');
@@ -19,6 +20,7 @@ if (!params.empty()) {
   if (q !== "") { query += "&q=" + q; }
   if (class_name !== "") { query += "&class_name=" + class_name; }
   if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
+  if (contributor_id !== "") { query += "&contributor_id=" + contributor_id; }
   if (source_id !== "") { query += "&source_id=" + source_id; }
   if (sort !== "") { query += "&sort=" + sort; }
 }
@@ -41,6 +43,7 @@ function worksViz(json, sources) {
   if (q !== "") { json.href += "&q=" + q; }
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
   if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
+  if (contributor_id !== "" && model !== "contributor_id") { json.href += "&contributor_id=" + contributor_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
   if (sort !== "") { json.href += "&sort=" + sort; }
 

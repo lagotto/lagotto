@@ -146,7 +146,7 @@ class Agent < ActiveRecord::Base
     data = parse_data(data, options.merge(agent_id: id))
 
     # push to deposit API if no error and we have collected works and/or events
-    return {} unless data.fetch(:works, []).present? || data.fetch(:events, []).present?
+    return {} unless data.fetch(:works, []).present? || data.fetch(:events, []).present? || data.fetch(:contributors, []).present?
 
     deposit = Deposit.create!(source_token: uuid,
                               message: data,

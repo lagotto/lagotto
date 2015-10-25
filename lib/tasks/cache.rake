@@ -7,18 +7,23 @@ namespace :cache do
 
     Source.active.each do |source|
       CacheJob.perform_later(source)
-      puts "Cache update for source #{source.title} has been queued."
     end
+    puts "Cache update for sources has been queued."
 
     Agent.visible.each do |agent|
       CacheJob.perform_later(agent)
-      puts "Cache update for agent #{agent.title} has been queued."
     end
+    puts "Cache update for agents has been queued."
 
-    Publisher.all.each do |publisher|
+    Publisher.active.each do |publisher|
       CacheJob.perform_later(publisher)
-      puts "Cache update for publisher #{publisher.title} has been queued."
     end
+    puts "Cache update for publishers has been queued."
+
+    Contributor.all.each do |contributor|
+      CacheJob.perform_later(contributor)
+    end
+    puts "Cache update for contributors has been queued."
   end
 
   desc "Expire all API cache keys"

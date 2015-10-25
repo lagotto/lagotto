@@ -5,6 +5,7 @@ class DepositJob < ActiveJob::Base
     deposit.start
     deposit.update_works
     deposit.update_events
+    deposit.update_contributors
     deposit.finish
   end
 end

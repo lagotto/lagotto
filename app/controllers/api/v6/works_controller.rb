@@ -15,6 +15,7 @@ class Api::V6::WorksController < Api::BaseController
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
+    param :query, :contributor_id, :string, :optional, "Contributor ID"
     param :query, :registration_agency, :string, :optional, "Registration agency"
     param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
@@ -74,7 +75,8 @@ class Api::V6::WorksController < Api::BaseController
 
   def index
     source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.where(name: params[:publisher_id]).first
+    publisher = Publisher.active.where(name: params[:publisher_id]).first
+    contributor = Contributor.where(pid: params[:contributor_id]).first
 
     collection = get_ids(params)
     collection = collection.where(registration_agency: params[:registration_agency]) if params[:registration_agency]
@@ -83,7 +85,7 @@ class Api::V6::WorksController < Api::BaseController
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     page = params[:page] && params[:per_page].to_i > 0 ? params[:page].to_i : 1
-    total_entries = get_total_entries(params, source, publisher)
+    total_entries = get_total_entries(params, source, publisher, contributor)
 
     collection = collection.paginate(per_page: per_page,
                                      page: page,
@@ -142,8 +144,10 @@ class Api::V6::WorksController < Api::BaseController
       collection = Work.joins(:events)
                    .where("events.source_id = ?", source.id)
                    .where("events.total > 0")
-    elsif params[:publisher_id] && publisher = Publisher.where(name: params[:publisher_id]).first
+    elsif params[:publisher_id] && publisher = Publisher.active.where(name: params[:publisher_id]).first
       collection = Work.where(publisher_id: params[:publisher_id])
+    elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
+      collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
     else
       collection = Work.tracked
     end
@@ -174,12 +178,13 @@ class Api::V6::WorksController < Api::BaseController
   end
 
   # use cached counts for total number of results
-  def get_total_entries(params, source, publisher)
+  def get_total_entries(params, source, publisher, contributor)
     case
     when params[:ids] || params[:q] || params[:class_name] || params[:registration_agency] then nil # can't be cached
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
+    when contributor then contributor.work_count
     else Work.count_all
     end
   end

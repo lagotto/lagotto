@@ -1,0 +1,22 @@
+<div class="panel panel-default">
+  <div class="panel-heading panel-title" id="api_key" data-model="contributor" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="" data-class_name="" data-source_id="<%= @source.present? ? @source.name : "" %>" data-sort="<%= @sort.present? ? @sort.name : "" %>" data-contributor_id="<%= @contributor.pid %>">
+    <% if can?(:manage, @contributor) %>
+      <div class="btn-toolbar pull-right">
+        <div class="btn-group btn-group-sm">
+          <%= link_to icon("trash").html_safe, contributor_path(@contributor.pid), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+        </div>
+      </div>
+    <% end %>
+    <%= @contributor.credit_name.presence || @contributor.orcid %>
+  </div>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <dt>ORCID</dt>
+      <dd><%= link_to h(@contributor.pid), @contributor.pid %></dd>
+      <% if @contributor.submitted_at.present? %>
+        <dt>Date</dt>
+        <dd><%= @contributor.submitted_at.to_date.to_s(:long) %></dd>
+      <% end %>
+    </dl>
+  </div>
+</div>

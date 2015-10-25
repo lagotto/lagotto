@@ -79,11 +79,13 @@
           <% if can?(:read, Notification) %>
             <%= controller.controller_name == "agents" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Agents", agents_path %></li>
           <% end %>
+          <% if can?(:read, Notification) || contributors.length > 1 %>
+            <%= controller.controller_name == "contributors" ? '<li class="active hidden-sm">'.html_safe : '<li class="hidden-sm">'.html_safe %><%= link_to "Contributors", contributors_path %></li>
+          <% end %>
           <% if can?(:read, Notification) || publishers.length > 1 %>
             <%= controller.controller_name == "publishers" ? '<li class="active hidden-sm">'.html_safe : '<li class="hidden-sm">'.html_safe %><%= link_to "Publishers", publishers_path %></li>
           <% end %>
           <% if can?(:read, Notification) %>
-            <%= controller.controller_name == "users" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Users", users_path %></li>
             <%= controller.controller_name == "notifications" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Notifications", notifications_path %></li>
           <% end %>
           <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm hidden-md">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>

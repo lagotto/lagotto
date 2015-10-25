@@ -1,0 +1,42 @@
+<div class="page-header">
+  <% if can?(:read, Notification) %>
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group btn-group-sm">
+        <%= link_to "#{icon("user")} Users".html_safe, users_path, { id: "users", class: "btn btn-default" } %>
+      </div>
+    </div>
+  <% end %>
+  <h1 class="pull-left">Contributors</h1>
+
+  <%= form_tag(contributors_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
+    <div class="form-group">
+      <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
+    </div>
+    <button type="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
+    <% unless params[:q].blank? %>
+      <%= link_to "clear", contributors_path, :class => "btn" %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="content" id="content">
+  <% if @contributors.size > 0 %>
+    <div id="results">
+      <% @contributors.each do |contributor| %>
+        <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
+        <span class="date"><%= contributor.submitted_at.to_date.to_s(:long) %>.</span>
+        <%= link_to h(contributor.pid), contributor.pid %>
+      <% end %>
+    </div>
+    <div class="text-center">
+      <%= will_paginate @contributors, :params => { :controller => contributors_path }, :renderer => BootstrapPagination::Rails %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      There are currently no contributors
+      <% unless params[:q].blank? %>
+        with <em><%= params[:q] %></em> in the name
+      <% end %>
+    </div>
+  <% end %>
+</div>
