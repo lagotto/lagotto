@@ -253,6 +253,10 @@ module Configurable
       config.sample = value
     end
 
+    def source_id
+      name
+    end
+
     # is this source no longer accepting new data?
     def obsolete
       config.obsolete || false

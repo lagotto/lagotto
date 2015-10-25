@@ -57,7 +57,7 @@ class DataciteOrcid < Agent
     pid = "http://orcid.org/#{orcid}"
 
     { "pid" => pid,
-      "source_id" => name }
+      "source_id" => source_id }
   end
 
   def get_events(items)
@@ -65,7 +65,7 @@ class DataciteOrcid < Agent
       pid = doi_as_url(item.fetch("doi"))
       name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }.map { |id| { 'nameIdentifier' => id }}
 
-      { source_id: name,
+      { source_id: source_id,
         work_id: pid,
         total: name_identifiers.length,
         extra: name_identifiers }

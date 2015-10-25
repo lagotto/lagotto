@@ -60,7 +60,7 @@ class DataciteRelated < Agent
     relation_type = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
 
     { "pid" => pid,
-      "source_id" => name,
+      "source_id" => source_id,
       "relation_type_id" => relation_type }
   end
 
@@ -69,7 +69,7 @@ class DataciteRelated < Agent
       pid = doi_as_url(item.fetch("doi"))
       related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
 
-      { source_id: name,
+      { source_id: source_id,
         work_id: pid,
         total: related_identifiers.length }
     end

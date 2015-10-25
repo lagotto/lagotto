@@ -106,7 +106,7 @@ class CrossrefOrcid < Agent
 
   def get_contributor(work)
     { "pid" => work.fetch('ORCID', nil),
-      "source_id" => name }
+      "source_id" => source_id }
   end
 
   def get_events(items)
@@ -114,7 +114,7 @@ class CrossrefOrcid < Agent
       pid = doi_as_url(item.fetch("DOI"))
       authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
 
-      { source_id: name,
+      { source_id: source_id,
         work_id: pid,
         total: authors_with_orcid.length,
         extra: authors_with_orcid }

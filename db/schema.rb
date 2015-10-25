@@ -11,14 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151024193032) do
+ActiveRecord::Schema.define(version: 20151025194411) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
     t.string   "name",        limit: 191
     t.string   "title",       limit: 255,                                   null: false
     t.text     "description", limit: 65535
-    t.integer  "source_id",   limit: 4
     t.integer  "state",       limit: 4,     default: 0
     t.string   "state_event", limit: 255
     t.text     "config",      limit: 65535
