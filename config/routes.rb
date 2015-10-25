@@ -24,7 +24,7 @@ Lagotto::Application.routes.draw do
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
   resources :notifications
-  resources :publishers
+  resources :publishers, constraints: { :id => /.+/ }
   resources :references
 
   # use namespace for rss feeds rather than file extension
@@ -84,7 +84,7 @@ Lagotto::Application.routes.draw do
       resources :events
       resources :groups, only: [:index, :show]
       resources :notifications
-      resources :publishers, concerns: [:workable, :eventable]
+      resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable, :eventable]
       resources :relation_types, only: [:index, :show]
       resources :sources, concerns: [:workable, :eventable] do
         resources :months

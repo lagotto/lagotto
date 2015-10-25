@@ -18,7 +18,7 @@ class Publisher < ActiveRecord::Base
   scope :order_by_name, -> { order("publishers.title") }
   scope :active, -> { where(active: true).order_by_name }
   scope :inactive, -> { where(active: false).order_by_name }
-  scope :query, ->(query) { where("title like ?", "#{query}%") }
+  scope :query, ->(query) { where("title like ?", "%#{query}%") }
 
   def to_param  # overridden, use name instead of id
     name

@@ -1,0 +1,58 @@
+class DataciteDatacentre < Agent
+  # include common methods for Import
+  include Importable
+
+  def get_total(options={})
+    query_url = get_query_url
+    result = get_result(query_url, options)
+    result.fetch("facet_counts", {}).fetch("facet_fields", {}).fetch('datacentre_facet', []).length / 2
+  end
+
+  def get_query_url(options={})
+    params = { q: "*:*",
+               start: 0,
+               rows: 0,
+               facet: 'true',
+               'facet.field' => 'datacentre_facet',
+               'facet.limit' => -1,
+               wt: "json" }
+    url +  URI.encode_www_form(params)
+  end
+
+  def parse_data(result, options={})
+    result = { error: "No hash returned." } unless result.is_a?(Hash)
+    return result if result[:error]
+
+    datacentre_facet = result.fetch("facet_counts", {}).fetch("facet_fields", {}).fetch('datacentre_facet', [])
+    items = datacentre_facet.values_at(* datacentre_facet.each_index.select {|i| i.even?})
+
+    { publishers: get_publishers(items) }
+  end
+
+  def get_publishers(items)
+    Array(items).map do |item|
+      name, title = item.split(' - ', 2)
+
+      { "name" => name,
+        "title" => title,
+        "registration_agency" => "datacite",
+        "active" => true }
+    end
+  end
+
+  def config_fields
+    [:url]
+  end
+
+  def url
+    "http://search.datacite.org/api?"
+  end
+
+  def cron_line
+    config.cron_line || "40 1 * * 1"
+  end
+
+  def job_batch_size
+    config.job_batch_size || 1000
+  end
+end

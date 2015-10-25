@@ -168,7 +168,14 @@ class Deposit < ActiveRecord::Base
 
   def update_contributors
     message.fetch("contributors", []).map do |item|
+      Contributor.where(pid: item.fetch('pid', nil)).first_or_create
+    end
+  end
 
+  def update_publishers
+    message.fetch("publishers", []).map do |item|
+      publisher = Publisher.where(name: item.fetch('name', nil)).first_or_create
+      publisher.update_attributes(item.except('name'))
     end
   end
 

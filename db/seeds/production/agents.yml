@@ -237,7 +237,7 @@ records:
     group_id: <%= sprig_record(Group, "other").id %>
   - sprig_id: dataone_import
     type: DataoneImport
-    name: dataone_import
+    name: DataONE Import
     title: DataoneImport
     description: Import works via the DataONE Solr API.
     group_id: <%= sprig_record(Group, "other").id %>
@@ -247,3 +247,9 @@ records:
     title: DataCite Data
     description: Helping you to find, access, and reuse research data.
     group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: datacite_datacentre
+    type: DataciteDatacentre
+    name: datacite_datacentre
+    title: DataCite Datacentre
+    description: Import publishers via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "other").id %>

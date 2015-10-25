@@ -642,6 +642,17 @@ FactoryGirl.define do
     initialize_with { DataciteOrcid.where(name: name).first_or_initialize }
   end
 
+  factory :datacite_datacentre, class: DataciteDatacentre do
+    type "DataciteDatacentre"
+    name "datacite_datacentre"
+    title "Datacite Datacentre"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataciteDatacentre.where(name: name).first_or_initialize }
+  end
+
   factory :datacite_github, class: DataciteGithub do
     type "DataciteGithub"
     name "datacite_github"

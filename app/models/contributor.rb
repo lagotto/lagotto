@@ -25,7 +25,7 @@ class Contributor < ActiveRecord::Base
   after_commit :update_cache, :on => :create
 
   scope :order_by_name, -> { order("contributors.family_name") }
-  scope :query, ->(query) { where("family_name like ?", "#{query}%") }
+  scope :query, ->(query) { where("family_name like ?", "%#{query}%") }
 
   def self.count_all
     Status.first && Status.first.contributors_count

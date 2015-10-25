@@ -11,6 +11,8 @@
   </div>
   <div class="panel-body">
     <dl class="dl-horizontal">
+      <dt>ID</dt>
+      <dd><%= @publisher.name %></dd>
       <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
         <dt>Other Names</dt>
         <dd><%= @publisher.other_names.reject { |name| name == @publisher.title }.join("</br>").html_safe %></dd>

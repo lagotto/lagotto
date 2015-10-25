@@ -439,7 +439,6 @@ ActiveRecord::Schema.define(version: 20151025194411) do
     t.integer  "month",               limit: 4
     t.integer  "day",                 limit: 4
     t.integer  "publisher_id",        limit: 8
-    t.string   "pid_type",            limit: 255,      default: "url", null: false
     t.text     "pid",                 limit: 65535,                    null: false
     t.text     "csl",                 limit: 16777215
     t.integer  "work_type_id",        limit: 4
