@@ -7,7 +7,8 @@ records:
     description: Reports error summary
     interval: <%= 1.day %>
   - name: stale_source_report
-    title: Reports when a source has not been updated
+    title: Stale Source Report
+    description: Reports when a source has not been updated
     interval: <%= 1.day %>
   - name: status_report
     title: Status Report

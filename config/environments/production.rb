@@ -52,6 +52,8 @@ Lagotto::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.active_record.raise_in_transactional_callbacks = true
+
   # for devise
   # TODO: Must set it with correct value!!
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }

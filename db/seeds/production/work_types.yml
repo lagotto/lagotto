@@ -1,4 +1,4 @@
-# Load resource_types
+# Load work_types
 # From CSL: https://github.com/citation-style-language/schema/blob/master/csl-data.json
 options:
   find_existing_by: ['name']
