@@ -101,17 +101,26 @@ namespace :db do
 
     desc "Delete works"
     task :delete => :environment do
-      if ENV['MEMBER'].blank?
-        puts "Please use MEMBER environment variable. No work deleted."
+      if ENV['PUBLISHER_ID'].blank?
+        puts "Please use PUBLISHER_ID environment variable. No work deleted."
         exit
       end
 
-      DeleteWorkJob.perform_later(ENV['MEMBER'])
+      if ENV['SOURCE_ID'].blank?
+        puts "Please use SOURCE_ID environment variable. No work deleted."
+        exit
+      end
 
-      if ENV['MEMBER'] == "all"
+      DeleteWorkJob.perform_later(publisher_id: ENV['PUBLISHER_ID'], source_id: ENV['SOURCE_ID'])
+
+      if ENV['PUBLISHER_ID'] == "all" && ENV['SOURCE_ID'] == "all"
         puts "Started deleting all works in the background..."
+      elsif ENV['PUBLISHER_ID'] == "all"
+        puts "Started deleting all works for source #{ENV['SOURCE_ID']} in the background..."
+      elsif ENV['SOURCE_ID'] == "all"
+        puts "Started deleting all works from publisher #{ENV['PUBLISHER_ID']} in the background..."
       else
-        puts "Started deleting all works from MEMBER #{ENV['MEMBER']} in the background..."
+        puts "Started deleting all works from publisher #{ENV['PUBLISHER_ID']} for source #{ENV['SOURCE_ID']} in the background..."
       end
     end
 
