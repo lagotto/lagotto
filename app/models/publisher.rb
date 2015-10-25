@@ -13,7 +13,7 @@ class Publisher < ActiveRecord::Base
   validates :title, :presence => true
   validates :name, :presence => true, :uniqueness => true
 
-  after_create { |publisher| CacheJob.perform_later(publisher) }
+  after_commit :update_cache, :on => :create
 
   scope :order_by_name, -> { order("publishers.title") }
   scope :active, -> { where(active: true).order_by_name }
@@ -56,6 +56,10 @@ class Publisher < ActiveRecord::Base
 
   def timestamp
     cached_at.utc.iso8601
+  end
+
+  def update_cache
+    CacheJob.perform_later(self)
   end
 
   def write_cache

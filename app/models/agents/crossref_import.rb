@@ -79,8 +79,10 @@ class CrossrefImport < Agent
       if title.blank? && !TYPES_WITH_TITLE.include?(item["type"])
         title = item["container-title"][0].presence || "No title"
       end
-      publisher_id = item.fetch("member", nil)
-      publisher_id = publisher_id[30..-1].to_i if publisher_id
+
+      member = item.fetch("member", "")[30..-1]
+      publisher = Publisher.where(name: member).first
+      publisher_id = publisher.present? ? publisher.id : nil
 
       type = item.fetch("type", nil)
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
