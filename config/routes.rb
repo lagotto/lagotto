@@ -75,7 +75,10 @@ Lagotto::Application.routes.draw do
       resources :agents
       resources :api_requests, only: [:index]
       resources :contributor_roles, only: [:index, :show]
-      resources :contributors
+      resources :contributions
+      resources :contributors, constraints: { :id => /.+/ } do
+        resources :contributions
+      end
       resources :deposits
       resources :docs, only: [:index, :show]
       resources :events
