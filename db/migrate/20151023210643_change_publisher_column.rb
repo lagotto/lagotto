@@ -4,6 +4,7 @@ class ChangePublisherColumn < ActiveRecord::Migration
     add_foreign_key "publisher_options", "publishers", name: "publisher_options_publisher_id_fk", on_delete: :cascade
 
     change_column :publishers, :name, :string, limit: 191
+    change_column :publishers, :service, :string, limit: 191
     remove_column :publishers, :member_id, :integer
     remove_column :publishers, :member_symbol, :string, limit: 191
     remove_column :publishers, :symbol, :string
