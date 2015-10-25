@@ -580,7 +580,6 @@ FactoryGirl.define do
     type "PlosImport"
     name "plos_import"
     title "PLOS Import"
-    kind "all"
     state_event "activate"
 
     group
@@ -592,7 +591,6 @@ FactoryGirl.define do
     type "CrossrefImport"
     name "crossref_import"
     title "Crossref Import"
-    kind "all"
     state_event "activate"
 
     group
@@ -604,7 +602,6 @@ FactoryGirl.define do
     type "CrossrefOrcid"
     name "crossref_orcid"
     title "Crossref ORCID"
-    kind "all"
     state_event "activate"
 
     group
@@ -616,7 +613,6 @@ FactoryGirl.define do
     type "DataciteImport"
     name "datacite_import"
     title "Datacite Import"
-    kind "all"
     state_event "activate"
 
     group
@@ -628,7 +624,6 @@ FactoryGirl.define do
     type "DataciteRelated"
     name "datacite_related"
     title "Datacite Related"
-    kind "all"
     state_event "activate"
 
     group
@@ -640,7 +635,6 @@ FactoryGirl.define do
     type "DataciteOrcid"
     name "datacite_orcid"
     title "Datacite ORCID"
-    kind "all"
     state_event "activate"
 
     group
@@ -652,7 +646,6 @@ FactoryGirl.define do
     type "DataciteGithub"
     name "datacite_github"
     title "Datacite Github"
-    kind "all"
     state_event "activate"
     personal_access_token "EXAMPLE"
 
@@ -665,7 +658,6 @@ FactoryGirl.define do
     type "DataoneImport"
     name "dataone_import"
     title "DataONE Import"
-    kind "all"
     state_event "activate"
 
     group
