@@ -7,19 +7,17 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
-      User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
       Accept:
       - application/json
+      User-Agent:
+      - Lagotto - http://lagotto-5-0-unstable.local
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
     status:
       code: 200
-      message: ''
+      message: OK
     headers:
-      Date:
-      - Sat, 17 Oct 2015 22:55:49 GMT
-      Server:
-      - http-kit
       Access-Control-Allow-Headers:
       - X-Requested-With
       Access-Control-Allow-Origin:
@@ -30,9 +28,15 @@ http_interactions:
       - application/json;charset=UTF-8
       Content-Length:
       - '189'
+      Server:
+      - http-kit
+      Date:
+      - Mon, 26 Oct 2015 15:21:06 GMT
+      Connection:
+      - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":1782,"facets":{}}}'
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":1055,"facets":{}}}'
     http_version: 
-  recorded_at: Sat, 17 Oct 2015 22:55:49 GMT
+  recorded_at: Mon, 26 Oct 2015 15:21:06 GMT
 recorded_with: VCR 2.9.3

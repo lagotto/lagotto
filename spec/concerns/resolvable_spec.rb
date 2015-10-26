@@ -459,7 +459,7 @@ describe Work, type: :model, vcr: true do
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
         expect(response["container-title"]).to eq("European Journal of Pharmacology")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 9, 8]])
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 9, 24]])
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to eq("78")
       end

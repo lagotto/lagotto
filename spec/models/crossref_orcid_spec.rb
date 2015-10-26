@@ -39,7 +39,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(1782)
+      expect(subject.get_total).to eq(1055)
     end
 
     it "with no works" do
@@ -55,7 +55,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(1782)
+      expect(response).to eq(1055)
     end
 
     it "should report if there are sample works returned by the Crossref REST API" do
@@ -73,9 +73,9 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response).to eq(1782)
+      expect(response["message"]["total-results"]).to eq(1055)
       item = response["message"]["items"].first
-      expect(item["DOI"]).to eq("10.1016/j.mmcr.2014.03.001")
+      expect(item["DOI"]).to eq("10.4168/aair.2011.3.2.111")
     end
 
     it "should catch errors with the Crossref REST API" do
