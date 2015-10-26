@@ -1,0 +1,17 @@
+{
+  "status": "ok",
+  "message-type": "member-list",
+  "message-version": "1.0.0",
+  "message": {
+    "query": {
+      "search-terms": null,
+      "start-index": 0
+    },
+    "items-per-page": 10,
+    "items": [
+    ],
+    "total-results": 0,
+    "facets": {
+    }
+  }
+}

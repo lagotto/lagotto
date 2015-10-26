@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/members?offset=0&rows=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - Lagotto - http://lagotto-5-0-unstable.local
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Length:
+      - '179'
+      Server:
+      - http-kit
+      Date:
+      - Mon, 26 Oct 2015 15:41:20 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"member-list","message-version":"1.0.0","message":{"items":[],"total-results":5680,"query":{"search-terms":null,"start-index":0},"items-per-page":0}}'
+    http_version: 
+  recorded_at: Mon, 26 Oct 2015 15:41:20 GMT
+recorded_with: VCR 2.9.3

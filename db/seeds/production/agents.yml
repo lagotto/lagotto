@@ -254,3 +254,9 @@ records:
     title: DataCite Datacentre
     description: Import publishers via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: crossref_publisher
+    type: CrossrefPublisher
+    name: crossref_publisher
+    title: CrossRef Publisher
+    description: Import publishers via the Crossref REST API.
+    group_id: <%= sprig_record(Group, "other").id %>

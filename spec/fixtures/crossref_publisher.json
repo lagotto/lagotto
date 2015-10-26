@@ -1,0 +1,12070 @@
+{
+"status": "ok",
+"message-type": "member-list",
+"message-version": "1.0.0",
+"message": {
+"items": [
+{
+"last-status-check-time": 1445835649904,
+"primary-name": "Hogrefe & Huber",
+"counts": {
+"backfile-dois": 29874,
+"current-dois": 3580,
+"total-dois": 33454
+},
+"breakdowns": {},
+"prefixes": [
+"10.1024",
+"10.1026",
+"10.1027"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.3383879065513611,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0.3307262659072876
+},
+"prefix": [
+{
+"value": "10.1024",
+"name": "Hogrefe & Huber Publishing Group",
+"public-references": false
+},
+{
+"value": "10.1026",
+"name": "Hogrefe & Huber Publishing Group",
+"public-references": false
+},
+{
+"value": "10.1027",
+"name": "Hogrefe & Huber Publishing Group",
+"public-references": false
+}
+],
+"id": 101,
+"tokens": [
+"hogrefe",
+"&",
+"and",
+"huber"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "Langgass-Strasse 76 CH-3000 Berne 9 Switzerland",
+"names": [
+"Hogrefe & Huber Publishing Group",
+"Hogrefe & Huber"
+]
+},
+{
+"last-status-check-time": 1445835650028,
+"primary-name": "Ebsco Publishing",
+"counts": {
+"backfile-dois": 89,
+"current-dois": 0,
+"total-dois": 89
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2007,
+23
+],
+[
+2006,
+23
+],
+[
+2004,
+18
+],
+[
+2005,
+14
+],
+[
+2003,
+11
+]
+]
+},
+"prefixes": [
+"10.1033"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.1033",
+"name": "EBSCO Publishing",
+"public-references": false
+}
+],
+"id": 324,
+"tokens": [
+"ebsco",
+"publishing"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": false,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "Accounts Payable P O Box 602 Ipswich MA 01938 United States",
+"names": [
+"Ebsco Publishing",
+"EBSCO Publishing"
+]
+},
+{
+"last-status-check-time": 1445835650450,
+"primary-name": "American Medical Association (AMA)",
+"counts": {
+"backfile-dois": 567817,
+"current-dois": 10875,
+"total-dois": 578692
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+1963,
+9819
+],
+[
+1966,
+9677
+],
+[
+1989,
+8028
+],
+[
+1990,
+7806
+],
+[
+1988,
+7758
+],
+[
+1991,
+7719
+],
+[
+1992,
+7685
+],
+[
+1987,
+7617
+],
+[
+1974,
+7537
+],
+[
+1986,
+7532
+],
+[
+1985,
+7506
+],
+[
+1983,
+7406
+],
+[
+1982,
+7306
+],
+[
+1967,
+7265
+],
+[
+1993,
+7245
+],
+[
+1995,
+7234
+],
+[
+1969,
+7188
+],
+[
+1997,
+7143
+],
+[
+1984,
+7067
+],
+[
+1964,
+7067
+],
+[
+1978,
+7062
+],
+[
+1970,
+7043
+],
+[
+1994,
+7026
+],
+[
+1979,
+6966
+],
+[
+1968,
+6879
+],
+[
+1996,
+6878
+],
+[
+1973,
+6846
+],
+[
+1980,
+6836
+],
+[
+1977,
+6769
+],
+[
+1976,
+6751
+],
+[
+1971,
+6742
+],
+[
+1981,
+6741
+],
+[
+1972,
+6702
+],
+[
+1965,
+6596
+],
+[
+1975,
+6251
+],
+[
+2003,
+5677
+],
+[
+2006,
+5636
+],
+[
+2005,
+5545
+],
+[
+2004,
+5508
+],
+[
+2000,
+5441
+],
+[
+2008,
+5425
+],
+[
+2007,
+5353
+],
+[
+1999,
+5293
+],
+[
+2002,
+5267
+],
+[
+2013,
+5222
+],
+[
+2009,
+5206
+],
+[
+2011,
+5174
+],
+[
+2014,
+5151
+],
+[
+2012,
+5127
+],
+[
+1998,
+5077
+],
+[
+2001,
+5071
+],
+[
+2010,
+5032
+],
+[
+2015,
+4895
+],
+[
+1960,
+4723
+],
+[
+1962,
+4472
+],
+[
+1950,
+4429
+],
+[
+1961,
+4404
+],
+[
+1959,
+4362
+],
+[
+1932,
+4337
+],
+[
+1940,
+4319
+],
+[
+1939,
+4305
+],
+[
+1955,
+4300
+],
+[
+1933,
+4218
+],
+[
+1958,
+4213
+],
+[
+1931,
+4210
+],
+[
+1938,
+4194
+],
+[
+1929,
+4149
+],
+[
+1934,
+4106
+],
+[
+1941,
+4081
+],
+[
+1952,
+4079
+],
+[
+1957,
+4067
+],
+[
+1951,
+4060
+],
+[
+1937,
+4000
+],
+[
+1930,
+3988
+],
+[
+1954,
+3978
+],
+[
+1936,
+3966
+],
+[
+1935,
+3921
+],
+[
+1956,
+3912
+],
+[
+1928,
+3788
+],
+[
+1942,
+3779
+],
+[
+1949,
+3620
+],
+[
+1927,
+3587
+],
+[
+1943,
+3508
+],
+[
+1948,
+3478
+],
+[
+1926,
+3461
+],
+[
+1944,
+3421
+],
+[
+1947,
+3407
+],
+[
+1953,
+3303
+],
+[
+1925,
+3254
+],
+[
+1924,
+3211
+],
+[
+1946,
+3106
+],
+[
+1923,
+3018
+],
+[
+1921,
+2993
+],
+[
+1945,
+2970
+],
+[
+1922,
+2946
+],
+[
+1920,
+2552
+],
+[
+1911,
+2408
+],
+[
+1914,
+2369
+],
+[
+1910,
+2369
+],
+[
+1907,
+2358
+],
+[
+1915,
+2355
+],
+[
+1912,
+2354
+],
+[
+1909,
+2352
+],
+[
+1913,
+2310
+],
+[
+1908,
+2285
+],
+[
+1906,
+2261
+],
+[
+1919,
+2245
+],
+[
+1916,
+2134
+],
+[
+1917,
+2118
+],
+[
+1904,
+2098
+],
+[
+1918,
+2082
+],
+[
+1905,
+2051
+],
+[
+1900,
+1949
+],
+[
+1898,
+1919
+],
+[
+1899,
+1908
+],
+[
+1901,
+1893
+],
+[
+1902,
+1817
+],
+[
+1903,
+1797
+],
+[
+1897,
+1697
+],
+[
+1896,
+1640
+],
+[
+1895,
+1476
+],
+[
+1894,
+1413
+],
+[
+1893,
+1128
+],
+[
+1891,
+1110
+],
+[
+1892,
+1039
+],
+[
+1885,
+1008
+],
+[
+1884,
+971
+],
+[
+1890,
+966
+],
+[
+1887,
+919
+],
+[
+1888,
+879
+],
+[
+1889,
+868
+],
+[
+1886,
+689
+],
+[
+1883,
+469
+]
+]
+},
+"prefixes": [
+"10.1001"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.0000017611307612241944,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.1001",
+"name": "American Medical Association",
+"public-references": false
+}
+],
+"id": 10,
+"tokens": [
+"american",
+"medical",
+"association",
+"ama"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "330 N Wabash Ave Chicago IL 60611 United States",
+"names": [
+"American Medical Association",
+"American Medical Association (AMA)"
+]
+},
+{
+"last-status-check-time": 1445835654122,
+"primary-name": "Wiley-Blackwell",
+"counts": {
+"backfile-dois": 6836955,
+"current-dois": 528239,
+"total-dois": 7365194
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2012,
+284295
+],
+[
+2004,
+266899
+],
+[
+2010,
+265822
+],
+[
+2011,
+260164
+],
+[
+2013,
+260129
+],
+[
+2014,
+258983
+],
+[
+2007,
+257943
+],
+[
+2009,
+252104
+],
+[
+2006,
+235473
+],
+[
+2008,
+230109
+],
+[
+2015,
+222529
+],
+[
+2005,
+219574
+],
+[
+2001,
+192809
+],
+[
+2003,
+188535
+],
+[
+2002,
+185242
+],
+[
+2000,
+182120
+],
+[
+1996,
+171802
+],
+[
+1999,
+170313
+],
+[
+1998,
+162464
+],
+[
+1997,
+154728
+],
+[
+1995,
+135269
+],
+[
+1994,
+129891
+],
+[
+1993,
+125284
+],
+[
+1992,
+119259
+],
+[
+1991,
+115880
+],
+[
+1990,
+97104
+],
+[
+1989,
+92034
+],
+[
+1988,
+86008
+],
+[
+1987,
+81299
+],
+[
+1986,
+79533
+],
+[
+1985,
+74334
+],
+[
+1984,
+72373
+],
+[
+1983,
+68532
+],
+[
+1982,
+66669
+],
+[
+1981,
+65475
+],
+[
+1980,
+61980
+],
+[
+1979,
+59105
+],
+[
+1978,
+55946
+],
+[
+1977,
+54531
+],
+[
+1976,
+50602
+],
+[
+1975,
+49001
+],
+[
+1974,
+46857
+],
+[
+1973,
+46147
+],
+[
+1972,
+43477
+],
+[
+1971,
+42417
+],
+[
+1970,
+40170
+],
+[
+1969,
+37883
+],
+[
+1968,
+36672
+],
+[
+1967,
+34980
+],
+[
+1966,
+32353
+],
+[
+1965,
+31128
+],
+[
+1964,
+29280
+],
+[
+1963,
+27606
+],
+[
+1962,
+25071
+],
+[
+1961,
+22699
+],
+[
+1960,
+21383
+],
+[
+1959,
+20513
+],
+[
+1958,
+19129
+],
+[
+1957,
+18024
+],
+[
+1956,
+17381
+],
+[
+1955,
+16560
+],
+[
+1954,
+15512
+],
+[
+1953,
+14664
+],
+[
+1951,
+13264
+],
+[
+1952,
+13009
+],
+[
+1950,
+12847
+],
+[
+1949,
+11409
+],
+[
+1937,
+11158
+],
+[
+1936,
+11128
+],
+[
+1938,
+11022
+],
+[
+1939,
+10718
+],
+[
+1931,
+10596
+],
+[
+1935,
+10287
+],
+[
+1930,
+10249
+],
+[
+1933,
+10179
+],
+[
+1934,
+10168
+],
+[
+1932,
+10143
+],
+[
+1948,
+9819
+],
+[
+1929,
+9666
+],
+[
+1927,
+9215
+],
+[
+1926,
+9014
+],
+[
+1928,
+9004
+],
+[
+1940,
+8870
+],
+[
+1925,
+8865
+],
+[
+1941,
+8821
+],
+[
+1924,
+8646
+],
+[
+1947,
+8537
+],
+[
+1923,
+7993
+],
+[
+1922,
+7526
+],
+[
+1946,
+7502
+],
+[
+1942,
+7496
+],
+[
+1943,
+7427
+],
+[
+1921,
+6878
+],
+[
+1944,
+6630
+],
+[
+1908,
+5957
+],
+[
+1945,
+5935
+],
+[
+1912,
+5878
+],
+[
+1909,
+5867
+],
+[
+1920,
+5816
+],
+[
+1914,
+5699
+],
+[
+1907,
+5694
+],
+[
+1913,
+5666
+],
+[
+1911,
+5505
+],
+[
+1906,
+5492
+],
+[
+1905,
+5219
+],
+[
+1899,
+5199
+],
+[
+1902,
+5131
+],
+[
+1903,
+5108
+],
+[
+1910,
+5082
+],
+[
+1904,
+5051
+],
+[
+1915,
+4825
+],
+[
+1919,
+4690
+],
+[
+1918,
+4690
+],
+[
+1901,
+4526
+],
+[
+1898,
+4511
+],
+[
+1900,
+4294
+],
+[
+1917,
+4252
+],
+[
+1916,
+4251
+],
+[
+1897,
+4144
+],
+[
+1896,
+3754
+],
+[
+1894,
+3596
+],
+[
+1895,
+3318
+],
+[
+1891,
+3143
+],
+[
+1893,
+3110
+],
+[
+1884,
+3093
+],
+[
+1889,
+3021
+],
+[
+1883,
+2942
+],
+[
+1890,
+2932
+],
+[
+1892,
+2814
+],
+[
+1887,
+2743
+],
+[
+1888,
+2704
+],
+[
+1881,
+2691
+],
+[
+1886,
+2648
+],
+[
+1878,
+2638
+],
+[
+1879,
+2583
+],
+[
+1880,
+2528
+],
+[
+1874,
+2509
+],
+[
+1885,
+2500
+],
+[
+1873,
+2445
+],
+[
+1882,
+2429
+],
+[
+1877,
+2419
+],
+[
+1876,
+2363
+],
+[
+1875,
+2224
+],
+[
+1869,
+2122
+],
+[
+1858,
+1984
+],
+[
+1865,
+1983
+],
+[
+1870,
+1955
+],
+[
+1868,
+1946
+],
+[
+1846,
+1937
+],
+[
+1859,
+1897
+],
+[
+1867,
+1836
+],
+[
+1855,
+1813
+],
+[
+1854,
+1777
+],
+[
+1864,
+1764
+],
+[
+1848,
+1742
+],
+[
+1862,
+1720
+],
+[
+1872,
+1713
+],
+[
+1871,
+1712
+],
+[
+1863,
+1711
+],
+[
+1853,
+1698
+],
+[
+1856,
+1661
+],
+[
+1860,
+1639
+],
+[
+1849,
+1626
+],
+[
+1866,
+1618
+],
+[
+1861,
+1616
+],
+[
+1857,
+1605
+],
+[
+1844,
+1601
+],
+[
+1851,
+1573
+],
+[
+1852,
+1547
+],
+[
+1843,
+1539
+],
+[
+1845,
+1487
+],
+[
+1847,
+1456
+],
+[
+1841,
+1415
+],
+[
+1842,
+1394
+],
+[
+1839,
+1365
+],
+[
+1850,
+1357
+],
+[
+1836,
+1323
+],
+[
+1840,
+1238
+],
+[
+1835,
+1236
+],
+[
+1837,
+1227
+],
+[
+1838,
+1222
+],
+[
+1834,
+1140
+],
+[
+1828,
+919
+],
+[
+1827,
+881
+],
+[
+1829,
+786
+],
+[
+1833,
+779
+],
+[
+1824,
+735
+],
+[
+1825,
+724
+],
+[
+1831,
+716
+],
+[
+1826,
+703
+],
+[
+1823,
+557
+],
+[
+1832,
+479
+],
+[
+1830,
+427
+],
+[
+1822,
+292
+],
+[
+1800,
+219
+],
+[
+1803,
+218
+],
+[
+1811,
+193
+],
+[
+1821,
+183
+],
+[
+1805,
+183
+],
+[
+1808,
+166
+],
+[
+1804,
+157
+],
+[
+1807,
+152
+],
+[
+1819,
+151
+],
+[
+1820,
+150
+],
+[
+1816,
+150
+],
+[
+1806,
+147
+],
+[
+1818,
+145
+],
+[
+1802,
+134
+],
+[
+1809,
+129
+],
+[
+1810,
+127
+],
+[
+1813,
+125
+],
+[
+1812,
+123
+],
+[
+1801,
+120
+],
+[
+1817,
+116
+],
+[
+1815,
+114
+],
+[
+1814,
+107
+],
+[
+1799,
+93
+],
+[
+1794,
+40
+],
+[
+1798,
+31
+],
+[
+1791,
+31
+],
+[
+1797,
+29
+],
+[
+2016,
+12
+],
+[
+0,
+8
+]
+]
+},
+"prefixes": [
+"10.2746",
+"10.4004",
+"10.1256",
+"10.3405",
+"10.3401",
+"10.1196",
+"10.1111",
+"10.1113",
+"10.1301",
+"10.1359",
+"10.1348",
+"10.1581",
+"10.1592",
+"10.5054",
+"10.1516",
+"10.1506",
+"10.1526",
+"10.14814",
+"10.2164",
+"10.1002",
+"10.1034",
+"10.1046",
+"10.3170",
+"10.3162",
+"10.2966",
+"10.1892",
+"10.1897"
+],
+"coverage": {
+"funders-backfile": 0.00020550083718262613,
+"licenses-backfile": 0.27360907196998596,
+"funders-current": 0.1928483098745346,
+"resource-links-backfile": 0.25003427267074585,
+"orcids-backfile": 0.0000014626394886363414,
+"update-policies-current": 0.007998273707926273,
+"orcids-current": 0.01745232753455639,
+"references-backfile": 0.6184065937995911,
+"award-numbers-backfile": 0.00008995232201414183,
+"update-policies-backfile": 0.0007909954292699695,
+"licenses-current": 0.8172929286956787,
+"award-numbers-current": 0.08294351398944855,
+"resource-links-current": 0.8297001719474792,
+"references-current": 0.74754798412323
+},
+"prefix": [
+{
+"value": "10.2746",
+"name": "Wiley Blackwell (Equine Veterinary Journal)",
+"public-references": false
+},
+{
+"value": "10.4004",
+"name": "Wiley Blackwell (The Wildlife Society)",
+"public-references": false
+},
+{
+"value": "10.1256",
+"name": "Wiley Blackwell (Royal Meteorological Society) ",
+"public-references": false
+},
+{
+"value": "10.3405",
+"name": "Wiley Blackwell (New York Academy of Sciences E-Briefings)",
+"public-references": false
+},
+{
+"value": "10.3401",
+"name": "Wiley Blackwell (Production and Operations Management)",
+"public-references": false
+},
+{
+"value": "10.1196",
+"name": "Wiley Blackwell (New York Academy of Sciences)",
+"public-references": false
+},
+{
+"value": "10.1111",
+"name": "Wiley Blackwell (Blackwell Publishing)",
+"public-references": false
+},
+{
+"value": "10.1113",
+"name": "Wiley Blackwell (Blackwell Publishing -The Physiological Society)",
+"public-references": false
+},
+{
+"value": "10.1301",
+"name": "Wiley Blackwell (International Life Sciences Institute)",
+"public-references": false
+},
+{
+"value": "10.1359",
+"name": "Wiley Blackwell (American Society Bone & Mineral Research)",
+"public-references": false
+},
+{
+"value": "10.1348",
+"name": "Wiley Blackwell (British Psychological Society)",
+"public-references": false
+},
+{
+"value": "10.1581",
+"name": "Wiley Blackwell (Robotic Publications)",
+"public-references": false
+},
+{
+"value": "10.1592",
+"name": "Pharmacotherapy",
+"public-references": false
+},
+{
+"value": "10.5054",
+"name": "Wiley Blackwell (Teachers of English to Speakers of Other Languages, Inc.)",
+"public-references": false
+},
+{
+"value": "10.1516",
+"name": "Wiley Blackwell (International Journal of Psychoanalysis)",
+"public-references": false
+},
+{
+"value": "10.1506",
+"name": "Wiley Blackwell (Canadian Academic Accounting Association)",
+"public-references": false
+},
+{
+"value": "10.1526",
+"name": "Wiley Blackwell (Rural Sociological Society)",
+"public-references": false
+},
+{
+"value": "10.14814",
+"name": "Wiley Blackwell (Physiological Reports)",
+"public-references": false
+},
+{
+"value": "10.2164",
+"name": "American Society of Andrology",
+"public-references": false
+},
+{
+"value": "10.1002",
+"name": "Wiley Blackwell (John Wiley & Sons)",
+"public-references": false
+},
+{
+"value": "10.1034",
+"name": "Wiley Blackwell (Blackwell Publishing - Munksgaard)",
+"public-references": false
+},
+{
+"value": "10.1046",
+"name": "Wiley Blackwell (Blackwell Publishing)",
+"public-references": false
+},
+{
+"value": "10.3170",
+"name": "Wiley Blackwell (Opulus Press)",
+"public-references": false
+},
+{
+"value": "10.3162",
+"name": "Wiley Blackwell (Comparative Legislative Research Center)",
+"public-references": false
+},
+{
+"value": "10.2966",
+"name": "Wiley Blackwell (AHRC Research Centre)",
+"public-references": false
+},
+{
+"value": "10.1892",
+"name": "Wiley Blackwell (American College of Veterinary Internal Medicine)",
+"public-references": false
+},
+{
+"value": "10.1897",
+"name": "Wiley Blackwell (Society of Environmental Toxicology and Chemistry)",
+"public-references": false
+}
+],
+"id": 311,
+"tokens": [
+"wiley",
+"blackwell"
+],
+"flags": {
+"deposits-orcids-current": true,
+"deposits": true,
+"deposits-update-policies-backfile": true,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": true,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": true,
+"deposits-award-numbers-backfile": true,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": true,
+"deposits-orcids-backfile": true,
+"deposits-funders-backfile": true,
+"deposits-update-policies-current": true,
+"deposits-licenses-current": true
+},
+"location": "111 River Street Hoboken NJ 07030 United States",
+"names": [
+"Wiley Blackwell (Rural Sociological Society)",
+"Wiley Blackwell (Canadian Academic Accounting Association)",
+"Wiley Blackwell (Robotic Publications)",
+"Wiley Blackwell (American Society Bone & Mineral Research)",
+"Wiley Blackwell (Opulus Press)",
+"Wiley Blackwell (Physiological Reports)",
+"Wiley Blackwell (International Journal of Psychoanalysis)",
+"Wiley Blackwell (British Psychological Society)",
+"Wiley Blackwell (New York Academy of Sciences)",
+"American Society of Andrology",
+"Wiley Blackwell (Blackwell Publishing)",
+"Wiley Blackwell (International Life Sciences Institute)",
+"Wiley Blackwell (New York Academy of Sciences E-Briefings)",
+"Wiley Blackwell (Equine Veterinary Journal)",
+"Wiley Blackwell (Royal Meteorological Society)",
+"Wiley Blackwell (The Wildlife Society)",
+"Wiley Blackwell (Society of Environmental Toxicology and Chemistry)",
+"Wiley Blackwell (Blackwell Publishing -The Physiological Society)",
+"Pharmacotherapy",
+"Wiley Blackwell (Blackwell Publishing - Munksgaard)",
+"Wiley Blackwell (Production and Operations Management)",
+"Wiley Blackwell (Teachers of English to Speakers of Other Languages, Inc.)",
+"Wiley Blackwell (Comparative Legislative Research Center)",
+"Wiley Blackwell (American College of Veterinary Internal Medicine)",
+"Wiley Blackwell (AHRC Research Centre)",
+"Wiley Blackwell (John Wiley & Sons)",
+"Wiley-Blackwell"
+]
+},
+{
+"last-status-check-time": 1445835660691,
+"primary-name": "Elsevier BV",
+"counts": {
+"backfile-dois": 12310851,
+"current-dois": 1370827,
+"total-dois": 13681678
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2015,
+626489
+],
+[
+2014,
+626297
+],
+[
+2013,
+600523
+],
+[
+2012,
+576114
+],
+[
+2011,
+547679
+],
+[
+2009,
+523891
+],
+[
+2010,
+515294
+],
+[
+2008,
+496523
+],
+[
+2007,
+478841
+],
+[
+2006,
+458981
+],
+[
+2005,
+412822
+],
+[
+2004,
+409540
+],
+[
+2003,
+371173
+],
+[
+2001,
+327398
+],
+[
+2002,
+322318
+],
+[
+1997,
+312530
+],
+[
+2000,
+307212
+],
+[
+1998,
+302270
+],
+[
+1996,
+300447
+],
+[
+1995,
+293086
+],
+[
+1999,
+284419
+],
+[
+1994,
+254283
+],
+[
+1993,
+246172
+],
+[
+1992,
+239713
+],
+[
+1991,
+237796
+],
+[
+1990,
+219597
+],
+[
+1989,
+208040
+],
+[
+1988,
+195446
+],
+[
+1987,
+185941
+],
+[
+1986,
+175974
+],
+[
+1985,
+170415
+],
+[
+1984,
+161646
+],
+[
+1983,
+154552
+],
+[
+1982,
+143976
+],
+[
+1981,
+139067
+],
+[
+1980,
+132846
+],
+[
+1979,
+122129
+],
+[
+1978,
+113623
+],
+[
+1977,
+102036
+],
+[
+1976,
+98386
+],
+[
+1975,
+90829
+],
+[
+1974,
+85298
+],
+[
+1973,
+80657
+],
+[
+1972,
+76736
+],
+[
+1971,
+68961
+],
+[
+1970,
+63175
+],
+[
+1969,
+57006
+],
+[
+1968,
+53936
+],
+[
+1967,
+52087
+],
+[
+1966,
+46705
+],
+[
+1965,
+42499
+],
+[
+1964,
+38744
+],
+[
+1963,
+33389
+],
+[
+1962,
+27136
+],
+[
+1961,
+23535
+],
+[
+1960,
+20983
+],
+[
+2016,
+20193
+],
+[
+1959,
+18241
+],
+[
+1958,
+14468
+],
+[
+1957,
+12387
+],
+[
+1956,
+10961
+],
+[
+1955,
+10511
+],
+[
+1954,
+10236
+],
+[
+1953,
+9559
+],
+[
+1952,
+8816
+],
+[
+1949,
+7948
+],
+[
+1951,
+7919
+],
+[
+1950,
+7139
+],
+[
+1948,
+6960
+],
+[
+1937,
+6722
+],
+[
+1938,
+6700
+],
+[
+1936,
+6638
+],
+[
+1935,
+6407
+],
+[
+1939,
+6401
+],
+[
+1934,
+6083
+],
+[
+1933,
+5876
+],
+[
+1947,
+5861
+],
+[
+1927,
+5842
+],
+[
+1940,
+5730
+],
+[
+1932,
+5589
+],
+[
+1941,
+5579
+],
+[
+1930,
+5525
+],
+[
+1946,
+5399
+],
+[
+1931,
+5376
+],
+[
+1928,
+5358
+],
+[
+1942,
+5236
+],
+[
+1929,
+5206
+],
+[
+1926,
+5139
+],
+[
+1943,
+5088
+],
+[
+1896,
+4768
+],
+[
+1944,
+4739
+],
+[
+1945,
+4728
+],
+[
+1925,
+4695
+],
+[
+1921,
+4650
+],
+[
+1890,
+4633
+],
+[
+1924,
+4625
+],
+[
+1923,
+4581
+],
+[
+1922,
+4575
+],
+[
+1902,
+4528
+],
+[
+1911,
+4405
+],
+[
+1908,
+4385
+],
+[
+1901,
+4374
+],
+[
+1897,
+4360
+],
+[
+1920,
+4305
+],
+[
+1913,
+4297
+],
+[
+1904,
+4267
+],
+[
+1900,
+4259
+],
+[
+1903,
+4241
+],
+[
+1907,
+4228
+],
+[
+1906,
+4222
+],
+[
+1909,
+4197
+],
+[
+1895,
+4191
+],
+[
+1912,
+4187
+],
+[
+1898,
+4179
+],
+[
+1905,
+4165
+],
+[
+1892,
+4119
+],
+[
+1894,
+4100
+],
+[
+1910,
+4092
+],
+[
+1899,
+4086
+],
+[
+1893,
+3936
+],
+[
+1919,
+3870
+],
+[
+1914,
+3795
+],
+[
+1888,
+3704
+],
+[
+1915,
+3614
+],
+[
+1918,
+3554
+],
+[
+1891,
+3514
+],
+[
+1916,
+3313
+],
+[
+1917,
+3286
+],
+[
+1889,
+3272
+],
+[
+1887,
+2877
+],
+[
+1885,
+2577
+],
+[
+1886,
+2548
+],
+[
+1884,
+2468
+],
+[
+1883,
+2451
+],
+[
+1882,
+2307
+],
+[
+1881,
+2182
+],
+[
+1880,
+2128
+],
+[
+1871,
+2057
+],
+[
+1879,
+1977
+],
+[
+1877,
+1957
+],
+[
+1872,
+1954
+],
+[
+1873,
+1886
+],
+[
+1857,
+1871
+],
+[
+1869,
+1853
+],
+[
+1878,
+1836
+],
+[
+1859,
+1836
+],
+[
+1858,
+1828
+],
+[
+1848,
+1811
+],
+[
+1862,
+1805
+],
+[
+1860,
+1783
+],
+[
+1870,
+1765
+],
+[
+1861,
+1722
+],
+[
+1868,
+1692
+],
+[
+1875,
+1679
+],
+[
+1874,
+1643
+],
+[
+1856,
+1619
+],
+[
+1876,
+1616
+],
+[
+1863,
+1608
+],
+[
+1867,
+1606
+],
+[
+1849,
+1599
+],
+[
+1855,
+1582
+],
+[
+1864,
+1568
+],
+[
+1866,
+1559
+],
+[
+1854,
+1539
+],
+[
+1850,
+1528
+],
+[
+1845,
+1484
+],
+[
+1853,
+1478
+],
+[
+1844,
+1476
+],
+[
+1840,
+1462
+],
+[
+1865,
+1461
+],
+[
+1852,
+1460
+],
+[
+1846,
+1443
+],
+[
+1851,
+1438
+],
+[
+1839,
+1397
+],
+[
+1838,
+1367
+],
+[
+1842,
+1357
+],
+[
+1837,
+1317
+],
+[
+1843,
+1307
+],
+[
+1828,
+1301
+],
+[
+1841,
+1293
+],
+[
+1847,
+1287
+],
+[
+1829,
+1287
+],
+[
+1827,
+1208
+],
+[
+1830,
+1143
+],
+[
+1836,
+1134
+],
+[
+1832,
+1122
+],
+[
+1831,
+1109
+],
+[
+1834,
+1057
+],
+[
+1835,
+1051
+],
+[
+0,
+1036
+],
+[
+1833,
+1032
+],
+[
+1826,
+940
+],
+[
+1825,
+606
+],
+[
+1824,
+544
+],
+[
+1823,
+165
+],
+[
+1652,
+121
+],
+[
+1626,
+94
+],
+[
+1648,
+81
+],
+[
+1662,
+36
+],
+[
+1657,
+29
+],
+[
+1644,
+28
+],
+[
+1619,
+22
+],
+[
+2203,
+20
+],
+[
+1635,
+11
+],
+[
+1650,
+10
+],
+[
+1645,
+8
+],
+[
+1654,
+4
+],
+[
+1680,
+2
+]
+]
+},
+"prefixes": [
+"10.1240",
+"10.1205",
+"10.7424",
+"10.14219",
+"10.4065",
+"10.1197",
+"10.1157",
+"10.7811",
+"10.1383",
+"10.1367",
+"10.1580",
+"10.2353",
+"10.1533",
+"10.1529",
+"10.3816",
+"10.1602",
+"10.2111",
+"10.1006",
+"10.3921",
+"10.1016",
+"10.1054",
+"10.1053",
+"10.1067",
+"10.1078",
+"10.3182"
+],
+"coverage": {
+"funders-backfile": 0.010140404105186462,
+"licenses-backfile": 0.5545728206634521,
+"funders-current": 0.2347225397825241,
+"resource-links-backfile": 0.9353324770927429,
+"orcids-backfile": 0.0000017058122239177465,
+"update-policies-current": 0.6191452145576477,
+"orcids-current": 0.08752818405628204,
+"references-backfile": 0.6482046842575073,
+"award-numbers-backfile": 0.006584435235708952,
+"update-policies-backfile": 0.007366509642452002,
+"licenses-current": 0.8178807497024536,
+"award-numbers-current": 0.16990619897842407,
+"resource-links-current": 0.9852949976921082,
+"references-current": 0.7573537826538086
+},
+"prefix": [
+{
+"value": "10.1240",
+"name": "Elsevier- Spektrum Akademischer Verlag",
+"public-references": false
+},
+{
+"value": "10.1205",
+"name": "Elsevier - Institution of Chemical Engineers",
+"public-references": false
+},
+{
+"value": "10.7424",
+"name": "Elsevier - Central Mining Institute",
+"public-references": false
+},
+{
+"value": "10.14219",
+"name": "American Dental Association",
+"public-references": false
+},
+{
+"value": "10.4065",
+"name": "Elsevier - Mayo Clinic Proceedings",
+"public-references": false
+},
+{
+"value": "10.1197",
+"name": "Elsevier- Hanley and Belfus Inc.",
+"public-references": false
+},
+{
+"value": "10.1157",
+"name": "Elsevier - Ediciones Doyma",
+"public-references": false
+},
+{
+"value": "10.7811",
+"name": "Sociedad Argentina de Radiologia",
+"public-references": false
+},
+{
+"value": "10.1383",
+"name": "Elsevier - Medicine Publishing Company",
+"public-references": false
+},
+{
+"value": "10.1367",
+"name": "Elsevier - Ambulatory Pediatric Associates",
+"public-references": false
+},
+{
+"value": "10.1580",
+"name": "Elsevier - Wilderness Medical Society",
+"public-references": false
+},
+{
+"value": "10.2353",
+"name": "Elsevier - American Society for Investigative Pathology",
+"public-references": false
+},
+{
+"value": "10.1533",
+"name": "Woodhead Publishing",
+"public-references": false
+},
+{
+"value": "10.1529",
+"name": "Elsevier - Biophysical Society",
+"public-references": false
+},
+{
+"value": "10.3816",
+"name": "Elsevier - CIG Media Group LP",
+"public-references": false
+},
+{
+"value": "10.1602",
+"name": "Elsevier - American Society for Experimental Neurotherapeutics",
+"public-references": false
+},
+{
+"value": "10.2111",
+"name": "Elsevier (Society for Range Management)",
+"public-references": false
+},
+{
+"value": "10.1006",
+"name": "Elsevier - Academic Press",
+"public-references": false
+},
+{
+"value": "10.3921",
+"name": "Elsevier - Colegio Nacional de Opticos-Optometristas de Espana",
+"public-references": false
+},
+{
+"value": "10.1016",
+"name": "Elsevier ",
+"public-references": false
+},
+{
+"value": "10.1054",
+"name": "Elsevier- Churchill Livingstone",
+"public-references": false
+},
+{
+"value": "10.1053",
+"name": "Elsevier - WB Saunders",
+"public-references": false
+},
+{
+"value": "10.1067",
+"name": "Elsevier - Mosby",
+"public-references": false
+},
+{
+"value": "10.1078",
+"name": "Elsevier - Urban & Fischer Verlag",
+"public-references": false
+},
+{
+"value": "10.3182",
+"name": "Elsevier - International Federation of Automatic Control (IFAC)",
+"public-references": false
+}
+],
+"id": 78,
+"tokens": [
+"elsevier",
+"bv"
+],
+"flags": {
+"deposits-orcids-current": true,
+"deposits": true,
+"deposits-update-policies-backfile": true,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": true,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": true,
+"deposits-award-numbers-backfile": true,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": true,
+"deposits-orcids-backfile": true,
+"deposits-funders-backfile": true,
+"deposits-update-policies-current": true,
+"deposits-licenses-current": true
+},
+"location": "Accounts Payable PO Box 836 360 Park Avenue South Amsterdam 1000 AV Netherlands",
+"names": [
+"Elsevier - Academic Press",
+"Elsevier - Biophysical Society",
+"Elsevier - Ambulatory Pediatric Associates",
+"Elsevier- Churchill Livingstone",
+"Elsevier (Society for Range Management)",
+"Elsevier - Colegio Nacional de Opticos-Optometristas de Espana",
+"Elsevier BV",
+"Elsevier - Institution of Chemical Engineers",
+"Elsevier",
+"Elsevier - Medicine Publishing Company",
+"Elsevier - CIG Media Group LP",
+"Elsevier - Urban & Fischer Verlag",
+"Elsevier - American Society for Investigative Pathology",
+"Elsevier - International Federation of Automatic Control (IFAC)",
+"Elsevier - WB Saunders",
+"Elsevier- Hanley and Belfus Inc.",
+"Elsevier - Mayo Clinic Proceedings",
+"Elsevier- Spektrum Akademischer Verlag",
+"Elsevier - Wilderness Medical Society",
+"Elsevier - Central Mining Institute",
+"American Dental Association",
+"Elsevier - Mosby",
+"Elsevier - Ediciones Doyma",
+"Woodhead Publishing",
+"Sociedad Argentina de Radiologia",
+"Elsevier - American Society for Experimental Neurotherapeutics"
+]
+},
+{
+"last-status-check-time": 1445835665191,
+"primary-name": "Springer Science + Business Media",
+"counts": {
+"backfile-dois": 8247759,
+"current-dois": 921162,
+"total-dois": 9168921
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2014,
+516629
+],
+[
+2013,
+502513
+],
+[
+2011,
+479077
+],
+[
+2012,
+400057
+],
+[
+2009,
+398469
+],
+[
+2010,
+355902
+],
+[
+2008,
+348584
+],
+[
+2015,
+344053
+],
+[
+2007,
+325080
+],
+[
+2006,
+287356
+],
+[
+2005,
+248295
+],
+[
+2004,
+241393
+],
+[
+2001,
+221910
+],
+[
+2002,
+208527
+],
+[
+2003,
+203708
+],
+[
+2000,
+188666
+],
+[
+1998,
+178666
+],
+[
+1999,
+177790
+],
+[
+1997,
+175435
+],
+[
+1996,
+164533
+],
+[
+1995,
+157997
+],
+[
+1994,
+152806
+],
+[
+1993,
+151931
+],
+[
+1991,
+146791
+],
+[
+1992,
+145746
+],
+[
+1990,
+140535
+],
+[
+1989,
+136106
+],
+[
+1988,
+127067
+],
+[
+1987,
+119198
+],
+[
+1986,
+113515
+],
+[
+1985,
+102963
+],
+[
+1984,
+101201
+],
+[
+1983,
+91209
+],
+[
+1982,
+89701
+],
+[
+1981,
+85013
+],
+[
+1980,
+83420
+],
+[
+1979,
+75769
+],
+[
+1978,
+74719
+],
+[
+1977,
+70723
+],
+[
+1976,
+66085
+],
+[
+1975,
+62874
+],
+[
+1974,
+59837
+],
+[
+1973,
+54848
+],
+[
+1972,
+51424
+],
+[
+1971,
+46490
+],
+[
+1970,
+44062
+],
+[
+1969,
+42095
+],
+[
+1968,
+41897
+],
+[
+1967,
+40106
+],
+[
+1966,
+34744
+],
+[
+1965,
+30822
+],
+[
+1964,
+26189
+],
+[
+1963,
+23492
+],
+[
+1962,
+23091
+],
+[
+1961,
+22818
+],
+[
+1960,
+22811
+],
+[
+1959,
+19867
+],
+[
+1958,
+19060
+],
+[
+1956,
+17362
+],
+[
+1957,
+17099
+],
+[
+1955,
+16057
+],
+[
+1928,
+13957
+],
+[
+1930,
+13660
+],
+[
+1927,
+13367
+],
+[
+1926,
+13020
+],
+[
+1932,
+13008
+],
+[
+1931,
+12846
+],
+[
+1929,
+12753
+],
+[
+1953,
+12732
+],
+[
+1954,
+12643
+],
+[
+1933,
+11758
+],
+[
+1952,
+11331
+],
+[
+1925,
+10888
+],
+[
+1936,
+10877
+],
+[
+1950,
+10778
+],
+[
+1938,
+10575
+],
+[
+1935,
+10511
+],
+[
+1924,
+10487
+],
+[
+1937,
+10433
+],
+[
+1951,
+10282
+],
+[
+1939,
+10256
+],
+[
+1934,
+10087
+],
+[
+1923,
+10010
+],
+[
+1922,
+9580
+],
+[
+1913,
+8699
+],
+[
+1921,
+8393
+],
+[
+1949,
+8189
+],
+[
+1940,
+8081
+],
+[
+1914,
+7270
+],
+[
+1941,
+7172
+],
+[
+1942,
+6940
+],
+[
+1920,
+6561
+],
+[
+1912,
+6392
+],
+[
+1948,
+5949
+],
+[
+1943,
+5927
+],
+[
+2016,
+5833
+],
+[
+1910,
+5599
+],
+[
+1911,
+5544
+],
+[
+1919,
+5437
+],
+[
+1908,
+4612
+],
+[
+1918,
+4316
+],
+[
+1909,
+4290
+],
+[
+1907,
+4271
+],
+[
+1904,
+4228
+],
+[
+1915,
+4157
+],
+[
+1917,
+4134
+],
+[
+1916,
+4055
+],
+[
+1905,
+4017
+],
+[
+1906,
+3942
+],
+[
+1903,
+3842
+],
+[
+1944,
+3451
+],
+[
+1947,
+3435
+],
+[
+1901,
+3371
+],
+[
+1900,
+3277
+],
+[
+1902,
+3214
+],
+[
+1897,
+2928
+],
+[
+1899,
+2681
+],
+[
+1898,
+2650
+],
+[
+1889,
+2559
+],
+[
+1893,
+2540
+],
+[
+1894,
+2482
+],
+[
+1892,
+2441
+],
+[
+1895,
+2414
+],
+[
+1891,
+2305
+],
+[
+1888,
+2297
+],
+[
+1896,
+2275
+],
+[
+1887,
+2273
+],
+[
+1946,
+2241
+],
+[
+1885,
+2180
+],
+[
+1886,
+2174
+],
+[
+1890,
+2148
+],
+[
+1883,
+2015
+],
+[
+1882,
+1919
+],
+[
+1884,
+1875
+],
+[
+1880,
+1795
+],
+[
+1881,
+1786
+],
+[
+1877,
+1668
+],
+[
+1869,
+1599
+],
+[
+1876,
+1491
+],
+[
+1875,
+1430
+],
+[
+1878,
+1421
+],
+[
+1879,
+1413
+],
+[
+1945,
+1375
+],
+[
+1872,
+1338
+],
+[
+1874,
+1332
+],
+[
+1868,
+1243
+],
+[
+1867,
+1235
+],
+[
+1873,
+1233
+],
+[
+1870,
+1203
+],
+[
+1871,
+1166
+],
+[
+1865,
+1154
+],
+[
+1866,
+1051
+],
+[
+1863,
+1015
+],
+[
+1857,
+986
+],
+[
+1862,
+964
+],
+[
+1859,
+948
+],
+[
+1864,
+902
+],
+[
+1855,
+826
+],
+[
+1856,
+815
+],
+[
+1858,
+810
+],
+[
+1861,
+793
+],
+[
+1860,
+704
+],
+[
+1854,
+625
+],
+[
+1853,
+543
+],
+[
+1851,
+481
+],
+[
+1852,
+476
+],
+[
+1844,
+176
+],
+[
+1846,
+146
+],
+[
+1847,
+123
+],
+[
+1843,
+99
+],
+[
+1849,
+84
+],
+[
+1850,
+83
+],
+[
+1845,
+78
+],
+[
+1837,
+66
+],
+[
+1848,
+65
+],
+[
+1840,
+64
+],
+[
+1835,
+62
+],
+[
+1833,
+62
+],
+[
+1834,
+56
+],
+[
+1838,
+55
+],
+[
+1841,
+50
+],
+[
+1832,
+50
+],
+[
+1839,
+49
+],
+[
+1842,
+42
+],
+[
+1836,
+38
+],
+[
+0,
+8
+],
+[
+2021,
+6
+],
+[
+1827,
+2
+],
+[
+1815,
+2
+],
+[
+2020,
+1
+],
+[
+2017,
+1
+]
+]
+},
+"prefixes": [
+"10.7603",
+"10.1251",
+"10.1245",
+"10.4056",
+"10.1186",
+"10.1140",
+"10.1114",
+"10.5819",
+"10.5822",
+"10.1385",
+"10.1381",
+"10.1379",
+"10.1361",
+"10.3758",
+"10.5052",
+"10.1617",
+"10.2165",
+"10.1007",
+"10.3920",
+"10.1023",
+"10.1065",
+"10.4333"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0.020048590376973152,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0.38262760639190674,
+"orcids-current": 0.006830503232777119,
+"references-backfile": 0.36022937297821045,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0.002248732140287757,
+"licenses-current": 0,
+"award-numbers-current": 0.008226566016674042,
+"resource-links-current": 0,
+"references-current": 0.5066459774971008
+},
+"prefix": [
+{
+"value": "10.7603",
+"name": "Springer - Global Science Journals",
+"public-references": false
+},
+{
+"value": "10.1251",
+"name": "Springer (Biological Procedures Online)",
+"public-references": false
+},
+{
+"value": "10.1245",
+"name": "Springer - Society of Surgical Oncology",
+"public-references": false
+},
+{
+"value": "10.4056",
+"name": "Genomic Standards Consortium",
+"public-references": false
+},
+{
+"value": "10.1186",
+"name": "Springer (Biomed Central Ltd.)",
+"public-references": true
+},
+{
+"value": "10.1140",
+"name": "Springer-Verlag",
+"public-references": false
+},
+{
+"value": "10.1114",
+"name": "Springer (Kluwer Academic Publishers - Biomedical Engineering Society (BMES))",
+"public-references": false
+},
+{
+"value": "10.5819",
+"name": "Springer - (backfiles)",
+"public-references": false
+},
+{
+"value": "10.5822",
+"name": "Island Press",
+"public-references": false
+},
+{
+"value": "10.1385",
+"name": "Springer - Humana Press",
+"public-references": false
+},
+{
+"value": "10.1381",
+"name": "Springer - FD Communications",
+"public-references": false
+},
+{
+"value": "10.1379",
+"name": "Springer - Cell Stress Society International",
+"public-references": false
+},
+{
+"value": "10.1361",
+"name": "Springer - ASM International",
+"public-references": false
+},
+{
+"value": "10.3758",
+"name": "Springer - Psychonomic Society",
+"public-references": false
+},
+{
+"value": "10.5052",
+"name": "Springer - Real Academia de Ciencias Exactas, Fisicas y Naturales",
+"public-references": false
+},
+{
+"value": "10.1617",
+"name": "Springer - RILEM Publishing",
+"public-references": false
+},
+{
+"value": "10.2165",
+"name": "Springer - Adis",
+"public-references": false
+},
+{
+"value": "10.1007",
+"name": "Springer-Verlag",
+"public-references": false
+},
+{
+"value": "10.3920",
+"name": "Wageningen Academic Publishers",
+"public-references": false
+},
+{
+"value": "10.1023",
+"name": "Springer (Kluwer Academic Publishers)",
+"public-references": false
+},
+{
+"value": "10.1065",
+"name": "Springer - Ecomed Publishers",
+"public-references": false
+},
+{
+"value": "10.4333",
+"name": "Springer - The Korean Society of Pharmaceutical Sciences and Technology",
+"public-references": false
+}
+],
+"id": 297,
+"tokens": [
+"springer",
+"science",
+"+",
+"business",
+"media"
+],
+"flags": {
+"deposits-orcids-current": true,
+"deposits": true,
+"deposits-update-policies-backfile": true,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": true,
+"deposits-licenses-current": false
+},
+"location": "233 Spring St NY NY 10013 United States",
+"names": [
+"Springer - ASM International",
+"Springer (Biomed Central Ltd.)",
+"Springer (Kluwer Academic Publishers)",
+"Genomic Standards Consortium",
+"Springer-Verlag",
+"Wageningen Academic Publishers",
+"Springer - Global Science Journals",
+"Springer - RILEM Publishing",
+"Springer - Psychonomic Society",
+"Springer - Humana Press",
+"Springer Science + Business Media",
+"Springer - The Korean Society of Pharmaceutical Sciences and Technology",
+"Springer - Ecomed Publishers",
+"Springer - Real Academia de Ciencias Exactas, Fisicas y Naturales",
+"Springer (Biological Procedures Online)",
+"Springer - Cell Stress Society International",
+"Island Press",
+"Springer - (backfiles)",
+"Springer - Adis",
+"Springer - Society of Surgical Oncology",
+"Springer - FD Communications",
+"Springer (Kluwer Academic Publishers - Biomedical Engineering Society (BMES))"
+]
+},
+{
+"last-status-check-time": 1445835666285,
+"primary-name": "Nature Publishing Group",
+"counts": {
+"backfile-dois": 1109334,
+"current-dois": 116508,
+"total-dois": 1225842
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2014,
+58076
+],
+[
+2013,
+54765
+],
+[
+2012,
+48955
+],
+[
+2015,
+46751
+],
+[
+2011,
+38865
+],
+[
+2008,
+36102
+],
+[
+2010,
+34529
+],
+[
+2009,
+33532
+],
+[
+2007,
+30631
+],
+[
+2006,
+29518
+],
+[
+2005,
+28259
+],
+[
+2004,
+25015
+],
+[
+2003,
+24512
+],
+[
+1999,
+21586
+],
+[
+2001,
+21458
+],
+[
+2002,
+21416
+],
+[
+2000,
+21253
+],
+[
+1998,
+17078
+],
+[
+1997,
+14724
+],
+[
+1996,
+13010
+],
+[
+1994,
+9566
+],
+[
+1995,
+9537
+],
+[
+1993,
+9227
+],
+[
+1985,
+9135
+],
+[
+1987,
+8837
+],
+[
+1984,
+8793
+],
+[
+1988,
+8551
+],
+[
+1992,
+8515
+],
+[
+1990,
+8310
+],
+[
+1989,
+8187
+],
+[
+1981,
+8117
+],
+[
+1991,
+8085
+],
+[
+1986,
+7277
+],
+[
+1971,
+7155
+],
+[
+1978,
+7087
+],
+[
+1977,
+6734
+],
+[
+1974,
+6548
+],
+[
+1983,
+6545
+],
+[
+1970,
+6498
+],
+[
+1964,
+6436
+],
+[
+1966,
+6434
+],
+[
+1973,
+6395
+],
+[
+1963,
+6393
+],
+[
+1967,
+6308
+],
+[
+1965,
+6272
+],
+[
+1980,
+6261
+],
+[
+1972,
+6180
+],
+[
+1961,
+6156
+],
+[
+1962,
+6150
+],
+[
+1975,
+6145
+],
+[
+1968,
+6051
+],
+[
+1969,
+6021
+],
+[
+1982,
+5955
+],
+[
+1979,
+5874
+],
+[
+1960,
+5806
+],
+[
+1976,
+5544
+],
+[
+1959,
+5319
+],
+[
+1958,
+5182
+],
+[
+1847,
+4935
+],
+[
+1887,
+4431
+],
+[
+1886,
+4424
+],
+[
+1957,
+4288
+],
+[
+1903,
+4249
+],
+[
+1877,
+4223
+],
+[
+1888,
+4188
+],
+[
+1956,
+4187
+],
+[
+1880,
+4187
+],
+[
+1878,
+4146
+],
+[
+1902,
+4122
+],
+[
+1904,
+4024
+],
+[
+1879,
+3983
+],
+[
+1899,
+3965
+],
+[
+1876,
+3929
+],
+[
+1954,
+3905
+],
+[
+1893,
+3829
+],
+[
+1884,
+3823
+],
+[
+1897,
+3819
+],
+[
+1848,
+3817
+],
+[
+1938,
+3812
+],
+[
+1890,
+3786
+],
+[
+1891,
+3777
+],
+[
+1881,
+3771
+],
+[
+1889,
+3767
+],
+[
+1885,
+3764
+],
+[
+1901,
+3738
+],
+[
+1900,
+3706
+],
+[
+1898,
+3700
+],
+[
+1895,
+3676
+],
+[
+1953,
+3671
+],
+[
+1955,
+3667
+],
+[
+1882,
+3667
+],
+[
+1909,
+3657
+],
+[
+1935,
+3654
+],
+[
+1896,
+3651
+],
+[
+1883,
+3648
+],
+[
+1949,
+3645
+],
+[
+1894,
+3634
+],
+[
+1939,
+3607
+],
+[
+1937,
+3589
+],
+[
+1948,
+3575
+],
+[
+1950,
+3572
+],
+[
+1936,
+3553
+],
+[
+1892,
+3536
+],
+[
+1952,
+3535
+],
+[
+1905,
+3523
+],
+[
+1910,
+3510
+],
+[
+1934,
+3489
+],
+[
+1911,
+3478
+],
+[
+1951,
+3475
+],
+[
+1932,
+3387
+],
+[
+1933,
+3384
+],
+[
+1906,
+3356
+],
+[
+1920,
+3333
+],
+[
+1908,
+3313
+],
+[
+1907,
+3237
+],
+[
+1946,
+3225
+],
+[
+1940,
+3126
+],
+[
+1947,
+3074
+],
+[
+1921,
+2958
+],
+[
+1849,
+2941
+],
+[
+1912,
+2894
+],
+[
+1915,
+2878
+],
+[
+1918,
+2839
+],
+[
+1913,
+2823
+],
+[
+1916,
+2788
+],
+[
+1922,
+2716
+],
+[
+1914,
+2702
+],
+[
+1923,
+2623
+],
+[
+1850,
+2607
+],
+[
+1852,
+2590
+],
+[
+1941,
+2586
+],
+[
+1942,
+2567
+],
+[
+1944,
+2533
+],
+[
+1917,
+2533
+],
+[
+1873,
+2533
+],
+[
+1945,
+2518
+],
+[
+1924,
+2514
+],
+[
+1872,
+2484
+],
+[
+1919,
+2474
+],
+[
+1930,
+2470
+],
+[
+1929,
+2466
+],
+[
+1931,
+2444
+],
+[
+1871,
+2431
+],
+[
+1927,
+2428
+],
+[
+1870,
+2410
+],
+[
+1925,
+2393
+],
+[
+1875,
+2389
+],
+[
+1926,
+2385
+],
+[
+1943,
+2342
+],
+[
+1928,
+2310
+],
+[
+1874,
+2309
+],
+[
+1851,
+2252
+],
+[
+1854,
+2147
+],
+[
+1856,
+2132
+],
+[
+1855,
+2010
+],
+[
+1853,
+1927
+],
+[
+1860,
+1800
+],
+[
+1857,
+1788
+],
+[
+1846,
+1716
+],
+[
+1859,
+1582
+],
+[
+1858,
+1497
+],
+[
+1869,
+1422
+],
+[
+1867,
+1233
+],
+[
+1868,
+1193
+],
+[
+1864,
+1144
+],
+[
+1865,
+1084
+],
+[
+1866,
+1049
+],
+[
+1863,
+1030
+],
+[
+1862,
+989
+],
+[
+1861,
+820
+],
+[
+1845,
+187
+],
+[
+0,
+23
+],
+[
+2024,
+15
+],
+[
+2020,
+5
+],
+[
+2025,
+1
+]
+]
+},
+"prefixes": [
+"10.3858",
+"10.1013",
+"10.1038",
+"10.1057"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0.00014693500997964293,
+"update-policies-current": 0,
+"orcids-current": 0.02752600610256195,
+"references-backfile": 0.3177483081817627,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0.5693600177764893
+},
+"prefix": [
+{
+"value": "10.3858",
+"name": "Korean Society for Biochemistry and Molecular Biology",
+"public-references": false
+},
+{
+"value": "10.1013",
+"name": "Nature Publishing Group",
+"public-references": false
+},
+{
+"value": "10.1038",
+"name": "Nature Publishing Group",
+"public-references": false
+},
+{
+"value": "10.1057",
+"name": "Nature Publishing Group - Macmillan Publishers",
+"public-references": false
+}
+],
+"id": 339,
+"tokens": [
+"nature",
+"publishing",
+"group"
+],
+"flags": {
+"deposits-orcids-current": true,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": true,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "John Carroll 75 Varick Street, 9th Floor New York NY 10013-1917 United States",
+"names": [
+"Nature Publishing Group - Macmillan Publishers",
+"Korean Society for Biochemistry and Molecular Biology",
+"Nature Publishing Group"
+]
+},
+{
+"last-status-check-time": 1445835667543,
+"primary-name": "Cambridge University Press (CUP)",
+"counts": {
+"backfile-dois": 1458004,
+"current-dois": 101697,
+"total-dois": 1559701
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2009,
+173948
+],
+[
+2014,
+52087
+],
+[
+2010,
+50828
+],
+[
+2013,
+49171
+],
+[
+2011,
+47983
+],
+[
+2012,
+47936
+],
+[
+2015,
+45371
+],
+[
+2007,
+40482
+],
+[
+2006,
+39681
+],
+[
+2008,
+39356
+],
+[
+1999,
+38933
+],
+[
+2005,
+34370
+],
+[
+2001,
+32555
+],
+[
+2003,
+31366
+],
+[
+2004,
+30550
+],
+[
+2002,
+29743
+],
+[
+2000,
+29458
+],
+[
+1995,
+29179
+],
+[
+1996,
+29142
+],
+[
+1998,
+28292
+],
+[
+1994,
+28053
+],
+[
+1997,
+27945
+],
+[
+1993,
+27124
+],
+[
+1992,
+26062
+],
+[
+1991,
+24891
+],
+[
+1990,
+23502
+],
+[
+1989,
+22758
+],
+[
+1988,
+20909
+],
+[
+1987,
+19156
+],
+[
+1986,
+17877
+],
+[
+1985,
+17412
+],
+[
+1984,
+16973
+],
+[
+1983,
+16141
+],
+[
+1982,
+14313
+],
+[
+1981,
+13686
+],
+[
+1980,
+12795
+],
+[
+1978,
+12195
+],
+[
+1979,
+12031
+],
+[
+1977,
+11911
+],
+[
+1976,
+10692
+],
+[
+1972,
+10430
+],
+[
+1975,
+10247
+],
+[
+1974,
+9940
+],
+[
+1971,
+9659
+],
+[
+1973,
+9636
+],
+[
+1970,
+9038
+],
+[
+1969,
+8605
+],
+[
+1968,
+8075
+],
+[
+1967,
+7301
+],
+[
+1966,
+6875
+],
+[
+1965,
+6764
+],
+[
+1963,
+6659
+],
+[
+1964,
+6157
+],
+[
+1962,
+5844
+],
+[
+1957,
+5672
+],
+[
+1960,
+5612
+],
+[
+1961,
+5309
+],
+[
+1959,
+5128
+],
+[
+1958,
+5006
+],
+[
+1956,
+4653
+],
+[
+1955,
+4318
+],
+[
+1954,
+4072
+],
+[
+1953,
+4022
+],
+[
+1951,
+3986
+],
+[
+1932,
+3815
+],
+[
+1950,
+3534
+],
+[
+1949,
+3466
+],
+[
+1952,
+3430
+],
+[
+1937,
+3339
+],
+[
+1939,
+3316
+],
+[
+1935,
+3261
+],
+[
+1936,
+3213
+],
+[
+1938,
+3208
+],
+[
+1934,
+3094
+],
+[
+1933,
+2995
+],
+[
+1940,
+2958
+],
+[
+1929,
+2949
+],
+[
+1930,
+2903
+],
+[
+1948,
+2891
+],
+[
+1928,
+2765
+],
+[
+1945,
+2729
+],
+[
+1931,
+2683
+],
+[
+1947,
+2589
+],
+[
+1926,
+2489
+],
+[
+1927,
+2415
+],
+[
+1946,
+2390
+],
+[
+1925,
+2286
+],
+[
+1924,
+2250
+],
+[
+1942,
+2221
+],
+[
+1941,
+2158
+],
+[
+1923,
+2100
+],
+[
+1944,
+1961
+],
+[
+1922,
+1924
+],
+[
+1921,
+1850
+],
+[
+1943,
+1809
+],
+[
+1914,
+1787
+],
+[
+1909,
+1759
+],
+[
+1913,
+1744
+],
+[
+1910,
+1692
+],
+[
+1912,
+1678
+],
+[
+1911,
+1666
+],
+[
+1920,
+1644
+],
+[
+1919,
+1618
+],
+[
+1907,
+1521
+],
+[
+1916,
+1495
+],
+[
+1915,
+1478
+],
+[
+1918,
+1476
+],
+[
+1908,
+1462
+],
+[
+1917,
+1344
+],
+[
+1906,
+1320
+],
+[
+1905,
+1295
+],
+[
+1903,
+1184
+],
+[
+1897,
+1184
+],
+[
+1896,
+1183
+],
+[
+1898,
+1155
+],
+[
+1895,
+1150
+],
+[
+1892,
+1130
+],
+[
+1904,
+1128
+],
+[
+1900,
+1124
+],
+[
+1901,
+1103
+],
+[
+1902,
+1045
+],
+[
+1894,
+1031
+],
+[
+1893,
+1010
+],
+[
+1899,
+985
+],
+[
+1887,
+969
+],
+[
+1890,
+946
+],
+[
+1889,
+941
+],
+[
+1891,
+933
+],
+[
+1888,
+909
+],
+[
+1881,
+623
+],
+[
+1883,
+596
+],
+[
+1873,
+535
+],
+[
+1876,
+527
+],
+[
+1885,
+517
+],
+[
+1872,
+516
+],
+[
+1886,
+513
+],
+[
+1884,
+503
+],
+[
+1880,
+494
+],
+[
+1867,
+482
+],
+[
+1882,
+458
+],
+[
+1877,
+455
+],
+[
+1878,
+453
+],
+[
+1875,
+433
+],
+[
+1874,
+417
+],
+[
+1870,
+417
+],
+[
+1869,
+400
+],
+[
+1879,
+391
+],
+[
+1871,
+378
+],
+[
+1868,
+324
+],
+[
+1863,
+300
+],
+[
+1849,
+266
+],
+[
+1866,
+262
+],
+[
+1865,
+255
+],
+[
+1864,
+242
+],
+[
+1853,
+235
+],
+[
+1843,
+207
+],
+[
+1856,
+206
+],
+[
+1857,
+162
+],
+[
+1861,
+148
+],
+[
+1847,
+135
+],
+[
+1844,
+132
+],
+[
+1859,
+130
+],
+[
+1846,
+114
+],
+[
+1841,
+114
+],
+[
+1839,
+103
+],
+[
+1850,
+90
+],
+[
+1854,
+77
+],
+[
+1838,
+68
+],
+[
+1862,
+64
+],
+[
+1848,
+64
+],
+[
+1840,
+63
+],
+[
+1845,
+61
+],
+[
+1855,
+53
+],
+[
+1842,
+53
+],
+[
+1860,
+51
+],
+[
+1832,
+51
+],
+[
+1836,
+48
+],
+[
+1831,
+48
+],
+[
+1852,
+47
+],
+[
+1823,
+44
+],
+[
+1788,
+43
+],
+[
+1858,
+42
+],
+[
+1827,
+41
+],
+[
+1826,
+41
+],
+[
+1790,
+37
+],
+[
+1794,
+35
+],
+[
+1798,
+32
+],
+[
+1829,
+31
+],
+[
+1805,
+30
+],
+[
+1851,
+29
+],
+[
+1834,
+29
+],
+[
+1818,
+27
+],
+[
+1815,
+20
+],
+[
+1812,
+19
+],
+[
+1830,
+18
+],
+[
+1835,
+15
+],
+[
+1828,
+15
+],
+[
+1795,
+7
+],
+[
+1785,
+2
+],
+[
+1821,
+1
+],
+[
+1817,
+1
+],
+[
+1806,
+1
+],
+[
+1789,
+1
+]
+]
+},
+"prefixes": [
+"10.4039",
+"10.7313",
+"10.1375",
+"10.1557",
+"10.7135",
+"10.5948",
+"10.5949",
+"10.3815",
+"10.1017"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0.12206849455833435,
+"orcids-current": 0.005732715595513582,
+"references-backfile": 0.2215185910463333,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0.0003847726038657129,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0.32135656476020813
+},
+"prefix": [
+{
+"value": "10.4039",
+"name": "Cambridge University Press (Entomological Society of Canada)",
+"public-references": false
+},
+{
+"value": "10.7313",
+"name": "Cambridge University Press (Nottingham University Press)",
+"public-references": false
+},
+{
+"value": "10.1375",
+"name": "Cambridge University Press (Australian Academic Press)",
+"public-references": false
+},
+{
+"value": "10.1557",
+"name": "Cambridge University Press (Materials Research Society)",
+"public-references": false
+},
+{
+"value": "10.7135",
+"name": "Cambridge University Press (Anthem Press)",
+"public-references": false
+},
+{
+"value": "10.5948",
+"name": "Cambridge University Press (Mathematical Association of America)",
+"public-references": false
+},
+{
+"value": "10.5949",
+"name": "Cambridge University Press (Liverpool University Press)",
+"public-references": false
+},
+{
+"value": "10.3815",
+"name": "Cambridge University Press (Society for the Promotion of Roman Studies)",
+"public-references": false
+},
+{
+"value": "10.1017",
+"name": "Cambridge University Press",
+"public-references": false
+}
+],
+"id": 56,
+"tokens": [
+"cambridge",
+"university",
+"press",
+"cup"
+],
+"flags": {
+"deposits-orcids-current": true,
+"deposits": true,
+"deposits-update-policies-backfile": true,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": true,
+"deposits-licenses-current": false
+},
+"location": "The Edinburgh Bldg Shaftesbury Rd Cambridge CB2 2RU United Kingdom",
+"names": [
+"Cambridge University Press (Nottingham University Press)",
+"Cambridge University Press (Anthem Press)",
+"Cambridge University Press (Society for the Promotion of Roman Studies)",
+"Cambridge University Press",
+"Cambridge University Press (Materials Research Society)",
+"Cambridge University Press (Mathematical Association of America)",
+"Cambridge University Press (Australian Academic Press)",
+"Cambridge University Press (Liverpool University Press)",
+"Cambridge University Press (Entomological Society of Canada)",
+"Cambridge University Press (CUP)"
+]
+},
+{
+"last-status-check-time": 1445835668516,
+"primary-name": "American Chemical Society (ACS)",
+"counts": {
+"backfile-dois": 1269033,
+"current-dois": 90728,
+"total-dois": 1359761
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2014,
+45267
+],
+[
+2010,
+41165
+],
+[
+2013,
+40928
+],
+[
+2012,
+40159
+],
+[
+2009,
+38890
+],
+[
+2011,
+38305
+],
+[
+2008,
+38108
+],
+[
+2015,
+37995
+],
+[
+2007,
+35648
+],
+[
+2006,
+33811
+],
+[
+2005,
+32752
+],
+[
+2004,
+29329
+],
+[
+2003,
+27689
+],
+[
+2002,
+26712
+],
+[
+2000,
+25880
+],
+[
+2001,
+25320
+],
+[
+1999,
+24787
+],
+[
+1998,
+24439
+],
+[
+1996,
+23912
+],
+[
+1997,
+23624
+],
+[
+1995,
+21937
+],
+[
+1994,
+20937
+],
+[
+1993,
+20464
+],
+[
+1992,
+19895
+],
+[
+1991,
+18758
+],
+[
+1990,
+17506
+],
+[
+1989,
+17092
+],
+[
+1988,
+15894
+],
+[
+1987,
+15593
+],
+[
+1986,
+15545
+],
+[
+1984,
+15393
+],
+[
+1985,
+15257
+],
+[
+1982,
+14819
+],
+[
+1983,
+14442
+],
+[
+1981,
+14316
+],
+[
+1980,
+14110
+],
+[
+1968,
+13595
+],
+[
+1969,
+13422
+],
+[
+1979,
+13374
+],
+[
+1967,
+13124
+],
+[
+1978,
+12787
+],
+[
+1966,
+12678
+],
+[
+1970,
+12621
+],
+[
+1977,
+12601
+],
+[
+1964,
+12378
+],
+[
+1976,
+12374
+],
+[
+1972,
+12149
+],
+[
+1971,
+11940
+],
+[
+1975,
+11927
+],
+[
+1959,
+11551
+],
+[
+1963,
+11457
+],
+[
+1974,
+11416
+],
+[
+1961,
+11360
+],
+[
+1962,
+11220
+],
+[
+1973,
+11163
+],
+[
+1957,
+11057
+],
+[
+1958,
+10984
+],
+[
+1960,
+10786
+],
+[
+1956,
+10346
+],
+[
+1965,
+10017
+],
+[
+1954,
+9908
+],
+[
+1955,
+9744
+],
+[
+1953,
+9328
+],
+[
+1952,
+8777
+],
+[
+1951,
+8387
+],
+[
+1950,
+7261
+],
+[
+1949,
+6682
+],
+[
+1948,
+6410
+],
+[
+1947,
+5656
+],
+[
+1946,
+3918
+],
+[
+1945,
+3279
+],
+[
+1942,
+3224
+],
+[
+1944,
+3104
+],
+[
+1943,
+2929
+],
+[
+1930,
+2784
+],
+[
+1941,
+2725
+],
+[
+1940,
+2562
+],
+[
+1939,
+2430
+],
+[
+1931,
+2419
+],
+[
+1933,
+2301
+],
+[
+1937,
+2295
+],
+[
+1929,
+2250
+],
+[
+1934,
+2209
+],
+[
+1932,
+2176
+],
+[
+1935,
+2100
+],
+[
+1938,
+2088
+],
+[
+1936,
+2019
+],
+[
+1928,
+1920
+],
+[
+1927,
+1805
+],
+[
+1926,
+1791
+],
+[
+1925,
+1759
+],
+[
+1924,
+1362
+],
+[
+1923,
+1357
+],
+[
+1922,
+1106
+],
+[
+1915,
+1063
+],
+[
+1921,
+990
+],
+[
+1913,
+989
+],
+[
+1920,
+957
+],
+[
+1917,
+940
+],
+[
+1912,
+936
+],
+[
+1918,
+890
+],
+[
+1914,
+885
+],
+[
+1916,
+872
+],
+[
+1919,
+849
+],
+[
+1911,
+799
+],
+[
+1909,
+584
+],
+[
+1910,
+562
+],
+[
+1908,
+413
+],
+[
+1903,
+412
+],
+[
+1900,
+398
+],
+[
+1899,
+359
+],
+[
+1907,
+355
+],
+[
+1906,
+321
+],
+[
+1905,
+320
+],
+[
+1904,
+299
+],
+[
+1898,
+295
+],
+[
+1879,
+272
+],
+[
+1902,
+269
+],
+[
+1901,
+259
+],
+[
+1897,
+226
+],
+[
+1894,
+198
+],
+[
+1896,
+193
+],
+[
+1895,
+192
+],
+[
+1893,
+130
+],
+[
+1880,
+95
+],
+[
+1891,
+75
+],
+[
+1890,
+75
+],
+[
+1882,
+62
+],
+[
+1884,
+60
+],
+[
+1892,
+54
+],
+[
+1885,
+51
+],
+[
+1887,
+39
+],
+[
+1881,
+38
+],
+[
+1883,
+34
+],
+[
+1886,
+33
+],
+[
+1888,
+26
+],
+[
+1889,
+25
+]
+]
+},
+"prefixes": [
+"10.1021"
+],
+"coverage": {
+"funders-backfile": 0.00039321277290582657,
+"licenses-backfile": 0.001960547873750329,
+"funders-current": 0.5557821393013,
+"resource-links-backfile": 0.002137848176062107,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.12520714104175568,
+"award-numbers-backfile": 0.0000031520062293566298,
+"update-policies-backfile": 0,
+"licenses-current": 0.07806850969791412,
+"award-numbers-current": 0.4599241614341736,
+"resource-links-current": 0.5135459899902344,
+"references-current": 0.9566836953163147
+},
+"prefix": [
+{
+"value": "10.1021",
+"name": "American Chemical Society",
+"public-references": false
+}
+],
+"id": 316,
+"tokens": [
+"american",
+"chemical",
+"society",
+"acs"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": true,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": true,
+"deposits-award-numbers-backfile": true,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": true,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": true,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": true
+},
+"location": "1155 Sixteenth Street N.W. Washington 20036-4899 United States",
+"names": [
+"American Chemical Society (ACS)",
+"American Chemical Society"
+]
+},
+{
+"last-status-check-time": 1445835668666,
+"primary-name": "American Geophysical Union (AGU)",
+"counts": {
+"backfile-dois": 6579,
+"current-dois": 469,
+"total-dois": 7048
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2015,
+465
+],
+[
+1940,
+237
+],
+[
+1941,
+199
+],
+[
+2012,
+181
+],
+[
+1938,
+181
+],
+[
+1944,
+176
+],
+[
+1958,
+174
+],
+[
+1937,
+171
+],
+[
+1936,
+168
+],
+[
+1955,
+159
+],
+[
+1946,
+159
+],
+[
+1934,
+159
+],
+[
+1948,
+158
+],
+[
+1939,
+156
+],
+[
+2007,
+155
+],
+[
+1957,
+154
+],
+[
+1949,
+152
+],
+[
+1950,
+150
+],
+[
+1933,
+149
+],
+[
+1953,
+147
+],
+[
+1951,
+142
+],
+[
+2011,
+138
+],
+[
+1956,
+137
+],
+[
+1942,
+137
+],
+[
+1952,
+136
+],
+[
+1947,
+135
+],
+[
+1954,
+133
+],
+[
+1943,
+128
+],
+[
+2006,
+127
+],
+[
+1935,
+127
+],
+[
+2010,
+121
+],
+[
+2008,
+118
+],
+[
+2009,
+114
+],
+[
+1932,
+114
+],
+[
+2005,
+103
+],
+[
+1930,
+90
+],
+[
+1931,
+85
+],
+[
+1945,
+84
+],
+[
+2004,
+78
+],
+[
+1965,
+66
+],
+[
+1984,
+63
+],
+[
+1927,
+61
+],
+[
+1923,
+60
+],
+[
+1961,
+57
+],
+[
+1964,
+53
+],
+[
+1999,
+49
+],
+[
+1968,
+46
+],
+[
+1986,
+44
+],
+[
+1960,
+44
+],
+[
+1963,
+43
+],
+[
+1926,
+41
+],
+[
+1925,
+37
+],
+[
+1967,
+36
+],
+[
+1966,
+36
+],
+[
+1994,
+35
+],
+[
+2003,
+32
+],
+[
+1962,
+32
+],
+[
+1996,
+30
+],
+[
+1988,
+28
+],
+[
+1959,
+28
+],
+[
+2013,
+27
+],
+[
+1992,
+23
+],
+[
+1921,
+22
+],
+[
+1991,
+21
+],
+[
+1985,
+19
+],
+[
+1989,
+18
+],
+[
+1997,
+17
+],
+[
+1928,
+16
+],
+[
+2000,
+11
+],
+[
+1982,
+10
+],
+[
+1971,
+10
+],
+[
+1998,
+8
+],
+[
+2002,
+7
+],
+[
+1920,
+7
+],
+[
+1995,
+5
+],
+[
+2014,
+4
+],
+[
+2001,
+1
+],
+[
+1987,
+1
+],
+[
+1983,
+1
+],
+[
+1924,
+1
+],
+[
+1922,
+1
+]
+]
+},
+"prefixes": [
+"10.1029"
+],
+"coverage": {
+"funders-backfile": 0.00030399757088162005,
+"licenses-backfile": 0.14014287292957306,
+"funders-current": 0,
+"resource-links-backfile": 0.1360389143228531,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.4005168080329895,
+"award-numbers-backfile": 0.00030399757088162005,
+"update-policies-backfile": 0,
+"licenses-current": 0.004264392424374819,
+"award-numbers-current": 0,
+"resource-links-current": 0.004264392424374819,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.1029",
+"name": "American Geophysical Union",
+"public-references": false
+}
+],
+"id": 13,
+"tokens": [
+"american",
+"geophysical",
+"union",
+"agu"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": true,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": true,
+"deposits-award-numbers-backfile": true,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": true,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": true,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": true
+},
+"location": "2000 Florida Ave NW Washington DC 20009 United States",
+"names": [
+"American Geophysical Union (AGU)",
+"American Geophysical Union"
+]
+},
+{
+"last-status-check-time": 1445835669210,
+"primary-name": "American Psychological Association (APA)",
+"counts": {
+"backfile-dois": 636709,
+"current-dois": 41987,
+"total-dois": 678696
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2012,
+31150
+],
+[
+2011,
+29534
+],
+[
+2007,
+27021
+],
+[
+2013,
+26953
+],
+[
+2014,
+26445
+],
+[
+2010,
+24994
+],
+[
+2008,
+24518
+],
+[
+2006,
+24103
+],
+[
+2009,
+22530
+],
+[
+2004,
+18862
+],
+[
+2005,
+17979
+],
+[
+2003,
+17790
+],
+[
+2002,
+15914
+],
+[
+2000,
+15460
+],
+[
+2001,
+14509
+],
+[
+2015,
+14023
+],
+[
+1999,
+11633
+],
+[
+1997,
+10891
+],
+[
+1998,
+10501
+],
+[
+1996,
+10265
+],
+[
+1992,
+9545
+],
+[
+1995,
+9409
+],
+[
+1991,
+9044
+],
+[
+1994,
+8980
+],
+[
+1993,
+8744
+],
+[
+1990,
+8294
+],
+[
+1989,
+7742
+],
+[
+1986,
+7228
+],
+[
+1988,
+7199
+],
+[
+1987,
+7112
+],
+[
+1985,
+6883
+],
+[
+1984,
+6778
+],
+[
+1983,
+6561
+],
+[
+1982,
+6452
+],
+[
+1976,
+6236
+],
+[
+1979,
+6059
+],
+[
+1980,
+5837
+],
+[
+1981,
+5823
+],
+[
+1978,
+5691
+],
+[
+1975,
+5639
+],
+[
+1971,
+5459
+],
+[
+1977,
+5283
+],
+[
+1973,
+4874
+],
+[
+1969,
+4785
+],
+[
+1974,
+4665
+],
+[
+1972,
+4623
+],
+[
+1970,
+4429
+],
+[
+1968,
+3843
+],
+[
+1963,
+3631
+],
+[
+1967,
+3392
+],
+[
+1966,
+3282
+],
+[
+1965,
+3216
+],
+[
+1961,
+3179
+],
+[
+1962,
+2984
+],
+[
+1964,
+2854
+],
+[
+1960,
+2666
+],
+[
+1958,
+2521
+],
+[
+1959,
+2353
+],
+[
+1956,
+2312
+],
+[
+1957,
+2303
+],
+[
+1954,
+2241
+],
+[
+1955,
+2105
+],
+[
+1950,
+2051
+],
+[
+1953,
+2045
+],
+[
+1952,
+2019
+],
+[
+1951,
+1753
+],
+[
+1948,
+1746
+],
+[
+1946,
+1654
+],
+[
+1949,
+1591
+],
+[
+1938,
+1555
+],
+[
+1941,
+1540
+],
+[
+1922,
+1534
+],
+[
+1947,
+1451
+],
+[
+1939,
+1366
+],
+[
+1930,
+1357
+],
+[
+1942,
+1312
+],
+[
+1936,
+1274
+],
+[
+1931,
+1274
+],
+[
+1940,
+1235
+],
+[
+1912,
+1222
+],
+[
+1933,
+1220
+],
+[
+1926,
+1218
+],
+[
+1934,
+1217
+],
+[
+1916,
+1158
+],
+[
+1924,
+1143
+],
+[
+1932,
+1126
+],
+[
+1937,
+1116
+],
+[
+1915,
+1082
+],
+[
+1935,
+1076
+],
+[
+1943,
+1075
+],
+[
+1929,
+1072
+],
+[
+1921,
+1066
+],
+[
+1925,
+1000
+],
+[
+1920,
+990
+],
+[
+1911,
+990
+],
+[
+1923,
+988
+],
+[
+1913,
+980
+],
+[
+1945,
+937
+],
+[
+1914,
+937
+],
+[
+1898,
+932
+],
+[
+1917,
+910
+],
+[
+1928,
+904
+],
+[
+1944,
+862
+],
+[
+1927,
+856
+],
+[
+1910,
+856
+],
+[
+1907,
+835
+],
+[
+1908,
+798
+],
+[
+1903,
+786
+],
+[
+1899,
+748
+],
+[
+1902,
+731
+],
+[
+1919,
+722
+],
+[
+1895,
+721
+],
+[
+1909,
+716
+],
+[
+1894,
+705
+],
+[
+1897,
+670
+],
+[
+1901,
+658
+],
+[
+1905,
+640
+],
+[
+1918,
+607
+],
+[
+1904,
+603
+],
+[
+1891,
+586
+],
+[
+1906,
+573
+],
+[
+1890,
+565
+],
+[
+1896,
+563
+],
+[
+1893,
+515
+],
+[
+1900,
+460
+],
+[
+1892,
+402
+],
+[
+1879,
+389
+],
+[
+1885,
+372
+],
+[
+1889,
+364
+],
+[
+1887,
+358
+],
+[
+1884,
+326
+],
+[
+2016,
+318
+],
+[
+1875,
+305
+],
+[
+1869,
+304
+],
+[
+1865,
+291
+],
+[
+1881,
+278
+],
+[
+1846,
+271
+],
+[
+1888,
+269
+],
+[
+1886,
+265
+],
+[
+1880,
+259
+],
+[
+1882,
+252
+],
+[
+1861,
+252
+],
+[
+1876,
+238
+],
+[
+1842,
+237
+],
+[
+1883,
+234
+],
+[
+1872,
+217
+],
+[
+1854,
+213
+],
+[
+1852,
+206
+],
+[
+1841,
+206
+],
+[
+1850,
+205
+],
+[
+1871,
+203
+],
+[
+1824,
+188
+],
+[
+1856,
+185
+],
+[
+1857,
+179
+],
+[
+1835,
+176
+],
+[
+1878,
+171
+],
+[
+1862,
+169
+],
+[
+1860,
+161
+],
+[
+1873,
+156
+],
+[
+1853,
+152
+],
+[
+1877,
+142
+],
+[
+1866,
+140
+],
+[
+1870,
+137
+],
+[
+1840,
+133
+],
+[
+1828,
+132
+],
+[
+1805,
+129
+],
+[
+1820,
+127
+],
+[
+1858,
+124
+],
+[
+1707,
+119
+],
+[
+1839,
+116
+],
+[
+1867,
+112
+],
+[
+1864,
+111
+],
+[
+1859,
+111
+],
+[
+1863,
+110
+],
+[
+1847,
+107
+],
+[
+1868,
+106
+],
+[
+1816,
+106
+],
+[
+1848,
+105
+],
+[
+1855,
+103
+],
+[
+1830,
+100
+],
+[
+1829,
+93
+],
+[
+1790,
+93
+],
+[
+1789,
+91
+],
+[
+1837,
+87
+],
+[
+1833,
+86
+],
+[
+1851,
+85
+],
+[
+1834,
+84
+],
+[
+1838,
+83
+],
+[
+1845,
+81
+],
+[
+1795,
+72
+],
+[
+1822,
+71
+],
+[
+1836,
+69
+],
+[
+1832,
+69
+],
+[
+1685,
+65
+],
+[
+1831,
+64
+],
+[
+1844,
+63
+],
+[
+1849,
+60
+],
+[
+1644,
+60
+],
+[
+1874,
+56
+],
+[
+1798,
+56
+],
+[
+1774,
+53
+],
+[
+1843,
+52
+],
+[
+1776,
+52
+],
+[
+1827,
+51
+],
+[
+1812,
+51
+],
+[
+1753,
+51
+],
+[
+1803,
+49
+],
+[
+1796,
+43
+],
+[
+1656,
+43
+],
+[
+1806,
+38
+],
+[
+1818,
+34
+],
+[
+1802,
+34
+],
+[
+1697,
+34
+],
+[
+1684,
+34
+],
+[
+1819,
+33
+],
+[
+1742,
+33
+],
+[
+1675,
+33
+],
+[
+1696,
+31
+],
+[
+1825,
+30
+],
+[
+1734,
+29
+],
+[
+1823,
+27
+],
+[
+1738,
+27
+],
+[
+1699,
+27
+],
+[
+1811,
+26
+],
+[
+1769,
+26
+],
+[
+1754,
+25
+],
+[
+1698,
+23
+],
+[
+1620,
+23
+],
+[
+1775,
+19
+],
+[
+1653,
+18
+],
+[
+1799,
+17
+],
+[
+1810,
+16
+],
+[
+1729,
+16
+],
+[
+1794,
+15
+],
+[
+1808,
+14
+],
+[
+1670,
+14
+],
+[
+1815,
+13
+],
+[
+1751,
+13
+],
+[
+1750,
+10
+],
+[
+1737,
+10
+],
+[
+1726,
+10
+],
+[
+1672,
+10
+],
+[
+1809,
+9
+],
+[
+1807,
+9
+],
+[
+1797,
+9
+],
+[
+1783,
+9
+],
+[
+1765,
+9
+],
+[
+1700,
+9
+],
+[
+1814,
+8
+],
+[
+1779,
+8
+],
+[
+1764,
+8
+],
+[
+1766,
+7
+],
+[
+1746,
+7
+],
+[
+1678,
+6
+],
+[
+1793,
+5
+],
+[
+1787,
+5
+],
+[
+1771,
+5
+],
+[
+1759,
+5
+],
+[
+1757,
+5
+],
+[
+1708,
+5
+],
+[
+1677,
+5
+],
+[
+1821,
+4
+],
+[
+1791,
+4
+],
+[
+1770,
+4
+],
+[
+1744,
+4
+],
+[
+1743,
+4
+],
+[
+1730,
+4
+],
+[
+1658,
+4
+],
+[
+1632,
+4
+],
+[
+1813,
+3
+],
+[
+1725,
+3
+],
+[
+1683,
+3
+],
+[
+1768,
+2
+],
+[
+1745,
+2
+],
+[
+1721,
+2
+],
+[
+1716,
+2
+],
+[
+1715,
+2
+],
+[
+1694,
+2
+]
+]
+},
+"prefixes": [
+"10.5084",
+"10.1037"
+],
+"coverage": {
+"funders-backfile": 0.023838205263018608,
+"licenses-backfile": 0,
+"funders-current": 0.10624717175960541,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0.001595732057467103,
+"orcids-current": 0.009931645356118679,
+"references-backfile": 0.0313471294939518,
+"award-numbers-backfile": 0.007061310578137636,
+"update-policies-backfile": 0,
+"licenses-current": 0.0022149712312966585,
+"award-numbers-current": 0.035510990768671036,
+"resource-links-current": 0,
+"references-current": 0.0016671826597303152
+},
+"prefix": [
+{
+"value": "10.5084",
+"name": "Psychomusicology: Music, Mind and Brain",
+"public-references": false
+},
+{
+"value": "10.1037",
+"name": "American Psychological Association",
+"public-references": false
+}
+],
+"id": 15,
+"tokens": [
+"american",
+"psychological",
+"association",
+"apa"
+],
+"flags": {
+"deposits-orcids-current": true,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": true,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": true,
+"deposits-update-policies-current": true,
+"deposits-licenses-current": true
+},
+"location": "750 First Street NE Washington DC 20002-4242 United States",
+"names": [
+"Psychomusicology: Music, Mind and Brain",
+"American Psychological Association",
+"American Psychological Association (APA)"
+]
+},
+{
+"last-status-check-time": 1445835669662,
+"primary-name": "Royal Society of Chemistry (RSC)",
+"counts": {
+"backfile-dois": 369297,
+"current-dois": 87887,
+"total-dois": 457184
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2015,
+46837
+],
+[
+2014,
+40891
+],
+[
+2013,
+32116
+],
+[
+2012,
+28072
+],
+[
+2011,
+24007
+],
+[
+2010,
+16616
+],
+[
+2009,
+13393
+],
+[
+2008,
+9709
+],
+[
+2007,
+8189
+],
+[
+2006,
+7814
+],
+[
+2002,
+7538
+],
+[
+2005,
+7325
+],
+[
+2001,
+7057
+],
+[
+1999,
+6466
+],
+[
+2000,
+6405
+],
+[
+2003,
+6349
+],
+[
+2004,
+6302
+],
+[
+1998,
+6120
+],
+[
+1996,
+6039
+],
+[
+1994,
+5974
+],
+[
+1995,
+5931
+],
+[
+1997,
+5344
+],
+[
+1993,
+5266
+],
+[
+1992,
+5194
+],
+[
+1971,
+5014
+],
+[
+1991,
+4658
+],
+[
+1990,
+4599
+],
+[
+1972,
+4590
+],
+[
+1970,
+4559
+],
+[
+1988,
+4397
+],
+[
+1987,
+4385
+],
+[
+1989,
+4286
+],
+[
+1973,
+4252
+],
+[
+1969,
+4215
+],
+[
+1986,
+4211
+],
+[
+1968,
+4143
+],
+[
+1976,
+4102
+],
+[
+1975,
+4090
+],
+[
+1974,
+4085
+],
+[
+1984,
+4046
+],
+[
+1985,
+4006
+],
+[
+1982,
+3939
+],
+[
+1977,
+3939
+],
+[
+1981,
+3904
+],
+[
+1983,
+3901
+],
+[
+1979,
+3637
+],
+[
+1980,
+3569
+],
+[
+1967,
+3415
+],
+[
+1978,
+3394
+],
+[
+1966,
+3041
+],
+[
+1965,
+2548
+],
+[
+1963,
+1708
+],
+[
+1964,
+1701
+],
+[
+1961,
+1576
+],
+[
+1960,
+1531
+],
+[
+1962,
+1529
+],
+[
+1957,
+1490
+],
+[
+1954,
+1478
+],
+[
+1956,
+1459
+],
+[
+1952,
+1427
+],
+[
+1955,
+1424
+],
+[
+1958,
+1416
+],
+[
+1949,
+1415
+],
+[
+1953,
+1412
+],
+[
+1959,
+1385
+],
+[
+1950,
+1289
+],
+[
+1951,
+1282
+],
+[
+1936,
+1010
+],
+[
+1948,
+1005
+],
+[
+1937,
+993
+],
+[
+1935,
+986
+],
+[
+1938,
+960
+],
+[
+1934,
+952
+],
+[
+1939,
+947
+],
+[
+1947,
+882
+],
+[
+1931,
+877
+],
+[
+1932,
+864
+],
+[
+1923,
+855
+],
+[
+1933,
+854
+],
+[
+1925,
+826
+],
+[
+1926,
+812
+],
+[
+1928,
+809
+],
+[
+1924,
+809
+],
+[
+1929,
+799
+],
+[
+1927,
+787
+],
+[
+1940,
+780
+],
+[
+1930,
+779
+],
+[
+1946,
+775
+],
+[
+1922,
+742
+],
+[
+1945,
+643
+],
+[
+1921,
+605
+],
+[
+1912,
+598
+],
+[
+1943,
+585
+],
+[
+1942,
+585
+],
+[
+1914,
+585
+],
+[
+1911,
+583
+],
+[
+1910,
+568
+],
+[
+1941,
+553
+],
+[
+1944,
+552
+],
+[
+1909,
+539
+],
+[
+1920,
+538
+],
+[
+1913,
+538
+],
+[
+1908,
+518
+],
+[
+1907,
+507
+],
+[
+1915,
+476
+],
+[
+1919,
+474
+],
+[
+1906,
+461
+],
+[
+1905,
+459
+],
+[
+1904,
+411
+],
+[
+1917,
+407
+],
+[
+1902,
+390
+],
+[
+1901,
+380
+],
+[
+0,
+372
+],
+[
+1918,
+368
+],
+[
+1916,
+365
+],
+[
+1903,
+361
+],
+[
+1879,
+344
+],
+[
+1900,
+342
+],
+[
+1896,
+335
+],
+[
+1885,
+334
+],
+[
+1899,
+329
+],
+[
+1897,
+325
+],
+[
+1888,
+315
+],
+[
+1878,
+309
+],
+[
+1887,
+308
+],
+[
+1886,
+306
+],
+[
+1898,
+303
+],
+[
+1877,
+297
+],
+[
+1889,
+286
+],
+[
+1893,
+284
+],
+[
+1880,
+284
+],
+[
+1891,
+279
+],
+[
+1881,
+278
+],
+[
+1895,
+274
+],
+[
+1890,
+271
+],
+[
+1884,
+271
+],
+[
+1883,
+268
+],
+[
+1882,
+265
+],
+[
+1894,
+259
+],
+[
+1892,
+252
+],
+[
+1876,
+249
+],
+[
+1875,
+143
+],
+[
+1874,
+143
+],
+[
+1873,
+136
+],
+[
+2016,
+131
+],
+[
+1872,
+125
+],
+[
+1871,
+100
+],
+[
+1862,
+93
+],
+[
+1843,
+69
+],
+[
+1845,
+63
+],
+[
+1864,
+58
+],
+[
+1863,
+55
+],
+[
+1867,
+53
+],
+[
+1868,
+52
+],
+[
+1865,
+52
+],
+[
+1866,
+51
+],
+[
+1841,
+46
+],
+[
+1869,
+44
+],
+[
+1851,
+44
+],
+[
+1870,
+43
+],
+[
+1855,
+41
+],
+[
+1852,
+41
+],
+[
+1850,
+41
+],
+[
+1861,
+40
+],
+[
+1858,
+39
+],
+[
+1849,
+36
+],
+[
+1853,
+35
+],
+[
+1854,
+34
+],
+[
+1860,
+30
+],
+[
+1859,
+28
+],
+[
+1856,
+26
+],
+[
+1857,
+25
+]
+]
+},
+"prefixes": [
+"10.1039"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0.13913320004940033,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0.6755378842353821,
+"orcids-current": 0,
+"references-backfile": 0.24695570766925812,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0.000016247086023213342,
+"licenses-current": 0,
+"award-numbers-current": 0.12658299505710602,
+"resource-links-current": 0,
+"references-current": 0.8430712223052979
+},
+"prefix": [
+{
+"value": "10.1039",
+"name": "The Royal Society of Chemistry",
+"public-references": false
+}
+],
+"id": 292,
+"tokens": [
+"royal",
+"society",
+"of",
+"chemistry",
+"rsc"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": true,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": true,
+"deposits-licenses-current": false
+},
+"location": "Thomas Graham House Science Park, Milton Rd Cambridge CB4 0WF United Kingdom",
+"names": [
+"The Royal Society of Chemistry",
+"Royal Society of Chemistry (RSC)"
+]
+},
+{
+"last-status-check-time": 1445835669785,
+"primary-name": "Allen Press",
+"counts": {
+"backfile-dois": 6,
+"current-dois": 0,
+"total-dois": 6
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2011,
+6
+]
+]
+},
+"prefixes": [
+"10.1043"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.1043",
+"name": "Allen Press",
+"public-references": false
+}
+],
+"id": 9,
+"tokens": [
+"allen",
+"press"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": false,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "PO Box 1291 810 E 10th Street 810 E 10th Street Lawrence 66044 United States",
+"names": [
+"Allen Press"
+]
+},
+{
+"last-status-check-time": 1445835669913,
+"primary-name": "American Speech Language Hearing Association",
+"counts": {
+"backfile-dois": 16927,
+"current-dois": 1408,
+"total-dois": 18335
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2014,
+660
+],
+[
+2015,
+641
+],
+[
+2002,
+619
+],
+[
+2012,
+591
+],
+[
+2013,
+581
+],
+[
+2004,
+578
+],
+[
+2003,
+577
+],
+[
+2008,
+538
+],
+[
+2011,
+536
+],
+[
+1999,
+513
+],
+[
+2005,
+510
+],
+[
+1997,
+508
+],
+[
+2010,
+497
+],
+[
+2007,
+493
+],
+[
+1998,
+490
+],
+[
+2009,
+484
+],
+[
+2000,
+472
+],
+[
+2001,
+467
+],
+[
+2006,
+461
+],
+[
+1992,
+328
+],
+[
+1994,
+315
+],
+[
+1995,
+279
+],
+[
+1993,
+272
+],
+[
+1991,
+259
+],
+[
+1996,
+242
+],
+[
+1990,
+239
+],
+[
+1982,
+223
+],
+[
+1989,
+216
+],
+[
+1981,
+215
+],
+[
+1983,
+198
+],
+[
+1988,
+196
+],
+[
+1975,
+196
+],
+[
+1972,
+196
+],
+[
+1984,
+193
+],
+[
+1974,
+192
+],
+[
+1971,
+184
+],
+[
+1977,
+182
+],
+[
+1973,
+182
+],
+[
+1976,
+176
+],
+[
+1985,
+175
+],
+[
+1980,
+172
+],
+[
+1978,
+172
+],
+[
+1979,
+171
+],
+[
+1970,
+170
+],
+[
+1987,
+151
+],
+[
+1986,
+148
+],
+[
+1967,
+141
+],
+[
+1969,
+134
+],
+[
+1966,
+126
+],
+[
+1968,
+122
+],
+[
+1964,
+118
+],
+[
+1962,
+114
+],
+[
+1961,
+112
+],
+[
+1960,
+112
+],
+[
+1963,
+106
+],
+[
+1959,
+103
+],
+[
+1958,
+102
+],
+[
+1965,
+98
+],
+[
+1957,
+73
+],
+[
+1947,
+70
+],
+[
+1954,
+64
+],
+[
+1949,
+60
+],
+[
+1956,
+59
+],
+[
+1948,
+58
+],
+[
+1945,
+56
+],
+[
+1939,
+54
+],
+[
+1946,
+53
+],
+[
+1940,
+52
+],
+[
+1943,
+50
+],
+[
+1952,
+48
+],
+[
+1951,
+48
+],
+[
+1955,
+46
+],
+[
+1953,
+46
+],
+[
+1942,
+45
+],
+[
+1944,
+43
+],
+[
+1950,
+42
+],
+[
+1937,
+42
+],
+[
+1938,
+41
+],
+[
+1941,
+31
+],
+[
+1936,
+16
+]
+]
+},
+"prefixes": [
+"10.1044"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.1044",
+"name": "American Speech-Language-Hearing Association",
+"public-references": false
+}
+],
+"id": 1310,
+"tokens": [
+"american",
+"speech",
+"language",
+"hearing",
+"association"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": false,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "2200 Research Blvd Rockville MD 20850-3289 United States",
+"names": [
+"American Speech Language Hearing Association",
+"American Speech-Language-Hearing Association"
+]
+},
+{
+"last-status-check-time": 1445835670025,
+"primary-name": "Instytut Badan Literackich PAN/The Institute of Literary Research PAS",
+"counts": {
+"backfile-dois": 0,
+"current-dois": 0,
+"total-dois": 0
+},
+"breakdowns": {
+"dois-by-issued-year": []
+},
+"prefixes": [
+"10.18318"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.18318",
+"name": "Instytut Badan Literackich PAN/The Institute of Literary Research PAS",
+"public-references": false
+}
+],
+"id": 7728,
+"tokens": [
+"instytut",
+"badan",
+"literackich",
+"pan/the",
+"institute",
+"of",
+"literary",
+"research",
+"pas"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": false,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": false,
+"deposits-funders-current": false,
+"deposits-references-backfile": false,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "ul. Nowy Swiat 72 Warsaw 00-330 Poland",
+"names": [
+"Instytut Badan Literackich PAN/The Institute of Literary Research PAS"
+]
+},
+{
+"last-status-check-time": 1445835670155,
+"primary-name": "Teknik Dergi",
+"counts": {
+"backfile-dois": 0,
+"current-dois": 0,
+"total-dois": 0
+},
+"breakdowns": {
+"dois-by-issued-year": []
+},
+"prefixes": [
+"10.18400"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0
+},
+"prefix": [
+{
+"value": "10.18400",
+"name": "Teknik Dergi",
+"public-references": false
+}
+],
+"id": 7727,
+"tokens": [
+"teknik",
+"dergi"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": false,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": false,
+"deposits-funders-current": false,
+"deposits-references-backfile": false,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": false,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "Tubitak Ulakbim Yok Binasi B5 Blok 2 kat Ankara 06539 Turkey",
+"names": [
+"Teknik Dergi"
+]
+},
+{
+"last-status-check-time": 1445835670394,
+"primary-name": "Institution of Engineering and Technology (IET)",
+"counts": {
+"backfile-dois": 194925,
+"current-dois": 12433,
+"total-dois": 207358
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2012,
+7384
+],
+[
+2013,
+7194
+],
+[
+2014,
+6582
+],
+[
+1997,
+6311
+],
+[
+2006,
+6050
+],
+[
+1995,
+5972
+],
+[
+2007,
+5855
+],
+[
+1996,
+5687
+],
+[
+2011,
+5634
+],
+[
+2005,
+5518
+],
+[
+2009,
+5403
+],
+[
+2010,
+5386
+],
+[
+2004,
+5137
+],
+[
+1998,
+5132
+],
+[
+1999,
+5121
+],
+[
+2015,
+5044
+],
+[
+2008,
+4927
+],
+[
+1994,
+4322
+],
+[
+2003,
+4288
+],
+[
+2000,
+4170
+],
+[
+2001,
+3778
+],
+[
+1992,
+3261
+],
+[
+2002,
+3231
+],
+[
+1991,
+3187
+],
+[
+1993,
+3054
+],
+[
+1990,
+3010
+],
+[
+1987,
+2855
+],
+[
+1986,
+2765
+],
+[
+1985,
+2735
+],
+[
+1975,
+2672
+],
+[
+1988,
+2669
+],
+[
+1989,
+2659
+],
+[
+1984,
+2406
+],
+[
+1983,
+2290
+],
+[
+1982,
+2192
+],
+[
+1980,
+2048
+],
+[
+1981,
+2045
+],
+[
+1974,
+1938
+],
+[
+1978,
+1882
+],
+[
+1979,
+1877
+],
+[
+1970,
+1821
+],
+[
+1977,
+1763
+],
+[
+1969,
+1755
+],
+[
+1973,
+1743
+],
+[
+1971,
+1640
+],
+[
+1968,
+1629
+],
+[
+1976,
+1616
+],
+[
+1967,
+1519
+],
+[
+1972,
+1461
+],
+[
+1966,
+1437
+],
+[
+1965,
+1345
+],
+[
+1962,
+1223
+],
+[
+1959,
+1222
+],
+[
+1963,
+1187
+],
+[
+1958,
+1140
+],
+[
+1964,
+1138
+],
+[
+1961,
+1117
+],
+[
+1956,
+1116
+],
+[
+1960,
+1059
+],
+[
+1957,
+999
+],
+[
+1955,
+928
+],
+[
+1953,
+895
+],
+[
+1950,
+857
+],
+[
+1954,
+795
+],
+[
+1951,
+793
+],
+[
+1946,
+789
+],
+[
+1952,
+769
+],
+[
+1947,
+754
+],
+[
+1948,
+741
+],
+[
+1949,
+714
+],
+[
+1939,
+470
+],
+[
+1945,
+463
+],
+[
+1938,
+461
+],
+[
+1935,
+452
+],
+[
+1937,
+436
+],
+[
+1936,
+430
+],
+[
+1934,
+423
+],
+[
+1933,
+408
+],
+[
+1940,
+388
+],
+[
+1932,
+379
+],
+[
+1944,
+375
+],
+[
+1931,
+367
+],
+[
+1942,
+350
+],
+[
+1941,
+330
+],
+[
+1943,
+291
+],
+[
+1930,
+272
+],
+[
+1929,
+229
+],
+[
+1928,
+222
+],
+[
+1926,
+200
+],
+[
+1927,
+184
+],
+[
+1925,
+177
+],
+[
+1923,
+177
+],
+[
+1924,
+167
+],
+[
+1913,
+117
+],
+[
+1922,
+115
+],
+[
+1919,
+112
+],
+[
+1914,
+110
+],
+[
+1910,
+106
+],
+[
+1915,
+104
+],
+[
+1909,
+101
+],
+[
+1912,
+98
+],
+[
+1907,
+96
+],
+[
+1911,
+95
+],
+[
+1920,
+93
+],
+[
+1908,
+92
+],
+[
+1916,
+90
+],
+[
+1905,
+89
+],
+[
+1902,
+81
+],
+[
+1921,
+80
+],
+[
+1901,
+79
+],
+[
+1906,
+76
+],
+[
+1903,
+75
+],
+[
+1904,
+73
+],
+[
+1900,
+69
+],
+[
+1918,
+68
+],
+[
+1873,
+65
+],
+[
+1917,
+60
+],
+[
+1884,
+56
+],
+[
+1899,
+50
+],
+[
+1880,
+48
+],
+[
+1889,
+47
+],
+[
+1876,
+47
+],
+[
+1877,
+46
+],
+[
+1874,
+43
+],
+[
+1890,
+42
+],
+[
+1882,
+41
+],
+[
+1881,
+40
+],
+[
+1875,
+39
+],
+[
+1879,
+38
+],
+[
+1898,
+37
+],
+[
+1886,
+36
+],
+[
+1892,
+35
+],
+[
+1894,
+34
+],
+[
+1878,
+34
+],
+[
+1893,
+33
+],
+[
+1885,
+33
+],
+[
+1888,
+32
+],
+[
+1891,
+31
+],
+[
+1883,
+31
+],
+[
+1896,
+28
+],
+[
+1887,
+28
+],
+[
+1897,
+26
+],
+[
+1895,
+24
+],
+[
+1872,
+21
+]
+]
+},
+"prefixes": [
+"10.1049"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.4267846643924713,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0.4763130247592926
+},
+"prefix": [
+{
+"value": "10.1049",
+"name": "Institution of Electrical Engineers",
+"public-references": false
+}
+],
+"id": 265,
+"tokens": [
+"institution",
+"of",
+"engineering",
+"and",
+"technology",
+"iet"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "Michael Faraday House Six Hills Way Stevenage Herts SG1 2AY United Kingdom",
+"names": [
+"Institution of Engineering and Technology (IET)",
+"Institution of Electrical Engineers"
+]
+},
+{
+"last-status-check-time": 1445835670633,
+"primary-name": "EDP Sciences",
+"counts": {
+"backfile-dois": 141130,
+"current-dois": 14142,
+"total-dois": 155272
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2013,
+7435
+],
+[
+2014,
+7364
+],
+[
+2012,
+6277
+],
+[
+2015,
+6118
+],
+[
+2010,
+5927
+],
+[
+2006,
+5475
+],
+[
+2009,
+5461
+],
+[
+2011,
+5368
+],
+[
+2003,
+5272
+],
+[
+2007,
+5187
+],
+[
+2005,
+5147
+],
+[
+2008,
+5118
+],
+[
+2004,
+4739
+],
+[
+2002,
+4458
+],
+[
+2001,
+4150
+],
+[
+1988,
+3087
+],
+[
+1997,
+2934
+],
+[
+1998,
+2605
+],
+[
+1994,
+2584
+],
+[
+1999,
+2471
+],
+[
+2000,
+2385
+],
+[
+1995,
+2266
+],
+[
+1996,
+2193
+],
+[
+1987,
+2171
+],
+[
+1979,
+2150
+],
+[
+1993,
+2104
+],
+[
+1985,
+2021
+],
+[
+1980,
+2015
+],
+[
+1984,
+1989
+],
+[
+1983,
+1932
+],
+[
+1981,
+1882
+],
+[
+1990,
+1861
+],
+[
+1986,
+1734
+],
+[
+1991,
+1733
+],
+[
+1978,
+1680
+],
+[
+1992,
+1654
+],
+[
+1982,
+1645
+],
+[
+1989,
+1588
+],
+[
+1977,
+1411
+],
+[
+1976,
+1349
+],
+[
+1971,
+1326
+],
+[
+1974,
+1085
+],
+[
+1975,
+1058
+],
+[
+1973,
+838
+],
+[
+1972,
+799
+],
+[
+1970,
+774
+],
+[
+1969,
+635
+],
+[
+1968,
+625
+],
+[
+1967,
+545
+],
+[
+1966,
+530
+],
+[
+1963,
+496
+],
+[
+1956,
+429
+],
+[
+1962,
+422
+],
+[
+1961,
+406
+],
+[
+1964,
+399
+],
+[
+1954,
+383
+],
+[
+1960,
+369
+],
+[
+1958,
+361
+],
+[
+1959,
+356
+],
+[
+1965,
+349
+],
+[
+1955,
+336
+],
+[
+1951,
+299
+],
+[
+1952,
+295
+],
+[
+1957,
+290
+],
+[
+1953,
+281
+],
+[
+1904,
+276
+],
+[
+1911,
+268
+],
+[
+1908,
+265
+],
+[
+1909,
+260
+],
+[
+1912,
+254
+],
+[
+1906,
+250
+],
+[
+1913,
+242
+],
+[
+1950,
+240
+],
+[
+1905,
+235
+],
+[
+1910,
+230
+],
+[
+1907,
+229
+],
+[
+1903,
+225
+],
+[
+1902,
+209
+],
+[
+1897,
+203
+],
+[
+1934,
+202
+],
+[
+1933,
+191
+],
+[
+1935,
+181
+],
+[
+1936,
+180
+],
+[
+1949,
+170
+],
+[
+1898,
+165
+],
+[
+1930,
+164
+],
+[
+1948,
+163
+],
+[
+1929,
+158
+],
+[
+1882,
+156
+],
+[
+1947,
+155
+],
+[
+1881,
+152
+],
+[
+1914,
+148
+],
+[
+1937,
+145
+],
+[
+1932,
+144
+],
+[
+1883,
+144
+],
+[
+1939,
+142
+],
+[
+1880,
+140
+],
+[
+1938,
+139
+],
+[
+1928,
+138
+],
+[
+1888,
+135
+],
+[
+1890,
+133
+],
+[
+1946,
+129
+],
+[
+1896,
+127
+],
+[
+1921,
+126
+],
+[
+1877,
+126
+],
+[
+1884,
+123
+],
+[
+1924,
+122
+],
+[
+1899,
+122
+],
+[
+1922,
+120
+],
+[
+1875,
+119
+],
+[
+1925,
+118
+],
+[
+1923,
+118
+],
+[
+1879,
+116
+],
+[
+1926,
+112
+],
+[
+1878,
+112
+],
+[
+1927,
+111
+],
+[
+1885,
+111
+],
+[
+1874,
+111
+],
+[
+1931,
+110
+],
+[
+1901,
+110
+],
+[
+1889,
+109
+],
+[
+1892,
+108
+],
+[
+1873,
+108
+],
+[
+1876,
+107
+],
+[
+1919,
+106
+],
+[
+1891,
+99
+],
+[
+1887,
+98
+],
+[
+1940,
+92
+],
+[
+1886,
+92
+],
+[
+1900,
+81
+],
+[
+1893,
+81
+],
+[
+1945,
+80
+],
+[
+1920,
+73
+],
+[
+1894,
+69
+],
+[
+1944,
+68
+],
+[
+1943,
+64
+],
+[
+1942,
+61
+],
+[
+1872,
+61
+],
+[
+1918,
+57
+],
+[
+1941,
+47
+],
+[
+1917,
+45
+],
+[
+1916,
+25
+],
+[
+1895,
+6
+]
+]
+},
+"prefixes": [
+"10.2516",
+"10.2515",
+"10.9742",
+"10.1051"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0.0053740632720291615,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.3142705261707306,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0.0025456089060753584,
+"resource-links-current": 0,
+"references-current": 0.8610521554946899
+},
+"prefix": [
+{
+"value": "10.2516",
+"name": "EDP Sciences",
+"public-references": false
+},
+{
+"value": "10.2515",
+"name": "EDP Sciences",
+"public-references": false
+},
+{
+"value": "10.9742",
+"name": "EDP Sciences",
+"public-references": false
+},
+{
+"value": "10.1051",
+"name": "EDP Sciences",
+"public-references": false
+}
+],
+"id": 250,
+"tokens": [
+"edp",
+"sciences"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": true,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": true,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "17 av. du Hoggar PA de Courtaboeuf BP 112 Les Ulis cedex A 91944 France",
+"names": [
+"EDP Sciences"
+]
+},
+{
+"last-status-check-time": 1445835671106,
+"primary-name": "Thieme Publishing Group",
+"counts": {
+"backfile-dois": 530107,
+"current-dois": 68213,
+"total-dois": 598320
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+2008,
+40488
+],
+[
+2009,
+38097
+],
+[
+2014,
+35486
+],
+[
+2013,
+35068
+],
+[
+2012,
+34488
+],
+[
+2010,
+34021
+],
+[
+2007,
+33689
+],
+[
+2011,
+32761
+],
+[
+2005,
+28650
+],
+[
+2015,
+28578
+],
+[
+2006,
+25058
+],
+[
+2004,
+23916
+],
+[
+2003,
+16766
+],
+[
+2002,
+13613
+],
+[
+2001,
+12551
+],
+[
+2000,
+7823
+],
+[
+1998,
+5150
+],
+[
+1997,
+5145
+],
+[
+1999,
+4897
+],
+[
+1990,
+4679
+],
+[
+1992,
+4617
+],
+[
+1996,
+4582
+],
+[
+1995,
+4493
+],
+[
+1994,
+4425
+],
+[
+1991,
+4396
+],
+[
+1993,
+4376
+],
+[
+1986,
+4245
+],
+[
+1987,
+4235
+],
+[
+1988,
+4198
+],
+[
+1989,
+4197
+],
+[
+1985,
+4082
+],
+[
+1984,
+4013
+],
+[
+1981,
+3746
+],
+[
+1983,
+3707
+],
+[
+1982,
+3627
+],
+[
+1980,
+3371
+],
+[
+1975,
+1923
+],
+[
+1977,
+1838
+],
+[
+1979,
+1802
+],
+[
+1974,
+1792
+],
+[
+1978,
+1776
+],
+[
+1973,
+1617
+],
+[
+1976,
+1590
+],
+[
+1972,
+1442
+],
+[
+1970,
+1387
+],
+[
+1971,
+1309
+],
+[
+1925,
+1151
+],
+[
+1924,
+1125
+],
+[
+1969,
+1068
+],
+[
+1968,
+1013
+],
+[
+1955,
+1004
+],
+[
+1928,
+986
+],
+[
+1958,
+980
+],
+[
+1926,
+979
+],
+[
+1913,
+966
+],
+[
+1927,
+938
+],
+[
+1967,
+926
+],
+[
+1957,
+926
+],
+[
+1922,
+911
+],
+[
+1966,
+901
+],
+[
+1963,
+901
+],
+[
+1956,
+886
+],
+[
+1921,
+883
+],
+[
+1893,
+882
+],
+[
+1959,
+874
+],
+[
+1911,
+874
+],
+[
+1923,
+873
+],
+[
+1912,
+872
+],
+[
+1954,
+867
+],
+[
+1965,
+852
+],
+[
+1910,
+831
+],
+[
+1929,
+825
+],
+[
+1962,
+810
+],
+[
+1953,
+809
+],
+[
+1952,
+804
+],
+[
+1909,
+793
+],
+[
+1914,
+792
+],
+[
+1964,
+785
+],
+[
+1920,
+783
+],
+[
+1960,
+774
+],
+[
+1908,
+771
+],
+[
+1961,
+769
+],
+[
+1892,
+768
+],
+[
+1918,
+734
+],
+[
+1917,
+732
+],
+[
+1919,
+731
+],
+[
+1930,
+722
+],
+[
+1951,
+721
+],
+[
+1949,
+710
+],
+[
+1915,
+710
+],
+[
+1891,
+701
+],
+[
+1907,
+693
+],
+[
+1932,
+689
+],
+[
+1916,
+684
+],
+[
+1933,
+680
+],
+[
+1903,
+674
+],
+[
+1902,
+670
+],
+[
+1931,
+667
+],
+[
+1906,
+661
+],
+[
+1904,
+647
+],
+[
+1894,
+639
+],
+[
+1935,
+636
+],
+[
+1905,
+622
+],
+[
+1901,
+604
+],
+[
+1887,
+603
+],
+[
+1885,
+592
+],
+[
+1934,
+591
+],
+[
+1890,
+585
+],
+[
+1936,
+581
+],
+[
+1950,
+574
+],
+[
+1882,
+565
+],
+[
+1884,
+564
+],
+[
+1889,
+562
+],
+[
+1888,
+555
+],
+[
+1896,
+551
+],
+[
+1898,
+547
+],
+[
+1937,
+545
+],
+[
+1899,
+531
+],
+[
+1900,
+530
+],
+[
+1897,
+526
+],
+[
+2016,
+521
+],
+[
+1939,
+498
+],
+[
+1938,
+483
+],
+[
+1895,
+479
+],
+[
+1886,
+457
+],
+[
+1879,
+438
+],
+[
+1880,
+421
+],
+[
+1881,
+419
+],
+[
+1877,
+382
+],
+[
+1940,
+381
+],
+[
+1878,
+378
+],
+[
+1883,
+373
+],
+[
+1876,
+322
+],
+[
+1941,
+304
+],
+[
+1942,
+279
+],
+[
+1948,
+219
+],
+[
+1943,
+217
+],
+[
+1947,
+205
+],
+[
+1944,
+180
+],
+[
+1946,
+87
+],
+[
+1875,
+87
+],
+[
+0,
+1
+]
+]
+},
+"prefixes": [
+"10.1055"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.001158256782218814,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0.0011727969394996762
+},
+"prefix": [
+{
+"value": "10.1055",
+"name": "Thieme Publishing Group",
+"public-references": false
+}
+],
+"id": 194,
+"tokens": [
+"thieme",
+"publishing",
+"group"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "Ruedigerstrasse 14 Stuttgart 70469 Germany",
+"names": [
+"Thieme Publishing Group"
+]
+},
+{
+"last-status-check-time": 1445835671345,
+"primary-name": "New England Journal of Medicine (NEJM/MMS)",
+"counts": {
+"backfile-dois": 176682,
+"current-dois": 2239,
+"total-dois": 178921
+},
+"breakdowns": {
+"dois-by-issued-year": [
+[
+1981,
+1793
+],
+[
+1982,
+1767
+],
+[
+1984,
+1757
+],
+[
+1983,
+1725
+],
+[
+1974,
+1700
+],
+[
+1973,
+1700
+],
+[
+1976,
+1682
+],
+[
+1972,
+1680
+],
+[
+1971,
+1657
+],
+[
+1980,
+1651
+],
+[
+1970,
+1645
+],
+[
+1985,
+1635
+],
+[
+1928,
+1621
+],
+[
+1969,
+1595
+],
+[
+1986,
+1570
+],
+[
+1979,
+1559
+],
+[
+1975,
+1549
+],
+[
+1989,
+1503
+],
+[
+1990,
+1496
+],
+[
+1968,
+1488
+],
+[
+1977,
+1486
+],
+[
+1988,
+1474
+],
+[
+1929,
+1473
+],
+[
+1930,
+1444
+],
+[
+1987,
+1442
+],
+[
+2004,
+1440
+],
+[
+2005,
+1437
+],
+[
+1978,
+1430
+],
+[
+1992,
+1425
+],
+[
+1991,
+1412
+],
+[
+2006,
+1407
+],
+[
+1925,
+1398
+],
+[
+1924,
+1388
+],
+[
+1931,
+1384
+],
+[
+1993,
+1383
+],
+[
+2007,
+1363
+],
+[
+2003,
+1354
+],
+[
+1994,
+1348
+],
+[
+1933,
+1345
+],
+[
+2009,
+1336
+],
+[
+1923,
+1326
+],
+[
+1926,
+1325
+],
+[
+1966,
+1324
+],
+[
+1935,
+1321
+],
+[
+2008,
+1315
+],
+[
+1934,
+1311
+],
+[
+1963,
+1308
+],
+[
+1965,
+1306
+],
+[
+1967,
+1299
+],
+[
+1962,
+1296
+],
+[
+1964,
+1292
+],
+[
+1936,
+1289
+],
+[
+1927,
+1264
+],
+[
+1922,
+1252
+],
+[
+2010,
+1245
+],
+[
+1995,
+1240
+],
+[
+1961,
+1240
+],
+[
+1932,
+1240
+],
+[
+2002,
+1233
+],
+[
+1997,
+1213
+],
+[
+1937,
+1206
+],
+[
+2011,
+1195
+],
+[
+1960,
+1187
+],
+[
+2012,
+1184
+],
+[
+1996,
+1183
+],
+[
+1999,
+1181
+],
+[
+1959,
+1154
+],
+[
+2013,
+1153
+],
+[
+1998,
+1141
+],
+[
+2000,
+1134
+],
+[
+2014,
+1127
+],
+[
+1958,
+1115
+],
+[
+1956,
+1094
+],
+[
+1938,
+1090
+],
+[
+1940,
+1089
+],
+[
+1908,
+1089
+],
+[
+2001,
+1084
+],
+[
+1957,
+1050
+],
+[
+1915,
+1049
+],
+[
+1896,
+1023
+],
+[
+1941,
+1015
+],
+[
+1939,
+1013
+],
+[
+1942,
+1011
+],
+[
+1907,
+1010
+],
+[
+1913,
+1006
+],
+[
+1895,
+996
+],
+[
+1894,
+996
+],
+[
+1909,
+990
+],
+[
+1899,
+989
+],
+[
+1906,
+987
+],
+[
+1901,
+986
+],
+[
+1911,
+985
+],
+[
+1914,
+983
+],
+[
+1910,
+982
+],
+[
+1912,
+981
+],
+[
+1892,
+979
+],
+[
+1955,
+975
+],
+[
+1903,
+974
+],
+[
+1954,
+950
+],
+[
+1953,
+947
+],
+[
+1905,
+947
+],
+[
+1904,
+943
+],
+[
+1900,
+943
+],
+[
+1902,
+940
+],
+[
+1916,
+939
+],
+[
+1897,
+939
+],
+[
+1898,
+930
+],
+[
+1948,
+928
+],
+[
+1952,
+927
+],
+[
+1949,
+923
+],
+[
+1917,
+923
+],
+[
+2015,
+919
+],
+[
+1950,
+916
+],
+[
+1891,
+906
+],
+[
+1951,
+892
+],
+[
+1890,
+888
+],
+[
+1947,
+878
+],
+[
+1893,
+869
+],
+[
+1943,
+864
+],
+[
+1918,
+864
+],
+[
+1889,
+844
+],
+[
+1888,
+835
+],
+[
+1887,
+833
+],
+[
+1885,
+829
+],
+[
+1886,
+820
+],
+[
+1919,
+791
+],
+[
+1879,
+771
+],
+[
+1944,
+762
+],
+[
+1921,
+743
+],
+[
+1883,
+723
+],
+[
+1946,
+711
+],
+[
+1884,
+699
+],
+[
+1945,
+673
+],
+[
+1875,
+667
+],
+[
+1881,
+651
+],
+[
+1920,
+646
+],
+[
+1874,
+610
+],
+[
+1878,
+602
+],
+[
+1882,
+582
+],
+[
+1876,
+576
+],
+[
+1877,
+566
+],
+[
+1880,
+547
+],
+[
+1873,
+495
+],
+[
+1872,
+437
+],
+[
+1855,
+435
+],
+[
+1868,
+434
+],
+[
+1871,
+406
+],
+[
+1869,
+403
+],
+[
+1870,
+376
+],
+[
+1860,
+361
+],
+[
+1846,
+359
+],
+[
+1867,
+356
+],
+[
+1856,
+355
+],
+[
+1847,
+352
+],
+[
+1852,
+347
+],
+[
+1857,
+345
+],
+[
+1861,
+344
+],
+[
+1859,
+341
+],
+[
+1849,
+341
+],
+[
+1863,
+336
+],
+[
+1845,
+335
+],
+[
+1853,
+333
+],
+[
+1858,
+327
+],
+[
+1829,
+327
+],
+[
+1851,
+324
+],
+[
+1854,
+318
+],
+[
+1848,
+318
+],
+[
+1862,
+313
+],
+[
+1844,
+310
+],
+[
+1843,
+310
+],
+[
+1850,
+307
+],
+[
+1842,
+291
+],
+[
+1865,
+282
+],
+[
+1839,
+281
+],
+[
+1866,
+280
+],
+[
+1834,
+280
+],
+[
+1864,
+278
+],
+[
+1840,
+277
+],
+[
+1835,
+277
+],
+[
+1830,
+275
+],
+[
+1836,
+273
+],
+[
+1837,
+264
+],
+[
+1831,
+262
+],
+[
+1841,
+255
+],
+[
+1833,
+252
+],
+[
+1832,
+248
+],
+[
+1838,
+228
+],
+[
+1828,
+209
+],
+[
+1823,
+130
+],
+[
+1812,
+125
+],
+[
+1825,
+124
+],
+[
+1815,
+123
+],
+[
+1814,
+108
+],
+[
+1824,
+100
+],
+[
+1817,
+96
+],
+[
+1813,
+94
+],
+[
+1818,
+85
+],
+[
+1816,
+77
+],
+[
+1820,
+71
+],
+[
+1827,
+67
+],
+[
+1822,
+66
+],
+[
+1826,
+62
+],
+[
+1819,
+60
+],
+[
+1821,
+53
+]
+]
+},
+"prefixes": [
+"10.1056"
+],
+"coverage": {
+"funders-backfile": 0,
+"licenses-backfile": 0,
+"funders-current": 0,
+"resource-links-backfile": 0,
+"orcids-backfile": 0,
+"update-policies-current": 0,
+"orcids-current": 0,
+"references-backfile": 0.3120408356189728,
+"award-numbers-backfile": 0,
+"update-policies-backfile": 0,
+"licenses-current": 0,
+"award-numbers-current": 0,
+"resource-links-current": 0,
+"references-current": 0.8209021687507629
+},
+"prefix": [
+{
+"value": "10.1056",
+"name": "New England Journal of Medicine",
+"public-references": false
+}
+],
+"id": 150,
+"tokens": [
+"new",
+"england",
+"journal",
+"of",
+"medicine",
+"nejm/mms"
+],
+"flags": {
+"deposits-orcids-current": false,
+"deposits": true,
+"deposits-update-policies-backfile": false,
+"deposits-award-numbers-current": false,
+"deposits-resource-links-current": false,
+"deposits-articles": true,
+"deposits-funders-current": false,
+"deposits-references-backfile": true,
+"deposits-licenses-backfile": false,
+"deposits-award-numbers-backfile": false,
+"deposits-references-current": true,
+"deposits-resource-links-backfile": false,
+"deposits-orcids-backfile": false,
+"deposits-funders-backfile": false,
+"deposits-update-policies-current": false,
+"deposits-licenses-current": false
+},
+"location": "Mass Medical Society 860 Winter Street Waltham MA 02451 United States",
+"names": [
+"New England Journal of Medicine",
+"New England Journal of Medicine (NEJM/MMS)"
+]
+}
+],
+"total-results": 5680,
+"query": {
+"search-terms": null,
+"start-index": 0
+},
+"items-per-page": 20
+}
+}
