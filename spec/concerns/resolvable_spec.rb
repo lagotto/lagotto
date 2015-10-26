@@ -343,6 +343,7 @@ describe Work, type: :model, vcr: true do
       before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
 
       let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: "17183658") }
+      let!(:publisher) { FactoryGirl.create(:publisher) }
 
       it "get_metadata crossref" do
         response = subject.get_metadata(work.doi, "crossref")
@@ -351,11 +352,12 @@ describe Work, type: :model, vcr: true do
         expect(response["container-title"]).to eq("PLoS ONE")
         expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
         expect(response["type"]).to eq("article-journal")
-        expect(response["publisher_id"]).to eq(340)
+        expect(response["publisher_id"]).to eq("340")
       end
 
       it "get_metadata datacite" do
         work = FactoryGirl.create(:work, doi: "10.6084/M9.FIGSHARE.156595")
+        FactoryGirl.create(:publisher, name: "CDL.DIGSCI")
         response = subject.get_metadata(work.doi, "datacite")
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Uncovering Impact - Moving beyond the journal article and beyond the impact factor")
@@ -363,7 +365,7 @@ describe Work, type: :model, vcr: true do
         expect(response["author"]).to eq([{"family"=>"Trends", "given"=>"Research"}, {"family"=>"Piwowar", "given"=>"Heather", "ORCID"=>"http://orcid.org/0000-0003-1613-5981"}])
         expect(response["issued"]).to eq("date-parts"=>[[2013]])
         expect(response["type"]).to eq("dataset")
-        expect(response["publisher_id"]).to eq(16041)
+        expect(response["publisher_id"]).to eq("CDL.DIGSCI")
       end
 
       it "get_metadata pubmed" do
@@ -423,35 +425,38 @@ describe Work, type: :model, vcr: true do
       let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030") }
 
       it "get_crossref_metadata" do
+        FactoryGirl.create(:publisher)
         response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
         expect(response["container-title"]).to eq("PLoS ONE")
         expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
         expect(response["type"]).to eq("article-journal")
-        expect(response["publisher_id"]).to eq(340)
+        expect(response["publisher_id"]).to eq("340")
       end
 
       it "get_crossref_metadata with old DOI" do
         work = FactoryGirl.create(:work, doi: "10.1890/0012-9658(2006)87[2832:tiopma]2.0.co;2")
+        FactoryGirl.create(:publisher, name: '792')
         response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("THE IMPACT OF PARASITE MANIPULATION AND PREDATOR FORAGING BEHAVIOR ON PREDATOR–PREY COMMUNITIES")
         expect(response["container-title"]).to eq("Ecology")
         expect(response["issued"]).to eq("date-parts"=>[[2006, 11]])
         expect(response["type"]).to eq("article-journal")
-        expect(response["publisher_id"]).to eq(792)
+        expect(response["publisher_id"]).to eq("792")
       end
 
       it "get_crossref_metadata with date in future" do
         work = FactoryGirl.create(:work, doi: "10.1016/j.ejphar.2015.03.018")
+        FactoryGirl.create(:publisher, name: '78')
         response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
         expect(response["container-title"]).to eq("European Journal of Pharmacology")
         expect(response["issued"]).to eq("date-parts"=>[[2015, 9, 8]])
         expect(response["type"]).to eq("article-journal")
-        expect(response["publisher_id"]).to eq(78)
+        expect(response["publisher_id"]).to eq("78")
       end
 
       it "get_crossref_metadata with not found error" do
@@ -467,6 +472,7 @@ describe Work, type: :model, vcr: true do
       let(:work) { FactoryGirl.create(:work, doi: "10.5061/DRYAD.8515") }
 
       it "get_datacite_metadata" do
+        publisher = FactoryGirl.create(:publisher, name: "CDL.DRYAD")
         response = subject.get_datacite_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
@@ -474,7 +480,7 @@ describe Work, type: :model, vcr: true do
         expect(response["author"]).to eq([{"family"=>"Ollomo", "given"=>"Benjamin"}, {"family"=>"Durand", "given"=>"Patrick"}, {"family"=>"Prugnolle", "given"=>"Franck"}, {"family"=>"Douzery", "given"=>"Emmanuel J. P."}, {"family"=>"Arnathau", "given"=>"Céline"}, {"family"=>"Nkoghe", "given"=>"Dieudonné"}, {"family"=>"Leroy", "given"=>"Eric"}, {"family"=>"Renaud", "given"=>"François"}])
         expect(response["issued"]).to eq("date-parts"=>[[2011]])
         expect(response["type"]).to eq("dataset")
-        expect(response["publisher_id"]).to eq(16041)
+        expect(response["publisher_id"]).to eq("CDL.DRYAD")
       end
 
       it "get_datacite_metadata with not found error" do

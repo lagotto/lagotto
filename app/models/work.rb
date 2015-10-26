@@ -447,12 +447,15 @@ class Work < ActiveRecord::Base
     type = metadata.fetch("type", nil)
     work_type_id = WorkType.where(name: type).pluck(:id).first
 
+    publisher = metadata.fetch("publisher_id", nil)
+    publisher_id = Publisher.where(name: publisher).pluck(:id).first
+
     date_parts = Array(metadata.fetch("issued", {}).fetch("date-parts", []).first)
     year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
     write_attribute(:csl, csl)
     write_attribute(:title, metadata.fetch("title", nil))
-    write_attribute(:publisher_id, metadata.fetch("publisher_id", nil))
+    write_attribute(:publisher_id, publisher_id)
     write_attribute(:year, year)
     write_attribute(:month, month)
     write_attribute(:day, day)

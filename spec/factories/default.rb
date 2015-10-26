@@ -448,7 +448,7 @@ FactoryGirl.define do
     prefixes ["10.1371"]
     registration_agency "crossref"
 
-    initialize_with { Publisher.where(member_id: member_id).first_or_initialize }
+    initialize_with { Publisher.where(name: name).first_or_initialize }
   end
 
   factory :publisher_option do

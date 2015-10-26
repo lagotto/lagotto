@@ -201,7 +201,7 @@ module Resolvable
 
         publisher_id = metadata["member"][30..-1].to_i if metadata["member"]
         publisher = Publisher.where(name: publisher_id).first
-        metadata["publisher_id"] = publisher.present? ? publisher.id : nil
+        metadata["publisher_id"] = publisher.present? ? publisher.name : nil
 
         metadata["container-title"] = metadata.fetch("container-title", [])[0]
         metadata["type"] = CROSSREF_TYPE_TRANSLATIONS[metadata["type"]] if metadata["type"]
@@ -239,7 +239,7 @@ module Resolvable
 
         datacentre_symbol = metadata.fetch("datacentre_symbol", nil)
         publisher = Publisher.where(name: datacentre_symbol).first
-        publisher_id = publisher.present? ? publisher.id : nil
+        publisher_id = publisher.present? ? publisher.name : nil
 
         doi = metadata.fetch("doi", nil)
         doi = doi.upcase if doi.present?

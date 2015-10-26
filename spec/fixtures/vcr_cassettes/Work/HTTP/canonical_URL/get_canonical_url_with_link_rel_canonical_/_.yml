@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://doi.org/10.1371/journal.pone.000006
+    uri: http://doi.org/10.1371/journal.pone.000003
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto-5-0-unstable.local
       Accept:
       - text/html; charset=UTF-8
   response:
@@ -23,7 +23,7 @@ http_interactions:
       Content-Length:
       - '5002'
       Date:
-      - Sat, 17 Oct 2015 13:32:20 GMT
+      - Mon, 26 Oct 2015 07:10:43 GMT
     body:
       encoding: UTF-8
       string: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n
@@ -51,7 +51,7 @@ http_interactions:
         TABLE FOR CONTENT -->      \n<table width=\"100%\" border=\"0\" cellpadding=\"0\"
         cellspacing=\"0\" bgcolor=\"#ffffff\">\n<tr>\n<td colspan=\"6\">\n<img src=\"/static/img/transparent.gif\"
         alt=\"\" width=\"100\" height=\"20\" border=\"0\" />\n</td>\n</tr>\n\n<tr>\n\n<td
-        valign=\"top\">\n\n<h2>DOI Not Found</h2>\n\n<div class=\"divider\">&nbsp;</div>\n\n\n\n<h3>10.1371/journal.pone.000006</h3>\n\n<div
+        valign=\"top\">\n\n<h2>DOI Not Found</h2>\n\n<div class=\"divider\">&nbsp;</div>\n\n\n\n<h3>10.1371/journal.pone.000003</h3>\n\n<div
         class=\"divider\">&nbsp;</div>\n\n\n\n\n<p>This DOI cannot be found in the
         DOI System.  Possible reasons are:</p>\n\n\n<ul>\n\n<li style=\"padding-bottom:
         .5em;\">The DOI is incorrect in your source. Search for the item by name,
@@ -67,7 +67,7 @@ http_interactions:
         name=\"notFoundForm\">\n\n\n<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\">\n<tbody>\n<tr>\n<td>\n\n<table
         border=\"0\" align=\"center\" cellpadding=\"3\" cellspacing=\"3\">\n<tbody><tr>\n<th
         \ align=\"right\" scope=\"row\"><label>DOI:</label></th>\n<td><input name=\"missingHandle\"
-        type=\"text\" value=\"10.1371/journal.pone.000006\" size=\"42\" readonly=\"readonly\"
+        type=\"text\" value=\"10.1371/journal.pone.000003\" size=\"42\" readonly=\"readonly\"
         /></td>\n</tr>\n<tr>\n<th align=\"right\" scope=\"row\"><label>URL of Web
         Page Listing the DOI:</label></th>\n<td><input name=\"referringPage\" type=\"text\"
         value=\"\" size=\"42\" readonly=\"readonly\" /></td>\n</tr>\n<tr>\n<th align=\"right\"
@@ -89,5 +89,5 @@ http_interactions:
         super;\">&reg;</span>, and shortDOI<span style=\"vertical-align: super;\">&reg;</span>
         are trademarks of the International DOI Foundation.</span>\n</td>       \n</tr>\n</table>\n</body>\n</html>\n"
     http_version: 
-  recorded_at: Sat, 17 Oct 2015 13:31:58 GMT
+  recorded_at: Mon, 26 Oct 2015 07:09:18 GMT
 recorded_with: VCR 2.9.3
