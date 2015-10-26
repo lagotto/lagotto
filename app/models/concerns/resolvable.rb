@@ -430,7 +430,7 @@ module Resolvable
         metadata["issued"] = get_date_parts_from_parts(metadata.fetch("pubYear", nil))
 
         author_string = metadata.fetch("authorString", "").chomp(".")
-        metadata["author"] = get_authors(author_string.split(", "), reversed: true)
+        metadata["author"] = get_authors(author_string.split(", "))
 
         metadata["title"] = metadata.fetch("title", "").chomp(".")
         metadata["container-title"] = metadata.fetch("journalTitle", nil)
@@ -442,8 +442,8 @@ module Resolvable
       else
         { error: 'Resource not found.', status: 404 }
       end
-    rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options)
+    # rescue *NETWORKABLE_EXCEPTIONS => e
+    #   rescue_faraday_error(url, e, options)
     end
 
     def get_doi_ra(doi, options = {})
@@ -484,6 +484,7 @@ module Resolvable
       when id.starts_with?("www.ncbi.nlm.nih.gov/pmc/articles/PMC")         then { pmcid: id[37..-1] }
       when id.starts_with?("arxiv.org/abs/")     then { arxiv: id[14..-1] }
       when id.starts_with?("n2t.net/ark:")       then { ark: id[8..-1] }
+      when id.starts_with?("github.com/")        then { canonical_url: "https://#{PostRank::URI.clean(id)}" }
 
       when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]).upcase }
       when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]).upcase }

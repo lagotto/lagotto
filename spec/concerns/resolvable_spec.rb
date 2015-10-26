@@ -179,7 +179,7 @@ describe Work, type: :model, vcr: true do
 
     context "canonical URL" do
       it "get_canonical_url" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030", :doi => "10.1371/journal.pone.0000030")
         url = "http://journals.plos.org/plosone/article?id=#{work.doi_escaped}"
         response = subject.get_canonical_url(work.pid, work_id: work.id)
         expect(response).to eq(url)
@@ -198,7 +198,7 @@ describe Work, type: :model, vcr: true do
       # end
 
       it "get_canonical_url with trailing slash" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1080/10629360600569196")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1080/10629360600569196", doi: "10.1080/10629360600569196")
         clean_url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
         url = "#{clean_url}/"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
@@ -210,7 +210,7 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url with jsessionid" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030", :doi => "10.1371/journal.pone.0000030")
         url = "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0000030;jsessionid=5362E4D61F1953ADA2CB3F746E58AAC2.f01t03"
         clean_url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
@@ -222,7 +222,7 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url with cookies" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1080/10629360600569196")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1080/10629360600569196", :doi => "10.1080/10629360600569196")
         url = "http://www.tandfonline.com/doi/abs/10.1080/10629360600569196"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url })
@@ -233,7 +233,7 @@ describe Work, type: :model, vcr: true do
       end
 
       it "get_canonical_url with <link rel='canonical'/>" do
-        work = FactoryGirl.create(:work, :with_events, :doi => "10.1371/journal.pone.0000030")
+        work = FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0000030", :doi => "10.1371/journal.pone.0000030")
         url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
         stub = stub_request(:get, "http://doi.org/#{work.doi}").to_return(:status => 302, :headers => { 'Location' => url })
         stub = stub_request(:get, url).to_return(:status => 200, :headers => { 'Location' => url }, :body => File.read(fixture_path + 'work_canonical.html'))
