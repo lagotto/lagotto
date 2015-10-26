@@ -25,6 +25,7 @@ records:
   - sprig_id: wikipedia
     name: wikipedia
     title: Wikipedia
+    description: Wikipedia is a free encyclopedia that everyone can edit.
     group_id: <%= sprig_record(Group, "discussed").id %>
   - sprig_id: datacite
     name: datacite
