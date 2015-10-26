@@ -11,7 +11,7 @@ class Api::V5::WorksController < Api::BaseController
 
   def index
     source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.where(member_id: params[:publisher_id]).first
+    publisher = Publisher.where(name: params[:publisher_id]).first
     collection = get_ids(params)
     collection = get_class_name(collection, params) if params[:class_name]
     collection = get_order(collection, params, source)

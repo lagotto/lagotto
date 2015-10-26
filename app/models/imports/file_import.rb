@@ -46,8 +46,8 @@ class FileImport < Import
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
       type = item.fetch("type", nil)
       work_type_id = WorkType.where(name: type).pluck(:id).first
-      member_id = item.fetch("member", nil)
-      publisher = Publisher.where(member_id: member_id).first
+      name = item.fetch("member", nil)
+      publisher = Publisher.where(name: name).first
 
       csl = {
         "issued" => item.fetch("issued", []),
@@ -62,7 +62,7 @@ class FileImport < Import
         year: year,
         month: month,
         day: day,
-        publisher_id: member_id,
+        publisher_id: publisher.id,
         work_type_id: work_type_id,
         tracked: true,
         csl: csl }

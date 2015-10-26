@@ -45,7 +45,7 @@
               <%= simple_form_for user, url: user_path(user), html: { role: "form", remote: true } do |f| %>
                 <%= f.input :authentication_token, label: "API key", input_html: { class: "form-user" } %>
                 <%= f.input :role, collection: roles.map { |role| [role.titleize, role] }, include_blank: false, input_html: { class: "form-user" } %>
-                <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
+                <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.name] }, input_html: { class: "form-user" } %>
 
                 <div class="form-group">
                   <%= f.submit "Save ", class: "btn btn-default" %>

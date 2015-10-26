@@ -281,13 +281,13 @@ ActiveRecord::Schema.define(version: 20151025194411) do
     t.datetime "updated_at"
     t.datetime "cached_at",                         default: '1970-01-01 00:00:00', null: false
     t.string   "name",                limit: 191,                                   null: false
-    t.string   "registration_agency", limit: 255
+    t.string   "registration_agency", limit: 191
     t.text     "url",                 limit: 65535
     t.boolean  "active",                            default: false
   end
 
   add_index "publishers", ["name"], name: "index_publishers_on_name", using: :btree
-  add_index "publishers", ["registration_agency"], name: "index_publishers_on_registration_agency", length: {"registration_agency"=>191}, using: :btree
+  add_index "publishers", ["registration_agency"], name: "index_publishers_on_registration_agency", using: :btree
 
   create_table "relation_types", force: :cascade do |t|
     t.string   "name",          limit: 255,             null: false

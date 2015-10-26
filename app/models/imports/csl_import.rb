@@ -10,9 +10,9 @@ class CslImport < Import
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
       title = item.fetch("title", nil)
-      member_id = Array(mem).first
-      if member_id
-        publisher = Publisher.where(member_id: member_id).first
+      name = Array(mem).first
+      if name
+        publisher = Publisher.where(name: name).first
       else
         publisher = item.fetch("publisher", nil)
       end
@@ -40,7 +40,7 @@ class CslImport < Import
         year: year.to_i,
         month: month.to_i,
         day: day.to_i,
-        publisher_id: member_id,
+        publisher_id: publisher_id,
         work_type_id: work_type_id,
         tracked: true,
         csl: csl }

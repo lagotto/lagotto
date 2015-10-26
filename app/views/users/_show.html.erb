@@ -18,7 +18,7 @@
           <%= f.input :password, input_html: { class: "form-user" } %>
           <%= f.input :password_confirmation, input_html: { class: "form-user" } %>
           <% if Publisher.first %>
-            <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
+            <%= f.association :publisher, collection: Publisher.order('title').map { |publisher| [publisher.title, publisher.name] }, input_html: { class: "form-user" } %>
           <% end %>
 
           <div class="form-group">
@@ -44,7 +44,7 @@
         <% end %>
         <% if can?(:create, User) && @user.publisher %>
           <dt>Publisher</dt>
-          <dd><%= link_to h(@user.publisher.title), publisher_path(@user.publisher.member_id) %></dd>
+          <dd><%= link_to h(@user.publisher.title), publisher_path(@user.publisher.name) %></dd>
         <% end %>
         <dt>API Key</dt>
         <dd><%= @user.authentication_token %></dd>

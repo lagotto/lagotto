@@ -3,7 +3,7 @@
     <% if can?(:update, @source) && @source.state > 1 && controller.action_name != "edit" && !(controller.action_name == "update" && !@publisher_option.errors.empty?) %>
       <div class="btn-toolbar pull-right">
         <div class="btn-group btn-group-sm">
-          <%= link_to icon("pencil").html_safe, edit_source_publisher_option_path(@source.name, current_user.publisher.member_id), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
+          <%= link_to icon("pencil").html_safe, edit_source_publisher_option_path(@source.name, current_user.publisher.name), { :remote => true, :class => 'btn btn-default btn-sm pull-right configuration-edit', :title => "Edit" } %>
         </div>
       </div>
     <% end %>
@@ -11,7 +11,7 @@
   </div>
   <% if can?(:update, @source) && @source.state > 1 && (controller.action_name == "edit" || (controller.action_name == "update" && !@publisher_option.errors.empty?)) %>
     <div class="panel-body">
-      <%= simple_form_for(@publisher_option, :url => source_publisher_option_path(@source.name, current_user.publisher.member_id), :html => { :remote => true }) do |f| %>
+      <%= simple_form_for(@publisher_option, :url => source_publisher_option_path(@source.name, current_user.publisher.name), :html => { :remote => true }) do |f| %>
         <% if not @publisher_option.publisher_fields.empty? %>
           <% @publisher_option.publisher_fields.each do |field| %>
             <% if field == "password" %>
@@ -26,7 +26,7 @@
 
         <div class="form-group">
           <%= f.submit "Save ", class: "btn btn-default" %>
-          <%= link_to 'Cancel', source_publisher_option_path(@source.name, current_user.publisher.member_id), { :remote => true, :class => 'btn' } %>
+          <%= link_to 'Cancel', source_publisher_option_path(@source.name, current_user.publisher.name), { :remote => true, :class => 'btn' } %>
         </div>
       <% end %>
     </div>

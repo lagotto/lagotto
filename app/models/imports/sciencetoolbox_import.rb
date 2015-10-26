@@ -12,9 +12,9 @@ class SciencetoolboxImport < Import
       year, month, day = parts[0], parts[1], parts[2]
 
       title = item.fetch("description", nil)
-      member_id = Array(mem).first
-      if member_id
-        publisher = Publisher.where(member_id: member_id).first
+      name = Array(mem).first
+      if name
+        publisher = Publisher.where(name: name).first
       else
         publisher = nil
       end
@@ -39,7 +39,7 @@ class SciencetoolboxImport < Import
         year: year,
         month: month,
         day: day,
-        publisher_id: member_id,
+        publisher_id: publisher.id,
         work_type_id: work_type_id,
         tracked: true,
         csl: csl }

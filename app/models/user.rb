@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
-  belongs_to :publisher, primary_key: :member_id
+  belongs_to :publisher
   has_and_belongs_to_many :reports
 
   devise :database_authenticatable, :registerable,

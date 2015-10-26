@@ -27,9 +27,6 @@
         <%= f.input :dataone, :label => 'DataONE' %>
         <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
         <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
-        <% if publishers.length > 1 %>
-          <%= f.association :publisher, collection: Publisher.order("title").map { |publisher| [publisher.title, publisher.member_id] }, input_html: { class: "form-user" } %>
-        <% end %>
         <%= f.input :published_on, label: "Publication Date" do %>
           <%= f.input_field :day, as: :day %>
           <%= f.input_field :month, as: :month %>

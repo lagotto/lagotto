@@ -21,7 +21,7 @@ class Work < ActiveRecord::Base
   # store blank values as nil
   nilify_blanks
 
-  belongs_to :publisher, primary_key: :member_id
+  belongs_to :publisher
   belongs_to :work_type
   has_many :events, dependent: :destroy
   has_many :sources, :through => :events

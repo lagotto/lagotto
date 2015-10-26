@@ -6,7 +6,7 @@ class Group < ActiveRecord::Base
   validates :title, :presence => true
 
   scope :active, -> { joins(:sources).where("sources.active = ?", 1).order("groups.id") }
-  scope :visible, -> { joins(:agents).where("state > ?", 1).order("groups.id") }
+  scope :visible, -> { joins(:agents).where("agents.state > ?", 1).order("groups.id") }
   scope :with_sources, -> { joins(:sources).order("groups.id") }
   scope :with_agents, -> { joins(:agents).order("groups.id") }
 
