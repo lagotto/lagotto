@@ -102,12 +102,16 @@ module ApplicationHelper
   def author_format(author)
     author = [author] if author.is_a?(Hash)
     authors = Array(author).map do |a|
-      name = [a.fetch("given", nil), a.fetch("family", nil)].compact.join(' ')
-      if a["ORCID"].present?
-        pid_short = CGI.escape(a["ORCID"].gsub(/(http|https):\/+(\w+)/, '\2'))
-        "<a href=\"/contributors/#{pid_short}\">#{name}</a>"
+      if a.is_a?(Hash)
+        name = [a.fetch("given", nil), a.fetch("family", nil)].compact.join(' ')
+        if a["ORCID"].present?
+          pid_short = CGI.escape(a["ORCID"].gsub(/(http|https):\/+(\w+)/, '\2'))
+          "<a href=\"/contributors/#{pid_short}\">#{name}</a>"
+        else
+          name
+        end
       else
-        name
+        nil
       end
     end.compact
 
