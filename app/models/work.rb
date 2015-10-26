@@ -161,7 +161,7 @@ class Work < ActiveRecord::Base
   end
 
   def to_param  # overridden, use pid instead of id
-    short_pid
+    pid
   end
 
   def short_pid

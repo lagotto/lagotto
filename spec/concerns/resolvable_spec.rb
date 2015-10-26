@@ -61,6 +61,11 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(canonical_url: id)
       end
 
+      it "github" do
+        id = "https://github.com/electronicvisions/ppu-software"
+        expect(subject.get_id_hash(id)).to eq(canonical_url: id)
+      end
+
       it "https with one /" do
         id = "https:/journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(canonical_url: "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
