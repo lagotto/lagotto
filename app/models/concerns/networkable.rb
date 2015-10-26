@@ -9,6 +9,11 @@ module Networkable
 
   included do
     def get_result(url, options = { content_type: 'json' })
+      # make sure we use a 'Host' header
+      uri = URI.parse(url)
+      options[:headers] ||= {}
+      options[:headers]['Host'] = uri.host
+
       conn = faraday_conn(options[:content_type], options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.authorization :Bearer, options[:bearer] if options[:bearer]
