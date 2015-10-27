@@ -22,7 +22,7 @@ class Contributor < ActiveRecord::Base
   validates :orcid, :presence => true, :uniqueness => true
   before_validation :set_metadata
 
-  after_commit :update_cache, :on => :create
+  # after_commit :update_cache, :on => :create
 
   scope :order_by_name, -> { order("contributors.family_name") }
   scope :query, ->(query) { where("family_name like ?", "%#{query}%") }
