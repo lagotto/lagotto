@@ -29,8 +29,8 @@ class ContributorsController < ApplicationController
   def load_index
     collection = Contributor
     collection = collection.query(params[:q]) if params[:q]
-
-    @contributors = collection.order_by_name.paginate(:page => params[:page])
+    collection = collection.order("contributors.submitted_at DESC")
+    @contributors = collection.paginate(:page => params[:page])
   end
 
   def get_pid(id)
