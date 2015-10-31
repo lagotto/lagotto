@@ -156,4 +156,8 @@ module ApplicationHelper
   def roles
     %w(user staff admin)
   end
+
+  def settings
+    Settings[ENV['MODE']]
+  end
 end

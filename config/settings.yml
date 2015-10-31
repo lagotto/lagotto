@@ -1,0 +1,80 @@
+datacite:
+  labs_links:
+   - name: Blog
+     url: http://blog.labs.datacite.org
+     icon: rss
+   - name: Profiles
+     url: https://profiles.labs.datacite.org
+     icon: user
+   - name: Schema
+     url: http://schema.labs.datacite.org
+     icon: file-code-o
+   - name: Search
+     url: https://search.labs.datacite.org
+     icon: search
+  production_links:
+   - name: Blog
+     url: http://blog.datacite.org
+     icon: rss
+   - name: Homepage
+     url: http://www.datacite.org
+     icon: globe
+   - name: MDS
+     url: http://mds.datacite.org
+     icon: database
+   - name: Schema
+     url: http://schema.datacite.org
+     icon: file-code-o
+   - name: Search
+     url: http://search.datacite.org
+     icon: search
+   - name: Statistics
+     url: http://stats.datacite.org
+     icon: bar-chart
+  about_links:
+   - name: What we do
+     url: https://www.datacite.org/about-datacite/what-do-we-do
+   - name: Board
+     url: https://www.datacite.org/about-datacite/board
+   - name: Staff
+     url: https://www.datacite.org/about-datacite/staff
+   - name: Members
+     url: https://www.datacite.org/about-datacite/members
+   - name: Resources
+     url: https://www.datacite.org/resources
+   - name: Working groups
+     url: https://www.datacite.org/about-datacite/working-groups
+   - name: Partners
+     url: https://www.datacite.org/about-datacite/partners
+   - name: Job opportunities
+     url: https://www.datacite.org/about-datacite/job-opportunities
+  foryou_links:
+   - name: Cite your data
+     url: https://www.datacite.org/services/cite-your-data.html
+   - name: Format your citations
+     url: https://www.datacite.org/services/format-your-citation.html
+   - name: Find a repository
+     url: https://www.datacite.org/services/find-repository.html
+   - name: Find a dataset
+     url: https://www.datacite.org/services/find-dataset.html
+   - name: Get your DOI statistics
+     url: https://www.datacite.org/services/get-your-doi-statistics.html
+   - name: Content negotiation
+     url: https://www.datacite.org/services/content-negotiation.html
+   - name: OAI provider
+     url: https://www.datacite.org/services/oai-provider.html
+   - name: Metadata store
+     url: https://www.datacite.org/services/metadata-store.html
+   - name: Test environment
+     url: https://www.datacite.org/services/test-environment.html
+  participate_links:
+   - name: Researchers
+     url: https://www.datacite.org/participate/researchers
+   - name: Research organizations
+     url: https://www.datacite.org/participate/research-organisations
+   - name: Libraries
+     url: https://www.datacite.org/participate/libraries
+   - name: Journal editors
+     url: https://www.datacite.org/participate/journal-editors
+   - name: Data centres
+     url: https://www.datacite.org/participate/data-centres

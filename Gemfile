@@ -25,7 +25,7 @@ gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
 gem "multi_json", "~> 1.10.1"
 gem "oj", "~> 2.10.4"
-gem 'safe_yaml', '~> 1.0.4'
+gem 'config', '~> 1.0.0'
 gem 'sprig', '~> 0.1.7'
 gem 'hashie', '~> 3.3.2'
 gem 'namae', '~> 0.10.1'

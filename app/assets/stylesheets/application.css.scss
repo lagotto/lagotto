@@ -137,6 +137,7 @@ $link-color:            $peter-river;
 $link-hover-color:      mix($peter-river, black, 85%);
 
 $hr-border:             $gray;
+$brand-primary-light:   lighten($wet-asphalt, 20%);
 
 /*doc
 ---
@@ -257,7 +258,7 @@ Lagotto uses a fixed navbar on top, avoiding submenus if possible. For navigatio
 
 $navbar-link-space:    20px;
 $navbar-sublink-space: 9px;
-$navbar-height:        50px;
+$navbar-height:        60px;
 $navbar-inverse-bg:    $brand-primary;
 
 $nav-tabs-border-color: $gray;
@@ -479,7 +480,10 @@ $fa-font-path: "font-awesome/fonts";
 @import "font-awesome/scss/font-awesome";
 @import "swagger-ui";
 
-body { padding-top: 70px; padding-bottom: 20px; }
+body {
+  margin-top: 140px;
+  margin-bottom: 20px;
+}
 
 // Fix inconsistencies
 // small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
@@ -543,7 +547,74 @@ dt, dd { line-height: 1.5; }
 form.sandbox input { font-family: $font-family-base; font-size: 0.9em; }
 form.sandbox input[type="button"] { -webkit-appearance: none; background-color: $gray-dark; color: white;  border:1px solid $gray-dark; border-radius: 3px; }
 // make the scrollbar always visible
-html { overflow: -moz-scrollbars-vertical; overflow-y: scroll; }
+html {
+  overflow: -moz-scrollbars-vertical;
+  overflow-y: scroll;
+  position: relative;
+  min-height: 100%;
+}
+// navbar
+.navbar-default {
+  background-color: $inverse;
+  border-color: $gray;
+  .navbar-brand {
+    color: $brand-primary;
+    font-size: 1.75em;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: auto;
+    .fa {
+     font-size: 18px;
+     vertical-align: middle;
+     padding-bottom: 4px;
+    }
+    &:hover, &:focus {
+      color: $brand-secondary; }}
+  .navbar-text {
+    color: $brand-primary; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $brand-primary;
+        &:hover,  &:focus {
+          color: $brand-primary-light; }}}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $brand-primary-light;
+        background-color: $gray-light; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $brand-primary-light;
+        background-color: $gray-light; }}}
+  .navbar-toggle {
+    border-color: $gray-light;
+    &:hover, &:focus {
+      background-color: $gray-light; }
+    .icon-bar {
+      background-color: $brand-primary; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $brand-primary; }
+  .navbar-link {
+    color: $brand-primary;
+    &:hover {
+      color: $brand-primary-light; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $brand-primary;
+      &:hover, &:focus {
+        color: $brand-primary-light; }}
+    > .active {
+      > a, > a:hover, > a:focus, {
+        color: $brand-primary-light;
+        background-color: $gray-light; }}}
+}
+.navbar-sub {
+  border-top: 60px;
+}
 
 body#home { background-color: white; }
 div.home { font-size: 1.25em; }
@@ -585,4 +656,40 @@ div.home { font-size: 1.25em; }
 .markdown ul {
   list-style: disc outside none;
   margin-left: 1.1em;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  height: 300px;
+  width: 100%;
+  color: $inverse;
+  font-weight: 300;
+  background-color: #393939;
+  padding: 1em;
+  margin: 0;
+
+  .container-fluid {
+    max-width: 1150px;
+    padding: 0;
+  }
+  h4, h5 {
+    font-size: $font-size-large;
+    font-weight: 300;
+    margin-top: .5em;
+    margin-bottom: .1em;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  a, a:hover, a:visited {
+    color: $inverse;
+  }
+  .share h4 {
+    color: $inverse;
+    margin-bottom: .5em;
+  }
+  .share a {
+    margin-right: 1em;
+  }
 }
