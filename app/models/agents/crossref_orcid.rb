@@ -77,7 +77,7 @@ class CrossrefOrcid < Agent
         title = item["container-title"][0].presence || "No title"
       end
 
-      member = item.fetch("member", "")[30..-1]
+      member = item.fetch("member", nil).to_s[30..-1]
       publisher = Publisher.where(name: member).first
       publisher_id = publisher.present? ? publisher.id : nil
 
