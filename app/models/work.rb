@@ -412,7 +412,7 @@ class Work < ActiveRecord::Base
 
     if doi.present?
       ra = registration_agency || get_doi_ra(doi)
-      return nil unless ra.present?
+      return nil if ra.nil? || ra.is_a?(Hash)
 
       write_attribute(:registration_agency, ra)
       write_attribute(:tracked, true)
