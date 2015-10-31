@@ -1,7 +1,7 @@
 <div class="navbar subnav" role="navigation">
   <div class="navbar-inner">
     <div class="container">
-      <h1 class="navbar-text" id="api_key" data-api_key="<%= current_user && current_user.api_key %> data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-pid="<%= @work.present? ? @work.pid : nil %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.name : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-contributor_id="<%= @contributor.present? ? @contributor.pid : nil %>" data-sort="<%= @sort.present? ? h(@sort.name) : nil %>">
+      <h1 class="navbar-text" id="api_key" data-api_key="<%= current_user && current_user.api_key %> data-page="<%= @page.present? ? @page : nil %>" data-per_page="15" data-q="<%= @q %>" data-pid="<%= @work.present? ? @work.pid : nil %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.name : nil %>" data-relation_type_id="<%= @relation_type.present? ? @relation_type.name : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-contributor_id="<%= @contributor.present? ? @contributor.pid : nil %>" data-sort="<%= @sort.present? ? h(@sort.name) : nil %>">
         <%= @title || controller.controller_name.humanize %>
       </h1>
       <ul class="nav navbar-nav navbar-right">
