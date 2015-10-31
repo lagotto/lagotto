@@ -534,7 +534,7 @@ select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 { margin-top: 0; }
 h5, h4.work { margin-bottom: 0; }
-.loading {margin: 1em; }
+.loading {margin: 1em; color: $gray; }
 #results, #results-references, #results-recommendations h2:first-child, h4.work:first-child { margin-top: 0; }
 #results, #results-references, #results-recommendations h4, #results p { margin-bottom: 0; }
 #results, #results-references, #results-recommendations p { line-height: 1.33; }
