@@ -1,31 +1,50 @@
-<div class="nav navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header"
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <%= link_to image_tag('datacite/logo.png', class: 'logo'), 'http://www.datacite.org' %>
-    <div class="navbar-collapse collapse">
-      <%= link_to "#{icon('link')} #{ENV['SITENAME']}".html_safe, '/', class: 'navbar-brand' %>
-      <% unless ["sessions","registrations"].include?(controller.controller_name) %>
+<div class="header" id="navtop">
+  <div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header"
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to image_tag('datacite/logo.png', class: 'logo'), 'http://www.datacite.org' %>
+      </div>
+      <div class="navbar-collapse collapse">
+        <%= link_to "#{icon('link')} #{ENV['SITENAME']}".html_safe, '/', class: 'navbar-brand' %>
+        <% unless ["sessions","registrations"].include?(controller.controller_name) %>
+          <ul class="nav navbar-nav navbar-right">
+            <% if user_signed_in? %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= current_user.name %> <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><%= link_to "#{icon('user')} Your Account".html_safe, user_path("me") %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to "#{icon('sign-out')} Sign Out".html_safe, destroy_user_session_path, :method => :delete, :id => "sign_out" %></li>
+                </ul>
+              </li>
+            <% else %>
+              <li><%= login_link %></li>
+            <% end %>
+          </ul>
+        <% end %>
         <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= current_user.name %> <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><%= link_to "#{icon('user')} Your Account".html_safe, user_path("me") %></li>
-                <li class="divider"></li>
-                <li><%= link_to "#{icon('sign-out')} Sign Out".html_safe, destroy_user_session_path, :method => :delete, :id => "sign_out" %></li>
-              </ul>
-            </li>
-          <% else %>
-            <li><%= login_link %></li>
-          <% end %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= icon('th') %> <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="dropdown-header">DataCite Labs</li>
+              <% settings.labs_links.each do |item| %>
+                <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
+              <% end %>
+              <li class="divider"></li>
+              <li class="dropdown-header">DataCite</li>
+              <% settings.production_links.each do |item| %>
+                <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
+              <% end %>
+            </ul>
+          </li>
         </ul>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

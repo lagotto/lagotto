@@ -1,7 +1,7 @@
 <% if can?(:manage, Publisher) and (controller.action_name == "new" or (controller.action_name == "create" and !@publisher.errors.empty?)) %>
 
   <div class="page-header">
-    <h1>Add Publisher</h1>
+    <h2>Add Publisher</h2>
   </div>
 
   <div class="search">
@@ -59,7 +59,6 @@
         </div>
       <% end %>
     </div>
-    <h1 class="pull-left">Publishers</h1>
 
     <%= form_tag(publishers_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
       <div class="form-group">

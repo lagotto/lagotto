@@ -5,7 +5,7 @@ var params = d3.select("#api_key"),
     colors = d3.scale.ordinal().range(["#1abc9c","#ecf0f1","#95a5a6"]);
 
 if (!params.empty()) {
-  var source_id = params.attr('data-name');
+  var source_id = params.attr('data-source_id');
   var query = encodeURI("/api/sources/" + source_id);
 }
 

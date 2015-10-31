@@ -4,9 +4,6 @@
       <%= link_to "#{icon("flag")} Filters".html_safe, filters_path, { id: "filters", class: "btn btn-default" } %>
     </div>
   </div>
-  <h1 class="pull-left">
-    <%= pluralize(@notifications.count, 'Notification') %>
-  </h1>
 
   <%= form_tag(notifications_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
     <div class="form-group">

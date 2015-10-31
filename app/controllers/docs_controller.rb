@@ -6,5 +6,6 @@ class DocsController < ApplicationController
 
   def show
     @doc = Doc.find(params[:id])
+    @title = @doc.title
   end
 end

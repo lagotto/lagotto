@@ -1,9 +1,6 @@
 <div class="page-header">
   <div class="btn-toolbar pull-right">
   </div>
-  <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-relation_type_id="<%= @relation_type.present? ? @relation_type.name : "" %>" data-sort="">
-    References
-  </h1>
 
   <%= form_tag(references_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
     <div class="form-group">

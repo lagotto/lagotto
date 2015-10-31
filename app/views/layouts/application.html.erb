@@ -17,7 +17,7 @@
     <% end %>
 
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic|Source+Code+Pro:400,600' rel='stylesheet' type='text/css'>
-    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= stylesheet_link_tag ENV['MODE'], :media => "all" %>
     <%= javascript_include_tag "application" %>
     <% if ENV['BUGSNAG_JS_KEY'] %>
       <script
@@ -56,7 +56,8 @@
   </head>
 
   <body>
-    <div><%= render partial: "layouts/#{ENV['MODE']}/header" -%></div>
+    <%= render partial: "layouts/#{ENV['MODE']}/header" -%>
+    <%= render partial: "layouts/navigation" -%>
 
     <div class="container">
       <% @flash = flash -%>
@@ -64,6 +65,8 @@
       <%= yield -%>
     </div>
 
-    <div><%= render partial: "layouts/#{ENV['MODE']}/footer" -%></div>
+    <%= render partial: "layouts/#{ENV['MODE']}/footer" -%>
   </body>
+
+  <%= javascript_include_tag 'layouts/index' %>
 </html>

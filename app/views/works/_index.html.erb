@@ -39,9 +39,6 @@
         </div>
       <% end %>
     </div>
-    <h1 class="pull-left" id="api_key" data-api_key="<%= current_user && current_user.api_key %>" data-pid="" data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.name : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-sort="<%= @sort.present? ? h(@sort.name) : nil %>">
-      Works
-    </h1>
 
     <%= form_tag(works_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
       <div class="form-group">

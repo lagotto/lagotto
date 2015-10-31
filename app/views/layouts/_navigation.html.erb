@@ -1,62 +1,40 @@
-<nav class="navbar navbar-sub navbar-default navbar-fixed-top" role="navigation">
-<div class="container">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <%= link_to ENV['SITENAME'], root_path, class: "navbar-brand" %>
-  </div>
-  <div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-      <%= controller.controller_name == "status" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Status", status_index_path %></li>
-      <%= controller.controller_name == "works" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Works", works_path %></li>
-      <%= controller.controller_name == "sources" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Sources", sources_path %></li>
-      <% if can?(:read, Notification) %>
-        <%= controller.controller_name == "agents" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Agents", agents_path %></li>
-      <% end %>
-      <% if can?(:read, Notification) || contributors.length > 1 %>
-        <%= controller.controller_name == "contributors" ? '<li class="active hidden-sm">'.html_safe : '<li class="hidden-sm">'.html_safe %><%= link_to "Contributors", contributors_path %></li>
-      <% end %>
-      <% if can?(:read, Notification) || publishers.length > 1 %>
-        <%= controller.controller_name == "publishers" ? '<li class="active hidden-sm">'.html_safe : '<li class="hidden-sm">'.html_safe %><%= link_to "Publishers", publishers_path %></li>
-      <% end %>
-      <% if can?(:read, Notification) %>
-        <%= controller.controller_name == "notifications" ? '<li class="active">'.html_safe : '<li>'.html_safe %><%= link_to "Notifications", notifications_path %></li>
-      <% end %>
-      <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm hidden-md">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <% documents.each do |document| %>
-            <% if document == "-" %>
-              <li class="divider"></li>
-            <% else %>
-              <li><%= link_to h(document.tr('-', ' ')), "/docs/#{document.downcase}" %></li>
-            <% end %>
-          <% end %>
-          <li class="divider"></li>
-          <li><%= link_to "Support Forum", "http://discuss.lagotto.io" %></li>
-        </ul>
-      </li>
-    </ul>
-    <% unless ["sessions","registrations"].include?(controller.controller_name) %>
+<div class="navbar subnav" role="navigation">
+  <div class="navbar-inner">
+    <div class="container">
+      <h1 class="navbar-text" id="api_key" data-api_key="<%= current_user && current_user.api_key %> data-page="<%= @page %>" data-per_page="15" data-q="<%= @q %>" data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.name : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-sort="<%= @sort.present? ? h(@sort.name) : nil %>">
+        <%= @title || controller.controller_name.humanize %>
+      </h1>
       <ul class="nav navbar-nav navbar-right">
-      <% if user_signed_in? %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= current_user.name %> <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><%= link_to "#{icon('user')} Your Account".html_safe, user_path("me") %></li>
+        <li><%= link_to "Status", status_index_path %></li>
+        <li><%= link_to "Works", works_path %></li>
+        <li><%= link_to "Sources", sources_path %></li>
+        <% if can?(:read, Notification) %>
+          <li><%= link_to "Agents", agents_path %></li>
+        <% end %>
+        <% if can?(:read, Notification) || contributors.length > 1 %>
+          <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
+        <% end %>
+        <% if can?(:read, Notification) || publishers.length > 1 %>
+          <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
+        <% end %>
+        <% if can?(:read, Notification) %>
+          <li><%= link_to "Notifications", notifications_path %></li>
+        <% end %>
+        <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <% documents.each do |document| %>
+              <% if document == "-" %>
+                <li class="divider"></li>
+              <% else %>
+                <li><%= link_to h(document.tr('-', ' ')), "/docs/#{document.downcase}" %></li>
+              <% end %>
+            <% end %>
             <li class="divider"></li>
-            <li><%= link_to "#{icon('sign-out')} Sign Out".html_safe, destroy_user_session_path, :method => :delete, :id => "sign_out" %></li>
+            <li><%= link_to "Support Forum", "http://discuss.lagotto.io" %></li>
           </ul>
         </li>
-      <% else %>
-        <li><%= login_link %></li>
-      <% end %>
       </ul>
-    <% end %>
     </div>
   </div>
-</nav>
+</div>

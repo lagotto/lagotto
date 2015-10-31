@@ -118,9 +118,9 @@ $asbestos:      #6c797a;
 
 $gray:          lighten($silver, 15%);
 $gray-light:    lighten($silver, 20%);
-$gray-lighter:  lighten($silver, 30%);
-$gray-dark:     darken($silver, 20%);
-$gray-darker:   darken($silver, 30%);
+$gray-lighter:  lighten($silver, 21%);
+$gray-dark:     lighten($silver, 10%);
+$gray-darker:   lighten($silver, 5%);
 $inverse:       white;
 
 $brand-primary:         $wet-asphalt;
@@ -233,7 +233,7 @@ $btn-warning-active-bg: mix($brand-warning, black, 85%);
 $btn-inverse-hover-bg:  overlay($brand-primary, darken(white, 37.5%));
 $btn-inverse-active-bg: mix($brand-primary, black, 85%);
 
-$btn-link-disabled-color: $gray-lighter;
+$btn-link-disabled-color: $gray-light;
 
 /*doc
 ---
@@ -256,10 +256,26 @@ Lagotto uses a fixed navbar on top, avoiding submenus if possible. For navigatio
 
 */
 
-$navbar-link-space:    20px;
-$navbar-sublink-space: 9px;
-$navbar-height:        60px;
-$navbar-inverse-bg:    $brand-primary;
+$navbar-link-space:     20px;
+$navbar-sublink-space:  9px;
+$navbar-height:         60px;
+$navbar-inverse-bg:     $brand-primary;
+
+$navbar-default-color:  $brand-primary;
+$navbar-default-bg:     $inverse;
+$navbar-default-border: $gray-lighter;
+
+$navbar-default-link-color:                #777;
+$navbar-default-link-hover-color:          #333;
+$navbar-default-link-hover-bg:             transparent;
+$navbar-default-link-active-color:         #555;
+$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
+$navbar-default-link-disabled-color:       $gray-light;
+$navbar-default-link-disabled-bg:          transparent;
+
+$navbar-default-toggle-hover-bg:           $gray-light;
+$navbar-default-toggle-icon-bar-bg:        $brand-primary;
+$navbar-default-toggle-border-color:       $gray-light;
 
 $nav-tabs-border-color: $gray;
 $nav-tabs-active-link-hover-color: $gray-dark;
@@ -480,11 +496,6 @@ $fa-font-path: "font-awesome/fonts";
 @import "font-awesome/scss/font-awesome";
 @import "swagger-ui";
 
-body {
-  margin-top: 140px;
-  margin-bottom: 20px;
-}
-
 // Fix inconsistencies
 // small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
@@ -554,66 +565,56 @@ html {
   min-height: 100%;
 }
 // navbar
-.navbar-default {
-  background-color: $inverse;
-  border-color: $gray;
-  .navbar-brand {
-    color: $brand-primary;
-    font-size: 1.75em;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    text-align: center;
-    margin: auto;
-    .fa {
-     font-size: 18px;
-     vertical-align: middle;
-     padding-bottom: 4px;
-    }
-    &:hover, &:focus {
-      color: $brand-secondary; }}
-  .navbar-text {
-    color: $brand-primary; }
-  .navbar-nav {
-    > li {
-      > a {
-        color: $brand-primary;
-        &:hover,  &:focus {
-          color: $brand-primary-light; }}}
-    > .active {
-      > a, > a:hover, > a:focus {
-        color: $brand-primary-light;
-        background-color: $gray-light; }}
-    > .open {
-      > a, > a:hover, > a:focus {
-        color: $brand-primary-light;
-        background-color: $gray-light; }}}
-  .navbar-toggle {
-    border-color: $gray-light;
-    &:hover, &:focus {
-      background-color: $gray-light; }
-    .icon-bar {
-      background-color: $brand-primary; }}
-  .navbar-collapse,
-  .navbar-form {
-    border-color: $brand-primary; }
-  .navbar-link {
-    color: $brand-primary;
-    &:hover {
-      color: $brand-primary-light; }}}
-@media (max-width: 767px) {
-  .navbar-default .navbar-nav .open .dropdown-menu {
-    > li > a {
-      color: $brand-primary;
-      &:hover, &:focus {
-        color: $brand-primary-light; }}
-    > .active {
-      > a, > a:hover, > a:focus, {
-        color: $brand-primary-light;
-        background-color: $gray-light; }}}
+.navbar-default .navbar-brand {
+  color: $brand-primary;
+  font-size: 1.75em;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  margin: auto;
+  .fa {
+   font-size: 18px;
+   vertical-align: middle;
+   padding-bottom: 4px;
+  }
 }
-.navbar-sub {
-  border-top: 60px;
+.navbar {
+  margin-bottom: 0;
+}
+.subnav {
+  margin: 0;
+  top: 0;
+  height: 60px;
+  background-color: $gray;
+  border-bottom: 1px solid $gray-dark;
+  margin-bottom: 20px;
+  h1 {
+    display: inline;
+    font-size: 1.75em;
+    font-weight: normal;
+    margin: 12px 0 12px 10px;
+  }
+  .navbar-nav a {
+    color: $brand-primary;
+    font-size: 1.25em;
+  }
+  .navbar-nav .dropdown-menu {
+    font-size: .75em;
+  }
+}
+.subnav.affix {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+.dropdown-header {
+  font-size: 1.25em;
+  color: gray;
+}
+.dropdown-menu {
+  z-index: 1040;
 }
 
 body#home { background-color: white; }
@@ -657,6 +658,9 @@ div.home { font-size: 1.25em; }
   list-style: disc outside none;
   margin-left: 1.1em;
 }
+.logo {
+  margin-top: 6px;
+}
 .footer {
   position: absolute;
   bottom: 0;
@@ -691,5 +695,6 @@ div.home { font-size: 1.25em; }
   }
   .share a {
     margin-right: 1em;
+    font-size: 16px;
   }
 }
