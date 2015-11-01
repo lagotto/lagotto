@@ -530,7 +530,7 @@ div.work .btn-toolbar { padding-left: 1px; }
 #flash_alert a { color: $brand-primary; text-decoration: underline; }
 label.date { display: block; }
 select.form-control.date { display: inline; }
-.form-group.has-error input, .form-group.has-error span.help-block, .has-error { color: $brand-danger; }
+.form-group.has-error input, .form-group.has-error span.help-block, .form-group.has-error label, .has-error { color: $brand-danger; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 { margin-top: 0; }
 h5, h4.work { margin-bottom: 0; }
