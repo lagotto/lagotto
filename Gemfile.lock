@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/datacite/omniauth-jwt.git
+  revision: fe3717276f8fbfd5ffc27f83e77615f4d0367251
+  specs:
+    omniauth-jwt (0.0.3)
+      jwt
+      omniauth (~> 1.2, >= 1.2.2)
+
+GIT
   remote: https://github.com/fly1tkg/state_machine.git
   revision: 181f758a50698c4564b46a48d5704b48e9b3cf33
   branch: issue/334
@@ -157,7 +165,7 @@ GEM
     email_spec (1.6.0)
       launchy (~> 2.1)
       mail (~> 2.2)
-    ember-cli-rails (0.4.0)
+    ember-cli-rails (0.4.1)
       railties (>= 3.2, < 5)
       sprockets (>= 2.0)
     erubis (2.7.0)
@@ -490,6 +498,7 @@ DEPENDENCIES
   omniauth (~> 1.2.2)
   omniauth-cas (~> 1.1.0)
   omniauth-github (~> 1.1.2)
+  omniauth-jwt (~> 0.0.3)!
   omniauth-orcid (~> 1.0)
   omniauth-persona
   parse-cron (~> 0.1.4)

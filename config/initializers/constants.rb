@@ -9,6 +9,7 @@ NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
 
 RESCUABLE_EXCEPTIONS = [ActiveRecord::RecordNotFound,
                         CanCan::AccessDenied,
+                        JWT::VerificationError,
                         ActionController::ParameterMissing,
                         ActiveModel::ForbiddenAttributesError,
                         NoMethodError]

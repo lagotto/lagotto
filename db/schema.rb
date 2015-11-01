@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151025194411) do
+ActiveRecord::Schema.define(version: 20151101205608) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -406,7 +406,7 @@ ActiveRecord::Schema.define(version: 20151025194411) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider",               limit: 255
-    t.string   "uid",                    limit: 255
+    t.string   "uid",                    limit: 191
     t.string   "name",                   limit: 255
     t.string   "authentication_token",   limit: 191
     t.string   "role",                   limit: 255, default: "user"
@@ -414,8 +414,9 @@ ActiveRecord::Schema.define(version: 20151025194411) do
   end
 
   add_index "users", ["authentication_token"], name: "index_users_authentication_token", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid"], name: "index_uid_on_users", unique: true, using: :btree
+  add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
   create_table "work_types", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false

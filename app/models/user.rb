@@ -7,10 +7,10 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:cas, :github, :orcid, :persona]
+         :omniauthable, :omniauth_providers => [:cas, :github, :orcid, :persona, :jwt]
 
   validates :name, presence: true
-  validates :email, uniqueness: true, allow_blank: true
+  validates :uid, presence: true, uniqueness: true
 
   scope :query, ->(query) { where("name like ? OR email like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
   scope :ordered, -> { order("current_sign_in_at DESC") }
