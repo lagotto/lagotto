@@ -54,6 +54,11 @@ Lagotto::Application.configure do
 
   config.active_record.raise_in_transactional_callbacks = true
 
+  if ENV["FORCE_SSL"]
+    config.force_ssl = true
+    config.to_prepare { Devise::SessionsController.force_ssl }
+  end
+
   # for devise
   # TODO: Must set it with correct value!!
   config.action_mailer.default_url_options = { :host => "#{ENV['MAIL_ADDRESS']}:#{ENV['MAIL_PORT']}" }
