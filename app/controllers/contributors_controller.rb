@@ -35,7 +35,7 @@ class ContributorsController < ApplicationController
 
   def get_pid(id)
     return nil unless id.present?
-    "http://#{id}"
+    id.starts_with?('http') ? id.gsub(/(http|https):\/+(\w+)/, '\1://\2') : "http://#{id}"
   end
 
   private

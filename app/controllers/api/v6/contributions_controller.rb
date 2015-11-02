@@ -22,6 +22,8 @@ class Api::V6::ContributionsController < Api::BaseController
   def index
     if @contributor
       collection = @contributor.contributions
+    elsif params[:contributor_id]
+      collection = Contribution.none
     else
       collection = Contribution
     end
@@ -51,7 +53,13 @@ class Api::V6::ContributionsController < Api::BaseController
 
   def load_contributor
     return nil unless params[:contributor_id].present?
+    pid = get_pid(params[:contributor_id])
 
-    @contributor = Contributor.where(pid: "http://#{params[:contributor_id]}").first
+    @contributor = Contributor.where(pid: pid).first
+  end
+
+  def get_pid(id)
+    return nil unless id.present?
+    id.starts_with?('http') ? id.gsub(/(http|https):\/+(\w+)/, '\1://\2') : "http://#{id}"
   end
 end
