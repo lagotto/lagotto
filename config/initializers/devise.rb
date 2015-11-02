@@ -26,7 +26,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:login]
+  config.authentication_keys = [:uid]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -234,7 +234,7 @@ Devise.setup do |config|
                         auth_url: ENV['JWT_URL'],
                         uid_claim: 'uid',
                         required_claims: ['uid', 'name']
-                        
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

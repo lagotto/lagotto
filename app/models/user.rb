@@ -85,8 +85,8 @@ class User < ActiveRecord::Base
 
   def self.generate_user(auth)
     if User.count > 0 || Rails.env.test?
-      authentication_token = generate_authentication_token
-      role = "user"
+      authentication_token = auth.extra.raw_info.api_key || generate_authentication_token
+      role = auth.extra.raw_info.role || "user"
     else
       # use admin role and specific token for first user
       authentication_token = ENV['API_KEY']
