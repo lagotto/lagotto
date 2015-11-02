@@ -17,8 +17,6 @@ if (!params.empty()) {
   if (sort !== "") { query += "&sort=" + sort; }
 }
 
-console.log(query)
-
 // asynchronously load data from the Lagotto API
 queue()
   .defer(d3.json, encodeURI("/api/sources"))
