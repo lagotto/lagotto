@@ -1,6 +1,7 @@
 # Networking constants
 DEFAULT_TIMEOUT = 60
 NETWORKABLE_EXCEPTIONS = [Faraday::Error::ClientError,
+                          Faraday::ConnectionFailed,
                           URI::InvalidURIError,
                           Encoding::UndefinedConversionError,
                           ArgumentError,
