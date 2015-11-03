@@ -29,7 +29,7 @@ class ContributorsController < ApplicationController
   def load_index
     collection = Contributor
     collection = collection.query(params[:q]) if params[:q]
-    collection = collection.order("contributors.submitted_at DESC")
+    collection = collection.order("contributors.created_at DESC")
     @contributors = collection.paginate(:page => params[:page])
   end
 
@@ -41,6 +41,6 @@ class ContributorsController < ApplicationController
   private
 
   def safe_params
-    params.require(:contributor).permit(:given_names, :family_name, :pid, :orcid, :submitted_at)
+    params.require(:contributor).permit(:given_names, :family_name, :pid, :orcid)
   end
 end

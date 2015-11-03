@@ -23,7 +23,6 @@
     <div id="results">
       <% @contributors.each do |contributor| %>
         <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
-        <span class="date"><%= contributor.submitted_at.to_date.to_s(:long) %>.</span>
         <%= link_to h(contributor.pid), contributor.pid %>
       <% end %>
     </div>

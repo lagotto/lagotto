@@ -106,6 +106,5 @@ class Contributor < ActiveRecord::Base
     write_attribute(:orcid, orcid)
     write_attribute(:family_name, author.fetch('family'))
     write_attribute(:given_names, author.fetch('given'))
-    write_attribute(:submitted_at, metadata.fetch('timestamp', nil))
   end
 end

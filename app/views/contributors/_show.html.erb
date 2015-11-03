@@ -13,10 +13,6 @@
     <dl class="dl-horizontal">
       <dt>ORCID</dt>
       <dd><%= link_to h(@contributor.pid), @contributor.pid %></dd>
-      <% if @contributor.submitted_at.present? %>
-        <dt>Date</dt>
-        <dd><%= @contributor.submitted_at.to_date.to_s(:long) %></dd>
-      <% end %>
     </dl>
   </div>
 </div>
