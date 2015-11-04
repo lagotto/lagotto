@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :uid, presence: true, uniqueness: true
 
-  scope :query, ->(query) { where("name like ? OR email like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
+  scope :query, ->(query) { where("name like ? OR uid like ? OR authentication_token like ?", "%#{query}%", "%#{query}%", "%#{query}%") }
   scope :ordered, -> { order("created_at DESC") }
 
   def self.from_omniauth(auth)
