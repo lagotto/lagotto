@@ -5,16 +5,16 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
-  if (page === "") { page = 1; }
+  if (page === null) { page = 1; }
   var per_page = params.attr('data-per-page');
   var contributor_id = params.attr('data-contributor-id');
   var source_id = params.attr('data-source-id');
   var sort = params.attr('data-sort');
 
   var query = encodeURI("/api/contributors/" + contributor_id + "/contributions?page=" + page);
-  if (per_page !== "") { query += "&per_page=" + per_page; }
-  if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (sort !== "") { query += "&sort=" + sort; }
+  if (per_page !== null) { query += "&per_page=" + per_page; }
+  if (source_id !== null) { query += "&source_id=" + source_id; }
+  if (sort !== null) { query += "&sort=" + sort; }
 }
 
 // asynchronously load data from the Lagotto API

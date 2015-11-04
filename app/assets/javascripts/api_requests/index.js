@@ -9,9 +9,9 @@ if (!params.empty()) {
     var q = params.attr('data-query');
     var key = params.attr('data-key');
     var query = encodeURI("/api/api_requests");
-    if (q !== "") {
+    if (q !== null) {
       query += "?q=" + q;
-    } else if (key !== "") {
+    } else if (key !== null) {
       query += "?key=" + key;
     }
 }

@@ -16,13 +16,13 @@ if (!params.empty()) {
   var model = params.attr('data-model');
 
   var query = encodeURI("/api/works?page=" + page);
-  if (per_page !== "") { query += "&per_page=" + per_page; }
-  if (q !== "") { query += "&q=" + q; }
-  if (class_name !== "") { query += "&class_name=" + class_name; }
-  if (publisher_id !== "") { query += "&publisher_id=" + publisher_id; }
-  if (contributor_id !== "") { query += "&contributor_id=" + contributor_id; }
-  if (source_id !== "") { query += "&source_id=" + source_id; }
-  if (sort !== "") { query += "&sort=" + sort; }
+  if (per_page !== null) { query += "&per_page=" + per_page; }
+  if (q !== null) { query += "&q=" + q; }
+  if (class_name !== null) { query += "&class_name=" + class_name; }
+  if (publisher_id !== null) { query += "&publisher_id=" + publisher_id; }
+  if (contributor_id !== null) { query += "&contributor_id=" + contributor_id; }
+  if (source_id !== null) { query += "&source_id=" + source_id; }
+  if (sort !== null) { query += "&sort=" + sort; }
 }
 
 // asynchronously load data from the Lagotto API
@@ -34,6 +34,8 @@ queue()
     worksViz(w, s.sources);
     if (model !== "sources") { paginate(w, "#content"); }
 });
+
+console.log(query)
 
 // add data to page
 function worksViz(json, sources) {
