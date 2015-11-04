@@ -57,10 +57,10 @@ class Work < ActiveRecord::Base
   def self.find_or_create(params)
     begin
       work = Work.where(pid: params.fetch(:pid, nil)).first_or_create
+      work.update_attributes(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
     rescue ActiveRecord::RecordNotUnique
       work = Work.where(pid: params.fetch(:pid, nil)).first
     end
-    work.update_attributes(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
     work.update_relations(params.fetch(:related_works, []))
     work.update_contributions(params.fetch(:contributors, []))
     work
