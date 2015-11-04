@@ -563,6 +563,10 @@ html {
   position: relative;
   min-height: 100%;
 }
+.container-fluid {
+  max-width: 1420px;
+  padding: 0 1em;
+}
 // navbar
 .navbar-default .navbar-brand {
   color: $brand-primary;
@@ -664,10 +668,6 @@ html {
   padding: 1em;
   margin: 0;
 
-  .container-fluid {
-    max-width: 1150px;
-    padding: 0;
-  }
   h4, h5 {
     font-size: $font-size-large;
     font-weight: 300;

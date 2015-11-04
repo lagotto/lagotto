@@ -1,6 +1,6 @@
 <div class="navbar subnav" role="navigation">
   <div class="navbar-inner">
-    <div class="container">
+    <div class="container-fluid">
       <%= content_tag :h1, @title || controller.controller_name.humanize, data_tags_for_api %>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Status", status_index_path %></li>
