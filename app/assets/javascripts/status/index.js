@@ -9,7 +9,7 @@ var endDate = new Date(),
 // construct query string
 var params = d3.select("#api_key");
 if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
+  var api_key = params.attr('data-api-key');
   var query = encodeURI("/api/status");
 }
 

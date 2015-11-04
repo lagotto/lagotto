@@ -3,12 +3,12 @@
 var params = d3.select("#api_key");
 
 if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
+  var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
   if (page === "") { page = 1; }
-  var per_page = params.attr('data-per_page');
-  var contributor_id = params.attr('data-contributor_id');
-  var source_id = params.attr('data-source_id');
+  var per_page = params.attr('data-per-page');
+  var contributor_id = params.attr('data-contributor-id');
+  var source_id = params.attr('data-source-id');
   var sort = params.attr('data-sort');
 
   var query = encodeURI("/api/contributors/" + contributor_id + "/contributions?page=" + page);

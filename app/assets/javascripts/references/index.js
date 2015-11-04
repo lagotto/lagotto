@@ -3,13 +3,13 @@
 var params = d3.select("#api_key");
 
 if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
+  var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
   if (page === "") { page = 1; }
-  var per_page = params.attr('data-per_page');
+  var per_page = params.attr('data-per-page');
   var q = params.attr('data-q');
-  var source_id = params.attr('data-source_id');
-  var relation_type_id = params.attr('data-relation_type_id');
+  var source_id = params.attr('data-source-id');
+  var relation_type_id = params.attr('data-relation-type-id');
 
   var query = encodeURI("/api/references?page=" + page);
   if (per_page !== "") { query += "&per_page=" + per_page; }

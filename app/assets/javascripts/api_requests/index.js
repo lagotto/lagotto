@@ -5,7 +5,7 @@ var params = d3.select("#api_key"),
 
 // construct query string
 if (!params.empty()) {
-    var api_key = params.attr('data-api_key');
+    var api_key = params.attr('data-api-key');
     var q = params.attr('data-query');
     var key = params.attr('data-key');
     var query = encodeURI("/api/api_requests");

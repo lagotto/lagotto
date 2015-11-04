@@ -25,7 +25,7 @@ var options = {
 };
 
 if (!params.empty()) {
-  var source_id = params.attr('data-name');
+  var source_id = params.attr('data-source-id');
   var query = encodeURI("/api/sources/" + source_id + "/months");
 }
 

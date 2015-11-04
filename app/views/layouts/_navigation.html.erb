@@ -1,9 +1,7 @@
 <div class="navbar subnav" role="navigation">
   <div class="navbar-inner">
     <div class="container">
-      <h1 class="navbar-text" id="api_key" data-api_key="<%= current_user && current_user.api_key %>"<%= @page.present? ? ' data-page=' + @page.to_s: '' %> data-per_page="15" data-q="<%= @q %>" <%= @work.present? ? 'data-pid=' + @work.pid : '' %> data-class_name="<%= @class_name %>" data-publisher_id="<%= @publisher.present? ? @publisher.name : nil %>" data-relation_type_id="<%= @relation_type.present? ? @relation_type.name : nil %>" data-source_id="<%= @source.present? ? h(@source.name) : nil %>" data-contributor_id="<%= @contributor.present? ? @contributor.pid : nil %>" data-sort="<%= @sort.present? ? h(@sort.name) : nil %>">
-        <%= @title || controller.controller_name.humanize %>
-      </h1>
+      <%= content_tag :h1, @title || controller.controller_name.humanize, data_tags_for_api %>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Status", status_index_path %></li>
         <li><%= link_to "Works", works_path %></li>

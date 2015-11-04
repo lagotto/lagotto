@@ -3,15 +3,15 @@
 var params = d3.select("#api_key");
 
 if (!params.empty()) {
-  var api_key = params.attr('data-api_key');
+  var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
   if (page === "") { page = 1; }
-  var per_page = params.attr('data-per_page');
+  var per_page = params.attr('data-per-page');
   var q = params.attr('data-q');
-  var class_name = params.attr('data-class_name');
-  var publisher_id = params.attr('data-publisher_id');
-  var contributor_id = params.attr('data-contributor_id');
-  var source_id = params.attr('data-source_id');
+  var class_name = params.attr('data-class-name');
+  var publisher_id = params.attr('data-publisher-id');
+  var contributor_id = params.attr('data-contributor-id');
+  var source_id = params.attr('data-source-id');
   var sort = params.attr('data-sort');
   var model = params.attr('data-model');
 
@@ -32,7 +32,7 @@ queue()
   .await(function(error, s, w) {
     if (error) { return console.warn(error); }
     worksViz(w, s.sources);
-    if (model !== "source") { paginate(w, "#content"); }
+    if (model !== "sources") { paginate(w, "#content"); }
 });
 
 // add data to page
@@ -42,8 +42,8 @@ function worksViz(json, sources) {
   json.href = "?page={{number}}";
   if (q !== "") { json.href += "&q=" + q; }
   if (class_name !== "") { json.href += "&class_name=" + class_name; }
-  if (publisher_id !== "" && model !== "publisher") { json.href += "&publisher_id=" + publisher_id; }
-  if (contributor_id !== "" && model !== "contributor_id") { json.href += "&contributor_id=" + contributor_id; }
+  if (publisher_id !== "" && model !== "publishers") { json.href += "&publisher_id=" + publisher_id; }
+  if (contributor_id !== "" && model !== "contributors") { json.href += "&contributor_id=" + contributor_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
   if (sort !== "") { json.href += "&sort=" + sort; }
 
@@ -54,7 +54,7 @@ function worksViz(json, sources) {
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no works");
-    if (model === "source") { d3.select("div#rss").remove(); }
+    if (model === "sources") { d3.select("div#rss").remove(); }
     return;
   }
 
