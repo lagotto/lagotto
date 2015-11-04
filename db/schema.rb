@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151103210838) do
+ActiveRecord::Schema.define(version: 20151104111626) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -391,29 +391,18 @@ ActiveRecord::Schema.define(version: 20151103210838) do
   add_index "status", ["created_at"], name: "index_status_created_at", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 191
-    t.string   "encrypted_password",     limit: 255, default: "",     null: false
-    t.string   "reset_password_token",   limit: 191
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 255
-    t.string   "last_sign_in_ip",        limit: 255
-    t.string   "password_salt",          limit: 255
+    t.string   "email",                limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "provider",               limit: 255
-    t.string   "uid",                    limit: 191
-    t.string   "name",                   limit: 255
-    t.string   "authentication_token",   limit: 191
-    t.string   "role",                   limit: 255, default: "user"
-    t.integer  "publisher_id",           limit: 4
+    t.string   "provider",             limit: 255
+    t.string   "uid",                  limit: 191
+    t.string   "name",                 limit: 255
+    t.string   "authentication_token", limit: 191
+    t.string   "role",                 limit: 255, default: "user"
+    t.integer  "publisher_id",         limit: 4
   end
 
   add_index "users", ["authentication_token"], name: "index_users_authentication_token", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid"], name: "index_uid_on_users", unique: true, using: :btree
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
