@@ -1,5 +1,20 @@
+$brand-logo:                 #1a8cd2;
+
 body {
   margin-bottom: 300px !important;
+}
+.navbar-default .navbar-brand {
+  padding: 0 15px 17.5px 15px;
+
+  img {
+    display: inline;
+  }
+  span {
+    vertical-align: middle;
+  }
+  span.logo {
+    color: $brand-logo;
+  }
 }
 
 @import 'application';

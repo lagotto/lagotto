@@ -8,10 +8,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to image_tag('datacite/logo.png', class: 'logo'), 'http://www.datacite.org' %>
+        <a class="navbar-brand" rel="home" href="/">
+          <%= image_tag('datacite/logo.png', class: 'logo') %>
+          <span class="logo">Data</span><span>Cite <%= ENV['SITENAME'] %></span>
+        </a>
       </div>
       <div class="navbar-collapse collapse">
-        <%= link_to "#{icon('link')} #{ENV['SITENAME']}".html_safe, '/', class: 'navbar-brand' %>
         <% unless ["sessions","registrations"].include?(controller.controller_name) %>
           <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>

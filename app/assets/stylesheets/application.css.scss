@@ -567,16 +567,6 @@ html {
 .navbar-default .navbar-brand {
   color: $brand-primary;
   font-size: 1.75em;
-  position: absolute;
-  width: 100%;
-  left: 0;
-  text-align: center;
-  margin: auto;
-  .fa {
-   font-size: 18px;
-   vertical-align: middle;
-   padding-bottom: 4px;
-  }
 }
 .navbar {
   margin-bottom: 0;
