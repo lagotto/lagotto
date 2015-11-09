@@ -35,8 +35,6 @@ queue()
     if (model !== "sources") { paginate(w, "#content"); }
 });
 
-console.log(query)
-
 // add data to page
 function worksViz(json, sources) {
   data = json.works;
