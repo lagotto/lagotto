@@ -20,11 +20,13 @@
 
 <div class="content" id="content">
   <% if @contributors.size > 0 %>
-    <div id="results">
-      <% @contributors.each do |contributor| %>
-        <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
-        <%= link_to h(contributor.pid), contributor.pid %>
-      <% end %>
+    <div class="panel" id="results">
+      <div class="panel-body">
+        <% @contributors.each do |contributor| %>
+          <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
+          <%= link_to h(contributor.pid), contributor.pid %>
+        <% end %>
+      </div>
     </div>
     <div class="text-center">
       <%= will_paginate @contributors, :params => { :controller => contributors_path }, :renderer => BootstrapPagination::Rails %>

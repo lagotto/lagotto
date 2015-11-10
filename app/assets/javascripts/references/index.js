@@ -34,9 +34,9 @@ function eventsViz(json, sources, relation_types) {
   data = json.references;
 
   json.href = "?page={{number}}";
-  if (q !== "") { json.href += "&q=" + q; }
-  if (relation_type_id !== "") { json.href += "&relation_type_id=" + relation_type_id; }
-  if (source_id !== "") { json.href += "&source_id=" + source_id; }
+  if (q !== null) { json.href += "&q=" + q; }
+  if (relation_type_id !== null) { json.href += "&relation_type_id=" + relation_type_id; }
+  if (source_id !== null) { json.href += "&source_id=" + source_id; }
 
   d3.select("#loading-results").remove();
 
@@ -49,6 +49,8 @@ function eventsViz(json, sources, relation_types) {
   }
 
   d3.select("#content").insert("div")
+    .attr("class", "panel").insert("div")
+    .attr("class", "panel-body")
     .attr("id", "results");
 
   for (var i=0; i<data.length; i++) {
