@@ -5,7 +5,7 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
-  if (page === "") { page = 1; }
+  if (page === null) { page = 1; }
   var per_page = params.attr('data-per-page');
   var q = params.attr('data-q');
   var class_name = params.attr('data-class-name');
@@ -40,12 +40,12 @@ function worksViz(json, sources) {
   data = json.works;
 
   json.href = "?page={{number}}";
-  if (q !== "") { json.href += "&q=" + q; }
-  if (class_name !== "") { json.href += "&class_name=" + class_name; }
-  if (publisher_id !== "" && model !== "publishers") { json.href += "&publisher_id=" + publisher_id; }
-  if (contributor_id !== "" && model !== "contributors") { json.href += "&contributor_id=" + contributor_id; }
-  if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (sort !== "") { json.href += "&sort=" + sort; }
+  if (q !== null) { json.href += "&q=" + q; }
+  if (class_name !== null) { json.href += "&class_name=" + class_name; }
+  if (publisher_id !== null && model !== "publishers") { json.href += "&publisher_id=" + publisher_id; }
+  if (contributor_id !== null && model !== "contributors") { json.href += "&contributor_id=" + contributor_id; }
+  if (source_id !== null) { json.href += "&source_id=" + source_id; }
+  if (sort !== null) { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
 
