@@ -26,7 +26,7 @@ class Api::V6::ReferencesController < Api::BaseController
     if @work
       collection = @work.reference_relations
     else
-      collection = Relation.referencable
+      collection = Relation #.referencable
     end
 
     if params[:work_ids]
