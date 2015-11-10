@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151104111626) do
+ActiveRecord::Schema.define(version: 20151110133141) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 20151104111626) do
     t.string   "arxiv",               limit: 191
     t.string   "registration_agency", limit: 255
     t.string   "dataone",             limit: 191
+    t.integer  "lock_version",        limit: 4,        default: 0,     null: false
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
