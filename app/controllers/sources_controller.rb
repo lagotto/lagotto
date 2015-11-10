@@ -5,6 +5,7 @@ class SourcesController < ApplicationController
 
   def show
     @doc = Doc.find(@source.name)
+    @sort = @source
 
     render :show
   end
