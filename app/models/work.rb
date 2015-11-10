@@ -63,7 +63,7 @@ class Work < ActiveRecord::Base
     rescue ActiveRecord::RecordNotUnique
       work = Work.where(pid: pid).first
     end
-    work.update_attributes(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
+    work.update_attributes!(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
     work.update_relations(params.fetch(:related_works, []))
     work.update_contributions(params.fetch(:contributors, []))
     work

@@ -70,7 +70,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#results").append("a")
       .attr("href", function() { return work.id; })
       .text(work.id);
-    d3.select("#results").append("p")
+    d3.select("#results").append("br")
       .text(signpostsToString(work, sources));
     d3.select("#results").append("span")
       .text(relation[0] + " ")
