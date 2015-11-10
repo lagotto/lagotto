@@ -35,6 +35,8 @@ function eventViz(data) {
   }
 
   d3.select("#content").insert("div")
+    .attr("class", "panel").insert("div")
+    .attr("class", "panel-body")
     .attr("id", "results");
 
   // generate iso8601 datetime for sorting, year for nesting

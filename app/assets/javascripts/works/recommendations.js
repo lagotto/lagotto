@@ -37,8 +37,8 @@ function recommendationsViz(json, sources, relation_types) {
   data = _.uniq(data, "id");
 
   json.href = "?page={{number}}";
-  if (relation_type_id !== "") { json.href += "&relation_type_id=" + relation_type_id; }
-  if (source_id !== "") { json.href += "&source_id=" + source_id; }
+  if (relation_type_id !== null) { json.href += "&relation_type_id=" + relation_type_id; }
+  if (source_id !== null) { json.href += "&source_id=" + source_id; }
 
   d3.select("#loading-recommendations").remove();
 
