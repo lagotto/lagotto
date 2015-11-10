@@ -59,11 +59,11 @@ class Work < ActiveRecord::Base
     return nil unless pid.present?
 
     begin
-      work = Work.where(pid: pid).first_or_create
+      work = Work.create(params.except(:source_id, :relation_type_id, :related_works, :contributors))
     rescue ActiveRecord::RecordNotUnique
       work = Work.where(pid: pid).first
+      work.update_attributes(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
     end
-    work.update_attributes!(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
     work.update_relations(params.fetch(:related_works, []))
     work.update_contributions(params.fetch(:contributors, []))
     work
