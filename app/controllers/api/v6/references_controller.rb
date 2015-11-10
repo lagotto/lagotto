@@ -46,7 +46,7 @@ class Api::V6::ReferencesController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
-    collection = collection.includes(:related_work)
+    collection = collection.joins(:related_work)
 
     if params[:recent]
       collection = collection.last_x_days(params[:recent].to_i)
