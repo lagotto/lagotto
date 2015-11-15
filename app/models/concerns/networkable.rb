@@ -13,10 +13,11 @@ module Networkable
       uri = URI.parse(url)
       options[:headers] ||= {}
       options[:headers]['Host'] = uri.host
-      
+
       conn = faraday_conn(options[:content_type], options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.authorization :Bearer, options[:bearer] if options[:bearer]
+      conn.authorization :Token, token: options[:token] if options[:token]
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
       if options[:data]
         response = conn.post url, {}, options[:headers] do |request|
