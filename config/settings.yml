@@ -1,14 +1,8 @@
 datacite:
   labs_links:
-   - name: Blog
-     url: http://blog.labs.datacite.org
-     icon: rss
    - name: Profiles
      url: https://profiles.labs.datacite.org
      icon: user
-   - name: Schema
-     url: http://schema.labs.datacite.org
-     icon: file-code-o
    - name: Search
      url: https://search.labs.datacite.org
      icon: search
