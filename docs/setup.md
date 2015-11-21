@@ -136,7 +136,7 @@ Jobs for sources go into the `default` queue, unless the source was configured t
 ## Configuring Maintenance Tasks
 Lagotto uses a number of maintenance tasks in production mode - they are not necessary for a development instance.
 
-Many of the maintenance taks are `rake` tasks, and they are listed on a [separate page](/docs/rake). All rake tasks are issued from the application root folder. You want to prepend your rake command with `bundle exec` and `RAILS_ENV=production` should be appended to the rake command when running in production, e.g.
+Many of the maintenance taks are `rake` tasks, and they are listed on a [separate page](/docs/rake.md). All rake tasks are issued from the application root folder. You want to prepend your rake command with `bundle exec` and `RAILS_ENV=production` should be appended to the rake command when running in production, e.g.
 
 ```sh
 bin/rake db:works:load <IMPORT.TXT RAILS_ENV=production
