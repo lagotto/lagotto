@@ -20,7 +20,7 @@ datacite:
      url: http://www.datacite.org
      icon: globe
    - name: Link Store
-     url: https://ls.datacite.org
+     url: http://ls.datacite.org
      icon: link
    - name: MDS
      url: http://mds.datacite.org
