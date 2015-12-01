@@ -3,11 +3,11 @@ mysql: &mysql
 
 postgresql: &postgres
   adapter: postgresql
-  pool: <%= ENV['CONCURRENCY'].to_i %>
+  pool: <%= ENV['CONCURRENCY'].to_i + 1 %>
   min_messages: ERROR
 
 defaults: &defaults
-  pool: <%= ENV['CONCURRENCY'].to_i %>
+  pool: <%= ENV['CONCURRENCY'].to_i + 1 %>
   timeout: 5000
   encoding: utf8mb4
   database: <%= ENV['DB_NAME'] %>
