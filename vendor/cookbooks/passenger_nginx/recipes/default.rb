@@ -1,4 +1,6 @@
-include_recipe 'apt'
+# install and configure dependencies
+include_recipe "apt"
+include_recipe "nodejs"
 
 execute "apt-get update" do
   action :nothing

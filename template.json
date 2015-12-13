@@ -1,44 +1,55 @@
 {
-  "builders": [
-    {
-      "type": "amazon-ebs",
-      "access_key": "{{user `access_key`}}",
-      "secret_key": "{{user `secret_key`}}",
-      "region": "us-east-1",
-      "source_ami": "ami-4dfb5d26",
-      "instance_type": "m3.medium",
-      "ssh_username": "ubuntu",
-      "ami_name": "lagotto {{timestamp}}"
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "chef-solo",
-      "cookbook_paths": ["vendor/cookbooks"],
-      "run_list": ["recipe[lagotto]"],
-      "json": {
-        "ruby": {
-          "deploy_user": "ubuntu",
-          "deploy_group": "ubuntu",
-          "rails_env": "production"
-        },
-        "phantomjs": {
-          "version": "1.9.7",
-          "base_url": "https://bitbucket.org/ariya/phantomjs/downloads" }
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `access_key`}}",
+    "secret_key": "{{user `secret_key`}}",
+    "region": "{{user `region`}}",
+    "source_ami": "{{user `source_ami`}}",
+    "instance_type": "{{user `instance_type`}}",
+    "ssh_username": "ubuntu",
+    "ami_name": "lagotto {{timestamp}}"
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "inline": ["sudo apt-get install -y git",
+               "sudo mkdir -p /var/www/lagotto",
+               "sudo chown -R ubuntu:ubuntu /var/www/lagotto",
+               "git clone -b {{user `git_branch`}} https://github.com/datacite/lagotto.git /var/www/lagotto"]  },
+  {
+    "type": "file",
+    "source": ".env.production",
+    "destination": "/var/www/lagotto/.env"
+  },
+  {
+    "type": "chef-solo",
+    "install_command": "curl -L https://www.chef.io/chef/install.sh | {{if .Sudo}}sudo{{end}} bash -s -- -v {{user `chef_version`}}",
+    "cookbook_paths": ["vendor/cookbooks"],
+    "run_list": ["recipe[lagotto]"],
+    "override": {
+      "amazon-ebs": {
+        "json": {
+          "ruby": {
+            "deploy_user": "ubuntu",
+            "deploy_group": "ubuntu",
+            "rails_env": "production"
+          },
+          "phantomjs": {
+            "version": "1.9.7",
+            "base_url": "https://bitbucket.org/ariya/phantomjs/downloads"
+          }
+        }
       }
     }
-  ],
-  "post-processors": [
-    {
-      "type": "atlas",
-      "artifact": "{{user `atlas_name`}}",
-      "artifact_type": "amazon.ami",
-      "token": "{{user `atlas_token`}}",
-      "metadata": {
-        "created_at": "{{timestamp}}"
-      }
+  }],
+  "post-processors": [{
+    "type": "atlas",
+    "artifact": "datacite/lagotto",
+    "artifact_type": "amazon.ami",
+    "token": "{{user `atlas_token`}}",
+    "metadata": {
+      "created_at": "{{timestamp}}"
     }
-  ],
+  }],
   "variables": {
     "compression_level": "6",
     "cpus": "2",
@@ -46,13 +57,29 @@
     "headless": "false",
     "memory": "2048",
     "mirror": "http://releases.ubuntu.com",
+    "version": "0.1",
+    "git_branch": "{{env `GIT_BRANCH`}}",
+    "chef_version": "12.5.1",
     "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
-    "atlas_name": "{{env `ATLAS_NAME`}}"
+    "region": "{{env `AWS_REGION`}}",
+    "source_ami": "{{env `AWS_SOURCE_AMI`}}",
+    "instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}"
   },
-   "push": {
-    "name": "{{user `atlas_name`}}",
-    "vcs": true
+  "push": {
+    "name": "datacite/lagotto",
+    "vcs": false,
+    "exclude": [
+      "frontend/bower_components/*",
+      "frontend/node_modules/*",
+      "vendor/bundle/*",
+      ".DS_Store",
+      ".git/*",
+      ".vagrant/*",
+      "tmp/*",
+      ".bundle/*",
+      ".sass-cache/*"
+    ]
   }
 }

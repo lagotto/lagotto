@@ -19,7 +19,12 @@ action :load do
   require 'dotenv'
   ENV["DOTENV"] = new_resource.dotenv
   filename = new_resource.dotenv == "default" ? ".env" : ".env.#{new_resource.dotenv}"
-  filepath = "/var/www/#{new_resource.name}/shared/#{filename}"
+
+  if node['ruby']['enable_capistrano']
+    filepath = "/var/www/#{new_resource.name}/shared/#{filename}"
+  else
+    filepath = "/var/www/#{new_resource.name}/#{filename}"
+  end
 
   # load ENV variables from file specified by dotenv atrribute
   # otherwise set some ENV variables

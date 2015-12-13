@@ -25,10 +25,19 @@ module PoiseService
       include Chef::Mixin::ShellOut
       provides(:systemd)
 
+      # @api private
       def self.provides_auto?(node, resource)
         # Don't allow systemd under docker, it won't work in most cases.
         return false if node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
         service_resource_hints.include?(:systemd)
+      end
+
+      # @api private
+      def self.default_inversion_options(node, resource)
+        super.merge({
+          # Automatically reload systemd on changes.
+          auto_reload: true,
+        })
       end
 
       def pid
@@ -48,8 +57,19 @@ module PoiseService
         end
       end
 
+      def systemctl_daemon_reload
+        execute 'systemctl daemon-reload' do
+          action :nothing
+          user 'root'
+        end
+      end
+
       def create_service
-        service_template("/etc/systemd/system/#{new_resource.service_name}.service", 'systemd.service.erb')
+        reloader = systemctl_daemon_reload
+        service_template("/etc/systemd/system/#{new_resource.service_name}.service", 'systemd.service.erb') do
+          notifies :run, reloader, :immediately if options['auto_reload']
+          variables.update(auto_reload: options['auto_reload'])
+        end
       end
 
       def destroy_service

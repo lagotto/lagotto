@@ -1,14 +1,17 @@
 server {
-  listen 80 <%= @default_server ? "default_server" : "" %>;
   server_name <%= "#{@application}.#{node['domain']}" %>;
-  root <%= "/var/www/#{@application}/current/public" %>;
-  access_log <%= node['nginx']['log_dir'] %>/<%= @application %>.access.log;
+
+  listen 80 <%= @default_server ? "default_server" : "" %>;
+  <% if node['ruby']['enable_capistrano'] %>
+    root <%= "/var/www/#{@application}/current/public" %>;
+  <% else %>
+    root <%= "/var/www/#{@application}/public" %>;
+  <% end %>
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
   <% if node['ruby']['merge_slashes_off'] %>
-    merge_slashes off;
+  merge_slashes off;
   <% end %>
-
   <% if node['ruby']['api_only'] %>
     location / {
       try_files $uri;

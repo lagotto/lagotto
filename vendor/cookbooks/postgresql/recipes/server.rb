@@ -15,7 +15,9 @@
 # limitations under the License.
 #
 
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+include_recipe "postgresql::ca_certificates"
+
+::Chef::Recipe.send(:include, OpenSSLCookbook::RandomPassword)
 
 include_recipe "postgresql::client"
 
@@ -41,8 +43,10 @@ else
   # login for user 'postgres'). However, a random password wouldn't be
   # useful if it weren't saved as clear text in Chef Server for later
   # retrieval.
-  node.set_unless['postgresql']['password']['postgres'] = secure_password
-  node.save
+  unless node.key?('postgresql') && node['postgresql'].key?('password') && node['postgresql']['password'].key?('postgres')
+    node.set_unless['postgresql']['password']['postgres'] = random_password(length: 20, mode: :base64)
+    node.save
+  end
 end
 
 # Include the right "family" recipe for installing the server

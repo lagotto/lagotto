@@ -2,6 +2,53 @@ firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
 
+v2.2.0 (2015-11-02)
+-------------------
+Added permanent as default option for RHEL 7 based systems using firewall-cmd.
+This defaults to turned off, but it will be enabled by default on the next major version bump.
+
+v2.1.0 (2015-10-15)
+-------------------
+Minor feature release.
+* Ensure ICMPv6 is open when `['firewall']['allow_established']` is set to true (the default). ICMPv6 is critical for most IPv6 operations.
+
+v2.0.5 (2015-10-05)
+-------------------
+Minor bugfix release.
+* Ensure provider filtering always yields 1 and only 1 provider, #97 & #98
+* Documentation update #96
+
+v2.0.4 (2015-09-23)
+-------------------
+Minor bugfix release.
+* Allow override of filter chain policies, #94
+* Fix foodcrtitic and chefspec errors
+
+v2.0.3 (2015-09-14)
+-------------------
+Minor bugfix release.
+* Fix wrong conditional for firewalld ports, #93
+* Fix ipv6 command logic under iptables, #91
+
+v2.0.2 (2015-09-08)
+-------------------
+* Release with working CI, Chefspec matchers.
+
+v2.0.1 (2015-09-01)
+-------------------
+* Add default related/established rule for iptables
+
+v2.0.0 (2015-08-31)
+-------------------
+* #84, major rewrite:
+  - Allow relative positioning of rules
+  - Use delayed notifications to create one firewall ruleset instead of incremental changes
+  - Remove poise dependency
+* #82 - Introduce Windows firewall support and test-kitchen platform.
+* #73 - Add the option to disable ipv6 commands on iptables
+* #78 - Use Chef-12 style `provides` to address provider mapping issues
+* Rubocop and foodcritic cleanup
+
 v1.6.1 (2015-07-24)
 -------------------
 * #80 - Remove an extra space in port range

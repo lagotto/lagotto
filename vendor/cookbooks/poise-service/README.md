@@ -315,6 +315,7 @@ end
 * `user` – Override the service user.
 * `never_restart` – Never try to restart the service.
 * `never_reload` – Never try to reload the service.
+* `auto_reload` – Run `systemctl daemon-reload` after changes to the unit file. *(default: true)*
 
 ## ServiceMixin
 

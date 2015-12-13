@@ -187,12 +187,26 @@ EOH
             end
           end
 
+          # Test the #pid accessor.
           ruby_block "/tmp/poise_test_#{new_resource.name}_pid" do
             block do
               pid = resources("poise_service[poise_test_#{new_resource.name}]").pid
               IO.write("/tmp/poise_test_#{new_resource.name}_pid", pid.to_s)
             end
           end
+
+          # Test changing the service definition itself.
+          poise_service "poise_test_#{new_resource.name}_change" do
+            provider new_resource.service_provider if new_resource.service_provider
+            command "/usr/bin/poise_test #{new_resource.base_port + 5}"
+          end
+
+          poise_service "poise_test_#{new_resource.name}_change_second" do
+            service_name "poise_test_#{new_resource.name}_change"
+            provider new_resource.service_provider if new_resource.service_provider
+            command "/usr/bin/poise_test #{new_resource.base_port + 6}"
+          end
+
         end
       end
     end

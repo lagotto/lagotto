@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+# Prepending with '::' to prevent breaks in older versions of chef
+include ::Chocolatey::Helpers
+
 use_inline_resources
 
 # Support whyrun
@@ -24,7 +27,7 @@ def whyrun_supported?
   true
 end
 
-def load_current_resource   # rubocop:disable Metrics/AbcSize
+def load_current_resource # rubocop:disable Metrics/AbcSize
   @current_resource = Chef::Resource::Chocolatey.new(@new_resource.name)
   @current_resource.name(@new_resource.name)
   @current_resource.version(@new_resource.version)
@@ -39,10 +42,19 @@ end
 action :install do
   if @current_resource.exists
     Chef::Log.info "#{@current_resource.package} already installed - nothing to do."
-  elsif @current_resource.version
-    install_version(@current_resource.package, @current_resource.version)
   else
-    install(@current_resource.package)
+    if @current_resource.version
+      install_version(@current_resource.package, @current_resource.version)
+    else
+      install(@current_resource.package)
+    end
+    adjust_path(@current_resource.package)
+  end
+end
+
+def adjust_path(name)
+  ruby_block "track-path-#{name}" do
+    block { ENV['PATH'] = env_path(ENV['PATH']) }
   end
 end
 
@@ -60,7 +72,7 @@ action :remove do
     package_name = @current_resource.package
     converge_by("uninstall package #{package_name}") do
       execute "uninstall package #{package_name}" do
-        command "#{::ChocolateyHelpers.chocolatey_executable} uninstall -y #{package_name}"
+        command "#{chocolatey_executable} uninstall -y #{package_name}"
       end
     end
   else
@@ -83,8 +95,8 @@ def package_installed?(name)
   package_exists?(name, nil)
 end
 
-def package_exists?(name, version)   # rubocop:disable Metrics/AbcSize
-  cmd = Mixlib::ShellOut.new("#{::ChocolateyHelpers.chocolatey_executable} list -l -r #{name}")
+def package_exists?(name, version) # rubocop:disable Metrics/AbcSize
+  cmd = Mixlib::ShellOut.new("#{chocolatey_executable} list -l -r #{name}")
   cmd.run_command
   software = cmd.stdout.split("\r\n").each_with_object({}) do |s, h|
     v, k = s.split('|')
@@ -99,7 +111,7 @@ def package_exists?(name, version)   # rubocop:disable Metrics/AbcSize
   end
 end
 
-def upgradeable?(name)   # rubocop:disable Metrics/AbcSize
+def upgradeable?(name) # rubocop:disable Metrics/AbcSize
   return false unless @current_resource.exists
   unless package_installed?(name)
     Chef::Log.debug("Package isn't installed... we can upgrade it!")
@@ -107,28 +119,28 @@ def upgradeable?(name)   # rubocop:disable Metrics/AbcSize
   end
 
   Chef::Log.debug("Checking to see if this chocolatey package is installed/upgradable: '#{name}'")
-  cmd = Mixlib::ShellOut.new("#{::ChocolateyHelpers.chocolatey_executable} upgrade -r --noop #{cmd_args} #{name}")
+  cmd = Mixlib::ShellOut.new("#{chocolatey_executable} upgrade -r --noop #{cmd_args} #{name}")
   cmd.run_command
   result = cmd.stdout.chomp
-  package_name, current_version, updated_version, is_pinned = result.split('|')
+  package_name, current_version, updated_version, is_pinned = result.downcase.split('|')
   raise "Wrong package name #{name} != #{package_name}" if package_name != name
   current_version != updated_version && is_pinned != 'true'
 end
 
 def install(name)
   execute "install package #{name}" do
-    command "#{::ChocolateyHelpers.chocolatey_executable} install -y #{cmd_args} #{name}"
+    command "#{chocolatey_executable} install -y #{cmd_args} #{name}"
   end
 end
 
 def upgrade(name)
   execute "updating #{name} to latest" do
-    command "#{::ChocolateyHelpers.chocolatey_executable} upgrade -y #{cmd_args} #{name}"
+    command "#{chocolatey_executable} upgrade -y #{cmd_args} #{name}"
   end
 end
 
 def install_version(name, version)
   execute "install package #{name} version #{version}" do
-    command "#{::ChocolateyHelpers.chocolatey_executable} install -y -version  #{version} #{cmd_args} #{name}"
+    command "#{chocolatey_executable} install -y -version  #{version} #{cmd_args} #{name}"
   end
 end

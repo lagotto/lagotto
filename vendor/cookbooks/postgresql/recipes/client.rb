@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-include_recipe 'postgresql::config_version'
+include_recipe "postgresql::ca_certificates"
 
 if platform_family?('debian') && node['postgresql']['version'].to_f > 9.3
   node.default['postgresql']['enable_pgdg_apt'] = true

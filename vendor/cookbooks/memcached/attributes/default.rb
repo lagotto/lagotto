@@ -26,18 +26,3 @@ default['memcached']['maxconn'] = 1024
 default['memcached']['max_object_size'] = '1m'
 default['memcached']['logfilepath'] = '/var/log/'
 default['memcached']['logfilename'] = 'memcached.log'
-
-case node['platform_family']
-when 'suse', 'fedora', 'rhel'
-  default['memcached']['user'] = 'memcached'
-  default['memcached']['group'] = 'memcached'
-when 'ubuntu'
-  default['memcached']['user'] = 'memcache'
-  default['memcached']['group'] = 'memcache'
-when 'debian'
-  default['memcached']['user'] = 'nobody'
-  default['memcached']['group'] = 'nogroup'
-else
-  default['memcached']['user'] = 'nobody'
-  default['memcached']['user'] = 'nogroup'
-end

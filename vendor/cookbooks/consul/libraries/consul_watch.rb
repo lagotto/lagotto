@@ -28,20 +28,23 @@ module ConsulCookbook
 
       # @!attribute type
       # @return [String]
-      attribute(:type, equal_to: %w{checks event key keyprefix service})
+      attribute(:type, equal_to: %w{checks event key keyprefix nodes service services})
 
       # @!attribute parameters
       # @return [Hash]
       attribute(:parameters, option_collector: true, default: {})
 
       def to_json
-        JSON.pretty_generate({ type: type }.merge(parameters))
+        JSON.pretty_generate(watches: [{ type: type }.merge(parameters)])
       end
 
       action(:create) do
         notifying_block do
           directory ::File.dirname(new_resource.path) do
             recursive true
+            owner new_resource.user
+            group new_resource.group
+            mode '0755'
           end
 
           file new_resource.path do

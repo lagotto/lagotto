@@ -82,6 +82,7 @@ API
 - `sparc?`
 - `ppc64?`
 - `ppc64le?`
+- `powerpc?`
 
 #### Examples
 ```ruby
@@ -249,6 +250,31 @@ class Chef
 end
 ```
 
+### Init
+- `systemd?` - detect if init system is systemd
+- `upstart?` - detect if init system is upstart
+- `runit?` - detect if init system is runit
+
+#### Examples
+```ruby
+systemd_service 'my-service' do
+  description 'My Service'
+  install do
+    wanted_by 'multi-user.target'
+  end
+  service do
+    exec_start '/usr/bin/myserviced'
+  end
+  action [:create, :enable, :start]
+  only_if { systemd? }
+end
+
+cookbook_file '/etc/init/my-service.conf' do
+  source 'my-service.conf'
+  only_if { upstart? }
+end
+```
+
 ### IP
 - `best_ip_for` - determine the best IP address for the given "other" node, preferring local IP addresses over public ones.
 
@@ -296,6 +322,9 @@ node.deep_fetch('apache2', 'config', 'root') => node['apache2']['config']['root'
 - `aix?`
 - `smartos?`
 - `omnios?`
+- `raspbian?`
+- `nexus?`
+- `ios_xr?`
 
 There are also a series of dynamically defined matchers that map named operating system release versions and comparison operators in the form "#{platform}\_#{operator}\_#{name}?". For example:
 
@@ -334,6 +363,7 @@ end
 - `slackware?`
 - `suse?`
 - `windows?`
+- `wrlinux?`
 
 #### Examples
 ```ruby
@@ -404,6 +434,7 @@ end
 - `lxc?`
 - `virtualbox?`
 - `vmware?`
+- `openvz?`
 
 #### Examples
 ```ruby

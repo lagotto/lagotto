@@ -11,10 +11,6 @@
 # Description: Init script for <%= @name %>
 ### END INIT INFO
 
-<%- @environment.each do |key, val| -%>
-export <%= key %>="<%= val %>"
-<%- end -%>
-
 <%- if @platform_family == 'debian' -%>
 . /lib/lsb/init-functions
 
@@ -37,32 +33,42 @@ _reload() {
   start-stop-daemon --stop --quiet --pidfile "<%= @pid_file %>" --user "<%= @user %>" --signal "<%= @reload_signal %>"
 }
 
-<%- elsif @platform_family == 'rhel' -%>
-. /etc/rc.d/init.d/functions
-
-_pid () {
-  pidof -s -o $$ -o $PPID -o %PPID -x "$1" || pidof -s -o $$ -o $PPID -o %PPID -x "${1##*/}"
-}
-
+<%- else -%>
 _start() {
-  ( cd "<%= @directory %>" && daemon --user "<%= @user %>" --pidfile "<%= @pid_file %>" "<%= @daemon %> <%= @daemon_options %>" >/dev/null 2>&1 ) &
-<%- unless @pid_file_external -%>
-  sleep 1 # Give it some time to start before checking for a pid
-  _pid "<%= @daemon %>" > "<%= @pid_file %>" || return 3
-<%- end -%>
-  return 0 # ¯\_(ツ)_/¯
+  <%# Implementing this using RedHat's bash helpers is too painful. Sorry. %>
+  <%# See dummy.rb for a more commented version of this code. %>
+  /opt/chef/embedded/bin/ruby <<EOH
+pid_file = <%= @pid_file.inspect %>
+File.unlink(pid_file) if File.exist?(pid_file)
+if Process.fork
+  sleep(1) until File.exist?(pid_file)
+else
+  Process.daemon(true)
+  Dir.chdir(<%= @directory.inspect %>)
+  <%- unless @pid_file_external -%>
+  IO.write(pid_file, Process.pid)
+  <%- end -%>
+  Process::UID.change_privilege(<%= @user.inspect %>)
+  Kernel.exec(*<%= Shellwords.split(@command).inspect %>)
+  exit!
+end
+EOH
 }
 
 _stop() {
   if [ -r "<%= @pid_file %>" ]; then
     kill -<%= @stop_signal%> "$(cat "<%= @pid_file %>")"
   else
-    killproc "<%= @daemon %>" -<%= @stop_signal%> >/dev/null
+    return 0
   fi
 }
 
 _status() {
-  status -p "<%= @pid_file %>" "<%= @daemon %>"
+  if [ -r "<%= @pid_file %>" ]; then
+    kill -0 "$(cat "<%= @pid_file %>")"
+  else
+    return 1
+  fi
 }
 
 _reload() {
@@ -73,7 +79,7 @@ _reload() {
   fi
 }
 
-<%- # Some functions to match LSB because RHEL doesn't (╯°□°）╯︵ ┻━┻ -%>
+<%# Some functions to match LSB %>
 
 log_daemon_msg() {
   echo -n "$1"
@@ -93,13 +99,11 @@ log_failure_msg() {
 
 log_end_msg() {
   if [ "$1" = 0 ]; then
-    success
+    echo " [  OK  ]"
   else
-    failure
+    echo " [FAILED]"
   fi
 }
-<%- else -%>
-<%- raise "Platform family #{@platform_family} is not supported" -%>
 <%- end -%>
 
 set -e
@@ -124,6 +128,9 @@ start() {
   fi
 }
 
+<%- @environment.each do |key, val| -%>
+export <%= key %>="<%= val %>"
+<%- end -%>
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in

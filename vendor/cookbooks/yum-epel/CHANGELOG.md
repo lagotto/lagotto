@@ -2,6 +2,15 @@ yum-epel Cookbook CHANGELOG
 ======================
 This file is used to list changes made in each version of the yum-epel cookbook.
 
+v0.6.5 (2015-11-23)
+-------------------
+- Fix setting bool false properties
+
+v0.6.4 (2015-10-27)
+-------------------
+- Updating default recipe for Chef 13 deprecation warnings. Not
+  passing nil.
+
 v0.6.3 (2015-09-22)
 -------------------
 - Added standard Chef gitignore and chefignore files

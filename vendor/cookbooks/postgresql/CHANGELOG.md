@@ -2,6 +2,46 @@ postgresql Cookbook CHANGELOG
 =============================
 This file is used to list changes made in each version of the postgresql cookbook.
 
+v3.4.24
+-------
+* Corrections to address repositories signed with newer certificates that some distributions have in their default ca-certificates package
+* Updates to more accurately determine distributions service init systems adds better support for systemd systems
+* Correct how version attribute is evaluated in certain places
+* test-kitchen suite configuration corrections
+* Opensuse support
+
+v3.4.23
+-------
+- Skipping 3.4.22 with Develop branch 3.4.23 to return to releasing cookbook from master on even numbers and develop on odd numbers.
+
+v3.4.21
+-------
+- Use more optimistic openssl version constraint
+- Add Postgresql 9.4 package sources for RHEL platforms
+- Update testing infrastructure to address bit rot
+
+v3.4.20
+-------
+- Revert [#251](https://github.com/hw-cookbooks/postgresql/pull/251), a change which caused the postgresql service to restart every Chef run.
+
+v3.4.19
+-------
+- node.save could better not be run on every chef run since it causes node.default attributes stored to the node objects to differ during a chef run and when
+- Missing attribute in docs for yum_pgdg_postgresql
+- restart postgres service immediately on config change
+- Run restart command right away on the postgresql service.
+- Add kitchen test for shared_preload_libraries & extension setup.
+- Fix install order of contrib packages to fix pg_stat_statements issues.
+- Add Debian Jessie to whitelist for apt.postgresql.org repo
+- Install version 9.4 on Debian Jessie
+- add amazon 2015
+- add rhel7 support
+
+v3.4.18
+------
+- Revert changes from #201 with the intention of revisiting these changes as part of the next major version release.
+- Specify version constraint on openssl cookbook due to an upstream release mishap
+
 v3.4.16
 ------
 - Changed hard coded value to attribute #219

@@ -103,6 +103,36 @@ To install Go packages using node attributes, include `golang::packages` in your
     <td>The mode of $GOPATH</td>
     <td><tt>0755</tt></td>
   </tr>
+  <tr>
+    <td><tt>['go']['from_source']</tt></td>
+    <td>Boolean</td>
+    <td>Install go from source</td>
+    <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['go']['os']</tt></td>
+    <td>String</td>
+    <td>Build go for which operating system</td>
+    <td><tt>linux</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['go']['arch']</tt></td>
+    <td>String</td>
+    <td>Build go for which architecture</td>
+    <td><tt>arm</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['go']['arm']</tt></td>
+    <td>String</td>
+    <td>Build go for which arm version</td>
+    <td><tt>6</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['go']['source_method']</tt></td>
+    <td>String</td>
+    <td>Choose which install script should be used</td>
+    <td><tt>all.bash</tt></td>
+  </tr>
 </table>
 
 ## <a name="testing"></a> Testing

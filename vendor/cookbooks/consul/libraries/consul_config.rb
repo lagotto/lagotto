@@ -46,6 +46,7 @@ module ConsulCookbook
       attribute(:acl_ttl, kind_of: String)
       attribute(:addresses, kind_of: [Hash, Mash])
       attribute(:advertise_addr, kind_of: String)
+      attribute(:advertise_addr_wan, kind_of: String)
       attribute(:bind_addr, kind_of: String)
       attribute(:bootstrap, equal_to: [true, false], default: false)
       attribute(:bootstrap_expect, kind_of: Integer, default: 3)
@@ -70,11 +71,13 @@ module ConsulCookbook
       attribute(:ports, kind_of: [Hash, Mash])
       attribute(:protocol, kind_of: String)
       attribute(:recursor, kind_of: String)
+      attribute(:recursors, kind_of: Array)
       attribute(:retry_interval, kind_of: Integer)
       attribute(:server, equal_to: [true, false], default: true)
       attribute(:server_name, kind_of: String)
       attribute(:skip_leave_on_interrupt, equal_to: [true, false], default: false)
       attribute(:start_join, kind_of: Array)
+      attribute(:start_join_wan, kind_of: Array)
       attribute(:statsd_addr, kind_of: String)
       attribute(:statsite_addr, kind_of: String)
       attribute(:syslog_facility, kind_of: String)
@@ -87,12 +90,12 @@ module ConsulCookbook
       # Transforms the resource into a JSON format which matches the
       # Consul service's configuration format.
       def to_json
-        for_keeps = %i{acl_datacenter acl_default_policy acl_down_policy acl_master_token acl_token acl_ttl addresses advertise_addr bind_addr bootstrap bootstrap_expect check_update_interval client_addr data_dir datacenter disable_anonymous_signature disable_remote_exec disable_update_check dns_config domain enable_debug enable_syslog encrypt leave_on_terminate log_level node_name ports protocol recurser retry_interval server server_name skip_leave_on_interrupt start_join statsd_addr statsite_addr syslog_facility ui_dir verify_incoming verify_outgoing verify_server_hostname watches}
+        for_keeps = %i{acl_datacenter acl_default_policy acl_down_policy acl_master_token acl_token acl_ttl addresses advertise_addr advertise_addr_wan bind_addr bootstrap bootstrap_expect check_update_interval client_addr data_dir datacenter disable_anonymous_signature disable_remote_exec disable_update_check dns_config domain enable_debug enable_syslog encrypt leave_on_terminate log_level node_name ports protocol recursor recursors retry_interval server server_name skip_leave_on_interrupt start_join start_join_wan statsd_addr statsite_addr syslog_facility ui_dir verify_incoming verify_outgoing verify_server_hostname watches}
         for_keeps << %i{ca_file cert_file key_file} if tls?
         config = to_hash.keep_if do |k, _|
           for_keeps.include?(k.to_sym)
         end.merge(options)
-        JSON.pretty_generate(config, quirks_mode: true)
+        JSON.pretty_generate(Hash[config.sort], quirks_mode: true)
       end
 
       def tls?
@@ -104,8 +107,13 @@ module ConsulCookbook
           if new_resource.tls?
             include_recipe 'chef-vault::default'
 
-            directory ::File.dirname(new_resource.ca_file) do
-              recursive true
+            [new_resource.ca_file, new_resource.cert_file, new_resource.key_file].each do |filename|
+              directory ::File.dirname(filename) do
+                recursive true
+                owner new_resource.owner
+                group new_resource.group
+                mode '0755'
+              end
             end
 
             item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
@@ -116,19 +124,11 @@ module ConsulCookbook
               group new_resource.group
             end
 
-            directory ::File.dirname(new_resource.cert_file) do
-              recursive true
-            end
-
             file new_resource.cert_file do
               content item['certificate']
               mode '0644'
               owner new_resource.owner
               group new_resource.group
-            end
-
-            directory ::File.dirname(new_resource.key_file) do
-              recursive true
             end
 
             file new_resource.key_file do
@@ -142,6 +142,9 @@ module ConsulCookbook
 
           directory ::File.dirname(new_resource.path) do
             recursive true
+            owner new_resource.owner
+            group new_resource.group
+            mode '0755'
           end
 
           file new_resource.path do

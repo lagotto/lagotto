@@ -2,6 +2,44 @@ memcached Cookbook CHANGELOG
 ============================
 This file is used to list changes made in each version of the memcached cookbook.
 
+2.0.2 (2015-11-20)
+------------------
+- Push new version to Supermarket to deal with bad artifact
+
+2.0.1 (2015-11-19)
+------------------
+- Push new version to Supermarket to deal with bad artifact
+
+2.0.0 (2015-11-10)
+------------------
+
+BREAKING CHANGES:
+ - The user and group attributes have been removed and are instead handled by a helper that picks the appropriate user / group based on the platform
+ - The memcached_instance definition that used both passed values and node attributes for configuration has been rewritten as a 12.5 custom resource with compat_resource providing backwards compatibility to all Chef 12.X releases.  This new custom resource handles the installation of memcached and all configuration is passed in via custom resource properties.  See the readme for examples of how to use this new resource.  This change should greatly improve the ability to use memcached_instance within wrapper cookbooks.
+
+1.9.0 (2015-11-05)
+------------------
+
+NOTE: This will be the last version of this cookbook that supports Chef 11 and the traditional attribute / resource hybrid setup for memcached instances. After this release this cookbook will function with attributes for a simple install or Chef 12.5 custom resources for creating individual memcached instances.  If you utilize memcached instances using the attributes to define the config you'll need to pin to ~1.0 and later update to the new format in ~2.0.
+
+- Debian/Ubuntu switched the user that memcached runs under from nobody to memcache.  Updated the cookbook to use this user on those platforms and create it in case we're on an older distro release that didn't yet have that user
+- Removed use of shellout that was causing issues for users
+- Improved the workaround on Debian/Ubuntu for not starting the service on package install so that it doesn't show up as a changed resource on every Chef run
+- Updated Chefspec to 4.X and added additional specs
+- Add oracle to the metadata
+- Add issues_url and source_url to the metadata
+- Add new contributing.md, maintainers.md, and testing.md docs
+- Add travis and cookbook version badges to the readme
+- Clarified Chef 11 is the minimum required chef release
+- Updated platforms in the Kitchen config
+- Added chefignore file
+- Removed all hash rockets
+- Added a .foodcritic file with exclusions
+- Updated travis to use their container infrastructure, chef-dk for testing deps, and kitchen-docker for integration testing
+- Added a Rakefile to simplify testing
+- Removed yum as a dependency as it wasn't being used.
+- Removed attributes from the metadata as they hadn't been updated
+
 v1.8.0 (2015-08-11)
 -------------------
 - updated serverspec tests to pass (See 3c7b5c9)

@@ -24,7 +24,13 @@ action :config do
   end
 
   # create application root folder and set permissions
-  %W{ #{new_resource.name} #{new_resource.name}/shared #{new_resource.name}/shared/public }.each do |dir|
+  if node['ruby']['enable_capistrano']
+    folders = %W{ #{new_resource.name} #{new_resource.name}/shared #{new_resource.name}/shared/public }
+  else
+    folders = %W{ #{new_resource.name} #{new_resource.name}/public }
+  end
+
+  folders.each do |dir|
     directory "/var/www/#{dir}" do
       owner new_resource.user
       group new_resource.group
@@ -34,8 +40,10 @@ action :config do
   end
 
   # we symlink from the shared folder instead of creating the root folder directly
-  link "/var/www/#{new_resource.name}/current" do
-    to "/var/www/#{new_resource.name}/shared"
+  if node['ruby']['enable_capistrano']
+    link "/var/www/#{new_resource.name}/current" do
+      to "/var/www/#{new_resource.name}/shared"
+    end
   end
 
   template "#{node['nginx']['dir']}/sites-enabled/#{new_resource.name}.conf" do

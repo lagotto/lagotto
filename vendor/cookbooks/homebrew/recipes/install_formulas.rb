@@ -2,7 +2,7 @@
 # Cookbook Name:: homebrew
 # Recipes:: install_casks
 #
-# Copyright 2014, Chef Software, Inc <legal@chef.io>
+# Copyright 2014-2015, Chef Software, Inc <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,5 +20,12 @@
 include_recipe 'homebrew'
 
 node['homebrew']['formulas'].each do |formula|
-  package formula
+  if formula.class == Chef::Node::ImmutableMash
+    package formula.fetch(:name) do
+      options '--HEAD' if formula.fetch(:head, false)
+      version formula['version'] if formula.fetch(:version, false)
+    end
+  else
+    package formula
+  end
 end

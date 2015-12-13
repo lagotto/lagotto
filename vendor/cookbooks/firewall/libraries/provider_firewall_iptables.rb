@@ -17,123 +17,113 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'poise'
-
 class Chef
-  class Provider::FirewallIptables < Provider
-    include Poise
-    include Chef::Mixin::ShellOut
+  class Provider::FirewallIptables < Chef::Provider::LWRPBase
+    include FirewallCookbook::Helpers
+    include FirewallCookbook::Helpers::Iptables
 
-    def action_enable
-      converge_by("install package #{package_name} and default DROP if no rules exist") do
-        package package_name do
-          action :install
+    provides :firewall, os: 'linux', platform_family: %w(rhel fedora) do |node|
+      node['platform_version'].to_f < 7.0 || node['firewall']['redhat7_iptables']
+    end
+
+    def whyrun_supported?
+      false
+    end
+
+    action :install do
+      next if disabled?(new_resource)
+
+      converge_by('install iptables and enable/start services') do
+        # can't pass an array without breaking chef 11 support
+        iptables_packages(new_resource).each do |p|
+          package p do
+            action :install
+          end
         end
 
-        service service_name do
-          action [:enable, :start]
-        end
+        iptables_commands(new_resource).each do |svc|
+          # must create empty file for service to start
+          file "create empty /etc/sysconfig/#{svc}" do
+            path "/etc/sysconfig/#{svc}"
+            content '# created by chef to allow service to start'
+            not_if { ::File.exist?("/etc/sysconfig/#{svc}") }
+          end
 
-        # prints all the firewall rules
-        # pp new_resource.subresources
-        log_current_iptables
-        if active?
-          Chef::Log.info("#{new_resource} already enabled.")
-        else
-          Chef::Log.debug("#{new_resource} is about to be enabled")
-          shell_out!('iptables -P INPUT DROP')
-          shell_out!('iptables -P OUTPUT DROP')
-          shell_out!('iptables -P FORWARD DROP')
-
-          shell_out!('ip6tables -P INPUT DROP')
-          shell_out!('ip6tables -P OUTPUT DROP')
-          shell_out!('ip6tables -P FORWARD DROP')
-          Chef::Log.info("#{new_resource} enabled.")
-          new_resource.updated_by_last_action(true)
+          service svc do
+            action [:enable, :start]
+          end
         end
       end
     end
 
-    def action_disable
-      if active?
-        shell_out!('iptables -P INPUT ACCEPT')
-        shell_out!('iptables -P OUTPUT ACCEPT')
-        shell_out!('iptables -P FORWARD ACCEPT')
-        shell_out!('iptables -F')
+    action :restart do
+      next if disabled?(new_resource)
 
-        shell_out!('ip6tables -P INPUT ACCEPT')
-        shell_out!('ip6tables -P OUTPUT ACCEPT')
-        shell_out!('ip6tables -P FORWARD ACCEPT')
-        shell_out!('ip6tables -F')
-        Chef::Log.info("#{new_resource} disabled")
+      # prints all the firewall rules
+      log_iptables(new_resource)
+
+      # ensure it's initialized
+      new_resource.rules({}) unless new_resource.rules
+      ensure_default_rules_exist(node, new_resource)
+
+      iptables_commands(new_resource).each do |iptables_type|
+        iptables_filename = "/etc/sysconfig/#{iptables_type}"
+        # ensure a file resource exists with the current iptables rules
+        begin
+          iptables_file = run_context.resource_collection.find(file: iptables_filename)
+        rescue
+          iptables_file = file iptables_filename do
+            action :nothing
+          end
+        end
+        iptables_file.content build_rule_file(new_resource.rules[iptables_type])
+        iptables_file.run_action(:create)
+
+        # if the file was unchanged, skip loop iteration, otherwise restart iptables
+        next unless iptables_file.updated_by_last_action?
+
+        service_affected = service iptables_type do
+          action :nothing
+        end
+
+        new_resource.notifies(:restart, service_affected, :delayed)
         new_resource.updated_by_last_action(true)
-      else
-        Chef::Log.debug("#{new_resource} already disabled.")
-      end
-
-      service service_name do
-        action [:disable, :stop]
       end
     end
 
-    def action_flush
-      shell_out!('iptables -F')
-      shell_out!('ip6tables -F')
-      Chef::Log.info("#{new_resource} flushed.")
-    end
+    action :disable do
+      next if disabled?(new_resource)
 
-    def action_save
-      shell_out!("service #{service_name} save")
-      # iptables-persistent does ipv6 inside the iptables init script
-      shell_out!('service ip6tables save') unless ubuntu?
-      Chef::Log.info("#{new_resource} saved.")
-    end
+      iptables_flush!(new_resource)
+      iptables_default_allow!(new_resource)
+      new_resource.updated_by_last_action(true)
 
-    private
+      iptables_commands(new_resource).each do |svc|
+        service svc do
+          action [:disable, :stop]
+        end
 
-    def active?
-      @active ||= begin
-        cmd = shell_out!('iptables-save')
-        cmd.stdout =~ /INPUT ACCEPT/
-      end
-      @active_v6 ||= begin
-        cmd = shell_out!('ip6tables-save')
-        cmd.stdout =~ /INPUT ACCEPT/
-      end
-      @active && @active_v6
-    end
-
-    def log_current_iptables
-      cmdstr = 'iptables -L'
-      Chef::Log.info("#{new_resource} log_current_iptables (#{cmdstr}):")
-      cmd = shell_out!(cmdstr)
-      Chef::Log.info(cmd.inspect)
-      cmdstr = 'ip6tables -L'
-      Chef::Log.info("#{new_resource} log_current_iptables (#{cmdstr}):")
-      cmd = shell_out!(cmdstr)
-      Chef::Log.info(cmd.inspect)
-    rescue
-      Chef::Log.info("#{new_resource} log_current_iptables failed!")
-    end
-
-    def package_name
-      if ubuntu?
-        'iptables-persistent'
-      else
-        'iptables'
+        # must create empty file for service to start
+        file "create empty /etc/sysconfig/#{svc}" do
+          path "/etc/sysconfig/#{svc}"
+          content '# created by chef to allow service to start'
+        end
       end
     end
 
-    def service_name
-      if ubuntu?
-        'iptables-persistent'
-      else
-        'iptables'
-      end
-    end
+    action :flush do
+      next if disabled?(new_resource)
 
-    def ubuntu?
-      node['platform'] == 'ubuntu'
+      iptables_flush!(new_resource)
+      new_resource.updated_by_last_action(true)
+
+      iptables_commands(new_resource).each do |svc|
+        # must create empty file for service to start
+        file "create empty /etc/sysconfig/#{svc}" do
+          path "/etc/sysconfig/#{svc}"
+          content '# created by chef to allow service to start'
+        end
+      end
     end
   end
 end

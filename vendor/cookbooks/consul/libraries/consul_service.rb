@@ -27,7 +27,7 @@ module ConsulCookbook
       # @return [String]
       attribute(:install_path, kind_of: String, default: '/srv')
 
-      # @!attribute config_filename
+      # @!attribute config_file
       # @return [String]
       attribute(:config_file, kind_of: String, default: '/etc/consul.json')
 
@@ -64,7 +64,10 @@ module ConsulCookbook
       attribute(:config_dir, kind_of: String, default: '/etc/consul')
 
       def default_environment
-        { GOMAXPROCS: [node['cpu']['total'], 2].max.to_s, PATH: '/usr/local/bin:/usr/bin:/bin' }
+        {
+          'GOMAXPROCS' => [node['cpu']['total'], 2].max.to_s,
+          'PATH' => '/usr/local/bin:/usr/bin:/bin'
+        }
       end
 
       def command
@@ -124,6 +127,9 @@ module ConsulCookbook
 
             source_dir = directory ::File.join(new_resource.install_path, 'consul', 'src') do
               recursive true
+              owner new_resource.user
+              group new_resource.group
+              mode '0755'
             end
 
             git ::File.join(source_dir.path, "consul-#{new_resource.version}") do
@@ -136,23 +142,25 @@ module ConsulCookbook
               action :install
             end
 
-            directory ::File.join(new_resource.install_path, 'bin')
+            directory ::File.join(new_resource.install_path, 'bin') do
+              recursive true
+              owner new_resource.user
+              group new_resource.group
+              mode '0755'
+            end
 
             link ::File.join(new_resource.install_path, 'bin', 'consul') do
               to ::File.join(source_dir.path, "consul-#{new_resource.version}", 'consul')
             end
           end
 
-          directory new_resource.data_dir do
-            recursive true
-            owner new_resource.user
-            group new_resource.group
-            mode '0755'
-          end
-
-          directory new_resource.config_dir do
-            recursive true
-            mode '0755'
+          [new_resource.data_dir, new_resource.config_dir].each do |dirname|
+            directory dirname do
+              recursive true
+              owner new_resource.user
+              group new_resource.group
+              mode '0755'
+            end
           end
         end
         super
@@ -160,15 +168,7 @@ module ConsulCookbook
 
       def action_disable
         notifying_block do
-          file new_resource.filename do
-            action :delete
-          end
-
-          directory new_resource.config_dir do
-            action :delete
-          end
-
-          directory new_resource.data_dir do
+          file new_resource.config_file do
             action :delete
           end
         end

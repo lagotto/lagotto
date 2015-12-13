@@ -46,15 +46,15 @@ unless defined?(Chef::Provider::Package::Homebrew) && Chef::Platform.find('mac_o
             @current_resource
           end
 
-          def install_package(name, version)
+          def install_package(name, _version)
             brew('install', @new_resource.options, name)
           end
 
-          def upgrade_package(name, version)
+          def upgrade_package(name, _version)
             brew('upgrade', name)
           end
 
-          def remove_package(name, version)
+          def remove_package(name, _version)
             brew('uninstall', @new_resource.options, name)
           end
 
@@ -71,13 +71,13 @@ unless defined?(Chef::Provider::Package::Homebrew) && Chef::Platform.find('mac_o
           end
 
           def current_installed_version
-            pkg = get_version_from_formula
+            pkg = version_from_formula
             versions = pkg.to_hash['installed'].map { |v| v['version'] }
             versions.join(' ') unless versions.empty?
           end
 
           def candidate_version
-            pkg = get_version_from_formula
+            pkg = version_from_formula
             pkg.stable ? pkg.stable.version.to_s : pkg.version.to_s
           end
 
@@ -86,8 +86,8 @@ unless defined?(Chef::Provider::Package::Homebrew) && Chef::Platform.find('mac_o
             version.empty? ? nil : version
           end
 
-          def get_version_from_formula
-            brew_cmd = shell_out!('brew --prefix', :user => homebrew_owner)
+          def version_from_formula
+            brew_cmd = shell_out!('brew --prefix', user: homebrew_owner)
             libpath = ::File.join(brew_cmd.stdout.chomp, 'Library', 'Homebrew')
             $LOAD_PATH.unshift(libpath)
 
@@ -102,7 +102,7 @@ unless defined?(Chef::Provider::Package::Homebrew) && Chef::Platform.find('mac_o
             home_dir = Etc.getpwnam(homebrew_owner).dir
 
             Chef::Log.debug "Executing '#{command}' as #{homebrew_owner}"
-            output = shell_out!(command, :user => homebrew_owner, :environment => { 'HOME' => home_dir, 'RUBYOPT' => nil })
+            output = shell_out!(command, user: homebrew_owner, environment: { 'HOME' => home_dir, 'RUBYOPT' => nil })
             output.stdout
           end
         end
@@ -110,6 +110,6 @@ unless defined?(Chef::Provider::Package::Homebrew) && Chef::Platform.find('mac_o
     end
   end
 
-  Chef::Platform.set :platform => :mac_os_x_server, :resource => :package, :provider => Chef::Provider::Package::Homebrew
-  Chef::Platform.set :platform => :mac_os_x, :resource => :package, :provider => Chef::Provider::Package::Homebrew
+  Chef::Platform.set platform: :mac_os_x_server, resource: :package, provider: Chef::Provider::Package::Homebrew
+  Chef::Platform.set platform: :mac_os_x, resource: :package, provider: Chef::Provider::Package::Homebrew
 end

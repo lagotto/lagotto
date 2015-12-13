@@ -28,20 +28,25 @@ module ConsulCookbook
 
       # @!attribute type
       # @return [String]
-      attribute(:type, equal_to: %w{check service})
+      attribute(:type, equal_to: %w{check service checks services})
 
       # @!attribute parameters
       # @return [Hash]
       attribute(:parameters, option_collector: true, default: {})
 
       def to_json
-        JSON.pretty_generate(type => parameters.merge(name: name))
+        final_parameters = parameters
+        final_parameters = final_parameters.merge(name: name) if final_parameters[:name].nil?
+        JSON.pretty_generate(type => final_parameters)
       end
 
       action(:create) do
         notifying_block do
           directory ::File.dirname(new_resource.path) do
             recursive true
+            owner new_resource.user
+            group new_resource.group
+            mode '0755'
           end
 
           file new_resource.path do

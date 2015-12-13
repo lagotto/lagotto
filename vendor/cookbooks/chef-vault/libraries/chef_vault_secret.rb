@@ -15,8 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'chef/resource/lwrp_base'
 require 'chef/provider/lwrp_base'
+require 'chef/resource/lwrp_base'
 begin
   require 'chef-vault'
 rescue LoadError
@@ -28,7 +28,7 @@ module ChefVaultCookbook
   module Resource
     class ChefVaultSecret < Chef::Resource::LWRPBase
       self.resource_name = 'chef_vault_secret'
-      provides(:chef_vault_secret)
+      provides(:chef_vault_secret) if defined?(provides)
 
       actions(:create, :create_if_missing, :update, :delete)
       default_action(:create)
@@ -45,9 +45,8 @@ module ChefVaultCookbook
 
   module Provider
     class ChefVaultSecret < Chef::Provider::LWRPBase
-      provides(:chef_vault_secret)
-
-      use_inline_resources if defined?(:use_inline_resources)
+      provides(:chef_vault_secret) if defined?(provides)
+      use_inline_resources if defined?(use_inline_resources)
 
       def whyrun_supported?
         true

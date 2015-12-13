@@ -1,7 +1,9 @@
 #!/bin/sh
 exec 2>&1
+<% if @options[:ulimit] == true -%>
 
-<% if @options[:ulimit] == true %>ulimit -n <%= @options[:maxconn] %><% end %>
+ulimit -n <%= @options[:maxconn] %>
+<% end -%>
 
 exec chpst -u <%= @options[:user] %> \
   /usr/bin/memcached -v \

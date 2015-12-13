@@ -1,6 +1,13 @@
-# Changelog
+# Poise-Service Changelog
+
+## v1.0.3
+
+* [#10](https://github.com/poise/poise-service/pull/10) Fixes for ensuring services are restarted when their command or user changes.
+* [#11](https://github.com/poise/poise-service/pull/11) Revamp the `sysvinit` provider for non-Debian platforms to be more stable.
+* [#12](https://github.com/poise/poise-service/pull/12) Improve the `dummy` provider to handle dropping privs correctly.
 
 ## v1.0.2
+
 * Fix a potential infinite loop when starting a service with the dummy provider.
 * [#2](https://github.com/poise/poise-service/pull/2) Remove usage of root
   default files so uploading with Berkshelf works (for now).

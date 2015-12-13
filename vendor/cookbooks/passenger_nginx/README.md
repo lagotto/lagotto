@@ -17,11 +17,13 @@ Opscode cookbooks:
 
 - apt
 - build-essential
+- nodejs
 
 Other cookbooks:
 
-- [ruby](https://github.com/articlemetrics/ruby-cookbook)
-
+- [ruby](https://github.com/lagotto/ruby-cookbook)
+- [dotenv](https://github.com/lagotto/dotenv-cookbook)
+- [capistrano](https://github.com/lagotto/capistrano)
 
 Attributes
 ----------

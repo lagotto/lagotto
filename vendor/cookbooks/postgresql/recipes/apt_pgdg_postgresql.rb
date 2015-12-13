@@ -1,8 +1,7 @@
-if not %w(squeeze wheezy sid lucid precise saucy trusty utopic).include? node['postgresql']['pgdg']['release_apt_codename']
+if not %w(jessie squeeze wheezy sid lucid precise saucy trusty utopic).include? node['postgresql']['pgdg']['release_apt_codename']
   raise "Not supported release by PGDG apt repository"
 end
 
-include_recipe 'postgresql::config_version'
 include_recipe 'apt'
 
 file "remove deprecated Pitti PPA apt repository" do

@@ -15,93 +15,118 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'poise'
-
 class Chef
-  class Provider::FirewallFirewalld < Provider
-    include Poise
-    include Chef::Mixin::ShellOut
+  class Provider::FirewallFirewalld < Chef::Provider::LWRPBase
+    include FirewallCookbook::Helpers::Firewalld
 
-    def action_enable
-      converge_by('install package firewalld and default DROP if no rules exist') do
+    provides :firewall, os: 'linux', platform_family: %w(rhel fedora) do |node|
+      node['platform_version'].to_f >= 7.0 && !node['firewall']['redhat7_iptables']
+    end
+
+    def whyrun_supported?
+      false
+    end
+
+    action :install do
+      next if disabled?(new_resource)
+
+      converge_by('install firewalld, create template for /etc/sysconfig') do
         package 'firewalld' do
           action :install
         end
-
-        # prints all the firewall rules
-        # pp @new_resource.subresources
-        log_current_firewalld
 
         service 'firewalld' do
           action [:enable, :start]
         end
 
-        if active?
-          Chef::Log.debug("#{@new_resource} already enabled.")
-        else
-          Chef::Log.debug("#{@new_resource} is about to be enabled")
-          shell_out!('service', 'firewalld', 'start')
-          shell_out!('firewall-cmd', '--set-default-zone=drop')
-          Chef::Log.info("#{@new_resource} enabled.")
-          new_resource.updated_by_last_action(true)
+        file "create empty #{firewalld_rules_filename}" do
+          path firewalld_rules_filename
+          content '# created by chef to allow service to start'
+          not_if { ::File.exist?(firewalld_rules_filename) }
         end
       end
     end
 
-    def action_disable
-      if active?
-        shell_out!('firewall-cmd', '--set-default-zone=public')
-        shell_out!('firewall-cmd', '--direct', '--remove-rules', 'ipv4', 'filter', 'INPUT')
-        shell_out!('firewall-cmd', '--direct', '--remove-rules', 'ipv4', 'filter', 'OUTPUT')
-        Chef::Log.info("#{@new_resource} disabled")
-        new_resource.updated_by_last_action(true)
-      else
-        Chef::Log.debug("#{@new_resource} already disabled.")
+    action :restart do
+      next if disabled?(new_resource)
+
+      # ensure it's initialized
+      new_resource.rules({}) unless new_resource.rules
+      new_resource.rules['firewalld'] = {} unless new_resource.rules['firewalld']
+
+      # ensure a file resource exists with the current firewalld rules
+      begin
+        firewalld_file = run_context.resource_collection.find(file: firewalld_rules_filename)
+      rescue
+        firewalld_file = file firewalld_rules_filename do
+          action :nothing
+        end
       end
+      firewalld_file.content build_rule_file(new_resource.rules['firewalld'])
+      firewalld_file.run_action(:create)
+
+      # ensure the service is running
+      service 'firewalld' do
+        action [:enable, :start]
+      end
+
+      # mark updated if we changed the zone
+      unless firewalld_default_zone?(new_resource.enabled_zone)
+        firewalld_default_zone!(new_resource.enabled_zone)
+        new_resource.updated_by_last_action(true)
+      end
+
+      # if the file was changed, load new ruleset
+      if firewalld_file.updated_by_last_action?
+        firewalld_flush!
+        # TODO: support logging
+
+        new_resource.rules['firewalld'].sort_by { |_k, v| v }.map { |k, _v| k }.each do |cmd|
+          firewalld_rule!(cmd)
+        end
+
+        new_resource.updated_by_last_action(true)
+      end
+    end
+
+    action :disable do
+      next if disabled?(new_resource)
+
+      firewalld_flush!
+      firewalld_default_zone!(new_resource.disabled_zone)
+      new_resource.updated_by_last_action(true)
 
       service 'firewalld' do
         action [:disable, :stop]
       end
+
+      file "create empty #{firewalld_rules_filename}" do
+        path firewalld_rules_filename
+        content '# created by chef to allow service to start'
+        action :create
+      end
     end
 
-    def action_flush
-      shell_out!('firewall-cmd', '--direct', '--remove-rules', 'ipv4', 'filter', 'INPUT')
-      shell_out!('firewall-cmd', '--direct', '--remove-rules', 'ipv4', 'filter', 'OUTPUT')
-      shell_out!('firewall-cmd', '--direct', '--permanent', '--remove-rules', 'ipv4', 'filter', 'INPUT')
-      shell_out!('firewall-cmd', '--direct', '--permanent', '--remove-rules', 'ipv4', 'filter', 'OUTPUT')
-      Chef::Log.info("#{@new_resource} flushed.")
+    action :flush do
+      next if disabled?(new_resource)
+
+      firewalld_flush!
+      new_resource.updated_by_last_action(true)
+
+      file "create empty #{firewalld_rules_filename}" do
+        path firewalld_rules_filename
+        content '# created by chef to allow service to start'
+        action :create
+      end
     end
 
-    def action_save
-      if shell_out!('firewall-cmd', '--direct', '--get-all-rules').stdout != shell_out!('firewall-cmd', '--direct', '--permanent', '--get-all-rules').stdout
-        shell_out!('firewall-cmd', '--direct', '--permanent', '--remove-rules', 'ipv4', 'filter', 'INPUT')
-        shell_out!('firewall-cmd', '--direct', '--permanent', '--remove-rules', 'ipv4', 'filter', 'OUTPUT')
-        shell_out!('firewall-cmd', '--direct', '--get-all-rules').stdout.lines do |line|
-          shell_out!("firewall-cmd --direct --permanent --add-rule #{line}")
-        end
-        Chef::Log.info("#{@new_resource} saved.")
+    action :save do
+      next if disabled?(new_resource)
+
+      unless firewalld_all_rules_permanent!
+        firewalld_save!
         new_resource.updated_by_last_action(true)
-      else
-        Chef::Log.info("#{@new_resource} already up-to-date.")
       end
-    end
-
-    private
-
-    def active?
-      @active ||= begin
-        cmd = shell_out('firewall-cmd', '--state')
-        cmd.stdout =~ /^running$/
-      end
-    end
-
-    def log_current_firewalld
-      cmdstr = 'firewall-cmd --direct --get-all-rules'
-      Chef::Log.info("#{@new_resource} log_current_firewalld (#{cmdstr}):")
-      cmd = shell_out!(cmdstr)
-      Chef::Log.info(cmd.inspect)
-    rescue
-      Chef::Log.info("#{@new_resource} log_current_firewalld failed!")
     end
   end
 end
