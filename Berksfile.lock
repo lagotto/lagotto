@@ -9,7 +9,7 @@ DEPENDENCIES
     revision: 0343aaa39aaed6a91b05211cd3a2ae9da95e89ba
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: f4b48fed41d784f89fab0870b57b3344d9883833
+    revision: 5e5b6c42a942a07c120bf3c0514ac506caf2a959
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
@@ -69,7 +69,7 @@ GRAPH
   golang (1.7.0)
   homebrew (2.0.3)
     build-essential (>= 2.1.2)
-  lagotto (5.0.0)
+  lagotto (5.0.1)
     apt (>= 0.0.0)
     capistrano (~> 1.0.0)
     consul (>= 0.0.0)
