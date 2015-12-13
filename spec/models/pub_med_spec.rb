@@ -25,7 +25,7 @@ describe PubMed, type: :model, vcr: true do
 
     it "should catch errors with the PubMed API" do
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      response = subject.get_data(work, agent: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{work.pmid}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)

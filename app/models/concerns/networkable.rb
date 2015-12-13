@@ -78,7 +78,7 @@ module Networkable
       content_types = { "html" => 'text/html; charset=UTF-8',
                         "xml" => 'application/xml',
                         "json" => 'application/json' }
-      accept_header = content_types.fetch(content_type, 'application/json')
+      accept_header = content_types.fetch(content_type, content_type)
       limit = options[:limit] || 10
 
       Faraday.new do |c|

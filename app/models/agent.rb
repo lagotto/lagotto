@@ -134,7 +134,7 @@ class Agent < ActiveRecord::Base
   end
 
   def collect_data(options = {})
-    message_type = source_id || name
+    message_type = source_id
 
     data = get_data(options.merge(timeout: timeout, agent_id: id))
 
