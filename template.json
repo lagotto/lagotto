@@ -58,7 +58,7 @@
     "memory": "2048",
     "mirror": "http://releases.ubuntu.com",
     "version": "0.1",
-    "git_branch": "{{env `GIT_BRANCH`}}",
+    "git_branch": "5-0-unstable",
     "chef_version": "12.5.1",
     "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
