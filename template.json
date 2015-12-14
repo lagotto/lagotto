@@ -14,7 +14,7 @@
     "inline": ["sudo apt-get install -y git",
                "sudo mkdir -p /var/www/lagotto",
                "sudo chown -R ubuntu:ubuntu /var/www/lagotto",
-               "git clone -b {{user `git_branch`}} https://github.com/datacite/lagotto.git /var/www/lagotto"]  },
+               "git clone -b {{user `git_branch`}} https://github.com/lagotto/lagotto.git /var/www/lagotto"]  },
   {
     "type": "file",
     "source": ".env.production",
@@ -78,8 +78,7 @@
       ".git/*",
       ".vagrant/*",
       "tmp/*",
-      ".bundle/*",
-      ".sass-cache/*"
+      ".bundle/*"
     ]
   }
 }
