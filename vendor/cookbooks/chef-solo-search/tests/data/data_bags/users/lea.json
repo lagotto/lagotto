@@ -1,0 +1,10 @@
+{
+    "id": "lea",
+    "username": "lea",
+    "age": 35,
+    "gender": "female",
+    "married": true,
+    "children": ["tom"],
+    "tag": "tag::test",
+    "tags": ["tag::first", "tag::second"]
+}

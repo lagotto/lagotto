@@ -12,6 +12,8 @@
     "apt": ">= 0.0.0",
     "nodejs": ">= 0.0.0",
     "consul": ">= 0.0.0",
+    "rsyslog": ">= 0.0.0",
+    "chef-solo-search": ">= 0.0.0",
     "ruby": "~> 0.7.0",
     "dotenv": "~> 1.0.0"
   },
@@ -31,7 +33,7 @@
   },
   "recipes": {
   },
-  "version": "1.0.2",
+  "version": "1.0.18",
   "source_url": "",
   "issues_url": ""
 }

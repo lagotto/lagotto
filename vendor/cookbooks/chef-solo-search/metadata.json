@@ -1,0 +1,35 @@
+{
+  "license": "Apache 2.0",
+  "replacing": {
+  },
+  "suggestions": {
+  },
+  "long_description": "# chef-solo-search\n\n[![Build Status](https://travis-ci.org/edelight/chef-solo-search.png?branch=master)](https://travis-ci.org/edelight/chef-solo-search)\n\nChef-solo-search is a cookbook library that adds data bag search powers\nto Chef Solo. Data bag support was added to Chef Solo by Chef 0.10.4.\nPlease see *Supported queries* for a list of query types which are supported.\n\n## Requirements\n\n    * ruby >= 1.8\n    * ruby-chef >= 0.10.4\n\n## Installation\n\nInstall this cookbook into your Chef repository using your favorite cookbook\nmanagement tool\n([Librarian](https://github.com/applicationsonline/librarian-chef),\n[Berkshelf](https://github.com/RiotGames/berkshelf), knife...).\n\nIn Chef 11, you must either add this to the run list of the nodes where it's used or include it as a dependency in the recipes that use it. [See changes in Chef 11.](http://docs.opscode.com/breaking_changes_chef_11.html#non-recipe-file-evaluation-includes-dependencies)\n\nNow you have to make sure chef-solo knows about data bags, therefore add\n\n    data_bag_path \"<node_work_path>/data_bags\"\n\nto the config file of chef-solo (defaults to /etc/chef/solo.rb).\n\nThe same for your roles, add\n\n    role_path \"<node_work_path>/roles\"\n\n## Supported queries\n\nThe search methods supports a basic sub-set of the lucene query language.\nSample supported queries are:\n\n### General queries:\n\n    search(:users, \"*:*\")\n    search(:users)\n    search(:users, nil)\n        getting all items in ':users'\n    search(:users, \"username:*\")\n    search(:users, \"username:[* TO *]\")\n        getting all items from ':users' which have a 'username' attribute\n    search(:users, \"(NOT username:*)\")\n    search(:users, \"(NOT username:[* TO *])\")\n        getting all items from ':users' which don't have a 'username' attribute\n\n### Queries on attributes with string values:\n\n    search(:users, \"username:speedy\")\n        getting all items from ':users' with username equals 'speedy'\n    search(:users, \"NOT username:speedy\")\n        getting all items from ':users' with username is unequal to 'speedy'\n    search(:users, \"username:spe*\")\n        getting all items which 'username'-value begins with 'spe'\n\n### Queries on attributes with array values:\n\n    search(:users, \"children:tom\")\n        getting all items which 'children' attribute contains 'tom'\n    search(:users, \"children:t*\")\n        getting all items which have at least one element in 'children'\n        which starts with 't'\n\n### Queries on attributes with boolean values:\n\n    search(:users, \"married:true\")\n\n### Queries in attributes with integer values:\n\n    search(:users, \"age:35\")\n\n### OR conditions in queries:\n\n    search(:users, \"age:42 OR age:22\")\n\n### AND conditions in queries:\n\n    search(:users, \"married:true AND age:35\")\n\n### NOT condition in queries:\n\n    search(:users, \"children:tom NOT gender:female\")\n\n### More complex queries:\n\n    search(:users, \"children:tom NOT gender:female AND age:42\")\n\n\n## Supported Objects\nThe search methods have support for 'roles', 'nodes' and 'databags'.\n\n### Roles\nYou can use the standard role objects in json form and put them into your role path\n\n    {\n      \"name\": \"monitoring\",\n      \"default_attributes\": { },\n      \"override_attributes\": { },\n      \"json_class\": \"Chef::Role\",\n      \"description\": \"This is just a monitoring role, no big deal.\",\n          \"run_list\": [\n          ],\n      \"chef_type\": \"role\"\n\n\n### Nodes\nNodes are injected through a databag called 'node'.  Create a databag called 'node' and put your json files there\nYou can use the standard node objects in json form.\n\n    {\n      \"id\": \"vagrant\",\n      \"name\": \"vagrant-vm\",\n      \"chef_environment\": \"_default\",\n      \"json_class\": \"Chef::Node\",\n      \"automatic\": {\n        \"hostname\": \"vagrant.vm\",\n        \"os\": \"centos\"\n      },\n      \"normal\": {\n      },\n      \"chef_type\": \"node\",\n      \"default\": {\n      },\n      \"override\": {\n      },\n      \"run_list\": [\n        \"role[monitoring]\"\n      ]\n    }\n\n### Databags\nYou can use the standard databag objects in json form\n\n    {\n      \"id\": \"my-ssh\",\n      \"hostgroup_name\": \"all\",\n      \"command_line\": \"$USER1$/check_ssh $HOSTADDRESS$\"\n    }\n\n## Running tests\n\nRunning tests is as simple as:\n\n    % rake test\n",
+  "attributes": {
+  },
+  "providing": {
+  },
+  "maintainer_email": "markus.korn@edelight.de",
+  "groupings": {
+  },
+  "conflicting": {
+  },
+  "description": "Data bag search for Chef Solo",
+  "name": "chef-solo-search",
+  "version": "0.5.1",
+  "dependencies": {
+  },
+  "platforms": {
+    "freebsd": ">= 0.0.0",
+    "fedora": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0"
+  },
+  "maintainer": "edelight GmbH",
+  "recipes": {
+  },
+  "recommendations": {
+  }
+}

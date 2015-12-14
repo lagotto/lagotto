@@ -1,0 +1,13 @@
+{
+    "id": "mike",
+    "username": "mike the hammer",
+    "age": 42,
+    "gender": "male",
+    "married": true,
+    "children": ["tom", "jerry"],
+    "address": {
+        "street": {
+            "floor": 1
+        }
+    }
+}

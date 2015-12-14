@@ -6,3 +6,5 @@ cookbook "ruby",
          :git => "git@github.com:lagotto/ruby-cookbook.git"
 cookbook "dotenv",
          :git => "git@github.com:lagotto/dotenv-cookbook.git"
+cookbook "rsyslog",
+         :git => "git@github.com:datacite/rsyslog.git"

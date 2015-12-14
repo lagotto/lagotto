@@ -21,6 +21,7 @@ module CopiedFromChef
 #
 
 require 'chef_compat/copied_from_chef/chef/delayed_evaluator'
+require 'chef_compat/copied_from_chef/chef/log'
 
 class Chef < (defined?(::Chef) ? ::Chef : Object)
   #
@@ -118,6 +119,10 @@ super if defined?(::Chef::Property)
 
       options[:name] = options[:name].to_sym if options[:name]
       options[:instance_variable_name] = options[:instance_variable_name].to_sym if options[:instance_variable_name]
+    end
+
+    def to_s
+      name
     end
 
     #
@@ -251,16 +256,19 @@ super if defined?(::Chef::Property)
         return get(resource)
       end
 
-      # myprop nil is sometimes a get (backcompat)
       if value.nil? && !explicitly_accepts_nil?(resource)
-        # If you say "my_property nil" and the property explicitly accepts
-        # nil values, we consider this a get.
-        Chef.log_deprecation("#{name} nil currently does not overwrite the value of #{name}. This will change in Chef 13, and the value will be set to nil instead. Please change your code to explicitly accept nil using \"property :#{name}, [MyType, nil]\", or stop setting this value to nil.")
-        return get(resource)
+        # In Chef 12, value(nil) does a *get* instead of a set, so we
+        # warn if the value would have been changed. In Chef 13, it will be
+        # equivalent to value = nil.
+        result = get(resource)
+        if !result.nil?
+          Chef.log_deprecation("#{name} nil currently does not overwrite the value of #{name}. This will change in Chef 13, and the value will be set to nil instead. Please change your code to explicitly accept nil using \"property :#{name}, [MyType, nil]\", or stop setting this value to nil.")
+        end
+        result
+      else
+        # Anything else, such as myprop(value) is a set
+        set(resource, value)
       end
-
-      # Anything else (myprop value) is a set
-      set(resource, value)
     end
 
     #
@@ -296,6 +304,28 @@ super if defined?(::Chef::Property)
         value
 
       else
+        # If the user does something like this:
+        #
+        # ```
+        # class MyResource < Chef::Resource
+        #   property :content
+        #   action :create do
+        #     file '/x.txt' do
+        #       content content
+        #     end
+        #   end
+        # end
+        # ```
+        #
+        # It won't do what they expect. This checks whether you try to *read*
+        # `content` while we are compiling the resource.
+        if resource.respond_to?(:enclosing_provider) && resource.enclosing_provider &&
+           !resource.currently_running_action &&
+           !name_property? &&
+           resource.enclosing_provider.respond_to?(name)
+           Chef::Log.warn("#{Chef::Log.caller_location}: property #{name} is declared in both #{resource} and #{resource.enclosing_provider}. Use new_resource.#{name} instead. At #{Chef::Log.caller_location}")
+        end
+
         if has_default?
           value = default
           if value.is_a?(DelayedEvaluator)
@@ -452,18 +482,22 @@ super if defined?(::Chef::Property)
       # stack trace if you use `define_method`.
       declared_in.class_eval <<-EOM, __FILE__, __LINE__+1
         def #{name}(value=NOT_PASSED)
+          raise "Property #{name} of \#{self} cannot be passed a block! If you meant to create a resource named #{name} instead, you'll need to first rename the property." if block_given?
           self.class.properties[#{name.inspect}].call(self, value)
         end
         def #{name}=(value)
+          raise "Property #{name} of \#{self} cannot be passed a block! If you meant to create a resource named #{name} instead, you'll need to first rename the property." if block_given?
           self.class.properties[#{name.inspect}].set(self, value)
         end
       EOM
     rescue SyntaxError
       # If the name is not a valid ruby name, we use define_method.
-      declared_in.define_method(name) do |value=NOT_PASSED|
+      declared_in.define_method(name) do |value=NOT_PASSED, &block|
+        raise "Property #{name} of #{self} cannot be passed a block! If you meant to create a resource named #{name} instead, you'll need to first rename the property." if block
         self.class.properties[name].call(self, value)
       end
-      declared_in.define_method("#{name}=") do |value|
+      declared_in.define_method("#{name}=") do |value, &block|
+        raise "Property #{name} of #{self} cannot be passed a block! If you meant to create a resource named #{name} instead, you'll need to first rename the property." if block
         self.class.properties[name].set(self, value)
       end
     end

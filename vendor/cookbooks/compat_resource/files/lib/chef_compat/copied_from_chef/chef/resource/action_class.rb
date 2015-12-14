@@ -25,6 +25,10 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
   class Resource < (defined?(::Chef::Resource) ? ::Chef::Resource : Object)
     module ActionClass
       CopiedFromChef.extend_chef_module(::Chef::Resource::ActionClass, self) if defined?(::Chef::Resource::ActionClass)
+      def to_s
+        "#{new_resource || "<no resource>"} action #{action ? action.inspect : "<no action>"}"
+      end
+
       #
       # If load_current_value! is defined on the resource, use that.
       #

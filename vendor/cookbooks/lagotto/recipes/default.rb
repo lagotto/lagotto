@@ -24,5 +24,5 @@ capistrano node["application"] do
   user            ENV['DEPLOY_USER']
   group           ENV['DEPLOY_GROUP']
   rails_env       ENV['RAILS_ENV']
-  action          [:config, :bundle_install, :npm_install, :consul_install, :precompile_assets, :migrate, :whenever, :restart]
+  action          [:config, :bundle_install, :npm_install, :consul_install, :rsyslog_config, :precompile_assets, :migrate, :whenever, :restart]
 end

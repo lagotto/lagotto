@@ -73,6 +73,7 @@ super if defined?(::Chef::Resource)
       return result.values.first if identity_properties.size == 1
       result
     end
+    attr_reader :currently_running_action
     def to_hash
       # Grab all current state, then any other ivars (backcompat)
       result = {}
@@ -150,26 +151,29 @@ super if defined?(::Chef::Resource)
     def current_value_does_not_exist!
       raise Chef::Exceptions::CurrentValueDoesNotExist
     end
-    def self.action_class
-      @action_class ||
-        # If the superclass needed one, then we need one as well.
-        if superclass.respond_to?(:action_class) && superclass.action_class
-          declare_action_class
-        end
+    def self.action_class(&block)
+      return @action_class if @action_class && !block
+      # If the superclass needed one, then we need one as well.
+      if block || (superclass.respond_to?(:action_class) && superclass.action_class)
+        @action_class = declare_action_class(&block)
+      end
+      @action_class
     end
-    def self.declare_action_class
-      return @action_class if @action_class
+    def self.declare_action_class(&block)
+      @action_class ||= begin
+        if superclass.respond_to?(:action_class)
+          base_provider = superclass.action_class
+        end
+        base_provider ||= Chef::Provider
 
-      if superclass.respond_to?(:action_class)
-        base_provider = superclass.action_class
+        resource_class = self
+        Class.new(base_provider) do
+          include ActionClass
+          self.resource_class = resource_class
+        end
       end
-      base_provider ||= Chef::Provider
-
-      resource_class = self
-      @action_class = Class.new(base_provider) do
-        include ActionClass
-        self.resource_class = resource_class
-      end
+      @action_class.class_eval(&block) if block
+      @action_class
     end
     FORBIDDEN_IVARS = [:@run_context, :@not_if, :@only_if, :@enclosing_provider]
     HIDDEN_IVARS = [:@allowed_actions, :@resource_name, :@source_line, :@run_context, :@name, :@not_if, :@only_if, :@elapsed_time, :@enclosing_provider]

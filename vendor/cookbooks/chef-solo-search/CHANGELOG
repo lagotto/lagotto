@@ -1,0 +1,31 @@
+==========================
+chef-solo-search Changelog
+==========================
+
+Version 0.5.1, September 19, 2013
+---------------------------------
+* Added missing metadata.json file
+
+
+Version 0.5.0, September 19, 2013
+---------------------------------
+* Allow node data bag path to be configured
+* updated install instructions with focus on Chef 11
+* Fixed Treetop dependency such that the omnibus installer is working
+* Added proper ruby Gemfile
+* use rake as runner for the tests
+* Fixed Travis CI builds
+
+
+Version 0.4.0, March 8, 2013
+----------------------------
+* Added support for 'chef_environment:_default' to queries.
+* Special case for lucene "anything range" [* TO *]
+* Added support for ruby bundler
+* Added support for Berkshelf
+
+Version 0.3.0, July 27, 2011
+----------------------------
+First release of chef-solo-search as a self-contained project.
+Search functionality has been added to the original concept and the search
+extension as well as the data bags extension are shipped in libraries/

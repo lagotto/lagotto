@@ -1,4 +1,4 @@
-actions :deploy, :config, :bundle_install, :npm_install, :consul_install, :precompile_assets, :migrate, :whenever, :restart
+actions :deploy, :config, :bundle_install, :npm_install, :consul_install, :rsyslog_config, :precompile_assets, :migrate, :whenever, :restart
 default_action :deploy
 
 attribute :name, :kind_of => String, :name_attribute => true

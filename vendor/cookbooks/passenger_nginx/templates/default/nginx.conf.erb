@@ -30,9 +30,8 @@ http {
   ##
   # Logging Settings
   ##
-
-  access_log <%= node['nginx']['log_dir'] %>/access.log;
-  error_log <%= node['nginx']['log_dir'] %>/error.log;
+  error_log syslog:server=<%= @rsyslog_server %>;
+  access_log syslog:server=<%= @rsyslog_server %>,severity=info;
 
   ##
   # Gzip Settings
