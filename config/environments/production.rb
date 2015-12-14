@@ -20,13 +20,6 @@ Lagotto::Application.configure do
   log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
   config.log_level = log_level
 
-  # log to file, using logstash JSON format
-  logstash_type = ENV["LOGSTASH_TYPE"] ? ENV["LOGSTASH_TYPE"].to_sym : :file
-  config.logstash.type = logstash_type
-
-  # Optional, Redis will default to localhost
-  config.logstash.host = ENV["LOGSTASH_HOST"] || "localhost"
-
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
 
