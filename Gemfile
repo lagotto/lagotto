@@ -4,7 +4,7 @@ gem 'rails', '~> 4.2.1'
 gem 'mysql2', '0.3.18'
 
 gem "dotenv", '~> 1.0.2'
-gem 'sidekiq', '~> 3.3.0'
+gem 'sidekiq', '~> 3.5.3'
 gem 'sinatra'
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false

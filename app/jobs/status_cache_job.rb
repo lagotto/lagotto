@@ -2,6 +2,8 @@ class StatusCacheJob < ActiveJob::Base
   queue_as :critical
 
   def perform
-    Status.create
+    ActiveRecord::Base.connection_pool.with_connection do
+      Status.create
+    end
   end
 end

@@ -2,6 +2,8 @@ class CacheJob < ActiveJob::Base
   queue_as :critical
 
   def perform(resource)
-    resource.write_cache
+    ActiveRecord::Base.connection_pool.with_connection do
+      resource.write_cache
+    end
   end
 end
