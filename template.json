@@ -78,6 +78,7 @@
       ".git/*",
       ".vagrant/*",
       "tmp/*",
+      "log/*",
       ".bundle/*"
     ]
   }
