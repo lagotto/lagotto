@@ -14,8 +14,7 @@ class Heartbeat < Sinatra::Base
     { mysql: human_status(mysql_up?),
       memcached: human_status(memcached_up?),
       redis: human_status(redis_up?),
-      sidekiq: human_status(sidekiq_up?),
-      postfix: human_status(postfix_up?) }
+      sidekiq: human_status(sidekiq_up?) }
   end
 
   def human_status(service)
@@ -23,7 +22,7 @@ class Heartbeat < Sinatra::Base
   end
 
   def services_up?
-    [mysql_up?, memcached_up?, redis_up?, sidekiq_up?, postfix_up?].all?
+    [mysql_up?, memcached_up?, redis_up?, sidekiq_up?].all?
   end
 
   def mysql_up?
@@ -42,15 +41,6 @@ class Heartbeat < Sinatra::Base
     host = ENV["MEMCACHE_SERVERS"] || ENV["HOSTNAME"]
     memcached_client = Dalli::Client.new("#{host}:11211")
     memcached_client.alive!
-    true
-  rescue
-    false
-  end
-
-  def postfix_up?
-    Timeout::timeout(3) do
-      Net::SMTP.start(ENV["MAIL_ADDRESS"], ENV["MAIL_PORT"])
-    end
     true
   rescue
     false
