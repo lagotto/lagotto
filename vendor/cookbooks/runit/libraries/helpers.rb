@@ -159,6 +159,14 @@ exec svlogd -tt #{new_resource.log_dir}
     def disable_service
       shell_out("#{new_resource.sv_bin} #{sv_args}down #{service_dir_name}")
       FileUtils.rm(service_dir_name)
+
+      # per the documentation, a service should be removed from supervision
+      # within 5 seconds of removing the service dir symlink, so we'll sleep for 6.
+      # otherwise, runit recreates the 'ok' named pipe too quickly
+      sleep(6)
+      # runit will recreate the supervise directory and
+      # pipes when the service is reenabled
+      FileUtils.rm("#{sv_dir_name}/supervise/ok")
     end
 
     def start_service

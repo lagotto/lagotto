@@ -20,5 +20,18 @@ class Chef
         provider.current_resource
       end
     end
+    # These methods are necessary for new resources to initialize old ones properly
+    if !method_defined?(:resource_initializing)
+      attr_reader :resource_initializing
+    end
+    if !method_defined?(:resource_initializing=)
+      def resource_initializing=(value)
+        if value
+          @resource_initializing = value
+        else
+          remove_instance_variable(:@resource_initializing)
+        end
+      end
+    end
   end
 end

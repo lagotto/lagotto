@@ -30,8 +30,18 @@ http {
   ##
   # Logging Settings
   ##
+  <% if node['nginx']['behind_proxy'] %>
+  log_format custom_format '$http_x_real_ip - $remote_user [$time_local]'
+                           '"$request" $status $body_bytes_sent '
+                           '"$http_referer" "$http_user_agent"';
+
+  <% else %>
+  log_format custom_format '$remote_addr - $remote_user [$time_local]'
+                           '"$request" $status $body_bytes_sent '
+                           '"$http_referer" "$http_user_agent"';
+  <% end %>
   error_log syslog:server=<%= @rsyslog_server %>;
-  access_log syslog:server=<%= @rsyslog_server %>,severity=info;
+  access_log syslog:server=<%= @rsyslog_server %>,severity=info custom_format;
 
   ##
   # Gzip Settings
@@ -39,13 +49,14 @@ http {
 
   gzip on;
   gzip_disable "msie6";
+  gzip_min_length 1000;
+  gzip_proxied expired no-cache no-store private auth;
+  gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
 
-  # gzip_vary on;
-  # gzip_proxied any;
-  # gzip_comp_level 6;
-  # gzip_buffers 16 8k;
-  # gzip_http_version 1.1;
-  # gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+  client_body_buffer_size 10K;
+  client_header_buffer_size 1k;
+  client_max_body_size 8m;
+  large_client_header_buffers 4 8k;
 
   ##
   # nginx-naxsi config

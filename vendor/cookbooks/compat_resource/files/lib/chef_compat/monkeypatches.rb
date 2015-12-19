@@ -1,4 +1,5 @@
 require 'chef_compat/monkeypatches/chef'
+require 'chef_compat/monkeypatches/chef/log'
 require 'chef_compat/monkeypatches/chef/recipe'
 require 'chef_compat/monkeypatches/chef/resource'
 require 'chef_compat/monkeypatches/chef/provider'

@@ -5,6 +5,12 @@ This file is used to list changes made in each version of the runit cookbook.
 UNRELEASED
 ----------
 
+v1.7.6
+----------
+* Ensure `supervise/ok` named pipe is properly removed when disabling a service, so that it can be enabled again (#166, #167, #172)
+* Restore `restart_on_update` functionality originally added in [#20](https://github.com/hw-cookbooks/runit/pull/20) and lost in the 1.7.0 refactor.
+* Update test cookbooks to fix broken tests revealed by restoring `restart_on_update` functionality. Now using socat instead of netcat.
+
 v1.7.4 (2015-10-13)
 ----------
 * Ensure the service directory exists so that we will succeed when enabling services (#153)

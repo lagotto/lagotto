@@ -75,7 +75,14 @@ super if defined?(::Chef::ResourceBuilder)
       resource.params = params
 
       # Evaluate resource attribute DSL
-      resource.instance_eval(&block) if block_given?
+      if block_given?
+        resource.resource_initializing = true
+        begin
+          resource.instance_eval(&block)
+        ensure
+          resource.resource_initializing = false
+        end
+      end
 
       # emit a cloned resource warning if it is warranted
       if prior_resource
@@ -135,7 +142,7 @@ super if defined?(::Chef::ResourceBuilder)
       @prior_resource ||=
         begin
           key = "#{type}[#{name}]"
-          prior_resource = run_context.resource_collection.lookup(key)
+          run_context.resource_collection.lookup(key)
         rescue Chef::Exceptions::ResourceNotFound
           nil
         end
@@ -145,7 +152,6 @@ super if defined?(::Chef::ResourceBuilder)
 end
 
 require 'chef_compat/copied_from_chef/chef/resource'
-require 'chef_compat/copied_from_chef/chef/log'
 end
 end
 end

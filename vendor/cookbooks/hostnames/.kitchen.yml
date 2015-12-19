@@ -1,0 +1,61 @@
+---
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+
+platforms:
+- name: ubuntu-14.04
+  driver_config:
+    box: opscode_ubuntu-14.04_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+- name: ubuntu-12.04
+  driver_config:
+    box: opscode_ubuntu-12.04_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
+- name: ubuntu-10.04
+  driver_config:
+    box: opscode_ubuntu-10.04_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box
+- name: debian-6
+  driver_config:
+    box: opscode_debian-6.0.8_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.8_chef-provisionerless.box
+- name: debian-7
+  driver_config:
+    box: opscode_debian-7.2.0_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.2.0_chef-provisionerless.box
+- name: centos-6.4
+  driver_config:
+    box: opscode_centos-6.4_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.4_chef-provisionerless.box
+#- name: freebsd-9.2
+#  driver_config:
+#    box: opscode_freebsd-9.2_provisionerless
+#    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-9.2_chef-provisionerless.box
+- name: freebsd-10
+  driver_config:
+    box: opscode_freebsd-10.0_provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_freebsd-10.0_chef-provisionerless.box
+- name: fedora-19
+  driver_config:
+    box: opscode_fedora-19_chef-provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-19_chef-provisionerless.box
+- name: fedora-20
+  driver_config:
+    box: opscode_fedora-20_chef-provisionerless
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_fedora-20_chef-provisionerless.box
+
+suites:
+- name: default
+  run_list:
+    - recipe[hostnames::default]
+  attributes:
+    set_fqdn: test.example.com
+- name: wildcard
+  run_list:
+    - recipe[hostnames::default]
+  provisioner:
+    solo_rb:
+      node_name: test
+  attributes:
+    set_fqdn: '*.example.com'

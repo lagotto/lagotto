@@ -15,21 +15,24 @@ class Chef::Provider
     include Chef::DSL::DataQuery
     include Chef::DSL::IncludeRecipe
 
-    module ::ChefCompat
-      module Monkeypatches
-        module InlineResources
-          module ClassMethods
-            def action(name, &block)
-              super(name) { send("compile_action_#{name}") }
-              # We put the action in its own method so that super() works.
-              define_method("compile_action_#{name}", &block)
+    unless Chef::Provider::InlineResources::ClassMethods.instance_method(:action).source_location[0] =~ /chefspec/
+      # Don't override action if chefspec is doing its thing
+      module ::ChefCompat
+        module Monkeypatches
+          module InlineResources
+            module ClassMethods
+              def action(name, &block)
+                super(name) { send("compile_action_#{name}") }
+                # We put the action in its own method so that super() works.
+                define_method("compile_action_#{name}", &block)
+              end
             end
           end
         end
       end
-    end
-    module ClassMethods
-      prepend ChefCompat::Monkeypatches::InlineResources::ClassMethods
+      module ClassMethods
+        prepend ChefCompat::Monkeypatches::InlineResources::ClassMethods
+      end
     end
   end
 end

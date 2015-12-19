@@ -1,4 +1,6 @@
 # install and configure dependencies
+node.set['set_fqdn'] = ENV['HOSTNAME']
+include_recipe "hostnames::default"
 include_recipe "apt"
 include_recipe "nodejs"
 

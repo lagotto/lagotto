@@ -1,0 +1,41 @@
+{
+  "name": "hostnames",
+  "description": "Configures hostname and FQDN",
+  "long_description": "# hostnames cookbook\n\nEasy `hostname`, FQDN and `/etc/hosts` file updates. Less broken than the [hostname](https://github.com/3ofcoins/chef-cookbook-hostname) recipe.\n\nWorks with custom `/etc/hosts` files and fixes aws dns slowness (use `use_node_ip: true`)\n\nhttps://github.com/nathantsoi/chef-cookbook-hostname\n\n## Install it\n\nWith [berkshelf](http://berkshelf.com/) - `Berskfile`\n\n```ruby\nsource 'https://supermarket.getchef.com'\n...\ncookbook 'hostnames'\n```\n\n## Example\n\nRun via a role - `roles/base.rb`\n\n```ruby\nname 'base'\ndescription 'Standard Sequoia setup'\nrun_list(\n  'recipe[hostnames::default]',\n  ...\n)\ndefault_attributes(\n  set_fqdn: '*.sequoiacap.com',\n  hostname_cookbook: {\n    use_node_ip: true\n  },\n  ...\n)\n```\n\n## Attributes\n\n- `node['set_fqdn']` - FQDN to set.\n\nThe asterisk character will be replaced with `node.name`. This way,\nyou can add this to base role:\n\n```ruby\ndefault_attributes :set_fqdn => '*.project-domain.com'\n```\n\nand have node set its FQDN and hostname based on its chef node name\n(which is provided on `chef-client` first run's command line).\n\n- `node['hostname_cookbook']['use_node_ip']` -- when true\n  sets the hostname to ```node[\"ipaddress\"]``` in ```/etc/hosts``` (default: `false`)\n\n- `node['hostname_cookbook']['hostsfile_ip']` -- IP used in\n  `/etc/hosts` to correctly set FQDN (default: `127.0.1.1`)\n\n\n## Recipes\n\n* `hostnames::default` -- will set node's FQDN to value of `set_fqdn` attribute,\nand hostname to its host part (up to first dot).\n\n* `hostnames::vmware` -- sets hostname automatically using vmtoolsd.\nYou do not need to set `node[\"set_fqdn\"]`.\n\n## Contributing\n\n* Fork.\n\n* Make more awesome.\n\n* Pull request.\n\n* I will bump version and run: ```knife cookbook site share hostnames \"Networking\" -o ../```\n\n## Author\n\n(original) Maciej Pasternacki maciej@3ofcoins.net\n\n(current) [Nathan](http://nathan.vertile.com) nathan@vertile.com\n",
+  "maintainer": "Nathan Tsoi",
+  "maintainer_email": "nathan@vertile.com",
+  "license": "MIT",
+  "platforms": {
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "freebsd": ">= 0.0.0"
+  },
+  "dependencies": {
+    "hostsfile": ">= 0.0.0"
+  },
+  "recommendations": {
+
+  },
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "providing": {
+
+  },
+  "replacing": {
+
+  },
+  "attributes": {
+
+  },
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "version": "0.3.6"
+}

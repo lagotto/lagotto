@@ -21,4 +21,7 @@ server {
       passenger_enabled on;
     }
   <% end %>
+  location ~* .(jpg|jpeg|png|gif|ico|css|js)$ {
+    expires 365d;
+  }
 }

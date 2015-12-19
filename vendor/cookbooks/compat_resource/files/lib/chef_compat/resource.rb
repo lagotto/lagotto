@@ -1,6 +1,13 @@
 require 'chef_compat/monkeypatches'
 require 'chef_compat/copied_from_chef/chef/resource'
 
+# We do NOT want action defined if chefspec is engaged
+if Chef::Provider::InlineResources::ClassMethods.instance_method(:action).source_location[0] =~ /chefspec/
+  ChefCompat::CopiedFromChef::Chef::Provider::InlineResources::ClassMethods.instance_eval do
+    remove_method(:action)
+  end
+end
+
 module ChefCompat
   class Resource < ChefCompat::CopiedFromChef::Chef::Resource
     def initialize(*args, &block)
