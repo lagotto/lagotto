@@ -5,6 +5,8 @@
     "secret_key": "{{user `secret_key`}}",
     "region": "{{user `region`}}",
     "source_ami": "{{user `source_ami`}}",
+    "vpc_id": "{{user `vpc_id`}}",
+    "subnet_id": "{{user `subnet_id`}}",
     "instance_type": "{{user `instance_type`}}",
     "ssh_username": "ubuntu",
     "ami_name": "lagotto {{timestamp}}"
@@ -64,6 +66,8 @@
     "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
     "region": "{{env `AWS_REGION`}}",
     "source_ami": "{{env `AWS_SOURCE_AMI`}}",
+    "vpc_id": "{{env `AWS_VPC_ID`}}",
+    "subnet_id": "{{env `AWS_SUBNET_ID`}}",
     "instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
     "atlas_token": "{{env `ATLAS_TOKEN`}}"
   },
