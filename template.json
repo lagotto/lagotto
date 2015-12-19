@@ -9,7 +9,7 @@
     "subnet_id": "{{user `subnet_id`}}",
     "instance_type": "{{user `instance_type`}}",
     "ssh_username": "ubuntu",
-    "ami_name": "lagotto {{timestamp}}"
+    "ami_name": "lagotto {{user `git_branch`}} {{timestamp}}"
   }],
   "provisioners": [{
     "type": "shell",
@@ -54,12 +54,7 @@
   }],
   "variables": {
     "compression_level": "6",
-    "cpus": "2",
-    "disk_size": "40000",
-    "headless": "false",
-    "memory": "2048",
     "mirror": "http://releases.ubuntu.com",
-    "version": "0.1",
     "git_branch": "5-0-unstable",
     "chef_version": "12.5.1",
     "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
@@ -68,6 +63,7 @@
     "source_ami": "{{env `AWS_SOURCE_AMI`}}",
     "vpc_id": "{{env `AWS_VPC_ID`}}",
     "subnet_id": "{{env `AWS_SUBNET_ID`}}",
+    "security_group_id": "{{env `AWS_SECURITY_GROUP_ID`}}",
     "instance_type": "{{env `AWS_INSTANCE_TYPE`}}",
     "atlas_token": "{{env `ATLAS_TOKEN`}}"
   },
@@ -83,7 +79,8 @@
       ".vagrant/*",
       "tmp/*",
       "log/*",
-      ".bundle/*"
+      ".bundle/*",
+      ".sass-cache/*"
     ]
   }
 }
