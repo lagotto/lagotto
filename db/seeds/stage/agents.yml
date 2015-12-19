@@ -1,0 +1,262 @@
+# Load agents
+options:
+  find_existing_by: ['name']
+records:
+  - sprig_id: citeulike
+    type: Citeulike
+    name: citeulike
+    title: CiteULike
+    description: CiteULike is a free social bookmarking service for scholarly content.
+    group_id: <%= sprig_record(Group, "saved").id %>
+  - sprig_id: pubmed
+    type: PubMed
+    name: pubmed
+    title: PubMed Central
+    description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: wordpress
+    type: Wordpress
+    name: wordpress
+    title: Wordpress.com
+    description: Wordpress.com is one of the largest blog hosting platforms.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: reddit
+    type: Reddit
+    name: reddit
+    title: Reddit
+    description: User-generated news links.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: wikipedia
+    type: Wikipedia
+    name: wikipedia
+    title: Wikipedia
+    description: Wikipedia is a free encyclopedia that everyone can edit.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: datacite
+    type: Datacite
+    name: datacite
+    title: DataCite
+    description: Helping you to find, access, and reuse research data.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: pmceurope
+    type: EuropePmc
+    name: pmceurope
+    title: Europe PubMed Central
+    description: Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: pmceuropedata
+    type: EuropePmcData
+    name: pmceuropedata
+    title: Europe PubMed Central Database Citations
+    description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: scienceseeker
+    type: ScienceSeeker
+    name: scienceseeker
+    title: ScienceSeeker
+    description: Research Blogging is a science blog aggregator.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: nature
+    type: Nature
+    name: nature
+    title: Nature Blogs
+    description: Nature Blogs is a science blog aggregator.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: openedition
+    type: Openedition
+    name: openedition
+    title: OpenEdition
+    description: OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: datacite_related
+    type: DataciteRelated
+    name: datacite_related
+    title: DataCite Related
+    description: Import works with relatedIdentifiers via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: datacite_orcid
+    type: DataciteOrcid
+    name: datacite_orcid
+    title: DataCite ORCID
+    description: Import works with ORCID nameIdentifier via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "saved").id %>
+  - sprig_id: datacite_github
+    type: DataciteGithub
+    name: datacite_github
+    title: DataCite Github
+    description: Import works with Github relatedIdentifiers via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "saved").id %>
+  - sprig_id: crossref_orcid
+    type: CrossrefOrcid
+    name: crossref_orcid
+    title: CrossRef ORCID
+    description: Import works with ORCID identifiers via the CrossRef REST API.
+    group_id: <%= sprig_record(Group, "saved").id %>
+  - sprig_id: crossref
+    type: CrossRef
+    name: crossref
+    title: CrossRef
+    description: CrossRef is a non-profit organization that enables cross-publisher citation linking.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: scopus
+    type: Scopus
+    name: scopus
+    title: Scopus
+    description: Scopus is an abstract and citation database of peer-reviewed literature.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: mendeley
+    type: Mendeley
+    name: mendeley
+    title: Mendeley
+    description: Mendeley is a reference manager and social bookmarking tool.
+    group_id: <%= sprig_record(Group, "saved").id %>
+  - sprig_id: facebook
+    type: Facebook
+    name: facebook
+    title: Facebook
+    description: Facebook is the largest social network.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: researchblogging
+    type: Researchblogging
+    name: researchblogging
+    title: Research Blogging
+    description: Research Blogging is a science blog aggregator.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: pmc
+    type: Pmc
+    name: pmc
+    title: PubMed Central Usage Stats
+    description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
+    group_id: <%= sprig_record(Group, "viewed").id %>
+  - sprig_id: counter
+    type: Counter
+    name: counter
+    title: Counter
+    description: Publisher usage stats following COUNTER standard.
+    group_id: <%= sprig_record(Group, "viewed").id %>
+  - sprig_id: twitter
+    type: Twitter
+    name: twitter
+    title: Twitter
+    description: Twitter is a social networking and microblogging service.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: twitter_search
+    type: TwitterSearch
+    name: twitter_search
+    title: Twitter Search
+    description: Twitter is a social networking and microblogging service.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: wos
+    type: Wos
+    name: wos
+    title: Web of Science
+    description: Web of Science is an online academic citation index.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: f1000
+    type: F1000
+    name: f1000
+    title: F1000Prime
+    description: Post-publication peer review of the biomedical literature.
+    group_id: <%= sprig_record(Group, "recommended").id %>
+  - sprig_id: figshare
+    type: Figshare
+    name: figshare
+    title: Figshare
+    description: Publisher figures, tables and supplementary files hosted by figshare
+    group_id: <%= sprig_record(Group, "viewed").id %>
+  - sprig_id: articlecoverage
+    type: ArticleCoverage
+    name: articlecoverage
+    title: Article Coverage
+    description: Article Coverage.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: articlecoveragecurated
+    type: ArticleCoverageCurated
+    name: articlecoveragecurated
+    title: Article Coverage Curated
+    description: Article Coverage Curated.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: plos_comments
+    type: PlosComments
+    name: plos_comments
+    title: PLOS Comments
+    description: Comments from the PLOS journals website.
+    group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: github
+    type: Github
+    name: github
+    title: Github
+    description: GitHub is a web-based Git repository hosting service.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: bitbucket
+    type: Bitbucket
+    name: bitbucket
+    title: Bitbucket
+    description: Bitbucket is a web-based repository hosting service using git and mercurial.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: ads
+    type: Ads
+    name: ads
+    title: ADS
+    description: Astrophysics Data System.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: ads_fulltext
+    type: AdsFulltext
+    name: ads_fulltext
+    title: ADS Fulltext Search
+    description: Astrophysics Data System Fulltext Search.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: plos_fulltext
+    type: PlosFulltext
+    name: plos_fulltext
+    title: PLOS Fulltext Search
+    description: Search the PLOS corpus for citations.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: bmc_fulltext
+    type: BmcFulltext
+    name: bmc_fulltext
+    title: BMC Fulltext Search
+    description: Search the BioMed Central corpus for citations.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: nature_opensearch
+    type: NatureOpensearch
+    name: nature_opensearch
+    title: Nature.com OpenSearch
+    description: Search the Nature.com corpus for citations.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: plos_import
+    type: PlosImport
+    name: plos_import
+    title: PLOS Import
+    description: Import works via the PLOS Solr API.
+    group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: crossref_import
+    type: CrossrefImport
+    name: crossref_import
+    title: CrossRef Import
+    description: Import works via the CrossRef REST API.
+    group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: dataone_import
+    type: DataoneImport
+    name: DataONE Import
+    title: DataoneImport
+    description: Import works via the DataONE Solr API.
+    group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: datacite_data
+    type: DataciteData
+    name: datacite_data
+    title: DataCite Data
+    description: Helping you to find, access, and reuse research data.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: datacite_datacentre
+    type: DataciteDatacentre
+    name: datacite_datacentre
+    title: DataCite Datacentre
+    description: Import publishers via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: crossref_publisher
+    type: CrossrefPublisher
+    name: crossref_publisher
+    title: CrossRef Publisher
+    description: Import publishers via the Crossref REST API.
+    group_id: <%= sprig_record(Group, "other").id %>

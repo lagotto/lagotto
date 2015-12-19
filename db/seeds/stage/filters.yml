@@ -1,0 +1,28 @@
+# Load filters
+options:
+  find_existing_by: ['name']
+records:
+  - name: WorkNotUpdatedError
+    type: WorkNotUpdatedError
+    title: work not updated error
+    description: Raises an error if articles have not been updated within the specified interval in days.
+  - name: EventCountDecreasingError
+    type: EventCountDecreasingError
+    title: decreasing event count error
+    description: Raises an error if event count decreases.
+  - name: EventCountIncreasingTooFastError
+    type: EventCountIncreasingTooFastError
+    title: increasing event count error
+    description: Raises an error if the event count increases faster than the specified value per day.
+  - name: SourceNotUpdatedError
+    type: SourceNotUpdatedError
+    title: source not updated error
+    description: Raises an error if a source has not been updated in 24 hours.
+  - name: CitationMilestoneAlert
+    type: CitationMilestoneAlert
+    title: citation milestone alert'
+    description: Creates an alert if an work has been cited the specified number of times.
+  - name: HtmlRatioTooHighError
+    type: HtmlRatioTooHighError
+    title: HTML ratio too high error
+    description: Raises an error if HTML/PDF ratio is higher than the specified value.
