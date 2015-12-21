@@ -33,18 +33,4 @@ addons:
     repo_token: 2fe327f67e242f98cc9a5d6ef1629d5289983acd445e35d5b5f44cd3979a71a1
 
 notifications:
-  hipchat:
-    matrix:
-    - aff7ea27f6120805aee5aacc2dc36b@alm
-    rooms:
-      secure: Cl8g3DaeJgO17tl+1dHGQIn/Ra2h3bYWhZsZcWVxsCAUFeD8HgXlqpAYVCvTUai1nUyy5BO5k6AJL8frwoYnT2IZUkh3w7/WcuIpGEXmCwTOJyDs+82QhK3chP8COqPzEEy3x1wyF8KC7zYvLjH3wQi4mhhFxFjp4vPu2+Xj4aY=
-    template:
-      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
-    format: html
-  slack: lagotto:PQRg85DOsMv4EJCi1CUNi2AE
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/a275593b238b22c47314
-    on_success: change
-    on_failure: always
-    on_start: false
+  slack: datacite:Wt8En0ALoTA6Kjc5EOKNDWxN
