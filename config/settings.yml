@@ -17,22 +17,22 @@ datacite:
      url: http://data.datacite.org
      icon: repeat
    - name: Homepage
-     url: http://www.datacite.org
+     url: https://www.datacite.org
      icon: globe
    - name: Link Store
-     url: http://ls.datacite.org
+     url: https://ls.datacite.org
      icon: link
    - name: MDS
-     url: http://mds.datacite.org
+     url: https://mds.datacite.org
      icon: database
    - name: OAI-PMH
      url: http://oai.datacite.org
      icon: table
    - name: Schema
-     url: http://schema.datacite.org
+     url: https://schema.datacite.org
      icon: file-code-o
    - name: Search
-     url: http://search.datacite.org
+     url: https://search.datacite.org
      icon: search
    - name: Statistics
      url: http://stats.datacite.org
