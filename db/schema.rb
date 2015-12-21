@@ -403,7 +403,6 @@ ActiveRecord::Schema.define(version: 20151110133141) do
   end
 
   add_index "users", ["authentication_token"], name: "index_users_authentication_token", unique: true, using: :btree
-  add_index "users", ["uid"], name: "index_uid_on_users", unique: true, using: :btree
   add_index "users", ["uid"], name: "index_users_on_uid", unique: true, using: :btree
 
   create_table "work_types", force: :cascade do |t|
