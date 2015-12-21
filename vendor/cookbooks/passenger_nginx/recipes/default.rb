@@ -45,6 +45,24 @@ template 'nginx.conf' do
   notifies :reload, 'service[nginx]'
 end
 
+# add conf directory
+directory "#{node['nginx']['dir']}/include.d" do
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+# enable CORS
+template 'cors.conf' do
+  path   "#{node['nginx']['dir']}/include.d/cors.conf"
+  source 'cors.conf'
+  owner  'root'
+  group  'root'
+  mode   '0644'
+  cookbook 'passenger_nginx'
+  notifies :reload, 'service[nginx]'
+end
+
 service 'nginx' do
   supports :status => true, :restart => true, :reload => true
   action   :nothing

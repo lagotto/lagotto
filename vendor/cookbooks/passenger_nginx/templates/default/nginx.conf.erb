@@ -40,8 +40,13 @@ http {
                            '"$request" $status $body_bytes_sent '
                            '"$http_referer" "$http_user_agent"';
   <% end %>
+  <% if @rsyslog_server == '127.0.0.1' %>
+  error_log syslog:server=unix:/dev/log;
+  access_log syslog:server=unix:/dev/log,severity=info custom_format;
+  <% else %>
   error_log syslog:server=<%= @rsyslog_server %>;
   access_log syslog:server=<%= @rsyslog_server %>,severity=info custom_format;
+  <% end %>
 
   ##
   # Gzip Settings

@@ -19,7 +19,7 @@ DEPENDENCIES
     revision: 75746eaa26e00330b4cb5e894ebf3eae20cbddc4
   passenger_nginx
     git: git@github.com:lagotto/passenger_nginx-cookbook.git
-    revision: faea6fe7344cd68273e1f5ef1970e68c47f2c965
+    revision: 32f9a2a280cb326539fab0a69a4e2dd4271d7aef
   phantomjs
   postfix
   redisio
@@ -113,7 +113,7 @@ GRAPH
   openssl (4.4.0)
     chef-sugar (>= 3.1.1)
   packagecloud (0.1.1)
-  passenger_nginx (1.0.12)
+  passenger_nginx (1.0.14)
     apt (>= 0.0.0)
     hostnames (>= 0.0.0)
     nodejs (>= 0.0.0)
