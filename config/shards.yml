@@ -1,5 +1,11 @@
 octopus:
+  replicated: true
   fully_replicated: true
   shards:
     slave:
+      encoding: utf8mb4
+      database: <%= ENV['DB_NAME'] %>
+      username: <%= ENV['DB_USERNAME'] %>
+      password: <%= ENV['DB_PASSWORD'] %>
       host: <%= ENV['DB_SLAVE_HOST'] || ENV['DB_HOST'] || "127.0.0.1" %>
+      port: <%= ENV['DB_PORT'] || 3306 %>
