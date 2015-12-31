@@ -1,6 +1,5 @@
 octopus:
-  replicated: true
   fully_replicated: true
   shards:
     slave:
-      host: <%= ENV['DB_SLAVE_HOST'] || "127.0.0.1" %>
+      host: <%= ENV['DB_SLAVE_HOST'] || ENV['DB_HOST'] || "127.0.0.1" %>
