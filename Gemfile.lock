@@ -13,6 +13,14 @@ GIT
   specs:
     state_machine (1.2.0)
 
+GIT
+  remote: https://github.com/tchandy/octopus.git
+  revision: ecb876715e6b435d42c17dbd4659a0e8925c7724
+  specs:
+    ar-octopus (0.8.5)
+      activerecord (>= 3.2.0)
+      activesupport (>= 3.2.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -52,11 +60,8 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    ar-octopus (0.8.5)
-      activerecord (>= 3.2.0)
-      activesupport (>= 3.2.0)
     arel (6.0.3)
-    ast (2.1.0)
+    ast (2.2.0)
     astrolabe (1.3.1)
       parser (~> 2.2)
     bcrypt (3.1.10)
@@ -133,9 +138,9 @@ GEM
     codeclimate-test-reporter (0.4.8)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
-    coffee-rails (4.1.0)
+    coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.0)
+      railties (>= 4.0.0, < 5.1.x)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -146,7 +151,7 @@ GEM
     connection_pool (2.2.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    dalli (2.7.4)
+    dalli (2.7.5)
     database_cleaner (1.3.0)
     debug_inspector (0.0.2)
     deep_merge (1.0.1)
@@ -171,9 +176,12 @@ GEM
     email_spec (1.6.0)
       launchy (~> 2.1)
       mail (~> 2.2)
-    ember-cli-rails (0.6.0)
+    ember-cli-rails (0.7.0)
       cocaine (~> 0.5.8)
+      ember-cli-rails-assets (>= 0.6.1)
+      html_page (~> 0.1.0)
       railties (>= 3.2, < 5)
+    ember-cli-rails-assets (0.6.1)
     erubis (2.7.0)
     excon (0.45.4)
     execjs (2.6.0)
@@ -199,6 +207,7 @@ GEM
     hologram (1.3.1)
       redcarpet (>= 2.2, < 4.0)
       rouge (>= 1.5)
+    html_page (0.1.0)
     i18n (0.7.0)
     immigrant (0.3.5)
       activerecord (>= 3.0)
@@ -228,11 +237,11 @@ GEM
     namae (0.10.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (3.0.1)
+    net-ssh (3.0.2)
     nilify_blanks (1.2.1)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
-    nokogiri (1.6.7)
+    nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
     nondestructive_migrations (1.1)
       activerecord (>= 4.0)
@@ -253,11 +262,11 @@ GEM
     omniauth-github (1.1.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
-    omniauth-oauth2 (1.4.0)
+    omniauth-oauth2 (1.3.1)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
-    omniauth-orcid (1.0.35)
-      omniauth-oauth2 (~> 1.3, >= 1.3.1)
+    omniauth-orcid (1.0.38)
+      omniauth-oauth2 (~> 1.3.1)
     omniauth-persona (0.0.1)
       faraday
       multi_json
@@ -316,13 +325,13 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.4.2)
-    redcarpet (3.3.3)
+    redcarpet (3.3.4)
     redis (3.2.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     request_store (1.2.1)
-    responders (2.1.0)
-      railties (>= 4.2.0, < 5)
+    responders (2.1.1)
+      railties (>= 4.2.0, < 5.1)
     rouge (1.7.7)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
@@ -425,8 +434,8 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     uniform_notifier (1.9.0)
-    validates_timeliness (3.0.14)
-      timeliness (~> 0.3.6)
+    validates_timeliness (3.0.15)
+      timeliness (~> 0.3.7)
     vcr (2.9.3)
     warden (1.2.4)
       rack (>= 1.0)
@@ -454,7 +463,7 @@ PLATFORMS
 
 DEPENDENCIES
   addressable (~> 2.3.8)
-  ar-octopus (~> 0.8.5)
+  ar-octopus (~> 0.8.5)!
   better_errors (~> 2.0.0)
   binding_of_caller (~> 0.7.2)
   brakeman (~> 2.6.0)
