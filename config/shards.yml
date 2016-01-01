@@ -6,6 +6,7 @@ octopus:
     - production
   defaults: &defaults
     slave:
+      adapter: mysql2
       encoding: utf8mb4
       database: <%= ENV['DB_NAME'] %>
       username: <%= ENV['DB_USERNAME'] %>
