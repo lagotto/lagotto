@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 20160104000018) do
   create_table "contributors", force: :cascade do |t|
     t.string   "pid",         limit: 191,                                 null: false
     t.string   "orcid",       limit: 191,                                 null: false
-    t.string   "given_names", limit: 255
-    t.string   "family_name", limit: 255
+    t.string   "given_names", limit: 191
+    t.string   "family_name", limit: 191
     t.datetime "cached_at",               default: '1970-01-01 00:00:00', null: false
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
