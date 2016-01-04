@@ -273,7 +273,7 @@ ActiveRecord::Schema.define(version: 20160104000018) do
   add_index "publisher_options", ["publisher_id", "agent_id"], name: "index_publisher_options_on_publisher_id_and_agent_id", unique: true, using: :btree
 
   create_table "publishers", force: :cascade do |t|
-    t.string   "title",               limit: 255
+    t.string   "title",               limit: 191
     t.text     "prefixes",            limit: 65535
     t.text     "other_names",         limit: 65535
     t.datetime "created_at"
