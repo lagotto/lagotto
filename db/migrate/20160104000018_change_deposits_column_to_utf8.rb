@@ -1,0 +1,9 @@
+class ChangeDepositsColumnToUtf8 < ActiveRecord::Migration
+  def self.up
+    execute "ALTER TABLE `deposits` CHANGE `message` `message` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+  end
+
+  def self.down
+    execute "ALTER TABLE `deposits` CHANGE `message` `message` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
+  end
+end
