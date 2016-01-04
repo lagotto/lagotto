@@ -72,7 +72,7 @@ module Resolvable
     end
 
     def doi_as_url(doi)
-      Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
+      Addressable::URI.encode("http://doi.org/#{clean_doi(doi)}") if doi.present?
     end
 
     def pmid_as_url(pmid)
@@ -449,7 +449,7 @@ module Resolvable
       return {} if doi.blank?
 
       conn = faraday_conn('json', options)
-      url = "http://doi.crossref.org/doiRA/" + CGI.unescape(doi)
+      url = "http://doi.crossref.org/doiRA/" + CGI.unescape(clean_doi(doi))
       response = conn.get url, {}, options[:headers]
 
       if is_json?(response.body)
@@ -466,6 +466,11 @@ module Resolvable
       end
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
+    end
+
+    # remove non-printing whitespace
+    def clean_doi(doi)
+      doi.gsub(/\u200B/, '')
     end
 
     def get_id_hash(id)
