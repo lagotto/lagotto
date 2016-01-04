@@ -423,21 +423,21 @@ ActiveRecord::Schema.define(version: 20160104000018) do
     t.datetime "updated_at"
     t.text     "canonical_url",       limit: 65535
     t.string   "mendeley_uuid",       limit: 255
-    t.integer  "year",                limit: 4,        default: 1970
+    t.integer  "year",                limit: 4,          default: 1970
     t.integer  "month",               limit: 4
     t.integer  "day",                 limit: 4
     t.integer  "publisher_id",        limit: 8
-    t.text     "pid",                 limit: 65535,                    null: false
-    t.text     "csl",                 limit: 16777215
+    t.text     "pid",                 limit: 65535,                      null: false
+    t.text     "csl",                 limit: 4294967295
     t.integer  "work_type_id",        limit: 4
-    t.boolean  "tracked",                              default: false
+    t.boolean  "tracked",                                default: false
     t.string   "scp",                 limit: 191
     t.string   "wos",                 limit: 191
     t.string   "ark",                 limit: 191
     t.string   "arxiv",               limit: 191
     t.string   "registration_agency", limit: 255
     t.string   "dataone",             limit: 191
-    t.integer  "lock_version",        limit: 4,        default: 0,     null: false
+    t.integer  "lock_version",        limit: 4,          default: 0,     null: false
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
