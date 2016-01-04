@@ -1,5 +1,5 @@
 class ChangeDepositsColumnToUtf8 < ActiveRecord::Migration
-  UTF8_LONGTEXT_PAIRS = [
+  UTF8_MEDIUMTEXT_PAIRS = [
     'deposits' , 'message',
     'works', 'csl'
   ]
@@ -17,16 +17,13 @@ class ChangeDepositsColumnToUtf8 < ActiveRecord::Migration
       execute "ALTER TABLE `#{table}` CHARACTER SET = utf8mb4;"
     end
 
-    UTF8_LONGTEXT_PAIRS.each_slice(2) do |table, col|
-      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+    UTF8_MEDIUMTEXT_PAIRS.each_slice(2) do |table, col|
+      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     end
 
     UTF8_INDEX_PAIRS.each_slice(2) do |table, col|
       execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     end
-
-    remove_index :works, name: 'index_works_on_pid'
-    add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>191}, using: :btree
   end
 
   def self.down
@@ -36,15 +33,12 @@ class ChangeDepositsColumnToUtf8 < ActiveRecord::Migration
       execute "ALTER TABLE `#{table}` CHARACTER SET = utf8;"
     end
 
-    UTF8_LONGTEXT_PAIRS.each_slice(2) do |table, col|
-      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci;;"
+    UTF8_MEDIUMTEXT_PAIRS.each_slice(2) do |table, col|
+      execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci;;"
     end
 
     UTF8_INDEX_PAIRS.each_slice(2) do |table, col|
       execute "ALTER TABLE `#{table}` CHANGE `#{col}` `#{col}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
     end
-
-    remove_index :works, name: 'index_works_on_pid'
-    add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>200}, using: :btree
   end
 end
