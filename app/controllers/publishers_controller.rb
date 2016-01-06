@@ -48,7 +48,7 @@ class PublishersController < ApplicationController
     collection = Publisher.active
     collection = collection.query(params[:q]) if params[:q]
 
-    @publishers = collection.order(:title).paginate(:page => params[:page])
+    @publishers = collection.order(:title).paginate(page: (params[:page] || 1).to_i)
   end
 
   private

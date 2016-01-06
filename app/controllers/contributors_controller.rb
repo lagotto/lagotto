@@ -8,7 +8,7 @@ class ContributorsController < ApplicationController
   end
 
   def show
-    @page = params[:page] || 1
+    @page = (params[:page] || 1).to_i
     @source = Source.active.where(name: params[:source_id]).first
     @sort = Source.active.where(name: params[:sort]).first
   end
@@ -30,7 +30,7 @@ class ContributorsController < ApplicationController
     collection = Contributor
     collection = collection.query(params[:q]) if params[:q]
     collection = collection.order("contributors.created_at DESC")
-    @contributors = collection.paginate(:page => params[:page])
+    @contributors = collection.paginate(page: (params[:page] || 1).to_i)
   end
 
   def get_pid(id)

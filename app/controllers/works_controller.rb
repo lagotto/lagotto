@@ -5,7 +5,7 @@ class WorksController < ApplicationController
   skip_authorize_resource :only => [:show, :index]
 
   def index
-    @page = params[:page] || 1
+    @page = (params[:page] || 1).to_i
     @q = params[:q]
     @class_name = params[:class_name]
     @publisher = Publisher.where(name: params[:publisher_id]).first

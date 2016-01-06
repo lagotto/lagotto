@@ -32,7 +32,7 @@ class NotificationsController < ApplicationController
 
     collection = collection.query(params[:q]) if params[:q]
 
-    @notifications = collection.paginate(:page => params[:page])
+    @notifications = collection.paginate(page: (params[:page] || 1).to_i)
   end
 
   def create
@@ -87,7 +87,7 @@ class NotificationsController < ApplicationController
     end
     collection = collection.query(params[:q]) if params[:q]
 
-    @notifications = collection.paginate(:page => params[:page])
+    @notifications = collection.paginate(page: (params[:page] || 1).to_i)
 
     if params[:work_id]
       render :notification

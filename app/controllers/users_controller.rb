@@ -93,7 +93,7 @@ class UsersController < ApplicationController
     collection = collection.query(params[:query]) if params[:query]
     collection = collection.ordered
 
-    @users = collection.paginate(:page => params[:page])
+    @users = collection.paginate(page: (params[:page] || 1).to_i)
   end
 
   private
