@@ -37,6 +37,9 @@ datacite:
    - name: Statistics
      url: http://stats.datacite.org
      icon: bar-chart
+   - name: Status
+     url: http://status.datacite.org
+     icon: calendar-check-o
   about_links:
    - name: What we do
      url: https://www.datacite.org/about-datacite/what-do-we-do
