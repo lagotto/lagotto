@@ -74,9 +74,14 @@ class Api::V6::DepositsController < Api::BaseController
   private
 
   def safe_params
-    works = [:pid, :DOI, related_works: [:pid, :source_id, :relation_type_id]]
-    events = [:source_id, :work_id, :pdf, :html, :readers, :comments, :likes, :total]
-    contributors = [:pid, :source_id]
-    params.require(:deposit).permit(:uuid, :message_type, :source_token, :callback, message: { works: works, events: events, contributors: contributors })
+    # extra = params.fetch(:deposit, {}).fetch(:events, {}).fetch(:extra, {}).fetch(:keys, [])
+    # works = [:pid, :DOI, :author, :"container-title", :title, :publisher_id, :registration_agency, :tracked, :type, :contributors, related_works: [:pid, :source_id, :relation_type_id], issued: { "date-parts" => [] }]
+    # events = [:source_id, :work_id, :pdf, :html, :readers, :comments, :likes, :total, extra: extra]
+    # contributors = [:pid, :source_id, :author, :"container-title", :title, :issued, :publisher_id, :registration_agency, :tracked, :type]
+    # publishers = [:name, :title, :other_names, :prefixes, :registration_agency, :active]
+    # params.require(:deposit).permit(:uuid, :message_type, :source_token, :callback, message: { works: works, events: events, contributors: contributors, publishers: publishers })
+
+    # whitelisting all parameters as we can't control what is deposited
+    params.require(:deposit).permit!
   end
 end

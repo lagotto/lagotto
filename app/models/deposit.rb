@@ -179,6 +179,30 @@ class Deposit < ActiveRecord::Base
     end
   end
 
+  def delete_events
+    message.fetch("events", []).map do |item|
+      Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy
+    end
+  end
+
+  def delete_works
+    message.fetch("works", []).map do |item|
+      Work.where(pid: item.fetch('pid', nil)).destroy
+    end
+  end
+
+  def delete_contributors
+    message.fetch("contributors", []).map do |item|
+      Contributor.where(pid: item.fetch('pid', nil)).destroy
+    end
+  end
+
+  def delete_publishers
+    message.fetch("publishers", []).map do |item|
+      Publisher.where(name: item.fetch('name', nil)).destroy
+    end
+  end
+
   def update_months(event, months)
     months.map { |item| Month.where(event_id: event.id,
                                     month: item.fetch("month"),

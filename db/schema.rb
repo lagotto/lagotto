@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104000018) do
+ActiveRecord::Schema.define(version: 20160108172406) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -147,15 +147,16 @@ ActiveRecord::Schema.define(version: 20160104000018) do
   add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
 
   create_table "deposits", force: :cascade do |t|
-    t.text     "uuid",         limit: 65535,                  null: false
-    t.string   "message_type", limit: 255,                    null: false
-    t.text     "message",      limit: 4294967295
-    t.string   "source_token", limit: 255
-    t.text     "callback",     limit: 65535
-    t.integer  "state",        limit: 4,          default: 0
-    t.string   "state_event",  limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.text     "uuid",           limit: 65535,                         null: false
+    t.string   "message_type",   limit: 255,                           null: false
+    t.text     "message",        limit: 4294967295
+    t.string   "source_token",   limit: 255
+    t.text     "callback",       limit: 65535
+    t.integer  "state",          limit: 4,          default: 0
+    t.string   "state_event",    limit: 255
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.string   "message_action", limit: 255,        default: "create", null: false
   end
 
   add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree

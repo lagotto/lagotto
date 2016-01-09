@@ -91,6 +91,7 @@ group :test do
   gem 'vcr', '~> 2.9.3'
   gem "poltergeist", "~> 1.5.0"
   gem "with_env", "~> 1.1.0"
+  gem 'test_after_commit', '~> 0.4.2'
 end
 
 group :test, :development do
