@@ -15,7 +15,8 @@ class Api::V6::StatusController < Api::BaseController
   def index
     Status.create unless Status.count > 0
 
-    collection = Status.all.order("created_at DESC").paginate(:page => params[:page])
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
+    collection = Status.all.order("created_at DESC").paginate(:page => page)
     @status = collection.decorate(context: { role: is_admin_or_staff? })
   end
 end

@@ -37,9 +37,10 @@ class Api::V6::NotificationsController < Api::BaseController
       @level = params[:level]
     end
 
-    collection = collection.query(params[:q]) if params[:q]
-    collection = collection.page(params[:page])
     per_page = params[:per_page] && (1..50).include?(params[:per_page].to_i) ? params[:per_page].to_i : 50
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
+    collection = collection.query(params[:q]) if params[:q]
+    collection = collection.page(page)
     collection = collection.per_page(per_page)
     @notifications = collection.decorate
   end

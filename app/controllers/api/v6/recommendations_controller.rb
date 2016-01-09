@@ -37,8 +37,9 @@ class Api::V6::RecommendationsController < Api::BaseController
     collection = collection.includes(:work).order("works.published_on DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
 
-    collection = collection.paginate(per_page: per_page, page: params[:page])
+    collection = collection.paginate(per_page: per_page, page: page)
 
     @recommendations = collection.decorate
   end

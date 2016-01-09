@@ -42,7 +42,8 @@ class Api::V6::ApiRequestsController < Api::BaseController
       end
     end
 
-    collection = collection.order("created_at DESC").paginate(:page => params[:page])
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
+    collection = collection.order("created_at DESC").paginate(:page => page)
     @api_requests = collection.decorate
   end
 end

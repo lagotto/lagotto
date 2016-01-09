@@ -20,7 +20,8 @@ class Api::V6::DataExportsController < Api::BaseController
   def index
     collection = DataExport.all.order("id DESC")
     per_page = params[:per_page] && (0..PER_PAGE).include?(params[:per_page].to_i) ? params[:per_page].to_i : PER_PAGE
-    collection = collection.paginate(per_page: per_page, :page => params[:page])
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
+    collection = collection.paginate(per_page: per_page, :page => page)
 
     @data_exports = collection.decorate
   end

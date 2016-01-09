@@ -51,7 +51,8 @@ class Api::V6::DepositsController < Api::BaseController
       collection = collection.where(state: state)
     end
 
-    collection = collection.order("created_at DESC").paginate(:page => params[:page])
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
+    collection = collection.order("created_at DESC").paginate(:page => page)
     @deposits = collection.decorate
   end
 
