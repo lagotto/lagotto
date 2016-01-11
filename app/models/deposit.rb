@@ -11,7 +11,43 @@ class Deposit < ActiveRecord::Base
     state :failed, value: 2
     state :done, value: 3
 
+    after_transition :to => :done do |deposit|
+      if deposit.callback.present?
+        data = { "data" => {
+                   "id" => deposit.uuid,
+                   "type" => "agent",
+                   "attributes" => {
+                     "state" => "done",
+                     "message_type" => deposit.message_type,
+                     "message_action" => deposit.message_action,
+                     "message_size" => deposit.message_size,
+                     "source_token" => deposit.source_token,
+                     "timestamp" => Time.zone.now.iso8601
+                   }
+                 }
+               }
+        get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
+      end
+    end
+
     after_transition :to => :failed do |deposit|
+      if deposit.callback.present?
+        data = { "data" => {
+                   "id" => deposit.uuid,
+                   "type" => "agent",
+                   "attributes" => {
+                     "state" => "failed",
+                     "message_type" => deposit.message_type,
+                     "message_action" => deposit.message_action,
+                     "message_size" => 0,
+                     "source_token" => deposit.source_token,
+                     "timestamp" => Time.zone.now.iso8601
+                   }
+                 }
+               }
+        get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
+      end
+
       Notification.create(:exception => "", :class_name => "StandardError",
                           :message => "Failed to process deposit #{deposit.uuid}.",
                           :level => Notification::FATAL)
@@ -181,25 +217,25 @@ class Deposit < ActiveRecord::Base
 
   def delete_events
     message.fetch("events", []).map do |item|
-      Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy
+      Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
     end
   end
 
   def delete_works
     message.fetch("works", []).map do |item|
-      Work.where(pid: item.fetch('pid', nil)).destroy
+      Work.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_contributors
     message.fetch("contributors", []).map do |item|
-      Contributor.where(pid: item.fetch('pid', nil)).destroy
+      Contributor.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_publishers
     message.fetch("publishers", []).map do |item|
-      Publisher.where(name: item.fetch('name', nil)).destroy
+      Publisher.where(name: item.fetch('name', nil)).destroy_all
     end
   end
 

@@ -5,7 +5,7 @@ class DepositJob < ActiveJob::Base
     ActiveRecord::Base.connection_pool.with_connection do
       deposit.start
 
-      if deposit.message_action = 'delete'
+      if deposit.message_action == 'delete'
         deposit.delete_works
         deposit.delete_events
         deposit.delete_contributors
