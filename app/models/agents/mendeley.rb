@@ -1,8 +1,10 @@
 class Mendeley < Agent
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error].is_a?(String)
 
     result = result.fetch("data", []).first || {}
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     readers = result.fetch("reader_count", 0)
     groups = result.fetch("group_count", 0)
@@ -18,9 +20,11 @@ class Mendeley < Agent
         extra: result }] }
   end
 
-  def get_query_url(work)
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+
     # First check that we have a valid OAuth2 access token, and a refreshed uuid
-    return {} unless work.doi.present? || work.pmid.present? || work.scp.present?
+    return {} unless work.present? && (work.doi.present? || work.pmid.present? || work.scp.present?)
     fail ArgumentError, "No Mendeley access token." unless get_access_token
 
     if work.doi.present?

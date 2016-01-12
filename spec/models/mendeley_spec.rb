@@ -23,9 +23,9 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
       stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
 
-      response = subject.get_data(work, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -36,9 +36,9 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
       stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
 
-      response = subject.get_data(work, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -49,7 +49,7 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
              .to_return(:body => "Credentials are required to access this resource.", :status => 401)
-      expect { subject.get_data(work, options = { :agent_id => subject.id }) }.to raise_error(ArgumentError, "No Mendeley access token.")
+      expect { subject.get_data(work_id: work.id, agent_id: subject.id) }.to raise_error(ArgumentError, "No Mendeley access token.")
       expect(stub).to have_been_requested
 
       expect(Notification.count).to eq(1)
@@ -61,53 +61,53 @@ describe Mendeley, :type => :model do
   end
 
   it "should report that there are no events if the doi, pmid, and scp are missing" do
-    work_without_ids = FactoryGirl.build(:work, doi: nil, pmid: nil, scp: nil)
-    expect(subject.get_data(work_without_ids)).to eq({})
+    work = FactoryGirl.create(:work, doi: nil, pmid: nil, scp: nil)
+    expect(subject.get_data(work_id: work.id)).to eq({})
   end
 
   context "get_data" do
     it "should report if there are events returned by the Mendeley API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
       body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("data" => JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should report no events if the Mendeley API returns incomplete response" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'mendeley_incomplete.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(0)
     end
 
     it "should report no events if the Mendeley API returns malformed response" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294")
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'mendeley_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body, :status => 404)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body, :status => 404)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(error: JSON.parse(body), status: 404)
       expect(Notification.count).to eq(0)
     end
 
     it "should report no events if the Mendeley API returns not found error" do
-      work = FactoryGirl.build(:work)
+      work = FactoryGirl.create(:work)
       body = File.read(fixture_path + 'mendeley_error.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body, :status => 404)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body, :status => 404)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(error: JSON.parse(body)['error'], status: 404)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(0)
     end
 
     it "should catch timeout errors with the Mendeley API" do
-      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, agent_id: subject.id)
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for https://api.mendeley.com/catalog?doi=#{work.doi}&view=stats", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -125,14 +125,14 @@ describe Mendeley, :type => :model do
     it "should report if the doi, pmid, mendeley uuid and title are missing" do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
     end
 
     it "should report if there are events returned by the Mendeley API" do
       body = File.read(fixture_path + 'mendeley.json')
       result = { "data" => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("mendeley")
@@ -151,7 +151,7 @@ describe Mendeley, :type => :model do
       body = File.read(fixture_path + 'mendeley_incomplete.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
       expect(Notification.count).to eq(0)
     end
 
@@ -159,7 +159,7 @@ describe Mendeley, :type => :model do
       body = File.read(fixture_path + 'mendeley_nil.json')
       result = { 'data' => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
       expect(Notification.count).to eq(0)
     end
 
@@ -167,14 +167,14 @@ describe Mendeley, :type => :model do
       body = File.read(fixture_path + 'mendeley_error.json')
       result = { error: JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
       expect(Notification.count).to eq(0)
     end
 
     it "should catch timeout errors with the Mendeley API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{work.mendeley_uuid}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
       expect(response).to eq(result)
     end
   end
