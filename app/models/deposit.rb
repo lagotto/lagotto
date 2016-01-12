@@ -1,4 +1,7 @@
 class Deposit < ActiveRecord::Base
+  # include HTTP request helpers
+  include Networkable
+
   # include helper module for DOI resolution
   include Resolvable
 
@@ -26,7 +29,7 @@ class Deposit < ActiveRecord::Base
                    }
                  }
                }
-        get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
+        deposit.get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
       end
     end
 

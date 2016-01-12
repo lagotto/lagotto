@@ -156,7 +156,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "timestamp"=> deposit.timestamp)
+        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
       end
     end
 
@@ -170,7 +170,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "timestamp"=> deposit.timestamp)
+        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
       end
     end
 
