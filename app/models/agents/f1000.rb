@@ -25,12 +25,12 @@ class F1000 < Agent
     total
   end
 
-  def get_data(_work, options={})
+  def get_data(options={})
     query_url = get_query_url(options)
     result = get_result(query_url, options)
   end
 
-  def parse_data(result, _work, options={})
+  def parse_data(result, options={})
     # properly handle not found errors
     result = { "ObjectList" => { "Article" => [] }} if result[:status] == 404
 

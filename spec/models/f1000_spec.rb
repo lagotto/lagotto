@@ -7,7 +7,7 @@ describe F1000, type: :model, vcr: true do
     it "should report if there are no events returned by f1000" do
       body = File.read(fixture_path + 'f1000_nil.xml')
       stub = stub_request(:get, subject.get_query_url).to_return(:body => body, :status => [404])
-      response = subject.get_data(nil)
+      response = subject.get_data
       expect(response).to eq(error: { "ObjectList"=>nil }, status: 404)
       expect(stub).to have_been_requested
     end
@@ -15,14 +15,14 @@ describe F1000, type: :model, vcr: true do
     it "should report if there are events returned by f1000" do
       body = File.read(fixture_path + 'f1000.xml')
       stub = stub_request(:get, subject.get_query_url).to_return(:body => body)
-      response = subject.get_data(nil)
+      response = subject.get_data
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch not found errors with f1000" do
       stub = stub_request(:get, subject.get_query_url).to_return(status: [404], body: "")
-      response = subject.get_data(nil, options = { :agent_id => subject.id })
+      response = subject.get_data(agent_id: subject.id)
       expect(response).to eq(error: nil, status: 404)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(0)
@@ -30,7 +30,7 @@ describe F1000, type: :model, vcr: true do
 
     it "should catch timeout errors with f1000" do
       stub = stub_request(:get, subject.get_query_url).to_return(:status => [408])
-      response = subject.get_data(nil, options = { :agent_id => subject.id })
+      response = subject.get_data(agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://example.com/intermediate.xml", status: 408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -44,14 +44,14 @@ describe F1000, type: :model, vcr: true do
   context "parse_data" do
     it "should report if there are no events returned by f1000" do
       result = { error: nil, status: 404 }
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
       expect(response).to eq(events: [])
     end
 
     it "should report if there are events returned by f1000" do
       body = File.read(fixture_path + 'f1000.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("f1000")
