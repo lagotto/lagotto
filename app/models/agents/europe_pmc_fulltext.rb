@@ -2,10 +2,8 @@ class EuropePmcFulltext < Agent
   # include common methods for Europe PMC
   include Pmcable
 
-  def get_query_url(work, options = {})
-    return {} unless work.get_url && registration_agencies.include?(work.registration_agency)
-
-    query_string = get_query_string(work)
+  def get_query_url(options = {})
+    query_string = get_query_string(options)
     return {} unless query_string.present?
 
     page = options[:page] || 1
@@ -13,7 +11,10 @@ class EuropePmcFulltext < Agent
     url % { query_string: query_string, page: page }
   end
 
-  def get_query_string(work)
+  def get_query_string(options = {})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.get_url && registration_agencies.include?(work.registration_agency)
+
     # fulltext search doesn't search in the reference list
     if work.doi.present?
       "%22#{work.doi}%22%20OR%20REF:%22#{work.doi}%22"
