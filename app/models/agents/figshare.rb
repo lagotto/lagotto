@@ -1,12 +1,15 @@
 class Figshare < Agent
-  def get_query_url(work)
-    return {} unless work.doi =~ /^10.1371/
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi =~ /^10.1371/
 
     url_private % { :doi => work.doi }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     extra = result.fetch("items", [])
 
