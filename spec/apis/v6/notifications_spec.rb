@@ -50,12 +50,12 @@ describe "/api/v6/notifications", :type => :api do
       end
     end
 
-    context "with source" do
+    context "with agent" do
       let(:uri) { "/api/notifications?agent_id=citeulike" }
 
       before(:each) do
         FactoryGirl.create_list(:notification, 2)
-        FactoryGirl.create(:notification_with_source)
+        FactoryGirl.create(:notification_with_agent)
       end
 
       it "JSON" do
@@ -66,7 +66,7 @@ describe "/api/v6/notifications", :type => :api do
         data = response["notifications"]
         expect(data.length).to eq(1)
         notification = data.first
-        expect(notification["source"]).to eq ("citeulike")
+        expect(notification["agent"]).to eq ("citeulike")
       end
     end
 

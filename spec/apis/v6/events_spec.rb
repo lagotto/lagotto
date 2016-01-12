@@ -60,7 +60,7 @@ describe "/api/v6/events", :type => :api do
         data = response["events"]
         actual_work_ids = data.map{ |work| work["work_id"] }
 
-        expected_work_ids = RetrievalStatus.all
+        expected_work_ids = Event.all
           .includes(:work)
           .order("events.id ASC")
           .map(&:work)
