@@ -19,7 +19,7 @@ describe Citeulike, type: :model, vcr: true do
 
     it "should report if there is an incomplete response returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_incomplete.xml')
-      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work_id: work)
       expect(response).to eq('data' => body)
       expect(stub).to have_been_requested
@@ -33,7 +33,7 @@ describe Citeulike, type: :model, vcr: true do
     end
 
     it "should catch errors with the CiteULike API" do
-      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested

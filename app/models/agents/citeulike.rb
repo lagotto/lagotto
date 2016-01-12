@@ -15,9 +15,9 @@ class Citeulike < Agent
   end
 
   def get_events_url(work)
-    if events_url.present? && work.doi.present?
-      events_url % { doi: work.doi_escaped }
-    end
+    return nil unless events_url.present? && work.doi.present?
+
+    events_url % { doi: work.doi_escaped }
   end
 
   def get_related_works(result, work)
