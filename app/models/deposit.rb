@@ -268,6 +268,10 @@ class Deposit < ActiveRecord::Base
                                   likes: item.fetch("likes", 0)) }
   end
 
+  def message_size
+    @message_size || message.fetch("works", []).size
+  end
+
   def timestamp
     updated_at.utc.iso8601
   end
