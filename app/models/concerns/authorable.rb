@@ -5,10 +5,10 @@ module Authorable
 
   included do
     # parse author string into CSL format
-    def get_one_author(author, options={})
+    def get_one_author(author, options = { sep: " " })
       return "" if author.blank?
 
-      author = author.split(" ").reverse.join(" ") if options[:reversed]
+      author = author.split(options[:sep]).reverse.join(" ") if options[:reversed]
 
       names = Namae.parse(author)
       if names.present?
