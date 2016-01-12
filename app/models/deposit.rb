@@ -16,17 +16,14 @@ class Deposit < ActiveRecord::Base
 
     after_transition :to => :done do |deposit|
       if deposit.callback.present?
-        data = { "data" => {
+        data = { "deposit" => {
                    "id" => deposit.uuid,
-                   "type" => "agent",
-                   "attributes" => {
-                     "state" => "done",
-                     "message_type" => deposit.message_type,
-                     "message_action" => deposit.message_action,
-                     "message_size" => deposit.message_size,
-                     "source_token" => deposit.source_token,
-                     "timestamp" => Time.zone.now.iso8601
-                   }
+                   "state" => "done",
+                   "message_type" => deposit.message_type,
+                   "message_action" => deposit.message_action,
+                   "message_size" => deposit.message_size,
+                   "source_token" => deposit.source_token,
+                   "timestamp" => Time.zone.now.iso8601
                  }
                }
         deposit.get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
@@ -35,17 +32,14 @@ class Deposit < ActiveRecord::Base
 
     after_transition :to => :failed do |deposit|
       if deposit.callback.present?
-        data = { "data" => {
+        data = { "deposit" => {
                    "id" => deposit.uuid,
-                   "type" => "agent",
-                   "attributes" => {
-                     "state" => "failed",
-                     "message_type" => deposit.message_type,
-                     "message_action" => deposit.message_action,
-                     "message_size" => 0,
-                     "source_token" => deposit.source_token,
-                     "timestamp" => Time.zone.now.iso8601
-                   }
+                   "state" => "failed",
+                   "message_type" => deposit.message_type,
+                   "message_action" => deposit.message_action,
+                   "message_size" => 0,
+                   "source_token" => deposit.source_token,
+                   "timestamp" => Time.zone.now.iso8601
                  }
                }
         get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
