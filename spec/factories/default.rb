@@ -388,8 +388,8 @@ FactoryGirl.define do
     status 408
     content_type "text/html"
 
-    factory :notification_with_source do
-      source
+    factory :notification_with_agent do
+      agent
     end
   end
 
@@ -428,7 +428,6 @@ FactoryGirl.define do
   factory :user do
     sequence(:email) { |n| "joe#{n}@example.com" }
     sequence(:name) { |n| "Joe Smith#{n}" }
-    password "joesmith"
     sequence(:authentication_token) { |n| "q9pWP8QxzkR24Mvs9BEy#{n}" }
     provider "cas"
     sequence(:uid) { |n| "joe#{n}@example.com" }
@@ -573,6 +572,7 @@ FactoryGirl.define do
   factory :deposit do
     uuid { SecureRandom.uuid }
     message_type "citeulike"
+    source_token "citeulike_123"
     message { { "works" => [], "events" => [] } }
   end
 
