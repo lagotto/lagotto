@@ -51,7 +51,6 @@ FactoryGirl.define do
   factory :citeulike, aliases: [:agent], class: Citeulike do
     type "Citeulike"
     name "citeulike"
-    source_id "citeulike"
     title "CiteULike"
     state_event "activate"
 
@@ -71,7 +70,6 @@ FactoryGirl.define do
   factory :copernicus, class: Copernicus do
     type "Copernicus"
     name "copernicus"
-    source_id "counter"
     title "Copernicus"
     state_event "activate"
     url_private "http://harvester.copernicus.org/api/v1/articleStatisticsDoi/doi:%{doi}"
@@ -86,7 +84,6 @@ FactoryGirl.define do
   factory :crossref, class: CrossRef do
     type "CrossRef"
     name "crossref"
-    source_id "crossref"
     title "CrossRef"
     state_event "activate"
     openurl_username "openurl_username"
@@ -109,7 +106,6 @@ FactoryGirl.define do
   factory :nature, class: Nature do
     type "Nature"
     name "nature"
-    source_id "nature"
     title "Nature"
     state_event "activate"
 
@@ -121,7 +117,6 @@ FactoryGirl.define do
   factory :github, class: Github do
     type "Github"
     name "github"
-    source_id "github"
     title "Github"
     personal_access_token "EXAMPLE"
 
@@ -133,7 +128,6 @@ FactoryGirl.define do
   factory :bitbucket, class: Bitbucket do
     type "Bitbucket"
     name "bitbucket"
-    source_id "bitbucket"
     title "Bitbucket"
 
     group
@@ -144,7 +138,6 @@ FactoryGirl.define do
   factory :openedition, class: Openedition do
     type "Openedition"
     name "openedition"
-    source_id "openedition"
     title "OpenEdition"
     state_event "activate"
 
@@ -156,7 +149,6 @@ FactoryGirl.define do
   factory :pmc, class: Pmc do
     type "Pmc"
     name "pmc"
-    source_id "pmc"
     title "PubMed Central Usage Stats"
     state_event "activate"
     url_db "http://127.0.0.1:5984/pmc_usage_stats_test/"
@@ -173,7 +165,6 @@ FactoryGirl.define do
   factory :pub_med, class: PubMed do
     type "PubMed"
     name "pub_med"
-    source_id "pub_med"
     title "PubMed"
     state_event "activate"
 
@@ -185,7 +176,6 @@ FactoryGirl.define do
   factory :europe_pmc, class: EuropePmc do
     type "EuropePmc"
     name "pmc_europe"
-    source_id "pmc_europe"
     title "PMC Europe Citations"
     state_event "activate"
 
@@ -197,7 +187,6 @@ FactoryGirl.define do
   factory :europe_pmc_data, class: EuropePmcData do
     type "EuropePmcData"
     name "pmc_europe_data"
-    source_id "pmc_europe_data"
     title "PMC Europe Database Citations"
     state_event "activate"
 
@@ -209,7 +198,6 @@ FactoryGirl.define do
   factory :europe_pmc_fulltext, class: EuropePmcFulltext do
     type "EuropePmcFulltext"
     name "europe_pmc_fulltext"
-    source_id "europe_pmc_fulltext"
     title "Europe PMC Fulltext Search"
     state_event "activate"
 
@@ -221,7 +209,6 @@ FactoryGirl.define do
   factory :nature_opensearch, class: NatureOpensearch do
     type "NatureOpensearch"
     name "nature_opensearch"
-    source_id "nature_opensearch"
     title "Nature.com OpenSearch"
     state_event "activate"
 
@@ -233,7 +220,6 @@ FactoryGirl.define do
   factory :researchblogging, class: Researchblogging do
     type "Researchblogging"
     name "researchblogging"
-    source_id "researchblogging"
     title "Research Blogging"
     state_event "activate"
     username "EXAMPLE"
@@ -247,7 +233,6 @@ FactoryGirl.define do
   factory :science_seeker, class: ScienceSeeker do
     type "ScienceSeeker"
     name "scienceseeker"
-    source_id "scienceseeker"
     title "ScienceSeeker"
     state_event "activate"
 
@@ -259,7 +244,6 @@ FactoryGirl.define do
   factory :datacite, class: Datacite do
     type "Datacite"
     name "datacite"
-    source_id "datacite"
     title "DataCite"
     state_event "activate"
 
@@ -271,7 +255,6 @@ FactoryGirl.define do
   factory :datacite_data, class: Datacite do
     type "DataciteData"
     name "datacite_data"
-    source_id "datacite_data"
     title "DataCite Data"
     state_event "activate"
 
@@ -283,7 +266,6 @@ FactoryGirl.define do
   factory :wordpress, class: Wordpress do
     type "Wordpress"
     name "wordpress"
-    source_id "wordpress"
     title "Wordpress.com"
     state_event "activate"
 
@@ -295,7 +277,6 @@ FactoryGirl.define do
   factory :reddit, class: Reddit do
     type "Reddit"
     name "reddit"
-    source_id "reddit"
     title "Reddit"
     state_event "activate"
 
@@ -307,7 +288,6 @@ FactoryGirl.define do
   factory :twitter_search, class: TwitterSearch do
     type "TwitterSearch"
     name "twitter_search"
-    source_id "twitter"
     title "Twitter"
     state_event "activate"
     api_key "EXAMPLE"
@@ -322,7 +302,6 @@ FactoryGirl.define do
   factory :wikipedia, class: Wikipedia do
     type "Wikipedia"
     name "wikipedia"
-    source_id "wikipedia"
     title "Wikipedia"
     state_event "activate"
     languages "en"
@@ -335,7 +314,6 @@ FactoryGirl.define do
   factory :mendeley, class: Mendeley do
     type "Mendeley"
     name "mendeley"
-    source_id "mendeley"
     title "Mendeley"
     state_event "activate"
     client_id "EXAMPLE"
@@ -351,7 +329,6 @@ FactoryGirl.define do
   factory :facebook, class: Facebook do
     type "Facebook"
     name "facebook"
-    source_id "facebook"
     title "Facebook"
     client_id "EXAMPLE"
     client_secret "EXAMPLE"
@@ -365,7 +342,6 @@ FactoryGirl.define do
   factory :scopus, class: Scopus do
     type "Scopus"
     name "scopus"
-    source_id "scopus"
     title "Scopus"
     api_key "EXAMPLE"
     insttoken "EXAMPLE"
@@ -378,7 +354,6 @@ FactoryGirl.define do
   factory :counter, class: Counter do
     type "Counter"
     name "counter"
-    source_id "counter"
     title "Counter"
     state_event "activate"
     url_private "http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}"
@@ -413,7 +388,6 @@ FactoryGirl.define do
   factory :f1000, class: F1000 do
     type "F1000"
     name "f1000"
-    source_id "f1000"
     title "F1000Prime"
     state_event "activate"
     url_private "http://example.com/intermediate.xml"
@@ -426,7 +400,6 @@ FactoryGirl.define do
   factory :figshare, class: Figshare do
     type "Figshare"
     name "figshare"
-    source_id "figshare"
     title "Figshare"
     state_event "activate"
     url_private "http://api.figshare.com/v1/publishers/search_for?doi=%{doi}"
@@ -439,7 +412,6 @@ FactoryGirl.define do
   factory :plos_comments, class: PlosComments do
     type "PlosComments"
     name "plos_comments"
-    source_id "plos_comments"
     title "PLOS Comments"
     state_event "activate"
     url_private "http://api.plosjournals.org/v1/articles/%{doi}?comments="
@@ -452,7 +424,6 @@ FactoryGirl.define do
   factory :plos_fulltext, class: PlosFulltext do
     type "PlosFulltext"
     name "plos_fulltext"
-    source_id "plos_fulltext"
     title "PLOS Fulltext Search"
     state_event "activate"
 
@@ -464,7 +435,6 @@ FactoryGirl.define do
   factory :ads, class: Ads do
     type "Ads"
     name "ads"
-    source_id "ads"
     title "ADS"
     state_event "activate"
     access_token "EXAMPLE"
@@ -477,7 +447,6 @@ FactoryGirl.define do
   factory :ads_fulltext, class: AdsFulltext do
     type "AdsFulltext"
     name "ads_fulltext"
-    source_id "ads_fulltext"
     title "ADS Fulltext"
     state_event "activate"
     access_token "EXAMPLE"
@@ -490,7 +459,6 @@ FactoryGirl.define do
   factory :bmc_fulltext, class: BmcFulltext do
     type "BmcFulltext"
     name "bmc_fulltext"
-    source_id "bmc_fulltext"
     title "BMC Fulltext Search"
     state_event "activate"
 
@@ -502,7 +470,6 @@ FactoryGirl.define do
   factory :twitter, class: Twitter do
     type "Twitter"
     name "twitter"
-    source_id "twitter"
     title "Twitter"
     state_event "activate"
     url_private "http://example.org?doi=%{doi}"
@@ -515,7 +482,6 @@ FactoryGirl.define do
   factory :wos, class: Wos do
     type "Wos"
     name "wos"
-    source_id "wos"
     title "Web of Science"
     state_event "activate"
     url_private "https://ws.isiknowledge.com:80/cps/xrpc"
@@ -528,7 +494,6 @@ FactoryGirl.define do
   factory :relative_metric, class: RelativeMetric do
     type "RelativeMetric"
     name "relative_metric"
-    source_id "relative_metric"
     title "Relative Metric"
     state_event "activate"
     url_private "http://example.org?doi=%{doi}"
@@ -541,7 +506,6 @@ FactoryGirl.define do
   factory :article_coverage, class: ArticleCoverage do
     type "ArticleCoverage"
     name "article_coverage"
-    source_id "article_coverage"
     title "Article Coverage"
     state_event "activate"
     url_private "http://mediacuration.plos.org/api/v1?doi=%{doi}&state=all"
@@ -554,7 +518,6 @@ FactoryGirl.define do
   factory :article_coverage_curated, class: ArticleCoverageCurated do
     type "ArticleCoverageCurated"
     name "article_coverage_curated"
-    source_id "article_coverage_curated"
     title "Article Coverage Curated"
     state_event "activate"
     url_private "http://mediacuration.plos.org/api/v1?doi=%{doi}"
@@ -567,7 +530,6 @@ FactoryGirl.define do
   factory :orcid, class: Orcid do
     type "Orcid"
     name "orcid"
-    source_id "orcid"
     title "ORCID"
     state_event "activate"
 
