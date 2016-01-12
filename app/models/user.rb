@@ -72,12 +72,8 @@ class User < ActiveRecord::Base
 
   protected
 
-  # Don't require email or password, as we also use OAuth
+  # Don't require email, as we also use OAuth
   def email_required?
-    false
-  end
-
-  def password_required?
     false
   end
 

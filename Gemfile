@@ -31,6 +31,7 @@ gem 'sprig', '~> 0.1.7'
 gem 'hashie', '~> 3.3.2'
 gem 'namae', '~> 0.10.1'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
+gem 'colorize', '~> 0.7.7'
 
 gem "devise", "~> 3.4.1"
 gem "omniauth-persona"

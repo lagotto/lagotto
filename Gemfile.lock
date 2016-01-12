@@ -128,6 +128,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
+    colorize (0.7.7)
     concurrent-ruby (1.0.0)
     config (1.0.0)
       activesupport (>= 3.0)
@@ -395,7 +396,7 @@ GEM
       activesupport (>= 3, < 5)
       rails (>= 3, < 5)
     swagger-ui_rails (0.1.7)
-    teaspoon (1.1.1)
+    teaspoon (1.1.2)
       railties (>= 3.2.5, < 5)
     teaspoon-jasmine (2.2.0)
       teaspoon (>= 1.0.0)
@@ -458,6 +459,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0.3)
   codeclimate-test-reporter (~> 0.4.1)
   coffee-rails (~> 4.1.0)
+  colorize (~> 0.7.7)
   config (~> 1.0.0)
   dalli (~> 2.7.0)
   database_cleaner (~> 1.3.0)
