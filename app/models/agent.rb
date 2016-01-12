@@ -134,7 +134,7 @@ class Agent < ActiveRecord::Base
   end
 
   def collect_data(options = {})
-    message_type = source_id
+    message_type = name
 
     data = get_data(options.merge(timeout: timeout, agent_id: id))
 
@@ -191,7 +191,7 @@ class Agent < ActiveRecord::Base
 
     related_works = get_related_works(result, work)
     extra = get_extra(result)
-    events_url = related_works.length > 0 ? get_events_url(work) : nil
+    events_url = related_works.length > 0 ? get_events_url(options) : nil
 
     options.merge!(response_options)
     options[:metrics] ||= :total
@@ -250,26 +250,27 @@ class Agent < ActiveRecord::Base
     {}
   end
 
-  def get_query_url(work, options = {})
+  def get_query_url(options = {})
     fail ArgumentError, "Agent url is missing." if url.blank?
 
-    query_string = get_query_string(work)
+    query_string = get_query_string(options = {})
     return query_string if query_string.is_a?(Hash)
 
     url % { query_string: query_string }
   end
 
-  def get_events_url(work)
+  def get_events_url(options = {})
     fail ArgumentError, "Source events_url is missing." if events_url.blank?
 
-    query_string = get_query_string(work)
+    query_string = get_query_string(options = {})
     return query_string if query_string.is_a?(Hash)
 
     events_url % { query_string: query_string }
   end
 
-  def get_query_string(work)
-    return {} unless work.get_url || work.doi.present?
+  def get_query_string(options = {})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && (work.get_url || work.doi.present?)
 
     [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
