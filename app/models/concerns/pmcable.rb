@@ -2,8 +2,8 @@ module Pmcable
   extend ActiveSupport::Concern
 
   included do
-    def get_data(work, options={})
-      query_url = get_query_url(work, options)
+    def get_data(options={})
+      query_url = get_query_url(options)
       return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
       result = get_result(query_url, options)
@@ -15,7 +15,7 @@ module Pmcable
 
         (2..total_pages).each do |page|
           options[:page] = page
-          query_url = get_query_url(work, options)
+          query_url = get_query_url(options)
           paged_result = get_result(query_url, options)
           result["#{result_key}List"][result_key] = result["#{result_key}List"][result_key] | paged_result.fetch("#{result_key}List", {}).fetch(result_key, [])
         end
@@ -25,8 +25,10 @@ module Pmcable
       result.extend Hashie::Extensions::DeepFetch
     end
 
-    def parse_data(result, work, options={})
+    def parse_data(result, options={})
       return result if result[:error] || result["#{result_key}List"].nil?
+
+      work = Work.where(id: options.fetch(:work_id, nil)).first
 
       related_works = get_related_works(result, work)
       total = related_works.length

@@ -2,8 +2,9 @@ class EuropePmc < Agent
   # include common methods for Europe PMC
   include Pmcable
 
-  def get_query_url(work, options = {})
-    return {} unless work.get_ids && work.pmid.present?
+  def get_query_url(options = {})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.get_ids && work.pmid.present?
 
     page = options[:page] || 1
 

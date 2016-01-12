@@ -8,25 +8,25 @@ describe EuropePmcData, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi, pmid and pmcid are missing" do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.create(:work, :pmid => "20098740")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work)
       expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work)
       expect(response["hitCount"]).to eq(27737)
       cross_reference = response["dbCrossReferenceList"]["dbCrossReference"].first
       expect(cross_reference["dbCrossReferenceInfo"][0]["info1"]).to eq("CAAC03003604")
     end
 
     it "should catch errors with the PMC Europe API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, agent_id: subject.id)
+      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/databaseLinks//1/json", status: 408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -82,7 +82,7 @@ describe EuropePmcData, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
+      expect(subject.parse_data(result, work_id: work)).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -90,7 +90,7 @@ describe EuropePmcData, type: :model, vcr: true do
       body = File.read(fixture_path + 'europe_pmc_data_nil.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
       expect(response).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
@@ -98,7 +98,7 @@ describe EuropePmcData, type: :model, vcr: true do
       body = File.read(fixture_path + 'europe_pmc_data.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("pmc_europe_data")
@@ -111,7 +111,7 @@ describe EuropePmcData, type: :model, vcr: true do
     it "should catch timeout errors with the PMC Europe API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/databaseLinks//1/json", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
       expect(response).to eq(result)
     end
   end
@@ -121,7 +121,7 @@ describe EuropePmcData, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "", :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
+      expect(subject.parse_data(result, work_id: work)).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
@@ -129,7 +129,7 @@ describe EuropePmcData, type: :model, vcr: true do
       body = File.read(fixture_path + 'europe_pmc_data_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
       expect(response).to eq(works: [], events: [{ source_id: "pmc_europe_data", work_id: work.pid, total: 0, events_url: nil, extra: {} }])
     end
 
@@ -138,7 +138,7 @@ describe EuropePmcData, type: :model, vcr: true do
       body = File.read(fixture_path + 'europe_pmc_data.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("pmc_europe_data")
@@ -147,7 +147,7 @@ describe EuropePmcData, type: :model, vcr: true do
 
       expect(response[:works].length).to eq(1)
       related_work = response[:works].first
-      expect(related_work['author']).to eq([{"family"=>"Ha.", "given"=>"Piwowar"}])
+      expect(related_work['author']).to eq([{"family"=>"HA.", "given"=>"Piwowar"}])
       expect(related_work['title']).to eq("Who shares? Who doesn't? Factors associated with openly archiving raw research data.")
       expect(related_work['container-title']).to eq("PLoS One")
       expect(related_work['issued']).to eq("date-parts"=>[[2011]])

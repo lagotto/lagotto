@@ -1,5 +1,8 @@
 class EuropePmcData < Agent
-  def get_query_url(work)
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present?
+
     if url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/MED/")
       return {} unless work.get_ids && work.pmid.present?
 
@@ -11,9 +14,11 @@ class EuropePmcData < Agent
     end
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
     result = result.fetch("responseWrapper", nil) || result
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     total = result.fetch("hitCount", nil).to_i
     related_works = get_related_works(result, work)

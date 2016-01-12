@@ -8,26 +8,26 @@ describe EuropePmc, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the pmid, doi and pmcid are missing" do
       work = FactoryGirl.create(:work, doi: nil, :pmid => nil, pmcid: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.create(:work, :pmid => "20098740")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
-      response = subject.get_data(work)
-      expect(response["hitCount"]).to eq(770)
-      expect(response["citationList"]["citation"].length).to eq(770)
+      response = subject.get_data(work_id: work.id)
+      expect(response["hitCount"]).to eq(797)
+      expect(response["citationList"]["citation"].length).to eq(797)
       citation = response["citationList"]["citation"].first
-      expect(citation["title"]).to eq("The role of site accessibility in microRNA target recognition.")
+      expect(citation["title"]).to eq("Passenger-strand cleavage facilitates assembly of siRNA into Ago2-containing RNAi enzyme complexes.")
     end
 
     it "should catch errors with the PMC Europe API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, agent_id: subject.id)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/citations/1/json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -42,20 +42,20 @@ describe EuropePmc, type: :model, vcr: true do
     it "should report that there are no events if the pmid is missing" do
       work = FactoryGirl.create(:work, :pmid => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq({})
+      expect(subject.parse_data(result, work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
       work = FactoryGirl.create(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'europe_pmc_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pmc_europe", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pmc_europe", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       body = File.read(fixture_path + 'europe_pmc.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("pmc_europe")
@@ -80,7 +80,7 @@ describe EuropePmc, type: :model, vcr: true do
     it "should catch timeout errors with the PMC Europe API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/citations/1/json", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end
