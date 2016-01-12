@@ -1,12 +1,14 @@
 class DataciteData < Agent
-  def get_query_url(work)
-    return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     url % { doi: work.doi_escaped }
   end
 
-  def get_events_url(work)
-    return {} unless events_url.present? && work.doi.present?
+  def get_events_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && events_url.present? && work.doi.present?
 
     events_url % { doi: work.doi_escaped }
   end

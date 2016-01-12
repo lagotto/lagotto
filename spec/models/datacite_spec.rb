@@ -3,31 +3,31 @@ require 'rails_helper'
 describe Datacite, type: :model, vcr: true do
   subject { FactoryGirl.create(:datacite) }
 
-  let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.ppat.1000446") }
+  let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.ppat.1000446", doi: "10.1371/journal.ppat.1000446") }
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["response"]["numFound"]).to eq(0)
       expect(response["response"]["docs"]).to be_empty
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["response"]["numFound"]).to eq(1)
       doc = response["response"]["docs"].first
       expect(doc["doi"]).to eq("10.5061/DRYAD.8515")
     end
 
     it "should catch timeout errors with the Datacite API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, agent_id: subject.id)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{work.doi_escaped}&fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier&fq=is_active:true&fq=has_metadata:true&rows=1000&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -42,19 +42,19 @@ describe Datacite, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "datacite", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "datacite", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       body = File.read(fixture_path + 'datacite_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "datacite", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "datacite", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Datacite API" do
       body = File.read(fixture_path + 'datacite.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:total]).to eq(1)
@@ -76,7 +76,7 @@ describe Datacite, type: :model, vcr: true do
 
     it "should catch timeout errors with the Datacite API" do
       result = { error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{work.doi_escaped}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end
