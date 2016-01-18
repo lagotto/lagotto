@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   belongs_to :publisher
   has_and_belongs_to_many :reports
 
-  devise :omniauthable, :omniauth_providers => [:cas, :github, :orcid, :persona, :jwt]
+  devise :omniauthable, :omniauth_providers => [:cas, :github, :orcid, :jwt]
 
   validates :name, presence: true
   validates :uid, presence: true, uniqueness: true

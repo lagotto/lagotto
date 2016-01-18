@@ -8,11 +8,6 @@ module ApplicationHelper
     when "jwt" then link_to "Sign in", user_omniauth_authorize_path(:jwt), :id => "sign-in", class: 'btn btn-default'
     when "github" then link_to "Sign in with Github", user_omniauth_authorize_path(:github), :id => "sign-in", class: 'btn btn-default'
     when "orcid" then link_to "Sign in with ORCID", user_omniauth_authorize_path(:orcid), :id => "sign-in", class: 'btn btn-default'
-    when "persona" then
-      form_tag "/users/auth/persona/callback", id: "persona_form", class: "navbar-form" do
-        hidden_field_tag('assertion') +
-        button_tag("Sign in with Persona", id: "sign_in_button", class: "btn btn-link persona")
-      end.html_safe
     else
       link_to "Sign in not configured", "#"
     end
