@@ -42,3 +42,6 @@ doc/dependencies*
 .env.*
 !.env.example
 !.env.travis
+
+public/api
+public/api-docs.json
