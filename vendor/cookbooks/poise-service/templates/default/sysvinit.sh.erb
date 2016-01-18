@@ -38,6 +38,7 @@ _start() {
   <%# Implementing this using RedHat's bash helpers is too painful. Sorry. %>
   <%# See dummy.rb for a more commented version of this code. %>
   /opt/chef/embedded/bin/ruby <<EOH
+require 'etc'
 pid_file = <%= @pid_file.inspect %>
 File.unlink(pid_file) if File.exist?(pid_file)
 if Process.fork
@@ -48,7 +49,12 @@ else
   <%- unless @pid_file_external -%>
   IO.write(pid_file, Process.pid)
   <%- end -%>
-  Process::UID.change_privilege(<%= @user.inspect %>)
+  ent = Etc.getpwnam(<%= @user.inspect %>)
+  if Process.euid != ent.uid || Process.egid != ent.gid
+    Process.initgroups(ent.name, ent.gid)
+    Process::GID.change_privilege(ent.gid) if Process.egid != ent.gid
+    Process::UID.change_privilege(ent.uid) if Process.euid != ent.uid
+  end
   Kernel.exec(*<%= Shellwords.split(@command).inspect %>)
   exit!
 end

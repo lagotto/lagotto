@@ -30,6 +30,36 @@ module Poise
   autoload :Subcontext, 'poise/subcontext'
   autoload :Utils, 'poise/utils'
   autoload :VERSION, 'poise/version'
+
+  # Check if Poise's extra debugging output is enabled. This produces a *lot*
+  # of logging.
+  #
+  # @param node [Chef::Node, Chef::RunContext] Optional node to check for
+  #   attributes. If not given, Chef.node is used instead.
+  # @return [Boolean]
+  def self.debug?(node=nil)
+    node = node.node if node.is_a?(Chef::RunContext)
+    node ||= Chef.node if defined?(Chef.node)
+    @debug_file_upper = ::File.exist?('/POISE_DEBUG') unless defined?(@debug_file_upper)
+    @debug_file_lower = ::File.exist?('/poise_debug') unless defined?(@debug_file_lower)
+    !!(
+      (ENV['POISE_DEBUG'] && ENV['POISE_DEBUG'] != 'false') ||
+      (ENV['poise_debug'] && ENV['poise_debug'] != 'false') ||
+      (node && node['POISE_DEBUG']) ||
+      (node && node['poise_debug']) ||
+      @debug_file_upper ||
+      @debug_file_lower
+    )
+  end
+
+  # Log a message only if Poise's extra debugging output is enabled.
+  #
+  # @see #debug?
+  # @param msg [String] Log message.
+  # @return [void]
+  def self.debug(msg)
+    Chef::Log.debug(msg) if debug?
+  end
 end
 
 # Callable form to allow passing in options:
@@ -71,3 +101,7 @@ def Poise(options={})
 
   mod
 end
+
+# Display a message if poise_debug is enabled. Off in ChefSpec so I don't get
+# extra logging stuff that I don't care about.
+Poise.debug('[Poise] Extra verbose logging enabled') unless defined?(ChefSpec)

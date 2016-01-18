@@ -36,6 +36,7 @@ module FirewallCookbook
       def build_rule(new_resource)
         type = new_resource.command
         Chef::Log.info("#{new_resource.name} apply_rule #{type}")
+
         # if we don't do this, we may see some bugs where traffic is opened on all ports to all hosts when only RELATED,ESTABLISHED was intended
         if new_resource.stateful
           msg = ''
@@ -60,13 +61,15 @@ module FirewallCookbook
         # ufw insert 1 allow proto tcp from 0.0.0.0/0 to 192.168.0.1 port 25
 
         ufw_command = ['ufw']
-        ufw_command << type.to_s
         ufw_command << rule(new_resource).split
         ufw_command.flatten.join(' ')
       end
 
       def rule(new_resource)
+        return new_resource.raw.strip if new_resource.raw
+
         rule = ''
+        rule << "#{new_resource.command.to_s} "
         rule << rule_interface(new_resource)
         rule << rule_logging(new_resource)
         rule << rule_proto(new_resource)

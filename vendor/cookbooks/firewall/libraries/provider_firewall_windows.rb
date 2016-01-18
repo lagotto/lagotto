@@ -43,7 +43,21 @@ class Chef
       new_resource.rules({}) unless new_resource.rules
       new_resource.rules['windows'] = {} unless new_resource.rules['windows']
 
-      # ensure a file resource exists with the current ufw rules
+      firewall_rules = run_context.resource_collection.select { |item| item.is_a?(Chef::Resource::FirewallRule) }
+      firewall_rules.each do |firewall_rule|
+        next unless firewall_rule.action.include?(:create) && !firewall_rule.should_skip?(:create)
+
+        # build rules to apply with weight
+        k = build_rule(firewall_rule)
+        v = firewall_rule.position
+
+        # unless we're adding them for the first time.... bail out.
+        unless new_resource.rules['windows'].key?(k) && new_resource.rules['windows'][k] == v
+          new_resource.rules['windows'][k] = v
+        end
+      end
+
+      # ensure a file resource exists with the current rules
       begin
         windows_file = run_context.resource_collection.find(file: windows_rules_filename)
       rescue

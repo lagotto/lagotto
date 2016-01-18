@@ -54,6 +54,29 @@ class Chef
       new_resource.rules({}) unless new_resource.rules
       new_resource.rules['firewalld'] = {} unless new_resource.rules['firewalld']
 
+      # this populates the hash of rules from firewall_rule resources
+      firewall_rules = run_context.resource_collection.select { |item| item.is_a?(Chef::Resource::FirewallRule) }
+      firewall_rules.each do |firewall_rule|
+        next unless firewall_rule.action.include?(:create) && !firewall_rule.should_skip?(:create)
+
+        ip_versions(firewall_rule).each do |ip_version|
+          # build rules to apply with weight
+          k = "firewall-cmd --direct --add-rule #{build_firewall_rule(firewall_rule, ip_version)}"
+          v = firewall_rule.position
+
+          # unless we're adding them for the first time.... bail out.
+          next if new_resource.rules['firewalld'].key?(k) && new_resource.rules['firewalld'][k] == v
+          new_resource.rules['firewalld'][k] = v
+
+          # If persistent rules is enabled (default) make sure we add a permanent rule at the same time
+          perm_rules = node && node['firewall'] && node['firewall']['firewalld'] && node['firewall']['firewalld']['permanent']
+          if firewall_rule.permanent || perm_rules
+            k = "firewall-cmd --permanent --direct --add-rule #{build_firewall_rule(firewall_rule, ip_version)}"
+            new_resource.rules['firewalld'][k] = v
+          end
+        end
+      end
+
       # ensure a file resource exists with the current firewalld rules
       begin
         firewalld_file = run_context.resource_collection.find(file: firewalld_rules_filename)

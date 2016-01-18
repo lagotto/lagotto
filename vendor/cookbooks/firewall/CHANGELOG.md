@@ -2,6 +2,28 @@ firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
 
+v2.3.1 (2016-01-08)
+-------------------
+* Add raw rule support to the ufw firewall provider (#113).
+
+v2.3.0 (2015-12-23)
+-------------------
+* Refactor logic so that firewall rules don't add a string rule to the firewall
+when their actions run. Just run the action once on the firewall itself. This is
+designed to prevent partial application of rules (#106)
+
+* Switch to "enabled" (positive logic) instead of "disabled" (negative logic) on
+the firewall resource. It was difficult to reason with "disabled false" for some
+complicated recipes using firewall downstream. `disabled` is now deprecated.
+
+* Add proper Windows testing and serverspec tests back into this cookbook.
+
+* Fix the `port_to_s` function so it also works for Windows (#111)
+
+* Fix typo checking action instead of command in iptables helper (#112)
+
+* Remove testing ranges of ports on CentOS 5.x, as it's broken there.
+
 v2.2.0 (2015-11-02)
 -------------------
 Added permanent as default option for RHEL 7 based systems using firewall-cmd.

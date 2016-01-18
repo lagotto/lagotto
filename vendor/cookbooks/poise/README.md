@@ -193,6 +193,15 @@ end
 
 This will be converted to `{key1: 'value1', key2: 'value2'}`. You can also pass a Hash to an option collector attribute just as you would with a normal attribute.
 
+## Debugging Poise
+
+Poise has its own extra-verbose level of debug logging that can be enabled in
+three different ways. You can either set the environment variable `$POISE_DEBUG`,
+set a node attribute `node['POISE_DEBUG']`, or touch the file `/POISE_DEBUG`.
+You will see a log message `Extra verbose logging enabled` at the start of the
+run to confirm Poise debugging has been enabled. Make sure you also set Chef's
+log level to `debug`, usually via `-l debug` on the command line.
+
 ## Upgrading from Poise 1.x
 
 The biggest change when upgrading from Poise 1.0 is that the mixin is no longer

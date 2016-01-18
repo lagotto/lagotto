@@ -2,6 +2,12 @@ Chef Sugar Changelog
 =========================
 This file is used to list changes made in each version of the chef-sugar cookbook and gem.
 
+v3.3.0 (2016-01-11)
+-------------------
+### Improvements
+- Break up `Chef::Sugar::Constraints` into a class and a dsl file
+- Add `platform_version` method with full constraints comparison support
+
 v3.2.0 (2015-12-10)
 -------------------
 ### Improvements

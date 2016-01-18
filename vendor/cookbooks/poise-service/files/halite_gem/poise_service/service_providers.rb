@@ -17,6 +17,7 @@
 require 'chef/platform/provider_priority_map'
 
 require 'poise_service/service_providers/dummy'
+require 'poise_service/service_providers/inittab'
 require 'poise_service/service_providers/systemd'
 require 'poise_service/service_providers/sysvinit'
 require 'poise_service/service_providers/upstart'

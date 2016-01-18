@@ -65,9 +65,9 @@ module Poise
         # @return [String]
         def poise_defined_in_cookbook(run_context, file=nil)
           file ||= poise_defined_in
-          Chef::Log.debug("[#{self.name}] Checking cookbook name for #{file}")
+          Poise.debug("[#{self.name}] Checking cookbook name for #{file}")
           Poise::Utils.find_cookbook_name(run_context, file).tap do |cookbook|
-            Chef::Log.debug("[#{self.name}] found cookbook #{cookbook.inspect}")
+            Poise.debug("[#{self.name}] found cookbook #{cookbook.inspect}")
           end
         end
 

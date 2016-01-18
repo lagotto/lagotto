@@ -66,6 +66,30 @@ class Chef
       new_resource.rules({}) unless new_resource.rules
       ensure_default_rules_exist(node, new_resource)
 
+      # this populates the hash of rules from firewall_rule resources
+      firewall_rules = run_context.resource_collection.select { |item| item.is_a?(Chef::Resource::FirewallRule) }
+      firewall_rules.each do |firewall_rule|
+        next unless firewall_rule.action.include?(:create) && !firewall_rule.should_skip?(:create)
+
+        if ipv6_rule?(firewall_rule) # an ip4 specific rule
+          types = %w(ip6tables)
+        elsif ipv4_rule?(firewall_rule) # an ip6 specific rule
+          types = %w(iptables)
+        else # or not specific
+          types = %w(iptables ip6tables)
+        end
+
+        types.each do |iptables_type|
+          # build rules to apply with weight
+          k = build_firewall_rule(node, firewall_rule, iptables_type == 'ip6tables')
+          v = firewall_rule.position
+
+          # unless we're adding them for the first time.... bail out.
+          next if new_resource.rules[iptables_type].key?(k) && new_resource.rules[iptables_type][k] == v
+          new_resource.rules[iptables_type][k] = v
+        end
+      end
+
       %w(iptables ip6tables).each do |iptables_type|
         if iptables_type == 'ip6tables'
           iptables_filename = '/etc/iptables/rules.v6'

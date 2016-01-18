@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+default['rsyslog']['local_host_name']           = nil
 default['rsyslog']['default_log_dir']           = '/var/log'
 default['rsyslog']['log_dir']                   = '/srv/rsyslog'
 default['rsyslog']['working_dir']               = '/var/spool/rsyslog'

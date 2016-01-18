@@ -36,13 +36,14 @@ module PoiseService
         super.tap do |r|
           r.provider(case node['platform_family']
           when 'debian'
-            Chef::Provider::Service::Init::Debian
+            Chef::Provider::Service::Debian
           when 'rhel'
-            Chef::Provider::Service::Init::Redhat
+            Chef::Provider::Service::Redhat
           else
             # This will explode later in the template, but better than nothing for later.
             Chef::Provider::Service::Init
           end)
+          r.init_command(script_path)
         end
       end
 
@@ -56,7 +57,7 @@ module PoiseService
         # Sigh scoping.
         pid_file_ = pid_file
         # Render the service template
-        service_template("/etc/init.d/#{new_resource.service_name}", 'sysvinit.sh.erb') do
+        service_template(script_path, 'sysvinit.sh.erb') do
           mode '755'
           variables.update(
             daemon: daemon,
@@ -69,13 +70,17 @@ module PoiseService
       end
 
       def destroy_service
-        file "/etc/init.d/#{new_resource.service_name}" do
+        file script_path do
           action :delete
         end
 
         file pid_file do
           action :delete
         end
+      end
+
+      def script_path
+        options['script_path'] || "/etc/init.d/#{new_resource.service_name}"
       end
 
       def pid_file

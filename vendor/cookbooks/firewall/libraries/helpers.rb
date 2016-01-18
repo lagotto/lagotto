@@ -5,12 +5,19 @@ module FirewallCookbook
     end
 
     def port_to_s(p)
-      if p && p.is_a?(Integer)
+      if p.is_a?(String)
+        p
+      elsif p && p.is_a?(Integer)
         p.to_s
       elsif p && p.is_a?(Array)
+        p.map! { |o| port_to_s(o) }
         p.sort.join(',')
       elsif p && p.is_a?(Range)
-        "#{p.first}:#{p.last}"
+        if platform_family?('windows')
+          "#{p.first}-#{p.last}"
+        else
+          "#{p.first}:#{p.last}"
+        end
       end
     end
 
@@ -19,8 +26,11 @@ module FirewallCookbook
     end
 
     def disabled?(new_resource)
-      Chef::Log.warn("#{new_resource} has attribute 'disabled' = true, not proceeding") if new_resource.disabled
-      new_resource.disabled
+      # if either flag is found in the non-default boolean state
+      disable_flag = !(new_resource.enabled && !new_resource.disabled)
+
+      Chef::Log.warn("#{new_resource} has been disabled, not proceeding") if disable_flag
+      disable_flag
     end
 
     def ip_with_mask(new_resource, ip)

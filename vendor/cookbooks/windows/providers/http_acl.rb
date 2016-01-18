@@ -73,11 +73,11 @@ def getCurrentAcl
   cmd = shell_out!("#{@command} http show urlacl url=#{@current_resource.url}")
   Chef::Log.debug "netsh reports: #{cmd.stdout}"
 
-  m = cmd.stdout.scan(/User:\s*(\S+)/)
+  m = cmd.stdout.scan(/User:\s*(.+)/)
   if m.length == 0
     @current_resource.exists = false
   else
-    @current_resource.user(m[0][0])
+    @current_resource.user(m[0][0].chomp)
     @current_resource.exists = true
   end
 end

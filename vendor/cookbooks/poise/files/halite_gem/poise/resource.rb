@@ -15,6 +15,7 @@
 #
 
 require 'poise/helpers'
+require 'poise/utils'
 
 
 module Poise
@@ -41,6 +42,7 @@ module Poise
     include Poise::Helpers::ResourceName
     include Poise::Helpers::ResourceSubclass
     include Poise::Helpers::TemplateContent
+    include Poise::Utils::ShellOut
 
     # @!classmethods
     module ClassMethods

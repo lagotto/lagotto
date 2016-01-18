@@ -35,7 +35,7 @@ module Poise
         if defined?(sub_run_context.initialize_child_state)
           sub_run_context.initialize_child_state
         else
-          # Audits was added in 12.1 I thin.
+          # Audits was added in 12.1 I think.
           sub_run_context.audits = {} if defined?(sub_run_context.audits)
           # Dup and clear to preserve the default behavior without copy-pasta.
           sub_run_context.immediate_notification_collection = parent_context.immediate_notification_collection.dup.clear

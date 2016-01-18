@@ -155,7 +155,7 @@ module PoiseService
           end
         end
 
-        # Provides can be found under service_providers/.
+        # Providers can be found under service_providers/.
       end
     end
   end

@@ -68,6 +68,9 @@ module Poise
             # Template variables if using a template
             attribute("#{name_prefix}options", option_collector: true)
 
+            # Make an alias for #variables to match the template resource.
+            alias_method("#{name_prefix}variables", "#{name_prefix}options")
+
             # The big one, get/set content, but if you are getting and no
             # explicit content was given, try to render the template
             define_method("#{name_prefix}content") do |arg=nil, no_compute=false|
@@ -97,7 +100,7 @@ module Poise
               old_after_created = instance_method(:after_created)
               define_method(:after_created) do
                 old_after_created.bind(self).call
-                send("_#{name_prefix}validate")
+                send("_#{name_prefix}validate") if Array(action) == Array(self.class.default_action)
               end
             end
 

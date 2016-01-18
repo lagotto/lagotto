@@ -209,6 +209,31 @@ action :whenever do
   end
 end
 
+action :swagger do
+  run_context.include_recipe 'ruby'
+
+  if node['ruby']['enable_capistrano']
+    file = "/var/www/#{new_resource.name}/current/Gemfile"
+  else
+    file = "/var/www/#{new_resource.name}/Gemfile"
+  end
+
+  if ::File.exist?(file)
+    # make sure we can use the bundle command
+    if node['ruby']['enable_capistrano']
+      dir = "/var/www/#{new_resource.name}/current"
+    else
+      dir = "/var/www/#{new_resource.name}"
+    end
+
+    execute "bundle exec rake swagger:docs" do
+      user new_resource.user
+      environment 'RAILS_ENV' => new_resource.rails_env
+      cwd dir
+    end
+  end
+end
+
 action :restart do
   if node['ruby']['enable_capistrano']
     dir = "/var/www/#{new_resource.name}/current"

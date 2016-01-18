@@ -47,6 +47,8 @@ framework is used.
 * Upstart
 * systemd
 * [Runit](https://github.com/poise/poise-service-runit)
+* [Solaris](https://github.com/sh9189/poise-service-solaris)
+* [AIX](https://github.com/johnbellone/poise-service-aix)
 * *Supervisor (coming soon!)*
 
 
@@ -168,8 +170,8 @@ end
 ```
 
 Unlike resource attributes, service options can be different for each provider.
-Not all providers support the same options so make sure to the check the
-documentation for each provider to see what options the use.
+Not all providers support the same options so make sure to check the
+documentation for each provider to see what options are available.
 
 ### `poise_service_options`
 
@@ -236,8 +238,7 @@ end
 
 By default a PID file will be created in `/var/run/service_name.pid`. You can
 use the `pid_file` option detailed below to override this and rely on your
-process creating a PID file in the given path. This is highly recommended on
-RHEL-family platforms as automatic PID detection there is more finicky.
+process creating a PID file in the given path.
 
 #### Options
 
@@ -252,6 +253,7 @@ RHEL-family platforms as automatic PID detection there is more finicky.
 * `user` – Override the service user.
 * `never_restart` – Never try to restart the service.
 * `never_reload` – Never try to reload the service.
+* `script_path` – Override the path to the generated service script.
 
 ### `upstart`
 
@@ -316,6 +318,31 @@ end
 * `never_restart` – Never try to restart the service.
 * `never_reload` – Never try to reload the service.
 * `auto_reload` – Run `systemctl daemon-reload` after changes to the unit file. *(default: true)*
+
+### `inittab`
+
+The `inittab` provider supports managing services via `/etc/inittab` using
+[SystemV Init](http://www.nongnu.org/sysvinit/). This can provide basic
+process supervision even on very old *nix machines.
+
+```ruby
+poise_service 'myapp' do
+  provider :inittab
+  command 'myapp --serve'
+end
+```
+
+**NOTE:** Inittab does not allow stopping services, and they are started as soon
+as they are enabled.
+
+#### Options
+
+* `never_restart` – Never try to restart the service.
+* `never_reload` – Never try to reload the service.
+* `pid_file` – Path to PID file that the service command will create.
+* `service_id` – Unique 1-4 character tag for the service. Defaults to an
+  auto-generated hash based on the service name. If these collide, bad things
+  happen. Don't do that.
 
 ## ServiceMixin
 

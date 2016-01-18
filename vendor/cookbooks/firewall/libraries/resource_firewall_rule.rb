@@ -45,5 +45,9 @@ class Chef
 
     # for when you just want to pass a raw rule
     attribute(:raw, kind_of: String)
+
+    # do you want this rule to notify the firewall to recalculate
+    # (and potentially reapply) the firewall_rule(s) it finds?
+    attribute(:notify_firewall, kind_of: [TrueClass, FalseClass], default: true)
   end
 end

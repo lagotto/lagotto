@@ -15,6 +15,7 @@
 #
 
 require 'poise/helpers'
+require 'poise/utils'
 
 
 module Poise
@@ -35,6 +36,7 @@ module Poise
     include Poise::Helpers::IncludeRecipe
     include Poise::Helpers::LWRPPolyfill
     include Poise::Helpers::NotifyingBlock
+    include Poise::Utils::ShellOut
 
     # @!classmethods
     module ClassMethods

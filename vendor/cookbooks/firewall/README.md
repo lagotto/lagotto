@@ -214,7 +214,7 @@ firewall_rule 'http/https' do
 end
 
 firewall 'default' do
-  disabled true
+  enabled false
   action :nothing
 end
 ```

@@ -1,0 +1,15 @@
+#!/bin/sh
+exec /opt/chef/embedded/bin/ruby <<EOH
+require 'etc'
+IO.write("<%= @pid_file %>", Process.pid)
+Dir.chdir("<%= @directory %>")
+ent = Etc.getpwnam("<%= @user %>")
+if Process.euid != ent.uid || Process.egid != ent.gid
+  Process.initgroups(ent.name, ent.gid)
+  Process::GID.change_privilege(ent.gid) if Process.egid != ent.gid
+  Process::UID.change_privilege(ent.uid) if Process.euid != ent.uid
+end
+(ENV["HOME"] = Dir.home("<%= @user %>")) rescue nil
+<%= @environment.map {|key, value| "ENV[\"#{key}\"] = \"#{value}\"" }.join("; ") %>
+exec(*<%= Shellwords.split(@command).inspect %>)
+EOH

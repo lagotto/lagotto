@@ -44,6 +44,10 @@ module PoiseService
         #   Service provider to set for the test group.
         #   @return [Symbol]
         attribute(:service_provider, kind_of: Symbol)
+        # @!attribute service_options
+        #   Service options to set for the test group.
+        #   @return [Hash, nil]
+        attribute(:service_options, kind_of: [Hash, nil])
         # @!attribute base_port
         #   Port number to start from for the test group.
         #   @return [Integer]
@@ -68,7 +72,9 @@ server.mount_proc '/' do |req, res|
   res.body = {
     directory: Dir.getwd,
     user: Etc.getpwuid(Process.uid).name,
+    euser: Etc.getpwuid(Process.euid).name,
     group: Etc.getgrgid(Process.gid).name,
+    egroup: Etc.getgrgid(Process.egid).name,
     environment: ENV.to_hash,
     file_data: FILE_DATA,
     pid: Process.pid,
@@ -142,19 +148,28 @@ EOH
 
         def create_tests
           poise_service "poise_test_#{new_resource.name}" do
-            provider new_resource.service_provider if new_resource.service_provider
+            if new_resource.service_provider
+              provider new_resource.service_provider
+              options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+            end
             command "/usr/bin/poise_test #{new_resource.base_port}"
           end
 
           poise_service "poise_test_#{new_resource.name}_params" do
-            provider new_resource.service_provider if new_resource.service_provider
+            if new_resource.service_provider
+              provider new_resource.service_provider
+              options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+            end
             command "/usr/bin/poise_test #{new_resource.base_port + 1}"
             environment POISE_ENV: new_resource.name
             user 'poise'
           end
 
           poise_service "poise_test_#{new_resource.name}_noterm" do
-            provider new_resource.service_provider if new_resource.service_provider
+            if new_resource.service_provider
+              provider new_resource.service_provider
+              options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+            end
             action [:enable, :disable]
             command "/usr/bin/poise_test_noterm #{new_resource.base_port + 2}"
             stop_signal 'kill'
@@ -163,7 +178,10 @@ EOH
           {'restart' => 3, 'reload' => 4}.each do |action, port|
             # Stop it before writing the file so we always start with first.
             poise_service "poise_test_#{new_resource.name}_#{action} stop" do
-              provider new_resource.service_provider if new_resource.service_provider
+              if new_resource.service_provider
+                provider new_resource.service_provider
+                options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+              end
               action(:disable)
               service_name "poise_test_#{new_resource.name}_#{action}"
             end
@@ -175,7 +193,10 @@ EOH
 
             # Launch the service, reading in first.
             poise_service "poise_test_#{new_resource.name}_#{action}" do
-              provider new_resource.service_provider if new_resource.service_provider
+              if new_resource.service_provider
+                provider new_resource.service_provider
+                options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+              end
               command "/usr/bin/poise_test #{new_resource.base_port + port} /etc/poise_test_#{new_resource.name}_#{action}"
             end
 
@@ -197,13 +218,19 @@ EOH
 
           # Test changing the service definition itself.
           poise_service "poise_test_#{new_resource.name}_change" do
-            provider new_resource.service_provider if new_resource.service_provider
+            if new_resource.service_provider
+              provider new_resource.service_provider
+              options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+            end
             command "/usr/bin/poise_test #{new_resource.base_port + 5}"
           end
 
           poise_service "poise_test_#{new_resource.name}_change_second" do
             service_name "poise_test_#{new_resource.name}_change"
-            provider new_resource.service_provider if new_resource.service_provider
+            if new_resource.service_provider
+              provider new_resource.service_provider
+              options new_resource.service_provider, new_resource.service_options if new_resource.service_options
+            end
             command "/usr/bin/poise_test #{new_resource.base_port + 6}"
           end
 

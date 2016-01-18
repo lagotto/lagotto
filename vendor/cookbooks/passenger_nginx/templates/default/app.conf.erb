@@ -3,9 +3,9 @@ server {
 
   listen 80 <%= @default_server ? "default_server" : "" %>;
   <% if node['ruby']['enable_capistrano'] %>
-    root <%= "/var/www/#{@application}/current/public" %>;
+  root <%= "/var/www/#{@application}/current/public" %>;
   <% else %>
-    root <%= "/var/www/#{@application}/public" %>;
+  root <%= "/var/www/#{@application}/public" %>;
   <% end %>
   passenger_enabled on;
   passenger_app_env <%= @rails_env %>;
@@ -13,13 +13,13 @@ server {
   merge_slashes off;
   <% end %>
   <% if node['ruby']['api_only'] %>
-    location / {
-      try_files $uri;
-    }
+  location / {
+    try_files $uri;
+  }
 
-    location /api {
-      passenger_enabled on;
-    }
+  location /api {
+    passenger_enabled on;
+  }
   <% end %>
   location ~* .(jpg|jpeg|png|gif|ico|css|js)$ {
     expires 365d;

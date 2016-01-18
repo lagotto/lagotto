@@ -20,6 +20,7 @@ require 'poise/error'
 module Poise
   module Utils
     autoload :ResourceProviderMixin, 'poise/utils/resource_provider_mixin'
+    autoload :ShellOut, 'poise/utils/shell_out'
 
     extend self
 
@@ -37,14 +38,14 @@ module Poise
     #   end
     def find_cookbook_name(run_context, filename)
       possibles = {}
-      Chef::Log.debug("[Poise] Checking cookbook for #{filename.inspect}")
+      Poise.debug("[Poise] Checking cookbook for #{filename.inspect}")
       run_context.cookbook_collection.each do |name, ver|
         # This special method is added by Halite::Gem#as_cookbook_version.
         if ver.respond_to?(:halite_root)
           # The join is there because ../poise-ruby/lib starts with ../poise so
           # we want a trailing /.
           if filename.start_with?(File.join(ver.halite_root, ''))
-            Chef::Log.debug("[Poise] Found matching halite_root in #{name}: #{ver.halite_root.inspect}")
+            Poise.debug("[Poise] Found matching halite_root in #{name}: #{ver.halite_root.inspect}")
             possibles[ver.halite_root] = name
           end
         else
@@ -52,9 +53,9 @@ module Poise
             ver.segment_filenames(seg).each do |file|
               # Put this behind an environment variable because it is verbose
               # even for normal debugging-level output.
-              Chef::Log.debug("[Poise] Checking #{seg} in #{name}: #{file.inspect}") if ENV['POISE_DEBUG'] || run_context.node['POISE_DEBUG']
+              Poise.debug("[Poise] Checking #{seg} in #{name}: #{file.inspect}")
               if file == filename
-                Chef::Log.debug("[Poise] Found matching #{seg} in #{name}: #{file.inspect}")
+                Poise.debug("[Poise] Found matching #{seg} in #{name}: #{file.inspect}")
                 possibles[file] = name
               end
             end

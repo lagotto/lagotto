@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+require 'etc'
 require 'shellwords'
 
 require 'poise_service/service_providers/base'
@@ -45,7 +46,8 @@ module PoiseService
         else
           # :nocov:
           Chef::Log.debug("[#{new_resource}] Forked")
-          # First child, daemonize and go to town.
+          # First child, daemonize and go to town. This handles multi-fork,
+          # setsid, and shutting down stdin/out/err.
           Process.daemon(true)
           Chef::Log.debug("[#{new_resource}] Daemonized")
           # Daemonized, set up process environment.
@@ -57,8 +59,14 @@ module PoiseService
           end
           Chef::Log.debug("[#{new_resource}] Process environment configured")
           IO.write(pid_file, Process.pid)
-          Chef::Log.debug("[#{new_resource}] PID written to #{pid_file}, dropping privs and execing")
-          Process::UID.change_privilege(new_resource.user)
+          Chef::Log.debug("[#{new_resource}] PID written to #{pid_file}")
+          ent = Etc.getpwnam(new_resource.user)
+          if Process.euid != ent.uid || Process.egid != ent.gid
+            Process.initgroups(ent.name, ent.gid)
+            Process::GID.change_privilege(ent.gid) if Process.egid != ent.gid
+            Process::UID.change_privilege(ent.uid) if Process.euid != ent.uid
+          end
+          Chef::Log.debug("[#{new_resource}] Changed privs to #{new_resource.user} (#{ent.uid}:#{ent.gid})")
           # Split the command so we don't get an extra sh -c.
           Chef::Log.debug("[#{new_resource}] Execing #{new_resource.command}")
           Kernel.exec(*Shellwords.split(new_resource.command))
@@ -71,16 +79,21 @@ module PoiseService
 
       def action_stop
         return unless pid
+        Chef::Log.debug("[#{new_resource}] Stopping with #{new_resource.stop_signal}. Current PID is #{pid.inspect}.")
         Process.kill(new_resource.stop_signal, pid)
         ::File.unlink(pid_file)
       end
 
       def action_restart
+        return if options['never_restart']
         action_stop
         action_start
       end
 
       def action_reload
+        return if options['never_reload']
+        return unless pid
+        Chef::Log.debug("[#{new_resource}] Reloading with #{new_resource.reload_signal}. Current PID is #{pid.inspect}.")
         Process.kill(new_resource.reload_signal, pid)
       end
 

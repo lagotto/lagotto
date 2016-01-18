@@ -1,5 +1,14 @@
 # Poise-Service Changelog
 
+## v1.1.0
+
+* Added `inittab` provider to manage services using old-fashioned `/etc/inittab`.
+
+## v1.0.4
+
+* Set GID correctly in all service providers.
+* Allow overriding the path to the generated sysvinit script.
+
 ## v1.0.3
 
 * [#10](https://github.com/poise/poise-service/pull/10) Fixes for ensuring services are restarted when their command or user changes.

@@ -97,7 +97,7 @@ Any previous logs are not cleaned up from the `log_dir`.
 ### server
 Configures the node to be a rsyslog server. The chosen rsyslog server node should be defined in the `server_ip` attribute or resolvable by the specified search criteria specified in `node['rsyslog']['server_search]` (so that nodes making use of the `client` recipe can find the server to log to).
 
-This recipe will create the logs in `node['rsyslog']['log_dir']`, and the configuration is in `/etc/rsyslog.d/server.conf`. This recipe also removes any previous configuration to a remote server by removing the `/etc/rsyslog.d/remote.conf` file.
+This recipe will create the logs in `node['rsyslog']['log_dir']`, and the configuration is in `/etc/rsyslog.d/server.conf`. This recipe also removes any previous configuration to a remote server by removing the `/etc/rsyslog.d/49-remote.conf` file.
 
 The cron job used in the previous version of this cookbook is removed, but it does not remove any existing cron job from your system (so it doesn't break anything unexpectedly). We recommend setting up logrotate for the logfiles instead.
 
