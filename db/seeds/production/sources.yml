@@ -58,6 +58,12 @@ records:
     title: OpenEdition
     description: OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.
     group_id: <%= sprig_record(Group, "discussed").id %>
+  - sprig_id: crossref_related
+    type: CrossrefRelated
+    name: crossref_related
+    title: CrossRef Related
+    description: Import works linked to a DataCite DOI from CrossRef.
+    group_id: <%= sprig_record(Group, "cited").id %>
   - sprig_id: datacite_related
     name: datacite_related
     title: DataCite Related
