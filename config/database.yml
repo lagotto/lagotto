@@ -8,7 +8,7 @@ postgresql: &postgres
 
 defaults: &defaults
   pool: <%= ENV['CONCURRENCY'].to_i + 20 %>
-  timeout: 5000
+  timeout: 10000
   encoding: utf8mb4
   database: <%= ENV['DB_NAME'] %>
   username: <%= ENV['DB_USERNAME'] %>
