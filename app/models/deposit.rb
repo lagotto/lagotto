@@ -85,6 +85,7 @@ class Deposit < ActiveRecord::Base
 
   def queue_deposit_job
     DepositJob.perform_later(self)
+    logger.debug "Queueing deposit #{uuid}: #{self.message.inspect}"
   end
 
   def to_param  # overridden, use uuid instead of id
@@ -105,6 +106,7 @@ class Deposit < ActiveRecord::Base
   # end
 
   def update_works
+    logger.debug "Update works for deposit id #{uuid}: #{message.fetch("works", []).inspect}"
     message.fetch("works", []).map do |item|
       pid = item.fetch("pid", nil)
       doi = item.fetch("DOI", nil)
@@ -157,6 +159,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_events
+    logger.debug "Update events for deposit id #{uuid}: #{message.fetch("events", []).inspect}"
     message.fetch("events", []).map do |item|
       source = Source.where(name: item.fetch("source_id", nil)).first
       work = Work.where(pid: item.fetch("work_id", nil)).first
@@ -200,12 +203,16 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_contributors
+    logger.debug "Update contributors for deposit id #{uuid}: #{message.fetch("contributors", []).inspect}"
+
     message.fetch("contributors", []).map do |item|
       Contributor.where(pid: item.fetch('pid', nil)).first_or_create
     end
   end
 
   def update_publishers
+    logger.debug "Update publishers for deposit id #{uuid}: #{message.fetch("publishers", []).inspect}"
+
     message.fetch("publishers", []).map do |item|
       publisher = Publisher.where(name: item.fetch('name', nil)).first_or_create
       publisher.update_attributes(item.except('name'))
@@ -213,30 +220,40 @@ class Deposit < ActiveRecord::Base
   end
 
   def delete_events
+    logger.debug "Delete events for deposit id #{uuid}: #{message.fetch("events", []).inspect}"
+
     message.fetch("events", []).map do |item|
       Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
     end
   end
 
   def delete_works
+    logger.debug "Delete works for deposit id #{uuid}: #{message.fetch("works", []).inspect}"
+
     message.fetch("works", []).map do |item|
       Work.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_contributors
+    logger.debug "Delete contributors for deposit id #{uuid}: #{message.fetch("contributors", []).inspect}"
+
     message.fetch("contributors", []).map do |item|
       Contributor.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_publishers
+    logger.debug "Delete publishers for deposit id #{uuid}: #{message.fetch("publishers", []).inspect}"
+
     message.fetch("publishers", []).map do |item|
       Publisher.where(name: item.fetch('name', nil)).destroy_all
     end
   end
 
   def update_months(event, months)
+    logger.debug "Update months for deposit id #{uuid}: #{months.inspect}"
+
     months.map { |item| Month.where(event_id: event.id,
                                     month: item.fetch("month"),
                                     year: item.fetch("year")).first_or_create(
@@ -251,6 +268,8 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_days(event, days)
+    logger.debug "Update days for deposit id #{uuid}: #{days.inspect}"
+
     days.map { |item| Day.where(event_id: event.id,
                                 day: item.fetch("day"),
                                 month: item.fetch("month"),
