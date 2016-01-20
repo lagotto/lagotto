@@ -85,7 +85,7 @@ class Work < ActiveRecord::Base
       # recursion for nested related_works
       related_work = Work.find_or_create(item)
 
-      unless related_work.persisted?
+      unless related_work
         message = "No metadata for #{pid} found"
         Notification.where(message: message).where(unresolved: true).first_or_create(
           class_name: "Net::HTTPNotFound",
