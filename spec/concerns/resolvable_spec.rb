@@ -12,21 +12,33 @@ describe Work, type: :model, vcr: true do
       it "doi crossref" do
         doi = "10.1371/journal.pone.0000030"
         expect(subject.get_doi_ra(doi)).to eq("crossref")
+        prefix = Prefix.first
+        expect(prefix.registration_agency).to eq("crossref")
       end
 
       it "doi crossref escaped" do
         doi = "10.1371%2Fjournal.pone.0000030"
         expect(subject.get_doi_ra(doi)).to eq("crossref")
+        prefix = Prefix.first
+        expect(prefix.registration_agency).to eq("crossref")
       end
 
       it "doi datacite" do
         doi = "10.5061/dryad.8515"
         expect(subject.get_doi_ra(doi)).to eq("datacite")
+        prefix = Prefix.first
+        expect(prefix.registration_agency).to eq("datacite")
       end
 
       it "invalid DOI" do
         doi = "10.1371/xxx"
         expect(subject.get_doi_ra(doi)).to eq(error: "Invalid DOI", status: 400)
+      end
+
+      it "doi crossref cached prefix" do
+        FactoryGirl.create(:prefix)
+        doi = "10.1371/journal.pone.0000030"
+        expect(subject.get_doi_ra(doi)).to eq("datacite")
       end
     end
 
@@ -388,7 +400,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(orcid, "orcid")
         expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
@@ -526,7 +538,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_orcid_metadata(orcid)
         expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("date-parts"=>[[2012, 10, 16]])
+        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end

@@ -448,15 +448,24 @@ module Resolvable
     def get_doi_ra(doi, options = {})
       return {} if doi.blank?
 
-      conn = faraday_conn('json', options)
-      url = "http://doi.crossref.org/doiRA/" + CGI.unescape(clean_doi(doi))
+      doi = CGI.unescape(clean_doi(doi))
+      prefix_string = Array(/^(10\.\d{4,5})\/.+/.match(doi)).last
+      return {} if prefix_string.blank?
+
+      prefix = Prefix.where(prefix: prefix_string).first
+      return prefix.registration_agency if prefix.present?
+
+      conn = faraday_conn('json', options.merge(timeout: 120))
+      url = "http://doi.crossref.org/doiRA/#{doi}"
       response = conn.get url, {}, options[:headers]
 
       if is_json?(response.body)
         json = JSON.parse(response.body)
         ra = json.first.fetch("RA", nil)
         if ra.present?
-          ra.delete(' ').downcase
+          ra = ra.delete(' ').downcase
+          Prefix.where(prefix: prefix_string).first_or_create(registration_agency: ra)
+          ra
         else
           error = json.first.fetch("status", "An error occured")
           { error: error, status: 400 }

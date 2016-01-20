@@ -598,4 +598,11 @@ FactoryGirl.define do
     keywords ["apples", "oranges", "bananas"]
     code_repository_url "https://some.code.repository"
   end
+
+  factory :prefix do
+    prefix "10.1371"
+    registration_agency "datacite"
+
+    initialize_with { Prefix.where(prefix: prefix).first_or_initialize }
+  end
 end
