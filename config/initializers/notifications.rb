@@ -1,7 +1,7 @@
 INTERNAL_PARAMS = %w(controller action format _method only_path)
 
 ActiveSupport::Notifications.subscribe "process_action.action_controller" do |name, start, finish, id, payload|
-  if payload[:method] == "GET" && payload[:status].to_i < 400
+  if payload[:method] == "GET" && payload[:status].to_i < 400 && payload[:controller] != "StatusController"
     ApiRequest.create! do |api_request|
       api_request.uuid = SecureRandom.uuid
       api_request.format = payload[:format] || "json"
