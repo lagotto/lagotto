@@ -90,5 +90,6 @@ class Api::V6::ReferencesController < Api::BaseController
     else
       @work = nil
     end
+    fail ActiveRecord::RecordNotFound unless @work.present?
   end
 end
