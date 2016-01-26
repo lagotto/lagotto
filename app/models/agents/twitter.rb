@@ -1,6 +1,7 @@
 class Twitter < Agent
-  def get_query_url(work)
-    return {} unless work.doi =~ /^10.1371/
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi =~ /^10.1371/
 
     url_private % { :doi => work.doi_escaped }
   end
