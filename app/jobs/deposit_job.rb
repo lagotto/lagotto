@@ -19,5 +19,8 @@ class DepositJob < ActiveJob::Base
 
       deposit.finish
     end
+  rescue => error
+    deposit.error
+    raise error
   end
 end
