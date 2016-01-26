@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here.
 
   # Check if required plugins are installed.
-  required_plugins = %w{ vagrant-omnibus vagrant-bindfs dotenv }
+  required_plugins = %w{ vagrant-omnibus dotenv }
 
   unless installed_plugins(required_plugins).empty?
     puts "Plugins need to be installed, please install them and rerun vagrant."
@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
   config.omnibus.chef_version = :latest
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "bento/ubuntu-14.04"
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
 
   # Enable provisioning with chef solo
   config.vm.provision :chef_solo do |chef|
@@ -71,20 +71,6 @@ Vagrant.configure("2") do |config|
     machine.vm.provider :virtualbox do |vb, override|
       vb.name = ENV["APPLICATION"]
       vb.customize ["modifyvm", :id, "--memory", "2048"]
-      unless Vagrant::Util::Platform.windows?
-        # Disable default synced folder before bindfs tries to bind to it
-        override.vm.synced_folder ".", "/var/www/#{ENV['APPLICATION']}", disabled: true
-        override.vm.synced_folder ".", "/vagrant", id: "vagrant-root", nfs: true
-        override.bindfs.bind_folder "/vagrant", "/var/www/#{ENV['APPLICATION']}",
-                                    :owner => "900",
-                                    :group => "900",
-                                    :"create-as-user" => true,
-                                    :perms => "u=rwx:g=rwx:o=rwx",
-                                    :"create-with-perms" => "u=rwx:g=rwx:o=rwx",
-                                    :"chown-ignore" => true,
-                                    :"chgrp-ignore" => true,
-                                    :"chmod-ignore" => true
-      end
     end
 
     machine.vm.provider :vmware_fusion do |fusion|
