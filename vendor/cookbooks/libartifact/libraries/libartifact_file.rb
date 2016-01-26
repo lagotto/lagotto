@@ -1,19 +1,18 @@
 #
-# Cookbook: libartifact-cookbook
+# Cookbook: libartifact
 # License: Apache 2.0
 #
-# Copyright (C) 2015 Bloomberg Finance L.P.
+# Copyright 2015-2016 Bloomberg Finance L.P.
 #
 require 'poise'
 
 module LibArtifactCookbook
   module Resource
-    # Resource for a release artifact on the system.
+    # A resource for managing release artifacts.
     # @since 1.0.0
     class ArtifactFile < Chef::Resource
       include Poise(fused: true)
       provides(:libartifact_file)
-      default_action(:create)
 
       attribute(:artifact_name, kind_of: String, name_attribute: true)
       attribute(:artifact_version, kind_of: String, required: true)
@@ -41,9 +40,8 @@ module LibArtifactCookbook
       # Retrieves the +remote_file+, unpacks it and creates a symlink to
       # +symlink_path+.
       action(:create) do
+        include_recipe 'libarchive::default'
         notifying_block do
-          include_recipe 'libarchive::default'
-
           extension = ::File.extname(new_resource.remote_url)
           friendly_name = "#{new_resource.artifact_name}-#{new_resource.artifact_version}#{extension}"
 

@@ -6,7 +6,7 @@ def whyrun_supported?
 end
 
 action :create do
-  fail 'Cannot create a volume with a specific id (EC2 chooses volume ids)' if new_resource.volume_id
+  fail 'Cannot create a volume with a specific volume_id as AWS chooses volume ids' if new_resource.volume_id
   if new_resource.snapshot_id =~ /vol/
     new_resource.snapshot_id(find_snapshot_id(new_resource.snapshot_id, new_resource.most_recent_snapshot))
   end
@@ -23,7 +23,7 @@ action :create do
     # instance in case a previous [:create, :attach] run created and attached a volume but for some reason was
     # not registered in the node data (e.g. an exception is thrown after the attach_volume request was accepted
     # by EC2, causing the node data to not be stored on the server)
-    if new_resource.device && (attached_volume = currently_attached_volume(instance_id, new_resource.device))
+    if new_resource.device && (attached_volume = currently_attached_volume(instance_id, new_resource.device)) # rubocop: disable Style/IfInsideElse
       Chef::Log.debug("There is already a volume attached at device #{new_resource.device}")
       compatible = volume_compatible_with_resource_definition?(attached_volume)
       fail "Volume #{attached_volume[:volume_id]} attached at #{attached_volume[:aws_device]} but does not conform to this resource's specifications" unless compatible
@@ -68,6 +68,7 @@ action :attach do
     converge_by("attach the volume with aws_id=#{vol[:volume_id]} id=#{instance_id} device=#{new_resource.device} and update the node data with created volume's id") do
       # attach the volume and register its id in the node data
       attach_volume(vol[:volume_id], instance_id, new_resource.device, new_resource.timeout)
+      mark_delete_on_termination(new_resource.device, vol[:volume_id], instance_id) if new_resource.delete_on_termination
       # always use a symbol here, it is a Hash
       node.set['aws']['ebs_volume'][new_resource.name]['volume_id'] = vol[:volume_id]
       node.save unless Chef::Config[:solo]
@@ -92,7 +93,7 @@ end
 
 action :prune do
   vol = determine_volume
-  old_snapshots = Array.new
+  old_snapshots = []
   Chef::Log.info 'Checking for old snapshots'
   ec2.describe_snapshots[:snapshots].sort { |a, b| b[:start_time] <=> a[:start_time] }.each do |snapshot|
     if snapshot[:volume_id] == vol[:volume_id]
@@ -272,4 +273,9 @@ def detach_volume(volume_id, timeout)
   rescue Timeout::Error
     raise "Timed out waiting for volume detachment after #{timeout} seconds"
   end
+end
+
+def mark_delete_on_termination(device_name, volume_id, instance_id)
+  Chef::Log.debug("Marking volume #{volume_id} with device name #{device_name} attached to instance #{instance_id} #{new_resource.delete_on_termination} for deletion on instance termination")
+  ec2.modify_instance_attribute(block_device_mappings: [{ device_name: device_name, ebs: { volume_id: volume_id, delete_on_termination: new_resource.delete_on_termination } }], instance_id: instance_id)
 end
