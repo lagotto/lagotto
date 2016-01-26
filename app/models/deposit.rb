@@ -118,9 +118,14 @@ class Deposit < ActiveRecord::Base
     end
   end
 
+  def indifferent_message
+    message.with_indifferent_access
+  end
+
   def update_works
-    logger.debug "Update works for deposit id #{uuid}: #{message.fetch("works", []).inspect}"
-    message.fetch("works", []).map do |item|
+    logger.debug "Update works for deposit id #{uuid}: #{indifferent_message.fetch(:works, []).inspect}"
+
+    indifferent_message.fetch(:works, []).map do |item|
       pid = item.fetch("pid", nil)
       doi = item.fetch("DOI", nil)
       pmid = item.fetch("PMID", nil)
@@ -147,7 +152,7 @@ class Deposit < ActiveRecord::Base
         "page" => item.fetch("page", nil),
         "issue" => item.fetch("issue", nil) }
 
-      i = {
+      w = Work.find_or_create(
         pid: pid,
         doi: doi,
         pmid: pmid,
@@ -164,16 +169,16 @@ class Deposit < ActiveRecord::Base
         registration_agency: registration_agency,
         csl: csl,
         related_works: related_works,
-        contributors: contributors }
+        contributors: contributors)
 
-      w = Work.find_or_create(i)
       w ? w.pid : nil
     end
   end
 
   def update_events
-    logger.debug "Update events for deposit id #{uuid}: #{message.fetch("events", []).inspect}"
-    message.fetch("events", []).map do |item|
+    logger.debug "Update events for deposit id #{uuid}: #{indifferent_message.fetch(:events, []).inspect}"
+
+    indifferent_message.fetch(:events, []).map do |item|
       source = Source.where(name: item.fetch("source_id", nil)).first
       work = Work.where(pid: item.fetch("work_id", nil)).first
       next unless source.present? && work.present?
@@ -216,50 +221,50 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_contributors
-    logger.debug "Update contributors for deposit id #{uuid}: #{message.fetch("contributors", []).inspect}"
+    logger.debug "Update contributors for deposit id #{uuid}: #{indifferent_message.fetch(:contributors, []).inspect}"
 
-    message.fetch("contributors", []).map do |item|
+    indifferent_message.fetch(:contributors, []).map do |item|
       Contributor.where(pid: item.fetch('pid', nil)).first_or_create
     end
   end
 
   def update_publishers
-    logger.debug "Update publishers for deposit id #{uuid}: #{message.fetch("publishers", []).inspect}"
+    logger.debug "Update publishers for deposit id #{uuid}: #{indifferent_message.fetch(:publishers, []).inspect}"
 
-    message.fetch("publishers", []).map do |item|
+    indifferent_message.fetch(:publishers, []).map do |item|
       publisher = Publisher.where(name: item.fetch('name', nil)).first_or_create
       publisher.update_attributes(item.except('name'))
     end
   end
 
   def delete_events
-    logger.debug "Delete events for deposit id #{uuid}: #{message.fetch("events", []).inspect}"
+    logger.debug "Delete events for deposit id #{uuid}: #{indifferent_message.fetch(:events, []).inspect}"
 
-    message.fetch("events", []).map do |item|
+    indifferent_message.fetch(:events, []).map do |item|
       Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
     end
   end
 
   def delete_works
-    logger.debug "Delete works for deposit id #{uuid}: #{message.fetch("works", []).inspect}"
+    logger.debug "Delete works for deposit id #{uuid}: #{indifferent_message.fetch(:works, []).inspect}"
 
-    message.fetch("works", []).map do |item|
+    indifferent_message.fetch(:works, []).map do |item|
       Work.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_contributors
-    logger.debug "Delete contributors for deposit id #{uuid}: #{message.fetch("contributors", []).inspect}"
+    logger.debug "Delete contributors for deposit id #{uuid}: #{indifferent_message.fetch(:contributors, []).inspect}"
 
-    message.fetch("contributors", []).map do |item|
+    indifferent_message.fetch("contributors", []).map do |item|
       Contributor.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_publishers
-    logger.debug "Delete publishers for deposit id #{uuid}: #{message.fetch("publishers", []).inspect}"
+    logger.debug "Delete publishers for deposit id #{uuid}: #{indifferent_message.fetch(:publishers, []).inspect}"
 
-    message.fetch("publishers", []).map do |item|
+    indifferent_message.fetch("publishers", []).map do |item|
       Publisher.where(name: item.fetch('name', nil)).destroy_all
     end
   end
@@ -298,7 +303,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def message_size
-    @message_size || message.fetch("works", []).size
+    @message_size || indifferent_message.fetch(:works, []).size
   end
 
   def timestamp
