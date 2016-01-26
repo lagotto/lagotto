@@ -128,7 +128,7 @@ class Deposit < ActiveRecord::Base
     indifferent_message.fetch(:works, []).map do |item|
       # pid is required
       pid = item.fetch("pid", nil)
-      raise ArgumentError.new("Missing pid in deposit id #{uuid}"
+      raise ArgumentError.new("Missing pid in deposit id #{uuid}")
 
       doi = item.fetch("DOI", nil)
       pmid = item.fetch("PMID", nil)
@@ -182,11 +182,11 @@ class Deposit < ActiveRecord::Base
     indifferent_message.fetch(:events, []).map do |item|
       source_id = item.fetch("source_id", nil)
       source = Source.where(name: source_id).first
-      raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}" unless source.present?
+      raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
 
       pid = item.fetch("work_id", nil)
       work = Work.where(pid: pid).first
-      raise ArgumentError.new("Work #{pid.to_s} not found for deposit id #{uuid}" unless source.present?
+      raise ArgumentError.new("Work #{pid.to_s} not found for deposit id #{uuid}") unless source.present?
 
       total = item.fetch("total", 0)
 
