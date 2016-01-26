@@ -8,6 +8,26 @@ describe Deposit, :type => :model, vcr: true do
   it { is_expected.to validate_uniqueness_of(:uuid) }
   it { is_expected.to validate_presence_of(:message) }
 
+  describe "validate message" do
+    it "format is a string" do
+      subject = FactoryGirl.build(:deposit, message: "test")
+      subject.valid?
+      expect(subject.errors[:message]).to eq(["should be a hash"])
+    end
+
+    it "format is an array" do
+      subject = FactoryGirl.build(:deposit, message: ["test"])
+      subject.valid?
+      expect(subject.errors[:message]).to eq(["should be a hash"])
+    end
+
+    it "does not contain required hash keys" do
+      subject = FactoryGirl.build(:deposit, message: {})
+      subject.valid?
+      expect(subject.errors[:message]).to eq(["can't be blank", "should contain works, events, contributors, or publishers"])
+    end
+  end
+
   describe "update_works" do
     let!(:relation_type) { FactoryGirl.create(:relation_type) }
     let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, :inverse) }
@@ -104,7 +124,7 @@ describe Deposit, :type => :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
       agent = FactoryGirl.create(:mendeley)
       body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
+      stub = stub_request(:get, agent.get_query_url(work_id: work.id)).to_return(:body => body)
 
       response = agent.collect_data(work_id: work.id)
       subject = Deposit.where(uuid: response.fetch("uuid")).first

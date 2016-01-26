@@ -69,6 +69,7 @@ class Deposit < ActiveRecord::Base
 
   validates :source_token, presence: true
   validates :message, presence: true
+  validate :validate_message
 
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :order_by_date, -> { order("updated_at DESC") }
@@ -104,6 +105,18 @@ class Deposit < ActiveRecord::Base
   #     skipped: skipped,
   #     update_interval: update_interval }
   # end
+
+  def validate_message
+    if message.is_a?(Hash)
+      message['works'] ||
+      message['events'] ||
+      message['contributors'] ||
+      message['publishers'] ||
+      errors.add(:message, "should contain works, events, contributors, or publishers")
+    else
+      errors.add(:message, "should be a hash")
+    end
+  end
 
   def update_works
     logger.debug "Update works for deposit id #{uuid}: #{message.fetch("works", []).inspect}"
