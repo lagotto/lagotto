@@ -15,6 +15,7 @@ gem 'nondestructive_migrations', '~> 1.1'
 gem 'immigrant', '~> 0.3.4'
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem 'lograge', '~> 0.3.5'
+gem 'httplog'
 gem 'bugsnag', '~> 2.8.6'
 
 gem "faraday", "~> 0.9.0"
