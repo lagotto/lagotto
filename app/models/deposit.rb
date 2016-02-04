@@ -42,7 +42,7 @@ class Deposit < ActiveRecord::Base
                    "timestamp" => Time.zone.now.iso8601
                  }
                }
-        get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
+        deposit.get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
       end
 
       Notification.create(:exception => "", :class_name => "StandardError",
@@ -86,7 +86,6 @@ class Deposit < ActiveRecord::Base
 
   def queue_deposit_job
     DepositJob.perform_later(self)
-    logger.debug "Queueing deposit #{uuid}: #{self.message.inspect}"
   end
 
   def to_param  # overridden, use uuid instead of id
@@ -118,17 +117,11 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-  def indifferent_message
-    message.with_indifferent_access
-  end
-
   def update_works
-    logger.debug "Update works for deposit id #{uuid}: #{indifferent_message.fetch(:works, []).inspect}"
-
-    indifferent_message.fetch(:works, []).map do |item|
+    Array(message.fetch('works', nil)).map do |item|
       # pid is required
       pid = item.fetch("pid", nil)
-      raise ArgumentError.new("Missing pid in deposit id #{uuid}")
+      raise ArgumentError.new("Missing pid in deposit id #{uuid}") unless pid.present?
 
       doi = item.fetch("DOI", nil)
       pmid = item.fetch("PMID", nil)
@@ -179,7 +172,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_events
-    indifferent_message.fetch(:events, []).map do |item|
+    Array(message.fetch('events', nil)).map do |item|
       source_id = item.fetch("source_id", nil)
       source = Source.where(name: source_id).first
       raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
@@ -226,57 +219,43 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_contributors
-    logger.debug "Update contributors for deposit id #{uuid}: #{indifferent_message.fetch(:contributors, []).inspect}"
-
-    indifferent_message.fetch(:contributors, []).map do |item|
+    Array(message.fetch('contributors', nil)).map do |item|
       Contributor.where(pid: item.fetch('pid', nil)).first_or_create
     end
   end
 
   def update_publishers
-    logger.debug "Update publishers for deposit id #{uuid}: #{indifferent_message.fetch(:publishers, []).inspect}"
-
-    indifferent_message.fetch(:publishers, []).map do |item|
+    Array(message.fetch('publishers', nil)).map do |item|
       publisher = Publisher.where(name: item.fetch('name', nil)).first_or_create
       publisher.update_attributes(item.except('name'))
     end
   end
 
   def delete_events
-    logger.debug "Delete events for deposit id #{uuid}: #{indifferent_message.fetch(:events, []).inspect}"
-
-    indifferent_message.fetch(:events, []).map do |item|
+    Array(message.fetch('events', nil)).map do |item|
       Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
     end
   end
 
   def delete_works
-    logger.debug "Delete works for deposit id #{uuid}: #{indifferent_message.fetch(:works, []).inspect}"
-
-    indifferent_message.fetch(:works, []).map do |item|
+    Array(message.fetch('works', nil)).map do |item|
       Work.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_contributors
-    logger.debug "Delete contributors for deposit id #{uuid}: #{indifferent_message.fetch(:contributors, []).inspect}"
-
-    indifferent_message.fetch("contributors", []).map do |item|
+    Array(message.fetch('contributors', nil)).map do |item|
       Contributor.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
   def delete_publishers
-    logger.debug "Delete publishers for deposit id #{uuid}: #{indifferent_message.fetch(:publishers, []).inspect}"
-
-    indifferent_message.fetch("publishers", []).map do |item|
+    Array(message.fetch('publishers', nil)).map do |item|
       Publisher.where(name: item.fetch('name', nil)).destroy_all
     end
   end
 
   def update_months(event, months)
-    logger.debug "Update months for deposit id #{uuid}: #{months.inspect}"
-
     months.map { |item| Month.where(event_id: event.id,
                                     month: item.fetch("month"),
                                     year: item.fetch("year")).first_or_create(
@@ -291,8 +270,6 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_days(event, days)
-    logger.debug "Update days for deposit id #{uuid}: #{days.inspect}"
-
     days.map { |item| Day.where(event_id: event.id,
                                 day: item.fetch("day"),
                                 month: item.fetch("month"),
@@ -308,7 +285,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def message_size
-    @message_size || indifferent_message.fetch(:works, []).size
+    @message_size || Array(message.fetch('works', nil)).size
   end
 
   def timestamp
