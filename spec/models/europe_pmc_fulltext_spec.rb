@@ -16,7 +16,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     it "should not look up canonical URL if there is work url" do
       lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => File.read(fixture_path + 'europe_pmc_fulltext.json'))
-      response = subject.get_data(work_id: work)
+      response = subject.get_data(work_id: work.id)
       expect(lookup_stub).not_to have_been_requested
       expect(stub).to have_been_requested
     end
@@ -43,7 +43,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     end
 
     it "should catch errors with the Europe PMC Search API" do
-      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%22#{work.canonical_url}%22%20OR%20REF:%22#{work.canonical_url}%22&format=json&page=1", status: 408)
       expect(stub).to have_been_requested
