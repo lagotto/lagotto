@@ -17,6 +17,10 @@ class AgentJob < ActiveJob::Base
     retry_job wait: 5.minutes
   end
 
+  rescue_from ActiveJob::DeserializationError do |exception|
+    retry_job wait: 5.minutes
+  end
+
   rescue_from StandardError do |exception|
     ActiveRecord::Base.connection_pool.with_connection do
       agent, _options = arguments
