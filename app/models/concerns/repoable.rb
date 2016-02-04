@@ -20,7 +20,9 @@ module Repoable
       send(common_url) % { owner: owner, repo: repo }
     end
 
-    def parse_data(result, work, options={})
+    def parse_data(result, options={})
+      work = Work.where(id: options.fetch(:work_id, nil)).first
+      return {} unless work.present?
       return result if result[:error]
 
       query_url = get_query_url(work)

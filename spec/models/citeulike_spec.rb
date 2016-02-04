@@ -8,25 +8,25 @@ describe Citeulike, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_data(work_id: work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the CiteULike API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
-      response = subject.get_data(work_id: work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("posts"=>nil)
     end
 
     it "should report if there is an incomplete response returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_incomplete.xml')
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
-      response = subject.get_data(work_id: work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq('data' => body)
       expect(stub).to have_been_requested
     end
 
     it "should report if there are events returned by the CiteULike API" do
-      response = subject.get_data(work_id: work)
+      response = subject.get_data(work_id: work.id)
       expect(response["posts"]["post"].length).to eq(6)
       post = response["posts"]["post"].first
       expect(post["linkout"][0]["url"]).to eq("http://dx.doi.org/10.1371/journal.pone.0115074")
@@ -34,7 +34,7 @@ describe Citeulike, type: :model, vcr: true do
 
     it "should catch errors with the CiteULike API" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -51,32 +51,32 @@ describe Citeulike, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = { error: "query_url is nil." }
-      expect(subject.parse_data(result, work_id: work)).to eq(error: "query_url is nil.")
+      expect(subject.parse_data(result, work_id: work.id)).to eq(error: "query_url is nil.")
     end
 
     it "should report if there are no events returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_nil.xml')
       result = Hash.from_xml(body)
-      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq(null_response)
     end
 
     it "should report if there is an incomplete response returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_incomplete.xml')
       result = { 'data' => body }
-      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq(null_response)
     end
 
     it "should report if there are events returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, work_id: work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("citeulike")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(25)
       expect(event[:readers]).to eq(25)
-      expect(event[:events_url]).to eq(subject.get_events_url(work))
+      expect(event[:events_url]).to eq(subject.get_events_url(work_id: work.id))
       expect(event[:months].length).to eq(21)
       expect(event[:months].first).to eq(year: 2006, month: 6, total: 2, readers: 2)
 
@@ -99,14 +99,14 @@ describe Citeulike, type: :model, vcr: true do
     it "should report if there is one event returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_one.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, work_id: work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("citeulike")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(1)
       expect(event[:readers]).to eq(1)
-      expect(event[:events_url]).to eq(subject.get_events_url(work))
+      expect(event[:events_url]).to eq(subject.get_events_url(work_id: work.id))
       expect(event[:months].length).to eq(1)
       expect(event[:months].first).to eq(year: 2006, month: 6, total: 1, readers: 1)
 
@@ -128,7 +128,7 @@ describe Citeulike, type: :model, vcr: true do
 
     it "should catch timeout errors with the CiteULike API" do
       result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, work_id: work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

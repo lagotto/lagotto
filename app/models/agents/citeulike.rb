@@ -14,8 +14,9 @@ class Citeulike < Agent
     url % { doi: work.doi_escaped }
   end
 
-  def get_events_url(work)
-    return nil unless events_url.present? && work.doi.present?
+  def get_events_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return nil unless events_url.present? && work.present? && work.doi.present?
 
     events_url % { doi: work.doi_escaped }
   end
