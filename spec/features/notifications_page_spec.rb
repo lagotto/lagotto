@@ -19,8 +19,8 @@ describe "notifications", type: :feature, js: true do
     expect(page).to have_css ".class-name a", text: notification.class_name
 
     # delete notification
-    click_link "notification_#{notification.id}-delete"
-    click_link "by Message"
+    click_link "notification_#{notification.uuid}-delete"
+    click_link "notification_#{notification.uuid}-delete-message"
     expect(page).to have_css ".alert-info", text: "There are currently no notifications"
   end
 
@@ -28,12 +28,16 @@ describe "notifications", type: :feature, js: true do
     notification = FactoryGirl.create(:notification)
 
     visit "/notifications"
-    fill_in "q", with: "The request timed out"
-    click_button "submit"
+    within('.form-inline') do
+      fill_in "q", with: "The request timed out"
+      click_button "submit"
+    end
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
-    fill_in "q", with: "no implicit conversion of nil into String"
-    click_button "submit"
+    within('.form-inline') do
+      fill_in "q", with: "no implicit conversion of nil into String"
+      click_button "submit"
+    end
     expect(page).to have_css ".alert-info", text: "There are currently no notifications with no implicit conversion of nil into String in the class name, message or PID"
   end
 

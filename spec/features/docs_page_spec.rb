@@ -4,7 +4,7 @@ describe "docs", type: :feature, js: true do
   it "show homepage" do
     visit "/"
 
-    expect(page).to have_css "h2", text: "Article-Level Metrics"
+    expect(page).to have_css "h2", text: "Link Store"
   end
 
   it "show installation" do
@@ -43,8 +43,8 @@ describe "docs", type: :feature, js: true do
     expect(page).to have_css ".panel-heading a", text: "Introduction"
   end
 
-  it "show alerts" do
-    visit "/docs/alerts"
+  it "show notifications" do
+    visit "/docs/notifications"
 
     expect(page).to have_css ".panel-heading a", text: "Setup"
   end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "status", type: :feature, js: true do
+describe "status", type: :feature, js: true, vcr: true do
   it "show works status" do
     visit "/status"
 
@@ -13,10 +13,10 @@ describe "status", type: :feature, js: true do
     expect(page).to have_css "#chart_events"
   end
 
-  it "show sources status" do
+  it "show agents status" do
     visit "/status"
 
-    expect(page).to have_css "#chart_sources"
+    expect(page).to have_css "#chart_agents"
   end
 
   it "show API responses status" do
@@ -41,10 +41,10 @@ end
 describe "status for admin user", type: :feature, js: true do
   before(:each) { sign_in }
 
-  it "show alerts status" do
+  it "show notifications status" do
     visit "/status"
 
-    expect(page).to have_css "#chart_alerts"
+    expect(page).to have_css "#chart_notifications"
   end
 
   it "show db_size status" do

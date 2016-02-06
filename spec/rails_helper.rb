@@ -1,9 +1,5 @@
 # set ENV variables for testing
 ENV["RAILS_ENV"] = "test"
-ENV["OMNIAUTH"] = "cas"
-ENV["CAS_URL"] = "https://register.example.org"
-ENV["CAS_INFO_URL"] = "http://example.org/users"
-ENV["CAS_PREFIX"]= "/cas"
 ENV["API_KEY"] = "12345"
 ENV["ADMIN_EMAIL"] = "info@example.org"
 ENV["IMPORT"] = "member"
@@ -46,7 +42,7 @@ Capybara.register_driver :poltergeist do |app|
     timeout: 180,
     inspector: true,
     debug: false,
-    window_size: [1024, 768]
+    window_size: [1440, 900]
   })
 end
 
@@ -84,12 +80,12 @@ RSpec.configure do |config|
   OmniAuth.config.test_mode = true
   config.before(:each) do
     OmniAuth.config.mock_auth[:default] = OmniAuth::AuthHash.new({
-      provider: ENV["OMNIAUTH"],
-      uid: "12345",
-      info: { "email" => "joe_#{ENV["OMNIAUTH"]}@example.com",
-              "name" => "Joe Smith" },
-      extra: { "email" => "joe_#{ENV["OMNIAUTH"]}@example.com",
-               "name" => "Joe Smith" }
+      provider: "jwt",
+      uid: "0000-0002-1825-0097",
+      info: { "name" => "Josiah Carberry" },
+      extra: { raw_info: { role: "admin" }},
+      credentials: { token: "123",
+                     expires_at: Time.zone.now + 20.years }
     })
   end
 
