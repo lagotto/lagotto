@@ -13,8 +13,8 @@ describe "no access for regular user", type: :feature, js: true do
     expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 
-  it "don't show alerts" do
-    visit "/alerts"
+  it "don't show notifications" do
+    visit "/notifications"
     expect(page).to have_css ".alert-warning", text: "401 You are not authorized to access this page."
   end
 

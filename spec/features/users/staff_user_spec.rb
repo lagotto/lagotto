@@ -5,7 +5,7 @@ describe "access for staff user", type: :feature, js: true do
 
   it "show users" do
     visit "/users"
-    expect(page).to have_css ".panel-heading a", text: "Joe Smith"
+    expect(page).to have_css ".panel-heading a", text: "Josiah Carberry"
   end
 
   it "show api_requests" do
