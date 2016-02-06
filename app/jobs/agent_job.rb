@@ -7,21 +7,11 @@ class AgentJob < ActiveJob::Base
 
   include CustomError
 
+  include ActiveJob::Retry
+
   queue_as :default
 
-  rescue_from AgentInactiveError do
-    # ignore this error
-  end
-
-  rescue_from TooManyRequestsError do
-    self.attributes = @serialized_arguments
-    retry_job wait: 5.minutes
-  end
-
-  rescue_from ActiveJob::DeserializationError do |exception|
-    self.attributes = @serialized_arguments
-    retry_job wait: 5.minutes
-  end
+  variable_retry delays: [1.minute, 5.minutes, 10.minutes, 30.minutes, 60.minutes]
 
   rescue_from StandardError do |exception|
     ActiveRecord::Base.connection_pool.with_connection do
