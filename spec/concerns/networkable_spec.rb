@@ -247,7 +247,7 @@ describe Agent, type: :model, vcr: true do
 
       it "redirect work" do
         work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000030")
-        response = subject.get_result(work.doi_as_url, content_type: "html", limit: 10)
+        response = subject.get_result(work.doi_as_url(work.doi), content_type: "html", limit: 10)
         expect(response).to include(work.doi)
         expect(Notification.count).to eq(0)
       end
@@ -256,7 +256,7 @@ describe Agent, type: :model, vcr: true do
     context "store agent_id with error" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        response = subject.get_result(url, source_id: 1)
+        response = subject.get_result(url, agent_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
@@ -267,7 +267,7 @@ describe Agent, type: :model, vcr: true do
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        response = subject.get_result(url, content_type: 'xml', source_id: 1)
+        response = subject.get_result(url, content_type: 'xml', agent_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
@@ -277,18 +277,18 @@ describe Agent, type: :model, vcr: true do
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        response = subject.get_result(url, content_type: 'html', source_id: 1)
+        response = subject.get_result(url, content_type: 'html', agent_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
-        expect(notification).to eq("Net::HTTPTooManyRequests")
+        expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
         expect(notification.status).to eq(429)
         expect(notification.agent_id).to eq(1)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
-        subject.get_result(url, content_type: 'xml', data: post_data.to_xml, source_id: 1) { |response| expect(response).to be_nil }
+        subject.get_result(url, content_type: 'xml', data: post_data.to_xml, agent_id: 1) { |response| expect(response).to be_nil }
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
@@ -340,7 +340,7 @@ describe Agent, type: :model, vcr: true do
       let(:filename) { 'test.xml' }
       let(:content) { [{ 'a' => 1 }, { 'b' => 2 }, { 'c' => 3 }] }
 
-      before(:each) { File.open("#{Rails.root}/tmp/files/#{filename}", 'w') { |file| file.write(content.to_xml) } }
+      before(:each) { File.open("#{Rails.root}/tmp/#{filename}", 'w') { |file| file.write(content.to_xml) } }
 
       it "read XML file" do
         response = subject.read_from_file(filename)
@@ -351,7 +351,7 @@ describe Agent, type: :model, vcr: true do
       it "should catch errors reading a missing file" do
         report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
-        File.delete("#{Rails.root}/tmp/files/#{filename}")
+        File.delete("#{Rails.root}/tmp/#{filename}")
         response = subject.read_from_file(filename)
         expect(response).to be_nil
         expect(Notification.count).to eq(1)
