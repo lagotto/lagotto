@@ -2,6 +2,7 @@ class CacheJob < ActiveJob::Base
   queue_as :critical
 
   rescue_from ActiveJob::DeserializationError do |exception|
+    self.attributes = @serialized_arguments
     retry_job wait: 5.minutes
   end
 

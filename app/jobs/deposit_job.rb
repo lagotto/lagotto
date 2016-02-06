@@ -2,6 +2,7 @@ class DepositJob < ActiveJob::Base
   queue_as :default
 
   rescue_from ActiveJob::DeserializationError do |exception|
+    self.attributes = @serialized_arguments
     retry_job wait: 5.minutes
   end
 
