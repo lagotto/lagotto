@@ -7,12 +7,12 @@ describe Bitbucket, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the canonical_url is missing" do
-      work = FactoryGirl.build(:work, :canonical_url => nil)
+      work = FactoryGirl.create(:work, :canonical_url => nil)
       expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report that there are no events if the canonical_url is not a Bitbucket URL" do
-      work = FactoryGirl.build(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
+      work = FactoryGirl.create(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
       expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
@@ -47,13 +47,13 @@ describe Bitbucket, type: :model, vcr: true do
 
   context "parse_data" do
     it "should report if the canonical_url is missing" do
-      work = FactoryGirl.build(:work, :canonical_url => nil)
+      work = FactoryGirl.create(:work, :canonical_url => nil)
       result = {}
       expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "bitbucket", work_id: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} }])
     end
 
     it "should report that there are no events if the canonical_url is not a Bitbucket URL" do
-      work = FactoryGirl.build(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
+      work = FactoryGirl.create(:work, :canonical_url => "https://code.google.com/p/gwtupload/")
       result = {}
       expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "bitbucket", work_id: work.pid, readers: 0, likes: 0, total: 0, events_url: nil, extra: {} }])
     end

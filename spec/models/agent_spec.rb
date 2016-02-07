@@ -13,7 +13,7 @@ describe Agent, :type => :model, vcr: true do
   describe "get_events_by_day" do
     before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
-    let(:work) { FactoryGirl.build(:work, :doi => "10.1371/journal.ppat.1000446", published_on: "2013-08-05") }
+    let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.ppat.1000446", published_on: "2013-08-05") }
 
     it "should handle events" do
       time = Time.zone.now - 1.month

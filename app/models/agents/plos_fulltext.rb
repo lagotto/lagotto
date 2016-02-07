@@ -1,20 +1,23 @@
 class PlosFulltext < Agent
-  def get_query_url(work, options = {})
-    # don't query if work is PLOS article
-    return {} if work.doi =~ /^10.1371/ || !registration_agencies.include?(work.registration_agency)
-
-    query_string = get_query_string(work)
+  def get_query_url(options = {})
+    query_string = get_query_string(options)
     return {} unless query_string.present?
 
     url % { query_string: query_string }
   end
 
-  def get_query_string(work)
+  def get_query_string(options={})
+    # don't query if work is PLOS article
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return nil if work.nil? || work.doi =~ /^10.1371/ || !registration_agencies.include?(work.registration_agency)
+
     [work.doi, work.canonical_url].compact.map { |i| "everything:%22#{i}%22" }.join("+OR+")
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
     total = related_works.length

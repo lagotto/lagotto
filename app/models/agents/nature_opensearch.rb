@@ -1,6 +1,6 @@
 class NatureOpensearch < Agent
-  def get_query_url(work, options = {})
-    query_string = get_query_string(work)
+  def get_query_url(options = {})
+    query_string = get_query_string(options)
     return {} unless query_string.present? && registration_agencies.include?(work.registration_agency)
 
     start_record = options[:start_record] || 1
@@ -8,8 +8,8 @@ class NatureOpensearch < Agent
     url % { query_string: query_string, start_record: start_record }
   end
 
-  def get_data(work, options={})
-    query_url = get_query_url(work, options)
+  def get_data(options={})
+    query_url = get_query_url(options)
     return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
     result = get_result(query_url, options)
@@ -25,7 +25,7 @@ class NatureOpensearch < Agent
 
       (2..total_pages).each do |page|
         options[:start_record] = page * 25 + 1
-        query_url = get_query_url(work, options)
+        query_url = get_query_url(options)
         paged_result = get_result(query_url, options)
         result["feed"]["entry"] = result["feed"]["entry"] | paged_result.fetch("feed", {}).fetch("entry", [])
       end
@@ -35,8 +35,10 @@ class NatureOpensearch < Agent
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
     total = related_works.length

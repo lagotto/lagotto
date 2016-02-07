@@ -3,8 +3,9 @@ class Orcid < Agent
     { metrics: :readers }
   end
 
-  def get_query_string(work)
-    return {} unless work.doi.present?
+  def get_query_string(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present?
 
     work.doi_escaped
   end

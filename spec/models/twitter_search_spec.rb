@@ -52,7 +52,7 @@ describe TwitterSearch, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
@@ -97,7 +97,7 @@ describe TwitterSearch, type: :model, vcr: true do
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
-      work = FactoryGirl.build(:work_with_tweets, :doi => "10.1371/journal.pmed.0020124", published_on: "2014-01-01")
+      work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pmed.0020124", published_on: "2014-01-01")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)

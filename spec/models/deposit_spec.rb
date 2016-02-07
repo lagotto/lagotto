@@ -10,19 +10,19 @@ describe Deposit, :type => :model, vcr: true do
 
   describe "validate message" do
     it "format is a string" do
-      subject = FactoryGirl.build(:deposit, message: "test")
+      subject = FactoryGirl.create(:deposit, message: "test")
       subject.valid?
       expect(subject.errors[:message]).to eq(["should be a hash"])
     end
 
     it "format is an array" do
-      subject = FactoryGirl.build(:deposit, message: ["test"])
+      subject = FactoryGirl.create(:deposit, message: ["test"])
       subject.valid?
       expect(subject.errors[:message]).to eq(["should be a hash"])
     end
 
     it "does not contain required hash keys" do
-      subject = FactoryGirl.build(:deposit, message: {})
+      subject = FactoryGirl.create(:deposit, message: {})
       subject.valid?
       expect(subject.errors[:message]).to eq(["can't be blank", "should contain works, events, contributors, or publishers"])
     end

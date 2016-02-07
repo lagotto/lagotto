@@ -13,10 +13,11 @@ class SciencetoolboxImport < Import
 
       title = item.fetch("description", nil)
       name = Array(mem).first
-      if name
-        publisher = Publisher.where(name: name).first
+      publisher = Publisher.where(name: name).first
+      if publisher
+        publisher_id = publisher.id
       else
-        publisher = nil
+        publisher_id = nil
       end
 
       type = "dataset" # currently best fit among CSL types
@@ -39,7 +40,7 @@ class SciencetoolboxImport < Import
         year: year,
         month: month,
         day: day,
-        publisher_id: publisher.id,
+        publisher_id: publisher_id,
         work_type_id: work_type_id,
         tracked: true,
         csl: csl }

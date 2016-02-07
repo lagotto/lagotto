@@ -1,12 +1,16 @@
 class RelativeMetric < Agent
-  def get_query_url(work)
-    return {} unless work.doi =~ /^10.1371/
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi =~ /^10.1371/
 
     url_private % { :doi => work.doi_escaped }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return { events: [] } unless work.present?
 
     extra = get_extra(result, work.published_on.year)
     total = extra[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }

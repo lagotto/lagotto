@@ -6,7 +6,7 @@ describe CrossRef, type: :model, vcr: true do
   let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007", canonical_url: "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007", :publisher_id => 340) }
 
   it "should report that there are no events if the doi is missing" do
-    work = FactoryGirl.build(:work, :doi => nil)
+    work = FactoryGirl.create(:work, :doi => nil)
     expect(subject.get_data(work_id: work.id)).to eq({})
   end
 
@@ -113,7 +113,7 @@ describe CrossRef, type: :model, vcr: true do
     let(:null_response) { { works: [], events: [{ source_id: "crossref", work_id: work.pid, total: 0, extra: [] }] } }
 
     it "should report if the doi is missing" do
-      work = FactoryGirl.build(:work, :doi => nil)
+      work = FactoryGirl.create(:work, :doi => nil)
       result = { error: "DOI is missing." }
       result.extend Hashie::Extensions::DeepFetch
       expect(subject.parse_data(result, work_id: work.id)).to eq(error: "DOI is missing.")

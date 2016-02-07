@@ -77,7 +77,7 @@ describe DataoneImport, type: :model, vcr: true do
     it "should report if there are no works returned by the DataONE Search API" do
       body = File.read(fixture_path + 'plos_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(works: [])
+      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
     end
 
     it "should report if there are works returned by the DataONE Search API" do
@@ -85,7 +85,7 @@ describe DataoneImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(61)
+      expect(response).to eq(61)
       related_work = response[:works].last
       expect(related_work['author']).to eq([{"family"=>"George", "given"=>"Sangster,"}])
       expect(related_work['title']).to eq("Fig. S1")

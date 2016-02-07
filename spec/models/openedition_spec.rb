@@ -24,7 +24,7 @@ describe Openedition, type: :model, vcr: true do
     it "should catch errors with the Openedition API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)

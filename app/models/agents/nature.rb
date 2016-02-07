@@ -1,11 +1,12 @@
 class Nature < Agent
-  def get_query_string(work)
-    return {} unless work.doi.present?
+  def get_query_string(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present?
 
     work.doi_escaped
   end
 
-  def get_events_url(work)
+  def get_events_url(options={})
     nil
   end
 

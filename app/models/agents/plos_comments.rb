@@ -1,12 +1,15 @@
 class PlosComments < Agent
-  def get_query_url(work)
-    return {} unless work.doi =~ /^10.1371\/journal/
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi =~ /^10.1371\/journal/
 
     url_private % { :doi => work.doi }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
     replies = get_sum(result.fetch('data', []), 'totalNumReplies')
@@ -30,7 +33,7 @@ class PlosComments < Agent
       timestamp = get_iso8601_from_time(item.fetch("created", nil))
       url = work.doi
 
-      { "pid" => doi_as_url(doi),
+      { "pid" => doi_as_url(work.doi),
         "author" => get_authors([item.fetch('creatorFormattedName', "")]),
         "title" => item.fetch('title', nil),
         "container-title" => 'PLOS Comments',
@@ -58,7 +61,7 @@ class PlosComments < Agent
           'title' => item.fetch('title', ""),
           'container-title' => 'PLOS Comments',
           'issued' => get_date_parts(event_time),
-          'url' => work.doi_as_url,
+          'url' => work.doi_as_url(work.doi),
           'type' => 'personal_communication' }
       }
     end

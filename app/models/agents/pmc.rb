@@ -1,16 +1,19 @@
 class Pmc < Agent
-  def get_query_url(work)
-    return {} unless work.doi.present?
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present?
     fail ArgumentError, "Source url is missing." if url.blank?
 
     url % { doi: work.doi_escaped }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404
 
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     extra = Array(result["views"])
     html = get_sum(extra, 'full-text')

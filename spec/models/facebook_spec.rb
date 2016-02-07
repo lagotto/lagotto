@@ -191,7 +191,7 @@ describe Facebook, type: :model do
 
   context "parse_data with url_linkstat" do
     subject { FactoryGirl.create(:facebook, url_linkstat: "https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'") }
-    let(:work) { FactoryGirl.build(:work, :canonical_url => "http://www.plosmedicine.org/work/info:doi/10.1371/journal.pmed.0020124") }
+    let(:work) { FactoryGirl.create(:work, :canonical_url => "http://www.plosmedicine.org/work/info:doi/10.1371/journal.pmed.0020124") }
 
     it "should report if there are no events returned by the Facebook API" do
       body = File.read(fixture_path + 'facebook_linkstat_nil.json')

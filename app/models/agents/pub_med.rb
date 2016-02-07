@@ -1,6 +1,7 @@
 class PubMed < Agent
-  def get_query_url(work)
-    return {} unless work.get_ids && work.pmid.present?
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.get_ids && work.pmid.present?
 
     url % { :pmid => work.pmid }
   end

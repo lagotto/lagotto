@@ -3,7 +3,7 @@ require 'rails_helper'
 describe NatureOpensearch, type: :model, vcr: true do
   subject { FactoryGirl.create(:nature_opensearch) }
 
-  let(:work) { FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
+  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -24,12 +24,12 @@ describe NatureOpensearch, type: :model, vcr: true do
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the Nature OpenSearch API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
       response = subject.get_data(work_id: work.id)
       expect(response["feed"]["opensearch:totalResults"]).to eq(0)
     end
@@ -70,7 +70,7 @@ describe NatureOpensearch, type: :model, vcr: true do
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
-      work = FactoryGirl.build(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'nature_opensearch.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
