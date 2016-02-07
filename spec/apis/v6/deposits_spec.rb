@@ -15,7 +15,8 @@ describe "/api/v6/deposits", :type => :api do
     let(:params) do
       { "deposit" => { "uuid" => uuid,
                        "message_type" => "mendeley",
-                       "message" => { "works" => [1], "events" => [] } } }
+                       "message" => { "works" => [1], "events" => [] },
+                       "source_token" => "123" } }
     end
 
     context "as admin user" do
@@ -74,7 +75,8 @@ describe "/api/v6/deposits", :type => :api do
       let(:params) do
         { "data" => { "uuid" => uuid,
                       "message-type" => "mendeley",
-                      "message" => { "events" => [] } } }
+                      "message" => { "events" => [] },
+                      "source_token" => "123" } }
       end
 
       it "JSON" do
@@ -100,7 +102,7 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq ({ "uuid"=>["can't be blank"], "message_type"=>["can't be blank"], "message"=>["can't be blank"] })
+        expect(response["meta"]["error"]).to eq("unknown attribute 'foo' for Deposit.")
         expect(response["meta"]["status"]).to eq("error")
         expect(response["deposit"]).to be_blank
       end
@@ -114,7 +116,7 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq({ "uuid"=>["can't be blank"], "message_type"=>["can't be blank"], "message"=>["can't be blank"] })
+        expect(response["meta"]["error"]).to eq("unknown attribute 'foo' for Deposit.")
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 
@@ -156,7 +158,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
+        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "message"=>{"works"=>[], "events"=>[]}, "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
       end
     end
 
@@ -170,7 +172,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
+        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "message"=>{"works"=>[], "events"=>[]}, "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
       end
     end
 

@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.crossref.org/works/10.1371%2Fjournal.pone.0036790
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-5-0-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Date:
+      - Sat, 06 Feb 2016 23:04:16 GMT
+      Connection:
+      - close
+      X-Frame-Options:
+      - sameorigin
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Type:
+      - text/html;charset=utf-8
+      X-Cascade:
+      - pass
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '474'
+      Set-Cookie:
+      - rack.session=fe52147e3f9cc084499a9f95e4f8fc6beace143e2b84fc684b12bfe296fb5866;
+        path=/; HttpOnly
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style type="text/css">
+          body { text-align:center;font-family:helvetica,arial;font-size:22px;
+            color:#888;margin:20px}
+          #c {margin:0 auto;width:500px;text-align:left}
+          </style>
+        </head>
+        <body>
+          <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
+          <img src='http://api.crossref.org/__sinatra__/404.png'>
+          <div id="c">
+            Try this:
+            <pre>get '/works/10.1371%2Fjournal.pone.0036790' do
+          "Hello World"
+        end</pre>
+          </div>
+        </body>
+        </html>
+    http_version: 
+  recorded_at: Sat, 06 Feb 2016 23:04:16 GMT
+recorded_with: VCR 2.9.3

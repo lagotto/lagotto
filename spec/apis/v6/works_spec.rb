@@ -173,9 +173,9 @@ describe "/api/v6/works", :type => :api do
 
     context "by publisher" do
       let(:publisher) { FactoryGirl.create(:publisher) }
-      let(:works) { FactoryGirl.create_list(:work, 10, :with_events, publisher_id: publisher.member_id) }
+      let(:works) { FactoryGirl.create_list(:work, 10, :with_events, publisher_id: publisher.name) }
       let!(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
-      let(:uri) { "/api/works?publisher_id=#{publisher.member_id}" }
+      let(:uri) { "/api/works?publisher_id=#{publisher.name}" }
 
       it "JSON" do
         get uri, nil, headers

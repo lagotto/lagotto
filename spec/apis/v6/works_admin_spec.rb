@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "/api/v6/works", :type => :api do
+describe "/api/v6/works", :type => :api, vcr: true do
   let(:error) { { "meta" => { "status" => "error", "error" => "You are not authorized to access this page." } } }
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:headers) do
@@ -12,13 +12,16 @@ describe "/api/v6/works", :type => :api do
     let(:uri) { "/api/works" }
     let(:params) do
 
-      { "work" => { "doi" => "10.1371/journal.pone.0036790",
+      { "work" => { "pid" => "http://doi.org/10.1371/journal.pone.0036790",
+                    "doi" => "10.1371/journal.pone.0036790",
                     "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
                     "publisher_id" => 340,
                     "year" => 2012,
                     "month" => 5,
                     "day" => 15 } }
     end
+
+    before(:each) { FactoryGirl.create(:publisher) }
 
     context "as admin user" do
       it "JSON" do
@@ -73,7 +76,7 @@ describe "/api/v6/works", :type => :api do
     end
 
     context "work exists" do
-      let(:work) { FactoryGirl.create(:work) }
+      let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0036790", doi: "10.1371/journal.pone.0036790") }
       let(:params) do
         { "work" => { "doi" => work.doi,
                       "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
@@ -87,7 +90,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq ({"doi"=>["has already been taken"], "pid"=>["has already been taken"]})
+        expect(response["meta"]["error"]).to eq("pid"=>["can't be blank"], "doi"=>["has already been taken"])
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
       end
@@ -126,7 +129,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq ({ "title"=>["can't be blank"], "year"=>["is not a number"], "published_on"=>["is before 1650"] })
+        expect(response["meta"]["error"]).to eq("pid"=>["can't be blank"], "title"=>["can't be blank"], "year"=>["is not a number"], "published_on"=>["is before 1650"])
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
       end
@@ -140,7 +143,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("doi"=>["must provide at least one persistent identifier"], "pid"=>["can't be blank"], "title"=>["can't be blank"])
+        expect(response["meta"]["error"]).to eq("pid"=>["can't be blank"], "title"=>["can't be blank"])
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 

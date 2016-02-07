@@ -166,14 +166,16 @@ class Api::V6::WorksController < Api::BaseController
   # sort by source total
   # we can't filter and sort by two different sources
   def get_sort(collection, params, source)
-    if params[:sort] && source && params[:sort] == params[:source_id]
+    if params[:sort].nil?
+      collection.order("works.published_on DESC")
+    elsif params[:sort] && source && params[:sort] == params[:source_id]
       collection = collection.order("events.total DESC")
     elsif params[:sort] && !source && sort = Source.where(name: params[:sort]).first
       collection = collection.joins(:events)
         .where("events.source_id = ?", sort.id)
         .order("events.total DESC")
-    else
-      collection.order("works.published_on DESC")
+    elsif params[:sort] && params[:sort] == "created_at"
+      collection.order("works.created_at ASC")
     end
   end
 
@@ -192,6 +194,6 @@ class Api::V6::WorksController < Api::BaseController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
+    params.require(:work).permit(:pid, :doi, :title, :pmid, :pmcid, :canonical_url, :arxiv, :wos, :scp, :ark, :publisher_id, :year, :month, :day, :tracked)
   end
 end
