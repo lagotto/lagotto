@@ -2,7 +2,7 @@ class DepositJob < ActiveJob::Base
   include ActiveJob::Retry
 
   queue_as :default
-  variable_retry delays: [1.minute, 5.minutes, 10.minutes, 30.minutes, 60.minutes]
+  variable_retry delays: [1.minute, 5.minutes, 10.minutes, 30.minutes, 60.minutes], retryable_exceptions: *RETRYABLE_EXCEPTIONS
 
   rescue_from StandardError do |exception|
     ActiveRecord::Base.connection_pool.with_connection do

@@ -15,6 +15,11 @@ RESCUABLE_EXCEPTIONS = [ActiveRecord::RecordNotFound,
                         ActiveModel::ForbiddenAttributesError,
                         NoMethodError]
 
+RETRYABLE_EXCEPTIONS = [ActiveJob::DeserializationError,
+                        ActiveRecord::ConnectionTimeoutError,
+                        TimeoutError,
+                        NetworkError]
+
 # Format used for DOI validation
 # The prefix is 10.x where x is 4-5 digits. The suffix can be anything, but can"t be left off
 DOI_FORMAT = %r(\A10\.\d{4,5}/.+)
