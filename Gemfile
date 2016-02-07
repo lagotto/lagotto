@@ -91,7 +91,7 @@ group :test do
   gem "shoulda-matchers", "~> 2.7.0", :require => false
   gem "webmock", "~> 1.20.0"
   gem 'vcr', '~> 2.9.3'
-  gem "poltergeist", "~> 1.5.0"
+  gem 'poltergeist', '~> 1.8', '>= 1.8.1'
   gem "with_env", "~> 1.1.0"
   gem 'test_after_commit', '~> 0.4.2'
 end
