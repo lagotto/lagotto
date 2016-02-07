@@ -54,7 +54,7 @@ describe DataciteDatacentre, type: :model, vcr: true do
 
       expect(response[:publishers].length).to eq(628)
       publisher = response[:publishers].first
-      expect(publisher).to eq("name"=>"ANDS.CENTRE-1", "title"=>"Griffith University", "registration_agency"=>"datacite")
+      expect(publisher).to eq("name"=>"ANDS.CENTRE-1", "title"=>"Griffith University", "registration_agency"=>"datacite", "active"=>true)
     end
   end
 end

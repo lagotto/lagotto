@@ -45,7 +45,7 @@ class Pmc < Agent
     end
   end
 
-  # Retrieve usage stats in XML and store in /data directory. Returns an empty array if no error occured
+  # Retrieve usage stats in XML and store in /tmp directory. Returns an empty array if no error occured
   def get_feed(month, year, options={})
     journals_with_errors = []
     options[:source_id] = id
@@ -84,7 +84,7 @@ class Pmc < Agent
 
       journals_array.each do |journal|
         filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-        file = File.open("#{Rails.root}/data/#{filename}", 'r') { |f| f.read }
+        file = File.open("#{Rails.root}/tmp/#{filename}", 'r') { |f| f.read }
         document = Nokogiri::XML(file)
 
         status = document.at_xpath("//pmc-web-stat/response/@status").value

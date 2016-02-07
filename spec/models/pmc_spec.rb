@@ -6,7 +6,7 @@ describe Pmc, type: :model, vcr: true do
 
   it "should report that there are no events if the doi is missing" do
     work = FactoryGirl.create(:work, :doi => nil)
-    expect(subject.get_data(work)).to eq({})
+    expect(subject.get_data(work_id: work.id)).to eq({})
   end
 
   context "save PMC data" do
@@ -47,7 +47,7 @@ describe Pmc, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the PMC API" do
