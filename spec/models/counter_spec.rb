@@ -9,34 +9,34 @@ describe Counter, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the Counter API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       body = File.read(fixture_path + 'counter_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(Hash.from_xml(body))
       expect(response['rest']['response']['results']['item']).to be_nil
       expect(stub).to have_been_requested
     end
 
     it "should report if there are events returned by the Counter API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["rest"]["response"]["criteria"]).to eq("year"=>"all", "month"=>"all", "journal"=>"all", "doi"=>work.doi)
       expect(response["rest"]["response"]["results"]["total"]["total"]).to eq("5955")
       expect(response["rest"]["response"]["results"]["item"].length).to eq(68)
     end
 
     it "should catch timeout errors with the Counter API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, agent_id: subject.id)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.plosreports.org/services/rest?method=usage.stats&doi=#{work.doi_escaped}", status: 408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -52,21 +52,21 @@ describe Counter, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Counter API" do
       body = File.read(fixture_path + 'counter_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
     end
 
@@ -74,7 +74,7 @@ describe Counter, type: :model, vcr: true do
       body = File.read(fixture_path + 'counter.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("counter")
@@ -90,7 +90,7 @@ describe Counter, type: :model, vcr: true do
 
     it "should catch timeout errors with the Counter API" do
       result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end
