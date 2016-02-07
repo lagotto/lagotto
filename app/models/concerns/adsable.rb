@@ -2,14 +2,14 @@ module Adsable
   extend ActiveSupport::Concern
 
   included do
-  def request_options
-    { bearer: access_token }
-  end
+    def request_options
+      { bearer: access_token }
+    end
 
-    def get_query_url(work, options = {})
+    def get_query_url(options = {})
       fail ArgumentError, "API key is missing." unless access_token.present?
 
-      query_string = get_query_string(work)
+      query_string = get_query_string(options)
       return {} unless query_string.present?
 
       params = { q: query_string,
@@ -19,19 +19,21 @@ module Adsable
       url +  URI.encode_www_form(params)
     end
 
-    def get_events_url(work, options = {})
-      query_string = get_query_string(work)
+    def get_events_url(options = {})
+      query_string = get_query_string(options)
       return {} unless query_string.present?
 
       Addressable::URI.encode(events_url % { query_string: query_string })
     end
 
-    def parse_data(result, work, options={})
+    def parse_data(result, options={})
+      work = Work.where(id: options.fetch(:work_id, nil)).first
+      return {} unless work.present?
       return result if result[:error]
 
       related_works = get_related_works(result, work)
       total = related_works.length
-      events_url = total > 0 ? get_events_url(work) : nil
+      events_url = total > 0 ? get_events_url(options) : nil
 
       { works: related_works,
         events: [{

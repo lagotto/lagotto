@@ -2,7 +2,10 @@ class AdsFulltext < Agent
   # include common methods for Article Coverage
   include Adsable
 
-  def get_query_string(work)
+  def get_query_string(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present?
+
     if work.doi.present?
       "\"body:#{work.doi}\""
     elsif work.canonical_url.present?

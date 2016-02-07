@@ -2,12 +2,11 @@ class Ads < Agent
   # include common methods for Article Coverage
   include Adsable
 
-  def get_query_string(work)
-    if work.doi.present?
-      "\"doi:#{work.doi}\""
-    else
-      {}
-    end
+  def get_query_string(options = {})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present?
+
+    "\"doi:#{work.doi}\""
   end
 
   def get_related_works(result, work)
