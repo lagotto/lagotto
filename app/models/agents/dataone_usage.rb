@@ -2,8 +2,9 @@ class DataoneUsage < Agent
   # include common methods for DataONE
   include Dataoneable
 
-  def get_query_url(work)
-    return {} unless work.dataone.present?
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.dataone.present?
 
     params = { q: "pid:#{work.dataone_escaped} AND isRepeatVisit:false AND inPartialRobotList:false",
                fq: "event:read",

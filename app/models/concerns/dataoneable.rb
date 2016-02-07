@@ -2,8 +2,10 @@ module Dataoneable
   extend ActiveSupport::Concern
 
   included do
-    def parse_data(result, work, options={})
+    def parse_data(result, options={})
       return result if result[:error]
+
+      work = Work.where(id: options.fetch(:work_id, nil)).first
 
       total = result.fetch("response", {}).fetch("numFound", 0)
       months = total > 0 ? get_events_by_month(result) : []
