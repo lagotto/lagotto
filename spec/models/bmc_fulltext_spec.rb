@@ -9,14 +9,14 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should look up canonical URL if there is no work url" do
       work = FactoryGirl.create(:work, :doi => "10.1186/s13007-014-0041-7", :canonical_url => nil)
       #lookup_stub = stub_request(:get, work.doi_as_url).to_return(:status => 404)
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       #expect(lookup_stub).to have_been_requested
     end
 
     it "should not look up canonical URL if there is work url" do
       #lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
       #stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => File.read(fixture_path + 'bmc_fulltext.json'))
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       #expect(lookup_stub).not_to have_been_requested
       #expect(stub).to have_been_requested
     end
@@ -25,25 +25,25 @@ describe BmcFulltext, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the BMC Search API" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("entries"=>[])
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["entries"].length).to eq(25)
       doc = response["entries"].first
       expect(doc["doi"]).to eq("10.1186/s12864-015-1724-9")
     end
 
     it "should catch errors with the BMC Search API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.biomedcentral.com/search/results?terms=#{subject.get_query_string(work)}&format=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -58,20 +58,20 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
-      expect(subject.parse_data(result, work)).to eq({})
+      expect(subject.parse_data(result, work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the BMC Search API" do
       body = File.read(fixture_path + 'bmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "bmc_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "bmc_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", published_on: "2009-03-15")
       body = File.read(fixture_path + 'bmc_fulltext.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("bmc_fulltext")
@@ -105,7 +105,7 @@ describe BmcFulltext, type: :model, vcr: true do
 
     it "should catch timeout errors with the BMC Search API" do
       result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

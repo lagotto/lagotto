@@ -231,7 +231,7 @@ describe Agent, :type => :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
       subject = FactoryGirl.create(:mendeley)
       body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
 
       response = subject.collect_data(work_id: work.id)
       expect(response["uuid"]).to be_present
@@ -254,9 +254,9 @@ describe Agent, :type => :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
       subject = FactoryGirl.create(:crossref)
       body = File.read(fixture_path + 'cross_ref.xml')
-      stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
 
-      response = subject.collect_data(work.id)
+      response = subject.collect_data(work_id: work.id)
       expect(response["uuid"]).to be_present
       expect(response["message_type"]).to eq("crossref")
       expect(response["source_token"]).to eq(subject.uuid)
@@ -281,7 +281,7 @@ describe Agent, :type => :model, vcr: true do
     end
 
     it "error" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       deposit = subject.collect_data(work_id: work.id)
       expect(deposit).to be_empty
 

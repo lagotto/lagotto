@@ -1,20 +1,23 @@
 class BmcFulltext < Agent
-  def get_query_url(work, options = {})
-    # don't query if work is BMC article
-    return {} if work.doi =~ /^10.1186/ || !registration_agencies.include?(work.registration_agency)
-
-    query_string = get_query_string(work)
+  def get_query_url(options = {})
+    query_string = get_query_string(options)
     return {} unless query_string.present?
 
     url % { query_string: query_string }
   end
 
-  def get_query_string(work)
+  def get_query_string(options = {})
+    # don't query if work is BMC article
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return nil if work.nil? || work.doi =~ /^10.1186/ || !registration_agencies.include?(work.registration_agency)
+
     work.doi.presence || work.canonical_url.presence
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error] || result["entries"].nil?
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
     extra = get_extra(result)

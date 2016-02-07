@@ -2,14 +2,16 @@ class Bitbucket < Agent
   # include common methods for repos
   include Repoable
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+    work = Work.where(id: options[:work_id]).first
+    return { error: "Resource not found.", status: 404 } unless work.present?
 
     readers = result.fetch("forks_count", 0)
     likes = result.fetch("followers_count", 0)
     total = readers + likes
     extra = result.slice("followers_count", "forks_count", "description", "utc_created_on")
-    events_url = total > 0 ? get_events_url(work) : nil
+    events_url = total > 0 ? get_events_url(work_id: work.id) : nil
 
     { events: [{
         source_id: name,

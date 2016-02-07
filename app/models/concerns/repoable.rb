@@ -2,22 +2,23 @@ module Repoable
   extend ActiveSupport::Concern
 
   included do
-    def get_query_url(work)
-      get_url(work, "url")
+    def get_query_url(options={})
+      get_url(options.merge(url: "url"))
     end
 
-    def get_events_url(work)
-      get_url(work, "events_url")
+    def get_events_url(options={})
+      get_url(options.merge(url: "events_url"))
     end
 
-    def get_url(work, common_url)
-      return {} unless work.canonical_url =~ /#{repo_key}/
+    def get_url(options={})
+      work = Work.where(id: options.fetch(:work_id, nil)).first
+      return {} unless work.present? && work.canonical_url =~ /#{repo_key}/
 
       # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
       full_name = URI.parse(work.canonical_url).path[1..-1]
       owner, repo = full_name.split('/')
 
-      send(common_url) % { owner: owner, repo: repo }
+      send(options[:url]) % { owner: owner, repo: repo }
     end
 
     def parse_data(result, options={})
@@ -25,7 +26,7 @@ module Repoable
       return {} unless work.present?
       return result if result[:error]
 
-      query_url = get_query_url(work)
+      query_url = get_query_url(work_id: work.id)
       result["stargazers"] = get_result(query_url + "/stargazers", options) unless query_url.is_a?(Hash)
       related_works = get_related_works(result, work)
       readers = related_works.count
