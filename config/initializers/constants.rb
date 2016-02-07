@@ -17,8 +17,10 @@ RESCUABLE_EXCEPTIONS = [ActiveRecord::RecordNotFound,
 
 RETRYABLE_EXCEPTIONS = [ActiveJob::DeserializationError,
                         ActiveRecord::ConnectionTimeoutError,
-                        TimeoutError,
-                        NetworkError]
+                        Net::HTTPRequestTimeOut,
+                        Net::HTTPBadGateway,
+                        Net::HTTPServiceUnavailable,
+                        Net::HTTPGatewayTimeOut]
 
 # Format used for DOI validation
 # The prefix is 10.x where x is 4-5 digits. The suffix can be anything, but can"t be left off
