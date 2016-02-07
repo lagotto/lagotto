@@ -2,7 +2,11 @@ class ArticleCoverage < Agent
   # include common methods for Article Coverage
   include Coverable
 
-  def parse_data(result, work, options = {})
+  def parse_data(result,  options = {})
+    return result if result[:error]
+    work = Work.where(id: options[:work_id]).first
+    return { error: "Resource not found.", status: 404 } unless work.present?
+
     if !result.is_a?(Hash)
       # make sure we have a hash
       result = { 'data' => result }

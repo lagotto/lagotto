@@ -7,28 +7,27 @@ describe ArticleCoverage, type: :model, vcr: true do
 
   it "should report that there are no events if the doi is missing" do
     work = FactoryGirl.create(:work, :doi => nil)
-    expect(subject.get_data(work)).to eq({})
+    expect(subject.get_data(work_id: work.id)).to eq({})
   end
 
   it "should report that there are no events if the doi has the wrong prefix" do
     work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
-    expect(subject.get_data(work)).to eq({})
+    expect(subject.get_data(work_id: work.id)).to eq({})
   end
 
   context "get_data from the Article Coverage API" do
     it "should report if work doesn't exist in Article Coverage source" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
-      expect(subject.get_data(work)).to eq(error: "Article not found", status: 404)
+      expect(subject.get_data(work_id: work.id)).to eq(error: "Article not found", status: 404)
     end
 
     it "should report if there are no events returned by the Article Coverage API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008775")
-      response = subject.get_data(work)
-      expect(subject.get_data(work)).to eq(error: "Article not found", status: 404)
+      expect(subject.get_data(work_id: work.id)).to eq(error: "Article not found", status: 404)
     end
 
     it "should report if there are events returned by the Article Coverage API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["doi"]).to eq(work.doi)
       expect(response["referrals"].length).to eq(9)
       referral = response["referrals"].first
@@ -36,8 +35,8 @@ describe ArticleCoverage, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the Article Coverage API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://mediacuration.plos.org/api/v1?doi=#{work.doi_escaped}&state=all", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -52,26 +51,26 @@ describe ArticleCoverage, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(events: [{ source_id: "article_coverage", work_id: work.pid, comments: 0, total: 0, extra: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(:events=>[{:source_id=>"article_coverage", :work_id=> work.pid, :comments=>0, :total=>0, :extra=>[] }])
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
       result = { error: "{\"error\":\"Work not found\"}" }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
 
     it "should report if there are no events returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(events: [{ source_id: "article_coverage", work_id: work.pid, comments: 0, total: 0, extra: [] }])
     end
 
     it "should report if there are events returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("article_coverage")
@@ -95,7 +94,7 @@ describe ArticleCoverage, type: :model, vcr: true do
 
     it "should catch timeout errors with the Article Coverage API" do
       result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end
