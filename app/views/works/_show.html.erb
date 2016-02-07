@@ -84,11 +84,11 @@
         <% end %>
         <% if @work.pmid.present? %>
           <dt>PubMed</dt>
-          <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url, @work.pmid_as_url %></dd>
+          <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url(@work.pmid), @work.pmid_as_url(@work.pmid) %></dd>
         <% end %>
         <% if @work.pmcid.present? %>
           <dt>PubMed Central</dt>
-          <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url, @work.pmcid_as_url %></dd>
+          <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url(@work.pmcid), @work.pmcid_as_url(@work.pmcid) %></dd>
         <% end %>
         <% if @work.pmid.present? %>
           <dt>Europe PMC</dt>
@@ -104,11 +104,11 @@
         <% end %>
         <% if @work.ark.present? %>
           <dt>Ark</dt>
-          <dd><%= link_to @work.ark, @work.ark_as_url %></dd>
+          <dd><%= link_to @work.ark, @work.ark_as_url(@work.ark) %></dd>
         <% end %>
         <% if @work.dataone.present? %>
           <dt>DataONE</dt>
-          <dd><%= link_to @work.dataone, @work.dataone_as_url %></dd>
+          <dd><%= link_to @work.dataone, @work.dataone_as_url(@work.dataone) %></dd>
         <% end %>
         <% if @work.mendeley_url.present? %>
           <dt>Mendeley</dt>
