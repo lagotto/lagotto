@@ -1,7 +1,9 @@
 class Facebook < Agent
-  def get_query_url(work, options = {})
+  def get_query_url(options = {})
     fail ArgumentError, "No Facebook access token." unless get_access_token
-    return {} unless work.get_url
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.get_url
 
     # use depreciated v2.0 API if url_linkstat is used
     if url_linkstat.present?
@@ -15,8 +17,10 @@ class Facebook < Agent
     { bearer: access_token }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return { error: "Resource not found.", status: 404 } unless work.present?
 
     result.extend Hashie::Extensions::DeepFetch
 

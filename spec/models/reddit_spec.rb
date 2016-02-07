@@ -8,25 +8,25 @@ describe Reddit, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the Reddit API" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0044294", canonical_url: "")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("kind"=>"Listing", "data"=>{"facets"=>{}, "modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
     end
 
     it "should report if there are events returned by the Reddit API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("kind"=>"Listing", "data"=>{"facets"=>{}, "modhash"=>"", "children"=>[], "after"=>nil, "before"=>nil})
     end
 
     it "should catch errors with the Reddit API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://www.reddit.com/search.json?q=#{subject.get_query_string(work)}&limit=100", :status=>408)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
+      expect(response).to eq(error: "the server responded with status 408 for http://www.reddit.com/search.json?q=#{subject.get_query_string(work_id: work.id)}&limit=100", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Reddit API" do
@@ -49,7 +49,7 @@ describe Reddit, type: :model, vcr: true do
       body = File.read(fixture_path + 'reddit_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
@@ -58,13 +58,13 @@ describe Reddit, type: :model, vcr: true do
       body = File.read(fixture_path + 'reddit.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:total]).to eq(1171)
       expect(event[:likes]).to eq(1013)
       expect(event[:comments]).to eq(158)
-      expect(event[:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work)}")
+      expect(event[:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work_id: work.id)}")
       expect(event[:days].length).to eq(3)
       expect(event[:days].first).to eq(year: 2013, month: 5, day: 7, total: 1)
       expect(event[:months].length).to eq(2)
@@ -91,8 +91,8 @@ describe Reddit, type: :model, vcr: true do
 
     it "should catch timeout errors with the Reddit API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://www.reddit.com/search.json?q=#{subject.get_query_string(work)}", status: 408 }
-      response = subject.parse_data(result, work)
+      result = { error: "the server responded with status 408 for http://www.reddit.com/search.json?q=#{subject.get_query_string(work_id: work.id)}", status: 408 }
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

@@ -8,29 +8,29 @@ describe Wordpress, type: :model, vcr: true do
   context "query_url" do
     it "should return empty hash if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, :doi => nil, canonical_url: nil)
-      expect(subject.get_query_url(work)).to eq({})
+      expect(subject.get_query_url(work_id: work.id)).to eq({})
     end
 
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_query_url(work)).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post&f=json&size=20")
+      expect(subject.get_query_url(work_id: work.id)).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work_id: work.id)}&t=post&f=json&size=20")
     end
   end
 
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, :doi => nil, canonical_url: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("data"=>"null")
     end
 
     it "should report if there are events returned by the Wordpress API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["data"].length).to eq(2)
       data = response["data"].first
       expect(data["title"]).to eq("Are microbes vital on earth?")
@@ -38,9 +38,9 @@ describe Wordpress, type: :model, vcr: true do
 
     it "should catch errors with the Wordpress API" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000001", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post&f=json&size=20", :status=>408)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      expect(response).to eq(error: "the server responded with status 408 for http://en.search.wordpress.com/?q=#{subject.get_query_string(work_id: work.id)}&t=post&f=json&size=20", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
@@ -54,27 +54,27 @@ describe Wordpress, type: :model, vcr: true do
     it "should report that there are no events if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events returned by the Wordpress API" do
       body = File.read(fixture_path + 'wordpress.json', encoding: 'UTF-8')
       result = { 'data' => JSON.parse(body) }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("wordpress")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(10)
-      expect(event[:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work)}&t=post")
+      expect(event[:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work_id: work.id)}&t=post")
       expect(event[:days].length).to eq(6)
       expect(event[:days].first).to eq(year: 2007, month: 7, day: 12, total: 1)
       expect(event[:months].length).to eq(6)
@@ -102,7 +102,7 @@ describe Wordpress, type: :model, vcr: true do
     it "should catch timeout errors with the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://en.search.wordpress.com/?q=\"#{work.doi_escaped}\"&t=post&f=json&size=20", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

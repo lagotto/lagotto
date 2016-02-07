@@ -8,14 +8,14 @@ describe Researchblogging, type: :model, vcr: true do
 
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => "")
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the ResearchBlogging API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'researchblogging_nil.xml')
       stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
@@ -24,7 +24,7 @@ describe Researchblogging, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'researchblogging.xml')
       stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:body => body)
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
@@ -32,7 +32,7 @@ describe Researchblogging, type: :model, vcr: true do
     it "should catch errors with the ResearchBlogging API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -50,14 +50,14 @@ describe Researchblogging, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the ResearchBlogging API" do
       body = File.read(fixture_path + 'researchblogging_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
@@ -66,7 +66,7 @@ describe Researchblogging, type: :model, vcr: true do
       body = File.read(fixture_path + 'researchblogging.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("researchblogging")
@@ -102,7 +102,7 @@ describe Researchblogging, type: :model, vcr: true do
       body = File.read(fixture_path + 'researchblogging_one.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("researchblogging")
@@ -135,7 +135,7 @@ describe Researchblogging, type: :model, vcr: true do
 
     it "should catch timeout errors with the ResearchBlogging API" do
       result = { error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&work=doi:#{work.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

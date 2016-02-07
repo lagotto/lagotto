@@ -6,25 +6,25 @@ describe Openedition, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the Openedition API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["RDF"]["item"]).to be_nil
     end
 
     it "should report if there are events returned by the Openedition API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["RDF"]["item"]).to eq("link"=>"http://ruedesfacs.hypotheses.org/?p=1666", "title"=>"Saartjie Baartman : la Vénus Hottentote", "date"=>"2013-05-27", "creator"=>"ruedesfacs", "isPartOf"=>"Rue des facs", "description"=>"\n\n ... , no 3 (1 septembre 2000): 606 607. doi:<em>10.2307</em>/<em>683422</em>. « The Hottentot Venus Is Going Home ». The Journal of Blacks in Higher Education no 35 (1 avril 2002): 63. doi:<em>10.2307</em>/3133845. Vous trouverez toutes\n ... \n\n", "about"=>"http://ruedesfacs.hypotheses.org/?p=1666")
     end
 
     it "should catch errors with the Openedition API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -42,14 +42,14 @@ describe Openedition, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Openedition API" do
       body = File.read(fixture_path + 'openedition_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
     end
 
@@ -58,7 +58,7 @@ describe Openedition, type: :model, vcr: true do
       body = File.read(fixture_path + 'openedition.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("openedition")
@@ -85,7 +85,7 @@ describe Openedition, type: :model, vcr: true do
     it "should catch timeout errors with the OpenEdition APi" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

@@ -69,9 +69,9 @@ class DataciteRelated < Agent
       pid = doi_as_url(item.fetch("doi"))
       related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
 
-      { source_id: source_id,
-        work_id: pid,
-        total: related_identifiers.length }
+      { "source_id" => source_id,
+        "work_id" => pid,
+        "total" => related_identifiers.length }
     end
   end
 

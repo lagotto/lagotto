@@ -6,14 +6,14 @@ describe ScienceSeeker, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => "")
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'science_seeker_nil.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
@@ -21,8 +21,8 @@ describe ScienceSeeker, type: :model, vcr: true do
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pmed.0020124")
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
@@ -30,16 +30,16 @@ describe ScienceSeeker, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0035869")
       body = File.read(fixture_path + 'science_seeker.xml')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(Hash.from_xml(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch errors with the ScienceSeeker API" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0000001", doi: "10.1371/journal.pone.0000001")
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -57,21 +57,21 @@ describe ScienceSeeker, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
@@ -80,7 +80,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       body = File.read(fixture_path + 'science_seeker.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("scienceseeker")
@@ -117,7 +117,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       body = File.read(fixture_path + 'science_seeker_one.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("scienceseeker")
@@ -152,7 +152,7 @@ describe ScienceSeeker, type: :model, vcr: true do
     it "should catch timeout errors with the ScienceSeeker API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

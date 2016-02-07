@@ -1,6 +1,7 @@
 class Wordpress < Agent
-  def get_query_string(work)
-    return {} unless work.get_url || work.doi.present?
+  def get_query_string(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && (work.get_url || work.doi.present?)
 
     "%22" + (work.doi_escaped.presence || work.canonical_url.presence) + "%22"
   end

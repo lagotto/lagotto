@@ -49,12 +49,12 @@ describe DataoneImport, type: :model, vcr: true do
 
   context "get_data" do
     it "should report if there are no works returned by the DataONE Search API" do
-      response = subject.get_data(nil, from_date: "2015-04-05", until_date: "2015-04-05")
+      response = subject.get_data(from_date: "2015-04-05", until_date: "2015-04-05")
       expect(response["response"]["numFound"]).to eq(0)
     end
 
     it "should report if there are works returned by the DataONE Search API" do
-      response = subject.get_data(nil)
+      response = subject.get_data
       expect(response["response"]["numFound"]).to eq(140)
       doc = response["response"]["docs"].first
       expect(doc["id"]).to eq("http://dx.doi.org/10.5061/dryad.5rg54?ver=2015-04-07T11:30:54.986-04:00")
@@ -62,7 +62,7 @@ describe DataoneImport, type: :model, vcr: true do
 
     it "should catch errors with the DataONE Search API" do
       stub = stub_request(:get, subject.get_query_url(rows: 0, agent_id: subject.id)).to_return(:status => [408])
-      response = subject.get_data(nil, rows: 0, agent_id: subject.id)
+      response = subject.get_data(rows: 0, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for https://cn.dataone.org/cn/v1/query/solr/?fl=id%2Ctitle%2Cauthor%2CdatePublished%2CauthoritativeMN%2CdateModified&q=dateModified%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D%2BformatType%3AMETADATA&rows=0&start=0&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -77,13 +77,13 @@ describe DataoneImport, type: :model, vcr: true do
     it "should report if there are no works returned by the DataONE Search API" do
       body = File.read(fixture_path + 'plos_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, nil)).to eq(works: [])
+      expect(subject.parse_data(result)).to eq(works: [])
     end
 
     it "should report if there are works returned by the DataONE Search API" do
       body = File.read(fixture_path + 'dataone_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
       expect(response[:works].length).to eq(61)
       related_work = response[:works].last

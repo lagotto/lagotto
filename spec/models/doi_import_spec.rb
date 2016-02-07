@@ -22,7 +22,7 @@ describe DoiImport, type: :model, vcr: true do
       body = File.read(fixture_path + 'doi_import.json')
       result = JSON.parse(body)
       response = import.parse_data(result)
-      expect(response.length).to eq(99)
+      expect(response.length).to eq(91)
 
       work = response.first
       expect(work[:doi]).to eq("10.1016/j.rcae.2013.04.001")

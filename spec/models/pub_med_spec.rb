@@ -8,24 +8,24 @@ describe PubMed, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi, pmid and pmcid are missing" do
       work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :pmid => "1897483599", :pmcid => "2808249")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"]).to be_nil
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(17)
       expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].first).to eq("2464333")
     end
 
     it "should catch errors with the PubMed API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, agent: subject.id)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{work.pmid}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -41,7 +41,7 @@ describe PubMed, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
@@ -49,7 +49,7 @@ describe PubMed, type: :model, vcr: true do
       body = File.read(fixture_path + 'pub_med_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
     end
 
@@ -57,7 +57,7 @@ describe PubMed, type: :model, vcr: true do
       body = File.read(fixture_path + 'pub_med.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("pub_med")
@@ -88,7 +88,7 @@ describe PubMed, type: :model, vcr: true do
       body = File.read(fixture_path + 'pub_med_one.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("pub_med")
@@ -115,7 +115,7 @@ describe PubMed, type: :model, vcr: true do
     it "should catch timeout errors with the PubMed API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{work.pmid}", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

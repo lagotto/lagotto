@@ -34,13 +34,13 @@ describe Deposit, :type => :model, vcr: true do
 
     it "crossref" do
       related_work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007")
-      works = [{"author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source"=>"crossref", "relation_type"=>"cites"}]}]
+      works = [{ "pid" =>"http://doi.org/10.3758/s13423-011-0070-4", "author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source"=>"crossref", "relation_type"=>"cites"}]}]
       subject = FactoryGirl.create(:deposit, message_type: "crossref", message: { "works" => works })
       expect(subject.update_works).to eq(["http://doi.org/10.3758/s13423-011-0070-4"])
 
       expect(Work.count).to eq(2)
       work = Work.last
-      expect(work.title).to eq("Audiotactile Interactions In Temporal Perception")
+      expect(work.title).to eq("Audiotactile interactions in temporal perception")
       expect(work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
 
       expect(work.relations.length).to eq(1)

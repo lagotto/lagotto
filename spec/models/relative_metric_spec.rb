@@ -17,7 +17,7 @@ describe RelativeMetric, type: :model, vcr: true do
     it "should get relative metric average usage data" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0005723", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric.json")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
@@ -26,7 +26,7 @@ describe RelativeMetric, type: :model, vcr: true do
     it "should get empty relative metric average usage data" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000000", :published_on => Date.new(2009, 5, 19))
       body = File.read(fixture_path + "relative_metric_nodata.json")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
@@ -34,7 +34,7 @@ describe RelativeMetric, type: :model, vcr: true do
 
     it "should catch timeout errors with the relative metric API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0047712")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       response = subject.get_data(work, options = { :agent_id => subject.id })
       expect(response).to eq(error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested

@@ -86,7 +86,7 @@ describe ApiSnapshot do
 
     let!(:original_snapshot_dir){ ApiSnapshot.snapshot_dir }
 
-    before { ApiSnapshot.snapshot_dir = Rails.root.join("tmp/rspec_snapshots") }
+    before { ApiSnapshot.snapshot_dir = Rails.root.join("tmp/snapshots") }
     after { ApiSnapshot.snapshot_dir = original_snapshot_dir }
 
     def perform_snapshot

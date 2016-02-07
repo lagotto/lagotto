@@ -1,13 +1,16 @@
 class Wos < Agent
-  def get_query_url(work)
-    return {} unless work.doi.present?
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present?
 
     url_private
   end
 
-  def get_data(work, options={})
-    query_url = get_query_url(work)
+  def get_data(options={})
+    query_url = get_query_url(options)
     return query_url if query_url.is_a?(Hash)
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     data = get_xml_request(work)
     result = get_result(query_url, options.merge(content_type: 'xml', data: data))
@@ -15,8 +18,10 @@ class Wos < Agent
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     # Check whether WOS has returned an error status message
     error_status = check_error_status(result, work)
@@ -31,7 +36,7 @@ class Wos < Agent
       events_url = values[2]
 
       # store Web of Science ID if we haven't done this already
-      work.update_attributes(:wos => wos) if wos.present? && work.wos.blank?
+      work.update_attributes(wos: wos) if wos.present? && work.wos.blank?
     else
       total = 0
       events_url = nil

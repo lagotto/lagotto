@@ -1,13 +1,14 @@
 class Wikipedia < Agent
   # MediaWiki API Sandbox at http://en.wikipedia.org/wiki/Special:ApiSandbox
-  def get_query_url(work, options={})
-    return {} unless work.get_url
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.get_url
 
     host = options[:host] || "en.wikipedia.org"
     namespace = options[:namespace] || "0"
     sroffset = options[:sroffset] || 0
     continue = options[:continue] || ""
-    query_string = get_query_string(work)
+    query_string = get_query_string(options)
     url % { host: host,
             namespace: namespace,
             query_string: query_string,
@@ -15,15 +16,17 @@ class Wikipedia < Agent
             continue: continue }
   end
 
-  def get_data(work, options={})
-    if work.doi.blank?
+  def get_data(options={})
+    work_id = options.fetch(:work_id, nil)
+
+    if work_id.nil?
       result = {}
     else
       # Loop through the languages, create hash with languages as keys and event arrays as values
       languages.split(" ").reduce({}) do |sum, lang|
         host = (lang == "commons") ? "commons.wikimedia.org" : "#{lang}.wikipedia.org"
         namespace = (lang == "commons") ? "6" : "0"
-        query_url = get_query_url(work, host: host, namespace: namespace)
+        query_url = get_query_url(work_id: work_id, host: host, namespace: namespace)
         if query_url.is_a?(Hash)
           result = {}
         else
@@ -41,7 +44,7 @@ class Wikipedia < Agent
             (1...total_pages).each do |page|
               options[:sroffset] = page * 50
               options[:continue] = result.fetch("continue", {}).fetch("continue", "")
-              query_url = get_query_url(work, options)
+              query_url = get_query_url(options)
               paged_result = get_result(query_url, options)
               sum[lang] = sum[lang] | parse_related_works(paged_result, host)
             end
@@ -62,8 +65,11 @@ class Wikipedia < Agent
     end
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return { works: [], events: [] } unless work.present?
 
     related_works = get_related_works(result, work)
     total = related_works.length

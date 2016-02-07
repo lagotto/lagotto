@@ -3,14 +3,6 @@ require 'rails_helper'
 describe "pmc:update" do
   include_context "rake"
 
-  before(:each) do
-    pmc.put_lagotto_data(pmc.url)
-  end
-
-  after(:each) do
-    pmc.delete_lagotto_data(pmc.url)
-  end
-
   let(:pmc) { FactoryGirl.create(:pmc) }
   let(:date) { Time.zone.now - 1.month }
   let(:month) { date.month.to_s }

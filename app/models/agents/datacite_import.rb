@@ -9,7 +9,7 @@ class DataciteImport < Agent
     until_date = options[:until_date].presence || Time.zone.now.to_date.iso8601
 
     if only_publishers
-      member = Publisher.active.where(service: "datacite").pluck(:name)
+      member = Publisher.active.where(registration_agency: "datacite").pluck(:name)
       datacentre_symbol = member.blank? ? nil : "datacentre_symbol:" + member.join("+OR+")
     else
       datacentre_symbol = nil

@@ -1,6 +1,8 @@
 class Reddit < Agent
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     result = result.deep_fetch('data', 'children') { [] }
 

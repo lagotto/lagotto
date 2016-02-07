@@ -8,41 +8,41 @@ describe PlosComments, type: :model, vcr: true do
   context "use the PLOS comments API" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, doi: "10.5194/acp-12-12021-2012")
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report that there are no events if the doi is for PLOS Currents" do
       work = FactoryGirl.build(:work, :doi => "10.1371/currents.md.411a8332d61e22725e6937b97e6d0ef8")
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if the work was not found by the PLOS comments API" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.008109x")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(error: "Item not found at the provided ID: info:doi/10.1371/journal.pone.008109x\n", status: 404)
     end
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq('data' => [])
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pmed.0020124")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["data"].length).to eq(33)
       data = response["data"].first
       expect(data["title"]).to eq("Open Access and the Skewness of Science: It Can't Be Cream All the Way Down")
     end
 
     it "should catch timeout errors with the PLOS comments API" do
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(status: [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(status: [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://api.plosjournals.org/v1/articles/#{work.doi}?comments=", status: 408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -57,32 +57,32 @@ describe PlosComments, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.build(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
     end
 
     it "should report if the work was not found by the PLOS comments API" do
       result = { error: File.read(fixture_path + 'plos_comments_error.txt') }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pmed.0020124", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_comments.json')
       result = { 'data' => JSON.parse(body) }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:total]).to eq(36)
@@ -104,7 +104,7 @@ describe PlosComments, type: :model, vcr: true do
     it "should catch timeout errors with the PLOS comments API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "http://api.plosjournals.org/v1/articles/#{work.doi}?comments", status: 408 }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

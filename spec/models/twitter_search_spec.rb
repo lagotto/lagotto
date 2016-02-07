@@ -22,9 +22,9 @@ describe TwitterSearch, type: :model, vcr: true do
       stub_auth = stub_request(:post, subject.authentication_url)
                   .with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
                   .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
 
-      response = subject.get_data(work, source_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -36,15 +36,15 @@ describe TwitterSearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0043007", doi: "10.1371/journal.pone.0043007", :canonical_url => nil)
       report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       lookup_stub = stub_request(:get, work.pid).to_return(:status => 404)
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(lookup_stub).to have_been_requested
     end
 
     it "should not look up canonical URL if there is work url" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pone.0043007")
       lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'))
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => File.read(fixture_path + 'cross_ref_nil.xml'))
+      response = subject.get_data(work_id: work.id)
       expect(lookup_stub).not_to have_been_requested
       expect(stub).to have_been_requested
     end
@@ -53,14 +53,14 @@ describe TwitterSearch, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Twitter Search API" do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
@@ -68,17 +68,17 @@ describe TwitterSearch, type: :model, vcr: true do
     it "should report if there are events and event_count returned by the Twitter Search API" do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pmed.0020124", :canonical_url => "http://www.plosmedicine.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0020124")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:body => body)
-      response = subject.get_data(work)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch errors with the Twitter Search API" do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000001", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000001")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
-      expect(response).to eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?q=#{subject.get_query_string(work)}&count=100&include_entities=1&result_type=recent", :status=>408)
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      expect(response).to eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?q=#{subject.get_query_string(work_id: work.id)}&count=100&include_entities=1&result_type=recent", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
@@ -93,19 +93,19 @@ describe TwitterSearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "twitter", work_id: work.pid, comments: 0, total: 0, events_url: "https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime", extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "twitter", work_id: work.pid, comments: 0, total: 0, events_url: "https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime", extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
       work = FactoryGirl.build(:work_with_tweets, :doi => "10.1371/journal.pmed.0020124", published_on: "2014-01-01")
       body = File.read(fixture_path + 'twitter_search.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:total]).to eq(8)
       expect(event[:comments]).to eq(8)
-      expect(event[:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work)}&f=realtime")
+      expect(event[:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work_id: work.id)}&f=realtime")
       expect(event[:days].length).to eq(6)
       expect(event[:days].first).to eq(year: 2014, month: 1, day: 6, total: 1, comments: 1)
       expect(event[:months].length).to eq(1)
@@ -130,8 +130,8 @@ describe TwitterSearch, type: :model, vcr: true do
 
     it "should catch timeout errors with the Twitter Search API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{subject.get_query_string(work)}&result_type=mixed", status: 408 }
-      response = subject.parse_data(result, work)
+      result = { error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{subject.get_query_string(work_id: work.id)}&result_type=mixed", status: 408 }
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
   end

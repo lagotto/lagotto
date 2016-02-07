@@ -10,29 +10,29 @@ describe Wikipedia, type: :model, vcr: true do
   context "query_url" do
     it "should return empty hash if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, :doi => nil, canonical_url: nil)
-      expect(subject.get_query_url(work)).to eq({})
+      expect(subject.get_query_url(work_id: work.id)).to eq({})
     end
 
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
+      expect(subject.get_query_url(work_id: work.id)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
     end
   end
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("en"=>[])
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0008776", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008776")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["en"].length).to eq(627)
       expect(response["en"].first).to eq("title"=>"Bostrycapulus aculeatus", "url"=>"http://en.wikipedia.org/wiki/Bostrycapulus_aculeatus", "timestamp"=>"2015-03-21T07:47:45Z")
     end
@@ -40,7 +40,7 @@ describe Wikipedia, type: :model, vcr: true do
     it "should catch timeout errors with the Wikipedia API" do
       work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, /en.wikipedia.org/).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq("en"=>[])
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -57,7 +57,7 @@ describe Wikipedia, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Wikimedia Commons API" do
       work = FactoryGirl.build(:work, doi: "10.1371/journal.pone.0044271", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044271")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["en"].length).to eq(2)
       expect(response["commons"].length).to eq(8)
     end
@@ -68,19 +68,19 @@ describe Wikipedia, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.build(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       result = { "en"=>[] }
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008776", published_on: "2007-07-01")
       body = File.read(fixture_path + 'wikipedia.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("wikipedia")
@@ -117,7 +117,7 @@ describe Wikipedia, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044271", published_on: "2007-07-01")
       body = File.read(fixture_path + 'wikipedia_commons.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("wikipedia")
@@ -153,7 +153,7 @@ describe Wikipedia, type: :model, vcr: true do
     it "should catch errors with the Wikipedia API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { "en"=>[] }
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
     end
   end

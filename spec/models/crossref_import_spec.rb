@@ -87,12 +87,12 @@ describe CrossrefImport, type: :model, vcr: true do
 
   context "get_data" do
     it "should report if there are no works returned by the Crossref REST API" do
-      response = subject.get_data(nil, from_date: "2015-04-05", until_date: "2015-04-05")
+      response = subject.get_data(from_date: "2015-04-05", until_date: "2015-04-05")
       expect(response["message"]["total-results"]).to eq(0)
     end
 
     it "should report if there are works returned by the Crossref REST API" do
-      response = subject.get_data(nil)
+      response = subject.get_data
       expect(response["message"]["total-results"]).to eq(415496)
       item = response["message"]["items"].first
       expect(item["DOI"]).to eq("10.1139/cjm-47-5-404")
@@ -115,7 +115,7 @@ describe CrossrefImport, type: :model, vcr: true do
     it "should report if there are no works returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(works: [])
+      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
     end
 
     it "should report if there are works returned by the Crossref REST API" do

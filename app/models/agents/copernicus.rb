@@ -1,6 +1,7 @@
 class Copernicus < Agent
-  def get_query_url(work)
-    return {} unless work.doi =~ /^10.5194/
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi =~ /^10.5194/
 
     url_private % { :doi => work.doi }
   end
@@ -9,8 +10,10 @@ class Copernicus < Agent
     { username: username, password: password }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     extra = result.fetch("counter", {})
 

@@ -8,17 +8,17 @@ describe Orcid, type: :model, vcr: true do
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
-      expect(subject.get_data(work)).to eq({})
+      expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events returned by the ORCID API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response).to eq("message-version"=>"1.2", "orcid-profile"=>nil, "orcid-search-results"=>{"orcid-search-result"=>[], "num-found"=>0}, "error-desc"=>nil)
     end
 
     it "should report if there are events returned by the ORCID API" do
-      response = subject.get_data(work)
+      response = subject.get_data(work_id: work.id)
       expect(response["orcid-search-results"]["num-found"]).to eq(1)
       profile = response["orcid-search-results"]["orcid-search-result"].first
       expect(profile["orcid-profile"]["orcid-identifier"]["uri"]).to eq("http://orcid.org/0000-0002-0159-2197")
@@ -26,8 +26,8 @@ describe Orcid, type: :model, vcr: true do
 
     it "should catch timeout errors with the ORCID API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
-      stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
-      response = subject.get_data(work, options = { :agent_id => subject.id })
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      response = subject.get_data(work_id: work, agent_id: subject.id)
       expect(response).to eq(error: "the server responded with status 408 for http://pub.orcid.org/v1.2/search/orcid-bio/?q=digital-object-ids:\"#{work.doi_escaped}\"&rows=100", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
@@ -43,14 +43,14 @@ describe Orcid, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "orcid", work_id: work.pid, readers: 0, total: 0, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "orcid", work_id: work.pid, readers: 0, total: 0, days: [], months: [] }])
     end
 
     it "should report if there are no events returned by the ORCID API" do
       body = File.read(fixture_path + 'orcid_nil.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(works: [], events: [{ source_id: "orcid", work_id: work.pid, readers: 0, total: 0, days: [], months: [] }])
     end
 
@@ -60,7 +60,7 @@ describe Orcid, type: :model, vcr: true do
       body = File.read(fixture_path + 'orcid.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work)
+      response = subject.parse_data(result, work_id: work.id)
 
       event = response[:events].first
       expect(event[:source_id]).to eq("orcid")

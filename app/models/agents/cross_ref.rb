@@ -1,6 +1,7 @@
 class CrossRef < Agent
-  def get_query_url(work)
-    return {} unless work.doi.present? && registration_agencies.include?(work.registration_agency)
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present? && registration_agencies.include?(work.registration_agency)
 
     if work.publisher_id.present?
       # check that we have publisher-specific configuration
@@ -19,8 +20,10 @@ class CrossRef < Agent
     { content_type: 'xml' }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
 

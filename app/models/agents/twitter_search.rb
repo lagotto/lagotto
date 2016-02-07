@@ -7,17 +7,19 @@ class TwitterSearch < Agent
     { metrics: :comments }
   end
 
-  def get_query_url(work, options = {})
-    query_string = get_query_string(work)
+  def get_query_url(options={})
+    query_string = get_query_string(options = {})
     return {} unless query_string.present?
     fail ArgumentError, "No access token." unless get_access_token
 
     url % { query_string: query_string }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     # return early if an error occured
     return result if result[:error]
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     related_works = get_related_works(result, work)
     extra = get_extra(result)

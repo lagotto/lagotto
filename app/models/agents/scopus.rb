@@ -3,16 +3,19 @@ class Scopus < Agent
     { :headers => { "X-ELS-APIKEY" => api_key, "X-ELS-INSTTOKEN" => insttoken } }
   end
 
-  def get_query_url(work)
-    return {} unless work.doi.present?
+  def get_query_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && work.doi.present?
 
     url % { doi: work.doi_escaped }
   end
 
-  def parse_data(result, work, options={})
+  def parse_data(result, options={})
     return result if result[:error]
 
     extra = result.deep_fetch('search-results', 'entry', 0) { {} }
+
+    work = Work.where(id: options.fetch(:work_id, nil)).first
 
     if extra["link"]
       total = extra['citedby-count'].to_i
