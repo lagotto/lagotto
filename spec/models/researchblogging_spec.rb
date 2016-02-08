@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Researchblogging, type: :model, vcr: true do
+describe Researchblogging, type: :model do
   subject { FactoryGirl.create(:researchblogging) }
 
   context "get_data" do

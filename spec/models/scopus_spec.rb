@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Scopus, type: :model, vcr: true do
+describe Scopus, type: :model do
   subject { FactoryGirl.create(:scopus) }
 
   let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pmed.0030442", doi: "10.1371/journal.pmed.0030442", scp: nil) }

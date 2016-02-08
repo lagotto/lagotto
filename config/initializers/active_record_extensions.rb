@@ -1,6 +1,7 @@
-class ActiveRecord::Relation
-  # from https://gist.github.com/iamatypeofwalrus/f9f6a3049f63dd05d02c
+# This assumes you are in Rails 4 and you can pluck multiple columns
+# from https://gist.github.com/siannopollo/03d646eb7525f7fce678#file-pluck_in_batches-rb
 
+class ActiveRecord::Relation
   # pluck_in_batches:  yields an array of *columns that is at least size
   #                    batch_size to a block.
   #

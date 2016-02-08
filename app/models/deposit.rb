@@ -14,40 +14,8 @@ class Deposit < ActiveRecord::Base
     state :failed, value: 2
     state :done, value: 3
 
-    after_transition :to => :done do |deposit|
-      if deposit.callback.present?
-        data = { "deposit" => {
-                   "id" => deposit.uuid,
-                   "state" => "done",
-                   "message_type" => deposit.message_type,
-                   "message_action" => deposit.message_action,
-                   "message_size" => deposit.message_size,
-                   "source_token" => deposit.source_token,
-                   "timestamp" => Time.zone.now.iso8601
-                 }
-               }
-        deposit.get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
-      end
-    end
-
-    after_transition :to => :failed do |deposit|
-      if deposit.callback.present?
-        data = { "deposit" => {
-                   "id" => deposit.uuid,
-                   "state" => "failed",
-                   "message_type" => deposit.message_type,
-                   "message_action" => deposit.message_action,
-                   "message_size" => 0,
-                   "source_token" => deposit.source_token,
-                   "timestamp" => Time.zone.now.iso8601
-                 }
-               }
-        deposit.get_result(deposit.callback, data: data.to_json, token: ENV['API_KEY'])
-      end
-
-      Notification.create(:exception => "", :class_name => "StandardError",
-                          :message => "Failed to process deposit #{deposit.uuid}.",
-                          :level => Notification::FATAL)
+    after_transition :to => [:failed, :done] do |deposit|
+      deposit.send_callback if deposit.callback.present?
     end
 
     event :start do
@@ -115,6 +83,18 @@ class Deposit < ActiveRecord::Base
     else
       errors.add(:message, "should be a hash")
     end
+  end
+
+  def send_callback
+    data = { "deposit" => {
+             "id" => uuid,
+             "state" => state,
+             "message_type" => message_type,
+             "message_action" => message_action,
+             "message_size" => message_size,
+             "source_token" => source_token,
+             "timestamp" => Time.zone.now.iso8601 }}
+    get_result(callback, data: data.to_json, token: ENV['API_KEY'])
   end
 
   def update_works

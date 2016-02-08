@@ -17,7 +17,7 @@ class F1000 < Agent
       total_pages = (total.to_f / job_batch_size).ceil
 
       (0...total_pages).each do |page|
-        AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(nil, self, options)
+        AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options)
       end
     end
 
