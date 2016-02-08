@@ -15,11 +15,13 @@ class AgentJob < ActiveJob::Base
 
   rescue_from StandardError do |exception|
     agent = self.arguments.first
+    agent_id = agent.present? ? agent.id : nil
+
     ActiveRecord::Base.connection_pool.with_connection do
       Notification.where(message: exception.message).where(unresolved: true).first_or_create(
                          exception: exception,
                          class_name: exception.class.to_s,
-                         agent_id: agent.id)
+                         agent_id: agent_id)
     end
   end
 
