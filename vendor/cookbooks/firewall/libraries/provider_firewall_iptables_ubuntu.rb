@@ -71,13 +71,13 @@ class Chef
       firewall_rules.each do |firewall_rule|
         next unless firewall_rule.action.include?(:create) && !firewall_rule.should_skip?(:create)
 
-        if ipv6_rule?(firewall_rule) # an ip4 specific rule
-          types = %w(ip6tables)
-        elsif ipv4_rule?(firewall_rule) # an ip6 specific rule
-          types = %w(iptables)
-        else # or not specific
-          types = %w(iptables ip6tables)
-        end
+        types = if ipv6_rule?(firewall_rule) # an ip4 specific rule
+                  %w(ip6tables)
+                elsif ipv4_rule?(firewall_rule) # an ip6 specific rule
+                  %w(iptables)
+                else # or not specific
+                  %w(iptables ip6tables)
+                end
 
         types.each do |iptables_type|
           # build rules to apply with weight
@@ -91,11 +91,11 @@ class Chef
       end
 
       %w(iptables ip6tables).each do |iptables_type|
-        if iptables_type == 'ip6tables'
-          iptables_filename = '/etc/iptables/rules.v6'
-        else
-          iptables_filename = '/etc/iptables/rules.v4'
-        end
+        iptables_filename = if iptables_type == 'ip6tables'
+                              '/etc/iptables/rules.v6'
+                            else
+                              '/etc/iptables/rules.v4'
+                            end
 
         # ensure a file resource exists with the current iptables rules
         begin

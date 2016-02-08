@@ -38,7 +38,7 @@ By default, Red Hat & CentOS >= 7.0 chooses firewalld. To switch to iptables, se
 default['firewall']['redhat7_iptables'] = true
 ```
 
-# Read this first
+# Considerations that apply to all firewall providers and resources
 
 This cookbook comes with two resources, firewall and firewall rule. The typical usage scenario is as follows:
 
@@ -49,6 +49,35 @@ This cookbook comes with two resources, firewall and firewall rule. The typical 
 - run the delayed notification with action `:restart` on the `firewall` resource. if any rules are different than the last run, the provider will update the current state of the firewall rules to match the expected rules.
 
 There is a fundamental mismatch between the idea of a chef action and the action that should be taken on a firewall rule. For this reason, the chef action for a firewall_rule may be `:nothing` (the rule should not be present in the firewall) or `:create` (the rule should be present in the firewall), but the action taken on a packet in a firewall (`DROP`, `ACCEPT`, etc) is denoted as a `command` parameter on the `firewall_rule` resource.
+
+# iptables considerations
+
+If you need to use a table other than `*filter`, the best way to do so is like so:
+```
+node.default['firewall']['iptables']['defaults'][:ruleset] = {
+  '*filter' => 1,
+  ':INPUT DROP' => 2,
+  ':FORWARD DROP' => 3,
+  ':OUTPUT ACCEPT' => 4,
+  'COMMIT_FILTER' => 100,
+  '*nat' => 101,
+  ':PREROUTING DROP' => 102,
+  ':POSTROUTING DROP' => 103,
+  ':OUTPUT ACCEPT' => 104,
+  'COMMIT_NAT' => 200
+}
+```
+
+Then it's trivial to add additional rules to the `*nat` table using the raw parameter:
+```
+firewall_rule "postroute" do
+  raw "-A POSTROUTING -o eth1 -p tcp -d 172.28.128.21 -j SNAT --to-source 172.28.128.6"
+  position 150
+end
+```
+
+Note that any line starting with `COMMIT` will become just `COMMIT`, as hash
+keys must be unique but we need multiple commit lines.
 
 # Recipes
 
@@ -195,6 +224,12 @@ firewall_rule 'vrrp' do
   provider    Chef::Provider::FirewallRuleIptables
   protocol    112
   command      :allow
+end
+
+# can use :raw command with UFW provider for VRRP
+firewall_rule "VRRP" do
+  command   :allow
+  raw "allow to 224.0.0.18"
 end
 
 # open UDP ports 60000..61000 for mobile shell (mosh.mit.edu), note

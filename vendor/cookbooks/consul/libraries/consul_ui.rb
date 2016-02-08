@@ -1,10 +1,18 @@
+#
+# Cookbook: consul
+# License: Apache 2.0
+#
+# Copyright 2014-2016, Bloomberg Finance L.P.
+#
 require 'poise'
+require_relative 'helpers'
 
 module ConsulCookbook
   module Resource
     # Resource for managing the Consul web UI installation.
     class ConsulUI < Chef::Resource
       include Poise
+      include ConsulCookbook::Helpers
       provides(:consul_ui)
       default_action(:install)
 
@@ -26,23 +34,11 @@ module ConsulCookbook
 
       # @!attribute binary_url
       # @return [String]
-      attribute(:binary_url, kind_of: String, default: 'https://dl.bintray.com/mitchellh/consul/%{filename}.zip')
+      attribute(:binary_url, kind_of: String, default: 'https://releases.hashicorp.com/consul/%{version}/%{filename}.zip')
 
       # @!attribute source_url
       # @return [String]
       attribute(:source_url, kind_of: String)
-
-      def default_environment
-        { GOMAXPROCS: [node['cpu']['total'], 2].max.to_s, PATH: '/usr/local/bin:/usr/bin:/bin' }
-      end
-
-      def binary_checksum
-        node['consul']['checksums'].fetch(binary_filename)
-      end
-
-      def binary_filename
-        [version, 'web_ui'].join('_')
-      end
     end
   end
 
@@ -60,8 +56,8 @@ module ConsulCookbook
             owner new_resource.owner
             group new_resource.group
             install_path new_resource.install_path
-            remote_url new_resource.binary_url % { filename: new_resource.binary_filename }
-            remote_checksum new_resource.binary_checksum
+            remote_url new_resource.binary_url % { version: new_resource.version, filename: new_resource.binary_filename('web_ui') }
+            remote_checksum new_resource.binary_checksum 'web_ui'
           end
         end
       end

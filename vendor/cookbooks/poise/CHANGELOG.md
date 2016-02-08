@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.6.0
+
+* New backwards-compatibility helper: `Poise::Backports::VERIFY_PATH`. Use it
+  like `verify "myapp -t #{Poise::Backports::VERIFY_PATH}" if defined?(verify)`
+  for backwards-compatible usage of file verifications.
+* Fixed Poise's implementation of lazy defaults to more closely match Chef's
+  even when both are used in conjunction. Lazy defaults will no longer be
+  evaluated when setting a value or getting an existing non-default value.
+
 ## v2.5.0
 
 * New property for inversion resources: `provider_no_auto`. Set one or more

@@ -21,6 +21,7 @@ module Poise
   # @since 2.3.0
   module Backports
     autoload :NOT_PASSED, 'poise/backports/not_passed'
+    autoload :VERIFY_PATH, 'poise/backports/verify_path'
   end
 
   autoload :NOT_PASSED, 'poise/backports/not_passed'

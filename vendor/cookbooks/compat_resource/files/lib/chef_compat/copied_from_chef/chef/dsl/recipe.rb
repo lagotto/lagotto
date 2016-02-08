@@ -2,7 +2,7 @@ require 'chef_compat/copied_from_chef'
 class Chef
 module ::ChefCompat
 module CopiedFromChef
-require 'chef_compat/copied_from_chef/chef/dsl/declare_resource'
+require "chef_compat/copied_from_chef/chef/dsl/declare_resource"
 class Chef < (defined?(::Chef) ? ::Chef : Object)
   module DSL
     CopiedFromChef.extend_chef_module(::Chef::DSL, self) if defined?(::Chef::DSL)
@@ -16,7 +16,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
     end
   end
 end
-require 'chef_compat/copied_from_chef/chef/resource'
+require "chef_compat/copied_from_chef/chef/resource"
 end
 end
 end

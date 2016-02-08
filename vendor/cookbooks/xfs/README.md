@@ -3,6 +3,9 @@
 
 Installs packages for working with XFS filesystems.
 
+# DEPRECATION NOTICE
+We believe this cookbook provides little value to the community as the entire actual codebase is less than 10 lines. We have decided to deprecate it, so we can focus our effort on complex cookbooks that provide more value to the overall Chef community. If you have thoughts on how this cookbook could be redesigned to provide more value to the community please reach out to us at cookbooks@chef.io.
+
 ## Requirements
 ### Platforms
 - Debian/Ubuntu

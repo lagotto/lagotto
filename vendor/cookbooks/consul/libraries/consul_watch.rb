@@ -2,7 +2,7 @@
 # Cookbook: consul
 # License: Apache 2.0
 #
-# Copyright (C) 2014, 2015 Bloomberg Finance L.P.
+# Copyright 2014-2016, Bloomberg Finance L.P.
 #
 require 'poise'
 
@@ -11,12 +11,13 @@ module ConsulCookbook
     # @since 1.0.0
     class ConsulWatch < Chef::Resource
       include Poise(fused: true)
+      include ConsulCookbook::Helpers
       provides(:consul_watch)
       default_action(:create)
 
       # @!attribute path
       # @return [String]
-      attribute(:path, kind_of: String, default: lazy { "/etc/consul/#{name}.json" })
+      attribute(:path, kind_of: String, default: lazy { join_path node['consul']['service']['config_dir'], "#{name}.json" })
 
       # @!attribute user
       # @return [String]

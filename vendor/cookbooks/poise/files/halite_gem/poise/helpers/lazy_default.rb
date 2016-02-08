@@ -47,7 +47,12 @@ module Poise
       def set_or_return(symbol, arg, validation)
         if LazyDefault.needs_polyfill? && validation && validation[:default].is_a?(Chef::DelayedEvaluator)
           validation = validation.dup
-          validation[:default] = instance_eval(&validation[:default])
+          if (arg.nil? || arg == Poise::NOT_PASSED) && (!instance_variable_defined?(:"@#{symbol}") || instance_variable_get(:"@#{symbol}").nil?)
+            validation[:default] = instance_eval(&validation[:default])
+          else
+            # Clear the default.
+            validation.delete(:default)
+          end
         end
         super(symbol, arg, validation)
       end

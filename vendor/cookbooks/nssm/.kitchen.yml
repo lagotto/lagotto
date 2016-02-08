@@ -1,0 +1,22 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+  require_chef_omnibus: 11.18
+
+platforms:
+  - name: windows-2012r2
+    driver:
+      box: dhoer/windows-2012r2
+
+suites:
+  - name: nssm_test
+    run_list:
+      - recipe[nssm_test::install_service]
+    attributes:
+      java:
+        windows:
+          # export WIN_JDK_URL=http://example.com/path/to/jdk-8u51-windows-i586.exe; kitchen dia
+          url: <%= ENV['WIN_JDK_URL'] %>

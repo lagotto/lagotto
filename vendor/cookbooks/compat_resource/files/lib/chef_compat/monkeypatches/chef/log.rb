@@ -9,7 +9,6 @@ module ChefCompat
         @compat_resource_filter_paths ||=
           Gem.loaded_specs['chef'].require_paths.map { |p| File.join(Gem.loaded_specs['chef'].full_gem_path, p) } +
           Gem.loaded_specs['compat_resource'].require_paths.map { |p| File.join(Gem.loaded_specs['compat_resource'].full_gem_path, p) }
-        puts caller.select { |c| !@compat_resource_filter_paths.any? { |path| c.start_with?(path) } }
 
         caller.select { |c| !@compat_resource_filter_paths.any? { |path| c.start_with?(path) } }.first
       end

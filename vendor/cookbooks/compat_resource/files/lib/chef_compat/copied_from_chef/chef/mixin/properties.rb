@@ -2,9 +2,9 @@ require 'chef_compat/copied_from_chef'
 class Chef
 module ::ChefCompat
 module CopiedFromChef
-require 'chef_compat/copied_from_chef/chef/delayed_evaluator'
-require 'chef_compat/copied_from_chef/chef/mixin/params_validate'
-require 'chef_compat/copied_from_chef/chef/property'
+require "chef_compat/copied_from_chef/chef/delayed_evaluator"
+require "chef_compat/copied_from_chef/chef/mixin/params_validate"
+require "chef_compat/copied_from_chef/chef/property"
 
 class Chef < (defined?(::Chef) ? ::Chef : Object)
   module Mixin

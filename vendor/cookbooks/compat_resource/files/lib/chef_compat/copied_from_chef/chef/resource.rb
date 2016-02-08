@@ -2,13 +2,13 @@ require 'chef_compat/copied_from_chef'
 class Chef
 module ::ChefCompat
 module CopiedFromChef
-require 'chef_compat/copied_from_chef/chef/resource/action_class'
-require 'chef_compat/copied_from_chef/chef/provider'
-require 'chef_compat/copied_from_chef/chef/mixin/properties'
+require "chef_compat/copied_from_chef/chef/resource/action_class"
+require "chef_compat/copied_from_chef/chef/provider"
+require "chef_compat/copied_from_chef/chef/mixin/properties"
 class Chef < (defined?(::Chef) ? ::Chef : Object)
   class Resource < (defined?(::Chef::Resource) ? ::Chef::Resource : Object)
     include Chef::Mixin::Properties
-    property :name, String, coerce: proc { |v| v.is_a?(Array) ? v.join(', ') : v.to_s }, desired_state: false
+    property :name, String, coerce: proc { |v| v.is_a?(Array) ? v.join(", ") : v.to_s }, desired_state: false
     def initialize(name, run_context=nil)
 super if defined?(::Chef::Resource)
       name(name) unless name.nil?
@@ -44,7 +44,7 @@ super if defined?(::Chef::Resource)
         arg.each do |action|
           validate(
             { action: action },
-            { action: { kind_of: Symbol, equal_to: allowed_actions } }
+            { action: { kind_of: Symbol, equal_to: allowed_actions } },
           )
         end
         @action = arg
@@ -89,7 +89,7 @@ super if defined?(::Chef::Resource)
       end
       safe_ivars = instance_variables.map { |ivar| ivar.to_sym } - FORBIDDEN_IVARS
       safe_ivars.each do |iv|
-        key = iv.to_s.sub(/^@/,'').to_sym
+        key = iv.to_s.sub(/^@/,"").to_sym
         next if result.has_key?(key)
         result[key] = instance_variable_get(iv)
       end
@@ -113,7 +113,7 @@ super if defined?(::Chef::Resource)
       @resource_name || self.class.resource_name
     end
     def self.use_automatic_resource_name
-      automatic_name = convert_to_snake_case(self.name.split('::')[-1])
+      automatic_name = convert_to_snake_case(self.name.split("::")[-1])
       resource_name automatic_name
     end
     def self.allowed_actions(*actions)
@@ -168,17 +168,17 @@ super if defined?(::Chef::Resource)
     end
     def self.declare_action_class(&block)
       @action_class ||= begin
-        if superclass.respond_to?(:action_class)
-          base_provider = superclass.action_class
-        end
-        base_provider ||= Chef::Provider
+                          if superclass.respond_to?(:action_class)
+                            base_provider = superclass.action_class
+                          end
+                          base_provider ||= Chef::Provider
 
-        resource_class = self
-        Class.new(base_provider) do
-          include ActionClass
-          self.resource_class = resource_class
-        end
-      end
+                          resource_class = self
+                          Class.new(base_provider) do
+                            include ActionClass
+                            self.resource_class = resource_class
+                          end
+                        end
       @action_class.class_eval(&block) if block
       @action_class
     end

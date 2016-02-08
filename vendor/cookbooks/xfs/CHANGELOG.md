@@ -1,6 +1,9 @@
 # xfs Cookbook CHANGELOG
 This file is used to list changes made in each version of the xfs cookbook.
 
+## v2.0.1
+- Marked this cookbook as deprecated. See the readme for additional information
+
 ## v2.0.0
 - Dev packages are no longer installed unless node['xfs']['dev_packages'] is true
 - Add chefspec and serverspec tests

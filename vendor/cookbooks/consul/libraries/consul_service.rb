@@ -2,18 +2,20 @@
 # Cookbook: consul
 # License: Apache 2.0
 #
-# Copyright (C) 2014, 2015 Bloomberg Finance L.P.
+# Copyright 2014-2016, Bloomberg Finance L.P.
 #
 require 'poise_service/service_mixin'
+require_relative 'helpers'
 
 module ConsulCookbook
   module Resource
-    # Resource for managing the Consul service on an instance.
+    # A resource for managing the Consul service.
     # @since 1.0.0
     class ConsulService < Chef::Resource
       include Poise
       provides(:consul_service)
       include PoiseService::ServiceMixin
+      include ConsulCookbook::Helpers
 
       # @!attribute version
       # @return [String]
@@ -25,11 +27,11 @@ module ConsulCookbook
 
       # @!attribute install_path
       # @return [String]
-      attribute(:install_path, kind_of: String, default: '/srv')
+      attribute(:install_path, kind_of: String, default: lazy { node['consul']['service']['install_path'] })
 
       # @!attribute config_file
       # @return [String]
-      attribute(:config_file, kind_of: String, default: '/etc/consul.json')
+      attribute(:config_file, kind_of: String, default: lazy { node['consul']['config']['path'] })
 
       # @!attribute user
       # @return [String]
@@ -57,82 +59,57 @@ module ConsulCookbook
 
       # @!attribute data_dir
       # @return [String]
-      attribute(:data_dir, kind_of: String, default: '/var/lib/consul')
+      attribute(:data_dir, kind_of: String, default: lazy { node['consul']['config']['data_dir'] })
 
       # @!attribute config_dir
       # @return [String]
-      attribute(:config_dir, kind_of: String, default: '/etc/consul')
+      attribute(:config_dir, kind_of: String, default: lazy { node['consul']['config']['config_dir'] })
 
-      def default_environment
-        {
-          'GOMAXPROCS' => [node['cpu']['total'], 2].max.to_s,
-          'PATH' => '/usr/local/bin:/usr/bin:/bin'
-        }
-      end
-
-      def command
-        "/usr/bin/env consul agent -config-file=#{config_file} -config-dir=#{config_dir}"
-      end
-
-      def binary_checksum
-        node['consul']['checksums'].fetch(binary_filename)
-      end
-
-      def binary_filename
-        arch = node['kernel']['machine'] =~ /x86_64/ ? 'amd64' : '386'
-        [version, node['os'], arch].join('_')
-      end
+      # @!attribute nssm_params
+      # @return [String]
+      attribute(:nssm_params, kind_of: Hash, default: lazy { node['consul']['service']['nssm_params'] })
     end
   end
 
   module Provider
-    # Provider for managing the Consul service on an instance.
+    # A provider for managing the Consul service.
     # @since 1.0.0
     class ConsulService < Chef::Provider
       include Poise
       provides(:consul_service)
       include PoiseService::ServiceMixin
+      include ConsulCookbook::Helpers
 
       def action_enable
         notifying_block do
-          package new_resource.package_name do
-            version new_resource.version unless new_resource.version.nil?
-            only_if { new_resource.install_method == 'package' }
-          end
-
-          if node['platform'] == 'windows'
-            include_recipe 'chocolatey::default'
-
-            chocolatey new_resource.package_name do
-              version new_resource.version
+          case new_resource.install_method
+          when 'package'
+            package new_resource.package_name do
+              version new_resource.version unless new_resource.version.nil?
             end
-          end
-
-          if new_resource.install_method == 'binary'
+          when 'binary'
             artifact = libartifact_file "consul-#{new_resource.version}" do
               artifact_name 'consul'
               artifact_version new_resource.version
               install_path new_resource.install_path
-              remote_url new_resource.binary_url % { filename: new_resource.binary_filename }
-              remote_checksum new_resource.binary_checksum
+              remote_url new_resource.binary_url % { version: new_resource.version, filename: new_resource.binary_filename('binary') }
+              remote_checksum new_resource.binary_checksum 'binary'
             end
 
             link '/usr/local/bin/consul' do
-              to ::File.join(artifact.current_path, 'consul')
+              to join_path(artifact.current_path, 'consul')
             end
-          end
-
-          if new_resource.install_method == 'source'
+          when 'source'
             include_recipe 'golang::default'
 
-            source_dir = directory ::File.join(new_resource.install_path, 'consul', 'src') do
+            source_dir = directory join_path(new_resource.install_path, 'consul', 'src') do
               recursive true
               owner new_resource.user
               group new_resource.group
               mode '0755'
             end
 
-            git ::File.join(source_dir.path, "consul-#{new_resource.version}") do
+            git join_path(source_dir.path, "consul-#{new_resource.version}") do
               repository new_resource.source_url
               reference new_resource.version
               action :checkout
@@ -142,15 +119,15 @@ module ConsulCookbook
               action :install
             end
 
-            directory ::File.join(new_resource.install_path, 'bin') do
+            directory join_path(new_resource.install_path, 'bin') do
               recursive true
               owner new_resource.user
               group new_resource.group
               mode '0755'
             end
 
-            link ::File.join(new_resource.install_path, 'bin', 'consul') do
-              to ::File.join(source_dir.path, "consul-#{new_resource.version}", 'consul')
+            link join_path(new_resource.install_path, 'bin', 'consul') do
+              to join_path(source_dir.path, "consul-#{new_resource.version}", 'consul')
             end
           end
 
@@ -176,11 +153,17 @@ module ConsulCookbook
       end
 
       def service_options(service)
-        service.command(new_resource.command)
+        service.command(new_resource.command(new_resource.config_file, new_resource.config_dir))
         service.directory(new_resource.data_dir)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
         service.restart_on_update(true)
+        service.options(:systemd, template: 'consul:systemd.service.erb')
+        service.options(:sysvinit, template: 'consul:sysvinit.service.erb')
+
+        if node.platform_family?('rhel') && node.platform_version.to_i == 6
+          service.provider(:sysvinit)
+        end
       end
     end
   end

@@ -44,11 +44,11 @@ module FirewallCookbook
 
       def to_type(new_resource)
         cmd = new_resource.command
-        if cmd == :reject || cmd == :deny
-          type = :block
-        else
-          type = :allow
-        end
+        type = if cmd == :reject || cmd == :deny
+                 :block
+               else
+                 :allow
+               end
         type
       end
 

@@ -1,5 +1,10 @@
 # Poise-Service Changelog
 
+## v1.1.1
+
+* Fix an incorrect value in `poise_service_test`. This is not relevant to
+  end-users of `poise-service`.
+
 ## v1.1.0
 
 * Added `inittab` provider to manage services using old-fashioned `/etc/inittab`.

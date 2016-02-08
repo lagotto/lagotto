@@ -34,14 +34,13 @@ module FirewallCookbook
       end
 
       def build_rule(new_resource)
-        type = new_resource.command
-        Chef::Log.info("#{new_resource.name} apply_rule #{type}")
+        Chef::Log.info("#{new_resource.name} apply_rule #{new_resource.command}")
 
         # if we don't do this, we may see some bugs where traffic is opened on all ports to all hosts when only RELATED,ESTABLISHED was intended
         if new_resource.stateful
           msg = ''
           msg << "firewall_rule[#{new_resource.name}] was asked to "
-          msg << "#{type} a stateful rule using #{new_resource.stateful} "
+          msg << "#{new_resource.command} a stateful rule using #{new_resource.stateful} "
           msg << 'but ufw does not support this kind of rule. Consider guarding by platform_family.'
           fail msg
         end
@@ -50,7 +49,7 @@ module FirewallCookbook
         if new_resource.protocol && !new_resource.protocol.to_s.downcase.match('^(tcp|udp|icmp)$')
           msg = ''
           msg << "firewall_rule[#{new_resource.name}] was asked to "
-          msg << "#{type} a rule using protocol #{new_resource.protocol} "
+          msg << "#{new_resource.command} a rule using protocol #{new_resource.protocol} "
           msg << 'but ufw does not support this kind of rule. Consider guarding by platform_family.'
           fail msg
         end
@@ -60,16 +59,16 @@ module FirewallCookbook
         # ufw deny proto tcp from 10.0.0.0/8 to 192.168.0.1 port 25
         # ufw insert 1 allow proto tcp from 0.0.0.0/0 to 192.168.0.1 port 25
 
-        ufw_command = ['ufw']
-        ufw_command << rule(new_resource).split
-        ufw_command.flatten.join(' ')
+        if new_resource.raw
+          "ufw #{new_resource.raw.strip}"
+        else
+          "ufw #{rule(new_resource)}"
+        end
       end
 
       def rule(new_resource)
-        return new_resource.raw.strip if new_resource.raw
-
         rule = ''
-        rule << "#{new_resource.command.to_s} "
+        rule << "#{new_resource.command} "
         rule << rule_interface(new_resource)
         rule << rule_logging(new_resource)
         rule << rule_proto(new_resource)
@@ -81,13 +80,8 @@ module FirewallCookbook
       def rule_interface(new_resource)
         rule = ''
         rule << "#{new_resource.direction} " if new_resource.direction
-        if new_resource.interface
-          if new_resource.direction
-            rule << "on #{new_resource.interface} "
-          else
-            rule << "in on #{new_resource.interface} "
-          end
-        end
+        rule << "on #{new_resource.interface} " if new_resource.interface && new_resource.direction
+        rule << "in on #{new_resource.interface} " if new_resource.interface && !new_resource.direction
         rule
       end
 
@@ -98,24 +92,21 @@ module FirewallCookbook
       end
 
       def rule_dest_port(new_resource)
-        rule = ''
-        if new_resource.destination
-          rule << "to #{new_resource.destination} "
-        else
-          rule << 'to any '
-        end
+        rule = if new_resource.destination
+                 "to #{new_resource.destination} "
+               else
+                 'to any '
+               end
         rule << "port #{port_to_s(dport_calc(new_resource))} " if dport_calc(new_resource)
         rule
       end
 
       def rule_source_port(new_resource)
-        rule = ''
-
-        if new_resource.source
-          rule << "from #{new_resource.source} "
-        else
-          rule << 'from any '
-        end
+        rule = if new_resource.source
+                 "from #{new_resource.source} "
+               else
+                 'from any '
+               end
 
         if new_resource.source_port
           rule << "port #{port_to_s(new_resource.source_port)} "

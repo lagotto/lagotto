@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ module PoiseService
         # @!attribute service_options
         #   Service options to set for the test group.
         #   @return [Hash, nil]
-        attribute(:service_options, kind_of: [Hash, nil])
+        attribute(:service_options, kind_of: [Hash, NilClass])
         # @!attribute base_port
         #   Port number to start from for the test group.
         #   @return [Integer]

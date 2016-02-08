@@ -43,10 +43,12 @@ framework is used.
 
 ### What service management frameworks are supported?
 
-* SysV (aka /etc/init.d)
-* Upstart
-* systemd
+* [SysV (aka /etc/init.d)](#sysvinit)
+* [Upstart](#upstart)
+* [systemd](#systemd)
+* [Inittab](#inittab)
 * [Runit](https://github.com/poise/poise-service-runit)
+* [Monit](https://github.com/poise/poise-monit#service-provider)
 * [Solaris](https://github.com/sh9189/poise-service-solaris)
 * [AIX](https://github.com/johnbellone/poise-service-aix)
 * *Supervisor (coming soon!)*
@@ -393,7 +395,7 @@ The Poise test server infrastructure is sponsored by [Rackspace](https://rackspa
 
 ## License
 
-Copyright 2015, Noah Kantrowitz
+Copyright 2015-2016, Noah Kantrowitz
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

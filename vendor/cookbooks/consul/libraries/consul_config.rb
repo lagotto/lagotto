@@ -2,15 +2,17 @@
 # Cookbook: consul
 # License: Apache 2.0
 #
-# Copyright (C) 2014, 2015 Bloomberg Finance L.P.
+# Copyright 2014-2016, Bloomberg Finance L.P.
 #
 require 'poise'
+require_relative 'helpers'
 
 module ConsulCookbook
   module Resource
     # @since 1.0.0
     class ConsulConfig < Chef::Resource
       include Poise(fused: true)
+      include ConsulCookbook::Helpers
       provides(:consul_config)
 
       # @!attribute path
@@ -27,11 +29,11 @@ module ConsulCookbook
 
       # @!attribute bag_name
       # @return [String]
-      attribute(:bag_name, kind_of: String, default: 'consul')
+      attribute(:bag_name, kind_of: String, default: 'secrets')
 
       # @!attribute bag_item
       # @return [String]
-      attribute(:bag_item, kind_of: String, default: 'secrets')
+      attribute(:bag_item, kind_of: String, default: 'consul')
 
       # @!attribute options
       # @return [Hash]
@@ -72,7 +74,11 @@ module ConsulCookbook
       attribute(:protocol, kind_of: String)
       attribute(:recursor, kind_of: String)
       attribute(:recursors, kind_of: Array)
-      attribute(:retry_interval, kind_of: Integer)
+      attribute(:retry_interval, kind_of: String)
+      attribute(:retry_interval_wan, kind_of: String)
+      attribute(:retry_join, kind_of: Array)
+      attribute(:retry_join_wan, kind_of: Array)
+      attribute(:rejoin_after_leave, equal_to: [true, false], default: true)
       attribute(:server, equal_to: [true, false], default: true)
       attribute(:server_name, kind_of: String)
       attribute(:skip_leave_on_interrupt, equal_to: [true, false], default: false)
@@ -81,6 +87,7 @@ module ConsulCookbook
       attribute(:statsd_addr, kind_of: String)
       attribute(:statsite_addr, kind_of: String)
       attribute(:syslog_facility, kind_of: String)
+      attribute(:ui, equal_to: [true, false], default: false)
       attribute(:ui_dir, kind_of: String)
       attribute(:verify_incoming, equal_to: [true, false], default: false)
       attribute(:verify_outgoing, equal_to: [true, false], default: false)
@@ -90,8 +97,10 @@ module ConsulCookbook
       # Transforms the resource into a JSON format which matches the
       # Consul service's configuration format.
       def to_json
-        for_keeps = %i{acl_datacenter acl_default_policy acl_down_policy acl_master_token acl_token acl_ttl addresses advertise_addr advertise_addr_wan bind_addr bootstrap bootstrap_expect check_update_interval client_addr data_dir datacenter disable_anonymous_signature disable_remote_exec disable_update_check dns_config domain enable_debug enable_syslog encrypt leave_on_terminate log_level node_name ports protocol recursor recursors retry_interval server server_name skip_leave_on_interrupt start_join start_join_wan statsd_addr statsite_addr syslog_facility ui_dir verify_incoming verify_outgoing verify_server_hostname watches}
+        for_keeps = %i{acl_datacenter acl_default_policy acl_down_policy acl_master_token acl_token acl_ttl addresses advertise_addr advertise_addr_wan bind_addr bootstrap bootstrap_expect check_update_interval client_addr data_dir datacenter disable_anonymous_signature disable_remote_exec disable_update_check dns_config domain enable_debug enable_syslog encrypt leave_on_terminate log_level node_name ports protocol recursor recursors retry_interval retry_interval_wan retry_join retry_join_wan rejoin_after_leave server server_name skip_leave_on_interrupt start_join start_join_wan statsd_addr statsite_addr syslog_facility ui ui_dir verify_incoming verify_outgoing verify_server_hostname watches}
         for_keeps << %i{ca_file cert_file key_file} if tls?
+        for_keeps = for_keeps.flatten
+
         config = to_hash.keep_if do |k, _|
           for_keeps.include?(k.to_sym)
         end.merge(options)
@@ -110,48 +119,61 @@ module ConsulCookbook
             [new_resource.ca_file, new_resource.cert_file, new_resource.key_file].each do |filename|
               directory ::File.dirname(filename) do
                 recursive true
-                owner new_resource.owner
-                group new_resource.group
-                mode '0755'
+                if node['os'].eql? 'linux'
+                  owner new_resource.owner
+                  group new_resource.group
+                  mode '0755'
+                end
               end
             end
 
             item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
             file new_resource.ca_file do
               content item['ca_certificate']
-              mode '0644'
-              owner new_resource.owner
-              group new_resource.group
+              if node['os'].eql? 'linux'
+                owner new_resource.owner
+                group new_resource.group
+                mode '0644'
+              end
             end
 
             file new_resource.cert_file do
               content item['certificate']
-              mode '0644'
-              owner new_resource.owner
-              group new_resource.group
+              if node['os'].eql? 'linux'
+                owner new_resource.owner
+                group new_resource.group
+                mode '0644'
+              end
             end
 
             file new_resource.key_file do
               sensitive true
               content item['private_key']
-              mode '0640'
-              owner new_resource.owner
-              group new_resource.group
+              if node['os'].eql? 'linux'
+                owner new_resource.owner
+                group new_resource.group
+                mode '0640'
+              end
             end
           end
 
           directory ::File.dirname(new_resource.path) do
             recursive true
-            owner new_resource.owner
-            group new_resource.group
-            mode '0755'
+            if node['os'].eql? 'linux'
+              owner new_resource.owner
+              group new_resource.group
+              mode '0755'
+            end
+            not_if { ::File.dirname(new_resource.path) == '/etc' }
           end
 
           file new_resource.path do
-            owner new_resource.owner
-            group new_resource.group
+            if node['os'].eql? 'linux'
+              owner new_resource.owner
+              group new_resource.group
+              mode '0640'
+            end
             content new_resource.to_json
-            mode '0640'
           end
         end
       end

@@ -2,6 +2,11 @@ firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
 
+v2.4.0 (2016-01-28)
+-------------------
+* Expose default iptables ruleset so that raw rules can be used in conjunction
+with rulesets for other tables (#101).
+
 v2.3.1 (2016-01-08)
 -------------------
 * Add raw rule support to the ufw firewall provider (#113).
