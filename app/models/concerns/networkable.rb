@@ -8,9 +8,11 @@ module Networkable
   extend ActiveSupport::Concern
 
   included do
-    def get_result(url, options = { content_type: 'json' })
+    def get_result(url, options={})
+      # content_type defaults to json
       # make sure we use a 'Host' header
       uri = URI.parse(url)
+      options[:content_type] ||= 'json'
       options[:headers] ||= {}
       options[:headers]['Host'] = uri.host
 
