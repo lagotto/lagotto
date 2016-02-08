@@ -4,7 +4,8 @@ module Resolvable
   included do
     require "addressable/uri"
 
-    def get_canonical_url(url, options = { timeout: 120 })
+    def get_canonical_url(url, options={})
+      options[:timeout] ||= 120
       conn = faraday_conn('html', options)
 
       response = conn.get url, {}, options[:headers]

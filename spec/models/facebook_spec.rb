@@ -33,7 +33,7 @@ describe Facebook, type: :model do
     it "should look up canonical URL if there is no work url" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
       report = FactoryGirl.create(:fatal_error_report_with_admin_user)
-      lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => 404)
+      lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => [404])
       response = subject.get_data(work_id: work.id)
       expect(lookup_stub).to have_been_requested
     end
