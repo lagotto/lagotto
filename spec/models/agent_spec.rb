@@ -94,25 +94,25 @@ describe Agent, :type => :model, vcr: true do
 
       context "queue jobs" do
         it "queue" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)
         end
 
         it "queue single" do
           works = FactoryGirl.create_list(:work, 1)
           ids = works.map(&:id)
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(1)
         end
 
         it "only tracked works" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           work = FactoryGirl.create(:work, tracked: false)
           expect(subject.queue_jobs).to eq(10)
         end
 
         it "with rate_limiting" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           subject.rate_limiting = 5
           expect(subject.queue_jobs).to eq(10)
         end
@@ -125,7 +125,7 @@ describe Agent, :type => :model, vcr: true do
 
         it "with waiting agent" do
           subject.wait
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)
           expect(subject).to be_waiting
         end
@@ -143,7 +143,7 @@ describe Agent, :type => :model, vcr: true do
 
           FactoryGirl.create_list(:notification, 10, agent_id: subject.id, updated_at: Time.zone.now - 10.minutes)
           subject.max_failed_queries = 5
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)
           expect(subject).not_to be_disabled
         end
@@ -152,21 +152,21 @@ describe Agent, :type => :model, vcr: true do
           works = FactoryGirl.create_list(:work, 10, :published_today)
           ids = works.map(&:id)
 
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs(from_pub_date: Date.today - 2.days, until_pub_date: Date.today - 2.days)).to eq(0)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
+          expect(subject.queue_jobs(from_date: Date.today - 2.days, until_date: Date.today - 2.days)).to eq(0)
         end
       end
 
       context "job callbacks" do
         it "perform callback" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
-          allow(job).to receive(:perform).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:perform).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)
         end
 
         it "after callback" do
-          allow(job).to receive(:enqueue).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
-          allow(job).to receive(:after).with(AgentJob.new(ids, subject.id), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
+          allow(job).to receive(:after).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)
         end
       end
