@@ -7,8 +7,8 @@ describe NatureOpensearch, type: :model, vcr: true do
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007", :canonical_url => nil)
-      lookup_stub = stub_request(:get, work.doi_as_url).to_return(:status => 404)
+      work = FactoryGirl.create(:work, :doi => "10.1594/PANGAEA.815864", :canonical_url => nil, registration_agency: "datacite")
+      lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => 404)
       response = subject.get_data(work_id: work.id)
       expect(lookup_stub).to have_been_requested
     end
@@ -66,7 +66,7 @@ describe NatureOpensearch, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Nature OpenSearch API" do
       body = File.read(fixture_path + 'nature_opensearch_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
@@ -79,7 +79,7 @@ describe NatureOpensearch, type: :model, vcr: true do
       expect(event[:source_id]).to eq("nature_opensearch")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(7)
-      expect(event[:days].length).to eq(0)
+      expect(event[:days].length).to eq(7)
       expect(event[:months].length).to eq(5)
       expect(event[:months].first).to eq(year: 2013, month: 8, total: 1)
 

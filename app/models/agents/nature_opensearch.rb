@@ -1,11 +1,18 @@
 class NatureOpensearch < Agent
   def get_query_url(options = {})
     query_string = get_query_string(options)
-    return {} unless query_string.present? && registration_agencies.include?(work.registration_agency)
+    return {} unless query_string.present?
 
     start_record = options[:start_record] || 1
 
     url % { query_string: query_string, start_record: start_record }
+  end
+
+  def get_query_string(options = {})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && registration_agencies.include?(work.registration_agency) && (work.get_url || work.doi.present?)
+
+    [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
 
   def get_data(options={})
