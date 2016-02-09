@@ -14,14 +14,10 @@ class AgentJob < ActiveJob::Base
   variable_retry delays: [1.minute, 5.minutes, 10.minutes, 30.minutes, 60.minutes], retryable_exceptions: RETRYABLE_EXCEPTIONS
 
   rescue_from StandardError do |exception|
-    agent = self.arguments.first
-    agent_id = agent.present? ? agent.id : nil
-
     ActiveRecord::Base.connection_pool.with_connection do
       Notification.where(message: exception.message).where(unresolved: true).first_or_create(
                          exception: exception,
-                         class_name: exception.class.to_s,
-                         agent_id: agent_id)
+                         class_name: exception.class.to_s)
     end
   end
 
