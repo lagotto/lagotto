@@ -51,10 +51,6 @@ describe Status, type: :model, vcr: true do
       expect(subject.sidekiq).to eq("failed")
     end
 
-    it "postfix" do
-      expect(subject.postfix).to eq("OK")
-    end
-
     it "services_ok?" do
       expect(subject.services_ok?).to be false
     end

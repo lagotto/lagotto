@@ -7,7 +7,8 @@ module UserAuthMacros
   end
 
   def sign_out
-    visit "/sign_out"
+    click_link "account_menu_link"
+    click_link "sign_out"
   end
 end
 
