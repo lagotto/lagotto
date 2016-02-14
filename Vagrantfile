@@ -16,19 +16,12 @@ end
 def load_env
   # requires dotenv plugin/gem
   require "dotenv"
-
-  # make sure DOTENV is set
-  ENV["DOTENV"] ||= "default"
-
-  # load ENV variables from file specified by DOTENV
-  # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
-  Dotenv.load! File.expand_path("../#{filename}", __FILE__)
+  Dotenv.load! File.expand_path("../.env", __FILE__)
 rescue LoadError
   $stderr.puts "Please install dotenv plugin with \"vagrant plugin install dotenv\""
   exit
 rescue Errno::ENOENT
-  $stderr.puts "Please create #{filename} file, or use DOTENV=example for example configuration"
+  $stderr.puts "Please create .env file, e.g. from .env.example"
   exit
 end
 

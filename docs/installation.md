@@ -32,7 +32,7 @@ Hosting Lagotto at a Platform as a Service (PaaS) provider such as Heroku or Ope
 
 ## Configuration options
 
-Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and can be stored in a single `.env` file. You can use multiple `.env` files, specify the `.env` file using the `DOTENV` environment variable, e.g. `DOTENV=example` for the `.env.example` example configuration file provided with the application.
+Starting with the Lagotto 3.7 release all user-specific configuration options for Rails, as well as for the server configuration and deployment tools Vagrant, Chef and Capistrano are environment variables, and are stored in a single `.env` file. Copy `.env.example` example configuration file provided with the application to get started.
 
 More information regarding ENV variables and `.env` is available [here](https://github.com/bkeepers/dotenv). The following configuration options need to be set:
 
@@ -104,8 +104,8 @@ DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
 
 LOG_LEVEL=info
 
-# authentication via orcid, github, cas or persona
-OMNIAUTH=persona
+# authentication via orcid, github, cas or jwt
+OMNIAUTH=orcid
 
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=

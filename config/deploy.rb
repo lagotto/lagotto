@@ -2,24 +2,16 @@
 lock '3.4.0'
 
 begin
-  # make sure DOTENV is set
-  ENV["DOTENV"] ||= "default"
+  fail Errno::ENOENT unless File.exist?(File.expand_path("../../.env", __FILE__))
 
-  # load ENV variables from file specified by DOTENV
-  # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
-
-  fail Errno::ENOENT unless File.exist?(File.expand_path("../../#{filename}", __FILE__))
-
-  # load ENV variables from file specified by APP_ENV, fallback to .env
   require "dotenv"
-  Dotenv.load! filename
+  Dotenv.load! File.expand_path("../../.env", __FILE__)
 
   # make sure ENV variables required for capistrano are set
   fail ArgumentError if ENV['SERVERS'].to_s.empty? ||
                         ENV['DEPLOY_USER'].to_s.empty?
 rescue Errno::ENOENT
-  $stderr.puts "Please create file .env in the Rails root folder"
+  $stderr.puts "Please create .env file, e.g. from .env.example"
   exit 1
 rescue LoadError
   $stderr.puts "Please install dotenv with \"gem install dotenv\""
