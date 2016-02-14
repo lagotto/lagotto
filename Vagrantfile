@@ -47,7 +47,7 @@ Vagrant.configure("2") do |config|
 
   # Enable provisioning with chef solo
   config.vm.provision :chef_solo do |chef|
-    chef.json = { "dotenv" => ENV["DOTENV"], "application" => ENV["APPLICATION"] }
+    chef.json = { "application" => ENV["APPLICATION"] }
     chef.custom_config_path = "Vagrantfile.chef"
     chef.cookbooks_path = "vendor/cookbooks"
     dna = JSON.parse(File.read(File.expand_path("../node.json", __FILE__)))
@@ -58,8 +58,8 @@ Vagrant.configure("2") do |config|
     chef.log_level = ENV["LOG_LEVEL"].to_sym
   end
 
-  # allow multiple machines, specified by APP_ENV
-  config.vm.define ENV["DOTENV"] do |machine|
+  # allow multiple machines
+  config.vm.define ENV["APPLICATION"] do |machine|
     # Override settings for specific providers
     machine.vm.provider :virtualbox do |vb, override|
       vb.name = ENV["APPLICATION"]
