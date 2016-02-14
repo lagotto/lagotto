@@ -11,7 +11,7 @@ describe User, type: :model, vcr: true do
     it "from_omniauth" do
       auth = OmniAuth.config.mock_auth[:default]
       user = User.from_omniauth(auth)
-      expect(user.name).to eq("Joe Smith")
+      expect(user.name).to eq("Josiah Carberry")
     end
 
     it "fetch_raw_info" do

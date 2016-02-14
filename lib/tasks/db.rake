@@ -13,9 +13,9 @@ namespace :db do
       end
 
       member = ENV['MEMBER']
-      if member.blank? && Publisher.pluck(:member_id).length == 1
+      if member.blank? && Publisher.pluck(:name).length == 1
         # if we have only configured a single publisher
-        member = Publisher.pluck(:member_id).join(",")
+        member = Publisher.pluck(:name).join(",")
       end
 
       # import in batches of 1,000 works
@@ -39,9 +39,9 @@ namespace :db do
         end
 
         member = ENV['MEMBER']
-        if member.blank? && Publisher.pluck(:member_id).length == 1
+        if member.blank? && Publisher.pluck(:name).length == 1
           # if we have only configured a single publisher
-          member = Publisher.pluck(:member_id).join(",")
+          member = Publisher.pluck(:name).join(",")
         end
 
         import = CslImport.new(filepath: filepath, member: member)
@@ -83,9 +83,9 @@ namespace :db do
         end
 
         member = ENV['MEMBER']
-        if member.blank? && Publisher.pluck(:member_id).length == 1
+        if member.blank? && Publisher.pluck(:name).length == 1
           # if we have only configured a single publisher
-          member = Publisher.pluck(:member_id).join(",")
+          member = Publisher.pluck(:name).join(",")
         end
 
         import = SciencetoolboxImport.new(filepath: filepath, member: member)
@@ -295,7 +295,7 @@ namespace :db do
 
         publisher = Publisher.create!(name: ENV['NAME'],
                                       title: ENV['TITLE'],
-                                      member_id: ENV['NAME'].to_i(36),
+                                      name: ENV['NAME'],
                                       prefixes: [],
                                       other_names: [])
         puts "Publisher #{publisher.title} created"

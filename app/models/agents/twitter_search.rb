@@ -7,7 +7,7 @@ class TwitterSearch < Agent
     { metrics: :comments }
   end
 
-  def get_query_url(options={})
+  def get_query_url(options = {})
     query_string = get_query_string(options = {})
     return {} unless query_string.present?
     fail ArgumentError, "No access token." unless get_access_token
@@ -23,7 +23,6 @@ class TwitterSearch < Agent
 
     related_works = get_related_works(result, work)
     extra = get_extra(result)
-    extra = update_extra(work, extra)
 
     { works: related_works,
       events: [{
@@ -92,16 +91,6 @@ class TwitterSearch < Agent
         event_time: event_time,
         event_url: url }
     end
-  end
-
-  # check whether we have stored additional tweets in the past
-  # merge with new tweets, using tweet URL as unique key
-  # we need hash with indifferent access to compare string and symbol keys
-  def update_extra(work, extra)
-    data = HashWithIndifferentAccess.new(get_lagotto_data("twitter_search:#{work.doi_escaped}"))
-
-    merged_extra = Array(data['extra']) | extra
-    merged_extra.group_by { |event| event[:event][:id] }.map { |_, v| v.first }
   end
 
   def get_access_token(options={})
