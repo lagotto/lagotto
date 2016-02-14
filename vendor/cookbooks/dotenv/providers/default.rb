@@ -14,16 +14,12 @@ action :load do
     action :install
   end
 
-  # find file specified by dotenv atrribute
-  # use .env when dotenv is "default"
   require 'dotenv'
-  ENV["DOTENV"] = new_resource.dotenv
-  filename = new_resource.dotenv == "default" ? ".env" : ".env.#{new_resource.dotenv}"
 
   if node['ruby']['enable_capistrano']
-    filepath = "/var/www/#{new_resource.name}/shared/#{filename}"
+    filepath = "/var/www/#{new_resource.name}/shared/.env"
   else
-    filepath = "/var/www/#{new_resource.name}/#{filename}"
+    filepath = "/var/www/#{new_resource.name}/.env"
   end
 
   # load ENV variables from file specified by dotenv atrribute

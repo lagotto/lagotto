@@ -6,7 +6,7 @@ DEPENDENCIES
   database (~> 2.3.1)
   dotenv
     git: git@github.com:lagotto/dotenv-cookbook.git
-    revision: 0343aaa39aaed6a91b05211cd3a2ae9da95e89ba
+    revision: 766a336d399f87c2778efecedf49a775b5519d8a
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
     revision: 11e97ca5308a79f058f519fc0ca3d3b085cf25ca
@@ -31,11 +31,10 @@ DEPENDENCIES
     revision: d40a6dc987080615a0c126101ec041efcaa78dc8
 
 GRAPH
-  7-zip (1.0.2)
-    windows (>= 1.2.2)
   apt (2.9.2)
-  ark (0.9.0)
-    7-zip (>= 0.0.0)
+  ark (1.0.0)
+    build-essential (>= 0.0.0)
+    seven_zip (>= 0.0.0)
     windows (>= 0.0.0)
   aws (2.9.2)
     ohai (>= 2.1.0)
@@ -70,7 +69,7 @@ GRAPH
     mysql-chef_gem (~> 0.0)
     postgresql (>= 1.0.0)
     xfs (>= 0.0.0)
-  dotenv (1.0.0)
+  dotenv (1.0.1)
   firewall (2.4.0)
     chef-sugar (>= 0.0.0)
   golang (1.7.0)
@@ -147,6 +146,8 @@ GRAPH
     build-essential (>= 0.0.0)
   runit (1.7.6)
     packagecloud (>= 0.0.0)
+  seven_zip (1.0.4)
+    windows (>= 1.2.2)
   ulimit (0.3.3)
   windows (1.39.1)
     chef_handler (>= 0.0.0)

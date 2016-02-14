@@ -1,6 +1,6 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: 7-zip
+# Cookbook Name:: seven_zip
 # Recipe:: default
 #
 # Copyright 2011, Opscode, Inc.
@@ -18,14 +18,14 @@
 # limitations under the License.
 #
 
-windows_package node['7-zip']['package_name'] do
-  source node['7-zip']['url']
-  checksum node['7-zip']['checksum']
-  options "INSTALLDIR=\"#{node['7-zip']['home']}\""
+windows_package node['seven_zip']['package_name'] do
+  source node['seven_zip']['url']
+  checksum node['seven_zip']['checksum']
+  options "INSTALLDIR=\"#{node['seven_zip']['home']}\""
   action :install
 end
 
 # update path
-windows_path node['7-zip']['home'] do
+windows_path "#{node['seven_zip']['home']}" do
   action :add
 end

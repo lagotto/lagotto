@@ -1,9 +1,9 @@
 #
-# Cookbook Name:: ark
-# Recipe:: default
+# Author:: Shawn Neal (<sneal@daptiv.com>)
+# Cookbook Name:: seven_zip
+# Resource:: archive
 #
-# Author:: Bryan W. Berry <bryan.berry@gmail.com>
-# Copyright 2012, Bryan W. Berry
+# Copyright:: 2013, Daptiv Solutions LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,11 @@
 # limitations under the License.
 #
 
-Array(node['ark']['package_dependencies']).each do |pkg|
-  package pkg
-end
+default_action :extract
 
-include_recipe "seven_zip" if node['platform_family'] == 'windows'
+actions :extract
+
+attribute :path, :kind_of => String, :name_attribute => true
+attribute :source, :kind_of => String
+attribute :overwrite, :kind_of => [ TrueClass, FalseClass ], :default => false
+attribute :checksum, :kind_of => String
