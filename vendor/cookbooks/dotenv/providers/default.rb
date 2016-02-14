@@ -22,8 +22,6 @@ action :load do
     filepath = "/var/www/#{new_resource.name}/.env"
   end
 
-  # load ENV variables from file specified by dotenv atrribute
-  # otherwise set some ENV variables
   if ::File.exist?(filepath)
     ::Dotenv.load! filepath
   else

@@ -6,10 +6,10 @@ DEPENDENCIES
   database (~> 2.3.1)
   dotenv
     git: git@github.com:lagotto/dotenv-cookbook.git
-    revision: 766a336d399f87c2778efecedf49a775b5519d8a
+    revision: 3760e235c2cf7876119e6e2488c7c2b39319d4c4
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: 11e97ca5308a79f058f519fc0ca3d3b085cf25ca
+    revision: 52f9ac6dc26bb1d22d03a831bac23ebca129a872
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
@@ -69,7 +69,7 @@ GRAPH
     mysql-chef_gem (~> 0.0)
     postgresql (>= 1.0.0)
     xfs (>= 0.0.0)
-  dotenv (1.0.1)
+  dotenv (1.0.2)
   firewall (2.4.0)
     chef-sugar (>= 0.0.0)
   golang (1.7.0)
@@ -78,7 +78,7 @@ GRAPH
   hostnames (0.3.6)
     hostsfile (>= 0.0.0)
   hostsfile (2.4.5)
-  lagotto (5.0.7)
+  lagotto (5.0.8)
     apt (>= 0.0.0)
     capistrano (~> 1.0.0)
     consul (>= 0.0.0)
