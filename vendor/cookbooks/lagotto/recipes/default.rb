@@ -1,7 +1,6 @@
 # load .env configuration file with ENV variables
 # copy configuration file to shared folder
 dotenv node["application"] do
-  dotenv          node["dotenv"]
   action          :nothing
 end.run_action(:load)
 
