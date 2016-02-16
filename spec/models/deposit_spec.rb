@@ -5,24 +5,23 @@ describe Deposit, :type => :model, vcr: true do
 
   subject { FactoryGirl.create(:deposit) }
 
-  it { is_expected.to validate_uniqueness_of(:uuid) }
   it { is_expected.to validate_presence_of(:message) }
 
   describe "validate message" do
     it "format is a string" do
-      subject = FactoryGirl.create(:deposit, message: "test")
+      subject = FactoryGirl.build(:deposit, message: "test")
       subject.valid?
       expect(subject.errors[:message]).to eq(["should be a hash"])
     end
 
     it "format is an array" do
-      subject = FactoryGirl.create(:deposit, message: ["test"])
+      subject = FactoryGirl.build(:deposit, message: ["test"])
       subject.valid?
       expect(subject.errors[:message]).to eq(["should be a hash"])
     end
 
     it "does not contain required hash keys" do
-      subject = FactoryGirl.create(:deposit, message: {})
+      subject = FactoryGirl.build(:deposit, message: {})
       subject.valid?
       expect(subject.errors[:message]).to eq(["can't be blank", "should contain works, events, contributors, or publishers"])
     end
@@ -101,21 +100,20 @@ describe Deposit, :type => :model, vcr: true do
     subject { FactoryGirl.create(:deposit) }
 
     it "citeulike" do
+      source = FactoryGirl.create(:source)
       body = File.read(fixture_path + 'citeulike.xml')
       #stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
 
       response = agent.collect_data(work_id: work.id)
 
-      notification = Notification.first
-      expect(notification).to eq(2)
       subject = Deposit.where(uuid: response.fetch("uuid")).first
       subject.update_events
 
-      expect(Month.count).to eq(2)
+      expect(Month.count).to eq(3)
 
       month = Month.last
       expect(month.year).to eq(2015)
-      expect(month.month).to eq(1)
+      expect(month.month).to eq(7)
       expect(month.total).to eq(2)
       expect(month.readers).to eq(2)
     end
@@ -123,6 +121,7 @@ describe Deposit, :type => :model, vcr: true do
     it "mendeley" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
       agent = FactoryGirl.create(:mendeley)
+      source = FactoryGirl.create(:source, name: "mendeley")
       body = File.read(fixture_path + 'mendeley.json')
       stub = stub_request(:get, agent.get_query_url(work_id: work.id)).to_return(:body => body)
 

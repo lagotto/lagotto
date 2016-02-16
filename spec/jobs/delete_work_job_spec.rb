@@ -7,7 +7,7 @@ RSpec.describe DeleteWorkJob, :type => :job do
 
   it "enqueue jobs" do
     expect(enqueued_jobs.size).to eq(0)
-    DeleteWorkJob.perform_later(publisher.member_id)
+    DeleteWorkJob.perform_later(publisher.name)
     expect(enqueued_jobs.size).to eq(1)
   end
 end

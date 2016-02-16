@@ -22,10 +22,10 @@ describe "/api/v6/deposits", :type => :api do
     context "as admin user" do
       it "JSON" do
         post uri, params, headers
-        #expect(last_response.status).to eq(202)
+        expect(last_response.status).to eq(202)
 
         response = JSON.parse(last_response.body)
-        #expect(response["meta"]["status"]).to eq("accepted")
+        expect(response["meta"]["status"]).to eq("accepted")
         expect(response["meta"]["error"]).to be_nil
         expect(response["deposit"]["id"]).to eq (uuid)
         expect(response["deposit"]["state"]).to eq ("waiting")
@@ -56,6 +56,57 @@ describe "/api/v6/deposits", :type => :api do
       end
     end
 
+    context "with message as array" do
+      let(:params) do
+        { "deposit" => { "uuid" => uuid,
+                         "message_type" => "mendeley",
+                         "message" => ["abc"],
+                         "source_token" => "123" } }
+      end
+
+      it "JSON" do
+        post uri, params, headers
+        expect(last_response.status).to eq(400)
+
+        response = JSON.parse(last_response.body)
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should be a hash"]}}, "deposit"=>{})
+      end
+    end
+
+    context "with message as string" do
+      let(:params) do
+        { "deposit" => { "uuid" => uuid,
+                         "message_type" => "mendeley",
+                         "message" => "abc",
+                         "source_token" => "123" } }
+      end
+
+      it "JSON" do
+        post uri, params, headers
+        expect(last_response.status).to eq(400)
+
+        response = JSON.parse(last_response.body)
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should be a hash"]}}, "deposit"=>{})
+      end
+    end
+
+    context "with message without required hash keys" do
+      let(:params) do
+        { "deposit" => { "uuid" => uuid,
+                         "message_type" => "mendeley",
+                         "message" => { "foo" => "abc" },
+                         "source_token" => "123" } }
+      end
+
+      it "JSON" do
+        post uri, params, headers
+        expect(last_response.status).to eq(400)
+
+        response = JSON.parse(last_response.body)
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should contain works, events, contributors, or publishers"]}}, "deposit"=>{})
+      end
+    end
+
     context "with wrong API key" do
       let(:headers) do
         { "HTTP_ACCEPT" => "application/json; version=6",
@@ -74,7 +125,7 @@ describe "/api/v6/deposits", :type => :api do
     context "with missing deposit param" do
       let(:params) do
         { "data" => { "uuid" => uuid,
-                      "message-type" => "mendeley",
+                      "message_type" => "mendeley",
                       "message" => { "events" => [] },
                       "source_token" => "123" } }
       end
@@ -120,10 +171,10 @@ describe "/api/v6/deposits", :type => :api do
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 
-        # expect(Notification.count).to eq(1)
-        # notification = Notification.first
-        # expect(notification.class_name).to eq("ActiveModel::ForbiddenAttributesError")
-        # expect(notification.status).to eq(422)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("ActiveRecord::UnknownAttributeError")
+        expect(notification.status).to eq(400)
       end
     end
 
