@@ -279,5 +279,20 @@ class Deposit < ActiveRecord::Base
   def create_uuid
     write_attribute(:uuid, SecureRandom.uuid) if uuid.blank?
     write_attribute(:message_type, 'default') if message_type.blank?
+
+    set_events if message['works'].present? &&  message['events'].blank?
+  end
+
+  def set_events
+    message['events'] = Array(message.fetch('works', nil)).map do |item|
+      return {} unless item.is_a?(Hash)
+
+      source_id = item.fetch("related_works", [{}]).first.fetch("source", nil)
+      total = item.fetch("related_works", []).size
+
+      { source_id: source_id,
+        work_id: item.fetch("pid", nil),
+        total: total }
+    end
   end
 end
