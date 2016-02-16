@@ -9,7 +9,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via pid" do
       before(:each) do
-        work_list = works.map { |work| "#{work.pid}" }.join(",")
+        work_list = works.map { |work| work.pid }.join(",")
         @uri = "/api/works?ids=#{work_list}"
       end
 
@@ -29,7 +29,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via DOI" do
       before(:each) do
-        work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
+        work_list = works.map { |work| work.doi_escaped }.join(",")
         @uri = "/api/works?ids=#{work_list}&type=doi"
       end
 
@@ -49,7 +49,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via PMID" do
       before(:each) do
-        work_list = works.map { |work| "#{work.pmid}" }.join(",")
+        work_list = works.map { |work| work.pmid }.join(",")
         @uri = "/api/works?ids=#{work_list}&type=pmid"
       end
 
@@ -68,7 +68,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via PMCID" do
       before(:each) do
-        work_list = works.map { |work| "#{work.pmcid}" }.join(",")
+        work_list = works.map { |work| work.pmcid }.join(",")
         @uri = "/api/works?ids=#{work_list}&type=pmcid"
       end
 
@@ -87,7 +87,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via wos" do
       before(:each) do
-        work_list = works.map { |work| "#{work.wos}" }.join(",")
+        work_list = works.map { |work| work.wos }.join(",")
         @uri = "/api/works?ids=#{work_list}&type=wos"
       end
 
@@ -106,7 +106,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via scp" do
       before(:each) do
-        work_list = works.map { |work| "#{work.scp}" }.join(",")
+        work_list = works.map { |work| work.scp }.join(",")
         @uri = "/api/works?ids=#{work_list}&type=scp"
       end
 
@@ -125,7 +125,7 @@ describe "/api/v6/works", :type => :api do
 
     context "works found via URL" do
       before(:each) do
-        work_list = works.map { |work| "#{work.canonical_url}" }.join(",")
+        work_list = works.map { |work| work.canonical_url }.join(",")
         @uri = "/api/works?ids=#{work_list}&type=url"
       end
 
@@ -144,7 +144,7 @@ describe "/api/v6/works", :type => :api do
 
     context "no identifiers" do
       before(:each) do
-        work_list = works.map { |work| "#{work.doi_escaped}" }.join(",")
+        work_list = works.map { |work| work.doi_escaped }.join(",")
         @uri = "/api/works"
       end
 
@@ -174,7 +174,7 @@ describe "/api/v6/works", :type => :api do
     context "by publisher" do
       let(:publisher) { FactoryGirl.create(:publisher) }
       let(:works) { FactoryGirl.create_list(:work, 10, :with_events, publisher_id: publisher.name) }
-      let!(:work_list) { works.map { |work| "#{work.doi_escaped}" }.join(",") }
+      let!(:work_list) { works.map { |work| work.doi_escaped }.join(",") }
       let(:uri) { "/api/works?publisher_id=#{publisher.name}" }
 
       it "JSON" do
