@@ -295,7 +295,6 @@ namespace :db do
 
         publisher = Publisher.create!(name: ENV['NAME'],
                                       title: ENV['TITLE'],
-                                      name: ENV['NAME'],
                                       prefixes: [],
                                       other_names: [])
         puts "Publisher #{publisher.title} created"
