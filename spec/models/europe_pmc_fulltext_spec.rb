@@ -59,7 +59,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "europe_pmc_fulltext", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "europe_pmc_fulltext", work_id: work.pid, total: 0, events_url: nil, months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
@@ -72,7 +72,6 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       expect(event[:source_id]).to eq("europe_pmc_fulltext")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(13)
-      expect(event[:days]).to be_empty
       expect(event[:months]).to be_empty
 
       expect(response[:works].length).to eq(13)

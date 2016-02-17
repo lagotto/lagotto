@@ -42,7 +42,7 @@ describe Openedition, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, months: [] }])
     end
 
     it "should report if there are no events returned by the Openedition API" do
@@ -50,7 +50,7 @@ describe Openedition, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, months: [] }])
     end
 
     it "should report if there are events returned by the Openedition API" do
@@ -65,8 +65,6 @@ describe Openedition, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(1)
       expect(event[:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
-      expect(event[:days].length).to eq(1)
-      expect(event[:days].first).to eq(year: 2013, month: 5, day: 27, total: 1)
       expect(event[:months].length).to eq(1)
       expect(event[:months].first).to eq(year: 2013, month: 5, total: 1)
 

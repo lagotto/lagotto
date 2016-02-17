@@ -56,13 +56,13 @@ describe PlosFulltext, type: :model, vcr: true do
      it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124")
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are events returned by the PLOS Search API" do
@@ -75,7 +75,6 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(event[:source_id]).to eq("plos_fulltext")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(1)
-      expect(event[:days]).to be_empty
       expect(event[:months].length).to eq(1)
       expect(event[:months].first).to eq(year: 2014, month: 9, total: 1)
 

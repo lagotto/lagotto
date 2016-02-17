@@ -46,7 +46,7 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { works: [], events: [{ source_id: "citeulike", work_id: work.pid, readers: 0, total: 0, extra: [], days: [], months: [] }] } }
+    let(:null_response) { { works: [], events: [{ source_id: "citeulike", work_id: work.pid, readers: 0, total: 0, extra: [], months: [] }] } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)

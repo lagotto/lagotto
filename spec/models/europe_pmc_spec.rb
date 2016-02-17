@@ -49,7 +49,7 @@ describe EuropePmc, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'europe_pmc_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pmc_europe", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pmc_europe", work_id: work.pid, total: 0, events_url: nil, months: [] }])
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
@@ -61,7 +61,6 @@ describe EuropePmc, type: :model, vcr: true do
       expect(event[:source_id]).to eq("pmc_europe")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(23)
-      expect(event[:days]).to be_empty
       expect(event[:months]).to be_empty
 
       expect(response[:works].length).to eq(23)

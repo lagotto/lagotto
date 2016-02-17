@@ -60,13 +60,13 @@ describe NatureOpensearch, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Nature OpenSearch API" do
       body = File.read(fixture_path + 'nature_opensearch_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
@@ -79,7 +79,6 @@ describe NatureOpensearch, type: :model, vcr: true do
       expect(event[:source_id]).to eq("nature_opensearch")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(7)
-      expect(event[:days].length).to eq(7)
       expect(event[:months].length).to eq(5)
       expect(event[:months].first).to eq(year: 2013, month: 8, total: 1)
 

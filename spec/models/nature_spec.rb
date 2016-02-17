@@ -42,14 +42,14 @@ describe Nature, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, months: [] }])
     end
 
     it "should report if there are no events returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, months: [] }])
     end
 
     it "should report if there are events returned by the Nature Blogs API" do
@@ -61,8 +61,6 @@ describe Nature, type: :model, vcr: true do
       expect(event[:source_id]).to eq("nature")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(10)
-      expect(event[:days].length).to eq(10)
-      expect(event[:days].first).to eq(year: 2009, month: 9, day: 18, total: 1)
       expect(event[:months].length).to eq(9)
       expect(event[:months].first).to eq(year: 2009, month: 9, total: 1)
 

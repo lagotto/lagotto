@@ -64,7 +64,7 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the BMC Search API" do
       body = File.read(fixture_path + 'bmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "bmc_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "bmc_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the BMC Search API" do
@@ -78,8 +78,6 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(16)
       expect(event[:events_url]).to eq("http://www.biomedcentral.com/search/results?terms=https://github.com/najoshi/sickle")
-      expect(event[:days].length).to eq(11)
-      expect(event[:days].first).to eq(year: 2013, month: 1, day: 30, total: 1)
       expect(event[:months].length).to eq(11)
       expect(event[:months].first).to eq(year: 2013, month: 1, total: 1)
 

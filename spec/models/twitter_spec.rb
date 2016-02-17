@@ -46,7 +46,7 @@ describe Twitter, type: :model, vcr: true do
       body = File.read(fixture_path + 'twitter_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "twitter", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "twitter", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are events returned by the Twitter API" do
@@ -56,8 +56,6 @@ describe Twitter, type: :model, vcr: true do
 
       event = response[:events].first
       expect(event[:total]).to eq(2)
-      expect(event[:days].length).to eq(2)
-      expect(event[:days].first).to eq(year: 2012, month: 5, day: 20, total: 1, comments: 1)
       expect(event[:months].length).to eq(1)
       expect(event[:months].first).to eq(year: 2012, month: 5, total: 2, comments: 2)
 

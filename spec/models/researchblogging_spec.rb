@@ -50,7 +50,7 @@ describe Researchblogging, type: :model do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the ResearchBlogging API" do
@@ -58,7 +58,7 @@ describe Researchblogging, type: :model do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are events returned by the ResearchBlogging API" do
@@ -73,8 +73,6 @@ describe Researchblogging, type: :model do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(8)
       expect(event[:events_url]).to eq(subject.get_events_url(work))
-      expect(event[:days].length).to eq(7)
-      expect(event[:days].first).to eq(year: 2009, month: 7, day: 6, total: 1)
       expect(event[:months].length).to eq(7)
       expect(event[:months].first).to eq(year: 2009, month: 7, total: 1)
 
@@ -109,8 +107,6 @@ describe Researchblogging, type: :model do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(1)
       expect(event[:events_url]).to eq(subject.get_events_url(work))
-      expect(event[:days].length).to eq(1)
-      expect(event[:days].first).to eq(year: 2012, month: 10, day: 27, total: 1)
       expect(event[:months].length).to eq(1)
       expect(event[:months].first).to eq(year: 2012, month: 10, total: 1)
 

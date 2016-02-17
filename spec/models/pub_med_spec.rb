@@ -41,7 +41,7 @@ describe PubMed, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the PubMed API" do
@@ -50,7 +50,7 @@ describe PubMed, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "pub_med", work_id: work.pid, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the PubMed API" do

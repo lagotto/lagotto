@@ -53,20 +53,20 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
       result = { error: "Article not found", status: 404 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
@@ -79,7 +79,6 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(15)
       expect(event[:comments]).to eq(15)
-      expect(event[:days].length).to eq(0)
       expect(event[:months].length).to eq(1)
       expect(event[:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
 

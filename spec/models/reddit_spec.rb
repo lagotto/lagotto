@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Reddit API" do
@@ -50,7 +50,7 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are events returned by the Reddit API" do
@@ -65,8 +65,6 @@ describe Reddit, type: :model, vcr: true do
       expect(event[:likes]).to eq(1013)
       expect(event[:comments]).to eq(158)
       expect(event[:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work_id: work.id)}")
-      expect(event[:days].length).to eq(3)
-      expect(event[:days].first).to eq(year: 2013, month: 5, day: 7, total: 1)
       expect(event[:months].length).to eq(2)
       expect(event[:months].first).to eq(year: 2013, month: 5, total: 2)
 

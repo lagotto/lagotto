@@ -60,7 +60,6 @@ describe Ads, type: :model, vcr: true do
       expect(event[:source_id]).to eq("ads")
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(1)
-      expect(event[:days]).to be_nil
       expect(event[:months]).to be_nil
 
       expect(response[:works].length).to eq(1)

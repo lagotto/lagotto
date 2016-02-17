@@ -57,13 +57,13 @@ describe PlosComments, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, months: [] }])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, months: [] }])
     end
 
     it "should report if the work was not found by the PLOS comments API" do
@@ -75,7 +75,7 @@ describe PlosComments, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, months: [] }])
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
@@ -86,8 +86,6 @@ describe PlosComments, type: :model, vcr: true do
 
       event = response[:events].first
       expect(event[:total]).to eq(36)
-      expect(event[:days].length).to eq(11)
-      expect(event[:days].first).to eq(year: 2009, month: 3, day: 30, total: 7)
       expect(event[:months].length).to eq(9)
       expect(event[:months].first).to eq(year: 2009, month: 3, total: 21)
 
