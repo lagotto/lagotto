@@ -153,18 +153,6 @@ class Event < ActiveRecord::Base
                    total: total }
   end
 
-  # for backwards compatibility with v3 API
-  def old_metrics
-    @old_metrics ||= { pdf: pdf,
-                       html: html,
-                       shares: readers,
-                       groups: readers > 0 ? total - readers : 0,
-                       comments: comments,
-                       likes: likes,
-                       citations: pdf + html + readers + comments + likes > 0 ? 0 : total,
-                       total: total }
-  end
-
   def group_name
     @group_name ||= group.name
   end

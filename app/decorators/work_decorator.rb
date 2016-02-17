@@ -10,15 +10,6 @@ class WorkDecorator < Draper::Decorator
     to_param
   end
 
-  def source_ids
-    # v3 API
-    return context[:source_ids] if context[:source_ids]
-
-    collection = Source.accessible(context[:role]).order("name")
-    collection = collection.where(name: context[:source_id]) if context[:source_id]
-    collection = collection.pluck(:id)
-  end
-
   def filtered_events
     model.events.select { |rs| source_ids.include?(rs.source_id) }
   end

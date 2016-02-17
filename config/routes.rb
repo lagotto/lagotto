@@ -53,10 +53,6 @@ Lagotto::Application.routes.draw do
   get "/api", to: "api/index#index"
 
   namespace :api, defaults: { format: "json" } do
-    namespace :v3 do
-      resources :works, path: "articles", constraints: { :id => /.+?/, :format=> false }, only: [:index, :show]
-    end
-
     namespace :v5 do
       resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
       resources :sources, only: [:index, :show]
