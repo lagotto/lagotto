@@ -30,7 +30,6 @@ describe "/api/v6/events", :type => :api do
         expect(item["total"]).to eq(50)
         expect(item["readers"]).to eq(50)
         expect(item["events_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
-        expect(item["by_day"]).to be_empty
         expect(item["by_month"]).not_to be_nil
         expect(item["by_year"]).not_to be_nil
       end
@@ -49,7 +48,6 @@ describe "/api/v6/events", :type => :api do
         expect(item["total"]).to eq(50)
         expect(item["readers"]).to eq(50)
         expect(item["events_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
-        expect(item["by_day"]).to be_empty
         expect(item["by_month"]).not_to be_nil
         expect(item["by_year"]).not_to be_nil
       end
@@ -87,7 +85,6 @@ describe "/api/v6/events", :type => :api do
         expect(item["total"]).to eq(50)
         expect(item["readers"]).to eq(50)
         expect(item["events_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
-        expect(item["by_day"]).to be_empty
         expect(item["by_month"]).not_to be_nil
         expect(item["by_year"]).not_to be_nil
       end
@@ -106,7 +103,6 @@ describe "/api/v6/events", :type => :api do
         expect(item["total"]).to eq(50)
         expect(item["readers"]).to eq(50)
         expect(item["events_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
-        expect(item["by_day"]).to be_empty
         expect(item["by_month"]).not_to be_nil
         expect(item["by_year"]).not_to be_nil
       end

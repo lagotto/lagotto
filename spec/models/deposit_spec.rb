@@ -68,8 +68,6 @@ describe Deposit, :type => :model, vcr: true do
       expect(month.month).to eq(4)
       expect(month.total).to eq(12)
       expect(month.readers).to eq(12)
-
-      expect(event.days.count).to eq(0)
     end
 
     it "success counter" do
@@ -83,7 +81,6 @@ describe Deposit, :type => :model, vcr: true do
       expect(event.pdf).to eq(24)
       expect(event.html).to eq(122)
       expect(event.months.count).to eq(1)
-      expect(event.days.count).to eq(0)
 
       month = event.months.last
       expect(month.year).to eq(2015)

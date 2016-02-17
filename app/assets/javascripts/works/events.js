@@ -247,17 +247,6 @@ function AlmViz(options) {
         }
       }
 
-      if (events.by_day){
-        var level_data = getData_('day', events);
-        var dayTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
-        var numDays = d3.time.day.utc.range(pub_date, new Date()).length;
-
-        if (dayTotal >= minItems_.minEventsForDaily && numDays >= minItems_.minDaysForDaily) {
-            showDaily = true;
-            level = 'day';
-        }
-      }
-
       // The level and level_data should be set to the finest level
       // of granularity that we can show
       timeInterval = getTimeInterval_(level);
@@ -391,8 +380,6 @@ function AlmViz(options) {
         return events.by_year;
       case 'month':
         return events.by_month;
-      case 'day':
-        return events.by_day;
     }
   };
 

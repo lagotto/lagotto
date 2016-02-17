@@ -52,7 +52,6 @@ describe "/api/v5/articles", :type => :api do
         item_source = item["sources"][0]
         expect(item_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.events.first.total)
-        expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
       end
@@ -70,7 +69,6 @@ describe "/api/v5/articles", :type => :api do
         item_source = item["sources"][0]
         expect(item_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.events.first.total)
-        expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
       end
@@ -124,7 +122,6 @@ describe "/api/v5/articles", :type => :api do
         expect(item_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.events.first.total)
         expect(item_source["events"]).not_to be_nil
-        expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
       end
@@ -144,7 +141,6 @@ describe "/api/v5/articles", :type => :api do
         expect(item_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.events.first.total)
         expect(item_source["events"]).not_to be_nil
-        expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
       end
@@ -168,7 +164,6 @@ describe "/api/v5/articles", :type => :api do
         item_source = item["sources"][0]
         expect(item_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.events.first.total)
-        expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
       end
@@ -188,7 +183,6 @@ describe "/api/v5/articles", :type => :api do
         item_source = item["sources"][0]
         expect(item_source["metrics"]["total"]).to eq(work.events.first.total)
         expect(item_source["metrics"]["readers"]).to eq(work.events.first.total)
-        expect(item_source["by_day"]).not_to be_nil
         expect(item_source["by_month"]).not_to be_nil
         expect(item_source["by_year"]).not_to be_nil
       end
