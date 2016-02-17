@@ -5,7 +5,7 @@ class Relation < ActiveRecord::Base
   belongs_to :source
   belongs_to :publisher
 
-  before_create :set_occured_at
+  before_create :set_occurred_at
 
   validates :work_id, :presence => true
   validates :related_work_id, :presence => true
@@ -28,7 +28,7 @@ class Relation < ActiveRecord::Base
     Status.first && Status.first.relations_count
   end
 
-  def set_occured_at
-    write_attribute(:occured_at, Time.zone.now) if occured_at.blank?
+  def set_occurred_at
+    write_attribute(:occurred_at, Time.zone.now) if occurred_at.blank?
   end
 end
