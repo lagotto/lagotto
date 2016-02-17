@@ -11,6 +11,6 @@ RSpec.describe CacheJob, :type => :job do
     expect(enqueued_jobs.size).to eq(1)
 
     cache_job = enqueued_jobs.first
-    expect(cache_job).to eq(job: CacheJob, args: [{"_aj_globalid"=>"gid://lagotto/Source/1"}], queue: "critical")
+    expect(cache_job[:job]).to eq(CacheJob)
   end
 end

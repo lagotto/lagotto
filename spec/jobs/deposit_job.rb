@@ -10,6 +10,6 @@ RSpec.describe DepositJob, :type => :job do
     expect(enqueued_jobs.size).to eq(1)
 
     deposit_job = enqueued_jobs.first
-    expect(deposit_job).to eq(job: DepositJob, args: [{"_aj_globalid"=>"gid://lagotto/Deposit/1"}], queue: "default")
+    expect(deposit_job[:job]).to eq(DepositJob)
   end
 end

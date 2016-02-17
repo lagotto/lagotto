@@ -12,9 +12,9 @@ RSpec.describe AgentJob, :type => :job do
     expect(enqueued_jobs.size).to eq(2)
 
     cache_job = enqueued_jobs.first
-    expect(cache_job).to eq(job: CacheJob, args: [{"_aj_globalid"=>"gid://lagotto/Citeulike/1"}], queue: "critical")
+    expect(cache_job[:job]).to eq(CacheJob)
 
     agent_job = enqueued_jobs.last
-    expect(agent_job).to eq(job: AgentJob, args: [{"_aj_globalid"=>"gid://lagotto/Citeulike/1"}, {"ids"=>[1], "_aj_symbol_keys"=>["ids"]}], queue: "default")
+    expect(agent_job[:job]).to eq(AgentJob)
   end
 end
