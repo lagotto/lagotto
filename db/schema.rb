@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217142011) do
+ActiveRecord::Schema.define(version: 20160217213857) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -125,38 +125,17 @@ ActiveRecord::Schema.define(version: 20160217142011) do
     t.string "version", limit: 191
   end
 
-  create_table "days", force: :cascade do |t|
-    t.integer  "work_id",    limit: 4,             null: false
-    t.integer  "source_id",  limit: 4,             null: false
-    t.integer  "event_id",   limit: 4,             null: false
-    t.integer  "year",       limit: 4,             null: false
-    t.integer  "month",      limit: 4,             null: false
-    t.integer  "day",        limit: 4,             null: false
-    t.integer  "total",      limit: 4, default: 0, null: false
-    t.integer  "html",       limit: 4, default: 0, null: false
-    t.integer  "pdf",        limit: 4, default: 0, null: false
-    t.integer  "comments",   limit: 4, default: 0, null: false
-    t.integer  "likes",      limit: 4, default: 0, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.integer  "readers",    limit: 4, default: 0, null: false
-  end
-
-  add_index "days", ["event_id", "year", "month", "day"], name: "index_days_on_event_id_and_year_and_month_and_day", using: :btree
-  add_index "days", ["source_id"], name: "days_source_id_fk", using: :btree
-  add_index "days", ["work_id", "source_id", "year", "month"], name: "index_days_on_work_id_and_source_id_and_year_and_month", using: :btree
-
   create_table "deposits", force: :cascade do |t|
-    t.text     "uuid",           limit: 65535,                       null: false
-    t.string   "message_type",   limit: 255,                         null: false
-    t.text     "message",        limit: 16777215
+    t.text     "uuid",           limit: 65535,                         null: false
+    t.string   "message_type",   limit: 255,                           null: false
+    t.text     "message",        limit: 4294967295
     t.string   "source_token",   limit: 255
     t.text     "callback",       limit: 65535
-    t.integer  "state",          limit: 4,        default: 0
+    t.integer  "state",          limit: 4,          default: 0
     t.string   "state_event",    limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-    t.string   "message_action", limit: 255,      default: "create", null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.string   "message_action", limit: 255,        default: "create", null: false
   end
 
   add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree
@@ -436,21 +415,21 @@ ActiveRecord::Schema.define(version: 20160217142011) do
     t.datetime "updated_at"
     t.text     "canonical_url",       limit: 65535
     t.string   "mendeley_uuid",       limit: 255
-    t.integer  "year",                limit: 4,        default: 1970
+    t.integer  "year",                limit: 4,          default: 1970
     t.integer  "month",               limit: 4
     t.integer  "day",                 limit: 4
     t.integer  "publisher_id",        limit: 8
-    t.text     "pid",                 limit: 65535,                    null: false
-    t.text     "csl",                 limit: 16777215
+    t.text     "pid",                 limit: 65535,                      null: false
+    t.text     "csl",                 limit: 4294967295
     t.integer  "work_type_id",        limit: 4
-    t.boolean  "tracked",                              default: false
+    t.boolean  "tracked",                                default: false
     t.string   "scp",                 limit: 191
     t.string   "wos",                 limit: 191
     t.string   "ark",                 limit: 191
     t.string   "arxiv",               limit: 191
     t.string   "registration_agency", limit: 255
     t.string   "dataone",             limit: 191
-    t.integer  "lock_version",        limit: 4,        default: 0,     null: false
+    t.integer  "lock_version",        limit: 4,          default: 0,     null: false
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
@@ -478,9 +457,6 @@ ActiveRecord::Schema.define(version: 20160217142011) do
   add_index "works", ["wos", "published_on", "id"], name: "index_works_on_wos_published_on_id", using: :btree
   add_index "works", ["wos"], name: "index_works_on_wos", unique: true, using: :btree
 
-  add_foreign_key "days", "events", name: "days_event_id_fk", on_delete: :cascade
-  add_foreign_key "days", "sources", name: "days_source_id_fk", on_delete: :cascade
-  add_foreign_key "days", "works", name: "days_work_id_fk", on_delete: :cascade
   add_foreign_key "events", "sources", name: "events_source_id_fk", on_delete: :cascade
   add_foreign_key "events", "works", name: "events_work_id_fk", on_delete: :cascade
   add_foreign_key "months", "events", name: "months_event_id_fk", on_delete: :cascade

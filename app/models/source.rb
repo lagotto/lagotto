@@ -14,7 +14,6 @@ class Source < ActiveRecord::Base
   has_many :events, :dependent => :destroy
   has_many :relations, :dependent => :destroy
   has_many :months
-  has_many :days
   has_many :works, :through => :events
   belongs_to :group
 
@@ -42,19 +41,6 @@ class Source < ActiveRecord::Base
 
   def human_state_name
     (active ? "active" : "inactive")
-  end
-
-  def get_events_by_day(events, publication_date, options={})
-    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - publication_date > 30 }
-
-    options[:metrics] ||= :total
-    events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
-      { year: k[0..3].to_i,
-        month: k[5..6].to_i,
-        day: k[8..9].to_i,
-        options[:metrics] => v.length,
-        total: v.length }
-    end
   end
 
   def get_events_by_month(events, options={})

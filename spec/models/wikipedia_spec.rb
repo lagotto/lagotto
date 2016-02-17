@@ -68,12 +68,12 @@ describe Wikipedia, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are no events and event_count returned by the Wikipedia API" do
       result = { "en"=>[] }
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
     end
 
     it "should report if there are events and event_count returned by the Wikipedia API" do
@@ -87,8 +87,6 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(637)
       expect(event[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work_id: work.id)}")
-      expect(event[:days].length).to eq(88)
-      expect(event[:days].first).to eq(year: 2012, month: 5, day: 6, total: 1)
       expect(event[:months].length).to eq(29)
       expect(event[:months].first).to eq(year: 2012, month: 5, total: 5)
 
@@ -124,8 +122,6 @@ describe Wikipedia, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(10)
       expect(event[:events_url]).to eq("http://en.wikipedia.org/w/index.php?search=#{subject.get_query_string(work_id: work.id)}")
-      expect(event[:days].length).to eq(1)
-      expect(event[:days].first).to eq(year: 2013, month: 8, day: 29, total: 6)
       expect(event[:months].length).to eq(3)
       expect(event[:months].first).to eq(year: 2013, month: 8, total: 6)
 
@@ -154,7 +150,7 @@ describe Wikipedia, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { "en"=>[] }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "wikipedia", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
     end
   end
 end

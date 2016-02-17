@@ -41,7 +41,7 @@ class Api::V6::EventsController < Api::BaseController
       collection = collection.order("events.updated_at DESC")
     end
 
-    collection = collection.includes(:work, :source, :days, :months)
+    collection = collection.includes(:work, :source, :months)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1

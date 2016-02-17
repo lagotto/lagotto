@@ -55,14 +55,14 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], months: [] }])
     end
 
     it "should report if there are events returned by the Wordpress API" do
@@ -75,8 +75,6 @@ describe Wordpress, type: :model, vcr: true do
       expect(event[:work_id]).to eq(work.pid)
       expect(event[:total]).to eq(10)
       expect(event[:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work_id: work.id)}&t=post")
-      expect(event[:days].length).to eq(6)
-      expect(event[:days].first).to eq(year: 2007, month: 7, day: 12, total: 1)
       expect(event[:months].length).to eq(6)
       expect(event[:months].first).to eq(year: 2007, month: 7, total: 1)
 

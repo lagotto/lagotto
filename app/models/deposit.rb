@@ -190,10 +190,6 @@ class Deposit < ActiveRecord::Base
       months = [event.get_events_current_month] if months.blank?
       update_months(event, months)
 
-      days = item.fetch("days", [])
-      days = [event.get_events_current_day].compact if days.blank?
-      update_days(event, days)
-
       event
     end
   end
@@ -247,21 +243,6 @@ class Deposit < ActiveRecord::Base
                                       readers: item.fetch("readers", 0),
                                       comments: item.fetch("comments", 0),
                                       likes: item.fetch("likes", 0)) }
-  end
-
-  def update_days(event, days)
-    days.map { |item| Day.where(event_id: event.id,
-                                day: item.fetch("day"),
-                                month: item.fetch("month"),
-                                year: item.fetch("year")).first_or_create(
-                                  work_id: event.work_id,
-                                  source_id: event.source_id,
-                                  total: item.fetch("total", 0),
-                                  pdf: item.fetch("pdf", 0),
-                                  html: item.fetch("html", 0),
-                                  readers: item.fetch("readers", 0),
-                                  comments: item.fetch("comments", 0),
-                                  likes: item.fetch("likes", 0)) }
   end
 
   def message_size

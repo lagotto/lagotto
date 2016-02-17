@@ -8,7 +8,6 @@ class Event < ActiveRecord::Base
   belongs_to :work, :touch => true
   belongs_to :source
   has_many :months, :dependent => :destroy
-  has_many :days, :dependent => :destroy
 
   serialize :extra, JSON
 

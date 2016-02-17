@@ -16,13 +16,9 @@ if (query) {
     .get(function(error, json) {
       if (error) { return console.warn(error); }
       var data = json.source;
-      var byDay = d3.entries(data.by_day);
       var byMonth = d3.entries(data.by_month);
-
-      var byDayTitle = formatPercent(data.by_day.with_events / d3.sum(byDay, function(g) { return g.value; }));
       var byMonthTitle = formatPercent(data.by_month.with_events / d3.sum(byMonth, function(g) { return g.value; }));
 
-      donutViz(byDay, "div#chart_day", byDayTitle, "with events", colors, "works");
       donutViz(byMonth, "div#chart_month", byMonthTitle, "with events", colors, "works");
   });
 }

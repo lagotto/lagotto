@@ -12,21 +12,12 @@ var width = 250,
 
 // bar chart
 function barViz(data, div, count, format) {
-  if (format === "days") {
-    var x = d3.time.scale.utc()
-      .domain([startDate, endDate])
-      .rangeRound([0, width]);
-    var y = d3.scale.linear()
-      .domain([d3.min(data, function(d) { return d.values[count]; }), d3.max(data, function(d) { return d.values[count]; })])
-      .rangeRound([height, 0]);
-  } else {
-    var x = d3.time.scale.utc()
+  var x = d3.time.scale.utc()
       .domain([startTime, endDate])
       .rangeRound([0, width]);
-    var y = d3.scale.linear()
+  var y = d3.scale.linear()
       .domain([0, d3.max(data, function(d) { return d.values[count]; })])
       .rangeRound([height, 0]);
-  }
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -45,21 +36,11 @@ function barViz(data, div, count, format) {
     .data(data)
     .enter().append("rect")
     .attr("class", function(d) {
-      if (format === "days") {
-        var timestamp = Date.parse(d.key + 'T12:00:00Z');
-        var weekNumber = formatWeek(new Date(timestamp));
-        return (weekNumber % 2 === 0) ? "bar viewed" : "bar viewed-alt";
-      } else {
-        var timestamp = Date.parse(d.key + ':00:01Z');
-        var hour = formatHour(new Date(timestamp));
-        return (hour >= 11 && hour <= 22) ? "bar viewed-alt" : "bar viewed";
-      }})
+      var timestamp = Date.parse(d.key + ':00:01Z');
+      var hour = formatHour(new Date(timestamp));
+      return (hour >= 11 && hour <= 22) ? "bar viewed-alt" : "bar viewed"; })
     .attr("x", function(d) {
-      if (format === "days") {
-        return x(new Date(Date.parse(d.key + 'T12:00:00Z')));
-      } else {
-        return x(new Date(Date.parse(d.key + ':00:00Z')));
-      }})
+      return x(new Date(Date.parse(d.key + ':00:00Z'))); })
     .attr("width", width/30 - 1)
     .attr("y", function(d) { return y(d.values[count]); })
     .attr("height", function(d) { return height - y(d.values[count]); });
@@ -79,13 +60,8 @@ function barViz(data, div, count, format) {
         var title = formatFixed(d.values[count]);
       }
 
-      if (format === "days") {
-        var timestamp = Date.parse(d.key + 'T12:00:00Z');
-        var dateString = " on " + formatDate(new Date(timestamp));
-      } else {
-        var timestamp = Date.parse(d.key + ':00:00Z');
-        var dateString = " at " + formatTime(new Date(timestamp));
-      }
+      var timestamp = Date.parse(d.key + ':00:00Z');
+      var dateString = " at " + formatTime(new Date(timestamp));
 
       $(this).tooltip({ title: title + dateString, container: "body"});
     }

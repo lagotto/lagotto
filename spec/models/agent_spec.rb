@@ -10,32 +10,6 @@ describe Agent, :type => :model, vcr: true do
   it { is_expected.to validate_numericality_of(:max_failed_queries).is_greater_than(0).only_integer.with_message("must be greater than 0") }
   it { is_expected.to validate_numericality_of(:rate_limiting).is_greater_than(0).only_integer.with_message("must be greater than 0") }
 
-  describe "get_events_by_day" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
-
-    let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.ppat.1000446", published_on: "2013-08-05") }
-
-    it "should handle events" do
-      time = Time.zone.now - 1.month
-      time_two = Time.zone.now - 1.week
-      events = [{ "timestamp" => time.utc.iso8601 },
-                { "timestamp" => time.utc.iso8601 },
-                { "timestamp" => time_two.utc.iso8601 }]
-      expect(subject.get_events_by_day(events, work.published_on)).to eq([{:year=>2013, :month=>8, :day=>5, :total=>2}, {:year=>2013, :month=>8, :day=>29, :total=>1}])
-    end
-
-    it "should handle empty lists" do
-      events = []
-      expect(subject.get_events_by_day(events, work.published_on)).to eq([])
-    end
-
-    it "should handle events without timestamp" do
-      time = Time.zone.now - 1.month
-      events = [{ }, { "timestamp" => time.utc.iso8601 }]
-      expect(subject.get_events_by_day(events, work.published_on)).to eq([{:year=>2013, :month=>8, :day=>5, :total=>1}])
-    end
-  end
-
   describe "get_events_by_month" do
     before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 

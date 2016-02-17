@@ -31,9 +31,9 @@ class Api::V3::WorksController < Api::BaseController
     fail ActiveRecord::RecordNotFound, "Article not found." unless work.first
 
     if ENV["API"] == "rabl"
-      @works = work.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+      @works = work.decorate(context: { months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
     else
-      @work = work.first.decorate(context: { days: params[:days], months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
+      @work = work.first.decorate(context: { months: params[:months], year: params[:year], info: params[:info], source_ids: source_ids })
     end
   end
 
