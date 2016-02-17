@@ -66,9 +66,9 @@ describe DataciteData, type: :model, vcr: true do
     #   expect(event['container-title']).to be_nil
     #   expect(event['issued']).to eq("date-parts"=>[[2011]])
     #   expect(event['type']).to eq("dataset")
-    #   expect(event['related_works']).to eq([{"related_work"=>"doi:10.5061/DRYAD.8515", "source"=>"datacite_data", "relation_type"=>"cites"},
-    #                                         {"related_work"=>"doi:10.5061/DRYAD.8515", "source"=>"datacite_data", "relation_type"=>"cites"}, {"related_work"=>"doi:10.5061/DRYAD.8515", "source"=>"datacite_data", "relation_type"=>"cites"},
-    #                                         {"related_work"=>"doi:10.5061/DRYAD.8515", "source"=>"datacite_data", "relation_type"=>"cites"}])
+    #   expect(event['related_works']).to eq([{"related_work"=>"doi:10.5061/DRYAD.8515", "source_id"=>"datacite_data", "relation_type_id"=>"cites"},
+    #                                         {"related_work"=>"doi:10.5061/DRYAD.8515", "source_id"=>"datacite_data", "relation_type_id"=>"cites"}, {"related_work"=>"doi:10.5061/DRYAD.8515", "source_id"=>"datacite_data", "relation_type_id"=>"cites"},
+    #                                         {"related_work"=>"doi:10.5061/DRYAD.8515", "source_id"=>"datacite_data", "relation_type_id"=>"cites"}])
     # end
 
     it "should catch timeout errors with the Datacite API" do
