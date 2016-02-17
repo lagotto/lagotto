@@ -294,30 +294,25 @@ class Work < ActiveRecord::Base
     Array(/^https:\/\/github\.com\/(.+)/.match(canonical_url)).last
   end
 
-  def views
+  def viewed
     names = ENV["VIEWED"] ? ENV["VIEWED"].split(",") : ["pmc", "counter"]
-    @views || event_counts(names)
+    @viewed || event_counts(names)
   end
 
-  def shares
+  def discussed
     names = ENV["DISCUSSED"] ? ENV["DISCUSSED"].split(",") : ["facebook", "twitter", "twitter_search"]
-    @shares ||= event_counts(names)
+    @discussed ||= event_counts(names)
   end
 
-  def bookmarks
+  def saved
     names = ENV["SAVED"] ? ENV["SAVED"].split(",") : ["citeulike", "mendeley"]
-    @bookmarks ||= event_counts(names)
+    @saved ||= event_counts(names)
   end
 
-  def citations
+  def cited
     name = ENV["CITED"] ? ENV["CITED"] : "crossref"
-    @citations ||= event_count(name)
+    @cited ||= event_count(name)
   end
-
-  alias_method :viewed, :views
-  alias_method :saved, :bookmarks
-  alias_method :discussed, :shares
-  alias_method :cited, :citations
 
   def metrics
     sources.pluck(:name, :total)
