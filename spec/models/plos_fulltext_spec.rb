@@ -86,7 +86,7 @@ describe PlosFulltext, type: :model, vcr: true do
       expect(related_work['issued']).to eq("date-parts"=>[[2014, 9, 11]])
       expect(related_work['type']).to eq("article-journal")
       expect(related_work['timestamp']).to eq("2014-09-11T00:00:00Z")
-      expect(related_work['related_works']).to eq([{"related_work"=> work.pid, "source_id"=>"plos_fulltext", "relation_type_id"=>"cites"}])
+      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"plos_fulltext", "relation_type_id"=>"cites"}])
 
       extra = event[:extra].last
       expect(extra[:event_time]).to eq("2014-09-11T00:00:00Z")
