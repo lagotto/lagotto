@@ -98,7 +98,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_works
-    Array(message.fetch('works', nil)).map do |item|
+    message.fetch('works').map do |item|
       # pid is required
       pid = item.fetch("pid", nil)
       raise ArgumentError.new("Missing pid in deposit id #{uuid}") unless pid.present?
@@ -152,7 +152,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_events
-    Array(message.fetch('events', nil)).map do |item|
+    message.fetch('events').map do |item|
       source_id = item.fetch("source_id", nil)
       source = Source.where(name: source_id).first
       raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
