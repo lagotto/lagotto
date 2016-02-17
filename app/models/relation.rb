@@ -3,6 +3,7 @@ class Relation < ActiveRecord::Base
   belongs_to :related_work, class_name: "Work"
   belongs_to :relation_type
   belongs_to :source
+  belongs_to :publisher
 
   validates :work_id, :presence => true
   validates :related_work_id, :presence => true
