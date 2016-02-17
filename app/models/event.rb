@@ -79,10 +79,6 @@ class Event < ActiveRecord::Base
     Time.zone.now.to_date
   end
 
-  def by_day
-    days.map { |day| day.metrics }
-  end
-
   def by_month
     months.map { |month| month.metrics }
   end
