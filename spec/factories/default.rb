@@ -160,87 +160,11 @@ FactoryGirl.define do
       association :source, :counter
     end
 
-    trait(:with_counter_yesterday) do
-      total 500
-      html 400
-      pdf 100
-      readers 0
-      association :work, :published_yesterday
-      association :source, :counter
-      after :create do |event|
-        FactoryGirl.create(:day, event: event,
-                                   work: event.work,
-                                   source: event.source,
-                                   year: (Time.zone.now.to_date - 1.day).year,
-                                   month: (Time.zone.now.to_date - 1.day).month,
-                                   day: (Time.zone.now.to_date - 1.day).day,
-                                   html: event.html,
-                                   pdf: event.pdf,
-                                   readers: event.readers,
-                                   total: event.total)
-      end
-    end
-
-    trait(:with_counter_today) do
-      total 250
-      html 200
-      pdf 50
-      readers 0
-      association :work, :published_today
-      association :source, :counter
-      after :create do |event|
-        FactoryGirl.create(:day, event: event,
-                                   work: event.work,
-                                   source: event.source,
-                                   year: Time.zone.now.to_date.year,
-                                   month: Time.zone.now.to_date.month,
-                                   day: Time.zone.now.to_date.day,
-                                   html: event.html,
-                                   pdf: event.pdf,
-                                   readers: event.readers,
-                                   total: event.total)
-      end
-    end
-
     trait(:with_crossref) do
       readers 0
       total 25
       association :work, :published_yesterday
       association :source, :crossref
-    end
-
-    trait(:with_crossref_yesterday) do
-      readers 0
-      total 25
-      association :work, :published_yesterday
-      association :source, :crossref
-      after :create do |event|
-        FactoryGirl.create(:day, event: event,
-                                 work: event.work,
-                                 source: event.source,
-                                 year: (Time.zone.now.to_date - 1.day).year,
-                                 month: (Time.zone.now.to_date - 1.day).month,
-                                 day: (Time.zone.now.to_date - 1.day).day,
-                                 total: 20,
-                                 readers: event.readers)
-      end
-    end
-
-    trait(:with_crossref_today) do
-      readers 0
-      total 20
-      association :work, :published_today
-      association :source, :crossref
-      after :create do |event|
-        FactoryGirl.create(:day, event: event,
-                                 work: event.work,
-                                 source: event.source,
-                                 year: Time.zone.now.to_date.year,
-                                 month: Time.zone.now.to_date.month,
-                                 day: Time.zone.now.to_date.day,
-                                 total: event.total,
-                                 readers: event.readers)
-      end
     end
 
     trait(:with_crossref_last_month) do
@@ -312,10 +236,6 @@ FactoryGirl.define do
 
   #   initialize_with { Task.where(work_id: work.id, agent_id: agent.id).first_or_initialize }
   # end
-
-  factory :day do
-
-  end
 
   factory :month do
     trait(:with_work) do

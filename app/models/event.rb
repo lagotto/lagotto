@@ -35,49 +35,6 @@ class Event < ActiveRecord::Base
     "#{source.name}:#{work.pid}"
   end
 
-  def get_events_previous_day
-    row = days.last
-
-    if row.nil?
-      # first record
-      { "pdf" => 0, "html" => 0, "readers" => 0, "comments" => 0, "likes" => 0, "total" => 0 }
-    elsif [row.year, row.month, row.day] == [today.year, today.month, today.day]
-      # update today's record
-      { "pdf" => pdf - row.pdf,
-        "html" => html - row.html,
-        "readers" => readers - row.readers,
-        "comments" => comments - row.comments,
-        "likes" => likes - row.likes,
-        "total" => total - row.total }
-    else
-      # add record
-      { "pdf" => row.pdf,
-        "html" => row.html,
-        "readers" => row.readers,
-        "comments" => row.comments,
-        "likes" => row.likes,
-        "total" => row.total }
-    end
-  end
-
-  # calculate events for current day based on past numbers
-  # track daily events only the first 30 days after publication
-  def get_events_current_day
-    return nil if today - work.published_on > 30
-
-    row = get_events_previous_day
-
-    { "year" => today.year,
-      "month" => today.month,
-      "day" => today.day,
-      "pdf" => pdf - row.fetch("pdf"),
-      "html" => html - row.fetch("html"),
-      "readers" => readers - row.fetch("readers"),
-      "comments" => comments - row.fetch("comments"),
-      "likes" => likes - row.fetch("likes"),
-      "total" => total - row.fetch("total") }
-  end
-
   def get_events_previous_month
     row = months.last
 
