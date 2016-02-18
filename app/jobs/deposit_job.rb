@@ -22,12 +22,10 @@ class DepositJob < ActiveJob::Base
       if deposit.message_action == 'delete'
         deposit.delete_works
         deposit.delete_events
-        deposit.delete_contributors
         deposit.delete_publishers
       else
         deposit.update_works
         deposit.update_events
-        deposit.update_contributors
         deposit.update_publishers
       end
 

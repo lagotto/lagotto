@@ -60,26 +60,12 @@ class Deposit < ActiveRecord::Base
     uuid
   end
 
-  # def perform_get_data(data)
-  #   previous_total = total
-  #   update_interval = retrieved_days_ago
-
-
-  #   { total: total,
-  #     html: html,
-  #     pdf: pdf,
-  #     previous_total: previous_total,
-  #     skipped: skipped,
-  #     update_interval: update_interval }
-  # end
-
   def validate_message
     if message.is_a?(Hash)
       message['works'] ||
       message['events'] ||
-      message['contributors'] ||
       message['publishers'] ||
-      errors.add(:message, "should contain works, events, contributors, or publishers")
+      errors.add(:message, "should contain works, events or publishers")
     else
       errors.add(:message, "should be a hash")
     end
@@ -98,7 +84,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_works
-    message.fetch('works').map do |item|
+    Array(message.fetch('works', nil)).map do |item|
       # pid is required
       pid = item.fetch("pid", nil)
       raise ArgumentError.new("Missing pid in deposit id #{uuid}") unless pid.present?
@@ -152,7 +138,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_events
-    message.fetch('events').map do |item|
+    Array(message.fetch('events', nil)).map do |item|
       source_id = item.fetch("source_id", nil)
       source = Source.where(name: source_id).first
       raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
@@ -194,12 +180,6 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-  def update_contributors
-    Array(message.fetch('contributors', nil)).map do |item|
-      Contributor.where(pid: item.fetch('pid', nil)).first_or_create
-    end
-  end
-
   def update_publishers
     Array(message.fetch('publishers', nil)).map do |item|
       publisher = Publisher.where(name: item.fetch('name', nil)).first_or_create
@@ -216,12 +196,6 @@ class Deposit < ActiveRecord::Base
   def delete_works
     Array(message.fetch('works', nil)).map do |item|
       Work.where(pid: item.fetch('pid', nil)).destroy_all
-    end
-  end
-
-  def delete_contributors
-    Array(message.fetch('contributors', nil)).map do |item|
-      Contributor.where(pid: item.fetch('pid', nil)).destroy_all
     end
   end
 
