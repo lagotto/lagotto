@@ -3,9 +3,15 @@ require "rails_helper"
 describe WorksController, :type => :controller do
   render_views
 
-  let(:work) { FactoryGirl.create(:work, :with_events, doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
+  let(:work) { FactoryGirl.create(:work, :with_events, pid: "http://doi.org/10.1371/journal.pone.0043007", doi: "10.1371/journal.pone.0043007", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0043007") }
 
   context "show" do
+    it "GET pid" do
+      get "/works/#{work.pid}"
+      expect(last_response.status).to eq(200)
+      expect(last_response.body).to include(work.pid)
+    end
+
     it "GET doi" do
       get "/works/doi:#{work.doi}"
       expect(last_response.status).to eq(200)
@@ -33,7 +39,7 @@ describe WorksController, :type => :controller do
 
   context "RSS" do
     it "GET" do
-      related_work = FactoryGirl.create(:work, doi: "10.1016/j.foodqual.2015.03.018", title: "Influence of the glassware on the perception of alcoholic drinks")
+      related_work = FactoryGirl.create(:work, pid: "http://doi.org/10.1016/j.foodqual.2015.03.018", doi: "10.1016/j.foodqual.2015.03.018", title: "Influence of the glassware on the perception of alcoholic drinks")
       relation = FactoryGirl.create(:relation, work: work, related_work: related_work)
       get "/rss/works/doi:#{work.doi}"
       expect(last_response.status).to eq(200)

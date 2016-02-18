@@ -6,7 +6,7 @@ xml.rss :version => "2.0" do
       xml.link root_url
     else
       xml.title "Lagotto: references for work #{@work.pid}"
-      xml.link work_url(@work)
+      xml.link @work.pid
 
       @work.relations.each do |relation|
         xml.item do
