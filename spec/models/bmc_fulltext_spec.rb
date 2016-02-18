@@ -44,7 +44,7 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should catch errors with the BMC Search API" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       response = subject.get_data(work_id: work.id, agent_id: subject.id)
-      expect(response).to eq(error: "the server responded with status 408 for http://www.biomedcentral.com/search/results?terms=#{subject.get_query_string(work)}&format=json", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://www.biomedcentral.com/search/results?terms=#{subject.get_query_string(work_id: work.id)}&format=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first

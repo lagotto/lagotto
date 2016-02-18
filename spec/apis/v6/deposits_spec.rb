@@ -103,7 +103,7 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should contain works, events, contributors, or publishers"]}}, "deposit"=>{})
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should contain works, events or publishers"]}}, "deposit"=>{})
       end
     end
 
