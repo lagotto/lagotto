@@ -62,6 +62,8 @@ Vagrant.configure("2") do |config|
   config.vm.define ENV["APPLICATION"] do |machine|
     # Override settings for specific providers
     machine.vm.provider :virtualbox do |vb, override|
+      override.vm.box = "bento/ubuntu-14.04"
+
       vb.name = ENV["APPLICATION"]
       vb.customize ["modifyvm", :id, "--memory", "2048"]
     end
