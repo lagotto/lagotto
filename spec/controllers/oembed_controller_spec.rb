@@ -11,7 +11,7 @@ describe OembedController, :type => :controller do
       get work_path(work)
       expect(last_response.status).to eq(200)
       expect(last_response.body).to have_css(%Q(link[rel="alternate"][type="application/json+oembed"][title="Work oEmbed Profile"][href="#{uri}"]), visible: false)
-      expect(Notification .count).to eq(0)
+      expect(Notification.count).to eq(0)
     end
   end
 

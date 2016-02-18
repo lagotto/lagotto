@@ -150,7 +150,7 @@ describe "db:agents:uninstall[citeulike,pmc]" do
     FactoryGirl.create(:pmc)
   end
 
-  let(:output) { "Agent CiteULike has been retired.\nAgent PubMed Central Usage Stats has been retired.\n" }
+  let(:output) { "Agent CiteULike has been uninstalled.\nAgent PubMed Central Usage Stats has been uninstalled.\n" }
 
   it "should run" do
     expect(capture_stdout { subject.invoke(*task_args) }).to eq(output)

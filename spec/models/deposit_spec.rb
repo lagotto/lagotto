@@ -23,7 +23,7 @@ describe Deposit, :type => :model, vcr: true do
     it "does not contain required hash keys" do
       subject = FactoryGirl.build(:deposit, message: {})
       subject.valid?
-      expect(subject.errors[:message]).to eq(["can't be blank", "should contain works, events, contributors, or publishers"])
+      expect(subject.errors[:message]).to eq(["can't be blank", "should contain works, events or publishers"])
     end
   end
 

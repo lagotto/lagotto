@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Pmc, type: :model, vcr: true do
+describe Pmc, type: :model do
 
   subject { FactoryGirl.create(:pmc) }
 

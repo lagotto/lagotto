@@ -26,7 +26,7 @@ describe Wordpress, type: :model, vcr: true do
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294")
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq("data"=>"null")
+      expect(response).to eq({})
     end
 
     it "should report if there are events returned by the Wordpress API" do

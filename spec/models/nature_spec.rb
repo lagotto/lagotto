@@ -13,7 +13,7 @@ describe Nature, type: :model, vcr: true do
 
     it "should report if there are no events returned by the Nature Blogs API" do
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq('data' => [])
+      expect(response).to eq({})
     end
 
     it "should report if there are events returned by the Nature Blogs API" do
