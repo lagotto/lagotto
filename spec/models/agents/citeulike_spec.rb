@@ -46,7 +46,9 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    let(:null_response) { { works: [], events: [{ source_id: "citeulike", work_id: work.pid, readers: 0, total: 0, extra: [], days: [], months: [] }] } }
+    # let(:null_response) { { works: [] } }
+    # TODO include triples?
+    let(:null_response) { [] }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
@@ -71,29 +73,39 @@ describe Citeulike, type: :model, vcr: true do
       result = Hash.from_xml(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("citeulike")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(25)
-      expect(event[:readers]).to eq(25)
-      expect(event[:events_url]).to eq(subject.get_events_url(work_id: work.id))
-      expect(event[:months].length).to eq(21)
-      expect(event[:months].first).to eq(year: 2006, month: 6, total: 2, readers: 2)
+      # TODO
+      # event = response[:events].first
+      # expect(event[:source_id]).to eq("citeulike")
+      # expect(event[:work_id]).to eq(work.pid)
+      # expect(event[:total]).to eq(25)
+      # expect(event[:readers]).to eq(25)
+      # expect(event[:events_url]).to eq(subject.get_events_url(work_id: work.id))
+      # expect(event[:months].length).to eq(21)
+      # expect(event[:months].first).to eq(year: 2006, month: 6, total: 2, readers: 2)
 
-      expect(response[:works].length).to eq(25)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://www.citeulike.org/user/dbogartoit")
-      expect(related_work['author']).to eq([{"given"=>"dbogartoit"}])
-      expect(related_work['title']).to eq("CiteULike bookmarks for user dbogartoit")
-      expect(related_work['container-title']).to eq("CiteULike")
-      expect(related_work['issued']).to eq("date-parts"=>[[2006, 6, 13]])
-      expect(related_work['type']).to eq("entry")
-      expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
-      expect(related_work["related_works"]).to eq([{"pid"=> work.pid, "source_id"=>"citeulike", "relation_type_id"=>"bookmarks"}])
+      # expect(response[:works].length).to eq(25)
+      # related_work = response[:works].first
+      # expect(related_work['URL']).to eq("http://www.citeulike.org/user/dbogartoit")
+      # expect(related_work['author']).to eq([{"given"=>"dbogartoit"}])
+      # expect(related_work['title']).to eq("CiteULike bookmarks for user dbogartoit")
+      # expect(related_work['container-title']).to eq("CiteULike")
+      # expect(related_work['issued']).to eq("date-parts"=>[[2006, 6, 13]])
+      # expect(related_work['type']).to eq("entry")
+      # expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
+      # expect(related_work["related_works"]).to eq([{"pid"=> work.pid, "source_id"=>"citeulike", "relation_type_id"=>"bookmarks"}])
 
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")
-      expect(extra[:event_url]).to eq(extra[:event]['link']['url'])
+      expect(response.length).to eq(25)
+      
+      expect(response.first).to eq({"subject" => "http://www.citeulike.org/user/dbogartoit",
+                                    "object" => work.pid,
+                                    "relation" => "bookmarks",
+                                    "source" => "citeulike",
+                                    "occurred_at" => "2006-06-13T16:14:19Z"})
+ 
+      # TODO
+      # extra = event[:extra].first
+      # expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")
+      # expect(extra[:event_url]).to eq(extra[:event]['link']['url'])
     end
 
     it "should report if there is one event returned by the CiteULike API" do
@@ -101,29 +113,39 @@ describe Citeulike, type: :model, vcr: true do
       result = Hash.from_xml(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("citeulike")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:readers]).to eq(1)
-      expect(event[:events_url]).to eq(subject.get_events_url(work_id: work.id))
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2006, month: 6, total: 1, readers: 1)
+      # event = response[:events].first
+      # expect(event[:source_id]).to eq("citeulike")
+      # expect(event[:work_id]).to eq(work.pid)
+      # expect(event[:total]).to eq(1)
+      # expect(event[:readers]).to eq(1)
+      # expect(event[:events_url]).to eq(subject.get_events_url(work_id: work.id))
+      # expect(event[:months].length).to eq(1)
+      # expect(event[:months].first).to eq(year: 2006, month: 6, total: 1, readers: 1)
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://www.citeulike.org/user/dbogartoit")
-      expect(related_work['author']).to eq([{"given"=>"dbogartoit"}])
-      expect(related_work['title']).to eq("CiteULike bookmarks for user dbogartoit")
-      expect(related_work['container-title']).to eq("CiteULike")
-      expect(related_work['issued']).to eq("date-parts"=>[[2006, 6, 13]])
-      expect(related_work['type']).to eq("entry")
-      expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
-      expect(related_work["related_works"]).to eq([{"pid"=> work.pid, "source_id"=>"citeulike", "relation_type_id"=>"bookmarks"}])
+      # expect(response[:works].length).to eq(1)
+      # related_work = response[:works].first
+      # expect(related_work['URL']).to eq("http://www.citeulike.org/user/dbogartoit")
+      # expect(related_work['author']).to eq([{"given"=>"dbogartoit"}])
+      # expect(related_work['title']).to eq("CiteULike bookmarks for user dbogartoit")
+      # expect(related_work['container-title']).to eq("CiteULike")
+      # expect(related_work['issued']).to eq("date-parts"=>[[2006, 6, 13]])
+      # expect(related_work['type']).to eq("entry")
+      # expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
+      # expect(related_work["related_works"]).to eq([{"pid"=> work.pid, "source_id"=>"citeulike", "relation_type_id"=>"bookmarks"}])
 
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")
-      expect(extra[:event_url]).to eq(extra[:event]['link']['url'])
+      expect(response.length).to eq(1)
+      
+      expect(response.first).to eq({"subject" => "http://www.citeulike.org/user/dbogartoit",
+                                    "object" => work.pid,
+                                    "relation" => "bookmarks",
+                                    "source" => "citeulike",
+                                    "occurred_at" => "2006-06-13T16:14:19Z"})
+
+
+      # expect(related_work["timestamp"]).to eq("2006-06-13T16:14:19Z")
+      # extra = event[:extra].first
+      # expect(extra[:event_time]).to eq("2006-06-13T16:14:19Z")
+      # expect(extra[:event_url]).to eq(extra[:event]['link']['url'])
     end
 
     it "should catch timeout errors with the CiteULike API" do

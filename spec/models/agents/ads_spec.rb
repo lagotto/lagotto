@@ -47,7 +47,7 @@ describe Ads, type: :model, vcr: true do
     it "should report if there are no events returned by the ADS API" do
       body = File.read(fixture_path + 'ads_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "ads", work_id: work.pid, total: 0, events_url: nil }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the ADS API" do
@@ -56,23 +56,23 @@ describe Ads, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("ads")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:days]).to be_nil
-      expect(event[:months]).to be_nil
+      expect(response.length).to eq(1)
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Hippel", "given"=>"Ted"}, {"family"=>"Hippel", "given"=>"Courtney"}])
-      expect(related_work['title']).to eq("To Apply or Not to Apply: A Survey Analysis of Grant Writing Costs and Benefits")
-      expect(related_work['container-title']).to eq("ArXiV")
-      expect(related_work['issued']).to eq("date-parts"=>[[2015, 3]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['URL']).to eq("http://arxiv.org/abs/1503.04201")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"ads", "relation_type_id"=>"is_previous_version_of"}])
+      expect(response.first).to eq({ :relation => { "subject" => "http://arxiv.org/abs/1503.04201",
+                                                    "object" => work.pid,
+                                                    "relation" => "is_previous_version_of",
+                                                    "source" => "ads" },
+
+                                      :work => { "pid" => "http://arxiv.org/abs/1503.04201",
+                                                 "author"=> [{ "family"=>"Hippel", "given"=>"Ted"},
+                                                             { "family"=>"Hippel", "given"=>"Courtney" }],
+                                                  "title" => "To Apply or Not to Apply: A Survey Analysis of Grant Writing Costs and Benefits",
+                                                  "container-title" => "ArXiV",
+                                                  "issued" => { "date-parts" => [[2015, 3]] },
+                                                  "URL" => "http://arxiv.org/abs/1503.04201",
+                                                  "arxiv" => "1503.04201",
+                                                  "type" => "article-journal",
+                                                  "tracked" => false} } )
     end
   end
 end

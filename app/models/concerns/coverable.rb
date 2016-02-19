@@ -13,6 +13,7 @@ module Coverable
       nil
     end
 
+    # TODO REMOVE? THIS IS PUT DIRECTLY INTO TRIPLE
     def response_options
       { metrics: :comments }
     end

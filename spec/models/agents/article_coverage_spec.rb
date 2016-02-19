@@ -51,7 +51,18 @@ describe ArticleCoverage, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(:events=>[{:source_id=>"article_coverage", :work_id=> work.pid, :comments=>0, :total=>0, :extra=>[] }])
+      # expect(subject.parse_data(result, work_id: work.id)).to eq(:events=>[{:source_id=>"article_coverage", :work_id=> work.pid, :comments=>0, :total=>0, :extra=>[] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([
+        { "subject" => "http://TODO",
+          "object" => work.pid,
+          "relation" => "total_count",
+          "source"=>"article_coverage",
+          "total"=>0},
+        { "subject"=>"http://TODO",
+          "object"=>work.pid,
+          "relation"=>"comment_count",
+          "source"=>"article_coverage",
+          "total"=>0 } ])
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
@@ -64,7 +75,17 @@ describe ArticleCoverage, type: :model, vcr: true do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(events: [{ source_id: "article_coverage", work_id: work.pid, comments: 0, total: 0, extra: [] }])
+      # expect(response).to eq(events: [{ source_id: "article_coverage", work_id: work.pid, comments: 0, total: 0, extra: [] }])
+      expect(response).to eq([{"subject"=>"http://TODO",
+                              "object"=>work.pid,
+                              "relation"=>"total_count",
+                              "source"=>"article_coverage",
+                              "total"=>0},
+                              {"subject"=>"http://TODO",
+                                "object"=>work.pid,
+                                "relation"=>"comment_count",
+                                "source"=>"article_coverage",
+                                "total"=>0}])
     end
 
     it "should report if there are events returned by the Article Coverage API" do
@@ -72,24 +93,36 @@ describe ArticleCoverage, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("article_coverage")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(2)
-      expect(event[:comments]).to eq(2)
+      expect(response.first).to eq({"subject"=>"http://TODO",
+                                    "object"=>work.pid,
+                                    "relation"=>"total_count",
+                                    "source"=>"article_coverage",
+                                    "total"=>2})
 
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2013-11-20T00:00:00Z")
-      expect(extra[:event_url]).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+      expect(response.second).to eq({"subject"=>"http://TODO",
+                                    "object"=>work.pid,
+                                    "relation"=>"comment_count",
+                                    "source"=>"article_coverage",
+                                    "total"=>2})
 
-      event_data = extra[:event]
-      expect(event_data['referral']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
-      expect(event_data['language']).to eq("English")
-      expect(event_data['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
-      expect(event_data['type']).to eq("Blog")
-      expect(event_data['publication']).to eq("The Huffington Post")
-      expect(event_data['published_on']).to eq("2013-11-20T00:00:00Z")
-      expect(event_data['link_state']).to eq("APPROVED")
+      # event = response[:events].first
+      # expect(event[:source_id]).to eq("article_coverage")
+      # expect(event[:work_id]).to eq(work.pid)
+      # expect(event[:total]).to eq(2)
+      # expect(event[:comments]).to eq(2)
+
+      # extra = event[:extra].first
+      # expect(extra[:event_time]).to eq("2013-11-20T00:00:00Z")
+      # expect(extra[:event_url]).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+
+      # event_data = extra[:event]
+      # expect(event_data['referral']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
+      # expect(event_data['language']).to eq("English")
+      # expect(event_data['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
+      # expect(event_data['type']).to eq("Blog")
+      # expect(event_data['publication']).to eq("The Huffington Post")
+      # expect(event_data['published_on']).to eq("2013-11-20T00:00:00Z")
+      # expect(event_data['link_state']).to eq("APPROVED")
     end
 
     it "should catch timeout errors with the Article Coverage API" do

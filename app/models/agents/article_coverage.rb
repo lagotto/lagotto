@@ -23,12 +23,25 @@ class ArticleCoverage < Agent
     extra = get_extra(result)
     metrics = get_metrics(comments: extra.length)
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        comments: metrics[:comments],
-        total: metrics[:total],
-        extra: extra }] }
+    # { events: [{
+    #     source_id: name,
+    #     work_id: work.pid,
+    #     comments: metrics[:comments],
+    #     total: metrics[:total],
+    #     extra: extra }] }
+
+        # TODO name for 
+        [{ "subject" => "http://TODO",
+            "object" => work.pid,
+            "relation" => "total_count", # TODO
+            "source" => name,
+            "total" => metrics[:total]},
+          { "subject" => "http://TODO",
+            "object" => work.pid,
+            "relation" => "comment_count", # TODO
+            "source" => name,
+            "total" => metrics[:comments]}]
+
   end
 
   def get_extra(result)

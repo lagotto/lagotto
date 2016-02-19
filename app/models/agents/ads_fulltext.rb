@@ -15,29 +15,33 @@ class AdsFulltext < Agent
     end
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     result["response"] ||= {}
     Array(result["response"]["docs"]).map do |item|
-      arxiv = item.fetch("identifier", []).find { |i| i.starts_with?("arXiv:") }
+      arxiv = item.fetch("identifier", []).find { |i| i =~ ARXIV_FORMAT }
+
       next unless arxiv.present?
 
-      arxiv = arxiv.gsub(/\A\D*(\d{4}\.\d{4,5})D*/, '\1')
-      url = "http://arxiv.org/abs/#{arxiv}"
+      arxiv_url = "http://arxiv.org/abs/#{arxiv}"
 
-      { "pid" => url,
-        "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
-        "title" => item.fetch("title", []).first.chomp("."),
-        "container-title" => "ArXiV",
-        "issued" => get_date_parts(item.fetch("pubdate", nil)),
-        "URL" => url,
-        "arxiv" => arxiv,
-        "type" => "article-journal",
-        "tracked" => tracked,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "cites" }] }
+      { :relation =>
+        { "subject" => arxiv_url,
+          "object" => work.pid,
+          "relation" => "is_previous_version_of",
+          "source" => name},
+        :work => { "pid" => arxiv_url,
+          "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
+          "title" => item.fetch("title", []).first.chomp("."),
+          "container-title" => "ArXiV",
+          "issued" => get_date_parts(item.fetch("pubdate", nil)),
+          "URL" => arxiv_url,
+          "arxiv" => arxiv,
+          "type" => "article-journal",
+          "tracked" => tracked } }
+
     end.compact
   end
+
 
   def url
     "https://api.adsabs.harvard.edu/v1/search/query?"
