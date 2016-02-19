@@ -47,7 +47,7 @@ describe AdsFulltext, type: :model, vcr: true do
     it "should report if there are no events returned by the ADS API" do
       body = File.read(fixture_path + 'ads_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "ads_fulltext", work_id: work.pid, total: 0, events_url: nil }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the ADS API" do
@@ -56,22 +56,22 @@ describe AdsFulltext, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("ads_fulltext")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(3)
-      expect(event[:months]).to be_nil
+      expect(response.length).to eq(3)
 
-      expect(response[:works].length).to eq(3)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Lyons", "given"=>"Russell"}])
-      expect(related_work['title']).to eq("The Spread of Evidence-Poor Medicine via Flawed Social-Network Analysis")
-      expect(related_work['container-title']).to eq("ArXiV")
-      expect(related_work['issued']).to eq("date-parts"=>[[2010, 7]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['URL']).to eq("http://arxiv.org/abs/1007.2876")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"ads_fulltext", "relation_type_id"=>"cites"}])
+      expect(response.last[:relation]).to eq({ "subject" => "http://arxiv.org/abs/arXiv:1007.2876",
+                                               "object" => work.pid,
+                                               "relation" => "is_previous_version_of",
+                                               "source" => "ads_fulltext" })
+
+      expect(response.last[:work]).to include({ "pid" => "http://arxiv.org/abs/arXiv:1007.2876",
+                                                 "author"=> ["family"=>"Lyons", "given"=>"Russell"],
+                                                  "title" => "The Spread of Evidence-Poor Medicine via Flawed Social-Network Analysis",
+                                                  "container-title" => "ArXiV",
+                                                  "issued" => { "date-parts" => [[2010, 7]] },
+                                                  "URL" => "http://arxiv.org/abs/arXiv:1007.2876",
+                                                  "type" => "article-journal",
+                                                  "tracked" => false } )
+
     end
   end
 end

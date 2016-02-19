@@ -52,8 +52,12 @@ class CrossrefOrcid < Agent
 
     items = result.fetch('message', {}).fetch('items', nil)
 
-    { works: get_works(items),
-      events: get_events(items) }
+    # { works: get_works(items),
+    #   events: get_events(items) }
+
+    { works: get_works(items)}
+
+    
   end
 
   def get_works(items)

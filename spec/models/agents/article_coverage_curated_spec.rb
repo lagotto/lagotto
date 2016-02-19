@@ -53,20 +53,25 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
+      # expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if work doesn't exist in Article Coverage source" do
       result = { error: "Article not found", status: 404 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
+      # expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      # TODO JW should be zero or empty?
+      expect(response).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], months: [] }])
+      # TODO JW no event if zero?
+      # expect(response).to eq(works: [], events: [{ source_id: "article_coverage_curated", work_id: work.pid, comments: 0, total: 0, extra: [], days: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
@@ -74,42 +79,57 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("article_coverage_curated")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(15)
-      expect(event[:comments]).to eq(15)
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
+      expect(response.first[:relation]).to include( { "subject" => "http://www.wildlifeofyourbody.org/?page_id=1348",
+                                                 "object" => work.pid,
+                                                  "relation" => "discusses",
+                                                  # TODO JW where does this come from?
+                                                  # "total" => 15,
+                                                  "source" => "article_coverage_curated" } )
 
-      expect(response[:works].length).to eq(15)
-      related_work = response[:works].second
-      expect(related_work['URL']).to eq("http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html")
-      expect(related_work['author']).to be_nil
-      expect(related_work['title']).to eq("Everything You Know About Your Personal Hygiene Is Wrong")
-      expect(related_work['container-title']).to eq("The Huffington Post")
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 11, 20]])
-      expect(related_work['timestamp']).to eq("2013-11-20T00:00:00Z")
-      expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"pid"=>work.pid, "source_id"=>"article_coverage_curated", "relation_type_id"=>"discusses"}])
+      # TODO JW - is this needed
+      # event = response[:events].first
+      # expect(event[:source_id]).to eq("article_coverage_curated")
+      # expect(event[:work_id]).to eq(work.pid)
+      # expect(event[:total]).to eq(15)
+      # expect(event[:comments]).to eq(15)
+      # expect(event[:days].length).to eq(0)
+      # expect(event[:months].length).to eq(1)
+      # expect(event[:months].first).to eq(year: 2013, month: 11, total: 2, comments: 2)
 
-      extra = event[:extra].first
-      expect(extra[:event_time]).to be_nil
-      expect(extra[:event_url]).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
-      expect(extra[:event_csl]['author']).to eq("")
-      expect(extra[:event_csl]['title']).to eq("Project Description @ Belly Button Biodiversity")
-      expect(extra[:event_csl]['container-title']).to eq("")
-      expect(extra[:event_csl]['issued']).to eq("date_parts" => [[]])
-      expect(extra[:event_csl]['type']).to eq("post")
+      expect(response.length).to eq(15)
 
-      event_data = extra[:event]
-      expect(event_data['referral']).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
-      expect(event_data['language']).to eq("English")
-      expect(event_data['title']).to eq("Project Description @ Belly Button Biodiversity")
-      expect(event_data['type']).to eq("Blog")
-      expect(event_data['publication']).to eq("")
-      expect(event_data['published_on']).to eq("")
-      expect(event_data['link_state']).to eq("")
+      expect(response.second[:relation]).to include( { "subject" => "http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html",
+                                                  "object" => work.pid,
+                                                  "relation" => "discusses",
+                                                  "source" => "article_coverage_curated"} )
+
+      expect(response.second[:work]).to include( {
+        'URL' => "http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html",
+        'author' => nil,
+        'title' => "Everything You Know About Your Personal Hygiene Is Wrong",
+        'container-title' => "The Huffington Post",
+        'issued' => {"date-parts"=>[[2013, 11, 20]]},
+        'timestamp' => "2013-11-20T00:00:00Z",
+        'type' => "post"} )
+
+      # TODO JW
+      # extra = event[:extra].first
+      # expect(extra[:event_time]).to be_nil
+      # expect(extra[:event_url]).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
+      # expect(extra[:event_csl]['author']).to eq("")
+      # expect(extra[:event_csl]['title']).to eq("Project Description @ Belly Button Biodiversity")
+      # expect(extra[:event_csl]['container-title']).to eq("")
+      # expect(extra[:event_csl]['issued']).to eq("date_parts" => [[]])
+      # expect(extra[:event_csl]['type']).to eq("post")
+
+      # event_data = extra[:event]
+      # expect(event_data['referral']).to eq("http://www.wildlifeofyourbody.org/?page_id=1348")
+      # expect(event_data['language']).to eq("English")
+      # expect(event_data['title']).to eq("Project Description @ Belly Button Biodiversity")
+      # expect(event_data['type']).to eq("Blog")
+      # expect(event_data['publication']).to eq("")
+      # expect(event_data['published_on']).to eq("")
+      # expect(event_data['link_state']).to eq("")
     end
 
     it "should catch timeout errors with the Article Coverage API" do

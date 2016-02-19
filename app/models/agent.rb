@@ -184,32 +184,52 @@ class Agent < ActiveRecord::Base
       result.extend Hashie::Extensions::DeepFetch
     elsif result[:error]
       # return early if an error occured that is not a not_found error
+      # TODO same error return for triples?
       return result
     end
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
 
-    related_works = get_related_works(result, work)
-    extra = get_extra(result)
-    events_url = related_works.length > 0 ? get_events_url(options) : nil
 
-    options.merge!(response_options)
+    # extra = get_extra(result)
+    # events_url = related_works.length > 0 ? get_events_url(options) : nil
+
+    # options.merge!(response_options)
+    # options[:metrics] ||= :total
+    # metrics = get_metrics(options[:metrics] => related_works.length)
+
+    # { works: related_works
+      # events: [{
+      #   source_id: name,
+      #   work_id: work.pid,
+      #   pdf: metrics[:pdf],
+      #   html: metrics[:html],
+      #   readers: metrics[:readers],
+      #   comments: metrics[:comments],
+      #   likes: metrics[:likes],
+      #   total: metrics[:total],
+      #   events_url: events_url,
+      #   extra: extra,
+      #   days: get_events_by_day(related_works, work.published_on, options),
+      #   months: get_events_by_month(related_works, options) }.compact] 
+    # }
+
+    # TODO return seq of full deposit envelopes?
+
+    get_relations_with_related_works(result, work)
+  end
+
+  def get_events_by_day(events, publication_date, options={})
+    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - publication_date > 30 }
+
     options[:metrics] ||= :total
-    metrics = get_metrics(options[:metrics] => related_works.length)
-
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        pdf: metrics[:pdf],
-        html: metrics[:html],
-        readers: metrics[:readers],
-        comments: metrics[:comments],
-        likes: metrics[:likes],
-        total: metrics[:total],
-        events_url: events_url,
-        extra: extra,
-        months: get_events_by_month(related_works, options) }.compact] }
+    events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
+      { year: k[0..3].to_i,
+        month: k[5..6].to_i,
+        day: k[8..9].to_i,
+        options[:metrics] => v.length,
+        total: v.length }
+    end
   end
 
   def get_events_by_month(events, options={})

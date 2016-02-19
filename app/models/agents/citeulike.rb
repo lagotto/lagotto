@@ -27,37 +27,51 @@ class Citeulike < Agent
     related_works ||= nil
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
+      
+      # TODO ALIASING CONFUSING
       url = item.fetch("link", {}).fetch("url", nil)
       path = URI.split(url)[5].split("/")
-      account = path[1]
-      author = path[2]
+      # account = path[1]
+      # author = path[2]
       url = "http://www.citeulike.org/" + path[1..2].join("/")
 
-      { "pid" => url,
-        "author" => get_authors([author]),
-        "title" => "CiteULike bookmarks for #{account} #{author}",
-        "container-title" => "CiteULike",
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => "entry",
-        "tracked" => tracked,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "bookmarks" }] }
+      [{ "subject" => url,
+              "object" => work.pid,
+              "relation" => "bookmarks",
+              "occurred_at" => timestamp,
+              "source" => name
+             }]
+
+      # { "pid" => url,
+      #   "author" => get_authors([author]),
+      #   "title" => "CiteULike bookmarks for #{account} #{author}",
+      #   "container-title" => "CiteULike",
+      #   "issued" => get_date_parts(timestamp),
+      #   "timestamp" => timestamp,
+      #   "URL" => url,
+      #   "type" => "entry",
+      #   "tracked" => tracked,
+      #   "related_works" => [{ "pid" => work.pid,
+      #                         "occurred_at" => timestamp,
+      #                         "source_id" => name,
+      #                         "relation_type_id" => "bookmarks" }
+
+                              # ] }
     end
   end
 
-  def get_extra(result)
-    extra = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
-    extra = [extra] if extra.is_a?(Hash)
-    extra ||= nil
-    Array(extra).map do |item|
-      { event: item,
-        event_time: get_iso8601_from_time(item["post_time"]),
-        event_url: item['link']['url'] }
-    end
-  end
+  
+
+  # def get_extra(result)
+  #   extra = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
+  #   extra = [extra] if extra.is_a?(Hash)
+  #   extra ||= nil
+  #   Array(extra).map do |item|
+  #     { event: item,
+  #       event_time: get_iso8601_from_time(item["post_time"]),
+  #       event_url: item['link']['url'] }
+  #   end
+  # end
 
   def config_fields
     [:url, :events_url]

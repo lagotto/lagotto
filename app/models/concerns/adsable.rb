@@ -26,23 +26,6 @@ module Adsable
       Addressable::URI.encode(events_url % { query_string: query_string })
     end
 
-    def parse_data(result, options={})
-      work = Work.where(id: options.fetch(:work_id, nil)).first
-      return {} unless work.present?
-      return result if result[:error]
-
-      related_works = get_related_works(result, work)
-      total = related_works.length
-      events_url = total > 0 ? get_events_url(options) : nil
-
-      { works: related_works,
-        events: [{
-          source_id: name,
-          work_id: work.pid,
-          total: total,
-          events_url: events_url }] }
-    end
-
     def config_fields
       [:url, :events_url, :access_token]
     end
