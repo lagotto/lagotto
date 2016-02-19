@@ -39,15 +39,15 @@ class Citeulike < Agent
                     "relation_type_id" => "bookmarks",
                     "source_id" => name,
                     "occurred_at" => timestamp },
-        work: { "pid" => citeulike_url,
-                "author" => get_authors([author]),
-                "title" => "CiteULike bookmarks for #{account} #{author}",
-                "container-title" => "CiteULike",
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
-                "URL" => url,
-                "type" => "entry",
-                "tracked" => tracked } }
+        object: { "pid" => citeulike_url,
+                  "author" => get_authors([author]),
+                  "title" => "CiteULike bookmarks for #{account} #{author}",
+                  "container-title" => "CiteULike",
+                  "issued" => get_date_parts(timestamp),
+                  "timestamp" => timestamp,
+                  "URL" => url,
+                  "type" => "entry",
+                  "tracked" => tracked } }
     end
   end
 

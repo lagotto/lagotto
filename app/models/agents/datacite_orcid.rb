@@ -18,7 +18,7 @@ class DataciteOrcid < Agent
     url +  URI.encode_www_form(params)
   end
 
-  def get_works(items)
+  def get_relations_with_related_works(items)
     Array(items).map do |item|
       doi = item.fetch("doi", nil)
       pid = doi_as_url(doi)

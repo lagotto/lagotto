@@ -79,7 +79,7 @@ describe DataciteRelated, type: :model, vcr: true do
     it "should report if there are no works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_related_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
@@ -88,16 +88,22 @@ describe DataciteRelated, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      work = response[:works].first
-      expect(work['DOI']).to eq("10.5061/DRYAD.47SD5")
-      expect(work['related_works'].length).to eq(2)
-      related_work = work['related_works'].last
-      expect(related_work).to eq("pid"=>"http://doi.org/10.1111/MEC.12069", "source_id"=>"datacite_related", "relation_type_id"=>"is_referenced_by")
+      expect(response.length).to eq(16)
+      expect(response.first[:relation]).to eq("subject"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                              "object"=>"http://doi.org/10.5061/DRYAD.47SD5/1",
+                                              "relation_type_id"=>"has_part",
+                                              "source_id"=>"datacite_related")
 
-      expect(response[:events].length).to eq(10)
-      event = response[:events].first
-      expect(event).to eq(:source_id=>"datacite_related", :work_id=>"http://doi.org/10.5061/DRYAD.47SD5", :total=>2)
+      expect(response.first[:subject]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                             "DOI"=>"10.5061/DRYAD.47SD5",
+                                             "author"=>[],
+                                             "container-title"=>nil,
+                                             "title"=>"Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research",
+                                             "issued"=>{"date-parts"=>[[2012]]},
+                                             "publisher_id"=>nil,
+                                             "registration_agency"=>"datacite",
+                                             "tracked"=>true,
+                                             "type"=>"dataset")
     end
   end
 end

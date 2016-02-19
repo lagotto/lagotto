@@ -18,8 +18,8 @@ class DataciteRelated < Agent
     url +  URI.encode_www_form(params)
   end
 
-  def get_works(items)
-    Array(items).map do |item|
+  def get_relations_with_related_works(items)
+    Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi", nil)
       pid = doi_as_url(doi)
       year = item.fetch("publicationYear", nil).to_i
@@ -35,44 +35,37 @@ class DataciteRelated < Agent
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
-      related_works = related_identifiers.map { |work| get_related_work(work) }
+      subject = { "pid" => pid,
+                  "DOI" => doi,
+                  "author" => get_hashed_authors(authors),
+                  "container-title" => nil,
+                  "title" => item.fetch("title", []).first,
+                  "issued" => { "date-parts" => [[year]] },
+                  "publisher_id" => publisher_id,
+                  "registration_agency" => "datacite",
+                  "tracked" => true,
+                  "type" => type }
 
-      { "pid" => pid,
-        "DOI" => doi,
-        "author" => get_hashed_authors(authors),
-        "container-title" => nil,
-        "title" => item.fetch("title", []).first,
-        "issued" => { "date-parts" => [[year]] },
-        "publisher_id" => publisher_id,
-        "registration_agency" => "datacite",
-        "tracked" => true,
-        "type" => type,
-        "related_works" => related_works }
+      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
+
+      sum += Array(related_identifiers).reduce([]) do |sub_sum, id|
+        sub_sum << { relation: get_relation(id, pid),
+                     subject: subject }
+      end
     end
   end
 
-  def get_related_work(work)
-    raw_relation_type, _related_identifier_type, related_identifier = work.split(':', 3)
-    pid = doi_as_url(related_identifier.strip.upcase)
+  def get_relation(id, pid)
+    raw_relation_type, _related_identifier_type, related_identifier = id.split(':', 3)
+    object_pid = doi_as_url(related_identifier.strip.upcase)
 
     # find relation_type, default to "is_referenced_by" otherwise
-    relation_type = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
+    relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
 
-    { "pid" => pid,
-      "source_id" => source_id,
-      "relation_type_id" => relation_type }
-  end
-
-  def get_events(items)
-    Array(items).map do |item|
-      pid = doi_as_url(item.fetch("doi"))
-      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
-
-      { source_id: source_id,
-        work_id: pid,
-        total: related_identifiers.length }
-    end
+    { "subject" => pid,
+      "object" => object_pid,
+      "relation_type_id" => relation_type_id,
+      "source_id" => source_id }
   end
 
   def config_fields

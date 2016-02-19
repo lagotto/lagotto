@@ -37,23 +37,11 @@ module Importable
       return result if result[:error]
 
       items = result.fetch('response', {}).fetch('docs', nil)
-
-      { works: get_works(items),
-        events: get_events(items) }
+      get_relations_with_related_works(items)
     end
 
     # override this method
-    def get_works(items)
-      []
-    end
-
-    # override this method
-    def get_events(items)
-      []
-    end
-
-    # override this method
-    def get_related_works(result, options)
+    def get_relations_with_related_works(items)
       []
     end
 
