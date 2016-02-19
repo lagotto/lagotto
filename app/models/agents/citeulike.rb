@@ -21,57 +21,35 @@ class Citeulike < Agent
     events_url % { doi: work.doi_escaped }
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     related_works = result["posts"] && result["posts"].is_a?(Hash) && result.fetch("posts", {}).fetch("post", [])
     related_works = [related_works] if related_works.is_a?(Hash)
     related_works ||= nil
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
-      
-      # TODO ALIASING CONFUSING
-      url = item.fetch("link", {}).fetch("url", nil)
-      path = URI.split(url)[5].split("/")
-      # account = path[1]
-      # author = path[2]
-      url = "http://www.citeulike.org/" + path[1..2].join("/")
 
-      [{ "subject" => url,
-              "object" => work.pid,
-              "relation" => "bookmarks",
-              "occurred_at" => timestamp,
-              "source" => name
-             }]
+      citeulike_url = item.fetch("link", {}).fetch("url", nil)
+      path = URI.split(citeulike_url)[5].split("/")
+      account = path[1]
+      author = path[2]
+      citeulike_url = "http://www.citeulike.org/" + path[1..2].join("/")
 
-      # { "pid" => url,
-      #   "author" => get_authors([author]),
-      #   "title" => "CiteULike bookmarks for #{account} #{author}",
-      #   "container-title" => "CiteULike",
-      #   "issued" => get_date_parts(timestamp),
-      #   "timestamp" => timestamp,
-      #   "URL" => url,
-      #   "type" => "entry",
-      #   "tracked" => tracked,
-      #   "related_works" => [{ "pid" => work.pid,
-      #                         "occurred_at" => timestamp,
-      #                         "source_id" => name,
-      #                         "relation_type_id" => "bookmarks" }
-
-                              # ] }
+      { relation: { "subject" => citeulike_url,
+                    "object" => work.pid,
+                    "relation_type_id" => "bookmarks",
+                    "source_id" => name,
+                    "occurred_at" => timestamp },
+        work: { "pid" => citeulike_url,
+                "author" => get_authors([author]),
+                "title" => "CiteULike bookmarks for #{account} #{author}",
+                "container-title" => "CiteULike",
+                "issued" => get_date_parts(timestamp),
+                "timestamp" => timestamp,
+                "URL" => url,
+                "type" => "entry",
+                "tracked" => tracked } }
     end
   end
-
-  
-
-  # def get_extra(result)
-  #   extra = result['posts'] && result['posts']['post'].respond_to?("map") && result['posts']['post']
-  #   extra = [extra] if extra.is_a?(Hash)
-  #   extra ||= nil
-  #   Array(extra).map do |item|
-  #     { event: item,
-  #       event_time: get_iso8601_from_time(item["post_time"]),
-  #       event_url: item['link']['url'] }
-  #   end
-  # end
 
   def config_fields
     [:url, :events_url]

@@ -1,5 +1,5 @@
 class AdsFulltext < Agent
-  # include common methods for Article Coverage
+  # include common methods for ADS
   include Adsable
 
   def get_query_string(options={})
@@ -18,27 +18,24 @@ class AdsFulltext < Agent
   def get_relations_with_related_works(result, work)
     result["response"] ||= {}
     Array(result["response"]["docs"]).map do |item|
-      arxiv = item.fetch("identifier", []).find { |i| i =~ ARXIV_FORMAT }
-
+      arxiv = item.fetch("identifier", []).find { |i| Array(/(\d{4}\.\d{4,5})/.match(i)).last }
       next unless arxiv.present?
 
       arxiv_url = "http://arxiv.org/abs/#{arxiv}"
 
-      { :relation =>
-        { "subject" => arxiv_url,
-          "object" => work.pid,
-          "relation" => "is_previous_version_of",
-          "source" => name},
-        :work => { "pid" => arxiv_url,
-          "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
-          "title" => item.fetch("title", []).first.chomp("."),
-          "container-title" => "ArXiV",
-          "issued" => get_date_parts(item.fetch("pubdate", nil)),
-          "URL" => arxiv_url,
-          "arxiv" => arxiv,
-          "type" => "article-journal",
-          "tracked" => tracked } }
-
+      { relation: { "subject" => arxiv_url,
+                    "object" => work.pid,
+                    "relation_type_id" => "cites",
+                    "source_id" => name },
+        work: { "pid" => arxiv_url,
+                "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
+                "title" => item.fetch("title", []).first.chomp("."),
+                "container-title" => "ArXiV",
+                "issued" => get_date_parts(item.fetch("pubdate", nil)),
+                "URL" => arxiv_url,
+                "arxiv" => arxiv,
+                "type" => "article-journal",
+                "tracked" => tracked } }
     end.compact
   end
 

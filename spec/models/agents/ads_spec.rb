@@ -58,21 +58,21 @@ describe Ads, type: :model, vcr: true do
 
       expect(response.length).to eq(1)
 
-      expect(response.first).to eq({ :relation => { "subject" => "http://arxiv.org/abs/1503.04201",
-                                                    "object" => work.pid,
-                                                    "relation" => "is_previous_version_of",
-                                                    "source" => "ads" },
+      expect(response.first[:relation]).to eq("subject" => "http://arxiv.org/abs/1503.04201",
+                                              "object" => work.pid,
+                                              "relation_type_id" => "is_previous_version_of",
+                                              "source_id" => "ads")
 
-                                      :work => { "pid" => "http://arxiv.org/abs/1503.04201",
-                                                 "author"=> [{ "family"=>"Hippel", "given"=>"Ted"},
-                                                             { "family"=>"Hippel", "given"=>"Courtney" }],
-                                                  "title" => "To Apply or Not to Apply: A Survey Analysis of Grant Writing Costs and Benefits",
-                                                  "container-title" => "ArXiV",
-                                                  "issued" => { "date-parts" => [[2015, 3]] },
-                                                  "URL" => "http://arxiv.org/abs/1503.04201",
-                                                  "arxiv" => "1503.04201",
-                                                  "type" => "article-journal",
-                                                  "tracked" => false} } )
+      expect(response.first[:work]).to eq("pid" => "http://arxiv.org/abs/1503.04201",
+                                          "author"=> [{ "family"=>"Hippel", "given"=>"Ted"},
+                                                      { "family"=>"Hippel", "given"=>"Courtney" }],
+                                          "title" => "To Apply or Not to Apply: A Survey Analysis of Grant Writing Costs and Benefits",
+                                          "container-title" => "ArXiV",
+                                          "issued" => { "date-parts" => [[2015, 3]] },
+                                          "URL" => "http://arxiv.org/abs/1503.04201",
+                                          "arxiv" => "1503.04201",
+                                          "type" => "article-journal",
+                                          "tracked" => false)
     end
   end
 end

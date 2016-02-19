@@ -58,20 +58,19 @@ describe AdsFulltext, type: :model, vcr: true do
 
       expect(response.length).to eq(3)
 
-      expect(response.last[:relation]).to eq({ "subject" => "http://arxiv.org/abs/arXiv:1007.2876",
-                                               "object" => work.pid,
-                                               "relation" => "is_previous_version_of",
-                                               "source" => "ads_fulltext" })
+      expect(response.last[:relation]).to eq("subject" => "http://arxiv.org/abs/1007.2876",
+                                             "object" => work.pid,
+                                             "relation_type_id" => "cites",
+                                             "source_id" => "ads_fulltext")
 
-      expect(response.last[:work]).to include({ "pid" => "http://arxiv.org/abs/arXiv:1007.2876",
-                                                 "author"=> ["family"=>"Lyons", "given"=>"Russell"],
-                                                  "title" => "The Spread of Evidence-Poor Medicine via Flawed Social-Network Analysis",
-                                                  "container-title" => "ArXiV",
-                                                  "issued" => { "date-parts" => [[2010, 7]] },
-                                                  "URL" => "http://arxiv.org/abs/arXiv:1007.2876",
-                                                  "type" => "article-journal",
-                                                  "tracked" => false } )
-
+      expect(response.last[:work]).to include("pid" => "http://arxiv.org/abs/1007.2876",
+                                              "author"=> ["family"=>"Lyons", "given"=>"Russell"],
+                                              "title" => "The Spread of Evidence-Poor Medicine via Flawed Social-Network Analysis",
+                                              "container-title" => "ArXiV",
+                                              "issued" => { "date-parts" => [[2010, 7]] },
+                                              "URL" => "http://arxiv.org/abs/1007.2876",
+                                              "type" => "article-journal",
+                                              "tracked" => false )
     end
   end
 end
