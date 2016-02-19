@@ -8,6 +8,7 @@ class Api::V6::DepositsController < Api::BaseController
   swagger_api :index do
     summary 'Returns all deposits, sorted by date'
     param :query, :message_type, :string, :optional, "Filter by message_type"
+    param :query, :state, :prefix, :optional, "Filter by DOI prefix"
     param :query, :source_token, :string, :optional, "Filter by source_token"
     param :query, :state, :string, :optional, "Filter by state"
     response :ok
@@ -44,7 +45,9 @@ class Api::V6::DepositsController < Api::BaseController
     collection = Deposit.all
 
     collection = collection.where(message_type: params[:message_type]) if params[:message_type]
+    collection = collection.where(prefix: params[:prefix]) if params[:prefix]
     collection = collection.where(source_token: params[:source_token]) if params[:source_token]
+
     if params[:state]
       states = { "waiting" => 0, "working" => 1, "failed" => 2, "done" => 3 }
       state = states.fetch(params[:state], 0)

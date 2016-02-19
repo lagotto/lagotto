@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217213857) do
+ActiveRecord::Schema.define(version: 20160218141208) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20160217213857) do
 
   create_table "deposits", force: :cascade do |t|
     t.text     "uuid",           limit: 65535,                         null: false
-    t.string   "message_type",   limit: 255,                           null: false
+    t.string   "message_type",   limit: 191,        default: "work",   null: false
     t.text     "message",        limit: 4294967295
     t.string   "source_token",   limit: 255
     t.text     "callback",       limit: 65535
@@ -136,8 +136,10 @@ ActiveRecord::Schema.define(version: 20160217213857) do
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
     t.string   "message_action", limit: 255,        default: "create", null: false
+    t.string   "prefix",         limit: 191
   end
 
+  add_index "deposits", ["prefix", "created_at"], name: "index_deposits_on_prefix_created_at", using: :btree
   add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree
 
   create_table "events", force: :cascade do |t|

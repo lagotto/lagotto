@@ -62,147 +62,135 @@ class Deposit < ActiveRecord::Base
 
   def validate_message
     if message.is_a?(Hash)
-      message['works'] ||
-      message['events'] ||
-      message['publishers'] ||
-      errors.add(:message, "should contain works, events or publishers")
+      errors.add(:message, "should include pid") unless message.fetch('pid', nil).present?
+
+      if message.fetch('related_pid', nil).present?
+        errors.add(:message, "should include source_id") unless message.fetch('source_id', nil).present?
+        errors.add(:message, "should include relation_type_id") unless message.fetch('relation_type_id', nil).present?
+      end
     else
       errors.add(:message, "should be a hash")
     end
   end
 
-  def send_callback
-    data = { "deposit" => {
-             "id" => uuid,
-             "state" => state,
-             "message_type" => message_type,
-             "message_action" => message_action,
-             "message_size" => message_size,
-             "source_token" => source_token,
-             "timestamp" => Time.zone.now.iso8601 }}
-    get_result(callback, data: data.to_json, token: ENV['API_KEY'])
-  end
-
-  def update_works
-    Array(message.fetch('works', nil)).map do |item|
-      # pid is required
-      pid = item.fetch("pid", nil)
-      raise ArgumentError.new("Missing pid in deposit id #{uuid}") unless pid.present?
-
-      doi = item.fetch("DOI", nil)
-      pmid = item.fetch("PMID", nil)
-      pmcid = item.fetch("PMCID", nil)
-      arxiv = item.fetch("arxiv", nil)
-      ark = item.fetch("ark", nil)
-      canonical_url = item.fetch("URL", nil)
-
-      title = item.fetch("title", nil)
-      date_parts = item.fetch("issued", {}).fetch("date-parts", [[]]).first
-      year, month, day = date_parts[0], date_parts[1], date_parts[2]
-      type = item.fetch("type", nil)
-      work_type_id = WorkType.where(name: type).pluck(:id).first
-      registration_agency = item.fetch("registration_agency", nil)
-      tracked = item.fetch("tracked", false)
-
-      related_works = item.fetch("related_works", [])
-      contributors = item.fetch("contributors", [])
-
-      csl = {
-        "author" => item.fetch("author", []),
-        "container-title" => item.fetch("container-title", nil),
-        "volume" => item.fetch("volume", nil),
-        "page" => item.fetch("page", nil),
-        "issue" => item.fetch("issue", nil) }
-
-      w = Work.find_or_create(
-        pid: pid,
-        doi: doi,
-        pmid: pmid,
-        pmcid: pmcid,
-        arxiv: arxiv,
-        ark: ark,
-        canonical_url: canonical_url,
-        title: title,
-        year: year,
-        month: month,
-        day: day,
-        work_type_id: work_type_id,
-        tracked: tracked,
-        registration_agency: registration_agency,
-        csl: csl,
-        related_works: related_works,
-        contributors: contributors)
-
-      w ? w.pid : nil
+  def process_message
+    case
+    when message_type == "publisher" && message_action == "delete" then delete_publisher
+    when message_type == "publisher" then update_publisher
+    when message_type == "work" && message_action == "delete" then delete_work
+    else update_work
     end
   end
 
-  def update_events
-    Array(message.fetch('events', nil)).map do |item|
-      source_id = item.fetch("source_id", nil)
-      source = Source.where(name: source_id).first
-      raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
+  def update_work
+    pid = message.fetch("pid", nil)
+    doi = message.fetch("DOI", nil)
+    pmid = message.fetch("PMID", nil)
+    pmcid = message.fetch("PMCID", nil)
+    arxiv = message.fetch("arxiv", nil)
+    ark = message.fetch("ark", nil)
+    canonical_url = message.fetch("URL", nil)
 
-      pid = item.fetch("work_id", nil)
-      work = Work.where(pid: pid).first
-      raise ArgumentError.new("Work #{pid.to_s} not found for deposit id #{uuid}") unless source.present?
+    title = message.fetch("title", nil)
+    date_parts = message.fetch("issued", {}).fetch("date-parts", [[]]).first
+    year, month, day = date_parts[0], date_parts[1], date_parts[2]
+    type = message.fetch("type", nil)
+    work_type_id = WorkType.where(name: type).pluck(:id).first
+    registration_agency = message.fetch("registration_agency", nil)
+    tracked = message.fetch("tracked", false)
 
-      total = item.fetch("total", 0)
+    related_works = message.fetch("related_works", [])
+    contributors = message.fetch("contributors", [])
 
-      # only create event row if we have at least one event
-      if total > 0
-        begin
-          event = Event.where(source_id: source.id, work_id: work.id).first_or_create
-        rescue ActiveRecord::RecordNotUnique
-          event = Event.where(source_id: source.id, work_id: work.id).first
-        end
-      else
-        event = Event.where(source_id: source.id, work_id: work.id).first
-      end
+    csl = {
+      "author" => message.fetch("author", []),
+      "container-title" => message.fetch("container-title", nil),
+      "volume" => message.fetch("volume", nil),
+      "page" => message.fetch("page", nil),
+      "issue" => message.fetch("issue", nil) }
 
-      next unless event.present?
+    work = Work.where(pid: pid).first_or_create
+      pid: pid,
+      doi: doi,
+      pmid: pmid,
+      pmcid: pmcid,
+      arxiv: arxiv,
+      ark: ark,
+      canonical_url: canonical_url,
+      title: title,
+      year: year,
+      month: month,
+      day: day,
+      work_type_id: work_type_id,
+      tracked: tracked,
+      registration_agency: registration_agency,
+      csl: csl,
+      related_works: related_works,
+      contributors: contributors)
 
-      event.update_attributes(retrieved_at: Time.zone.now,
-                              total: total,
-                              pdf: item.fetch("pdf", 0),
-                              html: item.fetch("html", 0),
-                              readers: item.fetch("readers", 0),
-                              comments: item.fetch("comments", 0),
-                              likes: item.fetch("likes", 0),
-                              events_url: item.fetch("events_url", nil),
-                              extra: item.fetch("extra", nil))
-
-      months = item.fetch("months", [])
-      months = [event.get_events_current_month] if months.blank?
-      update_months(event, months)
-
-      event
-    end
+    w ? w.pid : nil
   end
 
-  def update_publishers
-    Array(message.fetch('publishers', nil)).map do |item|
-      publisher = Publisher.where(name: item.fetch('name', nil)).first_or_create
-      publisher.update_attributes(item.except('name'))
-    end
+  # def update_events
+  #   Array(message.fetch('events', nil)).map do |item|
+  #     source_id = item.fetch("source_id", nil)
+  #     source = Source.where(name: source_id).first
+  #     raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
+
+  #     pid = item.fetch("work_id", nil)
+  #     work = Work.where(pid: pid).first
+  #     raise ArgumentError.new("Work #{pid.to_s} not found for deposit id #{uuid}") unless source.present?
+
+  #     total = item.fetch("total", 0)
+
+  #     # only create event row if we have at least one event
+  #     if total > 0
+  #       begin
+  #         event = Event.where(source_id: source.id, work_id: work.id).first_or_create
+  #       rescue ActiveRecord::RecordNotUnique
+  #         event = Event.where(source_id: source.id, work_id: work.id).first
+  #       end
+  #     else
+  #       event = Event.where(source_id: source.id, work_id: work.id).first
+  #     end
+
+  #     next unless event.present?
+
+  #     event.update_attributes(retrieved_at: Time.zone.now,
+  #                             total: total,
+  #                             pdf: item.fetch("pdf", 0),
+  #                             html: item.fetch("html", 0),
+  #                             readers: item.fetch("readers", 0),
+  #                             comments: item.fetch("comments", 0),
+  #                             likes: item.fetch("likes", 0),
+  #                             events_url: item.fetch("events_url", nil),
+  #                             extra: item.fetch("extra", nil))
+
+  #     months = item.fetch("months", [])
+  #     months = [event.get_events_current_month] if months.blank?
+  #     update_months(event, months)
+
+  #     event
+  #   end
+  # end
+
+  def update_publisher
+    publisher = Publisher.where(name: message.fetch('name', nil)).first_or_create
+    publisher.update_attributes(message.except('name'))
   end
 
-  def delete_events
-    Array(message.fetch('events', nil)).map do |item|
-      Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
-    end
+  # def delete_events
+  #   Array(message.fetch('events', nil)).map do |item|
+  #     Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
+  #   end
+  # end
+
+  def delete_work
+    Work.where(pid: message.fetch('pid', nil)).destroy_all
   end
 
-  def delete_works
-    Array(message.fetch('works', nil)).map do |item|
-      Work.where(pid: item.fetch('pid', nil)).destroy_all
-    end
-  end
-
-  def delete_publishers
-    Array(message.fetch('publishers', nil)).map do |item|
-      Publisher.where(name: item.fetch('name', nil)).destroy_all
-    end
+  def delete_publisher
+    Publisher.where(name: message.fetch('name', nil)).destroy_all
   end
 
   def update_months(event, months)
@@ -219,8 +207,15 @@ class Deposit < ActiveRecord::Base
                                       likes: item.fetch("likes", 0)) }
   end
 
-  def message_size
-    @message_size || Array(message.fetch('works', nil)).size
+  def send_callback
+    data = { "deposit" => {
+             "id" => uuid,
+             "state" => state,
+             "message_type" => message_type,
+             "message_action" => message_action,
+             "source_token" => source_token,
+             "timestamp" => timestamp }}
+    get_result(callback, data: data.to_json, token: ENV['API_KEY'])
   end
 
   def timestamp
@@ -233,21 +228,5 @@ class Deposit < ActiveRecord::Base
 
   def create_uuid
     write_attribute(:uuid, SecureRandom.uuid) if uuid.blank?
-    write_attribute(:message_type, 'default') if message_type.blank?
-
-    set_events if message['works'].present? &&  message['events'].blank?
-  end
-
-  def set_events
-    message['events'] = Array(message.fetch('works', nil)).map do |item|
-      return {} unless item.is_a?(Hash)
-
-      source_id = item.fetch("related_works", [{}]).first.fetch("source", nil)
-      total = item.fetch("related_works", []).size
-
-      { source_id: source_id,
-        work_id: item.fetch("pid", nil),
-        total: total }
-    end
   end
 end

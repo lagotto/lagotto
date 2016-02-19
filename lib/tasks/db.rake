@@ -278,9 +278,9 @@ namespace :db do
 
   namespace :deposits do
 
-    desc "Delete all completed deposits older than 24 hours"
+    desc "Delete all completed deposits older than 7 days"
     task :delete => :environment do
-      count = Deposit.where("state = ?", 3).where("created_at < ?", Time.zone.now - 1.day).delete_all
+      count = Deposit.where("state = ?", 3).where("created_at < ?", Time.zone.now - 7.days).delete_all
       puts "Deleted #{count} completed deposits"
     end
   end
