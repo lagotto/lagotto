@@ -35,23 +35,23 @@ describe CrossrefPublisher, type: :model, vcr: true do
 
   context "get_total" do
     it "with members" do
-      expect(subject.get_total).to eq(5680)
+      expect(subject.get_total).to eq(6103)
     end
   end
 
   context "queue_jobs" do
     it "should report if there are members returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(5680)
+      expect(response).to eq(6103)
     end
   end
 
   context "get_data" do
     it "should report if there are members returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(5680)
+      expect(response["message"]["total-results"]).to eq(6103)
       item = response["message"]["items"].first
-      expect(item['primary-name']).to eq("Hogrefe & Huber")
+      expect(item['primary-name']).to eq("Hogrefe Publishing Group")
       expect(item['prefixes']).to eq(["10.1024", "10.1026", "10.1027"])
     end
 
@@ -72,7 +72,7 @@ describe CrossrefPublisher, type: :model, vcr: true do
     it "should report if there are no members returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_publisher_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:publishers=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are members returned by the Crossref REST API" do
@@ -80,9 +80,15 @@ describe CrossrefPublisher, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:publishers].length).to eq(20)
-      publisher = response[:publishers].first
-      expect(publisher).to eq("name"=>101, "title"=>"Hogrefe & Huber", "other_names"=>["Hogrefe & Huber Publishing Group", "Hogrefe & Huber"], "prefixes"=>["10.1024", "10.1026", "10.1027"], "registration_agency"=>"crossref", "active"=>true)
+      expect(response.length).to eq(20)
+      expect(response.first[:message_type]).to eq("publisher")
+      expect(response.first[:relation]).to eq("subject"=>101, "source_id"=>"crossref_publisher")
+      expect(response.first[:subject]).to eq("name"=>101,
+                                             "title"=>"Hogrefe & Huber",
+                                             "other_names"=>["Hogrefe & Huber Publishing Group", "Hogrefe & Huber"],
+                                             "prefixes"=>["10.1024", "10.1026", "10.1027"],
+                                             "registration_agency"=>"crossref",
+                                             "active"=>true)
     end
   end
 end

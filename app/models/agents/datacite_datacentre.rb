@@ -26,17 +26,16 @@ class DataciteDatacentre < Agent
     datacentre_facet = result.fetch("facet_counts", {}).fetch("facet_fields", {}).fetch('datacentre_facet', [])
     items = datacentre_facet.values_at(* datacentre_facet.each_index.select {|i| i.even?})
 
-    { publishers: get_publishers(items) }
-  end
-
-  def get_publishers(items)
     Array(items).map do |item|
-      name, title = item.split(' - ', 2)
+      datacentre_name, datacentre_title = item.split(' - ', 2)
 
-      { "name" => name,
-        "title" => title,
-        "registration_agency" => "datacite",
-        "active" => true }
+      { message_type: "publisher",
+        relation: { "subject" => datacentre_name,
+                    "source_id" => name },
+        subject: { "name" => datacentre_name,
+                   "title" => datacentre_title,
+                   "registration_agency" => "datacite",
+                   "active" => true } }
     end
   end
 

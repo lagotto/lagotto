@@ -44,17 +44,18 @@ class CrossrefPublisher < Agent
 
     items = result.fetch('message', {}).fetch('items', nil)
 
-    { publishers: get_publishers(items) }
-  end
-
-  def get_publishers(items)
     Array(items).map do |item|
-      { "name" => item.fetch('id', nil),
-        "title" => item.fetch('primary-name', nil),
-        "other_names" => item.fetch('names', []),
-        "prefixes" => item.fetch('prefixes', []),
-        "registration_agency" => "crossref",
-        "active" => true }
+      publisher_name = item.fetch('id', nil)
+
+      { message_type: "publisher",
+        relation: { "subject" => publisher_name,
+                    "source_id" => name },
+        subject: { "name" => publisher_name,
+                   "title" => item.fetch('primary-name', nil),
+                   "other_names" => item.fetch('names', []),
+                   "prefixes" => item.fetch('prefixes', []),
+                   "registration_agency" => "crossref",
+                   "active" => true } }
     end
   end
 
