@@ -132,35 +132,28 @@ records:
     inverse_name: is_previous_version_of
     title: Is new version of
     inverse_title: Is previous version of
-    level: 0
   - name: is_previous_version_of
     inverse_name: is_new_version_of
     title: Is previous version of
     inverse_title: Is new version of
-    level: 0
   - name: is_original_form_of
     inverse_name: is_variant_form_of
     title: Is original form of
     inverse_title: Is variant form of
-    level: 0
   - name: is_variant_form_of
     inverse_name: is_original_form_of
     title: Is variant form of
     inverse_title: Is original form of
-    level: 0
   - name: is_identical_to
     inverse_name: is_identical_to
     title: Is identical to
     inverse_title: Is identical to
-    level: 0
   # custom versions needed for lagotto
   - name: corrects
     inverse_name: is_corrected_by
     title: Corrects
     inverse_title: Is corrected by
-    level: 0
   - name: is_corrected_by
     inverse_name: corrects
     title: Is corrected by
     inverse_title: Corrects
-    level: 0
