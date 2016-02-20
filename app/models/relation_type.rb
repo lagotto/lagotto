@@ -4,9 +4,6 @@ class RelationType < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true
 
-  scope :referencable, -> { where("level > 0") }
-  scope :versionable, -> { where("level = 0") }
-
   def to_param
     name
   end

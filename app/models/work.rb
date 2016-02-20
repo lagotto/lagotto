@@ -28,10 +28,7 @@ class Work < ActiveRecord::Base
   has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations
-  has_many :reference_relations, -> { where "level = 1" }, class_name: 'Relation', :dependent => :destroy
-  has_many :version_relations, -> { where "level = 0" }, class_name: 'Relation', :dependent => :destroy
-  has_many :references, :through => :reference_relations, source: :work
-  has_many :versions, :through => :version_relations
+  has_many :related_works, :through => :relations, source: :work
   has_many :contributions
   has_many :contributors, :through => :contributions
 
@@ -101,8 +98,7 @@ class Work < ActiveRecord::Base
         Relation.where(work_id: id,
                        related_work_id: related_work.id,
                        source_id: source.id).first_or_create(
-                         relation_type_id: relation_type.id,
-                         level: relation_type.level)
+                         relation_type_id: relation_type.id)
       rescue ActiveRecord::RecordNotUnique
         Relation.where(work_id: id,
                        related_work_id: related_work.id,
@@ -113,8 +109,7 @@ class Work < ActiveRecord::Base
         Relation.where(work_id: related_work.id,
                        related_work_id: id,
                        source_id: source.id).first_or_create(
-                         relation_type_id: inverse_relation_type.id,
-                         level: inverse_relation_type.level)
+                         relation_type_id: inverse_relation_type.id)
       rescue ActiveRecord::RecordNotUnique
         Relation.where(work_id: related_work.id,
                        related_work_id: id,

@@ -29,7 +29,7 @@ Lagotto::Application.routes.draw do
   resources :filters
   resources :notifications
   resources :publishers, constraints: { :id => /.+/ }
-  resources :references
+  resources :relations
 
   # use namespace for rss feeds rather than file extension
   namespace :rss, defaults: { format: "rss" } do
@@ -62,7 +62,7 @@ Lagotto::Application.routes.draw do
     end
 
     scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
-      match 'references', to: 'references#index', via: [:get, :post]
+      match 'relations', to: 'relations#index', via: [:get, :post]
 
       concern :workable do
         resources :works, constraints: { :id => /.+?/, format: false }
@@ -92,7 +92,7 @@ Lagotto::Application.routes.draw do
       resources :status, only: [:index]
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do
-        resources :references
+        resources :relations
         resources :versions
         resources :recommendations
         resources :events

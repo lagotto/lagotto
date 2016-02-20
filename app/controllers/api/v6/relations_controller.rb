@@ -1,20 +1,20 @@
-class Api::V6::ReferencesController < Api::BaseController
+class Api::V6::RelationsController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :references, "References"
+  swagger_controller :relations, "Relations"
 
   swagger_api :index do
-    summary "Returns list of references for a particular work, source and/or relation_type"
+    summary "Returns list of relations for a particular work, source and/or relation_type"
     param :query, :work_id, :string, :optional, "Work ID"
     param :query, :work_ids, :string, :optional, "Work IDs"
     param :query, :q, :string, :optional, "Query for ids"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :page, :integer, :optional, "Page number"
-    param :query, :recent, :integer, :optional, "Limit to references created last x days"
+    param :query, :recent, :integer, :optional, "Limit to relations created last x days"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
     response :ok
     response :unprocessable_entity
@@ -24,9 +24,9 @@ class Api::V6::ReferencesController < Api::BaseController
 
   def index
     if @work
-      collection = @work.reference_relations
+      collection = @work.relations
     else
-      collection = Relation #.referencable
+      collection = Relation
     end
 
     if params[:work_ids]
@@ -66,7 +66,7 @@ class Api::V6::ReferencesController < Api::BaseController
                                      page: page,
                                      total_entries: total_entries)
 
-    @reference_relations = collection.decorate
+    @relations = collection.decorate
   end
 
   # use cached counts for total number of results

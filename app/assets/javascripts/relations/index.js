@@ -11,7 +11,7 @@ if (!params.empty()) {
   var source_id = params.attr('data-source-id');
   var relation_type_id = params.attr('data-relation-type-id');
 
-  var query = encodeURI("/api/references?page=" + page);
+  var query = encodeURI("/api/relations?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
   if (q !== null) { query += "&q=" + q; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
@@ -44,7 +44,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("There are currently no references");
+      .text("There are currently no relations");
     return;
   }
 

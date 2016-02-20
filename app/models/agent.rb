@@ -146,18 +146,8 @@ class Agent < ActiveRecord::Base
     data = parse_data(data, options.merge(agent_id: id))
 
     # push to deposit API if no error and we have collected works and/or events
-    return {} unless data.fetch(:works, []).present? ||
-                     data.fetch(:events, []).present? ||
-                     data.fetch(:contributors, []).present? ||
-                     data.fetch(:publishers, []).present?
-
-    deposit = Deposit.create!(source_token: uuid,
-                              message: data,
-                              message_type: message_type)
-
-    { "uuid" => deposit.uuid,
-      "source_token" => deposit.source_token,
-      "message_type" => deposit.message_type }
+    # returns number of deposits created
+    push_data(data, options)
   end
 
   def get_data(options={})
@@ -211,12 +201,20 @@ class Agent < ActiveRecord::Base
       #   events_url: events_url,
       #   extra: extra,
       #   days: get_events_by_day(related_works, work.published_on, options),
-      #   months: get_events_by_month(related_works, options) }.compact] 
+      #   months: get_events_by_month(related_works, options) }.compact]
     # }
 
     # TODO return seq of full deposit envelopes?
 
     get_relations_with_related_works(result, work)
+  end
+
+  def push_data(items, options={})
+    Array(items).map do |item|
+        deposit = Deposit.create!(source_token: uuid,
+                              message: data,
+                              message_type: message_type)
+    end
   end
 
   def get_events_by_day(events, publication_date, options={})

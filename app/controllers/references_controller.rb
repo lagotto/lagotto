@@ -1,6 +1,6 @@
-class ReferencesController < ApplicationController
+class RelatedWorksController < ApplicationController
   def index
-    collection = Relation.referencable.includes(:work, :related_work)
+    collection = Relation.includes(:work, :related_work)
 
     if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
       collection = collection.where(relation_type_id: relation_type.id)
@@ -14,7 +14,7 @@ class ReferencesController < ApplicationController
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
 
-    @references = collection.paginate(per_page: per_page, page: params[:page])
+    @relations = collection.paginate(per_page: per_page, page: params[:page])
 
     @page = params[:page] || 1
     @q = params[:q]
