@@ -49,18 +49,26 @@ class Github < Agent
     work = Work.where(id: options[:work_id]).first
     return { error: "Resource not found.", status: 404 } unless work.present?
 
-    readers = result.fetch("stargazers_count", 0)
-    total = readers + result.fetch("forks_count", 0)
-    extra = result.slice("stargazers_count", "stargazers_url", "forks_count", "forks_url")
-    events_url = total > 0 ? get_events_url(get_owner_and_repo(work)) : nil
+    relations = []
+    stargazers_count = result.fetch("stargazers_count", 0)
+    if stargazers_count > 0
+      relations << { relation: { "subject" => work.pid,
+                                 "object" => "https://github.com/",
+                                 "relation_type_id" => "is_bookmarked_by",
+                                 "total" => stargazers_count,
+                                 "source_id" => source_id } }
+    end
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        readers: readers,
-        total: total,
-        events_url: events_url,
-        extra: extra }.compact] }
+    forks_count = result.fetch("forks_count", 0)
+    if forks_count > 0
+      relations << { relation: { "subject" => work.pid,
+                                 "object" => "https://github.com/",
+                                 "relation_type_id" => "is_source_of",
+                                 "total" => forks_count,
+                                 "source_id" => source_id } }
+    end
+
+    relations
   end
 
   def config_fields
