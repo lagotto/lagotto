@@ -51,17 +51,11 @@ class CrossrefOrcid < Agent
     return result if result[:error]
 
     items = result.fetch('message', {}).fetch('items', nil)
-
-    # { works: get_works(items),
-    #   events: get_events(items) }
-
-    { works: get_works(items)}
-
-    
+    get_relations_with_contributors(items)
   end
 
-  def get_works(items)
-    Array(items).map do |item|
+  def get_relations_with_contributors(items)
+    Array(items).reduce([]) do |sum, item|
       date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
@@ -81,36 +75,42 @@ class CrossrefOrcid < Agent
         title = item["container-title"][0].presence || "No title"
       end
 
-      member = item.fetch("member", nil).to_s[30..-1]
-      publisher = Publisher.where(name: member).first
-      publisher_id = publisher.present? ? publisher.id : nil
+      publisher_id = item.fetch("member", nil).to_s[30..-1]
 
       type = item.fetch("type", nil)
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       doi = item.fetch("DOI", nil)
 
-      authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
-      contributors = authors_with_orcid.map { |work| get_contributor(work) }
+      subject = { "pid" => doi_as_url(doi),
+                  "author" => item.fetch("author", []),
+                  "title" => title,
+                  "container-title" => item.fetch("container-title", []).first,
+                  "issued" => { "date-parts" => [date_parts] },
+                  "DOI" => doi,
+                  "publisher_id" => publisher_id,
+                  "volume" => item.fetch("volume", nil),
+                  "issue" => item.fetch("issue", nil),
+                  "page" => item.fetch("page", nil),
+                  "type" => type,
+                  "tracked" => tracked }
 
-      { "pid" => doi_as_url(doi),
-        "author" => item.fetch("author", []),
-        "container-title" => item.fetch("container-title", []).first,
-        "title" => title,
-        "issued" => { "date-parts" => [date_parts] },
-        "DOI" => doi,
-        "publisher_id" => publisher_id,
-        "volume" => item.fetch("volume", nil),
-        "issue" => item.fetch("issue", nil),
-        "page" => item.fetch("page", nil),
-        "type" => type,
-        "tracked" => tracked,
-        "contributors" => contributors }
+      authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
+      sum += get_relations(subject, authors_with_orcid)
     end
   end
 
-  def get_contributor(work)
-    { "pid" => work.fetch('ORCID', nil),
-      "source_id" => source_id }
+  def get_relations(subject, items)
+    prefix = subject["DOI"][/^10\.\d{4,5}/]
+
+    Array(items).map do |item|
+      { prefix: prefix,
+        message_type: "contributor",
+        relation: { "subject" => subject["pid"],
+                    "object" => item.fetch('ORCID', nil),
+                    "source_id" => source_id,
+                    "publisher_id" => subject["publisher_id"] },
+        subject: subject }
+    end
   end
 
   def get_events(items)
