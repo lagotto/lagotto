@@ -7,16 +7,14 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/json
       User-Agent:
       - Lagotto - http://lagotto-5-0-unstable.local
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
   response:
     status:
       code: 200
-      message: OK
+      message: ''
     headers:
       Access-Control-Allow-Headers:
       - X-Requested-With
@@ -27,16 +25,16 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '189'
+      - '188'
       Server:
       - http-kit
       Date:
-      - Mon, 26 Oct 2015 15:20:57 GMT
+      - Sat, 20 Feb 2016 09:27:36 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":1055,"facets":{}}}'
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":953,"facets":{}}}'
     http_version: 
-  recorded_at: Mon, 26 Oct 2015 15:20:57 GMT
+  recorded_at: Sat, 20 Feb 2016 09:27:36 GMT
 recorded_with: VCR 2.9.3

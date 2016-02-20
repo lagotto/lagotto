@@ -39,7 +39,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(1055)
+      expect(subject.get_total).to eq(953)
     end
 
     it "with no works" do
@@ -55,7 +55,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(1055)
+      expect(response).to eq(953)
     end
 
     it "should report if there are sample works returned by the Crossref REST API" do
@@ -73,9 +73,9 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(1055)
+      expect(response["message"]["total-results"]).to eq(953)
       item = response["message"]["items"].first
-      expect(item["DOI"]).to eq("10.4168/aair.2011.3.2.111")
+      expect(item["DOI"]).to eq("10.1063/1.4916805")
     end
 
     it "should catch errors with the Crossref REST API" do
@@ -95,7 +95,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
     it "should report if there are no works returned by the Crossref REST API" do
       body = File.read(fixture_path + 'crossref_orcid_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the Crossref REST API" do
@@ -103,16 +103,26 @@ describe CrossrefOrcid, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works].first
-      expect(related_work['DOI']).to eq("10.1016/j.mmcr.2014.03.001")
-      expect(related_work['contributors'].length).to eq(1)
-      contributor = related_work['contributors'].first
-      expect(contributor).to eq("pid"=>"http://orcid.org/0000-0001-9344-779X", "source_id"=>"crossref_orcid")
+      expect(response.length).to eq(10)
+      expect(response.first[:prefix]).to eq("10.1016")
+      expect(response.first[:message_type]).to eq("contributor")
+      expect(response.first[:relation]).to eq("subject"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
+                                              "object"=>"http://orcid.org/0000-0001-9344-779X",
+                                              "source_id"=>"crossref_orcid",
+                                              "publisher_id"=>"78")
 
-      expect(response[:events].length).to eq(10)
-      event = response[:events].first
-      expect(event).to eq(:source_id=>"crossref_orcid", :work_id=>"http://doi.org/10.1016/j.mmcr.2014.03.001", :total=>1, :extra=>[{"affiliation"=>[], "family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}])
+      expect(response.first[:subject]).to eq("pid"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
+                                             "author"=>[{"affiliation"=>[], "family"=>"Brown", "given"=>"Jeremy D."}, {"affiliation"=>[], "family"=>"Lim", "given"=>"Lyn-li"}, {"affiliation"=>[], "family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}],
+                                             "title"=>"Voriconazole associated torsades de pointes in two adult patients with haematological malignancies",
+                                             "container-title"=>"Medical Mycology Case Reports",
+                                             "issued"=>{"date-parts"=>[[2014, 4]]},
+                                             "DOI"=>"10.1016/j.mmcr.2014.03.001",
+                                             "publisher_id"=>"78",
+                                             "volume"=>"4",
+                                             "issue"=>nil,
+                                             "page"=>"23-25",
+                                             "type"=>"article-journal",
+                                             "tracked"=>true)
     end
   end
 end

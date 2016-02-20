@@ -45,7 +45,7 @@ class CrossrefPublisher < Agent
     items = result.fetch('message', {}).fetch('items', nil)
 
     Array(items).map do |item|
-      publisher_name = item.fetch('id', nil)
+      publisher_name = item.fetch('id', nil).to_s
 
       { message_type: "publisher",
         relation: { "subject" => publisher_name,
