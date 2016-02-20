@@ -58,12 +58,12 @@ describe AdsFulltext, type: :model, vcr: true do
 
       expect(response.length).to eq(3)
 
-      expect(response.last[:relation]).to eq("subject" => "http://arxiv.org/abs/1007.2876",
-                                             "object" => work.pid,
+      expect(response.last[:relation]).to eq("subj_id" => "http://arxiv.org/abs/1007.2876",
+                                             "obj_id" => work.pid,
                                              "relation_type_id" => "cites",
                                              "source_id" => "ads_fulltext")
 
-      expect(response.last[:work]).to include("pid" => "http://arxiv.org/abs/1007.2876",
+      expect(response.last[:subj]).to include("pid" => "http://arxiv.org/abs/1007.2876",
                                               "author"=> ["family"=>"Lyons", "given"=>"Russell"],
                                               "title" => "The Spread of Evidence-Poor Medicine via Flawed Social-Network Analysis",
                                               "container-title" => "ArXiV",

@@ -58,12 +58,12 @@ describe Ads, type: :model, vcr: true do
 
       expect(response.length).to eq(1)
 
-      expect(response.first[:relation]).to eq("subject" => "http://arxiv.org/abs/1503.04201",
-                                              "object" => work.pid,
+      expect(response.first[:relation]).to eq("subj_id" => "http://arxiv.org/abs/1503.04201",
+                                              "obj_id" => work.pid,
                                               "relation_type_id" => "is_previous_version_of",
                                               "source_id" => "ads")
 
-      expect(response.first[:work]).to eq("pid" => "http://arxiv.org/abs/1503.04201",
+      expect(response.first[:subj]).to eq("pid" => "http://arxiv.org/abs/1503.04201",
                                           "author"=> [{ "family"=>"Hippel", "given"=>"Ted"},
                                                       { "family"=>"Hippel", "given"=>"Courtney" }],
                                           "title" => "To Apply or Not to Apply: A Survey Analysis of Grant Writing Costs and Benefits",
