@@ -79,7 +79,7 @@ describe DataciteOrcid, type: :model, vcr: true do
     it "should report if there are no works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_related_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
@@ -87,16 +87,24 @@ describe DataciteOrcid, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(62)
-      work = response[:works].first
-      expect(work['DOI']).to eq("10.1594/PANGAEA.733793")
-      expect(work['contributors'].length).to eq(1)
-      contributor = work['contributors'].first
-      expect(contributor).to eq("pid"=>"http://orcid.org/0000-0002-4133-2218", "source_id"=>"datacite_orcid")
+      expect(response.length).to eq(63)
+      expect(response.first[:prefix]).to eq("10.1594")
+      expect(response.first[:message_type]).to eq("contributor")
+      expect(response.first[:relation]).to eq("subject"=>"http://doi.org/10.1594/PANGAEA.733793",
+                                              "object"=>"http://orcid.org/0000-0002-4133-2218",
+                                              "source_id"=>"datacite_orcid",
+                                              "publisher_id"=>"TIB.PANGAEA")
 
-      expect(response[:events].length).to eq(62)
-      event = response[:events].first
-      expect(event).to eq(:source_id=>"datacite_orcid", :work_id=>"http://doi.org/10.1594/PANGAEA.733793", :total=>1, :extra=>[{"nameIdentifier"=>"ORCID:0000-0002-4133-2218"}])
+      expect(response.first[:subject]).to eq("pid"=>"http://doi.org/10.1594/PANGAEA.733793",
+                                             "DOI"=>"10.1594/PANGAEA.733793",
+                                             "author"=>[],
+                                             "container-title"=>"PANGAEA - Data Publisher for Earth & Environmental Science",
+                                             "title"=>"Paleomagnetic measurements of 10 sediment profiles from the Antarctic continental slope",
+                                             "issued"=>{"date-parts"=>[[1989]]},
+                                             "publisher_id"=>"TIB.PANGAEA",
+                                             "registration_agency"=>"datacite",
+                                             "tracked"=>true,
+                                             "type"=>nil)
     end
   end
 end

@@ -25,10 +25,7 @@ class DataciteRelated < Agent
       year = item.fetch("publicationYear", nil).to_i
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS[type] if type
-
-      datacentre_symbol = item.fetch("datacentre_symbol", nil)
-      publisher = Publisher.where(name: datacentre_symbol).first
-      publisher_id = publisher.present? ? publisher.id : nil
+      publisher_id = item.fetch("datacentre_symbol", nil)
 
       xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
       xml = Hash.from_xml(xml).fetch("resource", {})
@@ -38,8 +35,8 @@ class DataciteRelated < Agent
       subject = { "pid" => pid,
                   "DOI" => doi,
                   "author" => get_hashed_authors(authors),
-                  "container-title" => nil,
                   "title" => item.fetch("title", []).first,
+                  "container-title" => item.fetch("publisher", nil),
                   "issued" => { "date-parts" => [[year]] },
                   "publisher_id" => publisher_id,
                   "registration_agency" => "datacite",
@@ -47,25 +44,28 @@ class DataciteRelated < Agent
                   "type" => type }
 
       related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
-
-      sum += Array(related_identifiers).reduce([]) do |sub_sum, id|
-        sub_sum << { relation: get_relation(id, pid),
-                     subject: subject }
-      end
+      sum += get_relations(subject, related_identifiers)
     end
   end
 
-  def get_relation(id, pid)
-    raw_relation_type, _related_identifier_type, related_identifier = id.split(':', 3)
-    object_pid = doi_as_url(related_identifier.strip.upcase)
+  def get_relations(subject, items)
+    prefix = subject["DOI"][/^10\.\d{4,5}/]
 
-    # find relation_type, default to "is_referenced_by" otherwise
-    relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
+    Array(items).map do |item|
+      raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
+      pid = doi_as_url(related_identifier.strip.upcase)
 
-    { "subject" => pid,
-      "object" => object_pid,
-      "relation_type_id" => relation_type_id,
-      "source_id" => source_id }
+      # find relation_type, default to "is_referenced_by" otherwise
+      relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
+
+      { prefix: prefix,
+        relation: { "subject" => subject["pid"],
+                    "object" => pid,
+                    "relation_type_id" => relation_type_id,
+                    "source_id" => source_id,
+                    "publisher_id" => subject["publisher_id"] },
+        subject: subject }
+    end
   end
 
   def config_fields

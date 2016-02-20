@@ -18,74 +18,72 @@ class DataciteGithub < Agent
     url +  URI.encode_www_form(params)
   end
 
-  def get_works(items)
-    Array(items).map do |item|
+  def get_relations_with_related_works(items)
+    Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi", nil)
       pid = doi_as_url(doi)
       year = item.fetch("publicationYear", nil).to_i
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS[type] if type
-      publisher_symbol = item.fetch("datacentre_symbol", nil)
-      publisher_id = publisher_symbol.present? ? publisher_symbol.to_i(36) : nil
+      publisher_id = item.fetch("datacentre_symbol", nil)
 
       xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
       xml = Hash.from_xml(xml).fetch("resource", {})
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:URL:https:\/\/github.com.+/ }
-      related_works = related_identifiers.reduce([]) { |sum, work| sum + get_related_works(work) }
+      subject = { "pid" => pid,
+                  "DOI" => doi,
+                  "author" => get_hashed_authors(authors),
+                  "title" => item.fetch("title", []).first,
+                  "container-title" => item.fetch("publisher", nil),
+                  "issued" => { "date-parts" => [[year]] },
+                  "publisher_id" => publisher_id,
+                  "registration_agency" => "datacite",
+                  "tracked" => true,
+                  "type" => type }
 
-      { "pid" => pid,
-        "DOI" => doi,
-        "author" => get_hashed_authors(authors),
-        "container-title" => nil,
-        "title" => item.fetch("title", []).first,
-        "issued" => { "date-parts" => [[year]] },
-        "publisher_id" => publisher_id,
-        "registration_agency" => "datacite",
-        "tracked" => true,
-        "type" => type,
-        "related_works" => related_works }
+      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:URL:https:\/\/github.com.+/ }
+      sum += get_relations(subject, related_identifiers)
     end
   end
 
-  def get_related_works(work)
-    raw_relation_type, _related_identifier_type, related_identifier = work.split(':', 3)
+  def get_relations(subject, items)
+    prefix = subject["DOI"][/^10\.\d{4,5}/]
 
-    # find relation_type, default to "is_referenced_by" otherwise
-    relation_type = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
+    Array(items).reduce([]) do |sum, item|
+      raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
 
-    # get parent repo
-    # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
-    related_identifier = PostRank::URI.clean(related_identifier)
-    full_name = URI.parse(related_identifier).path[1..-1]
-    owner, repo, _tail = full_name.split('/', 3)
-    owner_url = "https://github.com/#{owner}"
-    repo_url = "https://github.com/#{owner}/#{repo}"
+      # find relation_type, default to "is_referenced_by" otherwise
+      relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
 
-    owner_metadata = { "pid" => owner_url,
-                       "source_id" => name,
-                       "relation_type_id" => "is_compiled_by" }
-    repo_metadata = { "pid" => repo_url,
-                      "source_id" => name,
-                      "relation_type_id" => "is_part_of",
-                      "related_works" => [owner_metadata] }
-    release_metadata = { "pid" => related_identifier,
-                         "source_id" => name,
-                         "relation_type_id" => relation_type,
-                         "related_works" => [repo_metadata] }
-    [release_metadata, repo_metadata]
-  end
+      # get parent repo
+      # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
+      related_identifier = PostRank::URI.clean(related_identifier)
+      full_name = URI.parse(related_identifier).path[1..-1]
+      owner, repo, _tail = full_name.split('/', 3)
+      owner_url = "https://github.com/#{owner}"
+      repo_url = "https://github.com/#{owner}/#{repo}"
 
-  def get_events(items)
-    Array(items).map do |item|
-      pid = doi_as_url(item.fetch("doi"))
-      related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:URL:https:\/\/github.com.+/ }
+      sum << { prefix: prefix,
+               relation: { "subject" => subject["pid"],
+                           "object" => related_identifier,
+                           "relation_type_id" => relation_type_id,
+                           "source_id" => source_id,
+                           "publisher_id" => subject["publisher_id"] },
+               subject: subject }
 
-      { source_id: name,
-        work_id: pid,
-        total: related_identifiers.length }
+      sum << { relation: { "subject" => related_identifier,
+                           "object" => repo_url,
+                           "relation_type_id" => "is_part_of",
+                           "source_id" => source_id,
+                           "publisher_id" => "github" } }
+
+      sum << { relation: { "subject" => repo_url,
+                           "object" => owner_url,
+                           "relation_type_id" => "is_compiled_by",
+                           "source_id" => source_id,
+                           "publisher_id" => "github" } }
     end
   end
 

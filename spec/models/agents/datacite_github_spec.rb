@@ -79,7 +79,7 @@ describe DataciteGithub, type: :model, vcr: true do
     it "should report if there are no works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_github_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
@@ -88,20 +88,36 @@ describe DataciteGithub, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(20)
-      work = response[:works].first
-      expect(work['DOI']).to eq("10.5281/ZENODO.16668")
-      expect(work['related_works'].length).to eq(2)
-      related_work = work['related_works'].first
-      expect(related_work.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta", "source_id"=>"datacite_github", "relation_type_id"=>"is_supplement_to")
-      related_repo = related_work["related_works"].first
-      expect(related_repo.except("related_works")).to eq("pid"=>"https://github.com/konradjk/loftee", "source_id"=>"datacite_github", "relation_type_id"=>"is_part_of")
-      related_owner = related_repo["related_works"].first
-      expect(related_owner).to eq("pid"=>"https://github.com/konradjk", "source_id"=>"datacite_github", "relation_type_id"=>"is_compiled_by")
+      expect(response.length).to eq(63)
+      expect(response.first[:prefix]).to eq("10.5281")
+      expect(response.first[:relation]).to eq("subject"=>"http://doi.org/10.5281/ZENODO.16668",
+                                              "object"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta",
+                                              "relation_type_id"=>"is_supplement_to",
+                                              "source_id"=>"datacite_github",
+                                              "publisher_id"=>"CERN.ZENODO")
 
-      expect(response[:events].length).to eq(20)
-      event = response[:events].first
-      expect(event).to eq(:source_id=>"datacite_github", :work_id=>"http://doi.org/10.5281/ZENODO.16668", :total=>1)
+      expect(response.first[:subject]).to eq("pid"=>"http://doi.org/10.5281/ZENODO.16668",
+                                             "DOI"=>"10.5281/ZENODO.16668",
+                                             "author"=>[{"family"=>"Karczewski", "given"=>"Konrad"}, {"family"=>"Roberson", "given"=>"Eli"}, {"family"=>"Staton", "given"=>"Evan"}, {"family"=>"Chapman", "given"=>"Brad"}, {"family"=>"Minikel", "given"=>"Eric"}],
+                                             "title"=>"loftee: v0.2.1-beta",
+                                             "container-title"=>"Zenodo",
+                                             "issued"=>{"date-parts"=>[[2015]]},
+                                             "publisher_id"=>"CERN.ZENODO",
+                                             "registration_agency"=>"datacite",
+                                             "tracked"=>true,
+                                             "type"=>nil)
+
+      expect(response[1][:relation]).to eq("subject"=>"https://github.com/konradjk/loftee/tree/v0.2.1-beta",
+                                           "object"=>"https://github.com/konradjk/loftee",
+                                           "relation_type_id"=>"is_part_of",
+                                           "source_id"=>"datacite_github",
+                                           "publisher_id"=>"github")
+
+      expect(response[2][:relation]).to eq("subject"=>"https://github.com/konradjk/loftee",
+                                           "object"=>"https://github.com/konradjk",
+                                           "relation_type_id"=>"is_compiled_by",
+                                           "source_id"=>"datacite_github",
+                                           "publisher_id"=>"github")
     end
   end
 end

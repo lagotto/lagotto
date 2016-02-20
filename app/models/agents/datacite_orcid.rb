@@ -19,56 +19,48 @@ class DataciteOrcid < Agent
   end
 
   def get_relations_with_related_works(items)
-    Array(items).map do |item|
+    Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi", nil)
       pid = doi_as_url(doi)
       year = item.fetch("publicationYear", nil).to_i
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS[type] if type
-
-      datacentre_symbol = item.fetch("datacentre_symbol", nil)
-      publisher = Publisher.where(name: datacentre_symbol).first
-      publisher_id = publisher.present? ? publisher.id : nil
+      publisher_id = item.fetch("datacentre_symbol", nil)
 
       xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
       xml = Hash.from_xml(xml).fetch("resource", {})
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
-      contributors = name_identifiers.map { |work| get_contributor(work) }
+      subject = { "pid" => pid,
+                  "DOI" => doi,
+                  "author" => get_hashed_authors(authors),
+                  "title" => item.fetch("title", []).first,
+                  "container-title" => item.fetch("publisher", nil),
+                  "issued" => { "date-parts" => [[year]] },
+                  "publisher_id" => publisher_id,
+                  "registration_agency" => "datacite",
+                  "tracked" => true,
+                  "type" => type }
 
-      { "pid" => pid,
-        "DOI" => doi,
-        "author" => get_hashed_authors(authors),
-        "container-title" => nil,
-        "title" => item.fetch("title", []).first,
-        "issued" => { "date-parts" => [[year]] },
-        "publisher_id" => publisher_id,
-        "registration_agency" => "datacite",
-        "tracked" => true,
-        "type" => type,
-        "contributors" => contributors }
+      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
+      sum += get_relations(subject, name_identifiers)
     end
   end
 
-  def get_contributor(work)
-    orcid = work.split(':', 2).last
-    pid = "http://orcid.org/#{orcid}"
+  def get_relations(subject, items)
+    prefix = subject["DOI"][/^10\.\d{4,5}/]
 
-    { "pid" => pid,
-      "source_id" => source_id }
-  end
-
-  def get_events(items)
     Array(items).map do |item|
-      pid = doi_as_url(item.fetch("doi"))
-      name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }.map { |id| { 'nameIdentifier' => id }}
+      orcid = item.split(':', 2).last
 
-      { source_id: source_id,
-        work_id: pid,
-        total: name_identifiers.length,
-        extra: name_identifiers }
+      { prefix: prefix,
+        message_type: "contributor",
+        relation: { "subject" => subject["pid"],
+                    "object" => "http://orcid.org/#{orcid}",
+                    "source_id" => source_id,
+                    "publisher_id" => subject["publisher_id"] },
+        subject: subject }
     end
   end
 
