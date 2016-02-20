@@ -126,20 +126,28 @@ ActiveRecord::Schema.define(version: 20160218141208) do
   end
 
   create_table "deposits", force: :cascade do |t|
-    t.text     "uuid",           limit: 65535,                         null: false
-    t.string   "message_type",   limit: 191,        default: "work",   null: false
-    t.text     "message",        limit: 4294967295
-    t.string   "source_token",   limit: 255
-    t.text     "callback",       limit: 65535
-    t.integer  "state",          limit: 4,          default: 0
-    t.string   "state_event",    limit: 255
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.string   "message_action", limit: 255,        default: "create", null: false
-    t.string   "prefix",         limit: 191
+    t.text     "uuid",             limit: 65535,                    null: false
+    t.string   "message_type",     limit: 191,   default: "work",   null: false
+    t.string   "source_token",     limit: 255
+    t.text     "callback",         limit: 65535
+    t.integer  "state",            limit: 4,     default: 0
+    t.string   "state_event",      limit: 255
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "message_action",   limit: 255,   default: "create", null: false
+    t.string   "prefix",           limit: 191
+    t.string   "subject_id",       limit: 191
+    t.string   "object_id",        limit: 191
+    t.string   "relation_type_id", limit: 191
+    t.string   "source_id",        limit: 191
+    t.string   "publisher_id",     limit: 191
+    t.text     "subject",          limit: 65535
+    t.text     "object",           limit: 65535
+    t.datetime "occured_at"
   end
 
   add_index "deposits", ["prefix", "created_at"], name: "index_deposits_on_prefix_created_at", using: :btree
+  add_index "deposits", ["source_id", "created_at"], name: "index_deposits_on_source_id_created_at", using: :btree
   add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree
 
   create_table "events", force: :cascade do |t|
@@ -280,13 +288,12 @@ ActiveRecord::Schema.define(version: 20160218141208) do
   add_index "publishers", ["registration_agency"], name: "index_publishers_on_registration_agency", using: :btree
 
   create_table "relation_types", force: :cascade do |t|
-    t.string   "name",          limit: 255,             null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.string   "name",          limit: 255, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "title",         limit: 255
     t.string   "inverse_title", limit: 255
     t.string   "inverse_name",  limit: 255
-    t.integer  "level",         limit: 4,   default: 1
   end
 
   create_table "relations", force: :cascade do |t|
