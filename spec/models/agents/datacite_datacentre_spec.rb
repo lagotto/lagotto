@@ -54,8 +54,12 @@ describe DataciteDatacentre, type: :model, vcr: true do
 
       expect(response.length).to eq(628)
       expect(response.first[:message_type]).to eq("publisher")
-      expect(response.first[:relation]).to eq("subject"=>"ANDS.CENTRE-1", "source_id"=>"datacite_datacentre")
-      expect(response.first[:subject]).to eq("name"=>"ANDS.CENTRE-1", "title"=>"Griffith University", "registration_agency"=>"datacite", "active"=>true)
+      expect(response.first[:relation]).to eq("subj_id"=>"ANDS.CENTRE-1",
+                                              "source_id"=>"datacite_datacentre")
+      expect(response.first[:subj]).to eq("name"=>"ANDS.CENTRE-1",
+                                          "title"=>"Griffith University",
+                                          "registration_agency"=>"datacite",
+                                          "active"=>true)
     end
   end
 end

@@ -46,9 +46,7 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    # let(:null_response) { { works: [] } }
     # TODO include triples?
-    let(:null_response) { [] }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
@@ -59,13 +57,13 @@ describe Citeulike, type: :model, vcr: true do
     it "should report if there are no events returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_nil.xml')
       result = Hash.from_xml(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there is an incomplete response returned by the CiteULike API" do
       body = File.read(fixture_path + 'citeulike_incomplete.xml')
       result = { 'data' => body }
-      expect(subject.parse_data(result, work_id: work.id)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the CiteULike API" do
@@ -74,21 +72,21 @@ describe Citeulike, type: :model, vcr: true do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(25)
-      expect(response.first[:relation]).to eq("subject" => "http://www.citeulike.org/user/dbogartoit",
-                                              "object" => work.pid,
+      expect(response.first[:relation]).to eq("subj_id" => "http://www.citeulike.org/user/dbogartoit",
+                                              "obj_id" => work.pid,
                                               "relation_type_id" => "bookmarks",
                                               "source_id" => "citeulike",
                                               "occurred_at" => "2006-06-13T16:14:19Z")
 
-      expect(response.first[:object]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
-                                            "author"=>[{"given"=>"dbogartoit"}],
-                                            "title"=>"CiteULike bookmarks for user dbogartoit",
-                                            "container-title"=>"CiteULike",
-                                            "issued"=>{"date-parts"=>[[2006, 6, 13]]},
-                                            "timestamp"=>"2006-06-13T16:14:19Z",
-                                            "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
-                                            "type"=>"entry",
-                                            "tracked"=>false)
+      expect(response.first[:obj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
+                                         "author"=>[{"given"=>"dbogartoit"}],
+                                         "title"=>"CiteULike bookmarks for user dbogartoit",
+                                         "container-title"=>"CiteULike",
+                                         "issued"=>{"date-parts"=>[[2006, 6, 13]]},
+                                         "timestamp"=>"2006-06-13T16:14:19Z",
+                                         "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
+                                         "type"=>"entry",
+                                         "tracked"=>false)
     end
 
     it "should report if there is one event returned by the CiteULike API" do
@@ -97,21 +95,21 @@ describe Citeulike, type: :model, vcr: true do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(1)
-      expect(response.first[:relation]).to eq("subject" => "http://www.citeulike.org/user/dbogartoit",
-                                              "object" => work.pid,
+      expect(response.first[:relation]).to eq("subj_id" => "http://www.citeulike.org/user/dbogartoit",
+                                              "obj_id" => work.pid,
                                               "relation_type_id" => "bookmarks",
                                               "source_id" => "citeulike",
                                               "occurred_at" => "2006-06-13T16:14:19Z")
 
-      expect(response.first[:object]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
-                                            "author"=>[{"given"=>"dbogartoit"}],
-                                            "title"=>"CiteULike bookmarks for user dbogartoit",
-                                            "container-title"=>"CiteULike",
-                                            "issued"=>{"date-parts"=>[[2006, 6, 13]]},
-                                            "timestamp"=>"2006-06-13T16:14:19Z",
-                                            "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
-                                            "type"=>"entry",
-                                            "tracked"=>false)
+      expect(response.first[:obj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
+                                         "author"=>[{"given"=>"dbogartoit"}],
+                                         "title"=>"CiteULike bookmarks for user dbogartoit",
+                                         "container-title"=>"CiteULike",
+                                         "issued"=>{"date-parts"=>[[2006, 6, 13]]},
+                                         "timestamp"=>"2006-06-13T16:14:19Z",
+                                         "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
+                                         "type"=>"entry",
+                                         "tracked"=>false)
 
 
     end

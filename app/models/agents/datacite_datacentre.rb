@@ -30,12 +30,12 @@ class DataciteDatacentre < Agent
       datacentre_name, datacentre_title = item.split(' - ', 2)
 
       { message_type: "publisher",
-        relation: { "subject" => datacentre_name,
+        relation: { "subj_id" => datacentre_name,
                     "source_id" => name },
-        subject: { "name" => datacentre_name,
-                   "title" => datacentre_title,
-                   "registration_agency" => "datacite",
-                   "active" => true } }
+        subj: { "name" => datacentre_name,
+                "title" => datacentre_title,
+                "registration_agency" => "datacite",
+                "active" => true } }
     end
   end
 

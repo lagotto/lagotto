@@ -5,134 +5,36 @@ describe Deposit, :type => :model, vcr: true do
 
   subject { FactoryGirl.create(:deposit) }
 
-  it { is_expected.to validate_presence_of(:message) }
+  it { is_expected.to validate_presence_of(:source_token) }
+  it { is_expected.to validate_presence_of(:subj_id) }
+  it { is_expected.to validate_presence_of(:source_id) }
 
-  describe "validate message" do
-    it "format is a string" do
-      subject = FactoryGirl.build(:deposit, message: "test")
-      subject.valid?
-      expect(subject.errors[:message]).to eq(["should be a hash"])
-    end
-
-    it "format is an array" do
-      subject = FactoryGirl.build(:deposit, message: ["test"])
-      subject.valid?
-      expect(subject.errors[:message]).to eq(["should be a hash"])
-    end
-
-    it "does not contain required hash keys" do
-      subject = FactoryGirl.build(:deposit, message: {})
-      subject.valid?
-      expect(subject.errors[:message]).to eq(["can't be blank", "should contain works, events or publishers"])
-    end
-  end
-
-  describe "update_works" do
-    let!(:relation_type) { FactoryGirl.create(:relation_type) }
-    let!(:inverse_relation_type) { FactoryGirl.create(:relation_type, :inverse) }
-
-    it "crossref" do
-      related_work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007")
-      works = [{ "pid" =>"http://doi.org/10.3758/s13423-011-0070-4", "author"=>[{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}], "title"=>"Audiotactile Interactions In Temporal Perception", "container-title"=>"Psychonomic Bulletin & Review", "issued"=>{"date-parts"=>[[2011]]}, "DOI"=>"10.3758/s13423-011-0070-4", "volume"=>"18", "issue"=>"3", "page"=>"429", "type"=>"article-journal", "related_works"=>[{"related_work"=>"doi:10.1371/journal.pone.0043007", "source_id"=>"crossref", "relation_type_id"=>"cites"}]}]
-      subject = FactoryGirl.create(:deposit, message_type: "crossref", message: { "works" => works })
-      expect(subject.update_works).to eq(["http://doi.org/10.3758/s13423-011-0070-4"])
-
-      expect(Work.count).to eq(2)
-      work = Work.last
-      expect(work.title).to eq("Audiotactile interactions in temporal perception")
-      expect(work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
-
-      expect(work.relations.length).to eq(1)
-      relation = Relation.first
-      expect(relation.relation_type.name).to eq("cites")
-      expect(relation.source.name).to eq("crossref")
-      expect(relation.related_work).to eq(related_work)
-    end
-  end
-
-  context "update_events" do
-    let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
-    let(:source) { FactoryGirl.create(:source) }
-
-    it "success" do
-      events = [{ "source_id" => source.name, "work_id" => work.pid, "total"=> 12, "readers" => 12 }]
-      subject = FactoryGirl.create(:deposit, message: { "events" => events })
-
-      event = subject.update_events.first
-      expect(event.total).to eq(12)
-      expect(event.readers).to eq(12)
-      expect(event.months.count).to eq(1)
-
-      month = event.months.last
-      expect(month.year).to eq(2015)
-      expect(month.month).to eq(4)
-      expect(month.total).to eq(12)
-      expect(month.readers).to eq(12)
-    end
-
-    it "success counter" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
-      source = FactoryGirl.create(:source, :counter)
-      events = [{ "source_id" => source.name, "work_id" => work.pid, "total"=> 157, "pdf" => 24, "html" => 122 }]
-      subject = FactoryGirl.create(:deposit, message: { "events" => events })
-
-      event = subject.update_events.first
-      expect(event.total).to eq(157)
-      expect(event.pdf).to eq(24)
-      expect(event.html).to eq(122)
-      expect(event.months.count).to eq(1)
-
-      month = event.months.last
-      expect(month.year).to eq(2015)
-      expect(month.month).to eq(4)
-      expect(month.total).to eq(157)
-      expect(month.pdf).to eq(24)
-      expect(month.html).to eq(122)
-    end
-  end
-
-  describe "update_months" do
-    let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0115074", year: 2014, month: 12, day: 16) }
-    let(:agent) { FactoryGirl.create(:agent) }
-    subject { FactoryGirl.create(:deposit) }
+  describe "update_work" do
+    let!(:relation_type) { FactoryGirl.create(:relation_type, :bookmarks) }
 
     it "citeulike" do
-      source = FactoryGirl.create(:source)
-      body = File.read(fixture_path + 'citeulike.xml')
-      #stub = stub_request(:get, agent.get_query_url(work)).to_return(:body => body)
+      expect(subject.update_work).to eq("http://www.citeulike.org/user/dbogartoit")
 
-      response = agent.collect_data(work_id: work.id)
+      # expect(Work.count).to eq(2)
+      # work = Work.last
+      # expect(work.title).to eq("Audiotactile interactions in temporal perception")
+      # expect(work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
 
-      subject = Deposit.where(uuid: response.fetch("uuid")).first
-      subject.update_events
-
-      expect(Month.count).to eq(3)
-
-      month = Month.last
-      expect(month.year).to eq(2015)
-      expect(month.month).to eq(7)
-      expect(month.total).to eq(2)
-      expect(month.readers).to eq(2)
+      # expect(work.relations.length).to eq(1)
+      # relation = Relation.first
+      # expect(relation.relation_type.name).to eq("cites")
+      # expect(relation.source.name).to eq("crossref")
+      # expect(relation.related_work).to eq(related_work)
     end
 
-    it "mendeley" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
-      agent = FactoryGirl.create(:mendeley)
-      source = FactoryGirl.create(:source, name: "mendeley")
-      body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, agent.get_query_url(work_id: work.id)).to_return(:body => body)
+    it "datacite_related" do
+      subject = FactoryGirl.create(:deposit, :datacite_related)
+      expect(subject.update_work).to eq("http://doi.org/10.5061/DRYAD.47SD5")
+    end
 
-      response = agent.collect_data(work_id: work.id)
-      subject = Deposit.where(uuid: response.fetch("uuid")).first
-      subject.update_events
-
-      expect(Month.count).to eq(1)
-
-      month = Month.last
-      expect(month.year).to eq(2015)
-      expect(month.month).to eq(4)
-      expect(month.total).to eq(34)
-      expect(month.readers).to eq(34)
+    it "datacite_github" do
+      subject = FactoryGirl.create(:deposit, :datacite_github)
+      expect(subject.update_work).to eq("http://doi.org/10.5281/ZENODO.16668")
     end
   end
 end

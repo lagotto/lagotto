@@ -82,13 +82,13 @@ describe CrossrefPublisher, type: :model, vcr: true do
 
       expect(response.length).to eq(20)
       expect(response.first[:message_type]).to eq("publisher")
-      expect(response.first[:relation]).to eq("subject"=>"101", "source_id"=>"crossref_publisher")
-      expect(response.first[:subject]).to eq("name"=>"101",
-                                             "title"=>"Hogrefe & Huber",
-                                             "other_names"=>["Hogrefe & Huber Publishing Group", "Hogrefe & Huber"],
-                                             "prefixes"=>["10.1024", "10.1026", "10.1027"],
-                                             "registration_agency"=>"crossref",
-                                             "active"=>true)
+      expect(response.first[:relation]).to eq("subj_id"=>"101", "source_id"=>"crossref_publisher")
+      expect(response.first[:subj]).to eq("name"=>"101",
+                                          "title"=>"Hogrefe & Huber",
+                                          "other_names"=>["Hogrefe & Huber Publishing Group", "Hogrefe & Huber"],
+                                          "prefixes"=>["10.1024", "10.1026", "10.1027"],
+                                          "registration_agency"=>"crossref",
+                                          "active"=>true)
     end
   end
 end

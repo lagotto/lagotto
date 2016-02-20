@@ -34,20 +34,20 @@ class Citeulike < Agent
       author = path[2]
       citeulike_url = "http://www.citeulike.org/" + path[1..2].join("/")
 
-      { relation: { "subject" => citeulike_url,
-                    "object" => work.pid,
+      { relation: { "subj_id" => citeulike_url,
+                    "obj_id" => work.pid,
                     "relation_type_id" => "bookmarks",
                     "source_id" => name,
                     "occurred_at" => timestamp },
-        object: { "pid" => citeulike_url,
-                  "author" => get_authors([author]),
-                  "title" => "CiteULike bookmarks for #{account} #{author}",
-                  "container-title" => "CiteULike",
-                  "issued" => get_date_parts(timestamp),
-                  "timestamp" => timestamp,
-                  "URL" => url,
-                  "type" => "entry",
-                  "tracked" => tracked } }
+        obj: { "pid" => citeulike_url,
+               "author" => get_authors([author]),
+               "title" => "CiteULike bookmarks for #{account} #{author}",
+               "container-title" => "CiteULike",
+               "issued" => get_date_parts(timestamp),
+               "timestamp" => timestamp,
+               "URL" => url,
+               "type" => "entry",
+               "tracked" => tracked } }
     end
   end
 

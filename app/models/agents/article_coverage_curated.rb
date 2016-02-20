@@ -5,28 +5,27 @@ class ArticleCoverageCurated < Agent
   def get_relations_with_related_works(result, work)
     Array(result.fetch('referrals', nil)).map do |item|
       timestamp = get_iso8601_from_time(item.fetch('published_on', nil))
-      
+
       type = item.fetch("type", nil)
       type = MEDIACURATION_TYPE_TRANSLATIONS.fetch(type, nil) if type
       item_url = item.fetch('referral', nil)
 
-      { :relation => { "subject" => item_url,
-                   "object" => work.pid,
-                   "relation" => "discusses",
-                   "occurred_at" => timestamp,
+      { relation: { "subject_id" => item_url,
+                    "object_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "source_id" => source_id,
+                    "occurred_at" => timestamp,
                     # TODO JW comments not available in API response.
-                    "total" => item.fetch("comments", 0),
-                   "source" => name },
-        :work => {
-          "pid" => item_url,
-          "author" => nil,
-          "title" => item.fetch("title", ""),
-          "container-title" => item.fetch("publication", ""),
-          "issued" => get_date_parts(timestamp),
-          "timestamp" => timestamp,
-          "URL" => item_url,
-          "type" => type,
-          "tracked" => true } }
+                    "total" => item.fetch("comments", 0) },
+        subject: { "pid" => item_url,
+                   "author" => nil,
+                   "title" => item.fetch("title", ""),
+                   "container-title" => item.fetch("publication", ""),
+                   "issued" => get_date_parts(timestamp),
+                   "timestamp" => timestamp,
+                   "URL" => item_url,
+                   "type" => type,
+                   "tracked" => true } }
     end
   end
 

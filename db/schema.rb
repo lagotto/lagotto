@@ -136,13 +136,14 @@ ActiveRecord::Schema.define(version: 20160218141208) do
     t.datetime "updated_at",                                        null: false
     t.string   "message_action",   limit: 255,   default: "create", null: false
     t.string   "prefix",           limit: 191
-    t.string   "subject_id",       limit: 191
-    t.string   "object_id",        limit: 191
+    t.string   "subj_id",          limit: 191
+    t.string   "obj_id",           limit: 191
     t.string   "relation_type_id", limit: 191
     t.string   "source_id",        limit: 191
     t.string   "publisher_id",     limit: 191
-    t.text     "subject",          limit: 65535
-    t.text     "object",           limit: 65535
+    t.text     "subj",             limit: 65535
+    t.text     "obj",              limit: 65535
+    t.integer  "total",            limit: 4,     default: 1
     t.datetime "occured_at"
   end
 

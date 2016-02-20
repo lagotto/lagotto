@@ -90,22 +90,22 @@ describe DataciteRelated, type: :model, vcr: true do
 
       expect(response.length).to eq(16)
       expect(response.first[:prefix]).to eq("10.5061")
-      expect(response.first[:relation]).to eq("subject"=>"http://doi.org/10.5061/DRYAD.47SD5",
-                                              "object"=>"http://doi.org/10.5061/DRYAD.47SD5/1",
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                              "obj_id"=>"http://doi.org/10.5061/DRYAD.47SD5/1",
                                               "relation_type_id"=>"has_part",
                                               "source_id"=>"datacite_related",
                                               "publisher_id"=>"CDL.DRYAD")
 
-      expect(response.first[:subject]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.47SD5",
-                                             "DOI"=>"10.5061/DRYAD.47SD5",
-                                             "author"=>[],
-                                             "title"=>"Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research",
-                                             "container-title"=>"Dryad Digital Repository",
-                                             "issued"=>{"date-parts"=>[[2012]]},
-                                             "publisher_id"=>"CDL.DRYAD",
-                                             "registration_agency"=>"datacite",
-                                             "tracked"=>true,
-                                             "type"=>"dataset")
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                          "DOI"=>"10.5061/DRYAD.47SD5",
+                                          "author"=>[],
+                                          "title"=>"Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research",
+                                          "container-title"=>"Dryad Digital Repository",
+                                          "issued"=>{"date-parts"=>[[2012]]},
+                                          "publisher_id"=>"CDL.DRYAD",
+                                          "registration_agency"=>"datacite",
+                                          "tracked"=>true,
+                                          "type"=>"dataset")
     end
   end
 end

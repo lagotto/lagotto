@@ -32,24 +32,24 @@ class DataciteGithub < Agent
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      subject = { "pid" => pid,
-                  "DOI" => doi,
-                  "author" => get_hashed_authors(authors),
-                  "title" => item.fetch("title", []).first,
-                  "container-title" => item.fetch("publisher", nil),
-                  "issued" => { "date-parts" => [[year]] },
-                  "publisher_id" => publisher_id,
-                  "registration_agency" => "datacite",
-                  "tracked" => true,
-                  "type" => type }
+      subj = { "pid" => pid,
+               "DOI" => doi,
+               "author" => get_hashed_authors(authors),
+               "title" => item.fetch("title", []).first,
+               "container-title" => item.fetch("publisher", nil),
+               "issued" => { "date-parts" => [[year]] },
+               "publisher_id" => publisher_id,
+               "registration_agency" => "datacite",
+               "tracked" => true,
+               "type" => type }
 
       related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:URL:https:\/\/github.com.+/ }
-      sum += get_relations(subject, related_identifiers)
+      sum += get_relations(subj, related_identifiers)
     end
   end
 
-  def get_relations(subject, items)
-    prefix = subject["DOI"][/^10\.\d{4,5}/]
+  def get_relations(subj, items)
+    prefix = subj["DOI"][/^10\.\d{4,5}/]
 
     Array(items).reduce([]) do |sum, item|
       raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
@@ -66,21 +66,21 @@ class DataciteGithub < Agent
       repo_url = "https://github.com/#{owner}/#{repo}"
 
       sum << { prefix: prefix,
-               relation: { "subject" => subject["pid"],
-                           "object" => related_identifier,
+               relation: { "subj_id" => subj["pid"],
+                           "obj_id" => related_identifier,
                            "relation_type_id" => relation_type_id,
                            "source_id" => source_id,
-                           "publisher_id" => subject["publisher_id"] },
-               subject: subject }
+                           "publisher_id" => subj["publisher_id"] },
+               subj: subj }
 
-      sum << { relation: { "subject" => related_identifier,
-                           "object" => repo_url,
+      sum << { relation: { "subj_id" => related_identifier,
+                           "obj_id" => repo_url,
                            "relation_type_id" => "is_part_of",
                            "source_id" => source_id,
                            "publisher_id" => "github" } }
 
-      sum << { relation: { "subject" => repo_url,
-                           "object" => owner_url,
+      sum << { relation: { "subj_id" => repo_url,
+                           "obj_id" => owner_url,
                            "relation_type_id" => "is_compiled_by",
                            "source_id" => source_id,
                            "publisher_id" => "github" } }

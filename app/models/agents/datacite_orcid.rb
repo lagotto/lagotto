@@ -32,35 +32,35 @@ class DataciteOrcid < Agent
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      subject = { "pid" => pid,
-                  "DOI" => doi,
-                  "author" => get_hashed_authors(authors),
-                  "title" => item.fetch("title", []).first,
-                  "container-title" => item.fetch("publisher", nil),
-                  "issued" => { "date-parts" => [[year]] },
-                  "publisher_id" => publisher_id,
-                  "registration_agency" => "datacite",
-                  "tracked" => true,
-                  "type" => type }
+      subj = { "pid" => pid,
+               "DOI" => doi,
+               "author" => get_hashed_authors(authors),
+               "title" => item.fetch("title", []).first,
+               "container-title" => item.fetch("publisher", nil),
+               "issued" => { "date-parts" => [[year]] },
+               "publisher_id" => publisher_id,
+               "registration_agency" => "datacite",
+               "tracked" => true,
+               "type" => type }
 
       name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
-      sum += get_relations(subject, name_identifiers)
+      sum += get_relations(subj, name_identifiers)
     end
   end
 
-  def get_relations(subject, items)
-    prefix = subject["DOI"][/^10\.\d{4,5}/]
+  def get_relations(subj, items)
+    prefix = subj["DOI"][/^10\.\d{4,5}/]
 
     Array(items).map do |item|
       orcid = item.split(':', 2).last
 
       { prefix: prefix,
         message_type: "contributor",
-        relation: { "subject" => subject["pid"],
-                    "object" => "http://orcid.org/#{orcid}",
+        relation: { "subj_id" => subj["pid"],
+                    "obj_id" => "http://orcid.org/#{orcid}",
                     "source_id" => source_id,
-                    "publisher_id" => subject["publisher_id"] },
-        subject: subject }
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
     end
   end
 

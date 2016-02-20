@@ -48,14 +48,14 @@ class CrossrefPublisher < Agent
       publisher_name = item.fetch('id', nil).to_s
 
       { message_type: "publisher",
-        relation: { "subject" => publisher_name,
+        relation: { "subj_id" => publisher_name,
                     "source_id" => name },
-        subject: { "name" => publisher_name,
-                   "title" => item.fetch('primary-name', nil),
-                   "other_names" => item.fetch('names', []),
-                   "prefixes" => item.fetch('prefixes', []),
-                   "registration_agency" => "crossref",
-                   "active" => true } }
+        subj: { "name" => publisher_name,
+                "title" => item.fetch('primary-name', nil),
+                "other_names" => item.fetch('names', []),
+                "prefixes" => item.fetch('prefixes', []),
+                "registration_agency" => "crossref",
+                "active" => true } }
     end
   end
 

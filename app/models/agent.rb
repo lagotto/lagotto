@@ -134,8 +134,6 @@ class Agent < ActiveRecord::Base
   end
 
   def collect_data(options = {})
-    message_type = name
-
     data = get_data(options.merge(timeout: timeout, agent_id: id))
 
     # if ENV["LOGSTASH_PATH"].present?
@@ -211,9 +209,19 @@ class Agent < ActiveRecord::Base
 
   def push_data(items, options={})
     Array(items).map do |item|
-        deposit = Deposit.create!(source_token: uuid,
-                              message: data,
-                              message_type: message_type)
+      relation = item.fetch(:relation, {})
+      Deposit.create!(source_token: uuid,
+                      message_type: item.fetch(:message_type, 'work'),
+                      prefix: item.fetch(:prefix, nil),
+                      subject: item.fetch(:subject, nil),
+                      object: item.fetch(:object, nil),
+                      subject_id: relation.fetch('subject_id', nil),
+                      object_id: relation.fetch('object_id', nil),
+                      relation_type_id: relation.fetch('relation_type_id', nil),
+                      source_id: relation.fetch('source_id', nil),
+                      publisher_id: relation.fetch('publisher_id', nil),
+                      total: relation.fetch('total', nil),
+                      occured_at: relation.fetch('occured_at', nil))
     end
   end
 

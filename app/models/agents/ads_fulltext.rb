@@ -23,11 +23,11 @@ class AdsFulltext < Agent
 
       arxiv_url = "http://arxiv.org/abs/#{arxiv}"
 
-      { relation: { "subject" => arxiv_url,
-                    "object" => work.pid,
+      { relation: { "subj_id" => arxiv_url,
+                    "obj_id" => work.pid,
                     "relation_type_id" => "cites",
                     "source_id" => name },
-        work: { "pid" => arxiv_url,
+        subj: { "pid" => arxiv_url,
                 "author" => get_authors(item.fetch('author', []), reversed: true, sep: ", "),
                 "title" => item.fetch("title", []).first.chomp("."),
                 "container-title" => "ArXiV",

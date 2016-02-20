@@ -458,6 +458,12 @@ FactoryGirl.define do
       inverse_name "is_part_of"
     end
 
+    trait(:bookmarks) do
+      name "bookmarks"
+      title "Bookmarks"
+      inverse_name "is_bookmarked_by"
+    end
+
     trait(:is_supplement_to) do
       name "is_supplement_to"
       title "Is supplement to"
@@ -491,9 +497,41 @@ FactoryGirl.define do
 
   factory :deposit do
     uuid { SecureRandom.uuid }
-    message_type "citeulike"
+    message_type "work"
+    source_id "citeulike"
     source_token "citeulike_123"
-    message { { "works" => [], "events" => [] } }
+    subj_id "http://www.citeulike.org/user/dbogartoit"
+    subj {{ "pid"=>"http://www.citeulike.org/user/dbogartoit",
+            "author"=>[{ "given"=>"dbogartoit" }],
+            "title"=>"CiteULike bookmarks for user dbogartoit",
+            "container-title"=>"CiteULike",
+            "issued"=>{ "date-parts"=>[[2006, 6, 13]] },
+            "timestamp"=>"2006-06-13T16:14:19Z",
+            "URL"=>"10.1371/journal.pmed.0030186",
+            "type"=>"entry",
+            "tracked"=> false }}
+    obj_id "http://doi.org/10.1371/journal.pmed.0030186"
+    relation_type_id "bookmarks"
+
+    trait :datacite_related do
+      source_id "datacite_related"
+      source_token "datacite_related_123"
+      subj_id "http://doi.org/10.5061/DRYAD.47SD5"
+      subj nil
+      obj_id "http://doi.org/10.5061/DRYAD.47SD5/1"
+      relation_type_id "has_part"
+      publisher_id "CDL.DRYAD"
+    end
+
+    trait :datacite_github do
+      source_id "datacite_github"
+      source_token "datacite_github_123"
+      subj_id "http://doi.org/10.5281/ZENODO.16668"
+      subj nil
+      obj_id "https://github.com/konradjk/loftee/tree/v0.2.1-beta"
+      relation_type_id "is_supplement_to"
+      publisher_id "CERN.ZENODO"
+    end
   end
 
   factory :contributor do

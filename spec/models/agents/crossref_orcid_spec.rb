@@ -106,23 +106,23 @@ describe CrossrefOrcid, type: :model, vcr: true do
       expect(response.length).to eq(10)
       expect(response.first[:prefix]).to eq("10.1016")
       expect(response.first[:message_type]).to eq("contributor")
-      expect(response.first[:relation]).to eq("subject"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
-                                              "object"=>"http://orcid.org/0000-0001-9344-779X",
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
+                                              "obj_id"=>"http://orcid.org/0000-0001-9344-779X",
                                               "source_id"=>"crossref_orcid",
                                               "publisher_id"=>"78")
 
-      expect(response.first[:subject]).to eq("pid"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
-                                             "author"=>[{"affiliation"=>[], "family"=>"Brown", "given"=>"Jeremy D."}, {"affiliation"=>[], "family"=>"Lim", "given"=>"Lyn-li"}, {"affiliation"=>[], "family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}],
-                                             "title"=>"Voriconazole associated torsades de pointes in two adult patients with haematological malignancies",
-                                             "container-title"=>"Medical Mycology Case Reports",
-                                             "issued"=>{"date-parts"=>[[2014, 4]]},
-                                             "DOI"=>"10.1016/j.mmcr.2014.03.001",
-                                             "publisher_id"=>"78",
-                                             "volume"=>"4",
-                                             "issue"=>nil,
-                                             "page"=>"23-25",
-                                             "type"=>"article-journal",
-                                             "tracked"=>true)
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
+                                          "author"=>[{"affiliation"=>[], "family"=>"Brown", "given"=>"Jeremy D."}, {"affiliation"=>[], "family"=>"Lim", "given"=>"Lyn-li"}, {"affiliation"=>[], "family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}],
+                                          "title"=>"Voriconazole associated torsades de pointes in two adult patients with haematological malignancies",
+                                          "container-title"=>"Medical Mycology Case Reports",
+                                          "issued"=>{"date-parts"=>[[2014, 4]]},
+                                          "DOI"=>"10.1016/j.mmcr.2014.03.001",
+                                          "publisher_id"=>"78",
+                                          "volume"=>"4",
+                                          "issue"=>nil,
+                                          "page"=>"23-25",
+                                          "type"=>"article-journal",
+                                          "tracked"=>true)
     end
   end
 end

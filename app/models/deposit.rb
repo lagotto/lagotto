@@ -33,11 +33,12 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-  serialize :message, JSON
+  serialize :subj, JSON
+  serialize :obj, JSON
 
   validates :source_token, presence: true
-  validates :message, presence: true
-  validate :validate_message
+  validates :subj_id, presence: true
+  validates :source_id, presence: true
 
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :order_by_date, -> { order("updated_at DESC") }
@@ -60,57 +61,41 @@ class Deposit < ActiveRecord::Base
     uuid
   end
 
-  def validate_message
-    if message.is_a?(Hash)
-      errors.add(:message, "should include pid") unless message.fetch('pid', nil).present?
-
-      if message.fetch('related_pid', nil).present?
-        errors.add(:message, "should include source_id") unless message.fetch('source_id', nil).present?
-        errors.add(:message, "should include relation_type_id") unless message.fetch('relation_type_id', nil).present?
-      end
-    else
-      errors.add(:message, "should be a hash")
-    end
-  end
-
   def process_message
     case
     when message_type == "publisher" && message_action == "delete" then delete_publisher
     when message_type == "publisher" then update_publisher
+    when message_type == "contributor" && message_action == "delete" then delete_contributor
+    when message_type == "contributor" then update_contributor
     when message_type == "work" && message_action == "delete" then delete_work
     else update_work
     end
   end
 
   def update_work
-    pid = message.fetch("pid", nil)
-    doi = message.fetch("DOI", nil)
-    pmid = message.fetch("PMID", nil)
-    pmcid = message.fetch("PMCID", nil)
-    arxiv = message.fetch("arxiv", nil)
-    ark = message.fetch("ark", nil)
-    canonical_url = message.fetch("URL", nil)
+    doi = subj.fetch("DOI", nil)
+    pmid = subj.fetch("PMID", nil)
+    pmcid = subj.fetch("PMCID", nil)
+    arxiv = subj.fetch("arxiv", nil)
+    ark = subj.fetch("ark", nil)
+    canonical_url = subj.fetch("URL", nil)
 
-    title = message.fetch("title", nil)
-    date_parts = message.fetch("issued", {}).fetch("date-parts", [[]]).first
+    title = subj.fetch("title", nil)
+    date_parts = subj.fetch("issued", {}).fetch("date-parts", [[]]).first
     year, month, day = date_parts[0], date_parts[1], date_parts[2]
-    type = message.fetch("type", nil)
+    type = subj.fetch("type", nil)
     work_type_id = WorkType.where(name: type).pluck(:id).first
-    registration_agency = message.fetch("registration_agency", nil)
-    tracked = message.fetch("tracked", false)
-
-    related_works = message.fetch("related_works", [])
-    contributors = message.fetch("contributors", [])
+    registration_agency = subj.fetch("registration_agency", nil)
+    tracked = subj.fetch("tracked", false)
 
     csl = {
-      "author" => message.fetch("author", []),
-      "container-title" => message.fetch("container-title", nil),
-      "volume" => message.fetch("volume", nil),
-      "page" => message.fetch("page", nil),
-      "issue" => message.fetch("issue", nil) }
+      "author" => subj.fetch("author", []),
+      "container-title" => subj.fetch("container-title", nil),
+      "volume" => subj.fetch("volume", nil),
+      "page" => subj.fetch("page", nil),
+      "issue" => subj.fetch("issue", nil) }
 
-    work = Work.where(pid: pid).first_or_create
-      pid: pid,
+    work = Work.where(pid: subj_id).first_or_create(
       doi: doi,
       pmid: pmid,
       pmcid: pmcid,
@@ -124,11 +109,9 @@ class Deposit < ActiveRecord::Base
       work_type_id: work_type_id,
       tracked: tracked,
       registration_agency: registration_agency,
-      csl: csl,
-      related_works: related_works,
-      contributors: contributors)
+      csl: csl)
 
-    w ? w.pid : nil
+    work ? work.pid : nil
   end
 
   # def update_events
@@ -175,8 +158,8 @@ class Deposit < ActiveRecord::Base
   # end
 
   def update_publisher
-    publisher = Publisher.where(name: message.fetch('name', nil)).first_or_create
-    publisher.update_attributes(message.except('name'))
+    publisher = Publisher.where(name: subj_id).first_or_create
+    publisher.update_attributes(subj.except('name'))
   end
 
   # def delete_events
@@ -186,11 +169,11 @@ class Deposit < ActiveRecord::Base
   # end
 
   def delete_work
-    Work.where(pid: message.fetch('pid', nil)).destroy_all
+    Work.where(pid: subj_id).destroy_all
   end
 
   def delete_publisher
-    Publisher.where(name: message.fetch('name', nil)).destroy_all
+    Publisher.where(name: subj_id).destroy_all
   end
 
   def update_months(event, months)
@@ -228,5 +211,8 @@ class Deposit < ActiveRecord::Base
 
   def create_uuid
     write_attribute(:uuid, SecureRandom.uuid) if uuid.blank?
+    write_attribute(:subj, {}) if subj.blank?
+    write_attribute(:obj, {}) if obj.blank?
+    write_attribute(:occured_at, Time.zone.now) if occured_at.blank?
   end
 end

@@ -81,35 +81,35 @@ class CrossrefOrcid < Agent
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       doi = item.fetch("DOI", nil)
 
-      subject = { "pid" => doi_as_url(doi),
-                  "author" => item.fetch("author", []),
-                  "title" => title,
-                  "container-title" => item.fetch("container-title", []).first,
-                  "issued" => { "date-parts" => [date_parts] },
-                  "DOI" => doi,
-                  "publisher_id" => publisher_id,
-                  "volume" => item.fetch("volume", nil),
-                  "issue" => item.fetch("issue", nil),
-                  "page" => item.fetch("page", nil),
-                  "type" => type,
-                  "tracked" => tracked }
+      subj = { "pid" => doi_as_url(doi),
+               "author" => item.fetch("author", []),
+               "title" => title,
+               "container-title" => item.fetch("container-title", []).first,
+               "issued" => { "date-parts" => [date_parts] },
+               "DOI" => doi,
+               "publisher_id" => publisher_id,
+               "volume" => item.fetch("volume", nil),
+               "issue" => item.fetch("issue", nil),
+               "page" => item.fetch("page", nil),
+               "type" => type,
+               "tracked" => tracked }
 
       authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
-      sum += get_relations(subject, authors_with_orcid)
+      sum += get_relations(subj, authors_with_orcid)
     end
   end
 
-  def get_relations(subject, items)
-    prefix = subject["DOI"][/^10\.\d{4,5}/]
+  def get_relations(subj, items)
+    prefix = subj["DOI"][/^10\.\d{4,5}/]
 
     Array(items).map do |item|
       { prefix: prefix,
         message_type: "contributor",
-        relation: { "subject" => subject["pid"],
-                    "object" => item.fetch('ORCID', nil),
+        relation: { "subj_id" => subj["pid"],
+                    "obj_id" => item.fetch('ORCID', nil),
                     "source_id" => source_id,
-                    "publisher_id" => subject["publisher_id"] },
-        subject: subject }
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
     end
   end
 

@@ -32,24 +32,24 @@ class DataciteRelated < Agent
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      subject = { "pid" => pid,
-                  "DOI" => doi,
-                  "author" => get_hashed_authors(authors),
-                  "title" => item.fetch("title", []).first,
-                  "container-title" => item.fetch("publisher", nil),
-                  "issued" => { "date-parts" => [[year]] },
-                  "publisher_id" => publisher_id,
-                  "registration_agency" => "datacite",
-                  "tracked" => true,
-                  "type" => type }
+      subj = { "pid" => pid,
+               "DOI" => doi,
+               "author" => get_hashed_authors(authors),
+               "title" => item.fetch("title", []).first,
+               "container-title" => item.fetch("publisher", nil),
+               "issued" => { "date-parts" => [[year]] },
+               "publisher_id" => publisher_id,
+               "registration_agency" => "datacite",
+               "tracked" => true,
+               "type" => type }
 
       related_identifiers = item.fetch('relatedIdentifier', []).select { |id| id =~ /:DOI:.+/ }
-      sum += get_relations(subject, related_identifiers)
+      sum += get_relations(subj, related_identifiers)
     end
   end
 
-  def get_relations(subject, items)
-    prefix = subject["DOI"][/^10\.\d{4,5}/]
+  def get_relations(subj, items)
+    prefix = subj["DOI"][/^10\.\d{4,5}/]
 
     Array(items).map do |item|
       raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
@@ -59,12 +59,12 @@ class DataciteRelated < Agent
       relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
 
       { prefix: prefix,
-        relation: { "subject" => subject["pid"],
-                    "object" => pid,
+        relation: { "subj_id" => subj["pid"],
+                    "obj_id" => pid,
                     "relation_type_id" => relation_type_id,
                     "source_id" => source_id,
-                    "publisher_id" => subject["publisher_id"] },
-        subject: subject }
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
     end
   end
 
