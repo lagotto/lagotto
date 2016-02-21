@@ -512,6 +512,8 @@ FactoryGirl.define do
             "tracked"=> false }}
     obj_id "http://doi.org/10.1371/journal.pmed.0030186"
     relation_type_id "bookmarks"
+    updated_at { Time.zone.now }
+    occured_at { Time.zone.now }
 
     trait :datacite_related do
       source_id "datacite_related"

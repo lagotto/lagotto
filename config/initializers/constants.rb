@@ -13,6 +13,7 @@ RESCUABLE_EXCEPTIONS = [ActiveRecord::RecordNotFound,
                         JWT::VerificationError,
                         ActionController::ParameterMissing,
                         ActiveModel::ForbiddenAttributesError,
+                        ActionController::UnpermittedParameters,
                         NoMethodError]
 
 RETRYABLE_EXCEPTIONS = [ActiveJob::DeserializationError,

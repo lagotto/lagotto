@@ -68,7 +68,7 @@ module Authenticable
       status = case exception.class.to_s
                when "CanCan::AccessDenied" then 401
                when "ActiveRecord::RecordNotFound" then 404
-               when "ActiveModel::ForbiddenAttributesError", "NoMethodError" then 422
+               when "ActiveModel::ForbiddenAttributesError", "ActionController::UnpermittedParameters", "NoMethodError" then 422
                else 400
                end
 

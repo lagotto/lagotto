@@ -1,8 +1,32 @@
 require "rails_helper"
-require "securerandom"
 
 describe "/api/v6/deposits", :type => :api do
+  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
+
+  let(:deposit) { FactoryGirl.build(:deposit) }
   let(:error) { { "meta" => { "status" => "error", "error" => "You are not authorized to access this page." } } }
+  let(:success) { { "id"=>deposit.uuid,
+                    "state"=>"waiting",
+                    "message_type"=>"work",
+                    "message_action"=>"create",
+                    "source_token"=>"citeulike_123",
+                    "subj_id"=>"http://www.citeulike.org/user/dbogartoit",
+                    "obj_id"=>"http://doi.org/10.1371/journal.pmed.0030186",
+                    "relation_type_id"=>"bookmarks",
+                    "source_id"=>"citeulike",
+                    "total"=>1,
+                    "occured_at"=>deposit.occured_at.utc.iso8601,
+                    "timestamp"=>deposit.timestamp,
+                    "subj"=>{"pid"=>"http://www.citeulike.org/user/dbogartoit",
+                             "author"=>[{"given"=>"dbogartoit"}],
+                             "title"=>"CiteULike bookmarks for user dbogartoit",
+                             "container-title"=>"CiteULike",
+                             "issued"=>{"date-parts"=>[[2006, 6, 13]]},
+                             "timestamp"=>"2006-06-13T16:14:19Z",
+                             "URL"=>"10.1371/journal.pmed.0030186",
+                             "type"=>"entry",
+                             "tracked"=>false },
+                    "obj"=>{} }}
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:uuid) { SecureRandom.uuid }
   let(:headers) do
@@ -13,10 +37,13 @@ describe "/api/v6/deposits", :type => :api do
   context "create" do
     let(:uri) { "/api/deposits" }
     let(:params) do
-      { "deposit" => { "uuid" => uuid,
-                       "message_type" => "mendeley",
-                       "message" => { "works" => [1], "events" => [] },
-                       "source_token" => "123" } }
+      { "deposit" => { "uuid" => deposit.uuid,
+                       "subj_id" => deposit.subj_id,
+                       "subj" => deposit.subj,
+                       "obj_id" => deposit.obj_id,
+                       "relation_type_id" => deposit.relation_type_id,
+                       "source_id" => deposit.source_id,
+                       "source_token" => deposit.source_token } }
     end
 
     context "as admin user" do
@@ -27,8 +54,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("accepted")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]["id"]).to eq (uuid)
-        expect(response["deposit"]["state"]).to eq ("waiting")
+        expect(response["deposit"]).to eq (success)
       end
     end
 
@@ -56,12 +82,14 @@ describe "/api/v6/deposits", :type => :api do
       end
     end
 
-    context "with message as array" do
+    context "without source_token" do
       let(:params) do
         { "deposit" => { "uuid" => uuid,
-                         "message_type" => "mendeley",
-                         "message" => ["abc"],
-                         "source_token" => "123" } }
+                         "subj_id" => deposit.subj_id,
+                         "subj" => deposit.subj,
+                         "obj_id" => deposit.obj_id,
+                         "relation_type_id" => deposit.relation_type_id,
+                         "source_id" => deposit.source_id } }
       end
 
       it "JSON" do
@@ -69,16 +97,18 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should be a hash"]}}, "deposit"=>{})
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"source_token"=>["can't be blank"]}}, "deposit"=>{})
       end
     end
 
-    context "with message as string" do
+    context "without source_id" do
       let(:params) do
         { "deposit" => { "uuid" => uuid,
-                         "message_type" => "mendeley",
-                         "message" => "abc",
-                         "source_token" => "123" } }
+                         "subj_id" => deposit.subj_id,
+                         "subj" => deposit.subj,
+                         "obj_id" => deposit.obj_id,
+                         "relation_type_id" => deposit.relation_type_id,
+                         "source_token" => deposit.source_token } }
       end
 
       it "JSON" do
@@ -86,16 +116,18 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should be a hash"]}}, "deposit"=>{})
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"source_id"=>["can't be blank"]}}, "deposit"=>{})
       end
     end
 
-    context "with message without required hash keys" do
+    context "without subj_id" do
       let(:params) do
         { "deposit" => { "uuid" => uuid,
-                         "message_type" => "mendeley",
-                         "message" => { "foo" => "abc" },
-                         "source_token" => "123" } }
+                         "subj" => deposit.subj,
+                         "obj_id" => deposit.obj_id,
+                         "relation_type_id" => deposit.relation_type_id,
+                         "source_id" => deposit.source_id,
+                         "source_token" => deposit.source_token } }
       end
 
       it "JSON" do
@@ -103,7 +135,7 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"message"=>["should contain works, events or publishers"]}}, "deposit"=>{})
+        expect(response).to eq("meta"=>{"status"=>"error", "error"=>{"subj_id"=>["can't be blank"]}}, "deposit"=>{})
       end
     end
 
@@ -125,8 +157,7 @@ describe "/api/v6/deposits", :type => :api do
     context "with missing deposit param" do
       let(:params) do
         { "data" => { "uuid" => uuid,
-                      "message_type" => "mendeley",
-                      "message" => { "events" => [] },
+                      "message_type" => "work",
                       "source_token" => "123" } }
       end
 
@@ -141,40 +172,28 @@ describe "/api/v6/deposits", :type => :api do
       end
     end
 
-    context "with missing uuid, message-type and message params" do
-      before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
-
-      let(:params) do
-        { "deposit" => { "foo" => "baz" } }
-      end
-
-      it "JSON" do
-        post uri, params, headers
-        expect(last_response.status).to eq(400)
-
-        response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("unknown attribute 'foo' for Deposit.")
-        expect(response["meta"]["status"]).to eq("error")
-        expect(response["deposit"]).to be_blank
-      end
-    end
-
     context "with unpermitted params" do
-      let(:params) { { "deposit" => { "foo" => "bar", "baz" => "biz" } } }
+      let(:params) do
+        { "deposit" => { "uuid" => uuid,
+                         "subj_id" => deposit.subj_id,
+                         "source_id" => deposit.source_id,
+                         "source_token" => deposit.source_token,
+                         "foo" => "bar" } }
+      end
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response.status).to eq(400)
+        expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("unknown attribute 'foo' for Deposit.")
         expect(response["meta"]["status"]).to eq("error")
-        expect(response["work"]).to be_blank
+        expect(response["meta"]["error"]).to eq("found unpermitted parameter: foo")
+        expect(response["deposit"]).to be_blank
 
         expect(Notification.count).to eq(1)
         notification = Notification.first
-        expect(notification.class_name).to eq("ActiveRecord::UnknownAttributeError")
-        expect(notification.status).to eq(400)
+        expect(notification.class_name).to eq("ActionController::UnpermittedParameters")
+        expect(notification.status).to eq(422)
       end
     end
 
@@ -209,7 +228,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "message"=>{"works"=>[], "events"=>[]}, "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
+        expect(response["deposit"]).to eq(success)
       end
     end
 
@@ -223,7 +242,7 @@ describe "/api/v6/deposits", :type => :api do
         response = JSON.parse(last_response.body)
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil
-        expect(response["deposit"]).to eq("id"=> deposit.uuid, "state"=>"waiting", "message_type"=>"citeulike", "message_action"=>"create", "message"=>{"works"=>[], "events"=>[]}, "source_token"=>"citeulike_123", "timestamp"=> deposit.timestamp)
+        expect(response["deposit"]).to eq(success)
       end
     end
 

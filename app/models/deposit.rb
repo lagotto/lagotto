@@ -6,6 +6,7 @@ class Deposit < ActiveRecord::Base
   include Resolvable
 
   before_create :create_uuid
+  before_save :set_defaults
   after_commit :queue_deposit_job, :on => :create
 
   state_machine :initial => :waiting do
@@ -202,7 +203,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def timestamp
-    updated_at.utc.iso8601
+    updated_at.utc.iso8601 if updated_at.present?
   end
 
   def cache_key
@@ -211,8 +212,11 @@ class Deposit < ActiveRecord::Base
 
   def create_uuid
     write_attribute(:uuid, SecureRandom.uuid) if uuid.blank?
+  end
+
+  def set_defaults
     write_attribute(:subj, {}) if subj.blank?
     write_attribute(:obj, {}) if obj.blank?
-    write_attribute(:occured_at, Time.zone.now) if occured_at.blank?
+    write_attribute(:occured_at, Time.zone.now.utc) if occured_at.blank?
   end
 end
