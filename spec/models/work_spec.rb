@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Work, type: :model, vcr: true do
 
-  let(:work) { FactoryGirl.create(:work) }
+  let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.5555/12345678", doi: "10.5555/12345678") }
 
   subject { work }
 
@@ -103,7 +103,7 @@ describe Work, type: :model, vcr: true do
     end
   end
 
-  context "validate date " do
+  context "validate date" do
     before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
     it 'validate date' do
