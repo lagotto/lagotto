@@ -1,7 +1,7 @@
 class DepositJob < ActiveJob::Base
   queue_as :default
 
-  rescue_from RETRYABLE_EXCEPTIONS do |exception|
+  rescue_from *RETRYABLE_EXCEPTIONS do |exception|
 
   end
 
