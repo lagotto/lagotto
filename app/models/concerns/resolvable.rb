@@ -96,6 +96,22 @@ module Resolvable
       "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
     end
 
+    def orcid(url)
+      Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
+    end
+
+    def github(url)
+      Array(/^https:\/\/github\.com\/(.+)\/(.+)/.match(url)).last
+    end
+
+    def github_release(url)
+      Array(/^https:\/\/github\.com\/(.+)\/(.+)\/tree\/(.+)/.match(url)).last
+    end
+
+    def github_owner(url)
+      Array(/^https:\/\/github\.com\/(.+)/.match(url)).last
+    end
+
     def get_doi_from_id(id)
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(id)
         uri = Addressable::URI.parse(id)
@@ -442,8 +458,8 @@ module Resolvable
       else
         { error: 'Resource not found.', status: 404 }
       end
-    # rescue *NETWORKABLE_EXCEPTIONS => e
-    #   rescue_faraday_error(url, e, options)
+    rescue *NETWORKABLE_EXCEPTIONS => e
+      rescue_faraday_error(url, e, options)
     end
 
     def get_doi_ra(doi, options = {})
@@ -453,7 +469,7 @@ module Resolvable
       prefix_string = Array(/^(10\.\d{4,5})\/.+/.match(doi)).last
       return {} if prefix_string.blank?
 
-      prefix = Prefix.where(prefix: prefix_string).first
+      prefix = cached_prefix(prefix_string)
       return prefix.registration_agency if prefix.present?
 
       conn = faraday_conn('json', options.merge(timeout: 120))
@@ -526,7 +542,7 @@ module Resolvable
       when id.starts_with?("pmcid/")             then { pmcid: id[6..-1] }
       when id.starts_with?("PMC")                then { pmcid: id[3..-1] }
       when id.starts_with?("doi_10.")            then { doi: id[4..-1].gsub("_", "/").upcase }
-      else { doi: CGI.unescape(id).upcase }
+      else {}
       end
     end
 

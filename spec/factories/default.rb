@@ -160,91 +160,17 @@ FactoryGirl.define do
       association :source, :counter
     end
 
-    trait(:with_crossref) do
-      readers 0
-      total 25
-      association :work, :published_yesterday
-      association :source, :crossref
-    end
-
-    trait(:with_crossref_last_month) do
-      readers 0
-      total 25
-      association :source, :crossref
-      after :create do |event|
-        last_month = Time.zone.now.to_date - 1.month
-        FactoryGirl.create(:month, event: event,
-                                   work: event.work,
-                                   source: event.source,
-                                   year: last_month.year,
-                                   month: last_month.month,
-                                   total: 20,
-                                   readers: event.readers)
-      end
-    end
-
-    trait(:with_crossref_current_month) do
-      readers 0
-      total 20
-      association :source, :crossref
-      after :create do |event|
-        FactoryGirl.create(:month, event: event,
-                                   work: event.work,
-                                   source: event.source,
-                                   year: Time.zone.now.to_date.year,
-                                   month: Time.zone.now.to_date.month,
-                                   total: event.total,
-                                   readers: event.readers)
-      end
-    end
-
     initialize_with { Event.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
-
-  # factory :task do
-  #   retrieved_at { Time.zone.now - 1.month }
-  #   sequence(:scheduled_at) { |n| Time.zone.now - 1.day + n.minutes }
-
-  #   association :work
-  #   association :agent, factory: :citeulike
-
-  #   trait(:with_mendeley) { association :agent, factory: :mendeley }
-  #   trait(:with_pubmed) { association :agent, factory: :pub_med }
-  #   trait(:with_nature) { association :agent, factory: :nature }
-  #   trait(:with_wos) { association :agent, factory: :wos }
-  #   trait(:with_researchblogging) { association :agent, factory: :researchblogging }
-  #   trait(:with_scienceseeker) { association :agent, factory: :scienceseeker }
-  #   trait(:with_wikipedia) { association :agent, factory: :wikipedia }
-  #   trait(:with_twitter_search) { association :agent, factory: :twitter_search }
-  #   trait(:missing_mendeley) do
-  #     association :work, :missing_mendeley, factory: :work
-  #     association :agent, factory: :mendeley
-  #   end
-  #   trait(:stale) { scheduled_at 1.month.ago }
-  #   trait(:queued) { queued_at 1.hour.ago }
-  #   trait(:refreshed) { scheduled_at 1.month.from_now }
-  #   trait(:staleness) { association :agent, factory: :citeulike }
-  #   trait(:with_errors) { total 0 }
-  #   trait(:with_counter_and_work_published_today) do
-  #     association :work, factory: :work_published_today
-  #     association :agent, factory: :counter
-  #   end
-  #   trait(:with_crossref_and_work_published_today) do
-  #     association :work, factory: :work_published_today
-  #     association :agent, factory: :crossref
-  #   end
-
-  #   initialize_with { Task.where(work_id: work.id, agent_id: agent.id).first_or_initialize }
-  # end
 
   factory :month do
     trait(:with_work) do
       association :work, :published_today
       after :build do |month|
-        if month.work.events.any?
-          month.event_id = month.work.events.first.id
+        if month.work.relations.any?
+          month.relation_id = month.work.relations.first.id
         else
-          month.event = FactoryGirl.create(:event, work: month.work)
+          month.relation = FactoryGirl.create(:relation, work: month.work)
         end
       end
     end
@@ -458,16 +384,34 @@ FactoryGirl.define do
       inverse_name "is_part_of"
     end
 
+    trait(:is_part_of) do
+      name "is_part_of"
+      title "Is part of"
+      inverse_name "has_part"
+    end
+
     trait(:bookmarks) do
       name "bookmarks"
       title "Bookmarks"
       inverse_name "is_bookmarked_by"
     end
 
+    trait(:is_bookmarked_by) do
+      name "is_bookmarked_by"
+      title "Is bookmarked by"
+      inverse_name "bookmarks"
+    end
+
     trait(:is_supplement_to) do
       name "is_supplement_to"
       title "Is supplement to"
       inverse_name "has_supplement"
+    end
+
+    trait(:has_supplement) do
+      name "has_supplement"
+      title "Has supplement"
+      inverse_name "is_supplement_to"
     end
 
     trait(:is_compiled_by) do
@@ -484,6 +428,39 @@ FactoryGirl.define do
     association :related_work
     association :source, :crossref
     association :relation_type
+
+    trait(:with_crossref) do
+      total 25
+      association :work, :published_yesterday
+      association :source, :crossref
+    end
+
+    trait(:with_crossref_last_month) do
+      total 25
+      association :source, :crossref
+      after :create do |relation|
+        last_month = Time.zone.now.to_date - 1.month
+        FactoryGirl.create(:month, relation: relation,
+                                   work: relation.work,
+                                   source: relation.source,
+                                   year: last_month.year,
+                                   month: last_month.month,
+                                   total: 20)
+      end
+    end
+
+    trait(:with_crossref_current_month) do
+      total 20
+      association :source, :crossref
+      after :create do |relation|
+        FactoryGirl.create(:month, relation: relation,
+                                   work: relation.work,
+                                   source: relation.source,
+                                   year: Time.zone.now.to_date.year,
+                                   month: Time.zone.now.to_date.month,
+                                   total: relation.total)
+      end
+    end
 
     before :create do |reference_relation|
       FactoryGirl.create(:relation_type)
@@ -507,15 +484,15 @@ FactoryGirl.define do
             "container-title"=>"CiteULike",
             "issued"=>{ "date-parts"=>[[2006, 6, 13]] },
             "timestamp"=>"2006-06-13T16:14:19Z",
-            "URL"=>"10.1371/journal.pmed.0030186",
+            "URL"=>"http://www.citeulike.org/user/dbogartoit",
             "type"=>"entry",
             "tracked"=> false }}
     obj_id "http://doi.org/10.1371/journal.pmed.0030186"
     relation_type_id "bookmarks"
     updated_at { Time.zone.now }
-    occured_at { Time.zone.now }
+    occurred_at { Time.zone.now }
 
-    trait :datacite_related do
+    factory :deposit_for_datacite_related do
       source_id "datacite_related"
       source_token "datacite_related_123"
       subj_id "http://doi.org/10.5061/DRYAD.47SD5"
@@ -525,7 +502,7 @@ FactoryGirl.define do
       publisher_id "CDL.DRYAD"
     end
 
-    trait :datacite_github do
+    factory :deposit_for_datacite_github do
       source_id "datacite_github"
       source_token "datacite_github_123"
       subj_id "http://doi.org/10.5281/ZENODO.16668"
@@ -533,6 +510,23 @@ FactoryGirl.define do
       obj_id "https://github.com/konradjk/loftee/tree/v0.2.1-beta"
       relation_type_id "is_supplement_to"
       publisher_id "CERN.ZENODO"
+    end
+
+    factory :deposit_for_publisher do
+      message_type "publisher"
+      source_id "datacite_datacentre"
+      source_token "datacite_datacentre_123"
+      subj_id "ANDS.CENTRE-1"
+      subj {{ "name"=>"ANDS.CENTRE-1",
+              "title"=>"Griffith University",
+              "registration_agency"=>"datacite",
+              "active"=>true }}
+
+      trait :no_publisher_title do
+        subj {{ "name"=>"ANDS.CENTRE-1",
+                "registration_agency"=>"datacite",
+                "active"=>true }}
+      end
     end
   end
 

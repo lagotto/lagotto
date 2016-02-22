@@ -14,6 +14,16 @@ FactoryGirl.define do
 
     group
 
+    trait(:datacite_related) do
+      name "datacite_related"
+      title "DataCite Related"
+    end
+
+    trait(:datacite_github) do
+      name "datacite_github"
+      title "DataCite Github"
+    end
+
     trait(:mendeley) do
       name "mendeley"
       title "Mendeley"
