@@ -7,40 +7,60 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/json
       User-Agent:
       - Lagotto - http://lagotto-5-0-unstable.local
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 404
+      message: ''
     headers:
-      Access-Control-Allow-Headers:
-      - X-Requested-With
-      Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept
-      Content-Type:
-      - application/json;charset=UTF-8
-      Content-Length:
-      - '1174'
-      Server:
-      - http-kit
       Date:
-      - Mon, 26 Oct 2015 14:50:45 GMT
+      - Mon, 22 Feb 2016 19:06:11 GMT
       Connection:
       - close
+      Content-Type:
+      - text/html;charset=utf-8
+      X-Cascade:
+      - pass
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '538'
+      Set-Cookie:
+      - rack.session=4c9864cba9e7f800730c9e0edd84cb8eede87d8c08f2c14334e9881ccda1f402;
+        path=/; HttpOnly
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,9,18]],"date-time":"2015-09-18T15:17:17Z","timestamp":1442589437254},"reference-count":39,"publisher":"Ecological
-        Society of America","issue":"11","DOI":"10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","type":"journal-article","created":{"date-parts":[[2007,6,4]],"date-time":"2007-06-04T23:36:12Z","timestamp":1181000172000},"page":"2832-2841","source":"CrossRef","title":["THE
-        IMPACT OF PARASITE MANIPULATION AND PREDATOR FORAGING BEHAVIOR ON PREDATOR\u2013PREY
-        COMMUNITIES"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1890","volume":"87","author":[{"affiliation":[],"family":"Fenton","given":"A."},{"affiliation":[],"family":"Rands","given":"S.
-        A."}],"member":"http:\/\/id.crossref.org\/member\/792","container-title":["Ecology"],"deposited":{"date-parts":[[2011,7,4]],"date-time":"2011-07-04T11:23:33Z","timestamp":1309778613000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2006,11]]},"alternative-id":["10.1890\/0012-9658(2006)87[2832:TIOPMA]2.0.CO;2"],"URL":"http:\/\/dx.doi.org\/10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","ISSN":["0012-9658"]}}'
+      string: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style type="text/css">
+          body { text-align:center;font-family:helvetica,arial;font-size:22px;
+            color:#888;margin:20px}
+          #c {margin:0 auto;width:500px;text-align:left}
+          </style>
+        </head>
+        <body>
+          <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
+          <img src='http://api.crossref.org/__sinatra__/404.png'>
+          <div id="c">
+            Try this:
+            <pre>get &#x27;&#x2F;works&#x2F;10.1890&#x2F;0012-9658%282006%2987%5B2832%3Atiopma%5D2.0.co%3B2&#x27; do
+          &quot;Hello World&quot;
+        end
+        </pre>
+          </div>
+        </body>
+        </html>
     http_version: 
-  recorded_at: Mon, 26 Oct 2015 14:50:45 GMT
+  recorded_at: Mon, 22 Feb 2016 19:06:11 GMT
 recorded_with: VCR 2.9.3

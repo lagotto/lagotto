@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto-5-0-unstable.local
       Accept:
       - application/json
   response:
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Sat, 17 Oct 2015 13:53:05 GMT
+      - Mon, 22 Feb 2016 19:06:13 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -29,17 +29,11 @@ http_interactions:
       X-Ratelimit-Limit:
       - '60'
       X-Ratelimit-Remaining:
-      - '49'
+      - '51'
       X-Ratelimit-Reset:
-      - '1445092553'
+      - '1456168003'
       X-Github-Media-Type:
       - github.v3
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Frame-Options:
-      - deny
-      Content-Security-Policy:
-      - default-src 'none'
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Expose-Headers:
@@ -47,15 +41,21 @@ http_interactions:
         X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
       Access-Control-Allow-Origin:
       - "*"
-      X-Github-Request-Id:
-      - 3EE0680E:151ED:D795741:562252C0
+      Content-Security-Policy:
+      - default-src 'none'
       Strict-Transport-Security:
       - max-age=31536000; includeSubdomains; preload
       X-Content-Type-Options:
       - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 3EE06981:14591:B5F35C0:56CB5C25
     body:
       encoding: UTF-8
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
     http_version: 
-  recorded_at: Sat, 17 Oct 2015 13:52:43 GMT
+  recorded_at: Mon, 22 Feb 2016 19:06:13 GMT
 recorded_with: VCR 2.9.3

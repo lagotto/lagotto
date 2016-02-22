@@ -7,34 +7,60 @@ http_interactions:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - application/json
       User-Agent:
       - Lagotto - http://lagotto-5-0-unstable.local
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
   response:
     status:
       code: 404
-      message: Not Found
+      message: ''
     headers:
-      Access-Control-Allow-Headers:
-      - X-Requested-With
-      Access-Control-Allow-Origin:
-      - "*"
-      Content-Type:
-      - text/plain
-      Content-Length:
-      - '19'
-      Server:
-      - http-kit
       Date:
-      - Mon, 26 Oct 2015 14:50:45 GMT
+      - Mon, 22 Feb 2016 19:06:11 GMT
       Connection:
       - close
+      Content-Type:
+      - text/html;charset=utf-8
+      X-Cascade:
+      - pass
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Length:
+      - '509'
+      Set-Cookie:
+      - rack.session=1e249f3a7f5b51211459842e96173e773b760cada36eb126b8cbfbfdd7cde304;
+        path=/; HttpOnly
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
     body:
       encoding: UTF-8
-      string: Resource not found.
+      string: |
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style type="text/css">
+          body { text-align:center;font-family:helvetica,arial;font-size:22px;
+            color:#888;margin:20px}
+          #c {margin:0 auto;width:500px;text-align:left}
+          </style>
+        </head>
+        <body>
+          <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
+          <img src='http://api.crossref.org/__sinatra__/404.png'>
+          <div id="c">
+            Try this:
+            <pre>get &#x27;&#x2F;works&#x2F;10.1371&#x2F;journal.pone.0000030x&#x27; do
+          &quot;Hello World&quot;
+        end
+        </pre>
+          </div>
+        </body>
+        </html>
     http_version: 
-  recorded_at: Mon, 26 Oct 2015 14:50:45 GMT
+  recorded_at: Mon, 22 Feb 2016 19:06:11 GMT
 recorded_with: VCR 2.9.3

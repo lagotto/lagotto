@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 26 Oct 2015 07:45:58 GMT
+      - Mon, 22 Feb 2016 19:05:26 GMT
       Server:
       - Apache
       Location:
@@ -37,7 +37,7 @@ http_interactions:
         <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=10.1371%2Fjournal.pone.0000030x&amp;idtype=doi&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
         </body></html>
     http_version: 
-  recorded_at: Mon, 26 Oct 2015 07:39:29 GMT
+  recorded_at: Mon, 22 Feb 2016 19:05:26 GMT
 - request:
     method: get
     uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000030x&idtype=doi&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
@@ -55,7 +55,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 26 Oct 2015 07:45:59 GMT
+      - Mon, 22 Feb 2016 19:05:27 GMT
       Server:
       - Apache
       Content-Type:
@@ -69,7 +69,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2015-10-26 03:45:59",
+         "responseDate": "2016-02-22 14:05:27",
          "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000030x;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
          "records": [
            {
@@ -81,5 +81,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 26 Oct 2015 07:39:30 GMT
+  recorded_at: Mon, 22 Feb 2016 19:05:27 GMT
 recorded_with: VCR 2.9.3
