@@ -7,6 +7,6 @@ end
 
 json.months @months do |month|
   json.cache! ['v6', month], skip_digest: true do
-    json.(month, :source_id, :year, :month, :pdf, :html, :readers, :comments, :likes, :total)
+    json.(month, :source_id, :year, :month, :total)
   end
 end

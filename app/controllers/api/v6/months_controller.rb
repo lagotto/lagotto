@@ -15,11 +15,6 @@ class Api::V6::MonthsController < Api::BaseController
   def index
     collection = @source.months.select("year, month, '#{@source.name}' as source_id,
                                         sum(total) as total,
-                                        sum(pdf) as pdf,
-                                        sum(html) as html,
-                                        sum(readers) as readers,
-                                        sum(comments) as comments,
-                                        sum(likes) as likes,
                                         max(updated_at) as updated_at").group(:year, :month)
     collection = collection.includes(:source)
 

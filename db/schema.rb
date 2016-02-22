@@ -206,7 +206,6 @@ ActiveRecord::Schema.define(version: 20160222121611) do
   create_table "months", force: :cascade do |t|
     t.integer  "work_id",          limit: 4,             null: false
     t.integer  "source_id",        limit: 4,             null: false
-    t.integer  "event_id",         limit: 4,             null: false
     t.integer  "year",             limit: 4,             null: false
     t.integer  "month",            limit: 4,             null: false
     t.integer  "total",            limit: 4, default: 0, null: false
@@ -216,11 +215,11 @@ ActiveRecord::Schema.define(version: 20160222121611) do
     t.integer  "relation_type_id", limit: 4
   end
 
-  add_index "months", ["event_id", "year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
   add_index "months", ["relation_id"], name: "months_relation_id_fk", using: :btree
   add_index "months", ["relation_type_id"], name: "months_relation_type_id_fk", using: :btree
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
+  add_index "months", ["year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -467,7 +466,6 @@ ActiveRecord::Schema.define(version: 20160222121611) do
 
   add_foreign_key "events", "sources", name: "events_source_id_fk", on_delete: :cascade
   add_foreign_key "events", "works", name: "events_work_id_fk", on_delete: :cascade
-  add_foreign_key "months", "events", name: "months_event_id_fk", on_delete: :cascade
   add_foreign_key "months", "relation_types", name: "months_relation_type_id_fk", on_delete: :cascade
   add_foreign_key "months", "relations", name: "months_relation_id_fk", on_delete: :cascade
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
