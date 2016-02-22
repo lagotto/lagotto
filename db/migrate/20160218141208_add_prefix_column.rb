@@ -9,7 +9,7 @@ class AddPrefixColumn < ActiveRecord::Migration
     add_column :deposits, :subj, :text
     add_column :deposits, :obj, :text
     add_column :deposits, :total, :integer, default: 1
-    add_column :deposits, :occured_at, :datetime
+    add_column :deposits, :occurred_at, :datetime
     add_column :deposits, :error_messages, :text
     change_column :deposits, :message_type, :string, limit: 191, default: "relation"
     remove_column :deposits, :message
@@ -36,7 +36,7 @@ class AddPrefixColumn < ActiveRecord::Migration
     remove_column :deposits, :subj
     remove_column :deposits, :obj
     remove_column :deposits, :total
-    remove_column :deposits, :occured_at
+    remove_column :deposits, :occurred_at
     remove_column :deposits, :error_messages
     change_column :deposits, :message_type, :string, limit: 255, default: "default"
     add_column :deposits, :message, :text, limit: 2048.kilobytes + 1

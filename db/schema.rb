@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218141208) do
+ActiveRecord::Schema.define(version: 20160222121611) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(version: 20160218141208) do
     t.text     "subj",             limit: 65535
     t.text     "obj",              limit: 65535
     t.integer  "total",            limit: 4,     default: 1
-    t.datetime "occured_at"
+    t.datetime "occurred_at"
     t.text     "error_messages",   limit: 65535
   end
 
@@ -204,22 +204,21 @@ ActiveRecord::Schema.define(version: 20160218141208) do
   end
 
   create_table "months", force: :cascade do |t|
-    t.integer  "work_id",    limit: 4,             null: false
-    t.integer  "source_id",  limit: 4,             null: false
-    t.integer  "event_id",   limit: 4,             null: false
-    t.integer  "year",       limit: 4,             null: false
-    t.integer  "month",      limit: 4,             null: false
-    t.integer  "total",      limit: 4, default: 0, null: false
-    t.integer  "html",       limit: 4, default: 0, null: false
-    t.integer  "pdf",        limit: 4, default: 0, null: false
-    t.integer  "comments",   limit: 4, default: 0, null: false
-    t.integer  "likes",      limit: 4, default: 0, null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.integer  "readers",    limit: 4, default: 0, null: false
+    t.integer  "work_id",          limit: 4,             null: false
+    t.integer  "source_id",        limit: 4,             null: false
+    t.integer  "event_id",         limit: 4,             null: false
+    t.integer  "year",             limit: 4,             null: false
+    t.integer  "month",            limit: 4,             null: false
+    t.integer  "total",            limit: 4, default: 0, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "relation_id",      limit: 4
+    t.integer  "relation_type_id", limit: 4
   end
 
   add_index "months", ["event_id", "year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
+  add_index "months", ["relation_id"], name: "months_relation_id_fk", using: :btree
+  add_index "months", ["relation_type_id"], name: "months_relation_type_id_fk", using: :btree
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
 
@@ -469,6 +468,8 @@ ActiveRecord::Schema.define(version: 20160218141208) do
   add_foreign_key "events", "sources", name: "events_source_id_fk", on_delete: :cascade
   add_foreign_key "events", "works", name: "events_work_id_fk", on_delete: :cascade
   add_foreign_key "months", "events", name: "months_event_id_fk", on_delete: :cascade
+  add_foreign_key "months", "relation_types", name: "months_relation_type_id_fk", on_delete: :cascade
+  add_foreign_key "months", "relations", name: "months_relation_id_fk", on_delete: :cascade
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
   add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "agents", name: "publisher_options_agent_id_fk", on_delete: :cascade

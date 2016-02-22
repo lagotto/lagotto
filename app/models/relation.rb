@@ -4,6 +4,7 @@ class Relation < ActiveRecord::Base
   belongs_to :relation_type
   belongs_to :source
   belongs_to :publisher
+  has_many :months
 
   before_create :set_occurred_at
 
