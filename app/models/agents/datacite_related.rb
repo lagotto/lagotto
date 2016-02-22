@@ -56,7 +56,8 @@ class DataciteRelated < Agent
       pid = doi_as_url(related_identifier.strip.upcase)
 
       # find relation_type, default to "is_referenced_by" otherwise
-      relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
+      relation_type = cached_relation_type(raw_relation_type.underscore)
+      relation_type_id = relation_type.present? ? relation_type.name : 'is_referenced_by'
 
       { prefix: prefix,
         relation: { "subj_id" => subj["pid"],

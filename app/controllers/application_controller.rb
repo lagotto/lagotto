@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include helper module for query caching
+  include Cacheable
+
   protect_from_forgery
 
   before_filter :miniprofiler

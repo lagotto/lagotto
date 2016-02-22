@@ -55,7 +55,8 @@ class DataciteGithub < Agent
       raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
 
       # find relation_type, default to "is_referenced_by" otherwise
-      relation_type_id = RelationType.where(name: raw_relation_type.underscore).pluck(:name).first || 'is_referenced_by'
+      relation_type = cached_relation_type(raw_relation_type.underscore)
+      relation_type_id = relation_type.present? ? relation_type.name : 'is_referenced_by'
 
       # get parent repo
       # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb

@@ -1,8 +1,11 @@
 class RelationsController < ApplicationController
+  # include helper module for query caching
+  include Cacheable
+
   def index
     collection = Relation.includes(:work, :related_work)
 
-    if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       collection = collection.where(relation_type_id: relation_type.id)
     end
 
@@ -19,6 +22,6 @@ class RelationsController < ApplicationController
     @page = params[:page] || 1
     @q = params[:q]
     @source = Source.active.where(name: params[:source_id]).first
-    @relation_type = RelationType.where(name: params[:relation_type_id]).first
+    @relation_type = cached_relation_type(params[:relation_type_id])
   end
 end

@@ -5,6 +5,9 @@ class Api::BaseController < ActionController::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include helper module for query caching
+  include Cacheable
+
   prepend_before_filter :disable_devise_trackable
   before_filter :miniprofiler,
                 :default_format_json,

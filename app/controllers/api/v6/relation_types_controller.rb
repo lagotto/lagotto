@@ -17,7 +17,7 @@ class Api::V6::RelationTypesController < Api::BaseController
   end
 
   def show
-    relation_type = RelationType.where(name: params[:id]).first
+    relation_type = cached_relation_type(params[:id])
     if relation_type.present?
       @relation_type = relation_type.decorate
     else

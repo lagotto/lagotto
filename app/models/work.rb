@@ -18,6 +18,9 @@ class Work < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
+  # include helper module for query caching
+  include Cacheable
+
   # store blank values as nil
   nilify_blanks
 
@@ -50,105 +53,6 @@ class Work < ActiveRecord::Base
   scope :tracked, -> { where("works.tracked = ?", true) }
 
   serialize :csl, JSON
-
-  def self.find_or_create(params)
-    pid = params.fetch(:pid, nil)
-    return nil unless pid.present?
-
-    begin
-      work = Work.create(params.except(:source_id, :relation_type_id, :related_works, :contributors))
-    rescue ActiveRecord::RecordNotUnique
-      work = Work.where(pid: pid).first
-      work.update_attributes(params.except(:pid, :source_id, :relation_type_id, :related_works, :contributors))
-    end
-    work.update_relations(params.fetch(:related_works, []))
-    work.update_contributions(params.fetch(:contributors, []))
-    work
-  end
-
-  def update_relations(data)
-    Array(data).map do |item|
-      # mix symbol and string keys
-      item = item.with_indifferent_access
-      pid = item.fetch(:pid, nil)
-      next unless pid.present?
-
-      id_hash = get_id_hash(pid)
-      item = item.merge(id_hash)
-
-      source = Source.where(name: item.fetch(:source_id)).first
-      relation_name = item.fetch(:relation_type_id, "is_referenced_by")
-      relation_type = RelationType.where(name: relation_name).first
-      # recursion for nested related_works
-      related_work = Work.find_or_create(item)
-
-      unless related_work
-        message = "No metadata for #{pid} found"
-        Notification.where(message: message).where(unresolved: true).first_or_create(
-          class_name: "Net::HTTPNotFound",
-          target_url: pid)
-        next
-      end
-
-      next unless relation_type.present? && source.present?
-      inverse_relation_type = RelationType.where(name: relation_type.inverse_name).first
-      next unless inverse_relation_type.present?
-
-      begin
-        Relation.where(work_id: id,
-                       related_work_id: related_work.id,
-                       source_id: source.id).first_or_create(
-                         relation_type_id: relation_type.id)
-      rescue ActiveRecord::RecordNotUnique
-        Relation.where(work_id: id,
-                       related_work_id: related_work.id,
-                       source_id: source.id).first
-      end
-
-      begin
-        Relation.where(work_id: related_work.id,
-                       related_work_id: id,
-                       source_id: source.id).first_or_create(
-                         relation_type_id: inverse_relation_type.id)
-      rescue ActiveRecord::RecordNotUnique
-        Relation.where(work_id: related_work.id,
-                       related_work_id: id,
-                       source_id: source.id).first
-      end
-    end
-  end
-
-  def update_contributions(data)
-    Array(data).map do |item|
-      # mix symbol and string keys
-      item = item.with_indifferent_access
-      pid = item.fetch(:pid, nil)
-      next unless pid.present?
-
-      source = Source.where(name: item.fetch(:source_id)).first
-
-      # recursion for nested contributors
-      contributor = Contributor.where(pid: pid).first_or_create
-
-      unless contributor.persisted?
-        message = "No metadata for #{pid} found"
-        Notification.where(message: message).where(unresolved: true).first_or_create(
-          class_name: "Net::HTTPNotFound",
-          target_url: pid)
-        next
-      end
-
-      begin
-        Contribution.where(work_id: id,
-                           contributor_id: contributor.id,
-                           source_id: source.id).first_or_create
-      rescue ActiveRecord::RecordNotUnique
-        Contribution.where(work_id: id,
-                           contributor_id: contributor.id,
-                           source_id: source.id).first
-      end
-    end
-  end
 
   def self.per_page
     50
@@ -273,22 +177,6 @@ class Work < ActiveRecord::Base
     @mendeley_url ||= events_url("mendeley")
   end
 
-  def orcid
-    Array(/^http:\/\/orcid\.org\/(.+)/.match(canonical_url)).last
-  end
-
-  def github
-    Array(/^https:\/\/github\.com\/(.+)\/(.+)/.match(canonical_url)).last
-  end
-
-  def github_release
-    Array(/^https:\/\/github\.com\/(.+)\/(.+)\/tree\/(.+)/.match(canonical_url)).last
-  end
-
-  def github_owner
-    Array(/^https:\/\/github\.com\/(.+)/.match(canonical_url)).last
-  end
-
   def viewed
     names = ENV["VIEWED"] ? ENV["VIEWED"].split(",") : ["pmc", "counter"]
     @viewed || event_counts(names)
@@ -403,24 +291,25 @@ class Work < ActiveRecord::Base
   def set_metadata
     return if registration_agency.present? && title.present? && year.present?
 
-    if doi.present?
-      ra = registration_agency || get_doi_ra(doi)
-      return nil if ra.nil? || ra.is_a?(Hash)
+    id_hash = get_id_hash(pid)
 
-      write_attribute(:registration_agency, ra)
-      write_attribute(:tracked, true)
-      metadata = get_metadata(doi, ra)
-    elsif github_release.present?
-      write_attribute(:registration_agency, "github")
-      write_attribute(:tracked, false)
+    if id_hash[:doi].present?
+      registration_agency ||= get_doi_ra(id_hash[:doi])
+      return nil if registration_agency.nil? || registration_agency.is_a?(Hash)
+
+      tracked = true
+      metadata = get_metadata(id_hash[:doi], registration_agency)
+    elsif id_hash[:canonical_url].present? && github_release(id_hash[:canonical_url]).present?
+      registration_agency = "github"
+      tracked = false
       metadata = get_metadata(canonical_url, "github_release")
-    elsif github.present?
-      write_attribute(:registration_agency, "github")
-      write_attribute(:tracked, true)
+    elsif id_hash[:canonical_url].present? && github(id_hash[:canonical_url]).present?
+      registration_agency = "github"
+      tracked = true
       metadata = get_metadata(canonical_url, "github")
-    elsif github_owner.present?
-      write_attribute(:registration_agency, "github")
-      write_attribute(:tracked, false)
+    elsif id_hash[:canonical_url].present? && github_owner(id_hash[:canonical_url]).present?
+      registration_agency = "github"
+      tracked = false
       metadata = get_metadata(canonical_url, "github_owner")
     else
       return nil
@@ -447,12 +336,6 @@ class Work < ActiveRecord::Base
     date_parts = Array(metadata.fetch("issued", {}).fetch("date-parts", []).first)
     year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
-    write_attribute(:csl, csl)
-    write_attribute(:title, metadata.fetch("title", nil))
-    write_attribute(:publisher_id, publisher_id)
-    write_attribute(:year, year)
-    write_attribute(:month, month)
-    write_attribute(:day, day)
-    write_attribute(:work_type_id, work_type_id)
+    title = metadata.fetch("title", nil)
   end
 end

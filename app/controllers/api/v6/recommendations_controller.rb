@@ -1,7 +1,4 @@
 class Api::V6::RecommendationsController < Api::BaseController
-  # include helper module for DOI resolution
-  include Resolvable
-
   before_filter :load_work
 
   swagger_controller :recommendations, "Recommendations"
@@ -26,7 +23,7 @@ class Api::V6::RecommendationsController < Api::BaseController
                          .where(related_work_id: related_work_ids)
                          .where(relation_type_id: relation_type_ids)
 
-    if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       collection = collection.where(relation_type_id: relation_type.id)
     end
 

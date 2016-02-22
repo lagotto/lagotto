@@ -5,6 +5,9 @@ class Deposit < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include helper module for query caching
+  include Cacheable
+
   before_create :create_uuid
   before_save :set_defaults
   after_commit :queue_deposit_job, :on => :create
@@ -36,6 +39,7 @@ class Deposit < ActiveRecord::Base
 
   serialize :subj, JSON
   serialize :obj, JSON
+  serialize :error_messages, JSON
 
   validates :source_token, presence: true
   validates :subj_id, presence: true
@@ -62,143 +66,192 @@ class Deposit < ActiveRecord::Base
     uuid
   end
 
-  def process_message
-    case
-    when message_type == "publisher" && message_action == "delete" then delete_publisher
-    when message_type == "publisher" then update_publisher
-    when message_type == "contributor" && message_action == "delete" then delete_contributor
-    when message_type == "contributor" then update_contributor
-    when message_type == "work" && message_action == "delete" then delete_work
-    else update_work
+  def process_data
+    self.start
+    if collect_data[:errors].present?
+      write_attribute(:error_messages, collect_data[:errors])
+      self.error
+    else
+      self.finish
     end
   end
 
-  def update_work
-    doi = subj.fetch("DOI", nil)
-    pmid = subj.fetch("PMID", nil)
-    pmcid = subj.fetch("PMCID", nil)
-    arxiv = subj.fetch("arxiv", nil)
-    ark = subj.fetch("ark", nil)
-    canonical_url = subj.fetch("URL", nil)
+  def collect_data
+    case
+    when message_type == "publisher" && message_action == "delete" then delete_publisher
+    when message_type == "publisher" then update_publisher
+    when message_type == "contribution" && message_action == "delete" then delete_contributor
+    when message_type == "contribution" then update_contributor
+    when message_type == "relation" && message_action == "delete" then delete_relation
+    else update_relations
+    end
+  end
 
-    title = subj.fetch("title", nil)
-    date_parts = subj.fetch("issued", {}).fetch("date-parts", [[]]).first
+  def update_relations
+    work = update_work(subj_id, subj)
+    related_work = update_work(obj_id, obj)
+
+    source = cached_source(source_id)
+    source = source.present? ? { class: source.class.to_s, id: source.id, errors: [] } : { class: "Source", id: nil, errors: ["Source #{source_id} not found"] }
+
+    relation_type = cached_relation_type(relation_type_id)
+    relation_type = relation_type.present? ? { class: relation_type.class.to_s, id: relation_type.id, errors: [] } : { class: "RelationType", id: nil, errors: ["Relation type #{relation_type_id} not found"] }
+
+    inv_relation_type = cached_inv_relation_type(relation_type_id)
+    inv_relation_type = inv_relation_type.present? ? { class: inv_relation_type.class.to_s, id: inv_relation_type.id, errors: [] } : { class: "RelationType", id: nil, errors: ["Inverse relation type for #{relation_type_id} not found"] }
+
+    relations = [work, related_work, source, relation_type, inv_relation_type]
+    return relations if relations.any? { |item| item[:errors].present? }
+
+    relation = update_relation(work[:id], related_work[:id], source[:id], relation_type[:id])
+    inv_relation = update_relation(related_work[:id], work[:id], source[:id], inv_relation_type[:id])
+
+    relations + [relation, inv_relation]
+  end
+
+  def update_relation(work_id, related_work_id, source_id, rel_type_id)
+    publisher = cached_publisher(publisher_id)
+    publisher = publisher.id if publisher.present?
+
+    relation = Relation.where(work_id: work_id, related_work_id: related_work_id, source_id: source_id).first_or_create(
+      relation_type_id: rel_type_id
+    )
+
+    # update all attributes
+    relation.update_attributes(relation_type_id: rel_type_id,
+                               publisher_id: publisher,
+                               total: total,
+                               occurred_at: occurred_at)
+
+    # update months
+    months = relation.months
+    months = [relation.get_events_current_month] if months.blank?
+    update_months(relation, months)
+
+    { class: relation.class.to_s, id: relation.id, errors: relation.errors.to_a }
+  end
+
+  def update_work(item_id, item)
+    item = from_csl(item)
+
+    # create work if it doesn't exist, filling out all required fields
+    work = Work.where(pid: item_id).first_or_create(title: item.fetch("title", nil),
+                                                    year: item.fetch("year", nil),
+                                                    month: item.fetch("month", nil),
+                                                    day: item.fetch("day", nil),
+                                                    registration_agency: item.fetch("registration_agency", nil))
+
+    # update all attributes
+    work.update_attributes(item)
+
+    { class: work.class.to_s, id: work.id, errors: work.errors.to_a }
+  end
+
+  # convert CSL into format that the database understands
+  # don't update nil values
+  def from_csl(item)
+    date_parts = item.fetch("issued", {}).fetch("date-parts", [[]]).first
     year, month, day = date_parts[0], date_parts[1], date_parts[2]
-    type = subj.fetch("type", nil)
-    work_type_id = WorkType.where(name: type).pluck(:id).first
-    registration_agency = subj.fetch("registration_agency", nil)
-    tracked = subj.fetch("tracked", false)
 
-    csl = {
-      "author" => subj.fetch("author", []),
-      "container-title" => subj.fetch("container-title", nil),
-      "volume" => subj.fetch("volume", nil),
-      "page" => subj.fetch("page", nil),
-      "issue" => subj.fetch("issue", nil) }
+    type = item.fetch("type", nil)
+    work_type = cached_work_type(type) if type.present?
+    work_type = work_type.present? ? work_type.id : nil
 
-    work = Work.where(pid: subj_id).first_or_create(
-      doi: doi,
-      pmid: pmid,
-      pmcid: pmcid,
-      arxiv: arxiv,
-      ark: ark,
-      canonical_url: canonical_url,
-      title: title,
+    csl = { "author" => item.fetch("author", []),
+            "container-title" => item.fetch("container-title", nil),
+            "volume" => item.fetch("volume", nil),
+            "page" => item.fetch("page", nil),
+            "issue" => item.fetch("issue", nil) }.compact
+
+    { doi: item.fetch("DOI", nil),
+      pmid: item.fetch("PMID", nil),
+      pmcid: item.fetch("PMCID", nil),
+      arxiv: item.fetch("arxiv", nil),
+      ark: item.fetch("ark", nil),
+      canonical_url: item.fetch("URL", nil),
+      title: item.fetch("title", nil),
       year: year,
       month: month,
       day: day,
-      work_type_id: work_type_id,
-      tracked: tracked,
-      registration_agency: registration_agency,
-      csl: csl)
-
-    work ? work.pid : nil
+      work_type_id: work_type,
+      tracked: item.fetch("tracked", false),
+      registration_agency: item.fetch("registration_agency", nil),
+      csl: csl }.compact
   end
 
-  # def update_events
-  #   Array(message.fetch('events', nil)).map do |item|
-  #     source_id = item.fetch("source_id", nil)
-  #     source = Source.where(name: source_id).first
-  #     raise ArgumentError.new("Source #{source_id.to_s} not found for deposit id #{uuid}") unless source.present?
+  def update_contributions(data)
+    Array(data).map do |item|
+      # mix symbol and string keys
+      item = item.with_indifferent_access
+      pid = item.fetch(:pid, nil)
+      next unless pid.present?
 
-  #     pid = item.fetch("work_id", nil)
-  #     work = Work.where(pid: pid).first
-  #     raise ArgumentError.new("Work #{pid.to_s} not found for deposit id #{uuid}") unless source.present?
+      source = Source.where(name: item.fetch(:source_id)).first
 
-  #     total = item.fetch("total", 0)
+      # recursion for nested contributors
+      contributor = Contributor.where(pid: pid).first_or_create
 
-  #     # only create event row if we have at least one event
-  #     if total > 0
-  #       begin
-  #         event = Event.where(source_id: source.id, work_id: work.id).first_or_create
-  #       rescue ActiveRecord::RecordNotUnique
-  #         event = Event.where(source_id: source.id, work_id: work.id).first
-  #       end
-  #     else
-  #       event = Event.where(source_id: source.id, work_id: work.id).first
-  #     end
+      unless contributor.persisted?
+        message = "No metadata for #{pid} found"
+        Notification.where(message: message).where(unresolved: true).first_or_create(
+          class_name: "Net::HTTPNotFound",
+          target_url: pid)
+        next
+      end
 
-  #     next unless event.present?
-
-  #     event.update_attributes(retrieved_at: Time.zone.now,
-  #                             total: total,
-  #                             pdf: item.fetch("pdf", 0),
-  #                             html: item.fetch("html", 0),
-  #                             readers: item.fetch("readers", 0),
-  #                             comments: item.fetch("comments", 0),
-  #                             likes: item.fetch("likes", 0),
-  #                             events_url: item.fetch("events_url", nil),
-  #                             extra: item.fetch("extra", nil))
-
-  #     months = item.fetch("months", [])
-  #     months = [event.get_events_current_month] if months.blank?
-  #     update_months(event, months)
-
-  #     event
-  #   end
-  # end
+      begin
+        Contribution.where(work_id: id,
+                           contributor_id: contributor.id,
+                           source_id: source.id).first_or_create
+      rescue ActiveRecord::RecordNotUnique
+        Contribution.where(work_id: id,
+                           contributor_id: contributor.id,
+                           source_id: source.id).first
+      end
+    end
+  end
 
   def update_publisher
-    publisher = Publisher.where(name: subj_id).first_or_create
-    publisher.update_attributes(subj.except('name'))
+    publisher = Publisher.where(name: subj_id).first_or_create(title: subj["title"])
+    publisher.update_attributes(title: subj["title"],
+                                   registration_agency: subj["registration_agency"],
+                                   active: subj["active"])
+
+    { class: publisher.class.to_s, id: publisher.name, errors: publisher.errors.to_a }
   end
 
-  # def delete_events
-  #   Array(message.fetch('events', nil)).map do |item|
-  #     Event.where(source_id: item.fetch('source_id', nil), work_id: item.fetch("work_id", nil)).destroy_all
-  #   end
-  # end
+  def delete_relation
+    work = Work.where(pid: subj_id).first
+    related_work = Work.where(pid: obj_id).first
+    source = Source.where(name: source_id).first
 
-  def delete_work
-    Work.where(pid: subj_id).destroy_all
+    return nil unless work.present? && related_work.present? && source.present?
+
+    Relation.where(work_id: work.id, related_work_id: related_work.id, source_id: source.id).destroy_all
   end
 
   def delete_publisher
     Publisher.where(name: subj_id).destroy_all
   end
 
-  def update_months(event, months)
-    months.map { |item| Month.where(event_id: event.id,
+  def update_months(relation, months)
+    months.map { |item| Month.where(relation_id: relation.id,
                                     month: item.fetch("month"),
                                     year: item.fetch("year")).first_or_create(
-                                      work_id: event.work_id,
-                                      source_id: event.source_id,
-                                      total: item.fetch("total", 0),
-                                      pdf: item.fetch("pdf", 0),
-                                      html: item.fetch("html", 0),
-                                      readers: item.fetch("readers", 0),
-                                      comments: item.fetch("comments", 0),
-                                      likes: item.fetch("likes", 0)) }
+                                      work_id: relation.work_id,
+                                      source_id: relation.source_id,
+                                      total: item.fetch("total", 0)) }
   end
 
   def send_callback
     data = { "deposit" => {
-             "id" => uuid,
-             "state" => state,
-             "message_type" => message_type,
-             "message_action" => message_action,
-             "source_token" => source_token,
-             "timestamp" => timestamp }}
+               "id" => uuid,
+               "state" => human_state_name,
+               "errors" => error_messages,
+               "message_type" => message_type,
+               "message_action" => message_action,
+               "source_token" => source_token,
+               "timestamp" => timestamp }}
     get_result(callback, data: data.to_json, token: ENV['API_KEY'])
   end
 
@@ -217,6 +270,8 @@ class Deposit < ActiveRecord::Base
   def set_defaults
     write_attribute(:subj, {}) if subj.blank?
     write_attribute(:obj, {}) if obj.blank?
-    write_attribute(:occured_at, Time.zone.now.utc) if occured_at.blank?
+    write_attribute(:total, 1) if total.blank?
+    write_attribute(:relation_type_id, "references") if relation_type_id.blank?
+    write_attribute(:occurred_at, Time.zone.now.utc) if occurred_at.blank?
   end
 end

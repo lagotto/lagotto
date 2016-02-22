@@ -11,7 +11,7 @@ class WorksController < ApplicationController
     @publisher = Publisher.where(name: params[:publisher_id]).first
     @source = Source.active.where(name: params[:source_id]).first
     @sort = Source.active.where(name: params[:sort]).first
-    @relation_type = RelationType.where(name: params[:relation_type_id]).first
+    @relation_type = cached_relation_type(params[:relation_type_id])
   end
 
   def show
@@ -20,7 +20,7 @@ class WorksController < ApplicationController
     @groups = Group.order("id")
     @page = params[:page] || 1
     @source = Source.active.where(name: params[:source_id]).first
-    @relation_type = RelationType.where(name: params[:relation_type_id]).first
+    @relation_type = cached_relation_type(params[:relation_type_id])
     render :show
   end
 

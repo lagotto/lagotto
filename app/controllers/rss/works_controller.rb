@@ -6,7 +6,7 @@ class Rss::WorksController < ApplicationController
 
     @page = params[:page] || 1
     @source = Source.active.where(name: params[:source_id]).first
-    @relation_type = RelationType.where(name: params[:relation_type_id]).first
+    @relation_type = cached_relation_type(params[:relation_type_id])
 
     render :show
   end

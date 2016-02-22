@@ -1,7 +1,4 @@
 class Api::V6::RelationsController < Api::BaseController
-  # include helper module for DOI resolution
-  include Resolvable
-
   before_filter :authenticate_user_from_token!, :load_work
 
   swagger_controller :relations, "Relations"
@@ -38,7 +35,7 @@ class Api::V6::RelationsController < Api::BaseController
       collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
     end
 
-    if params[:relation_type_id] && relation_type = RelationType.where(name: params[:relation_type_id]).first
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       collection = collection.where(relation_type_id: relation_type.id)
     end
 

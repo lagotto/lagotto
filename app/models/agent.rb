@@ -26,6 +26,9 @@ class Agent < ActiveRecord::Base
   # include summary counts
   include Countable
 
+  # include helper module for query caching
+  include Cacheable
+
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
@@ -213,28 +216,15 @@ class Agent < ActiveRecord::Base
       Deposit.create!(source_token: uuid,
                       message_type: item.fetch(:message_type, 'work'),
                       prefix: item.fetch(:prefix, nil),
-                      subject: item.fetch(:subject, nil),
-                      object: item.fetch(:object, nil),
-                      subject_id: relation.fetch('subject_id', nil),
-                      object_id: relation.fetch('object_id', nil),
+                      subj: item.fetch(:subj, nil),
+                      obj: item.fetch(:obj, nil),
+                      subj_id: relation.fetch('subj_id', nil),
+                      obj_id: relation.fetch('obj_id', nil),
                       relation_type_id: relation.fetch('relation_type_id', nil),
                       source_id: relation.fetch('source_id', nil),
                       publisher_id: relation.fetch('publisher_id', nil),
                       total: relation.fetch('total', nil),
-                      occured_at: relation.fetch('occured_at', nil))
-    end
-  end
-
-  def get_events_by_day(events, publication_date, options={})
-    events = events.reject { |event| event["timestamp"].nil? || Date.iso8601(event["timestamp"]) - publication_date > 30 }
-
-    options[:metrics] ||= :total
-    events.group_by { |event| event["timestamp"][0..9] }.sort.map do |k, v|
-      { year: k[0..3].to_i,
-        month: k[5..6].to_i,
-        day: k[8..9].to_i,
-        options[:metrics] => v.length,
-        total: v.length }
+                      occurred_at: relation.fetch('occurred_at', nil))
     end
   end
 
