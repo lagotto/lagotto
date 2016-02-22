@@ -21,7 +21,8 @@ Lagotto::Application.configure do
   config.log_level = log_level
 
   # Use a different logger for distributed setups
-  # config.logger = SyslogLogger.new
+  config.lograge.enabled = true
+  config.logger = Syslog::Logger.new(ENV['APPLICATION'])
 
   # Use a different cache store in production
   # config.cache_store = :dalli_store, { :namespace => "alm" }

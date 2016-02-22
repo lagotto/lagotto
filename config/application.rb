@@ -71,8 +71,5 @@ module Lagotto
 
     # parameter keys that are not explicitly permitted will raise error
     config.action_controller.action_on_unpermitted_parameters = :raise
-
-    config.lograge.enabled = true
-    config.logger = Syslog::Logger.new(ENV['APPLICATION'])
   end
 end
