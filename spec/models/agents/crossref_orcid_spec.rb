@@ -105,7 +105,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
       expect(response.length).to eq(10)
       expect(response.first[:prefix]).to eq("10.1016")
-      expect(response.first[:message_type]).to eq("contributor")
+      expect(response.first[:message_type]).to eq("contribution")
       expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
                                               "obj_id"=>"http://orcid.org/0000-0001-9344-779X",
                                               "source_id"=>"crossref_orcid",

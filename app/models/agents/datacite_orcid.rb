@@ -55,7 +55,7 @@ class DataciteOrcid < Agent
       orcid = item.split(':', 2).last
 
       { prefix: prefix,
-        message_type: "contributor",
+        message_type: "contribution",
         relation: { "subj_id" => subj["pid"],
                     "obj_id" => "http://orcid.org/#{orcid}",
                     "source_id" => source_id,

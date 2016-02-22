@@ -104,7 +104,7 @@ class CrossrefOrcid < Agent
 
     Array(items).map do |item|
       { prefix: prefix,
-        message_type: "contributor",
+        message_type: "contribution",
         relation: { "subj_id" => subj["pid"],
                     "obj_id" => item.fetch('ORCID', nil),
                     "source_id" => source_id,
