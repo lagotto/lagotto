@@ -6,7 +6,6 @@ gem 'ar-octopus', '~> 0.8.5', :require => 'octopus', :git => 'https://github.com
 
 gem "dotenv", '~> 1.0.2'
 gem 'sidekiq', '~> 4.0', '>= 4.0.1'
-gem 'activejob-retry', '~> 0.4.2'
 gem 'sinatra'
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false

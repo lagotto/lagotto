@@ -7,11 +7,11 @@ class AgentJob < ActiveJob::Base
 
   include CustomError
 
-  include ActiveJob::Retry
-
   queue_as :default
 
-  variable_retry delays: [1.minute, 5.minutes, 10.minutes, 30.minutes, 60.minutes], retryable_exceptions: RETRYABLE_EXCEPTIONS
+  rescue_from RETRYABLE_EXCEPTIONS do |exception|
+
+  end
 
   rescue_from StandardError do |exception|
     agent = self.arguments.first
