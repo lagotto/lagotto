@@ -1,4 +1,4 @@
-class RelatedWorksController < ApplicationController
+class RelationsController < ApplicationController
   def index
     collection = Relation.includes(:work, :related_work)
 

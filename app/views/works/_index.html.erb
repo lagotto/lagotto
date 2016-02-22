@@ -31,7 +31,7 @@
   <div class="page-header">
     <div class="btn-toolbar pull-right">
       <div class="btn-group btn-group-sm">
-        <%= link_to "#{icon("link")} References".html_safe, references_path, { id: "references", class: "btn btn-default" } %>
+        <%= link_to "#{icon("link")} Relations".html_safe, relations_path, { id: "relations", class: "btn btn-default" } %>
       </div>
       <% if can?(:manage, Work) %>
         <div class="btn-group btn-group-sm">

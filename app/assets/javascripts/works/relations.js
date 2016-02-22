@@ -11,7 +11,7 @@ if (!params.empty()) {
   var source_id = params.attr('data-source-id');
   var relation_type_id = params.attr('data-relation-type_id');
 
-  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/references?page=" + page);
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/relations?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
   if (relation_type_id !== null) { query += "&relation_type_id=" + relation_type_id; }
@@ -30,7 +30,7 @@ queue()
 
 // add data to page
 function eventsViz(json, sources, relation_types) {
-  data = json.references;
+  data = json.relations;
 
   // remove duplicate events based on id
   data = _.uniq(data, "id");

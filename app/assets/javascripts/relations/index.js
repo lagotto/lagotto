@@ -31,7 +31,7 @@ queue()
 
 // add data to page
 function eventsViz(json, sources, relation_types) {
-  data = json.references;
+  data = json.relations;
 
   json.href = "?page={{number}}";
   if (q !== null) { json.href += "&q=" + q; }
