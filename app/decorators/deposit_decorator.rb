@@ -17,4 +17,8 @@ class DepositDecorator < Draper::Decorator
   def occurred_at
     object.occurred_at.utc.iso8601
   end
+
+  def errors
+    error_messages
+  end
 end
