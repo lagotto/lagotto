@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 20160222121611) do
     t.integer  "total",            limit: 4, default: 0, null: false
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.integer  "event_id",         limit: 4
     t.integer  "relation_id",      limit: 4
     t.integer  "relation_type_id", limit: 4
   end

@@ -1,6 +1,6 @@
 class ChangeMonthsTable < ActiveRecord::Migration
   def up
-    remove_column :months, :event_id
+    change_column :months, :event_id, :integer, limit: 4, null: true
     remove_column :months, :html
     remove_column :months, :pdf
     remove_column :months, :comments
@@ -15,7 +15,7 @@ class ChangeMonthsTable < ActiveRecord::Migration
   end
 
   def down
-    add_column :months, :event_id, :integer, limit: 4, null: false
+    change_column :months, :event_id, :integer, limit: 4, null: false
     add_column :months, :html, :integer, limit: 4, default: 0, null: false
     add_column :months, :pdf, :integer, limit: 4, default: 0, null: false
     add_column :months, :comments, :integer, limit: 4, default: 0, null: false
