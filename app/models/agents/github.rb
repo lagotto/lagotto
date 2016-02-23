@@ -31,7 +31,7 @@ class Github < Agent
 
   def get_data(options={})
     work = Work.where(id: options[:work_id]).first
-    return {} unless work.present? && work.github.present?
+    return {} unless work.present? && github(work.canonical_url).present?
 
     query_url = get_query_url(get_owner_and_repo(work))
     get_result(query_url, options.merge(request_options))
@@ -52,20 +52,28 @@ class Github < Agent
     relations = []
     stargazers_count = result.fetch("stargazers_count", 0)
     if stargazers_count > 0
-      relations << { relation: { "subject" => work.pid,
-                                 "object" => "https://github.com/",
+      relations << { relation: { "subj_id" => work.pid,
+                                 "obj_id" => "https://github.com/",
                                  "relation_type_id" => "is_bookmarked_by",
                                  "total" => stargazers_count,
-                                 "source_id" => source_id } }
+                                 "source_id" => source_id },
+                     obj: { "pid" => "https://github.com/",
+                            "URL" => "https://github.com/",
+                            "title" => "Github",
+                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
     end
 
     forks_count = result.fetch("forks_count", 0)
     if forks_count > 0
-      relations << { relation: { "subject" => work.pid,
-                                 "object" => "https://github.com/",
+      relations << { relation: { "subj_id" => work.pid,
+                                 "obj_id" => "https://github.com/",
                                  "relation_type_id" => "is_source_of",
                                  "total" => forks_count,
-                                 "source_id" => source_id } }
+                                 "source_id" => source_id },
+                     obj: { "pid" => "https://github.com/",
+                            "URL" => "https://github.com/",
+                            "title" => "Github",
+                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
     end
 
     relations
