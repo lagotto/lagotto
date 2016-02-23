@@ -101,12 +101,15 @@ class Deposit < ActiveRecord::Base
     inv_relation_type = inv_relation_type.present? ? { class: inv_relation_type.class.to_s, id: inv_relation_type.id, errors: [] } : { class: "RelationType", id: nil, errors: ["Inverse relation type for #{relation_type_id} not found"] }
 
     relations = [work, related_work, source, relation_type, inv_relation_type]
-    return relations if relations.any? { |item| item[:errors].present? }
+    error_messages = relations.reduce([]) { |sum, item| sum + item[:errors] }
+    return { errors: error_messages } if error_messages.present?
 
     relation = update_relation(work[:id], related_work[:id], source[:id], relation_type[:id])
     inv_relation = update_relation(related_work[:id], work[:id], source[:id], inv_relation_type[:id])
 
-    relations + [relation, inv_relation]
+    relations += [relation, inv_relation]
+    error_messages = relations.reduce([]) { |sum, item| sum + item[:errors] }
+    { errors: error_messages }
   end
 
   def update_relation(work_id, related_work_id, source_id, rel_type_id)
@@ -124,8 +127,7 @@ class Deposit < ActiveRecord::Base
                                occurred_at: occurred_at)
 
     # update months
-    months = relation.months
-    months = [relation.get_events_current_month] if months.blank?
+    months = [relation.get_events_current_month]
     update_months(relation, months)
 
     { class: relation.class.to_s, id: relation.id, errors: relation.errors.to_a }

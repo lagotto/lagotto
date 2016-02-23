@@ -148,7 +148,7 @@ class Agent < ActiveRecord::Base
 
     # push to deposit API if no error and we have collected works and/or events
     # returns number of deposits created
-    push_data(data, options)
+    { total: push_data(data, options) }
   end
 
   def get_data(options={})

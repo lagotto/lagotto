@@ -14,9 +14,7 @@ describe Deposit, :type => :model, vcr: true do
       FactoryGirl.create(:source)
       FactoryGirl.create(:relation_type, :bookmarks)
       FactoryGirl.create(:relation_type, :is_bookmarked_by)
-      relations = subject.update_relations
-      expect(relations).to eq(2)
-      #relations.all? { |relation| expect(relation[:errors]).to be_empty }
+      expect(subject.update_relations).to be_empty
 
       # expect(Work.count).to eq(2)
       # work = Work.last
@@ -35,8 +33,7 @@ describe Deposit, :type => :model, vcr: true do
       FactoryGirl.create(:relation_type, :has_part)
       FactoryGirl.create(:relation_type, :is_part_of)
       subject = FactoryGirl.create(:deposit_for_datacite_related)
-      relations = subject.update_relations
-      relations.all? { |relation| expect(relation[:errors]).to be_empty }
+      expect(subject.update_relations).to be_empty
     end
 
     it "datacite_github" do
@@ -44,9 +41,7 @@ describe Deposit, :type => :model, vcr: true do
       FactoryGirl.create(:relation_type, :is_supplement_to)
       FactoryGirl.create(:relation_type, :has_supplement)
       subject = FactoryGirl.create(:deposit_for_datacite_github)
-      relations = subject.update_relations
-      expect(relations).to eq(2)
-      #relations.all? { |relation| expect(relation[:errors]).to be_empty }
+      expect(subject.update_relations).to be_empty
     end
   end
 
