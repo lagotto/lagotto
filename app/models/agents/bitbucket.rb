@@ -23,16 +23,16 @@ class Bitbucket < Agent
     #     events_url: events_url,
     #     extra: extra }] }
 
-        [{"subject" => "http://bitbucket.org",
-          "object" => work.pid,
-          "relation" => "reads",
+        [{"subj_id" => "http://bitbucket.org",
+          "obj_id" => work.pid,
+          "relation_type_id" => "reads",
           "total" => result.fetch("followers_count", 0),
-          "source" => name},
-        { "subject" => "http://bitbucket.org",
-          "object" => work.pid,
-          "relation" => "forks",
+          "source_id" => name},
+        { "subj_id" => "http://bitbucket.org",
+          "obj_id" => work.pid,
+          "relation_type_id" => "forks",
           "total" => result.fetch("forks_count", 0),
-          "source" => name}]
+          "source_id" => name}]
   end
 
   def config_fields
