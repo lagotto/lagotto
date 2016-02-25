@@ -14,26 +14,13 @@ class BmcFulltext < Agent
     work.doi.presence || work.canonical_url.presence
   end
 
-  def parse_data(result, options={})
-    return result if result[:error] || result["entries"].nil?
-
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-
-    related_works = get_related_works(result, work)
-    extra = get_extra(result)
-    events_url = related_works.length > 0 ? get_events_url(work) : nil
-
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: related_works.length,
-        events_url: events_url,
-        extra: extra,
-        months: get_events_by_month(related_works) }] }
+  def parse_data(result, options={})   
+    return result if result[:error]
+    return [] if result["entries"].nil?
+    super(result, options)
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     result.fetch("entries", []).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("published Date", nil))
       # workaround since the "doi" attribute is sometimes empty
@@ -42,44 +29,23 @@ class BmcFulltext < Agent
       title = Nokogiri::HTML::fragment(item.fetch("bibliograhyTitle", ""))
       container_title = Nokogiri::HTML::fragment(item.fetch("longCitation", ""))
 
-      { "pid" => doi_as_url(doi),
-        "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
-        "title" => title.at_css("p").text,
-        "container-title" => container_title.at_css("em").text,
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "DOI" => doi,
-        "type" => "article-journal",
-        "tracked" => tracked,
-        "registration_agency" => "crossref",
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "cites" }] }
-    end
-  end
+      subj_pid = doi_as_url(doi)
 
-  def get_extra(result)
-    result.fetch("entries", []).map do |item|
-      event_time = get_iso8601_from_time(item.fetch("published Date", nil))
-      # workaround since the "doi" attribute is sometimes empty
-      doi = "10.1186/#{item.fetch("arxId")}"
-      author = Nokogiri::HTML::fragment(item.fetch("authorNames", ""))
-      title = Nokogiri::HTML::fragment(item.fetch("bibliograhyTitle", ""))
-      container_title = Nokogiri::HTML::fragment(item.fetch("longCitation", ""))
+      { relation: { "subj_id" => work.pid,
+                    "obj_id" => subj_pid,
+                    "relation_type_id" => "cites", 
+                    "source_id" => name },
 
-      { event: item,
-        event_time: event_time,
-        event_url: "http://doi.org/#{doi}",
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
-          "title" => title.at_css("p").text,
-          "container-title" => container_title.at_css("em").text,
-          "issued" => get_date_parts(event_time),
-          "DOI" => doi,
-          "type" => "article-journal" }
-      }
+        subj: { "pid" => subj_pid,
+                "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
+                "title" => title.at_css("p").text,
+                "container-title" => container_title.at_css("em").text,
+                "issued" => get_date_parts(timestamp),
+                "timestamp" => timestamp,
+                "DOI" => doi,
+                "type" => "article-journal",
+                "tracked" => tracked,
+                "registration_agency" => "crossref" } }
     end
   end
 
