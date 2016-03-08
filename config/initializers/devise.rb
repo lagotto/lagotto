@@ -234,7 +234,7 @@ Devise.setup do |config|
                         uid_claim: 'uid',
                         required_claims: ['uid', 'name'],
                         info_map: { "name" => "name",
-                                    "authentication_token" => "authentication_token",
+                                    "api_key" => "authentication_token",
                                     "role" => "role" }
 
   # ==> Warden configuration
