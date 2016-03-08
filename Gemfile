@@ -1,6 +1,6 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.1'
+gem 'rails', '~> 4.2', '>= 4.2.6'
 gem 'mysql2', '0.3.18'
 gem 'ar-octopus', '~> 0.8.5', :require => 'octopus', :git => 'https://github.com/tchandy/octopus.git'
 
@@ -58,7 +58,7 @@ gem 'dotiw', '~> 2.0'
 
 gem 'sprockets-rails', '~> 2.2.0', :require => 'sprockets/railtie'
 gem 'sass-rails', '~> 4.0.4'
-gem "uglifier", "~> 2.5.3"
+gem 'uglifier', '~> 2.7', '>= 2.7.2'
 gem 'coffee-rails', '~> 4.1.0'
 
 gem "zenodo", "~> 0.0.8"
