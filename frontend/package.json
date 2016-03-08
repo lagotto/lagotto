@@ -17,8 +17,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "bower": "1.7.1",
-    "broccoli-asset-rev": "^2.0.2",
-    "broccoli-sass": "0.6.3"
+    "bower": "1.7.1"
   }
 }
