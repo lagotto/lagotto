@@ -1,15 +1,15 @@
 require "rails_helper"
 
-describe "/api/v6/events", :type => :api do
+describe "/api/v6/relations", :type => :api do
   let(:headers) do
     { "HTTP_ACCEPT" => "application/json; version=6" }
   end
 
   context "caching", :caching => true do
     context "work is updated" do
-      let(:work) { FactoryGirl.create(:work, :with_events) }
-      let(:keys) { work.events.map { |rs| rs.cache_key } }
-      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works/#{work.pid}/events" }
+      let(:work) { FactoryGirl.create(:work, :with_relations) }
+      let(:keys) { work.relations.map { |rs| rs.cache_key } }
+      let(:uri) { "http://#{ENV['HOSTNAME']}/api/works/#{work.pid}/relations" }
       let(:title) { "Foo" }
       let(:total) { 75 }
 
@@ -36,10 +36,10 @@ describe "/api/v6/events", :type => :api do
 
         response = JSON.parse(last_response.body)
         expect(response["meta"]["total"]).to eq(2)
-        item = response["events"].first
+        item = response["relations"].first
         expect(item["work_id"]).to eql(work.pid)
         expect(item["total"]).to eql(50)
-        expect(item["events_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
+        expect(item["relations_url"]).to eq("http://www.citeulike.org/doi/#{work.doi}")
       end
     end
   end
