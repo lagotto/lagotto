@@ -100,7 +100,7 @@ module Resolvable
       Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
     end
 
-    def github(url)
+    def github_repo(url)
       Array(/^https:\/\/github\.com\/(.+)\/(.+)/.match(url)).last
     end
 

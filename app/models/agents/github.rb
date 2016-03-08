@@ -31,7 +31,7 @@ class Github < Agent
 
   def get_data(options={})
     work = Work.where(id: options[:work_id]).first
-    return {} unless work.present? && github(work.canonical_url).present?
+    return {} unless work.present? && github_repo(work.canonical_url).present?
 
     query_url = get_query_url(get_owner_and_repo(work))
     get_result(query_url, options.merge(request_options))

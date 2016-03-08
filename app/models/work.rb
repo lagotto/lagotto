@@ -303,7 +303,7 @@ class Work < ActiveRecord::Base
       registration_agency = "github"
       tracked = false
       metadata = get_metadata(canonical_url, "github_release")
-    elsif id_hash[:canonical_url].present? && github(id_hash[:canonical_url]).present?
+    elsif id_hash[:canonical_url].present? && github_repo(id_hash[:canonical_url]).present?
       registration_agency = "github"
       tracked = true
       metadata = get_metadata(canonical_url, "github")
