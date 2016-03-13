@@ -96,22 +96,6 @@ module Resolvable
       "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
     end
 
-    def orcid(url)
-      Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
-    end
-
-    def github_repo(url)
-      Array(/^https:\/\/github\.com\/(.+)\/(.+)/.match(url)).last
-    end
-
-    def github_release(url)
-      Array(/^https:\/\/github\.com\/(.+)\/(.+)\/tree\/(.+)/.match(url)).last
-    end
-
-    def github_owner(url)
-      Array(/^https:\/\/github\.com\/(.+)/.match(url)).last
-    end
-
     def get_doi_from_id(id)
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(id)
         uri = Addressable::URI.parse(id)

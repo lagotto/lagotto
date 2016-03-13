@@ -23,6 +23,9 @@ class Agent < ActiveRecord::Base
   # include DOI helper methods
   include Resolvable
 
+  # include helper module for extracting identifier
+  include Identifiable
+
   # include summary counts
   include Countable
 

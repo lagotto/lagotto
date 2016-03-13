@@ -9,6 +9,9 @@ class Work < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include helper module for extracting identifier
+  include Identifiable
+
   # include author methods
   include Authorable
 
