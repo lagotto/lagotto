@@ -13,7 +13,7 @@ class SourceByMonthReport
 
     def execute
       source_model.months.joins(:work)
-        .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.html, months.pdf, months.total")
+        .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.relation_type_id, months.total")
         .where("(months.year >= :year AND months.month >= :month) OR (months.year > :year)", year: starting_year, month: starting_month)
         .group("works.pid")
         .order("works.published_on, year ASC, month ASC")
@@ -43,7 +43,7 @@ class SourceByMonthReport
   end
 
   register_value_provider_for_format(:combined) do |result|
-    result.pdf + result.html
+    result.total
   end
 
   register_default_value_provider do |result, format|

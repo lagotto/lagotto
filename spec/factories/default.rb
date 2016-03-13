@@ -429,6 +429,8 @@ FactoryGirl.define do
     association :source, :crossref
     association :relation_type
 
+    trait(:with_work_published_today) { association :work, :published_today }
+
     trait(:with_crossref) do
       total 25
       association :work, :published_yesterday

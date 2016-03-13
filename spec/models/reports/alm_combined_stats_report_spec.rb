@@ -24,14 +24,14 @@ describe AlmCombinedStatsReport do
   let(:mendeley_line_items){ [mendeley_line_item_1, mendeley_line_item_2] }
 
   let(:alm_line_item_1){ Reportable::LineItem.new(pid: 1, publication_date: "2015-02-04") }
-  let(:pmc_line_item_1){ Reportable::LineItem.new(pid: 1, html: 10, pdf: 11) }
-  let(:counter_line_item_1){ Reportable::LineItem.new(pid: 1, html: 12, pdf: 13) }
-  let(:mendeley_line_item_1){ Reportable::LineItem.new(pid: 1, readers: 14, groups: 15) }
+  let(:pmc_line_item_1){ Reportable::LineItem.new(pid: 1, total: 21) }
+  let(:counter_line_item_1){ Reportable::LineItem.new(pid: 1, total: 25) }
+  let(:mendeley_line_item_1){ Reportable::LineItem.new(pid: 1, total: 29) }
 
   let(:alm_line_item_2){ Reportable::LineItem.new(pid: 2, publication_date: "2015-03-05") }
-  let(:pmc_line_item_2){ Reportable::LineItem.new(pid: 2, html: 20, pdf: 21) }
-  let(:counter_line_item_2){ Reportable::LineItem.new(pid: 2, html: 22, pdf: 23) }
-  let(:mendeley_line_item_2){ Reportable::LineItem.new(pid: 2, readers: 24, groups: 25) }
+  let(:pmc_line_item_2){ Reportable::LineItem.new(pid: 2, total: 41) }
+  let(:counter_line_item_2){ Reportable::LineItem.new(pid: 2, total: 45) }
+  let(:mendeley_line_item_2){ Reportable::LineItem.new(pid: 2, total: 49) }
 
   before do
     allow(stubbed_alm_report).to receive(:each_line_item)
@@ -88,27 +88,27 @@ describe AlmCombinedStatsReport do
       end
 
       it "has pmc_html" do
-        expect(line_item_1.field("pmc_html")).to eq(pmc_line_item_1.field("html"))
+        expect(line_item_1.field("pmc_html")).to eq(pmc_line_item_1.field("total"))
       end
 
       it "has pmc_pdf" do
-        expect(line_item_1.field("pmc_pdf")).to eq(pmc_line_item_1.field("pdf"))
+        expect(line_item_1.field("pmc_pdf")).to eq(pmc_line_item_1.field("total"))
       end
 
       it "has counter_html" do
-        expect(line_item_1.field("counter_html")).to eq(counter_line_item_1.field("html"))
+        expect(line_item_1.field("counter_html")).to eq(counter_line_item_1.field("total"))
       end
 
       it "has counter_pdf" do
-        expect(line_item_1.field("counter_pdf")).to eq(counter_line_item_1.field("pdf"))
+        expect(line_item_1.field("counter_pdf")).to eq(counter_line_item_1.field("total"))
       end
 
       it "has mendeley_readers" do
-        expect(line_item_1.field("mendeley_readers")).to eq(mendeley_line_item_1.field("readers"))
+        expect(line_item_1.field("mendeley_readers")).to eq(mendeley_line_item_1.field("total"))
       end
 
       it "has mendeley_groups" do
-        expect(line_item_1.field("mendeley_groups")).to eq(mendeley_line_item_1.field("groups"))
+        expect(line_item_1.field("mendeley_groups")).to eq(mendeley_line_item_1.field("total"))
       end
     end
   end
@@ -138,31 +138,26 @@ describe AlmCombinedStatsReport do
 
     let(:work){ FactoryGirl.create(:work) }
 
-    let(:work_event_mendeley){
-      FactoryGirl.create(:event,
+    let(:work_relation_mendeley){
+      FactoryGirl.create(:relation,
         work: work,
         source: source_mendeley,
-        readers: 1,
         total: 50
       )
     }
 
-    let!(:work_event_pmc){
-      FactoryGirl.create(:event,
+    let!(:work_relation_pmc){
+      FactoryGirl.create(:relation,
         work: work,
         source: source_pmc,
-        pdf: 3,
-        html: 4,
         total: 14
       )
     }
 
-    let!(:work_event_counter){
-      FactoryGirl.create(:event,
+    let!(:work_relation_counter){
+      FactoryGirl.create(:relation,
         work: work,
         source: source_counter,
-        pdf: 5,
-        html: 6,
         total: 23
       )
     }
@@ -172,15 +167,15 @@ describe AlmCombinedStatsReport do
         pid:              work.pid,
         publication_date: work.published_on,
         title:            work.title,
-        pmc:              work_event_pmc.total,
-        counter:          work_event_counter.total,
-        mendeley:         work_event_mendeley.total,
-        mendeley_readers: work_event_mendeley.readers,
-        mendeley_groups:  work_event_mendeley.total - work_event_mendeley.readers,
-        pmc_pdf:          work_event_pmc.pdf,
-        pmc_html:         work_event_pmc.html,
-        counter_pdf:      work_event_counter.pdf,
-        counter_html:     work_event_counter.html
+        pmc:              work_relation_pmc.total,
+        counter:          work_relation_counter.total,
+        mendeley:         work_relation_mendeley.total,
+        # mendeley_readers: work_relation_mendeley.readers,
+        # mendeley_groups:  work_event_mendeley.total - work_event_mendeley.readers,
+        # pmc_pdf:          work_event_pmc.pdf,
+        # pmc_html:         work_event_pmc.html,
+        # counter_pdf:      work_event_counter.pdf,
+        # counter_html:     work_event_counter.html
       )
 
       expect(report.line_items.first).to eq(expected_line_item)

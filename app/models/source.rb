@@ -11,10 +11,9 @@ class Source < ActiveRecord::Base
   # include hash helper
   include Hashie::Extensions::DeepFetch
 
-  has_many :events, :dependent => :destroy
   has_many :relations, :dependent => :destroy
   has_many :months
-  has_many :works, :through => :events
+  has_many :works, :through => :relations
   belongs_to :group
 
   serialize :config, OpenStruct

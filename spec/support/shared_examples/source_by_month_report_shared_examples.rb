@@ -7,7 +7,7 @@ shared_examples_for "SourceByMonthReport examples" do |options|
   subject(:report){ options[:report_class].new(source, format: format, year: year, month: month) }
   let(:source){ FactoryGirl.create(:source, options[:source_factory]) }
 
-  let(:format){ "pdf" }
+  let(:format){ "total" }
   let(:year){ 2014 }
   let(:month){ 11 }
 
@@ -85,17 +85,17 @@ shared_examples_for "SourceByMonthReport examples" do |options|
 
         context "when there is data for a given year-month for the given format" do
           context "and the specified format is :pdf" do
-            let(:format){ :pdf }
+            let(:format){ :total }
             it "has the count" do
-              november_2014_abc.update_attribute :pdf, 22
+              november_2014_abc.update_attribute :total, 22
               expect(work_abc_line_item.field("2014-11")).to eq(22)
             end
           end
 
           context "and the specified format is :html" do
-            let(:format){ :html }
+            let(:format){ :total }
             it "has the count" do
-              november_2014_abc.update_attribute :html, 99
+              november_2014_abc.update_attribute :total, 99
               expect(work_abc_line_item.field("2014-11")).to eq(99)
             end
           end
@@ -103,7 +103,7 @@ shared_examples_for "SourceByMonthReport examples" do |options|
           context "and the specified format is :combined" do
             let(:format){ :combined }
             it "has the count as the sum of :pdf and :html counts" do
-              november_2014_abc.update_attributes html: 99, pdf: 11
+              november_2014_abc.update_attributes total: 110
               expect(work_abc_line_item.field("2014-11")).to eq(110)
             end
           end

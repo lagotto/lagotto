@@ -5,30 +5,28 @@ shared_examples_for "SourceReport examples" do |options|
   subject(:report){ options[:report_class].new(source) }
   let(:source){ FactoryGirl.create(:source, options[:source_factory]) }
 
-  let!(:events){ [
-    event_with_few_readers,
-    event_with_many_readers
+  let!(:relations){ [
+    relation_with_few_readers,
+    relation_with_many_readers
   ] }
 
   let(:work_1){ FactoryGirl.create(:work)}
   let(:work_2){ FactoryGirl.create(:work)}
 
-  let(:event_with_few_readers){
-    FactoryGirl.create(:event,
+  let(:relation_with_few_readers){
+    FactoryGirl.create(:relation,
       work: work_1,
       source: source,
-      html: 1,
-      pdf: 2,
+      relation_type: FactoryGirl.create(:relation_type),
       total: 3
     )
   }
 
-  let(:event_with_many_readers){
-    FactoryGirl.create(:event,
+  let(:relation_with_many_readers){
+    FactoryGirl.create(:relation,
       work: work_2,
       source: source,
-      html: 1319,
-      pdf: 100,
+      relation_type: FactoryGirl.create(:relation_type),
       total: 1420
     )
   }
@@ -38,14 +36,13 @@ shared_examples_for "SourceReport examples" do |options|
   describe "#headers" do
     subject(:headers){ report.headers }
     it { should include("pid")}
-    it { should include("html")}
-    it { should include("pdf")}
+    it { should include("relation_type_id")}
     it { should include("total")}
   end
 
   describe "line items" do
     describe "when there are no events" do
-      let!(:events){ [] }
+      let!(:relations){ [] }
 
       it "has no line items" do
         expect(line_items).to eq([])
@@ -63,11 +60,11 @@ shared_examples_for "SourceReport examples" do |options|
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
-        expect(items.length).to eq(events.length)
+        expect(items.length).to eq(relations.length)
       end
 
       it "has an array of line items for every retrieval status" do
-        expect(report.line_items.length).to eq(events.length)
+        expect(report.line_items.length).to eq(relations.length)
       end
 
       describe "each line item" do
@@ -75,43 +72,42 @@ shared_examples_for "SourceReport examples" do |options|
         let(:second_line_item){ line_items[1] }
 
         it "has the pid" do
-          expect(first_line_item.field("pid")).to eq(event_with_few_readers.work.pid)
-          expect(second_line_item.field("pid")).to eq(event_with_many_readers.work.pid)
+          expect(first_line_item.field("pid")).to eq(relation_with_few_readers.work.pid)
+          expect(second_line_item.field("pid")).to eq(relation_with_many_readers.work.pid)
         end
 
         it "has the html count" do
-          expect(first_line_item.field("html")).to eq(event_with_few_readers.html)
-          expect(second_line_item.field("html")).to eq(event_with_many_readers.html)
+          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
         end
 
         it "has the pdf count" do
-          expect(first_line_item.field("pdf")).to eq(event_with_few_readers.pdf)
-          expect(second_line_item.field("pdf")).to eq(event_with_many_readers.pdf)
+          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
         end
 
         it "has the total count" do
-          expect(first_line_item.field("total")).to eq(event_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(event_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
         end
       end
     end
 
-    describe "when there are events for works for sources other sources" do
-      let!(:events){ [
-        event_for_another_source
+    describe "when there are relations for works for sources other sources" do
+      let!(:relations){ [
+        relation_for_another_source
       ] }
 
-      let(:event_for_another_source){
-        FactoryGirl.create(:event, :with_work_published_today,
+      let(:relation_for_another_source){
+        FactoryGirl.create(:relation, :with_work_published_today,
           source: FactoryGirl.create(:source),
-          html: 99,
-          pdf: 33,
+          relation_type: FactoryGirl.create(:relation_type),
           total: 44
         )
       }
 
       it "does not include line item stats for other sources" do
-        line_item = line_items.detect{ |item| item.field("pid") == event_for_another_source.work.pid }
+        line_item = line_items.detect{ |item| item.field("pid") == relation_for_another_source.work.pid }
         expect(line_item).to be(nil)
       end
     end

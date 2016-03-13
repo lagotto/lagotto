@@ -10,9 +10,9 @@ class MendeleyReport
 
     def execute
       return [] unless source_model
-      source_model.works.includes(:events)
+      source_model.works.includes(:relations)
         .group("works.id")
-        .select("works.pid, events.readers, events.total")
+        .select("works.pid, relations.relation_type_id, relations.total")
         .order("works.published_on ASC")
         .all
     end
@@ -23,15 +23,14 @@ class MendeleyReport
   end
 
   def headers
-    ["pid", "readers", "groups", "total"]
+    ["pid", "relation_type_id", "total"]
   end
 
   def line_items
     @line_items ||= results.map do |result|
       Reportable::LineItem.new(
         pid: result.pid,
-        readers: result.readers,
-        groups: groups_value_for(result),
+        relation_type_id: result.relation_type_id,
         total: result.total
       )
     end
@@ -42,10 +41,6 @@ class MendeleyReport
   end
 
   private
-
-  def groups_value_for(result)
-    result.readers > 0 ? result.total - result.readers : 0
-  end
 
   def results
     @results ||= @query.execute

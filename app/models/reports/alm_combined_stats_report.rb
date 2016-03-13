@@ -62,24 +62,24 @@ class AlmCombinedStatsReport
   def populate_with_pmc(line_items_by_pid)
     @pmc_report.each_line_item do |pmc_line_item|
       line_item = line_items_by_pid[pmc_line_item.field("pid")]
-      line_item[:pmc_html] = pmc_line_item.field("html")
-      line_item[:pmc_pdf] = pmc_line_item.field("pdf")
+      line_item[:pmc_html] = pmc_line_item.field("total")
+      #line_item[:pmc_pdf] = pmc_line_item.field("total")
     end
   end
 
   def populate_with_counter(line_items_by_pid)
     @counter_report.each_line_item do |counter_line_item|
       line_item = line_items_by_pid[counter_line_item.field("pid")]
-      line_item[:counter_html] = counter_line_item.field("html")
-      line_item[:counter_pdf] = counter_line_item.field("pdf")
+      line_item[:counter_html] = counter_line_item.field("total")
+      #line_item[:counter_pdf] = counter_line_item.field("total")
     end
   end
 
   def populate_with_mendeley(line_items_by_pid)
     @mendeley_report.each_line_item do |mendeley_line_item|
       line_item = line_items_by_pid[mendeley_line_item.field("pid")]
-      line_item[:mendeley_readers] = mendeley_line_item.field("readers")
-      line_item[:mendeley_groups] = mendeley_line_item.field("groups")
+      line_item[:mendeley_readers] = mendeley_line_item.field("total")
+      #line_item[:mendeley_groups] = mendeley_line_item.field("total")
     end
   end
 end

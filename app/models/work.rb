@@ -29,11 +29,10 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher
   belongs_to :work_type
-  has_many :events, dependent: :destroy
-  has_many :sources, :through => :events
+  has_many :sources, :through => :relations
   has_many :notifications, :dependent => :destroy
   has_many :api_responses
-  has_many :relations
+  has_many :relations, dependent: :destroy
   has_many :related_works, :through => :relations, source: :work
   has_many :contributions
   has_many :contributors, :through => :contributions
@@ -50,8 +49,8 @@ class Work < ActiveRecord::Base
 
   scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:events).where("events.total > ?", 0).references(:events) }
-  scope :by_source, ->(source_id) { joins(:events).where("events.source_id = ?", source_id) }
+  scope :has_events, -> { includes(:relations).where("relations.total > ?", 0).references(:relations) }
+  scope :by_source, ->(source_id) { joins(:relations).where("relations.source_id = ?", source_id) }
 
   scope :tracked, -> { where("works.tracked = ?", true) }
 
@@ -74,7 +73,7 @@ class Work < ActiveRecord::Base
   end
 
   def events_count
-    @events_count ||= events.reduce(0) { |sum, r| sum + r.total }
+    @events_count ||= relations.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped

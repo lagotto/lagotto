@@ -8,22 +8,21 @@ describe "Running a SourceReport for Counter" do
   subject(:report){ CounterReport.new(source) }
   let(:source){ FactoryGirl.create(:source, :counter) }
 
-  describe "#headers" do
-    subject(:headers){ report.headers }
-    it { should include("xml")}
-  end
+  # describe "#headers" do
+  #   subject(:headers){ report.headers }
+  #   it { should include("xml")}
+  # end
 
   describe "#line_items" do
     describe "when there are events for works" do
-      let!(:events){ [
-        event_with_readers
+      let!(:relations){ [
+        relation_with_readers
       ] }
 
-      let(:event_with_readers){
-        FactoryGirl.create(:event, :with_work_published_today,
+      let(:relation_with_readers){
+        FactoryGirl.create(:relation, :with_work_published_today,
           source: source,
-          html: 6,
-          pdf: 7,
+          relation_type: FactoryGirl.create(:relation_type),
           total: 30
         )
       }

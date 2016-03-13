@@ -10,10 +10,10 @@ class SourceReport
 
     def execute
       return [] unless source_model
-      source_model.works.includes(:events)
+      source_model.works.includes(:relations)
         .where("works.tracked = ?", 1)
         .group("works.id")
-        .select("works.pid, events.html, events.pdf, events.total")
+        .select("works.pid, relations.relation_type_id, relations.total")
         .all
         .order("works.published_on ASC")
     end
@@ -24,7 +24,7 @@ class SourceReport
   end
 
   def headers
-    ["pid", "html", "pdf", "total"]
+    ["pid", "relation_type_id", "total"]
   end
 
   def line_items
@@ -42,8 +42,7 @@ class SourceReport
   def build_line_item_for_result(result)
     Reportable::LineItem.new(
       pid: result.pid,
-      html: result.html,
-      pdf: result.pdf,
+      relation_type_id: result.relation_type_id,
       total: result.total
     )
   end
@@ -53,5 +52,4 @@ class SourceReport
   def results
     @results ||= @query.execute
   end
-
 end
