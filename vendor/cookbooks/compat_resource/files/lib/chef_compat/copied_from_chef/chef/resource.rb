@@ -1,3 +1,7 @@
+begin
+  require 'chef/resource'
+rescue LoadError; end
+
 require 'chef_compat/copied_from_chef'
 class Chef
 module ::ChefCompat
@@ -9,7 +13,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
   class Resource < (defined?(::Chef::Resource) ? ::Chef::Resource : Object)
     include Chef::Mixin::Properties
     property :name, String, coerce: proc { |v| v.is_a?(Array) ? v.join(", ") : v.to_s }, desired_state: false
-    def initialize(name, run_context=nil)
+    def initialize(name, run_context = nil)
 super if defined?(::Chef::Resource)
       name(name) unless name.nil?
       @run_context = run_context
@@ -38,13 +42,13 @@ super if defined?(::Chef::Resource)
       @elapsed_time = 0
       @sensitive = false
     end
-    def action(arg=nil)
+    def action(arg = nil)
       if arg
         arg = Array(arg).map(&:to_sym)
         arg.each do |action|
           validate(
             { action: action },
-            { action: { kind_of: Symbol, equal_to: allowed_actions } },
+            { action: { kind_of: Symbol, equal_to: allowed_actions } }
           )
         end
         @action = arg
@@ -89,13 +93,13 @@ super if defined?(::Chef::Resource)
       end
       safe_ivars = instance_variables.map { |ivar| ivar.to_sym } - FORBIDDEN_IVARS
       safe_ivars.each do |iv|
-        key = iv.to_s.sub(/^@/,"").to_sym
+        key = iv.to_s.sub(/^@/, "").to_sym
         next if result.has_key?(key)
         result[key] = instance_variable_get(iv)
       end
       result
     end
-    def self.identity_property(name=nil)
+    def self.identity_property(name = nil)
       result = identity_properties(*Array(name))
       if result.size > 1
         raise Chef::Exceptions::MultipleIdentityError, "identity_property cannot be called on an object with more than one identity property (#{result.map { |r| r.name }.join(", ")})."
@@ -103,7 +107,7 @@ super if defined?(::Chef::Resource)
       result.first
     end
     attr_accessor :allowed_actions
-    def allowed_actions(value=NOT_PASSED)
+    def allowed_actions(value = NOT_PASSED)
       if value != NOT_PASSED
         self.allowed_actions = value
       end
@@ -128,7 +132,7 @@ super if defined?(::Chef::Resource)
     def self.allowed_actions=(value)
       @allowed_actions = value.uniq
     end
-    def self.default_action(action_name=NOT_PASSED)
+    def self.default_action(action_name = NOT_PASSED)
       unless action_name.equal?(NOT_PASSED)
         @default_action = Array(action_name).map(&:to_sym)
         self.allowed_actions |= @default_action

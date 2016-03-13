@@ -10,8 +10,8 @@ module FirewallCookbook
       elsif p && p.is_a?(Integer)
         p.to_s
       elsif p && p.is_a?(Array)
-        p.map! { |o| port_to_s(o) }
-        p.sort.join(',')
+        p_strings = p.map { |o| port_to_s(o) }
+        p_strings.sort.join(',')
       elsif p && p.is_a?(Range)
         if platform_family?('windows')
           "#{p.first}-#{p.last}"
@@ -79,10 +79,10 @@ module FirewallCookbook
         rules.each do |k, v|
           next unless v == sorted_value
           contents << if k.start_with?('COMMIT')
-            'COMMIT'
-            else
-              k
-            end
+                        'COMMIT'
+                      else
+                        k
+                      end
         end
       end
       "#{contents.join("\n")}\n"

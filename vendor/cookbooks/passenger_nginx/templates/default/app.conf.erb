@@ -8,6 +8,7 @@ server {
   root <%= "/var/www/#{@application}/public" %>;
   <% end %>
   passenger_enabled on;
+  passenger_start_timeout 200;
   passenger_app_env <%= @rails_env %>;
   <% if node['ruby']['merge_slashes_off'] %>
   merge_slashes off;

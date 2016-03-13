@@ -1,18 +1,24 @@
+[![Cookbook Version](http://img.shields.io/cookbook/v/seven_zip.svg)](https://supermarket.chef.io/cookbooks/seven_zip)
+[![Build Status](https://secure.travis-ci.org/daptiv/seven_zip.svg?branch=master)](http://travis-ci.org/daptiv/seven_zip)
+
 seven_zip Cookbook
 ==============
-[7-Zip](http://www.7-zip.org/) is a file archiver with a high compression ratio. This cookbook installs the full 7-zip suite of tools (GUI and CLI).
+[7-Zip](http://www.7-zip.org/) is a file archiver with a high compression ratio. This cookbook installs the full 7-zip suite of tools (GUI and CLI). This cookbook replaces the older [7-zip cookbook](https://github.com/sneal/7-zip).
 
 
 Requirements
 ------------
-### Platform
+### Platforms
 - Windows XP
 - Windows Vista
 - Windows Server 2003 R2
 - Windows 7
 - Windows Server 2008 (R1, R2)
-- Windows 8
-- Windows Server 2012
+- Windows 8, 8.1
+- Windows Server 2012 (R1, R2)
+
+### Chef
+- Chef >= 11.6
 
 ### Cookbooks
 - windows
@@ -20,21 +26,48 @@ Requirements
 
 Attributes
 ----------
-- `node['seven_zip']['home']` - location to install 7-zip files to.  default is `%SYSTEMDRIVE%\7-zip`
+- (optional) `node['seven_zip']['home']` - specify location for 7-zip installation.
+- (optional) `node['seven_zip']['syspath']` - if true, adds 7-zip directory to system path.
 
+Resource/Provider
+-----------------
+### seven_zip_archive
+
+Extracts a 7-zip compatible archive (iso, zip, 7z etc) to the specified destination directory.
+
+#### Actions
+- `:extract` - Extract a 7-zip compatible archive
+
+#### Attribute Parameters
+- `path` - Name attribute. The destination to extract to.
+- `source` - The file path to the archive to extract.
+- `overwrite` - Defaults to false. If true, the destination files will be overwritten.
+- `checksum` - The archive file checksum.
+
+#### Examples
+Extract 7-zip source files to `C:\seven_zip_source`.
+
+```ruby
+seven_zip_archive 'seven_zip_source' do
+  path      'C:\seven_zip_source'
+  source    'http://www.7-zip.org/a/7z1514-src.7z'
+  overwrite true
+  checksum  '3713aed72728eae8f6649e4803eba0b3676785200c76df6269034c520df4bbd5'
+end
+```
 
 Usage
 -----
 ### default
-Downloads and installs 7-zip to the location specified by `node['seven_zip']['home']`.  Also ensures `node['seven_zip']['home']` is in the system path.
-
+Downloads and installs 7-zip.
 
 License & Authors
 -----------------
-- Author:: Seth Chisamore (<schisamo@opscode.com>)
+- Author:: Seth Chisamore (<schisamo@chef.io>)
+- Author:: Shawn Neal (<sneal@sneal.net>)
 
 ```text
-Copyright:: 2011, Opscode, Inc.
+Copyright:: 2011-2016, Chef Software, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,6 +1,10 @@
 # ark Cookbook CHANGELOG
 This file is used to list changes made in each version of the ark cookbook.
 
+## v1.0.1 (2016-02-16)
+- Remove a large number of zero byte archives that snuck into the repository
+- Remove a Chef 10 compatibility check in the custom resource
+
 ## v1.0.0 (2016-02-09)
 - Added the pkg-config package to the debian platform family
 - Added tar, xz-lzma-compat, and bzip2 packages to the RHEL and fedora platform families
@@ -27,6 +31,7 @@ This file is used to list changes made in each version of the ark cookbook.
   - Added full Chefspec coverage
   - Greatly expanded the ark_spec test cookbook
   - Removed the original minitests
+
 - Added standard Chef .gitignore and chefignore files
 - Resolved a large number of rubocop warnings
 - Removed old Opscode contributing and testing docs

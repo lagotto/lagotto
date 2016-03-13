@@ -1,5 +1,5 @@
 #
-# Author:: Shawn Neal (<sneal@daptiv.com>)
+# Author:: Shawn Neal (<sneal@sneal.net>)
 # Cookbook Name:: seven_zip
 # Provider:: archive
 #
@@ -28,12 +28,14 @@ def whyrun_supported?
   true
 end
 
+use_inline_resources
+
 action :extract do
   converge_by("Extract #{@new_resource.source} => #{@new_resource.path} (overwrite=#{@new_resource.overwrite})") do
-    FileUtils.mkdir_p(@new_resource.path) unless Dir.exists?(@new_resource.path)
+    FileUtils.mkdir_p(@new_resource.path) unless Dir.exist?(@new_resource.path)
     local_source = cached_file(@new_resource.source, @new_resource.checksum)
-    cmd = "#{seven_zip_exe} x"
-    cmd << " -y" if @new_resource.overwrite
+    cmd = "\"#{seven_zip_exe}\" x"
+    cmd << ' -y' if @new_resource.overwrite
     cmd << " -o#{win_friendly_path(@new_resource.path)}"
     cmd << " #{local_source}"
     Chef::Log.debug(cmd)
@@ -41,8 +43,18 @@ action :extract do
   end
 end
 
-
-def seven_zip_exe()
-  Chef::Log.debug("seven zip home: #{node['seven_zip']['home']}")
-  win_friendly_path(::File.join(node['seven_zip']['home'], '7z.exe'))
+def seven_zip_exe
+  path = if node['seven_zip']['home']
+           # If the installation home is specifically set, use it
+           node['seven_zip']['home']
+         else
+           require 'win32/registry'
+           # Read path from recommended Windows App Paths registry location
+           # docs: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121
+           ::Win32::Registry::HKEY_LOCAL_MACHINE.open(
+             'SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\7zFM.exe',
+             ::Win32::Registry::KEY_READ).read_s('Path')
+         end
+  Chef::Log.debug("Using 7-zip home: #{path}")
+  win_friendly_path(::File.join(path, '7z.exe'))
 end

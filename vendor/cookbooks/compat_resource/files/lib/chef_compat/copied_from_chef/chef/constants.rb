@@ -1,3 +1,7 @@
+begin
+  require 'chef/constants'
+rescue LoadError; end
+
 require 'chef_compat/copied_from_chef'
 class Chef
 module ::ChefCompat
@@ -24,6 +28,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
   def NOT_PASSED.to_s
     "NOT_PASSED"
   end
+
   def NOT_PASSED.inspect
     to_s
   end

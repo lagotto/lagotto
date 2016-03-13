@@ -25,7 +25,7 @@ class Chef
       return unless new_resource.notify_firewall
 
       firewall_resource = run_context.resource_collection.find(firewall: new_resource.firewall_name)
-      fail 'could not find a firewall resource' unless firewall_resource
+      raise 'could not find a firewall resource' unless firewall_resource
 
       new_resource.notifies(:restart, firewall_resource, :delayed)
       new_resource.updated_by_last_action(true)

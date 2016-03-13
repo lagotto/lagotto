@@ -42,7 +42,7 @@ module FirewallCookbook
           msg << "firewall_rule[#{new_resource.name}] was asked to "
           msg << "#{new_resource.command} a stateful rule using #{new_resource.stateful} "
           msg << 'but ufw does not support this kind of rule. Consider guarding by platform_family.'
-          fail msg
+          raise msg
         end
 
         # if we don't do this, ufw will fail as it does not support protocol numbers, so we'll only allow it to run if specifying icmp/tcp/udp protocol types
@@ -51,7 +51,7 @@ module FirewallCookbook
           msg << "firewall_rule[#{new_resource.name}] was asked to "
           msg << "#{new_resource.command} a rule using protocol #{new_resource.protocol} "
           msg << 'but ufw does not support this kind of rule. Consider guarding by platform_family.'
-          fail msg
+          raise msg
         end
 
         # some examples:

@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
 # Cookbook Name:: seven_zip
 # Attribute:: default
 #
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
+# Copyright:: Copyright (c) 2011-2016 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,13 +19,11 @@
 #
 
 if kernel['machine'] =~ /x86_64/
-  default['seven_zip']['url']          = "http://www.7-zip.org/a/7z920-x64.msi"
-  default['seven_zip']['checksum']     = "62df458bc521001cd9a947643a84810ecbaa5a16b5c8e87d80df8e34c4a16fe2"
-  default['seven_zip']['package_name'] = "7z920-x64.msi"
+  default['seven_zip']['url']          = 'http://www.7-zip.org/a/7z1514-x64.msi'
+  default['seven_zip']['checksum']     = 'cefe1a9092d8a6be68468c33910d6206b40e934fb63cab686c5cccf369fbf712'
+  default['seven_zip']['package_name'] = '7-Zip 15.14 (x64 edition)'
 else
-  default['seven_zip']['url']          = "http://www.7-zip.org/a/7z920.msi"
-  default['seven_zip']['checksum']     = "fe4807b4698ec89f82de7d85d32deaa4c772fc871537e31fb0fccf4473455cb8"
-  default['seven_zip']['package_name'] = "7z920.msi"
+  default['seven_zip']['url']          = 'http://www.7-zip.org/a/7z1514.msi'
+  default['seven_zip']['checksum']     = 'eaf58e29941d8ca95045946949d75d9b5455fac167df979a7f8e4a6bf2d39680'
+  default['seven_zip']['package_name'] = '7-Zip 15.14'
 end
-
-default['seven_zip']['home']    = "#{ENV['SYSTEMDRIVE']}\\7-zip"

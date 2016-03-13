@@ -1,3 +1,7 @@
+begin
+  require 'chef/mixin/properties'
+rescue LoadError; end
+
 require 'chef_compat/copied_from_chef'
 class Chef
 module ::ChefCompat
@@ -24,7 +28,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
         #
         # @return [Hash<Symbol,Property>] The list of property names and types.
         #
-        def properties(include_superclass=true)
+        def properties(include_superclass = true)
           if include_superclass
             result = {}
             ancestors.reverse_each { |c| result.merge!(c.properties(false)) if c.respond_to?(:properties) }
@@ -99,13 +103,14 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
         # @example With type and options
         #   property :x, String, default: 'hi'
         #
-        def property(name, type=NOT_PASSED, **options)
+        def property(name, type = NOT_PASSED, **options)
           name = name.to_sym
 
-          options.each { |k,v| options[k.to_sym] = v if k.is_a?(String) }
+          options.each { |k, v| options[k.to_sym] = v if k.is_a?(String) }
 
           options[:instance_variable_name] = :"@#{name}" if !options.has_key?(:instance_variable_name)
-          options.merge!(name: name, declared_in: self)
+          options[:name] = name
+          options[:declared_in] = self
 
           if type == NOT_PASSED
             # If a type is not passed, the property derives from the
@@ -207,7 +212,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
 
             # If state_attrs *excludes* something which is currently desired state,
             # mark it as desired_state: false.
-            local_properties.each do |name,property|
+            local_properties.each do |name, property|
               if property.desired_state? && !names.include?(name)
                 self.property name, desired_state: false
               end
@@ -255,7 +260,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
 
             # If identity_properties *excludes* something which is currently part of
             # the identity, mark it as identity: false.
-            properties.each do |name,property|
+            properties.each do |name, property|
               if property.identity? && !names.include?(name)
 
                 self.property name, identity: false

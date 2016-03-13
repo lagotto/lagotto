@@ -87,6 +87,7 @@ The default recipe creates a firewall resource with action install, and if `node
 # Attributes
 
 * `default['firewall']['allow_ssh'] = false`, set true to open port 22 for SSH when the default recipe runs
+* `default['firewall']['allow_mosh'] = false`, set to true to open UDP ports 60000 - 61000 for [Mosh][0] when the default recipe runs
 * `default['firewall']['allow_winrm'] = false`, set true to open port 5989 for WinRM when the default recipe runs
 
 * `default['firewall']['ubuntu_iptables'] = false`, set to true to use iptables on Ubuntu / Debian when using the default recipe
@@ -245,7 +246,7 @@ end
 firewall_rule 'http/https' do
   protocol :tcp
   port     [80, 443]
-  action   :allow
+  command   :allow
 end
 
 firewall 'default' do
@@ -321,3 +322,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+[0]: https://mosh.mit.edu/

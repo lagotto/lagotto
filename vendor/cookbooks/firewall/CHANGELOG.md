@@ -2,6 +2,14 @@ firewall Cookbook CHANGELOG
 =======================
 This file is used to list changes made in each version of the firewall cookbook.
 
+v2.5.0 (2016-03-08)
+-------------------
+* Don't modify parameter for port (#120)
+* Remove a reference to the wrong variable name under windows (#123)
+* Add support for mobile shell default firewall rule (#121)
+* New rubocop rules and style fixes
+* Correct a README.md example for `action :allow`
+
 v2.4.0 (2016-01-28)
 -------------------
 * Expose default iptables ruleset so that raw rules can be used in conjunction
