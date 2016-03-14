@@ -213,6 +213,10 @@ class Agent < ActiveRecord::Base
     get_relations_with_related_works(result, work)
   end
 
+  def get_relations_with_related_works(result, work)
+    []
+  end
+
   def push_data(items, options={})
     Array(items).map do |item|
       relation = item.fetch(:relation, {})
