@@ -148,7 +148,7 @@ class Work < ActiveRecord::Base
   end
 
   def signposts
-    @signposts ||= sources.pluck(:name, :total, :events_url)
+    @signposts ||= sources.pluck(:name, :total, :provenance_url)
   end
 
   def events_urls
