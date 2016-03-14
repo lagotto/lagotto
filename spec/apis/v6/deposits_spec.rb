@@ -286,6 +286,30 @@ describe "/api/v6/deposits", :type => :api do
     end
   end
 
+  context "index" do
+    let(:uri) { "/api/deposits" }
+
+    context "with no API key" do
+
+      # Exclude the token header.
+      let(:headers) do
+        { "HTTP_ACCEPT" => "application/json; version=6" }
+      end
+
+      it "JSON" do
+        get uri, nil, headers
+
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        
+        # Just test that the API can be accessed without a token.
+        expect(response["meta"]["status"]).to eq("ok")
+        expect(response["meta"]["error"]).to be_nil
+      end
+    end
+  end
+
   context "destroy" do
     let(:deposit) { FactoryGirl.create(:deposit) }
     let(:uri) { "/api/deposits/#{deposit.uuid}" }
