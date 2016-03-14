@@ -20,6 +20,8 @@ class Relation < ActiveRecord::Base
 
   scope :with_events, -> { where("total > ?", 0) }
   scope :without_events, -> { where("total = ?", 0) }
+  scope :most_cited, -> { with_events.order("total desc").limit(25) }
+  scope :with_sources, -> { joins(:source).where("sources.active = ?", 1).order("group_id, title") }
 
   def timestamp
     updated_at.utc.iso8601

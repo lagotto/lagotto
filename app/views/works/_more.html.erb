@@ -1,9 +1,9 @@
-<% unless @work.events.empty? %>
+<% unless @work.relations.empty? %>
   <div class="panel-group" id="event">
-    <% @work.events.with_sources.each do |status| %>
-      <% if status.source.present? %>
-        <div class="panel <%= (status.retrieved_at > '1970-01-01' || status.source.retired?) ? 'panel-default' : 'panel-warning' %>" id="<%= status.source.name %>">
-          <%= render partial: 'works/source', locals: { status: status } %>
+    <% @work.relations.with_sources.each do |relation| %>
+      <% if relation.source.present? %>
+        <div class="panel panel-default" id="<%= relation.source.name %>">
+          <%= render partial: 'works/source', locals: { relation: relation } %>
         </div>
       <% end %>
     <% end %>

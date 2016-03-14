@@ -45,7 +45,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").text("")
       .insert("div")
       .attr("class", "alert alert-info")
-      .text("There are currently no references");
+      .text("There are currently no relations");
     return;
   }
 
