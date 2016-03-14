@@ -81,7 +81,7 @@ class Deposit < ActiveRecord::Base
     when message_type == "publisher" && message_action == "delete" then delete_publisher
     when message_type == "publisher" then update_publisher
     when message_type == "contribution" && message_action == "delete" then delete_contributor
-    when message_type == "contribution" then update_contributor
+    when message_type == "contribution" then update_contributions
     when message_type == "relation" && message_action == "delete" then delete_relation
     else update_relations
     end
@@ -181,7 +181,9 @@ class Deposit < ActiveRecord::Base
       csl: csl }.compact
   end
 
-  def update_contributions(data)
+  def update_contributions
+    return []
+
     Array(data).map do |item|
       # mix symbol and string keys
       item = item.with_indifferent_access

@@ -14,7 +14,12 @@ class Relation < ActiveRecord::Base
   validates :relation_type_id, :presence => true
 
   scope :similar, ->(work_id) { where("total > ?", 0) }
+
   scope :last_x_days, ->(duration) { where("relations.created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
+  scope :not_updated, ->(duration) { where("relations.created_at < ?", Time.zone.now.beginning_of_day - duration.days) }
+
+  scope :with_events, -> { where("total > ?", 0) }
+  scope :without_events, -> { where("total = ?", 0) }
 
   def timestamp
     updated_at.utc.iso8601

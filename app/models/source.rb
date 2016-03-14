@@ -42,11 +42,11 @@ class Source < ActiveRecord::Base
     (active ? "active" : "inactive")
   end
 
-  def get_events_by_month(events, options={})
-    events = events.reject { |event| event["timestamp"].nil? }
+  def get_relations_by_month(relations, options={})
+    relations = relations.reject { |relation| relation["occurred_at"].nil? }
 
     options[:metrics] ||= :total
-    events.group_by { |event| event["timestamp"][0..6] }.sort.map do |k, v|
+    relations.group_by { |relation| relation["occurred_at"][0..6] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
         options[:metrics] => v.length,
@@ -92,15 +92,6 @@ class Source < ActiveRecord::Base
         result["rows"].each { |row| csv << ["doi", row["key"]] + dates.map { |date| row["value"][date] || 0 } }
       end
     end
-  end
-
-  # import couchdb data for lagotto 4.0 upgrade
-  def import_from_couchdb
-    return 0 unless active?
-
-    # find works that need to be imported.
-    ids = events.order("events.id").pluck("events.id")
-    count = queue_import_jobs(ids)
   end
 
   def queue_import_jobs(ids, options = {})

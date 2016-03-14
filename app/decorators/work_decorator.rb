@@ -11,7 +11,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def filtered_events
-    model.events.select { |rs| source_ids.include?(rs.source_id) }
+    model.relations.select { |r| source_ids.include?(r.source_id) }
   end
 
   def filtered_sources
@@ -24,7 +24,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def publication_date
-    published_on.nil? ? nil : published_on.to_time.utc.iso8601
+    published_on.to_time.utc.iso8601 if published_on.present?
   end
 
   def publisher_id
