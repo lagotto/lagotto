@@ -15,7 +15,7 @@ describe "/api/v6/deposits", :type => :api do
                     "relation_type_id"=>"bookmarks",
                     "source_id"=>"citeulike",
                     "total"=>1,
-                    "occured_at"=>deposit.occured_at.utc.iso8601,
+                    "occurred_at"=>deposit.occurred_at.utc.iso8601,
                     "timestamp"=>deposit.timestamp,
                     "subj"=>{"pid"=>"http://www.citeulike.org/user/dbogartoit",
                              "author"=>[{"given"=>"dbogartoit"}],
@@ -23,7 +23,7 @@ describe "/api/v6/deposits", :type => :api do
                              "container-title"=>"CiteULike",
                              "issued"=>{"date-parts"=>[[2006, 6, 13]]},
                              "timestamp"=>"2006-06-13T16:14:19Z",
-                             "URL"=>"10.1371/journal.pmed.0030186",
+                             "URL"=>"http://www.citeulike.org/user/dbogartoit",
                              "type"=>"entry",
                              "tracked"=>false },
                     "obj"=>{} }}
