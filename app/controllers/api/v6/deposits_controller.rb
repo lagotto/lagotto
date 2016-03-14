@@ -79,7 +79,7 @@ class Api::V6::DepositsController < Api::BaseController
   private
 
   def safe_params
-    nested_params = [:pid, :name, { author: [:given, :family, :literal, :"ORCID"] }, :title, :"container-title", { issued: [:"date-parts" => []] }, :timestamp, :"URL", :"DOI", :registration_agency, :type, :tracked, :active]
+    nested_params = [:pid, :name, { author: [:given, :family, :literal, :"ORCID"] }, :title, :"container-title", { issued: [:"date-parts"] }, :timestamp, :"URL", :"DOI", :registration_agency, :type, :tracked, :active]
     params.require(:deposit).permit(:uuid, :message_type, :message_action, :source_token, :callback, :prefix, :subj_id, :obj_id, :relation_type_id, :source_id, :publisher_id, :total, :occurred_at, :provenance_url, :timestamp, subj: nested_params, obj: nested_params)
   end
 end
