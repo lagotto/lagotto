@@ -7,8 +7,8 @@ class Github < Agent
     url % { owner: options[:owner], repo: options[:repo] }
   end
 
-  def get_events_url(options={})
-    events_url % { owner: options[:owner], repo: options[:repo] }
+  def get_provenance_url(options={})
+    provenance_url % { owner: options[:owner], repo: options[:repo] }
   end
 
   def get_total(options={})
@@ -50,12 +50,14 @@ class Github < Agent
     return { error: "Resource not found.", status: 404 } unless work.present?
 
     relations = []
+    provenance_url = get_provenance_url(get_owner_and_repo(work)) if work.canonical_url.present?
     stargazers_count = result.fetch("stargazers_count", 0)
     if stargazers_count > 0
       relations << { relation: { "subj_id" => work.pid,
                                  "obj_id" => "https://github.com/",
                                  "relation_type_id" => "is_bookmarked_by",
                                  "total" => stargazers_count,
+                                 "provenance_url" => provenance_url,
                                  "source_id" => source_id },
                      obj: { "pid" => "https://github.com/",
                             "URL" => "https://github.com/",
@@ -69,6 +71,7 @@ class Github < Agent
                                  "obj_id" => "https://github.com/",
                                  "relation_type_id" => "is_source_of",
                                  "total" => forks_count,
+                                 "provenance_url" => provenance_url,
                                  "source_id" => source_id },
                      obj: { "pid" => "https://github.com/",
                             "URL" => "https://github.com/",
@@ -80,14 +83,14 @@ class Github < Agent
   end
 
   def config_fields
-    [:url, :events_url, :personal_access_token]
+    [:url, :provenance_url, :personal_access_token]
   end
 
   def url
     "https://api.github.com/repos/%{owner}/%{repo}"
   end
 
-  def events_url
+  def provenance_url
     "https://github.com/%{owner}/%{repo}"
   end
 

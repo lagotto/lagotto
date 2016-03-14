@@ -81,12 +81,14 @@ describe Github, type: :model, vcr: true do
                                               "obj_id"=>"https://github.com/",
                                               "relation_type_id"=>"is_bookmarked_by",
                                               "total"=>7,
+                                              "provenance_url" => "https://github.com/ropensci/alm",
                                               "source_id"=>"github")
 
       expect(response.last[:relation]).to eq("subj_id"=>"https://github.com/ropensci/alm",
                                              "obj_id"=>"https://github.com/",
                                              "relation_type_id"=>"is_source_of",
                                              "total"=>3,
+                                             "provenance_url" => "https://github.com/ropensci/alm",
                                              "source_id"=>"github")
     end
 
