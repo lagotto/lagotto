@@ -182,7 +182,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_contributions
-    return []
+    return {}
 
     Array(data).map do |item|
       # mix symbol and string keys
