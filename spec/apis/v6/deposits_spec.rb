@@ -15,7 +15,7 @@ describe "/api/v6/deposits", :type => :api do
                     "relation_type_id"=>"bookmarks",
                     "source_id"=>"citeulike",
                     "total"=>1,
-                    "occured_at"=>deposit.occured_at.utc.iso8601,
+                    "occurred_at"=>deposit.occurred_at.utc.iso8601,
                     "timestamp"=>deposit.timestamp,
                     "subj"=>{"pid"=>"http://www.citeulike.org/user/dbogartoit",
                              "author"=>[{"given"=>"dbogartoit"}],
@@ -23,7 +23,7 @@ describe "/api/v6/deposits", :type => :api do
                              "container-title"=>"CiteULike",
                              "issued"=>{"date-parts"=>[[2006, 6, 13]]},
                              "timestamp"=>"2006-06-13T16:14:19Z",
-                             "URL"=>"10.1371/journal.pmed.0030186",
+                             "URL"=>"http://www.citeulike.org/user/dbogartoit",
                              "type"=>"entry",
                              "tracked"=>false },
                     "obj"=>{} }}
@@ -282,6 +282,30 @@ describe "/api/v6/deposits", :type => :api do
 
         response = JSON.parse(last_response.body)
         expect(response["meta"]["error"]).to eq ("The page you are looking for doesn't exist.")
+      end
+    end
+  end
+
+  context "index" do
+    let(:uri) { "/api/deposits" }
+
+    context "with no API key" do
+
+      # Exclude the token header.
+      let(:headers) do
+        { "HTTP_ACCEPT" => "application/json; version=6" }
+      end
+
+      it "JSON" do
+        get uri, nil, headers
+
+        expect(last_response.status).to eq(200)
+
+        response = JSON.parse(last_response.body)
+        
+        # Just test that the API can be accessed without a token.
+        expect(response["meta"]["status"]).to eq("ok")
+        expect(response["meta"]["error"]).to be_nil
       end
     end
   end
