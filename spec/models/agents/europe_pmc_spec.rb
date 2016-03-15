@@ -49,7 +49,7 @@ describe EuropePmc, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :pmid => "20098740")
       body = File.read(fixture_path + 'europe_pmc_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "pmc_europe", work_id: work.pid, total: 0, events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
@@ -57,23 +57,31 @@ describe EuropePmc, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("pmc_europe")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(23)
-      expect(event[:months]).to be_empty
+      expect(response.length).to eq(23)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1124/pr.109.001263",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "source_id"=>"pmc_europe")
 
-      expect(response[:works].length).to eq(23)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Wei", "given"=>"D"}, {"family"=>"Jiang", "given"=>"Q"}, {"family"=>"Wei", "given"=>"Y"}, {"family"=>"Wang", "given"=>"S"}])
-      expect(related_work['title']).to eq("A novel hierarchical clustering algorithm for gene sequences")
-      expect(related_work['container-title']).to eq("BMC Bioinformatics")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
-      expect(related_work['DOI']).to eq("10.1186/1471-2105-13-174")
-      expect(related_work['PMID']).to eq("22823405")
-      expect(related_work['PMCID']).to eq("3443659")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=>work.pid, "source_id"=>"pmc_europe", "relation_type_id"=>"cites"}])
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.1124/pr.109.001263",
+                                          "author"=>[{"family"=>"Romanovsky", "given"=>"AA"},
+                                                     {"family"=>"Almeida", "given"=>"MC"},
+                                                     {"family"=>"Garami", "given"=>"A"},
+                                                     {"family"=>"Steiner", "given"=>"AA"},
+                                                     {"family"=>"Norman", "given"=>"MH"},
+                                                     {"family"=>"Morrison", "given"=>"SF"},
+                                                     {"family"=>"Nakamura", "given"=>"K"},
+                                                     {"family"=>"Burmeister", "given"=>"JJ"},
+                                                     {"family"=>"Nucci", "given"=>"TB"}],
+                                          "title"=>"The transient receptor potential vanilloid-1 channel in thermoregulation: a thermosensor it is not",
+                                          "container-title"=>"Pharmacol. Rev.",
+                                          "issued"=>{"date-parts"=>[[2009]]},
+                                          "DOI"=>"10.1124/pr.109.001263",
+                                          "PMID"=>"19749171",
+                                          "PMCID"=>"2763780",
+                                          "type"=>"article-journal",
+                                          "registration_agency"=>"crossref",
+                                          "tracked"=>false)
     end
 
     it "should catch timeout errors with the PMC Europe API" do

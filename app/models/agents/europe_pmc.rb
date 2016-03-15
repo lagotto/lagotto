@@ -11,21 +11,21 @@ class EuropePmc < Agent
     url % { :pmid => work.pmid, page: page }
   end
 
-  def get_events_url(work)
+  def get_provenance_url(work)
     return nil unless work.pmid.present?
 
-    events_url % { :pmid => work.pmid }
+    provenance_url % { :pmid => work.pmid }
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/citations/%{page}/json"
   end
 
-  def events_url
+  def provenance_url
     "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-citations"
   end
 
