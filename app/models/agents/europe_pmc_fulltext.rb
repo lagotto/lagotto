@@ -25,7 +25,7 @@ class EuropePmcFulltext < Agent
     end
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     result.fetch("#{result_key}List", {}).fetch(result_key, []).map do |item|
       pmid = item.fetch(pmid_key, nil)
       ids = get_persistent_identifiers(pmid, "pmid")
@@ -36,32 +36,35 @@ class EuropePmcFulltext < Agent
       author_string = item.fetch("authorString", "").chomp(".")
       registration_agency = doi.present? ? "crossref" : "pubmed"
 
-      { "pid" => doi,
-        "author" => get_authors(author_string.split(", "), reversed: true),
-        "title" => item.fetch("title", "").chomp("."),
-        "container-title" => item.fetch(container_title_key, nil),
-        "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
-        "DOI" => doi,
-        "PMID" => pmid,
-        "PMCID" => pmcid,
-        "type" => "article-journal",
-        "tracked" => tracked,
-        "registration_agency" => registration_agency,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "cites" }] }
+      subj_id = doi_as_url(doi)
+
+      { relation: { "subj_id" => subj_id,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "cites",
+                    "source_id" => source_id },
+        subj: { "pid" => doi,
+                "author" => get_authors(author_string.split(", "), reversed: true),
+                "title" => item.fetch("title", "").chomp("."),
+                "container-title" => item.fetch(container_title_key, nil),
+                "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
+                "DOI" => doi,
+                "PMID" => pmid,
+                "PMCID" => pmcid,
+                "type" => "article-journal",
+                "tracked" => tracked,
+                "registration_agency" => registration_agency }}
     end
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=%{query_string}&format=json&page=%{page}"
   end
 
-  def events_url
+  def provenance_url
     "http://europepmc.org/search?query=%{query_string}"
   end
 

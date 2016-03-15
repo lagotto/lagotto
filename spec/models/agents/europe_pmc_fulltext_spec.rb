@@ -59,7 +59,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the Europe PMC Search API" do
       body = File.read(fixture_path + 'europe_pmc_fulltext_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "europe_pmc_fulltext", work_id: work.pid, total: 0, events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
@@ -68,20 +68,28 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("europe_pmc_fulltext")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(13)
-      expect(event[:months]).to be_empty
+      expect(response.length).to eq(13)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1038/srep05994",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "source_id"=>"europe_pmc_fulltext")
 
-      expect(response[:works].length).to eq(13)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Richardson", "given"=>"MF"}, {"family"=>"Weinert", "given"=>"LA"}, {"family"=>"Welch", "given"=>"JJ"}, {"family"=>"Linheiro", "given"=>"RS"}, {"family"=>"Magwire", "given"=>"MM"}, {"family"=>"Jiggins", "given"=>"FM"}, {"family"=>"Bergman", "given"=>"CM"}])
-      expect(related_work['title']).to eq("Population genomics of the Wolbachia endosymbiont in Drosophila melanogaster")
-      expect(related_work['container-title']).to eq("PLoS Genet")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"europe_pmc_fulltext", "relation_type_id"=>"cites"}])
+      expect(response.first[:subj]).to eq("pid"=>"10.1038/srep05994",
+                                          "author"=>[{"family"=>"Martiniano", "given"=>"R"},
+                                                     {"family"=>"Coelho", "given"=>"C"},
+                                                     {"family"=>"Ferreira", "given"=>"MT"},
+                                                     {"family"=>"Neves", "given"=>"MJ"},
+                                                     {"family"=>"Pinhasi", "given"=>"R"},
+                                                     {"family"=>"Bradley", "given"=>"DG"}],
+                                          "title"=>"Genetic evidence of African slavery at the beginning of the trans-Atlantic slave trade",
+                                          "container-title"=>"Sci Rep",
+                                          "issued"=>{"date-parts"=>[[2014]]},
+                                          "DOI"=>"10.1038/srep05994",
+                                          "PMID"=>"25104065",
+                                          "PMCID"=>"4125989",
+                                          "type"=>"article-journal",
+                                          "tracked"=>false,
+                                          "registration_agency"=>"crossref")
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do
