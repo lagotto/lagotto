@@ -78,15 +78,15 @@ describe Citeulike, type: :model, vcr: true do
                                               "source_id" => "citeulike",
                                               "occurred_at" => "2006-06-13T16:14:19Z")
 
-      expect(response.first[:obj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
-                                         "author"=>[{"given"=>"dbogartoit"}],
-                                         "title"=>"CiteULike bookmarks for user dbogartoit",
-                                         "container-title"=>"CiteULike",
-                                         "issued"=>{"date-parts"=>[[2006, 6, 13]]},
-                                         "timestamp"=>"2006-06-13T16:14:19Z",
-                                         "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
-                                         "type"=>"entry",
-                                         "tracked"=>false)
+      expect(response.first[:subj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
+                                          "author"=>[{"given"=>"dbogartoit"}],
+                                          "title"=>"CiteULike bookmarks for user dbogartoit",
+                                          "container-title"=>"CiteULike",
+                                          "issued"=>{"date-parts"=>[[2006, 6, 13]]},
+                                          "timestamp"=>"2006-06-13T16:14:19Z",
+                                          "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
+                                          "type"=>"entry",
+                                          "tracked"=>false)
     end
 
     it "should report if there is one event returned by the CiteULike API" do
@@ -101,17 +101,15 @@ describe Citeulike, type: :model, vcr: true do
                                               "source_id" => "citeulike",
                                               "occurred_at" => "2006-06-13T16:14:19Z")
 
-      expect(response.first[:obj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
-                                         "author"=>[{"given"=>"dbogartoit"}],
-                                         "title"=>"CiteULike bookmarks for user dbogartoit",
-                                         "container-title"=>"CiteULike",
-                                         "issued"=>{"date-parts"=>[[2006, 6, 13]]},
-                                         "timestamp"=>"2006-06-13T16:14:19Z",
-                                         "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
-                                         "type"=>"entry",
-                                         "tracked"=>false)
-
-
+      expect(response.first[:subj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
+                                          "author"=>[{"given"=>"dbogartoit"}],
+                                          "title"=>"CiteULike bookmarks for user dbogartoit",
+                                          "container-title"=>"CiteULike",
+                                          "issued"=>{"date-parts"=>[[2006, 6, 13]]},
+                                          "timestamp"=>"2006-06-13T16:14:19Z",
+                                          "URL"=>"http://www.citeulike.org/api/posts/for/doi/%{doi}",
+                                          "type"=>"entry",
+                                          "tracked"=>false)
     end
 
     it "should catch timeout errors with the CiteULike API" do
