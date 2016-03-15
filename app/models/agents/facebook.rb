@@ -30,32 +30,70 @@ class Facebook < Agent
       total = result.deep_fetch('data', 0, 'total_count') { 0 }
     else
       total = result.deep_fetch('share', 'share_count') { 0 }
-
     end
 
     # don't trust results if event count is above preset limit
     # workaround for Facebook getting confused about the canonical URL
     if total > count_limit.to_i
       readers, comments, likes, total = 0, 0, 0, 0
-      extra = {}
     elsif url_linkstat.blank?
       readers, comments, likes = 0, 0, 0
-      extra = result
     else
       readers = result.deep_fetch('data', 0, 'share_count') { 0 }
       comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
-      extra = result['data'] || {}
     end
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        readers: readers,
-        comments: comments,
-        likes: likes,
-        total: total,
-        extra: extra }] }
+    relations = []
+    if url_linkstat.blank? && total > 0
+      relations << { relation: { "subj_id" => work.pid,
+                                 "obj_id" => "https://facebook.com/",
+                                 "relation_type_id" => "is_referenced_by",
+                                 "total" => total,
+                                 "source_id" => source_id },
+                     obj: { "pid" => "https://facebook.com/",
+                            "URL" => "https://facebook.com/",
+                            "title" => "Facebook",
+                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+    end
+
+    if readers > 0
+      relations << { relation: { "subj_id" => work.pid,
+                                 "obj_id" => "https://facebook.com/",
+                                 "relation_type_id" => "is_bookmarked_by",
+                                 "total" => readers,
+                                 "source_id" => source_id },
+                     obj: { "pid" => "https://facebook.com/",
+                            "URL" => "https://facebook.com/",
+                            "title" => "Facebook",
+                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+    end
+
+    if comments > 0
+      relations << { relation: { "subj_id" => work.pid,
+                                 "obj_id" => "https://facebook.com/",
+                                 "relation_type_id" => "is_discussed_by",
+                                 "total" => comments,
+                                 "source_id" => source_id },
+                     obj: { "pid" => "https://facebook.com/",
+                            "URL" => "https://facebook.com/",
+                            "title" => "Facebook",
+                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+    end
+
+    if likes > 0
+      relations << { relation: { "subj_id" => work.pid,
+                                 "obj_id" => "https://facebook.com/",
+                                 "relation_type_id" => "is_liked_by",
+                                 "total" => likes,
+                                 "source_id" => source_id },
+                     obj: { "pid" => "https://facebook.com/",
+                            "URL" => "https://facebook.com/",
+                            "title" => "Facebook",
+                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+    end
+
+    relations
   end
 
   def get_access_token(options={})
