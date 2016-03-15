@@ -3,10 +3,6 @@ class Citeulike < Agent
     { content_type: 'xml' }
   end
 
-  def response_options
-    { metrics: :readers }
-  end
-
   def get_query_url(options={})
     work = Work.where(id: options.fetch(:work_id, nil)).first
     return {} unless work.present? && work.doi.present?
@@ -14,11 +10,11 @@ class Citeulike < Agent
     url % { doi: work.doi_escaped }
   end
 
-  def get_events_url(options={})
+  def get_provenance_url(options={})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return nil unless events_url.present? && work.present? && work.doi.present?
+    return nil unless provenance_url.present? && work.present? && work.doi.present?
 
-    events_url % { doi: work.doi_escaped }
+    provenance_url % { doi: work.doi_escaped }
   end
 
   def get_relations_with_related_works(result, work)
@@ -38,7 +34,8 @@ class Citeulike < Agent
                     "obj_id" => work.pid,
                     "relation_type_id" => "bookmarks",
                     "source_id" => name,
-                    "occurred_at" => timestamp },
+                    "occurred_at" => timestamp,
+                    "provenance_url" => get_provenance_url(work_id: work.id) },
         subj: { "pid" => citeulike_url,
                 "author" => get_authors([author]),
                 "title" => "CiteULike bookmarks for #{account} #{author}",
@@ -52,14 +49,14 @@ class Citeulike < Agent
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://www.citeulike.org/api/posts/for/doi/%{doi}"
   end
 
-  def events_url
+  def provenance_url
     "http://www.citeulike.org/doi/%{doi}"
   end
 

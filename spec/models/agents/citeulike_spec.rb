@@ -76,7 +76,8 @@ describe Citeulike, type: :model, vcr: true do
                                               "obj_id" => work.pid,
                                               "relation_type_id" => "bookmarks",
                                               "source_id" => "citeulike",
-                                              "occurred_at" => "2006-06-13T16:14:19Z")
+                                              "occurred_at" => "2006-06-13T16:14:19Z",
+                                              "provenance_url" => "http://www.citeulike.org/doi/10.1371%2Fjournal.pone.0115074")
 
       expect(response.first[:subj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
                                           "author"=>[{"given"=>"dbogartoit"}],
@@ -99,7 +100,8 @@ describe Citeulike, type: :model, vcr: true do
                                               "obj_id" => work.pid,
                                               "relation_type_id" => "bookmarks",
                                               "source_id" => "citeulike",
-                                              "occurred_at" => "2006-06-13T16:14:19Z")
+                                              "occurred_at" => "2006-06-13T16:14:19Z",
+                                              "provenance_url" => "http://www.citeulike.org/doi/10.1371%2Fjournal.pone.0115074")
 
       expect(response.first[:subj]).to eq("pid"=>"http://www.citeulike.org/user/dbogartoit",
                                           "author"=>[{"given"=>"dbogartoit"}],
