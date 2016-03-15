@@ -18,28 +18,30 @@ class PlosImport < Agent
     url + params.to_query
   end
 
-  def get_works(result)
-    # return early if an error occured
-    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
-
-    items = result.fetch('response', {}).fetch('docs', nil)
+  def get_relations_with_related_works(items)
     Array(items).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("publication_date", nil))
       date_parts = get_date_parts(timestamp)
       doi = item.fetch("id", nil)
 
-      { "pid" => doi_as_url(doi),
-        "author" => get_authors(item.fetch("author_display", [])),
-        "container-title" => item.fetch("cross_published_journal_name", []).first,
-        "title" => item.fetch("title_display", nil),
-        "issued" => date_parts,
-        "DOI" => doi,
-        "publisher_id" => publisher_id,
-        "volume" => item.fetch("volume", nil),
-        "issue" => item.fetch("issue", nil),
-        "page" => item.fetch("elocation_id", nil),
-        "tracked" => tracked,
-        "type" => "article-journal" }
+      subj = { "pid" => doi_as_url(doi),
+               "author" => get_authors(item.fetch("author_display", [])),
+               "container-title" => item.fetch("cross_published_journal_name", []).first,
+               "title" => item.fetch("title_display", nil),
+               "issued" => date_parts,
+               "DOI" => doi,
+               "publisher_id" => publisher_id,
+               "volume" => item.fetch("volume", nil),
+               "issue" => item.fetch("issue", nil),
+               "page" => item.fetch("elocation_id", nil),
+               "tracked" => tracked,
+               "type" => "article-journal" }
+
+      { prefix: "10.1371",
+        relation: { "subj_id" => subj["pid"],
+                    "source_id" => source_id,
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
     end
   end
 

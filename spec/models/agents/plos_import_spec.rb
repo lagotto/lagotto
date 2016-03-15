@@ -71,7 +71,7 @@ describe PlosImport, type: :model, vcr: true do
     it "should report if there are no works returned by the PLOS Search API" do
       body = File.read(fixture_path + 'plos_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the PLOS Search API" do
@@ -79,14 +79,26 @@ describe PlosImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(29)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Alsteens", "given"=>"David"}, {"family"=>"Beaussart", "given"=>"Audrey"}, {"family"=>"El Kirat Chatel", "given"=>"Sofiane"}, {"family"=>"Sullan", "given"=>"Ruby May A."}, {"family"=>"Dufrêne", "given"=>"Yves F."}])
-      expect(related_work['title']).to eq("Atomic Force Microscopy: A New Look at Pathogens")
-      expect(related_work['container-title']).to eq("PLOS Pathogens")
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 9, 5]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['DOI']).to eq("10.1371/journal.ppat.1003516")
+      expect(response.length).to eq(29)
+      expect(response.first[:prefix]).to eq("10.1371")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1371/journal.pone.0075114",
+                                              "source_id"=>"plos_import",
+                                              "publisher_id"=>340)
+
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.1371/journal.pone.0075114",
+                                          "author"=>[{"family"=>"Haga", "given"=>"Tomoaki"},
+                                                     {"family"=>"Hirakawa", "given"=>"Hidehiko"},
+                                                     {"family"=>"Nagamune", "given"=>"Teruyuki"}],
+                                          "container-title"=>"PLOS ONE",
+                                          "title"=>"Fine Tuning of Spatial Arrangement of Enzymes in a PCNA-Mediated Multienzyme Complex Using a Rigid Poly-L-Proline Linker",
+                                          "issued"=>{"date-parts"=>[[2013, 9, 5]]},
+                                          "DOI"=>"10.1371/journal.pone.0075114",
+                                          "publisher_id"=>340,
+                                          "volume"=>nil,
+                                          "issue"=>nil,
+                                          "page"=>nil,
+                                          "tracked"=>true,
+                                          "type"=>"article-journal")
     end
   end
 end
