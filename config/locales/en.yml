@@ -6,12 +6,16 @@ en:
     formats:
       default: "%Y/%m/%d"
       short: "%b %d"
+      medium: "%d %b %Y"
       long: "%B %d, %Y"
       month: "%B %Y"
       year: "%Y"
   time:
     formats:
       short: "%d %b %H:%M UTC"
+      medium: "%d %b %Y %H:%M UTC"
+      long: "%B %d, %Y %H:%M UTC"
+      long_date: "%B %d, %Y"
   will_paginate:
      previous_label: "&#171; Previous"
      next_label: "Next &#187;"
