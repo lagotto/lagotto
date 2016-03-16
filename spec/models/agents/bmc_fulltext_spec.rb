@@ -42,8 +42,6 @@ describe BmcFulltext, type: :model, vcr: true do
       expect(response["entries"].length).to eq(25)
       doc = response["entries"].first
 
-      # expect(doc).to include( { "doi" => "10.1186/s12864-015-1724-9" } )
-
       expect(doc["doi"]).to eq("10.1186/s12864-015-1724-9")
     end
 
@@ -71,8 +69,6 @@ describe BmcFulltext, type: :model, vcr: true do
     it "should report if there are no events and event_count returned by the BMC Search API" do
       body = File.read(fixture_path + 'bmc_fulltext_nil.json')
       result = JSON.parse(body)
-      # expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "bmc_fulltext", work_id: work.pid, total: 0, events_url: nil, extra: [], months: [] }])
-      # TODO JW - should absence report no events or zero totals?      
 
       expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
@@ -83,35 +79,31 @@ describe BmcFulltext, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      # TODO JW - subj_id and obj_id seem to be swapped - by design?
-      expect(response.first[:relation]).to include({ "subj_id" => work.pid,
-                                                     "obj_id" => "http://doi.org/10.1186/s13007-014-0041-7",
-                                                     "relation_type_id" => "cites",
-                                                     "source_id" => "bmc_fulltext"})
+      expect(response.length).to eq(16)
+      expect(response.first[:relation]).to eq("subj_id" => "http://doi.org/10.1186/s13007-014-0041-7",
+                                              "obj_id" => work.pid,
+                                              "relation_type_id" => "cites",
+                                              "source_id" => "bmc_fulltext")
 
-      expect(response.first[:subj]).to include({ "pid" => "http://doi.org/10.1186/s13007-014-0041-7",
-                                                 "author" => [{ "family"=>"Etherington", "given"=>"GJ" },
-                                                              { "family"=>"Monaghan", "given"=>"J" },
-                                                              { "family"=>"Zipfel", "given"=>"C" },
-                                                              { "family"=>"MacLean", "given"=>"D" }],
-                                                  "title" => "Mapping mutations in plant genomes with the user-friendly web application CandiSNP",
-                                                  "container-title" => "Plant Methods", 
-                                                  "issued" => {"date-parts"=>[[2014, 12, 30]]},
-                                                  "timestamp" => "2014-12-30T00:00:00Z",
-                                                  "DOI" => "10.1186/s13007-014-0041-7",
-                                                  "type" => "article-journal",
-                                                  "tracked" => false,
-                                                  "registration_agency" => "crossref" })
-
-      expect(response.length).to eq(16)      
+      expect(response.first[:subj]).to eq("pid" => "http://doi.org/10.1186/s13007-014-0041-7",
+                                          "author" => [{ "family"=>"Etherington", "given"=>"GJ" },
+                                                       { "family"=>"Monaghan", "given"=>"J" },
+                                                       { "family"=>"Zipfel", "given"=>"C" },
+                                                       { "family"=>"MacLean", "given"=>"D" }],
+                                          "title" => "Mapping mutations in plant genomes with the user-friendly web application CandiSNP",
+                                          "container-title" => "Plant Methods",
+                                          "issued" => {"date-parts"=>[[2014, 12, 30]]},
+                                          "timestamp" => "2014-12-30T00:00:00Z",
+                                          "DOI" => "10.1186/s13007-014-0041-7",
+                                          "type" => "article-journal",
+                                          "tracked" => true,
+                                          "registration_agency" => "crossref")
     end
 
     it "should catch timeout errors with the BMC Search API" do
-      # TODO JW - response isn't defined. How to simulate timeout errors?
-      # TODO FAILING
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq( { error: "the server responded with status 408 for http://example.org?doi={doi}",
-                                status: 408 } )
+      expect(response).to eq(result)
     end
   end
 end

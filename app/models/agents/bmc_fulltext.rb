@@ -14,7 +14,7 @@ class BmcFulltext < Agent
     work.doi.presence || work.canonical_url.presence
   end
 
-  def parse_data(result, options={})   
+  def parse_data(result, options={})
     return result if result[:error]
     return [] if result["entries"].nil?
     super(result, options)
@@ -29,14 +29,13 @@ class BmcFulltext < Agent
       title = Nokogiri::HTML::fragment(item.fetch("bibliograhyTitle", ""))
       container_title = Nokogiri::HTML::fragment(item.fetch("longCitation", ""))
 
-      subj_pid = doi_as_url(doi)
+      subj_id = doi_as_url(doi)
 
-      { relation: { "subj_id" => work.pid,
-                    "obj_id" => subj_pid,
-                    "relation_type_id" => "cites", 
+      { relation: { "subj_id" => subj_id,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "cites",
                     "source_id" => name },
-
-        subj: { "pid" => subj_pid,
+        subj: { "pid" => subj_id,
                 "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
                 "title" => title.at_css("p").text,
                 "container-title" => container_title.at_css("em").text,
@@ -63,5 +62,9 @@ class BmcFulltext < Agent
 
   def registration_agencies
     ["datacite", "dataone","cdl", "github", "bitbucket"]
+  end
+
+  def tracked
+    config.tracked || true
   end
 end
