@@ -33,20 +33,30 @@ class Wos < Agent
     if values.length == 3
       total = values[0].to_i
       wos = values[1]
-      events_url = values[2]
+      provenance_url = values[2]
 
       # store Web of Science ID if we haven't done this already
       work.update_attributes(wos: wos) if wos.present? && work.wos.blank?
     else
       total = 0
-      events_url = nil
+      provenance_url = nil
     end
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: events_url }] }
+    relations = []
+    if total > 0
+      relations << { relation: { "subj_id" => "www.webofknowledge.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "cites",
+                                 "total" => total,
+                                 "provenance_url" => provenance_url,
+                                 "source_id" => source_id },
+                     subj: { "pid" => "https://www.webofknowledge.com",
+                             "URL" => "https://www.webofknowledge.com",
+                             "title" => "Web of Science",
+                             "issued" => { "date-parts" => [[2008, 2, 8]] }}}
+    end
+
+    relations
   end
 
   def check_error_status(result, work)

@@ -59,24 +59,21 @@ describe Wos, type: :model do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(events: [{ source_id: "wos", work_id: work.pid, total: 0, events_url: nil }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the Wos API" do
       body = File.read(fixture_path + 'wos_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(events: [{ source_id: "wos", work_id: work.pid, total: 0, events_url: nil }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the Wos API with alt response" do
       body = File.read(fixture_path + 'wos_nil_alt.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(events: [{ source_id: "wos", work_id: work.pid, total: 0, events_url: nil }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the Wos API" do
@@ -85,11 +82,17 @@ describe Wos, type: :model do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("wos")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1005)
-      expect(event[:events_url]).to include("http://gateway.webofknowledge.com/gateway/Gateway.cgi")
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"www.webofknowledge.com",
+                                              "obj_id"=>"http://doi.org/10.1371/journal.pone.0043007",
+                                              "relation_type_id"=>"cites",
+                                              "total"=>1005,
+                                              "provenance_url"=>"http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=PLoSCEL&KeyUT=000237966900006&DestLinkType=CitingArticles&DestApp=WOS_CPL&UsrCustomerID=c642dd6a62e245b029e19b27ca7f6b1c",
+                                              "source_id"=>"wos")
+      expect(response.first[:subj]).to eq("pid"=>"https://www.webofknowledge.com",
+                                          "URL"=>"https://www.webofknowledge.com",
+                                          "title"=>"Web of Science",
+                                          "issued"=>{"date-parts"=>[[2008, 2, 8]]})
       expect(work.wos).to eq("000237966900006")
     end
 
