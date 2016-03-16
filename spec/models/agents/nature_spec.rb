@@ -5,6 +5,17 @@ describe Nature, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0008776", published_on: "2009-09-01") }
 
+  context "urls" do
+    it "should get_query_url" do
+      expect(subject.get_query_url(work_id: work.id)).to eq("http://blogs.nature.com/posts.json?doi=#{work.doi_escaped}")
+    end
+
+    it "should return empty hash if the doi is missing" do
+      work = FactoryGirl.create(:work, doi: nil)
+      expect(subject.get_query_url(work_id: work.id)).to eq({})
+    end
+  end
+
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
       work = FactoryGirl.create(:work, doi: nil)
@@ -13,7 +24,7 @@ describe Nature, type: :model, vcr: true do
 
     it "should report if there are no events returned by the Nature Blogs API" do
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq({})
+      expect(response).to eq("data"=>[])
     end
 
     it "should report if there are events returned by the Nature Blogs API" do
@@ -42,14 +53,14 @@ describe Nature, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the Nature Blogs API" do
       body = File.read(fixture_path + 'nature_nil.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "nature", work_id: work.pid, total: 0, months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by the Nature Blogs API" do
@@ -57,24 +68,24 @@ describe Nature, type: :model, vcr: true do
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("nature")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(10)
-      expect(event[:months].length).to eq(9)
-      expect(event[:months].first).to eq(year: 2009, month: 9, total: 1)
+      expect(response.length).to eq(10)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://bjoern.brembs.net/news.php?item.854.5",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "source_id"=>"nature")
 
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://bjoern.brembs.net/news.php?item.854.5")
-      expect(related_work['author']).to be_nil
-      expect(related_work['title']).to eq("More Impact Factor spam from Nature")
-      expect(related_work['container-title']).to eq("bjoern.brembs.blog : a neuroscientist's blog")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012, 6, 19]])
-      expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"nature", "relation_type_id"=>"discusses"}])
+      expect(response.first[:subj]).to eq("pid"=>"http://bjoern.brembs.net/news.php?item.854.5",
+                                          "author"=>nil,
+                                          "title"=>"More Impact Factor spam from Nature",
+                                          "container-title"=>"bjoern.brembs.blog : a neuroscientist's blog",
+                                          "issued"=>{"date-parts"=>[[2012, 6, 19]]},
+                                          "timestamp"=>"2012-06-19T16:40:23Z",
+                                          "URL"=>"http://bjoern.brembs.net/news.php?item.854.5",
+                                          "type"=>"post",
+                                          "tracked"=>true)
     end
 
-    it "should catch timeout errors with the Nature Blogs APi" do
+    it "should catch timeout errors with the Nature Blogs API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       result = { error: "the server responded with status 408 for http://blogs.nature.com/posts.json?doi=#{work.doi_escaped}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)

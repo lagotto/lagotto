@@ -6,29 +6,26 @@ class Nature < Agent
     work.doi_escaped
   end
 
-  def get_events_url(options={})
-    nil
-  end
-
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     Array(result['data']).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       timestamp = get_iso8601_from_time(item.fetch("post", {}).fetch("created_at", nil))
       url = item.fetch("post", {}).fetch("url", nil)
       url = "http://#{url}" unless url.blank? || url.start_with?("http://")
 
-      { "pid" => url,
-        "author" => nil,
-        "title" => item.deep_fetch('post', 'title') { '' },
-        "container-title" => item.deep_fetch('post', 'blog', 'title') { '' },
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => 'post',
-        "tracked" => tracked,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "discusses" }] }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "source_id" => source_id },
+        subj: { "pid" => url,
+                "author" => nil,
+                "title" => item.deep_fetch('post', 'title') { '' },
+                "container-title" => item.deep_fetch('post', 'blog', 'title') { '' },
+                "issued" => get_date_parts(timestamp),
+                "timestamp" => timestamp,
+                "URL" => url,
+                "type" => 'post',
+                "tracked" => tracked }}
     end
   end
 
