@@ -92,6 +92,10 @@ class Deposit < ActiveRecord::Base
 
   def update_relations
     work = update_work(subj_id, subj)
+
+    # stop here if we only have subj
+    return {} unless obj_id.present?
+
     related_work = update_work(obj_id, obj)
 
     source = cached_source(source_id)
@@ -139,17 +143,15 @@ class Deposit < ActiveRecord::Base
   def update_work(item_id, item)
     item = from_csl(item)
 
-    ActiveRecord::Base.transaction do
-      # create work if it doesn't exist, filling out all required fields
-      work = Work.where(pid: item_id).first_or_create(title: item.fetch("title", nil),
-                                                      year: item.fetch("year", nil),
-                                                      month: item.fetch("month", nil),
-                                                      day: item.fetch("day", nil),
-                                                      registration_agency: item.fetch("registration_agency", nil))
+    # create work if it doesn't exist, filling out all required fields
+    work = Work.where(pid: item_id).first_or_create(title: item.fetch("title", nil),
+                                                    year: item.fetch("year", nil),
+                                                    month: item.fetch("month", nil),
+                                                    day: item.fetch("day", nil),
+                                                    registration_agency: item.fetch("registration_agency", nil))
 
-      # update all attributes
-      work.update_attributes(item.except("pid", "title", "year", "month", "day", "registration_agency"))
-    end
+    # update all attributes
+    work.update_attributes(item.except("pid", "title", "year", "month", "day", "registration_agency"))
 
     { class: work.class.to_s, id: work.id, errors: work.errors.to_a }
   end
@@ -220,12 +222,10 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_publisher
-    ActiveRecord::Base.transaction do
-      publisher = Publisher.where(name: subj_id).first_or_create(title: subj["title"])
-      publisher.update_attributes(title: subj["title"],
-                                  registration_agency: subj["registration_agency"],
-                                  active: subj["active"])
-    end
+    publisher = Publisher.where(name: subj_id).first_or_create(title: subj["title"])
+    publisher.update_attributes(title: subj["title"],
+                                registration_agency: subj["registration_agency"],
+                                active: subj["active"])
 
     { class: publisher.class.to_s, id: publisher.name, errors: publisher.errors.to_a }
   end
