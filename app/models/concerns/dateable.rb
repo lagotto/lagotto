@@ -31,22 +31,22 @@ module Dateable
     end
 
     def get_year_month(iso8601_time)
-      return [nil, nil] if iso8601_time.nil?
+      return [] if iso8601_time.nil?
 
-      year = iso8601_time[0..3].to_i
-      month = iso8601_time[5..6].to_i
+      year = iso8601_time[0..3]
+      month = iso8601_time[5..6]
 
-      [year, month]
+      [year.to_i, month.to_i].reject { |part| part == 0 }
     end
 
     def get_year_month_day(iso8601_time)
-      return [nil, nil, nil] if iso8601_time.nil?
+      return [] if iso8601_time.nil?
 
-      year = iso8601_time[0..3].to_i
-      month = iso8601_time[5..6].to_i
-      day = iso8601_time[8..9].to_i
+      year = iso8601_time[0..3]
+      month = iso8601_time[5..6]
+      day = iso8601_time[8..9]
 
-      [year, month, day]
+      [year.to_i, month.to_i, day.to_i].reject { |part| part == 0 }
     end
 
     def get_date_parts_from_parts(year, month = nil, day = nil)

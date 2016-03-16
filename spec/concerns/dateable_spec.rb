@@ -32,6 +32,27 @@ describe Counter do
     end
   end
 
+  describe "get_year_month_day" do
+    it 'should return the year, month and day' do
+      result = subject.get_year_month_day(Time.zone.now.utc.iso8601)
+      expect(result).to eq([2013, 9, 5])
+    end
+
+    it 'should return the year and month' do
+      result = subject.get_year_month_day("2013-09")
+      expect(result).to eq([2013, 9])
+    end
+
+    it 'should return the year' do
+      result = subject.get_year_month_day("2013")
+      expect(result).to eq([2013])
+    end
+
+    it 'should return nil' do
+      result = subject.get_year_month_day(nil)
+      expect(result).to eq([])
+    end
+  end
 end
 
 # the concern behaves differently for Pmc, returning dates until the last and not the current month
