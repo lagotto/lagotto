@@ -1,33 +1,5 @@
 require 'rails_helper'
 
-describe "db:works:import:csl" do
-  # we are not providing a file to import, so this should raise an error
-
-  include_context "rake"
-
-  it "prerequisites should include environment" do
-    expect(subject.prerequisites).to include("environment")
-  end
-
-  it "should run the rake task" do
-    expect{ subject.invoke }.to raise_error Errno::EISDIR
-  end
-end
-
-describe "db:articles:load" do
-  # we are not providing a file to import, so this should raise an error
-
-  include_context "rake"
-
-  it "prerequisites should include environment" do
-    expect(subject.prerequisites).to include("environment")
-  end
-
-  it "should run the rake task" do
-    expect{ subject.invoke }.to raise_error SystemExit
-  end
-end
-
 describe "db:works:delete" do
   include_context "rake"
 
