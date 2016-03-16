@@ -8,6 +8,9 @@ class Deposit < ActiveRecord::Base
   # include helper module for query caching
   include Cacheable
 
+  # include date methods
+  include Dateable
+
   before_create :create_uuid
   before_save :set_defaults
   after_commit :queue_deposit_job, :on => :create
