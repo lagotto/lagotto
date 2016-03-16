@@ -88,8 +88,8 @@ describe Wordpress, type: :model, vcr: true do
       expect(response.first[:subj]).to eq("pid"=>"http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/",
                                           "author"=>[{"family"=>"Piwowar", "given"=>"Heather"}],
                                           "title"=>"Presentation on Citation Rate for Shared Data",
-                                          "container-title"=>nil, "issued"=>{"date-parts"=>[[2007, 7, 12]]},
-                                          "timestamp"=>"2007-07-12T15:36:38Z",
+                                          "container-title"=>nil,
+                                          "issued"=>"2007-07-12T15:36:38Z",
                                           "URL"=>"http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/",
                                           "type"=>"post",
                                           "tracked"=>true)

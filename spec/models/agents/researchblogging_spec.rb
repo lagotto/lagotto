@@ -90,8 +90,7 @@ describe Researchblogging, type: :model do
                                           "author"=>[{"family"=>"Spoetnik", "given"=>"Laika"}],
                                           "title"=>"Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan",
                                           "container-title"=>"Laika's Medliblog",
-                                          "issued"=>{"date-parts"=>[[2012, 10, 27]]},
-                                          "timestamp"=>"2012-10-27T11:32:09Z",
+                                          "issued"=>"2012-10-27T11:32:09Z",
                                           "URL"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
                                           "type"=>"post",
                                           "tracked"=>true)
@@ -115,8 +114,7 @@ describe Researchblogging, type: :model do
                                           "author"=>[{"family"=>"Spoetnik", "given"=>"Laika"}],
                                           "title"=>"Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan",
                                           "container-title"=>"Laika's Medliblog",
-                                          "issued"=>{"date-parts"=>[[2012, 10, 27]]},
-                                          "timestamp"=>"2012-10-27T11:32:09Z",
+                                          "issued"=>"2012-10-27T11:32:09Z",
                                           "URL"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
                                           "type"=>"post",
                                           "tracked"=>true)

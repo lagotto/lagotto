@@ -19,7 +19,6 @@ class Twitter < Agent
         user_profile_image = data["user"]["profile_image_url"]
       end
 
-      timestamp = get_iso8601_from_time(data['created_at'])
       url = "http://twitter.com/#{user}/status/#{data['id_str']}"
 
       { relation: { "subj_id" => url,
@@ -30,8 +29,7 @@ class Twitter < Agent
                 "author" => get_authors([user_name]),
                 "title" => data.fetch('text', ''),
                 "container-title" => 'Twitter',
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(data['created_at']),
                 "URL" => url,
                 "type" => 'personal_communication',
                 "tracked" => tracked,

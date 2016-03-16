@@ -53,30 +53,30 @@ class Github < Agent
     provenance_url = get_provenance_url(get_owner_and_repo(work)) if work.canonical_url.present?
     stargazers_count = result.fetch("stargazers_count", 0)
     if stargazers_count > 0
-      relations << { relation: { "subj_id" => work.pid,
-                                 "obj_id" => "https://github.com/",
-                                 "relation_type_id" => "is_bookmarked_by",
+      relations << { relation: { "subj_id" => "https://github.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "bookmarks",
                                  "total" => stargazers_count,
                                  "provenance_url" => provenance_url,
                                  "source_id" => source_id },
-                     obj: { "pid" => "https://github.com/",
-                            "URL" => "https://github.com/",
-                            "title" => "Github",
-                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                     subj: { "pid" => "https://github.com",
+                             "URL" => "https://github.com",
+                             "title" => "Github",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     forks_count = result.fetch("forks_count", 0)
     if forks_count > 0
-      relations << { relation: { "subj_id" => work.pid,
-                                 "obj_id" => "https://github.com/",
-                                 "relation_type_id" => "is_source_of",
+      relations << { relation: { "subj_id" => "https://github.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "is_derived_from",
                                  "total" => forks_count,
                                  "provenance_url" => provenance_url,
                                  "source_id" => source_id },
-                     obj: { "pid" => "https://github.com/",
-                            "URL" => "https://github.com/",
-                            "title" => "Github",
-                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                     subj: { "pid" => "https://github.com",
+                             "URL" => "https://github.com",
+                             "title" => "Github",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     relations

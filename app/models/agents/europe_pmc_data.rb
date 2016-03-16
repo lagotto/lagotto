@@ -22,14 +22,14 @@ class EuropePmcData < Agent
 
     total = result.fetch("hitCount", nil).to_i
     related_works = get_related_works(result, work)
-    events_url = total > 0 ? get_events_url(work) : nil
+    provenance_url = total > 0 ? get_provenance_url(work_id: work.id) : nil
 
     { works: related_works,
       events: [{
         source_id: name,
         work_id: work.pid,
         total: total,
-        events_url: events_url,
+        events_url: provenance_url,
         extra: get_extra(result) }] }
   end
 
@@ -59,23 +59,23 @@ class EuropePmcData < Agent
     result.reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
   end
 
-  def get_events_url(work)
+  def get_provenance_url(work)
     if work.pmid.present?
-      events_url % { :pmid => work.pmid }
+      provenance_url % { :pmid => work.pmid }
     else
       nil
     end
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://www.ebi.ac.uk/europepmc/webservices/rest/MED/%{pmid}/databaseLinks//1/json"
   end
 
-  def events_url
+  def provenance_url
     "http://europepmc.org/abstract/MED/%{pmid}#fragment-related-bioentities"
   end
 end

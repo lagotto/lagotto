@@ -58,7 +58,7 @@ class Bitbucket < Agent
                      subj: { "pid" => "https://bitbucket.org",
                              "URL" => "https://bitbucket.org",
                              "title" => "Bitbucket",
-                             "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     forks_count = result.fetch("forks_count", 0)
@@ -72,7 +72,7 @@ class Bitbucket < Agent
                      subj: { "pid" => "https://bitbucket.org",
                              "URL" => "https://bitbucket.org",
                              "title" => "Bitbucket",
-                             "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     relations

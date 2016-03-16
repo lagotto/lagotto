@@ -77,16 +77,16 @@ describe Github, type: :model, vcr: true do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(2)
-      expect(response.first[:relation]).to eq("subj_id"=>"https://github.com/ropensci/alm",
-                                              "obj_id"=>"https://github.com/",
-                                              "relation_type_id"=>"is_bookmarked_by",
+      expect(response.first[:relation]).to eq("subj_id"=>"https://github.com",
+                                              "obj_id"=>"https://github.com/ropensci/alm",
+                                              "relation_type_id"=>"bookmarks",
                                               "total"=>7,
                                               "provenance_url" => "https://github.com/ropensci/alm",
                                               "source_id"=>"github")
 
-      expect(response.last[:relation]).to eq("subj_id"=>"https://github.com/ropensci/alm",
-                                             "obj_id"=>"https://github.com/",
-                                             "relation_type_id"=>"is_source_of",
+      expect(response.last[:relation]).to eq("subj_id"=>"https://github.com",
+                                             "obj_id"=>"https://github.com/ropensci/alm",
+                                             "relation_type_id"=>"is_derived_from",
                                              "total"=>3,
                                              "provenance_url" => "https://github.com/ropensci/alm",
                                              "source_id"=>"github")

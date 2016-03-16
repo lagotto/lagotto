@@ -22,7 +22,6 @@ class BmcFulltext < Agent
 
   def get_relations_with_related_works(result, work)
     result.fetch("entries", []).map do |item|
-      timestamp = get_iso8601_from_time(item.fetch("published Date", nil))
       # workaround since the "doi" attribute is sometimes empty
       doi = "10.1186/#{item.fetch("arxId")}"
       author = Nokogiri::HTML::fragment(item.fetch("authorNames", ""))
@@ -39,8 +38,7 @@ class BmcFulltext < Agent
                 "author" => get_authors(author.at_css("span").text.strip.split(/(?:,|and)/), reversed: true),
                 "title" => title.at_css("p").text,
                 "container-title" => container_title.at_css("em").text,
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(item.fetch("published Date", nil)),
                 "DOI" => doi,
                 "type" => "article-journal",
                 "tracked" => tracked,

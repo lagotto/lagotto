@@ -101,7 +101,7 @@ describe DataciteGithub, type: :model, vcr: true do
                                           "author"=>[{"family"=>"Karczewski", "given"=>"Konrad"}, {"family"=>"Roberson", "given"=>"Eli"}, {"family"=>"Staton", "given"=>"Evan"}, {"family"=>"Chapman", "given"=>"Brad"}, {"family"=>"Minikel", "given"=>"Eric"}],
                                           "title"=>"loftee: v0.2.1-beta",
                                           "container-title"=>"Zenodo",
-                                          "issued"=>{"date-parts"=>[[2015]]},
+                                          "issued"=>"2015",
                                           "publisher_id"=>"CERN.ZENODO",
                                           "registration_agency"=>"datacite",
                                           "tracked"=>true,

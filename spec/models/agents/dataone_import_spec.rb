@@ -95,7 +95,7 @@ describe DataoneImport, type: :model, vcr: true do
                                           "author"=>[{"family"=>"Matosiuk", "given"=>"Maciej"}],
                                           "container-title"=>nil,
                                           "title"=>"Data from: Evolutionary neutrality of mtDNA introgression: evidence from complete mitogenome analysis in roe deer",
-                                          "issued"=>{"date-parts"=>[[2014, 9, 3]]},
+                                          "issued"=>"2014-09-03T14:51:59Z",
                                           "DOI"=>"10.5061/DRYAD.TM8K3",
                                           "URL"=>nil,
                                           "ark"=>nil,

@@ -30,7 +30,6 @@ class TwitterSearch < Agent
         user_name = item["user"]["name"]
       end
 
-      timestamp = get_iso8601_from_time(item.fetch('created_at', nil))
       url = "http://twitter.com/#{user}/status/#{item.fetch('id_str', '')}"
 
       { relation: { "subj_id" => url,
@@ -42,8 +41,7 @@ class TwitterSearch < Agent
                 "author" => get_authors([user_name]),
                 "title" => item.fetch('text', ''),
                 "container-title" => 'Twitter',
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(item.fetch('created_at', nil)),
                 "URL" => url,
                 "type" => 'personal_communication',
                 "tracked" => tracked,

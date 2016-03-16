@@ -100,7 +100,7 @@ describe DataciteOrcid, type: :model, vcr: true do
                                           "author"=>[],
                                           "container-title"=>"PANGAEA - Data Publisher for Earth & Environmental Science",
                                           "title"=>"Paleomagnetic measurements of 10 sediment profiles from the Antarctic continental slope",
-                                          "issued"=>{"date-parts"=>[[1989]]},
+                                          "issued"=>"1989",
                                           "publisher_id"=>"TIB.PANGAEA",
                                           "registration_agency"=>"datacite",
                                           "tracked"=>true,

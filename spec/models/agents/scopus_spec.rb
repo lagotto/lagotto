@@ -74,7 +74,8 @@ describe Scopus, type: :model do
         expect(response.first[:subj]).to eq("pid"=>"http://www.scopus.com",
                                             "URL"=>"http://www.scopus.com",
                                             "title"=>"Scopus",
-                                            "issued"=>{"date-parts"=>[[2008, 2, 8]]})
+                                            "issued"=>"2012-05-15T16:40:23Z")
+        expect(work.scp).to eq("000237966900006")
       end
 
       it "should catch timeout errors with the Scopus API" do

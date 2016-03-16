@@ -43,15 +43,14 @@ describe Orcid, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "orcid", work_id: work.pid, readers: 0, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the ORCID API" do
       body = File.read(fixture_path + 'orcid_nil.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "orcid", work_id: work.pid, readers: 0, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the ORCID API" do

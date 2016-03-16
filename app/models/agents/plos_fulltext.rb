@@ -25,7 +25,6 @@ class PlosFulltext < Agent
     provenance_url = get_provenance_url(work_id: work.id)
 
     result.fetch("response", {}).fetch("docs", []).map do |item|
-      timestamp = get_iso8601_from_time(item.fetch("publication_date", nil))
       doi = item.fetch("id", nil)
       pid = doi_as_url(doi)
 
@@ -38,8 +37,7 @@ class PlosFulltext < Agent
                 "author" => get_authors(item.fetch("author_display", [])),
                 "title" => item.fetch("title", ""),
                 "container-title" => item.fetch("cross_published_journal_name", []).first,
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(item.fetch("publication_date", nil)),
                 "DOI" => doi,
                 "type" => "article-journal",
                 "tracked" => tracked,

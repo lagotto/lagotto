@@ -53,7 +53,7 @@ class Wos < Agent
                      subj: { "pid" => "https://www.webofknowledge.com",
                              "URL" => "https://www.webofknowledge.com",
                              "title" => "Web of Science",
-                             "issued" => { "date-parts" => [[2008, 2, 8]] }}}
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     relations

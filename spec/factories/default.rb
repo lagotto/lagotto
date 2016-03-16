@@ -292,6 +292,7 @@ FactoryGirl.define do
     other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
     prefixes ["10.1371"]
     registration_agency "crossref"
+    active true
 
     initialize_with { Publisher.where(name: name).first_or_initialize }
   end

@@ -20,7 +20,6 @@ class PlosImport < Agent
 
   def get_relations_with_related_works(items)
     Array(items).map do |item|
-      timestamp = get_iso8601_from_time(item.fetch("publication_date", nil))
       date_parts = get_date_parts(timestamp)
       doi = item.fetch("id", nil)
 
@@ -28,7 +27,7 @@ class PlosImport < Agent
                "author" => get_authors(item.fetch("author_display", [])),
                "container-title" => item.fetch("cross_published_journal_name", []).first,
                "title" => item.fetch("title_display", nil),
-               "issued" => date_parts,
+               "issued" => get_iso8601_from_time(item.fetch("publication_date", nil)),
                "DOI" => doi,
                "publisher_id" => publisher_id,
                "volume" => item.fetch("volume", nil),

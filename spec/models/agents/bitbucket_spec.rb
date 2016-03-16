@@ -80,7 +80,7 @@ describe Bitbucket, type: :model, vcr: true do
       expect(response.first[:subj]).to eq("pid"=>"https://bitbucket.org",
                                           "URL"=>"https://bitbucket.org",
                                           "title"=>"Bitbucket",
-                                          "issued"=>{"date-parts"=>[[2008, 2, 8]]})
+                                          "issued"=>"2012-05-15T16:40:23Z")
       expect(response.second[:relation]).to eq("subj_id"=>"https://bitbucket.org",
                                               "obj_id"=>work.pid,
                                               "relation_type_id"=>"is_derived_from",

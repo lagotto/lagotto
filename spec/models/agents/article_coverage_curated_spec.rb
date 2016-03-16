@@ -78,15 +78,13 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
       expect(response.second[:relation]).to eq("subj_id"=>"http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html",
                                                "obj_id"=>work.pid,
                                                "relation_type_id"=>"discusses",
-                                               "source_id"=>"article_coverage_curated",
-                                               "occurred_at"=>"2013-11-20T00:00:00Z")
+                                               "source_id"=>"article_coverage_curated")
 
       expect(response.second[:subj]).to eq("pid"=>"http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html",
                                            "author"=>nil,
                                            "title"=>"Everything You Know About Your Personal Hygiene Is Wrong",
                                            "container-title"=>"The Huffington Post",
-                                           "issued"=>{"date-parts"=>[[2013, 11, 20]]},
-                                           "timestamp"=>"2013-11-20T00:00:00Z",
+                                           "issued"=>"2013-11-20T00:00:00Z",
                                            "URL"=>"http://www.huffingtonpost.com/2013/11/08/personal-hygiene-facts_n_4217839.html",
                                            "type"=>"post",
                                            "tracked"=>false)

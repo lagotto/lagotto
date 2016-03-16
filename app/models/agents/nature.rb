@@ -9,7 +9,6 @@ class Nature < Agent
   def get_relations_with_related_works(result, work)
     Array(result['data']).map do |item|
       item.extend Hashie::Extensions::DeepFetch
-      timestamp = get_iso8601_from_time(item.fetch("post", {}).fetch("created_at", nil))
       url = item.fetch("post", {}).fetch("url", nil)
       url = "http://#{url}" unless url.blank? || url.start_with?("http://")
 
@@ -21,8 +20,7 @@ class Nature < Agent
                 "author" => nil,
                 "title" => item.deep_fetch('post', 'title') { '' },
                 "container-title" => item.deep_fetch('post', 'blog', 'title') { '' },
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(item.fetch("post", {}).fetch("created_at", nil)),
                 "URL" => url,
                 "type" => 'post',
                 "tracked" => tracked }}

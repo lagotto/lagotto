@@ -69,7 +69,6 @@ class Wikipedia < Agent
     provenance_url = get_provenance_url(work_id: work.id)
 
     result.values.flatten.map do |item|
-      timestamp = item.fetch("timestamp", nil)
       url = item.fetch("url", nil)
 
       { relation: { "subj_id" => url,
@@ -81,8 +80,7 @@ class Wikipedia < Agent
                 "author" => nil,
                 "title" => item.fetch("title", ""),
                 "container-title" => "Wikipedia",
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => item.fetch("timestamp", nil),
                 "URL" => url,
                 "type" => "entry-encyclopedia",
                 "tracked" => tracked,

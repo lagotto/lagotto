@@ -40,10 +40,6 @@ class DataoneImport < Agent
           class_name: "ActiveModel::MissingAttributeError")
       end
 
-      publication_date = get_iso8601_from_time(item.fetch("datePublished", nil))
-      date_parts = get_date_parts(publication_date)
-      year, month, day = date_parts.fetch("date-parts", []).first
-
       publisher_id = item.fetch("authoritativeMN", '')[9..-1]
 
       prefix = doi.present? ? doi[/^10\.\d{4,5}/] : nil
@@ -52,7 +48,7 @@ class DataoneImport < Agent
                "author" => get_authors([item.fetch("author", nil)]),
                "container-title" => nil,
                "title" => item.fetch("title", nil),
-               "issued" => date_parts,
+               "issued" => get_iso8601_from_time(item.fetch("datePublished", nil)),
                "DOI" => doi,
                "URL" => url,
                "ark" => ark,

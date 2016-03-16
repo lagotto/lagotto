@@ -152,8 +152,7 @@ class Deposit < ActiveRecord::Base
   # convert CSL into format that the database understands
   # don't update nil values
   def from_csl(item)
-    date_parts = item.fetch("issued", {}).fetch("date-parts", [[]]).first
-    year, month, day = date_parts[0], date_parts[1], date_parts[2]
+    year, month, day = get_year_month_day(item.fetch("issued", nil))
 
     type = item.fetch("type", nil)
     work_type = cached_work_type(type) if type.present?

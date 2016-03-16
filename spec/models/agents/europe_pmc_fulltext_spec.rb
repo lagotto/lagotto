@@ -83,7 +83,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
                                                      {"family"=>"Bradley", "given"=>"DG"}],
                                           "title"=>"Genetic evidence of African slavery at the beginning of the trans-Atlantic slave trade",
                                           "container-title"=>"Sci Rep",
-                                          "issued"=>{"date-parts"=>[[2014]]},
+                                          "issued"=>"2014",
                                           "DOI"=>"10.1038/srep05994",
                                           "PMID"=>"25104065",
                                           "PMCID"=>"4125989",

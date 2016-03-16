@@ -43,7 +43,7 @@ class Scopus < Agent
                      subj: { "pid" => "http://www.scopus.com",
                              "URL" => "http://www.scopus.com",
                              "title" => "Scopus",
-                             "issued" => { "date-parts" => [[2008, 2, 8]] }}}
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     relations

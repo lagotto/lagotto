@@ -104,8 +104,7 @@ describe ScienceSeeker, type: :model, vcr: true do
                                           "author"=>[{"given"=>"Duncan"}],
                                           "title"=>"Web analytics: Numbers speak louder than words",
                                           "container-title"=>"O'Really?",
-                                          "issued"=>{"date-parts"=>[[2012, 5, 18]]},
-                                          "timestamp"=>"2012-05-18T07:58:34Z",
+                                          "issued"=>"2012-05-18T07:58:34Z",
                                           "URL"=>"http://duncan.hull.name/2012/05/18/two-ton/",
                                           "type"=>"post",
                                           "tracked"=>true)
@@ -129,8 +128,7 @@ describe ScienceSeeker, type: :model, vcr: true do
                                           "author"=>[{"given"=>"Duncan"}],
                                           "title"=>"Web analytics: Numbers speak louder than words",
                                           "container-title"=>"O'Really?",
-                                          "issued"=>{"date-parts"=>[[2012, 5, 18]]},
-                                          "timestamp"=>"2012-05-18T07:58:34Z",
+                                          "issued"=>"2012-05-18T07:58:34Z",
                                           "URL"=>"http://duncan.hull.name/2012/05/18/two-ton/",
                                           "type"=>"post",
                                           "tracked"=>true)

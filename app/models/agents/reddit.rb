@@ -11,7 +11,7 @@ class Reddit < Agent
     total = likes + comments
     related_works = get_related_works(result, work)
     extra = get_extra(result)
-    events_url = total > 0 ? get_events_url(work) : nil
+    provenance_url = total > 0 ? get_provenance_url(work_id: work.id) : nil
 
     { works: related_works,
       events: [{
@@ -70,14 +70,14 @@ class Reddit < Agent
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://www.reddit.com/search.json?q=%{query_string}&limit=100"
   end
 
-  def events_url
+  def provenance_url
     "http://www.reddit.com/search?q=%{query_string}"
   end
 

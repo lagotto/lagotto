@@ -16,7 +16,6 @@ class Researchblogging < Agent
     provenance_url = get_provenance_url(work_id: work.id)
 
     Array(related_works).map do |item|
-      timestamp = get_iso8601_from_time(item.fetch("published_date", nil))
       url = item.fetch("post_URL", nil)
 
       { relation: { "subj_id" => url,
@@ -28,8 +27,7 @@ class Researchblogging < Agent
                 "author" => get_authors([item.fetch('blogger_name', nil)]),
                 "title" => item.fetch('post_title', "No title"),
                 "container-title" => item.fetch('blog_name', nil),
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(item.fetch("published_date", nil)),
                 "URL" => url,
                 "type" => 'post',
                 "tracked" => tracked }}

@@ -11,7 +11,6 @@ class Wordpress < Agent
     provenance_url = get_provenance_url(work_id: work.id)
 
     Array(result.fetch("data", nil)).map do |item|
-      timestamp = get_iso8601_from_epoch(item.fetch("epoch_time", nil))
       url = item.fetch("link", nil)
 
       { relation: { "subj_id" => url,
@@ -23,8 +22,7 @@ class Wordpress < Agent
                  "author" => get_authors([item.fetch('author', "")]),
                  "title" => item.fetch("title", nil),
                  "container-title" => nil,
-                 "issued" => get_date_parts(timestamp),
-                 "timestamp" => timestamp,
+                 "issued" => get_iso8601_from_epoch(item.fetch("epoch_time", nil)),
                  "URL" => url,
                  "type" => 'post',
                  "tracked" => tracked }}

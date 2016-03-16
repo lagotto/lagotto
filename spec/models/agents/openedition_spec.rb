@@ -42,7 +42,7 @@ describe Openedition, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the Openedition API" do
@@ -50,7 +50,7 @@ describe Openedition, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "openedition", work_id: work.pid, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the Openedition API" do

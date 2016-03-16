@@ -78,8 +78,7 @@ describe Nature, type: :model, vcr: true do
                                           "author"=>nil,
                                           "title"=>"More Impact Factor spam from Nature",
                                           "container-title"=>"bjoern.brembs.blog : a neuroscientist's blog",
-                                          "issued"=>{"date-parts"=>[[2012, 6, 19]]},
-                                          "timestamp"=>"2012-06-19T16:40:23Z",
+                                          "issued"=>"2012-06-19T16:40:23Z",
                                           "URL"=>"http://bjoern.brembs.net/news.php?item.854.5",
                                           "type"=>"post",
                                           "tracked"=>true)

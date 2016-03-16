@@ -92,7 +92,7 @@ describe Wos, type: :model do
       expect(response.first[:subj]).to eq("pid"=>"https://www.webofknowledge.com",
                                           "URL"=>"https://www.webofknowledge.com",
                                           "title"=>"Web of Science",
-                                          "issued"=>{"date-parts"=>[[2008, 2, 8]]})
+                                          "issued"=>"2012-05-15T16:40:23Z")
       expect(work.wos).to eq("000237966900006")
     end
 

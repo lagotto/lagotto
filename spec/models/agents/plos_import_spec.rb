@@ -91,7 +91,7 @@ describe PlosImport, type: :model, vcr: true do
                                                      {"family"=>"Nagamune", "given"=>"Teruyuki"}],
                                           "container-title"=>"PLOS ONE",
                                           "title"=>"Fine Tuning of Spatial Arrangement of Enzymes in a PCNA-Mediated Multienzyme Complex Using a Rigid Poly-L-Proline Linker",
-                                          "issued"=>{"date-parts"=>[[2013, 9, 5]]},
+                                          "issued"=>"2013-09-05T00:00:00Z",
                                           "DOI"=>"10.1371/journal.pone.0075114",
                                           "publisher_id"=>340,
                                           "volume"=>nil,

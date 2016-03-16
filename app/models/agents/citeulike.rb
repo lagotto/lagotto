@@ -21,9 +21,9 @@ class Citeulike < Agent
     related_works = result["posts"] && result["posts"].is_a?(Hash) && result.fetch("posts", {}).fetch("post", [])
     related_works = [related_works] if related_works.is_a?(Hash)
     related_works ||= nil
+
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
-
       citeulike_url = item.fetch("link", {}).fetch("url", nil)
       path = URI.split(citeulike_url)[5].split("/")
       account = path[1]
@@ -40,8 +40,7 @@ class Citeulike < Agent
                 "author" => get_authors([author]),
                 "title" => "CiteULike bookmarks for #{account} #{author}",
                 "container-title" => "CiteULike",
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => timestamp,
                 "URL" => url,
                 "type" => "entry",
                 "tracked" => tracked } }

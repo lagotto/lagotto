@@ -42,13 +42,13 @@ describe DataciteData, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "datacite_data", work_id: work.pid, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the Datacite API" do
       body = File.read(fixture_path + 'datacite_data_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "datacite_data", work_id: work.pid, total: 0, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     # it "should report if there are events and event_count returned by the Datacite API" do

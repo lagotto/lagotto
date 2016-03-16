@@ -17,7 +17,6 @@ class ScienceSeeker < Agent
 
     Array(related_works).map do |item|
       item.extend Hashie::Extensions::DeepFetch
-      timestamp = get_iso8601_from_time(item.fetch("updated", nil))
       url = item.fetch("link", {}).fetch("href", nil)
 
       { relation: { "subj_id" => url,
@@ -29,8 +28,7 @@ class ScienceSeeker < Agent
                 "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
                 "title" => item.fetch('title', nil),
                 "container-title" => item.fetch('source', {}).fetch('title', ""),
-                "issued" => get_date_parts(timestamp),
-                "timestamp" => timestamp,
+                "issued" => get_iso8601_from_time(item.fetch("updated", nil)),
                 "URL" => url,
                 "type" => 'post',
                 "tracked" => tracked }}
