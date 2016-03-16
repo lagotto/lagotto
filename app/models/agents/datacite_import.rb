@@ -27,6 +27,40 @@ class DataciteImport < Agent
     url +  URI.encode_www_form(params)
   end
 
+  def get_relations_with_related_works(items)
+    Array(items).map do |item|
+      doi = item.fetch("doi", nil)
+      prefix = doi[/^10\.\d{4,5}/]
+      pid = doi_as_url(doi)
+      year = item.fetch("publicationYear", nil).to_i
+      type = item.fetch("resourceTypeGeneral", nil)
+      type = DATACITE_TYPE_TRANSLATIONS[type] if type
+      publisher_id = item.fetch("datacentre_symbol", nil)
+
+      xml = Base64.decode64(item.fetch('xml', "PGhzaD48L2hzaD4=\n"))
+      xml = Hash.from_xml(xml).fetch("resource", {})
+      authors = xml.fetch("creators", {}).fetch("creator", [])
+      authors = [authors] if authors.is_a?(Hash)
+
+      subj = { "pid" => pid,
+               "DOI" => doi,
+               "author" => get_hashed_authors(authors),
+               "title" => item.fetch("title", []).first,
+               "container-title" => item.fetch("publisher", nil),
+               "issued" => { "date-parts" => [[year]] },
+               "publisher_id" => publisher_id,
+               "registration_agency" => "datacite",
+               "tracked" => true,
+               "type" => type }
+
+      { prefix: prefix,
+        relation: { "subj_id" => subj["pid"],
+                    "source_id" => source_id,
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
+    end
+  end
+
   def config_fields
     [:url, :only_publishers]
   end

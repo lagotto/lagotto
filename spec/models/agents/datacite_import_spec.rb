@@ -90,51 +90,77 @@ describe DataciteImport, type: :model, vcr: true do
     it "should report if there are no works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, nil)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Eggers", "given"=>"Florian"}, {"family"=>"Slotte", "given"=>"Aril"}, {"family"=>"Libungan", "given"=>"Lisa Anne"}, {"family"=>"Johannessen", "given"=>"Arne"}, {"family"=>"Kvamme", "given"=>"Cecilie"}, {"family"=>"Moland", "given"=>"Even"}, {"family"=>"Olsen", "given"=>"Esben Moland"}, {"family"=>"Nash", "given"=>"Richard D. M."}])
-      expect(related_work['title']).to eq("Data 2012 Landvik")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2013]])
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.QT984/1")
+      expect(response.length).to eq(10)
+      expect(response.first[:prefix]).to eq("10.5061")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                              "source_id"=>"datacite_import",
+                                              "publisher_id"=>"CDL.DRYAD")
+
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                          "DOI"=>"10.5061/DRYAD.47SD5",
+                                          "author"=>[],
+                                          "title"=>"Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research",
+                                          "container-title"=>"Dryad Digital Repository",
+                                          "issued"=>{"date-parts"=>[[2012]]},
+                                          "publisher_id"=>"CDL.DRYAD",
+                                          "registration_agency"=>"datacite",
+                                          "tracked"=>true,
+                                          "type"=>"dataset")
     end
 
     it "should report if there are works with incomplete date returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_import.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][5]
-      expect(related_work['author']).to eq([{"family"=>"Pellino", "given"=>"Marco"}, {"family"=>"Hojsgaard", "given"=>"Diego"}, {"family"=>"Schmutzer", "given"=>"Thomas"}, {"family"=>"Scholz", "given"=>"Uwe"}, {"family"=>"Vogel", "given"=>"Heiko"}, {"family"=>"Hörandl", "given"=>"Elvira"}, {"family"=>"Sharbel", "given"=>"Tim"}])
-      expect(related_work['title']).to eq("Presence/absence SNPs matrix")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2013]])
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.NK151/2")
+      expect(response.length).to eq(10)
+      expect(response[5][:prefix]).to eq("10.5061")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.NK151/2",
+                                           "source_id"=>"datacite_import",
+                                           "publisher_id"=>"CDL.DRYAD")
+
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.NK151/2",
+                                       "DOI"=>"10.5061/DRYAD.NK151/2",
+                                       "author"=>[],
+                                       "title"=>"Presence/absence SNPs matrix",
+                                       "container-title"=>"Dryad Digital Repository",
+                                       "issued"=>{"date-parts"=>[[2013]]},
+                                       "publisher_id"=>"CDL.DRYAD",
+                                       "registration_agency"=>"datacite",
+                                       "tracked"=>true,
+                                       "type"=>"dataset")
     end
 
     it "should report if there are works with missing title returned by the Datacite Metadata Search API" do
       body = File.read(fixture_path + 'datacite_import.json')
       result = JSON.parse(body)
       result["response"]["docs"][5]["title"] = []
-      response = subject.parse_data(result, nil)
+      response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][5]
-      expect(related_work['title']).to be_nil
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/DRYAD.NK151/2")
+      expect(response.length).to eq(10)
+      expect(response[5][:prefix]).to eq("10.5061")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.NK151/2",
+                                           "source_id"=>"datacite_import",
+                                           "publisher_id"=>"CDL.DRYAD")
+
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.NK151/2",
+                                       "DOI"=>"10.5061/DRYAD.NK151/2",
+                                       "author"=>[],
+                                       "title"=>nil,
+                                       "container-title"=>"Dryad Digital Repository",
+                                       "issued"=>{"date-parts"=>[[2013]]},
+                                       "publisher_id"=>"CDL.DRYAD",
+                                       "registration_agency"=>"datacite",
+                                       "tracked"=>true,
+                                       "type"=>"dataset")
     end
   end
 end
