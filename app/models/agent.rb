@@ -221,7 +221,7 @@ class Agent < ActiveRecord::Base
     Array(items).map do |item|
       relation = item.fetch(:relation, {})
       Deposit.create!(source_token: uuid,
-                      message_type: item.fetch(:message_type, 'work'),
+                      message_type: item.fetch(:message_type, 'relation'),
                       prefix: item.fetch(:prefix, nil),
                       subj: item.fetch(:subj, nil),
                       obj: item.fetch(:obj, nil),
@@ -262,19 +262,19 @@ class Agent < ActiveRecord::Base
   def get_query_url(options = {})
     fail ArgumentError, "Agent url is missing." if url.blank?
 
-    query_string = get_query_string(options = {})
+    query_string = get_query_string(options)
     return query_string if query_string.is_a?(Hash)
 
     url % { query_string: query_string }
   end
 
-  def get_events_url(options = {})
-    fail ArgumentError, "Source events_url is missing." if events_url.blank?
+  def get_provenance_url(options = {})
+    fail ArgumentError, "Agent provenance_url is missing." if provenance_url.blank?
 
-    query_string = get_query_string(options = {})
+    query_string = get_query_string(options)
     return query_string if query_string.is_a?(Hash)
 
-    events_url % { query_string: query_string }
+    provenance_url % { query_string: query_string }
   end
 
   def get_query_string(options = {})
