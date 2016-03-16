@@ -3,92 +3,51 @@ class TwitterSearch < Agent
     { bearer: access_token }
   end
 
-  def response_options
-    { metrics: :comments }
-  end
-
   def get_query_url(options = {})
-    query_string = get_query_string(options = {})
+    query_string = get_query_string(options)
     return {} unless query_string.present?
     fail ArgumentError, "No access token." unless get_access_token
 
     url % { query_string: query_string }
   end
 
-  def parse_data(result, options={})
-    # return early if an error occured
-    return result if result[:error]
-
+  def get_query_string(options = {})
     work = Work.where(id: options.fetch(:work_id, nil)).first
+    return {} unless work.present? && (work.get_url || work.doi.present?)
 
-    related_works = get_related_works(result, work)
-    extra = get_extra(result)
-
-    { works: related_works,
-      events: [{
-        source_id: "twitter",
-        work_id: work.pid,
-        comments: related_works.length,
-        total: related_works.length,
-        events_url: get_events_url(work),
-        extra: extra,
-        months: get_events_by_month(related_works, metrics: :comments) }] }
+    [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
+    provenance_url = get_provenance_url(work_id: work.id)
+
     Array(result['statuses']).map do |item|
       if item.key?("from_user")
         user = item["from_user"]
         user_name = item["from_user_name"]
-        user_profile_image = item["profile_image_url"]
       else
         user = item["user"]["screen_name"]
         user_name = item["user"]["name"]
-        user_profile_image = item["user"]["profile_image_url"]
       end
 
       timestamp = get_iso8601_from_time(item.fetch('created_at', nil))
       url = "http://twitter.com/#{user}/status/#{item.fetch('id_str', '')}"
 
-      { "pid" => url,
-        "author" => get_authors([user_name]),
-        "title" => item.fetch('text', ""),
-        "container-title" => "Twitter",
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => "personal_communication",
-        "tracked" => tracked,
-        "registration_agency" => "twitter",
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => "twitter",
-                              "relation_type_id" => "discusses" }] }
-    end
-  end
-
-  def get_extra(result)
-    Array(result['statuses']).map do |item|
-      if item.key?("from_user")
-        user = item["from_user"]
-        user_name = item["from_user_name"]
-        user_profile_image = item["profile_image_url"]
-      else
-        user = item["user"]["screen_name"]
-        user_name = item["user"]["name"]
-        user_profile_image = item["user"]["profile_image_url"]
-      end
-
-      event_time = get_iso8601_from_time(item['created_at'])
-      url = "http://twitter.com/#{user}/status/#{item['id_str']}"
-
-      { event: { id: item["id_str"],
-                 text: item["text"],
-                 created_at: event_time,
-                 user: user,
-                 user_name: user_name,
-                 user_profile_image: user_profile_image },
-        event_time: event_time,
-        event_url: url }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: { "pid" => url,
+                "author" => get_authors([user_name]),
+                "title" => item.fetch('text', ''),
+                "container-title" => 'Twitter',
+                "issued" => get_date_parts(timestamp),
+                "timestamp" => timestamp,
+                "URL" => url,
+                "type" => 'personal_communication',
+                "tracked" => tracked,
+                "registration_agency" => "twitter" }}
     end
   end
 
@@ -114,14 +73,14 @@ class TwitterSearch < Agent
   end
 
   def config_fields
-    [:url, :events_url, :authentication_url, :api_key, :api_secret, :access_token]
+    [:url, :provenance_url, :authentication_url, :api_key, :api_secret, :access_token]
   end
 
   def url
     "https://api.twitter.com/1.1/search/tweets.json?q=%{query_string}&count=100&include_entities=1&result_type=recent"
   end
 
-  def events_url
+  def provenance_url
     "https://twitter.com/search?q=%{query_string}&f=realtime"
   end
 
@@ -139,6 +98,10 @@ class TwitterSearch < Agent
 
   def rate_limiting
     config.rate_limiting || 1800
+  end
+
+  def source_id
+    "twitter"
   end
 
   def queue

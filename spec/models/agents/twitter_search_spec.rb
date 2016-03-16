@@ -1,7 +1,18 @@
 require 'rails_helper'
 
 describe TwitterSearch, type: :model, vcr: true do
+  let(:work) { FactoryGirl.create(:work) }
   subject { FactoryGirl.create(:twitter_search) }
+
+  context "urls" do
+    it "should get_query_url" do
+      expect(subject.get_query_url(work_id: work.id)).to eq("https://api.twitter.com/1.1/search/tweets.json?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&count=100&include_entities=1&result_type=recent")
+    end
+
+    it "should get_provenance_url" do
+      expect(subject.get_provenance_url(work_id: work.id)).to eq("https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime")
+    end
+  end
 
   context "lookup access token" do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.api_key, subject.api_secret) }
@@ -93,7 +104,7 @@ describe TwitterSearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work_with_tweets, :doi => "10.1371/journal.pone.0000000", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000000")
       body = File.read(fixture_path + 'twitter_search_nil.json', encoding: 'UTF-8')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "twitter", work_id: work.pid, comments: 0, total: 0, events_url: {}, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the Twitter Search API" do
@@ -102,28 +113,23 @@ describe TwitterSearch, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:total]).to eq(8)
-      expect(event[:comments]).to eq(8)
-      expect(event[:events_url]).to eq("https://twitter.com/search?q=#{subject.get_query_string(work_id: work.id)}&f=realtime")
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2014, month: 1, total: 8, comments: 8)
+      expect(response.length).to eq(8)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://twitter.com/ChampsEvrywhere/status/422039629882089472",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"https://twitter.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22&f=realtime",
+                                              "source_id"=>"twitter")
 
-      expect(response[:works].length).to eq(8)
-      related_work = response[:works].first
-      expect(related_work['author']).to eq([{"family"=>"Champions Everywhere", "given"=>""}])
-      expect(related_work['title']).to eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
-      expect(related_work['container-title']).to eq("Twitter")
-      expect(related_work['issued']).to eq("date-parts"=>[[2014, 1, 11]])
-      expect(related_work['type']).to eq("personal_communication")
-      expect(related_work['URL']).to eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
-      expect(related_work['timestamp']).to eq("2014-01-11T16:17:43Z")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"twitter", "relation_type_id"=>"discusses"}])
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2014-01-11T16:17:43Z")
-      expect(extra[:event_url]).to eq("http://twitter.com/ChampsEvrywhere/status/422039629882089472")
-      expect(extra[:event][:text]).to eq("A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq")
+      expect(response.first[:subj]).to eq("pid"=>"http://twitter.com/ChampsEvrywhere/status/422039629882089472",
+                                          "author"=>[{"given"=>"ChampionsEverywhere"}],
+                                          "title"=>"A bit technical but worth a read: randomised medical control studies may be almost entirely false:... http://t.co/ohldzDxNiq",
+                                          "container-title"=>"Twitter",
+                                          "issued"=>{"date-parts"=>[[2014, 1, 11]]},
+                                          "timestamp"=>"2014-01-11T16:17:43Z",
+                                          "URL"=>"http://twitter.com/ChampsEvrywhere/status/422039629882089472",
+                                          "type"=>"personal_communication",
+                                          "tracked"=>false,
+                                          "registration_agency"=>"twitter")
     end
 
     it "should catch timeout errors with the Twitter Search API" do
