@@ -5,7 +5,11 @@ describe Wordpress, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.create(:work, :doi => "10.1371/journal.pbio.1002020", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.1002020", published_on: "2007-07-01") }
 
-  context "query_url" do
+  context "urls" do
+    it "should get_query_url" do
+      expect(subject.get_query_url(work_id: work.id)).to eq("http://en.search.wordpress.com/?q=%22#{work.doi_escaped}%22&t=post&f=json&size=20")
+    end
+
     it "should return empty hash if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, :doi => nil, canonical_url: nil)
       expect(subject.get_query_url(work_id: work.id)).to eq({})
@@ -14,6 +18,10 @@ describe Wordpress, type: :model, vcr: true do
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       expect(subject.get_query_url(work_id: work.id)).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work_id: work.id)}&t=post&f=json&size=20")
+    end
+
+    it "should get_provenance_url" do
+      expect(subject.get_provenance_url(work_id: work.id)).to eq("http://en.search.wordpress.com/?q=%22#{work.doi_escaped}%22&t=post")
     end
   end
 
@@ -26,7 +34,7 @@ describe Wordpress, type: :model, vcr: true do
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: "http://www.plosone.org/article/info:doi/10.1371/journal.pone.0044294")
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq({})
+      expect(response).to eq("data"=>"null")
     end
 
     it "should report if there are events returned by the Wordpress API" do
@@ -55,14 +63,14 @@ describe Wordpress, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are no events returned by the Wordpress API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
       result = { 'data' => "null\n" }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "wordpress", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by the Wordpress API" do
@@ -70,31 +78,21 @@ describe Wordpress, type: :model, vcr: true do
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("wordpress")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(10)
-      expect(event[:events_url]).to eq("http://en.search.wordpress.com/?q=#{subject.get_query_string(work_id: work.id)}&t=post")
-      expect(event[:months].length).to eq(6)
-      expect(event[:months].first).to eq(year: 2007, month: 7, total: 1)
+      expect(response.length).to eq(10)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://en.search.wordpress.com/?q=%2210.1371%2Fjournal.pbio.1002020%22&t=post",
+                                              "source_id"=>"wordpress")
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/")
-      expect(related_work['author']).to eq([{"family"=>"Piwowar", "given"=>"Heather"}])
-      expect(related_work['title']).to eq("Presentation on Citation Rate for Shared Data")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2007, 7, 12]])
-      expect(related_work['type']).to eq("post")
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2007-07-12T15:36:38Z")
-      expect(extra[:event_url]).to eq(extra[:event]['link'])
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Piwowar", "given"=>"Heather"}])
-      expect(extra[:event_csl]['title']).to eq("Presentation on Citation Rate for Shared Data")
-      expect(extra[:event_csl]['container-title']).to eq("")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2007, 7, 12]])
-      expect(extra[:event_csl]['type']).to eq("post")
+      expect(response.first[:subj]).to eq("pid"=>"http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/",
+                                          "author"=>[{"family"=>"Piwowar", "given"=>"Heather"}],
+                                          "title"=>"Presentation on Citation Rate for Shared Data",
+                                          "container-title"=>nil, "issued"=>{"date-parts"=>[[2007, 7, 12]]},
+                                          "timestamp"=>"2007-07-12T15:36:38Z",
+                                          "URL"=>"http://researchremix.wordpress.com/2007/07/12/presentation-on-citation-rate-for-shared-data/",
+                                          "type"=>"post",
+                                          "tracked"=>true)
     end
 
     it "should catch timeout errors with the Wordpress API" do

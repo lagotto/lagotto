@@ -6,59 +6,40 @@ class Wordpress < Agent
     "%22" + (work.doi_escaped.presence || work.canonical_url.presence) + "%22"
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     result['data'] = nil if result['data'].is_a?(String)
+    provenance_url = get_provenance_url(work_id: work.id)
+
     Array(result.fetch("data", nil)).map do |item|
       timestamp = get_iso8601_from_epoch(item.fetch("epoch_time", nil))
       url = item.fetch("link", nil)
 
-      { "pid" => url,
-        "author" => get_authors([item.fetch('author', "")]),
-        "title" => item.fetch("title", nil),
-        "container-title" => nil,
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => 'post',
-        "tracked" => tracked,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "discusses" }] }
-    end
-  end
-
-  def get_extra(result)
-    result['data'] = nil if result['data'].is_a?(String)
-    Array(result['data']).map do |item|
-      event_time = get_iso8601_from_epoch(item["epoch_time"])
-      url = item['link']
-
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([item.fetch('author', "")]),
-          'title' => item.fetch('title') { '' },
-          'container-title' => '',
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'post'
-        }
-      }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: {  "pid" => url,
+                 "author" => get_authors([item.fetch('author', "")]),
+                 "title" => item.fetch("title", nil),
+                 "container-title" => nil,
+                 "issued" => get_date_parts(timestamp),
+                 "timestamp" => timestamp,
+                 "URL" => url,
+                 "type" => 'post',
+                 "tracked" => tracked }}
     end
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://en.search.wordpress.com/?q=%{query_string}&t=post&f=json&size=20"
   end
 
-  def events_url
+  def provenance_url
     "http://en.search.wordpress.com/?q=%{query_string}&t=post"
   end
 
@@ -72,5 +53,9 @@ class Wordpress < Agent
 
   def queue
     config.queue || "low"
+  end
+
+  def tracked
+    config.tracked || true
   end
 end
