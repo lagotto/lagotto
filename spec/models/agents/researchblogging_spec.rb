@@ -1,7 +1,18 @@
 require 'rails_helper'
 
 describe Researchblogging, type: :model do
+  let(:work) { FactoryGirl.create(:work) }
   subject { FactoryGirl.create(:researchblogging) }
+
+  context "urls" do
+    it "should get_query_url" do
+      expect(subject.get_query_url(work_id: work.id)).to eq("http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{work.doi_escaped}")
+    end
+
+    it "should get_provenance_url" do
+      expect(subject.get_provenance_url(work_id: work.id)).to eq("http://researchblogging.org/post-search/list?article=#{work.doi_escaped}")
+    end
+  end
 
   context "get_data" do
     let(:auth) { ActionController::HttpAuthentication::Basic.encode_credentials(subject.username, subject.password) }
@@ -50,7 +61,7 @@ describe Researchblogging, type: :model do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the ResearchBlogging API" do
@@ -58,7 +69,7 @@ describe Researchblogging, type: :model do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "researchblogging", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by the ResearchBlogging API" do
@@ -68,31 +79,22 @@ describe Researchblogging, type: :model do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("researchblogging")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(8)
-      expect(event[:events_url]).to eq(subject.get_events_url(work))
-      expect(event[:months].length).to eq(7)
-      expect(event[:months].first).to eq(year: 2009, month: 7, total: 1)
+      expect(response.length).to eq(8)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://researchblogging.org/post-search/list?article=10.1371%2Fjournal.pone.0035869",
+                                              "source_id"=>"researchblogging")
 
-      expect(response[:works].length).to eq(8)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/")
-      expect(related_work['author']).to eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
-      expect(related_work['title']).to eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
-      expect(related_work['container-title']).to eq("Laika's Medliblog")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012, 10, 27]])
-      expect(related_work['type']).to eq("post")
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2012-10-27T11:32:09Z")
-      expect(extra[:event_url]).to eq(extra[:event]["post_URL"])
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
-      expect(extra[:event_csl]['title']).to eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
-      expect(extra[:event_csl]['container-title']).to eq("Laika's Medliblog")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2012, 10, 27]])
-      expect(extra[:event_csl]['type']).to eq("post")
+      expect(response.first[:subj]).to eq("pid"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
+                                          "author"=>[{"family"=>"Spoetnik", "given"=>"Laika"}],
+                                          "title"=>"Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan",
+                                          "container-title"=>"Laika's Medliblog",
+                                          "issued"=>{"date-parts"=>[[2012, 10, 27]]},
+                                          "timestamp"=>"2012-10-27T11:32:09Z",
+                                          "URL"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
+                                          "type"=>"post",
+                                          "tracked"=>true)
     end
 
     it "should report if there is one event returned by the ResearchBlogging API" do
@@ -102,31 +104,22 @@ describe Researchblogging, type: :model do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("researchblogging")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq(subject.get_events_url(work))
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2012, month: 10, total: 1)
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://researchblogging.org/post-search/list?article=10.1371%2Fjournal.pone.0035869",
+                                              "source_id"=>"researchblogging")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/")
-      expect(related_work['author']).to eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
-      expect(related_work['title']).to eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
-      expect(related_work['container-title']).to eq("Laika's Medliblog")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012, 10, 27]])
-      expect(related_work['type']).to eq("post")
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2012-10-27T11:32:09Z")
-      expect(extra[:event_url]).to eq(extra[:event]["post_URL"])
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Spoetnik", "given"=>"Laika"}])
-      expect(extra[:event_csl]['title']).to eq("Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan")
-      expect(extra[:event_csl]['container-title']).to eq("Laika's Medliblog")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2012, 10, 27]])
-      expect(extra[:event_csl]['type']).to eq("post")
+      expect(response.first[:subj]).to eq("pid"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
+                                          "author"=>[{"family"=>"Spoetnik", "given"=>"Laika"}],
+                                          "title"=>"Why Publishing in the NEJM is not the Best Guarantee that Something is True: a Response to Katan",
+                                          "container-title"=>"Laika's Medliblog",
+                                          "issued"=>{"date-parts"=>[[2012, 10, 27]]},
+                                          "timestamp"=>"2012-10-27T11:32:09Z",
+                                          "URL"=>"http://laikaspoetnik.wordpress.com/2012/10/27/why-publishing-in-the-nejm-is-not-the-best-guarantee-that-something-is-true-a-response-to-katan/",
+                                          "type"=>"post",
+                                          "tracked"=>true)
     end
 
     it "should catch timeout errors with the ResearchBlogging API" do
