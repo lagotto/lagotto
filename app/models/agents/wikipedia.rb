@@ -65,76 +65,40 @@ class Wikipedia < Agent
     end
   end
 
-  def parse_data(result, options={})
-    return result if result[:error]
+  def get_relations_with_related_works(result, work)
+    provenance_url = get_provenance_url(work_id: work.id)
 
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-    return { works: [], events: [] } unless work.present?
-
-    related_works = get_related_works(result, work)
-    total = related_works.length
-    events_url = total > 0 ? get_events_url(work) : nil
-
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: events_url,
-        extra: get_extra(result),
-        months: get_events_by_month(related_works, options) }] }
-  end
-
-  def get_related_works(result, work)
     result.values.flatten.map do |item|
       timestamp = item.fetch("timestamp", nil)
       url = item.fetch("url", nil)
 
-      { "pid" => url,
-        "author" => nil,
-        "title" => item.fetch("title", ""),
-        "container-title" => "Wikipedia",
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => "entry-encyclopedia",
-        "tracked" => tracked,
-        "registration_agency" => "wikipedia",
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "references" }] }
-    end
-  end
-
-  def get_extra(result)
-    result.values.flatten.map do |item|
-      event_time = item.fetch("timestamp", nil)
-      url = item.fetch("url", nil)
-
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          "title" => item.fetch("title", ""),
-          "container-title" => "Wikipedia",
-          "issued" => get_date_parts(event_time),
-          "url" => url,
-          "type" => "entry-encyclopedia" }
-      }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "references",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: { "pid" => url,
+                "author" => nil,
+                "title" => item.fetch("title", ""),
+                "container-title" => "Wikipedia",
+                "issued" => get_date_parts(timestamp),
+                "timestamp" => timestamp,
+                "URL" => url,
+                "type" => "entry-encyclopedia",
+                "tracked" => tracked,
+                "registration_agency" => "wikipedia" }}
     end
   end
 
   def config_fields
-    [:url, :events_url, :languages]
+    [:url, :provenance_url, :languages]
   end
 
   def url
     "http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{query_string}&srnamespace=%{namespace}&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=%{sroffset}&continue=%{continue}"
   end
 
-  def events_url
+  def provenance_url
     "http://en.wikipedia.org/w/index.php?search=%{query_string}"
   end
 
