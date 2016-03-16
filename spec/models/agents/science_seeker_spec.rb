@@ -1,7 +1,18 @@
 require 'rails_helper'
 
 describe ScienceSeeker, type: :model, vcr: true do
+  let(:work) { FactoryGirl.create(:work) }
   subject { FactoryGirl.create(:science_seeker) }
+
+  context "urls" do
+    it "should get_query_url" do
+      expect(subject.get_query_url(work_id: work.id)).to eq("http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
+    end
+
+    it "should get_provenance_url" do
+      expect(subject.get_provenance_url(work_id: work.id)).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
+    end
+  end
 
   context "get_data" do
     it "should report that there are no events if the doi is missing" do
@@ -57,7 +68,7 @@ describe ScienceSeeker, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the ScienceSeeker API" do
@@ -65,14 +76,14 @@ describe ScienceSeeker, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there is an incomplete response returned by the ScienceSeeker API" do
       body = File.read(fixture_path + 'science_seeker_incomplete.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "scienceseeker", work_id: work.pid, total: 0, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events and event_count returned by the ScienceSeeker API" do
@@ -82,32 +93,22 @@ describe ScienceSeeker, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("scienceseeker")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(3)
-      expect(event[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2012, month: 5, total: 3)
+      expect(response.length).to eq(3)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://duncan.hull.name/2012/05/18/two-ton/",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=10.1371%2Fjournal.pone.0035869",
+                                              "source_id"=>"scienceseeker")
 
-      expect(response[:works].length).to eq(3)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://duncan.hull.name/2012/05/18/two-ton/")
-      expect(related_work['author']).to eq([{"family"=>"Duncan", "given"=>""}])
-      expect(related_work['title']).to eq("Web analytics: Numbers speak louder than words")
-      expect(related_work['container-title']).to eq("O'Really?")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012, 5, 18]])
-      expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"pid"=>"http://doi.org/10.1371/journal.pone.00000180", "source_id"=>"scienceseeker", "relation_type_id"=>"discusses"}])
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2012-05-18T07:58:34Z")
-      expect(extra[:event_url]).to eq(extra[:event]['link']['href'])
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Duncan", "given"=>""}])
-      expect(extra[:event_csl]['title']).to eq("Web analytics: Numbers speak louder than words")
-      expect(extra[:event_csl]['container-title']).to eq("O'Really?")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2012, 5, 18]])
-      expect(extra[:event_csl]['type']).to eq("post")
+      expect(response.first[:subj]).to eq("pid"=>"http://duncan.hull.name/2012/05/18/two-ton/",
+                                          "author"=>[{"given"=>"Duncan"}],
+                                          "title"=>"Web analytics: Numbers speak louder than words",
+                                          "container-title"=>"O'Really?",
+                                          "issued"=>{"date-parts"=>[[2012, 5, 18]]},
+                                          "timestamp"=>"2012-05-18T07:58:34Z",
+                                          "URL"=>"http://duncan.hull.name/2012/05/18/two-ton/",
+                                          "type"=>"post",
+                                          "tracked"=>true)
     end
 
     it "should report if there is one event returned by the ScienceSeeker API" do
@@ -117,32 +118,22 @@ describe ScienceSeeker, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("scienceseeker")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq("http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=#{work.doi_escaped}")
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2012, month: 5, total: 1)
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://duncan.hull.name/2012/05/18/two-ton/",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=10.1371%2Fjournal.pone.0035869",
+                                              "source_id"=>"scienceseeker")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://duncan.hull.name/2012/05/18/two-ton/")
-      expect(related_work['author']).to eq([{"family"=>"Duncan", "given"=>""}])
-      expect(related_work['title']).to eq("Web analytics: Numbers speak louder than words")
-      expect(related_work['container-title']).to eq("O'Really?")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012, 5, 18]])
-      expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"pid"=>"http://doi.org/10.1371/journal.pone.00000181", "source_id"=>"scienceseeker", "relation_type_id"=>"discusses"}])
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2012-05-18T07:58:34Z")
-      expect(extra[:event_url]).to eq(extra[:event]['link']['href'])
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Duncan", "given"=>""}])
-      expect(extra[:event_csl]['title']).to eq("Web analytics: Numbers speak louder than words")
-      expect(extra[:event_csl]['container-title']).to eq("O'Really?")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2012, 5, 18]])
-      expect(extra[:event_csl]['type']).to eq("post")
+      expect(response.first[:subj]).to eq("pid"=>"http://duncan.hull.name/2012/05/18/two-ton/",
+                                          "author"=>[{"given"=>"Duncan"}],
+                                          "title"=>"Web analytics: Numbers speak louder than words",
+                                          "container-title"=>"O'Really?",
+                                          "issued"=>{"date-parts"=>[[2012, 5, 18]]},
+                                          "timestamp"=>"2012-05-18T07:58:34Z",
+                                          "URL"=>"http://duncan.hull.name/2012/05/18/two-ton/",
+                                          "type"=>"post",
+                                          "tracked"=>true)
     end
 
     it "should catch timeout errors with the ScienceSeeker API" do

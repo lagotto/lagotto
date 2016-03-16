@@ -13,11 +13,11 @@ class Researchblogging < Agent
   def get_relations_with_related_works(result, work)
     related_works = result.deep_fetch('blogposts', 'post') { nil }
     related_works = [related_works] if related_works.is_a?(Hash)
+    provenance_url = get_provenance_url(work_id: work.id)
 
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("published_date", nil))
       url = item.fetch("post_URL", nil)
-      provenance_url = get_provenance_url(work_id: work.id)
 
       { relation: { "subj_id" => url,
                     "obj_id" => work.pid,

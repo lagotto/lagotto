@@ -10,62 +10,42 @@ class ScienceSeeker < Agent
     work.doi_escaped
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     related_works = result.fetch('feed', nil) && result.deep_fetch('feed', 'entry') { nil }
     related_works = [related_works] if related_works.is_a?(Hash)
+    provenance_url = get_provenance_url(work_id: work.id)
+
     Array(related_works).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       timestamp = get_iso8601_from_time(item.fetch("updated", nil))
       url = item.fetch("link", {}).fetch("href", nil)
 
-      { "pid" => url,
-        "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
-        "title" => item.fetch('title', nil),
-        "container-title" => item.fetch('source', {}).fetch('title', ""),
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => 'post',
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "discusses" }] }
-    end
-  end
-
-  def get_extra(result)
-    extra = result['feed'] && result.deep_fetch('feed', 'entry') { nil }
-    extra = [extra] if extra.is_a?(Hash)
-    Array(extra).map do |item|
-      item.extend Hashie::Extensions::DeepFetch
-      event_time = get_iso8601_from_time(item["updated"])
-      url = item['link']['href']
-
-      { event: item,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([item.fetch('author', {}).fetch('name', "")]),
-          'title' => item.fetch('title', ""),
-          'container-title' => item.fetch('source', {}).fetch('title', ""),
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'post'
-        }
-      }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: { "pid" => url,
+                "author" => get_authors([item.fetch('author', {}).fetch('name', "")]),
+                "title" => item.fetch('title', nil),
+                "container-title" => item.fetch('source', {}).fetch('title', ""),
+                "issued" => get_date_parts(timestamp),
+                "timestamp" => timestamp,
+                "URL" => url,
+                "type" => 'post',
+                "tracked" => tracked }}
     end
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=%{query_string}"
   end
 
-  def events_url
+  def provenance_url
     "http://scienceseeker.org/posts/?filter0=citation&modifier0=doi&value0=%{query_string}"
   end
 
