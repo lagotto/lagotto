@@ -28,7 +28,7 @@ class Twitter < Agent
                     "source_id" => source_id },
         subj: { "pid" => url,
                 "author" => get_authors([user_name]),
-                "title" => data.fetch('text') { '' },
+                "title" => data.fetch('text', ''),
                 "container-title" => 'Twitter',
                 "issued" => get_date_parts(timestamp),
                 "timestamp" => timestamp,
