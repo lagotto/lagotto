@@ -30,20 +30,10 @@ module Pmcable
 
       work = Work.where(id: options.fetch(:work_id, nil)).first
 
-      related_works = get_related_works(result, work)
-      total = related_works.length
-      events_url = total > 0 ? get_events_url(work) : nil
-
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: events_url,
-        months: get_events_by_month(related_works) }] }
+      get_relations_with_related_works(result, work)
     end
 
-    def get_related_works(result, work)
+    def get_relations_with_related_works(result, work)
       result.fetch("#{result_key}List", {}).fetch(result_key, []).map do |item|
         pmid = item.fetch(pmid_key, nil)
         ids = get_persistent_identifiers(pmid, "pmid")
@@ -61,20 +51,21 @@ module Pmcable
           pid = pmid_as_url(pmid)
         end
 
-        { "pid" => pid,
-          "author" => get_authors(author_string.split(", "), reversed: true),
-          "title" => item.fetch("title", "").chomp("."),
-          "container-title" => item.fetch(container_title_key, nil),
-          "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
-          "DOI" => doi,
-          "PMID" => pmid,
-          "PMCID" => pmcid,
-          "type" => "article-journal",
-          "registration_agency" => registration_agency,
-          "tracked" => tracked,
-          "related_works" => [{ "pid" => work.pid,
-                                "source_id" => name,
-                                "relation_type_id" => "cites" }] }
+        { relation: { "subj_id" => pid,
+                      "obj_id" => work.pid,
+                      "relation_type_id" => "cites",
+                      "source_id" => source_id },
+          subj: { "pid" => pid,
+                  "author" => get_authors(author_string.split(", "), reversed: true),
+                  "title" => item.fetch("title", "").chomp("."),
+                  "container-title" => item.fetch(container_title_key, nil),
+                  "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
+                  "DOI" => doi,
+                  "PMID" => pmid,
+                  "PMCID" => pmcid,
+                  "type" => "article-journal",
+                  "registration_agency" => registration_agency,
+                  "tracked" => tracked }}
       end
     end
   end

@@ -96,15 +96,6 @@ module Resolvable
       "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
     end
 
-    def get_doi_from_id(id)
-      if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(id)
-        uri = Addressable::URI.parse(id)
-        uri.path[1..-1]
-      elsif id.starts_with?("doi:")
-        id[4..-1]
-      end
-    end
-
     def get_pid(options)
       id_hash = options.compact
 

@@ -3,7 +3,12 @@ module Identifiable
 
   included do
     def doi_from_url(url)
-      Array(/^http:\/\/doi\.org\/(.+)/.match(url)).last
+      if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(url)
+        uri = Addressable::URI.parse(url)
+        uri.path[1..-1].upcase
+      elsif id.starts_with?("doi:")
+        id[4..-1].upcase
+      end
     end
 
     def orcid_from_url(url)
