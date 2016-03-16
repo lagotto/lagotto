@@ -20,7 +20,7 @@ class Scopus < Agent
     if extra["link"]
       total = extra['citedby-count'].to_i
       link = extra["link"].find { |link| link["@ref"] == "scopus-citedby" }
-      events_url = link["@href"]
+      provenance_url = link["@href"]
 
       # store Scopus ID if we haven't done this already
       unless work.scp.present?
@@ -29,15 +29,24 @@ class Scopus < Agent
       end
     else
       total = 0
-      events_url = nil
+      provenance_url = nil
     end
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: events_url,
-        extra: extra }] }
+    relations = []
+    if total > 0
+      relations << { relation: { "subj_id" => "http://www.scopus.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "cites",
+                                 "total" => total,
+                                 "provenance_url" => provenance_url,
+                                 "source_id" => source_id },
+                     subj: { "pid" => "http://www.scopus.com",
+                             "URL" => "http://www.scopus.com",
+                             "title" => "Scopus",
+                             "issued" => { "date-parts" => [[2008, 2, 8]] }}}
+    end
+
+    relations
   end
 
   def config_fields
