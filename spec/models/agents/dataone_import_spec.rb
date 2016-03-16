@@ -77,7 +77,7 @@ describe DataoneImport, type: :model, vcr: true do
     it "should report if there are no works returned by the DataONE Search API" do
       body = File.read(fixture_path + 'plos_import_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result)).to eq(:works=>[], :events=>[])
+      expect(subject.parse_data(result)).to eq([])
     end
 
     it "should report if there are works returned by the DataONE Search API" do
@@ -85,14 +85,23 @@ describe DataoneImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response).to eq(61)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"George", "given"=>"Sangster,"}])
-      expect(related_work['title']).to eq("Fig. S1")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2014, 9, 4]])
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['DOI']).to eq("10.5061/dryad.m4g2n/1")
+      expect(response.length).to eq(61)
+      expect(response.first[:prefix]).to eq("10.5061")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.TM8K3",
+                                              "source_id"=>"dataone_import",
+                                              "publisher_id"=>"DRYAD")
+
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.TM8K3",
+                                          "author"=>[{"family"=>"Matosiuk", "given"=>"Maciej"}],
+                                          "container-title"=>nil,
+                                          "title"=>"Data from: Evolutionary neutrality of mtDNA introgression: evidence from complete mitogenome analysis in roe deer",
+                                          "issued"=>{"date-parts"=>[[2014, 9, 3]]},
+                                          "DOI"=>"10.5061/DRYAD.TM8K3",
+                                          "URL"=>nil,
+                                          "ark"=>nil,
+                                          "publisher_id"=>"DRYAD",
+                                          "tracked"=>true,
+                                          "type"=>"dataset")
     end
   end
 end

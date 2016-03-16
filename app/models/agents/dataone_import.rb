@@ -17,19 +17,19 @@ class DataoneImport < Agent
     url + params.to_query
   end
 
-  def get_works(result)
-    # return early if an error occured
-    return [] unless result.is_a?(Hash) && result.fetch("response", nil)
-
-    items = result.fetch('response', {}).fetch('docs', nil)
+  def get_relations_with_related_works(items)
     Array(items).map do |item|
       id = item.fetch("id", nil)
-      doi = get_doi_from_id(id)
+      doi = doi_from_url(id)
       ark = id.starts_with?("ark:/") ? id.split("/")[0..2].join("/") : nil
       if doi.present?
         url = nil
+        pid = doi_as_url(doi)
+      elsif ark.present?
+        pid = ark_as_url(ark)
       elsif id.starts_with?("http://")
         url = get_normalized_url(id)
+        pid = url
       else
         url = nil
       end
@@ -44,20 +44,27 @@ class DataoneImport < Agent
       date_parts = get_date_parts(publication_date)
       year, month, day = date_parts.fetch("date-parts", []).first
 
-      datacentre_symbol = item.fetch("authoritativeMN", nil)
-      publisher = Publisher.where(name: datacentre_symbol).first
-      publisher_id = publisher.present? ? publisher.id : nil
+      publisher_id = item.fetch("authoritativeMN", '')[9..-1]
 
-      { "author" => get_authors([item.fetch("author", nil)]),
-        "container-title" => nil,
-        "title" => item.fetch("title", nil),
-        "issued" => date_parts,
-        "DOI" => doi,
-        "URL" => url,
-        "ark" => ark,
-        "publisher_id" => publisher_id,
-        "tracked" => tracked,
-        "type" => "dataset" }
+      prefix = doi.present? ? doi[/^10\.\d{4,5}/] : nil
+
+      subj = { "pid" => pid,
+               "author" => get_authors([item.fetch("author", nil)]),
+               "container-title" => nil,
+               "title" => item.fetch("title", nil),
+               "issued" => date_parts,
+               "DOI" => doi,
+               "URL" => url,
+               "ark" => ark,
+               "publisher_id" => publisher_id,
+               "tracked" => tracked,
+               "type" => "dataset" }
+
+      { prefix: prefix,
+        relation: { "subj_id" => subj["pid"],
+                    "source_id" => source_id,
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
     end
   end
 
