@@ -26,7 +26,7 @@ FactoryGirl.define do
       month { Time.zone.now.to_date.month }
       day { Time.zone.now.to_date.day }
       after :create do |work|
-        FactoryGirl.create(:event, retrieved_at: Time.zone.now, work: work)
+        FactoryGirl.create(:relation, occurred_at: Time.zone.now, work: work)
       end
     end
     trait(:published_yesterday) do
@@ -34,20 +34,20 @@ FactoryGirl.define do
       month { (Time.zone.now.to_date - 1.day).month }
       day { (Time.zone.now.to_date - 1.day).day }
       after :create do |work|
-        FactoryGirl.create(:event, retrieved_at: Time.zone.now - 1.day, work: work)
+        FactoryGirl.create(:relation, occurred_at: Time.zone.now - 1.day, work: work)
       end
     end
 
     trait :with_events do
       after :create do |work|
-        FactoryGirl.create(:event, work: work, readers: 50, events_url: "http://www.citeulike.org/doi/#{work.doi}", extra: [{ "event" =>{ "link" => { "url" => "http://www.citeulike.org/user/klauso/article/12029653" }, "post_time" => "2013-02-15 15:12:04", "tag" => ["call", "newspecies", "otusjolandae"], "linkout" => { "type" => "DOI", "url" => "http://dx.doi.org/10.1371/journal.pone.0053712" }, "username" => "klauso", "article_id" => "12029653" }, "event_time" => "2013-02-15T15:12:04Z", "event_url" => "http://www.citeulike.org/user/klauso/article/12029653" }] )
-        FactoryGirl.create(:event, :with_mendeley, work: work, readers: 50, extra: { "title" => "A New Owl Species of the Genus Otus (Aves: Strigidae) from Lombok, Indonesia" } )
+        FactoryGirl.create(:relation, work: work, total: 50, provenance_url: "http://www.citeulike.org/doi/#{work.doi}", extra: [{ "event" =>{ "link" => { "url" => "http://www.citeulike.org/user/klauso/article/12029653" }, "post_time" => "2013-02-15 15:12:04", "tag" => ["call", "newspecies", "otusjolandae"], "linkout" => { "type" => "DOI", "url" => "http://dx.doi.org/10.1371/journal.pone.0053712" }, "username" => "klauso", "article_id" => "12029653" }, "event_time" => "2013-02-15T15:12:04Z", "event_url" => "http://www.citeulike.org/user/klauso/article/12029653" }] )
+        FactoryGirl.create(:relation, :with_mendeley, work: work, total: 50)
       end
     end
 
     factory :work_with_events_and_alerts do
       after :create do |work|
-        FactoryGirl.create(:event, work: work)
+        FactoryGirl.create(:relation, work: work)
         FactoryGirl.create(:notification, work: work)
       end
     end
@@ -72,95 +72,63 @@ FactoryGirl.define do
 
     factory :work_with_errors do
       after :create do |work|
-        FactoryGirl.create(:event, :with_errors, work: work)
+        FactoryGirl.create(:relation, :with_errors, work: work)
       end
     end
 
     factory :work_with_private_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_private, work: work)
+        FactoryGirl.create(:relation, :with_private, work: work)
       end
     end
 
     factory :work_with_crossref_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_crossref, work: work)
+        FactoryGirl.create(:relation, :with_crossref, work: work)
       end
     end
 
     factory :work_with_pubmed_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_pubmed, work: work)
+        FactoryGirl.create(:relation, :with_pubmed, work: work)
       end
     end
 
     factory :work_with_mendeley_events do
       after :create do |work|
-        FactoryGirl.create(:event, :with_mendeley, work: work)
+        FactoryGirl.create(:relation, :with_mendeley, work: work)
       end
     end
 
     factory :work_with_nature_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_nature, work: work)
+        FactoryGirl.create(:relation, :with_nature, work: work)
       end
     end
 
     factory :work_with_researchblogging_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_researchblogging, work: work)
+        FactoryGirl.create(:relation, :with_researchblogging, work: work)
       end
     end
 
     factory :work_with_wos_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_wos, work: work)
+        FactoryGirl.create(:relation, :with_wos, work: work)
       end
     end
 
     factory :work_with_counter_citations do
       after :create do |work|
-        FactoryGirl.create(:event, :with_counter, work: work)
+        FactoryGirl.create(:relation, :with_counter, work: work)
       end
     end
 
     factory :work_with_tweets do
       after :create do |work|
-        FactoryGirl.create(:event, :with_twitter, work: work)
+        FactoryGirl.create(:relation, :with_twitter, work: work)
       end
     end
-  end
-
-  factory :event do
-    total 50
-    readers 50
-    retrieved_at { Time.zone.now - 1.month }
-
-    association :work
-    association :source
-
-    trait(:with_private) { association :source, private: true }
-    trait(:with_mendeley) { association :source, :mendeley }
-    trait(:with_pubmed) { association :source, :pub_med }
-    trait(:with_nature) { association :source, :nature }
-    trait(:with_wos) { association :source, :wos }
-    trait(:with_researchblogging) { association :source, :researchblogging }
-    trait(:with_scienceseeker) { association :source, :scienceseeker }
-    trait(:with_wikipedia) { association :source, :wikipedia }
-    trait(:with_twitter) { association :source, :twitter}
-
-    trait(:with_work_published_today) { association :work, :published_today }
-
-    trait(:with_counter) do
-      total 500
-      html 400
-      pdf 100
-      readers 0
-      association :work, :published_yesterday
-      association :source, :counter
-    end
-
-    initialize_with { Event.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
 
   factory :month do
@@ -430,7 +398,23 @@ FactoryGirl.define do
     association :source, :crossref
     association :relation_type
 
+    trait(:with_private) { association :source, private: true }
+    trait(:with_mendeley) { association :source, :mendeley }
+    trait(:with_pubmed) { association :source, :pub_med }
+    trait(:with_nature) { association :source, :nature }
+    trait(:with_wos) { association :source, :wos }
+    trait(:with_researchblogging) { association :source, :researchblogging }
+    trait(:with_scienceseeker) { association :source, :scienceseeker }
+    trait(:with_wikipedia) { association :source, :wikipedia }
+    trait(:with_twitter) { association :source, :twitter}
+
     trait(:with_work_published_today) { association :work, :published_today }
+
+    trait(:with_counter) do
+      total 500
+      association :work, :published_yesterday
+      association :source, :counter
+    end
 
     trait(:with_crossref) do
       total 25
