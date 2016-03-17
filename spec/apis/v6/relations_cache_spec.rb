@@ -7,7 +7,7 @@ describe "/api/v6/relations", :type => :api do
 
   context "caching", :caching => true do
     context "work is updated" do
-      let(:work) { FactoryGirl.create(:work, :with_relations) }
+      let(:work) { FactoryGirl.create(:work, :with_events) }
       let(:keys) { work.relations.map { |rs| rs.cache_key } }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works/#{work.pid}/relations" }
       let(:title) { "Foo" }
