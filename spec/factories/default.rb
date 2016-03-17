@@ -40,7 +40,7 @@ FactoryGirl.define do
 
     trait :with_events do
       after :create do |work|
-        FactoryGirl.create(:relation, work: work, total: 50, provenance_url: "http://www.citeulike.org/doi/#{work.doi}", extra: [{ "event" =>{ "link" => { "url" => "http://www.citeulike.org/user/klauso/article/12029653" }, "post_time" => "2013-02-15 15:12:04", "tag" => ["call", "newspecies", "otusjolandae"], "linkout" => { "type" => "DOI", "url" => "http://dx.doi.org/10.1371/journal.pone.0053712" }, "username" => "klauso", "article_id" => "12029653" }, "event_time" => "2013-02-15T15:12:04Z", "event_url" => "http://www.citeulike.org/user/klauso/article/12029653" }] )
+        FactoryGirl.create(:relation, work: work, total: 50, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
         FactoryGirl.create(:relation, :with_mendeley, work: work, total: 50)
       end
     end

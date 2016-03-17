@@ -6,7 +6,7 @@ describe Work, type: :model, vcr: true do
 
   subject { work }
 
-  it { is_expected.to have_many(:events).dependent(:destroy) }
+  it { is_expected.to have_many(:relations).dependent(:destroy) }
   it { is_expected.to validate_uniqueness_of(:doi).case_insensitive }
   it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
@@ -122,7 +122,7 @@ describe Work, type: :model, vcr: true do
     end
 
     it 'look up date for missing year, month and day' do
-      work = FactoryGirl.build(:work, year: nil, month: nil, day: nil, pid: "http://doi.org/10.5555/12345678")
+      work = FactoryGirl.build(:work, year: nil, month: nil, day: nil, pid: "http://doi.org/10.1371/journal.pone.0067729")
       expect(work).to be_valid
     end
 
@@ -257,17 +257,17 @@ describe Work, type: :model, vcr: true do
   end
 
   context "associations" do
-    it "should create associated events" do
-      expect(Event.count).to eq(0)
+    it "should create associated relations" do
+      expect(Relation.count).to eq(0)
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Event.count).to eq(4)
+      expect(Relation.count).to eq(4)
     end
 
-    it "should delete associated events" do
+    it "should delete associated relations" do
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Event.count).to eq(4)
+      expect(Relation.count).to eq(4)
       @works.each(&:destroy)
-      expect(Event.count).to eq(0)
+      expect(Relation.count).to eq(0)
     end
   end
 end
