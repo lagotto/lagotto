@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Mon, 22 Feb 2016 19:06:13 GMT
+      - Thu, 17 Mar 2016 07:44:19 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -29,13 +29,11 @@ http_interactions:
       X-Ratelimit-Limit:
       - '60'
       X-Ratelimit-Remaining:
-      - '51'
+      - '56'
       X-Ratelimit-Reset:
-      - '1456168003'
+      - '1458202062'
       X-Github-Media-Type:
       - github.v3
-      Access-Control-Allow-Credentials:
-      - 'true'
       Access-Control-Expose-Headers:
       - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
         X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
@@ -52,10 +50,10 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3EE06981:14591:B5F35C0:56CB5C25
+      - 3EE06AF4:2E04:99821A:56EA6053
     body:
       encoding: UTF-8
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
     http_version: 
-  recorded_at: Mon, 22 Feb 2016 19:06:13 GMT
+  recorded_at: Thu, 17 Mar 2016 07:44:19 GMT
 recorded_with: VCR 2.9.3

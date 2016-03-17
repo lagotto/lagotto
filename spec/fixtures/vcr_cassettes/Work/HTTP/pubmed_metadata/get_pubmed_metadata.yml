@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 22 Feb 2016 19:05:24 GMT
+      - Thu, 17 Mar 2016 06:06:23 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
@@ -29,7 +29,7 @@ http_interactions:
       Connection:
       - Keep-Alive
       Set-Cookie:
-      - JSESSIONID=75A0BEE55DA471DC52C358FD021CAFF3; Path=/europepmc/webservices
+      - JSESSIONID=E43A8C95DE0184831D8E2DAF0ED25A27; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
@@ -42,5 +42,5 @@ http_interactions:
         M, Lehrach H, Krobitsch S.","journalTitle":"PLoS One","issue":"1","journalVolume":"1","pubYear":"2006","journalIssn":"1932-6203","pageInfo":"e30","pubType":"journal
         article; research support, non-u.s. gov''t; research-article","isOpenAccess":"Y","inEPMC":"Y","inPMC":"N","hasPDF":"Y","hasBook":"N","hasSuppl":"Y","citedByCount":23,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"Y","dbCrossReferenceList":{"dbName":["UNIPROT"]},"hasLabsLinks":"Y","epmcAuthMan":"N","hasTMAccessionNumbers":"N","luceneScore":"NaN","doi":"10.1371/journal.pone.0000030"}]}}'
     http_version: 
-  recorded_at: Mon, 22 Feb 2016 19:05:24 GMT
+  recorded_at: Thu, 17 Mar 2016 06:06:24 GMT
 recorded_with: VCR 2.9.3

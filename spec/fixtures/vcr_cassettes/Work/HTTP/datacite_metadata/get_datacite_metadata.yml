@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 22 Feb 2016 19:05:53 GMT
+      - Thu, 17 Mar 2016 06:07:47 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -31,7 +31,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjozfSwicmVz
+        eyJyZXNwb25zZUhlYWRlciI6eyJzdGF0dXMiOjAsIlFUaW1lIjoyfSwicmVz
         cG9uc2UiOnsibnVtRm91bmQiOjEsInN0YXJ0IjowLCJkb2NzIjpbeyJkYXRh
         Y2VudHJlX3N5bWJvbCI6IkNETC5EUllBRCIsInhtbCI6IlBEOTRiV3dnZG1W
         eWMybHZiajBpTVM0d0lpQmxibU52WkdsdVp6MGlWVlJHTFRnaVB6NEtQSEps
@@ -127,5 +127,5 @@ http_interactions:
         XSwicHVibGljYXRpb25ZZWFyIjoiMjAxMSIsInJlc291cmNlVHlwZUdlbmVy
         YWwiOiJEYXRhc2V0In1dfX0K
     http_version: 
-  recorded_at: Mon, 22 Feb 2016 19:05:21 GMT
+  recorded_at: Thu, 17 Mar 2016 06:06:41 GMT
 recorded_with: VCR 2.9.3

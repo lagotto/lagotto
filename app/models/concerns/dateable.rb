@@ -52,5 +52,9 @@ module Dateable
     def get_date_parts_from_parts(year, month = nil, day = nil)
       { 'date-parts' => [[year.to_i, month.to_i, day.to_i].reject { |part| part == 0 }] }
     end
+
+    def get_date_from_parts(year, month = nil, day = nil)
+      [year.to_s.rjust(4, '0'), month.to_s.rjust(2, '0'), day.to_s.rjust(2, '0')].reject { |part| part == "00" }.join("-")
+    end
   end
 end

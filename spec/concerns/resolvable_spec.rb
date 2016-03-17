@@ -352,7 +352,7 @@ describe Work, type: :model, vcr: true do
         ids = { "pmcid" => "PMC1762313", "pmid" => "17183658", "doi" => "10.1371/journal.pone.0000030", "versions" => [{ "pmcid" => "PMC1762313.1", "current" => "true" }] }
         response = subject.get_persistent_identifiers("#{work.doi}x", "doi")
         expect(response).not_to include(ids)
-        expect(response).to include("errmsg")
+        expect(response).to eq(error: "Resource not found.", status: 404)
       end
     end
 
@@ -367,7 +367,7 @@ describe Work, type: :model, vcr: true do
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
         expect(response["container-title"]).to eq("PLoS ONE")
-        expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
+        expect(response["issued"]).to eq("2006-12-20")
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to eq("340")
       end
@@ -380,7 +380,7 @@ describe Work, type: :model, vcr: true do
         expect(response["title"]).to eq("Uncovering Impact - Moving beyond the journal article and beyond the impact factor")
         expect(response["container-title"]).to be_nil
         expect(response["author"]).to eq([{"family"=>"Trends", "given"=>"Research"}, {"family"=>"Piwowar", "given"=>"Heather", "ORCID"=>"http://orcid.org/0000-0003-1613-5981"}])
-        expect(response["issued"]).to eq("date-parts"=>[[2013]])
+        expect(response["issued"]).to eq("2013")
         expect(response["type"]).to eq("dataset")
         expect(response["publisher_id"]).to eq("CDL.DIGSCI")
       end
@@ -390,7 +390,7 @@ describe Work, type: :model, vcr: true do
         expect(response["pmid"]).to eq(work.pmid)
         expect(response["title"]).to eq("Triose phosphate isomerase deficiency is caused by altered dimerization--not catalytic inactivity--of the mutant enzymes")
         expect(response["container-title"]).to eq("PLoS One")
-        expect(response["issued"]).to eq("date-parts"=>[[2006]])
+        expect(response["issued"]).to eq("2006")
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to be_nil
       end
@@ -400,7 +400,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(orcid, "orcid")
         expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
+        expect(response["issued"]).to eq("2015-06-25T00:00:00Z")
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
@@ -410,7 +410,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(url, "github")
         expect(response["title"]).to eq("Tracking events around scholarly content")
         expect(response["container-title"]).to eq("Github")
-        expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 2]])
+        expect(response["issued"]).to eq("2012-05-02T22:07:40Z")
         expect(response["type"]).to eq("computer_program")
         expect(response["URL"]).to eq("https://github.com/lagotto/lagotto")
       end
@@ -420,7 +420,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(url, "github_owner")
         expect(response["title"]).to eq("Github profile for Lagotto")
         expect(response["container-title"]).to eq("Github")
-        expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 1]])
+        expect(response["issued"]).to eq("2012-05-01T19:38:33Z")
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("https://github.com/lagotto")
       end
@@ -430,7 +430,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(url, "github_release")
         expect(response["title"]).to eq("Lagotto 4.3")
         expect(response["container-title"]).to eq("Github")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 7, 19]])
+        expect(response["issued"]).to eq("2015-07-19T22:43:10Z")
         expect(response["type"]).to eq("computer_program")
         expect(response["URL"]).to eq("https://github.com/lagotto/lagotto/tree/v.4.3")
       end
@@ -442,36 +442,33 @@ describe Work, type: :model, vcr: true do
       let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030") }
 
       it "get_crossref_metadata" do
-        FactoryGirl.create(:publisher)
         response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Triose Phosphate Isomerase Deficiency Is Caused by Altered Dimerization–Not Catalytic Inactivity–of the Mutant Enzymes")
         expect(response["container-title"]).to eq("PLoS ONE")
-        expect(response["issued"]).to eq("date-parts"=>[[2006, 12, 20]])
+        expect(response["issued"]).to eq("2006-12-20")
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to eq("340")
       end
 
       it "get_crossref_metadata with old DOI" do
         work = FactoryGirl.create(:work, doi: "10.1890/0012-9658(2006)87[2832:tiopma]2.0.co;2")
-        FactoryGirl.create(:publisher, name: '792')
         response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("THE IMPACT OF PARASITE MANIPULATION AND PREDATOR FORAGING BEHAVIOR ON PREDATOR–PREY COMMUNITIES")
         expect(response["container-title"]).to eq("Ecology")
-        expect(response["issued"]).to eq("date-parts"=>[[2006, 11]])
+        expect(response["issued"]).to eq("2006-11")
         expect(response["type"]).to eq("article-journal")
-        expect(response["publisher_id"]).to eq("792")
+        expect(response["publisher_id"]).to eq("311")
       end
 
       it "get_crossref_metadata with date in future" do
         work = FactoryGirl.create(:work, doi: "10.1016/j.ejphar.2015.03.018")
-        FactoryGirl.create(:publisher, name: '78')
         response = subject.get_crossref_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
         expect(response["container-title"]).to eq("European Journal of Pharmacology")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 9, 24]])
+        expect(response["issued"]).to eq("2015-09-24")
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to eq("78")
       end
@@ -495,7 +492,7 @@ describe Work, type: :model, vcr: true do
         expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
         expect(response["container-title"]).to be_nil
         expect(response["author"]).to eq([{"family"=>"Ollomo", "given"=>"Benjamin"}, {"family"=>"Durand", "given"=>"Patrick"}, {"family"=>"Prugnolle", "given"=>"Franck"}, {"family"=>"Douzery", "given"=>"Emmanuel J. P."}, {"family"=>"Arnathau", "given"=>"Céline"}, {"family"=>"Nkoghe", "given"=>"Dieudonné"}, {"family"=>"Leroy", "given"=>"Eric"}, {"family"=>"Renaud", "given"=>"François"}])
-        expect(response["issued"]).to eq("date-parts"=>[[2011]])
+        expect(response["issued"]).to eq("2011")
         expect(response["type"]).to eq("dataset")
         expect(response["publisher_id"]).to eq("CDL.DRYAD")
       end
@@ -517,7 +514,7 @@ describe Work, type: :model, vcr: true do
         expect(response["pmid"]).to eq(work.pmid)
         expect(response["title"]).to eq("Triose phosphate isomerase deficiency is caused by altered dimerization--not catalytic inactivity--of the mutant enzymes")
         expect(response["container-title"]).to eq("PLoS One")
-        expect(response["issued"]).to eq("date-parts"=>[[2006]])
+        expect(response["issued"]).to eq("2006")
         expect(response["type"]).to eq("article-journal")
         expect(response["publisher_id"]).to be_nil
       end
@@ -538,14 +535,14 @@ describe Work, type: :model, vcr: true do
         response = subject.get_orcid_metadata(orcid)
         expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("date-parts"=>[[2015, 6, 25]])
+        expect(response["issued"]).to eq("2015-06-25T00:00:00Z")
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
 
       it "get_orcid_metadata with not found error" do
         response = subject.get_orcid_metadata("#{orcid}x")
-        expect(response).to eq(error: {"message-version"=>"1.2", "orcid-profile"=>nil, "orcid-search-results"=>nil, "error-desc"=>{"value"=>"Not found : No entity found for query"}}, status: 404)
+        expect(response).to eq(error: "Resource not found.", status:404)
       end
     end
 
@@ -558,21 +555,19 @@ describe Work, type: :model, vcr: true do
         response = subject.get_github_metadata(url)
         expect(response["title"]).to eq("Tracking events around scholarly content")
         expect(response["container-title"]).to eq("Github")
-        expect(response["issued"]).to eq("date-parts"=>[[2012, 5, 2]])
+        expect(response["issued"]).to eq("2012-05-02T22:07:40Z")
         expect(response["type"]).to eq("computer_program")
         expect(response["URL"]).to eq("https://github.com/lagotto/lagotto")
       end
 
       it "get_github_metadata with not found error" do
         response = subject.get_github_metadata("#{url}x")
-        expect(response).to eq(:error=>{"message"=>"Not Found", "documentation_url"=>"https://developer.github.com/v3"}, :status=>404)
+        expect(response).to eq(:error=>"Resource not found.", :status=>404)
       end
     end
 
     context "clean identifiers" do
       let(:url) { "http://journals.PLOS.org/plosone/article?id=10.1371%2Fjournal.pone.0000030&utm_source=FeedBurner#stuff" }
-      let(:doi) { "10.5061/dryad.8515" }
-      let(:id) { "http://doi.org/10.5061/dryad.8515" }
 
       it "get_normalized_url" do
         response = subject.get_normalized_url(url)
@@ -583,28 +578,6 @@ describe Work, type: :model, vcr: true do
         url = "article?id=10.1371%2Fjournal.pone.0000030"
         response = subject.get_normalized_url(url)
         expect(response).to be_nil
-      end
-
-      it "doi_as_url" do
-        response = subject.doi_as_url(doi)
-        expect(response).to eq("http://doi.org/10.5061/dryad.8515")
-      end
-
-      it "get_doi_from_id" do
-        response = subject.get_doi_from_id(id)
-        expect(response).to eq("10.5061/dryad.8515")
-      end
-
-      it "get_doi_from_id https" do
-        id = "https://doi.org/10.5061/dryad.8515"
-        response = subject.get_doi_from_id(id)
-        expect(response).to eq("10.5061/dryad.8515")
-      end
-
-      it "get_doi_from_id dx.doi.org" do
-        id = "http://dx.doi.org/10.5061/dryad.8515"
-        response = subject.get_doi_from_id(id)
-        expect(response).to eq("10.5061/dryad.8515")
       end
     end
   end

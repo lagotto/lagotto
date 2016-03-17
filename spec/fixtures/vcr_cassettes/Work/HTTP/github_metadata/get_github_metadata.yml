@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Mon, 22 Feb 2016 19:06:12 GMT
+      - Thu, 17 Mar 2016 06:29:36 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -31,19 +31,17 @@ http_interactions:
       X-Ratelimit-Remaining:
       - '53'
       X-Ratelimit-Reset:
-      - '1456168003'
+      - '1458198379'
       Cache-Control:
       - public, max-age=60, s-maxage=60
-      Last-Modified:
-      - Fri, 19 Feb 2016 14:54:04 GMT
-      Etag:
-      - '"d86fa228b8781da76c0701d6d48617f7"'
       Vary:
       - Accept, Accept-Encoding
+      Etag:
+      - '"b1c5e176e7bb28bba7bb354f0d7a31e7"'
+      Last-Modified:
+      - Mon, 14 Mar 2016 23:45:01 GMT
       X-Github-Media-Type:
       - github.v3
-      Access-Control-Allow-Credentials:
-      - 'true'
       Access-Control-Expose-Headers:
       - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
         X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
@@ -62,13 +60,13 @@ http_interactions:
       X-Served-By:
       - 13d09b732ebe76f892093130dc088652
       X-Github-Request-Id:
-      - 3EE06981:16023:1D3A2C09:56CB5C23
+      - 3EE06AF4:1805F:A5EF15:56EA4ED0
     body:
       encoding: UTF-8
       string: '{"id":4208139,"name":"lagotto","full_name":"lagotto/lagotto","owner":{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false},"private":false,"html_url":"https://github.com/lagotto/lagotto","description":"Tracking
-        events around scholarly content","fork":false,"url":"https://api.github.com/repos/lagotto/lagotto","forks_url":"https://api.github.com/repos/lagotto/lagotto/forks","keys_url":"https://api.github.com/repos/lagotto/lagotto/keys{/key_id}","collaborators_url":"https://api.github.com/repos/lagotto/lagotto/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/lagotto/lagotto/teams","hooks_url":"https://api.github.com/repos/lagotto/lagotto/hooks","issue_events_url":"https://api.github.com/repos/lagotto/lagotto/issues/events{/number}","events_url":"https://api.github.com/repos/lagotto/lagotto/events","assignees_url":"https://api.github.com/repos/lagotto/lagotto/assignees{/user}","branches_url":"https://api.github.com/repos/lagotto/lagotto/branches{/branch}","tags_url":"https://api.github.com/repos/lagotto/lagotto/tags","blobs_url":"https://api.github.com/repos/lagotto/lagotto/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/lagotto/lagotto/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/lagotto/lagotto/git/refs{/sha}","trees_url":"https://api.github.com/repos/lagotto/lagotto/git/trees{/sha}","statuses_url":"https://api.github.com/repos/lagotto/lagotto/statuses/{sha}","languages_url":"https://api.github.com/repos/lagotto/lagotto/languages","stargazers_url":"https://api.github.com/repos/lagotto/lagotto/stargazers","contributors_url":"https://api.github.com/repos/lagotto/lagotto/contributors","subscribers_url":"https://api.github.com/repos/lagotto/lagotto/subscribers","subscription_url":"https://api.github.com/repos/lagotto/lagotto/subscription","commits_url":"https://api.github.com/repos/lagotto/lagotto/commits{/sha}","git_commits_url":"https://api.github.com/repos/lagotto/lagotto/git/commits{/sha}","comments_url":"https://api.github.com/repos/lagotto/lagotto/comments{/number}","issue_comment_url":"https://api.github.com/repos/lagotto/lagotto/issues/comments{/number}","contents_url":"https://api.github.com/repos/lagotto/lagotto/contents/{+path}","compare_url":"https://api.github.com/repos/lagotto/lagotto/compare/{base}...{head}","merges_url":"https://api.github.com/repos/lagotto/lagotto/merges","archive_url":"https://api.github.com/repos/lagotto/lagotto/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/lagotto/lagotto/downloads","issues_url":"https://api.github.com/repos/lagotto/lagotto/issues{/number}","pulls_url":"https://api.github.com/repos/lagotto/lagotto/pulls{/number}","milestones_url":"https://api.github.com/repos/lagotto/lagotto/milestones{/number}","notifications_url":"https://api.github.com/repos/lagotto/lagotto/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/lagotto/lagotto/labels{/name}","releases_url":"https://api.github.com/repos/lagotto/lagotto/releases{/id}","deployments_url":"https://api.github.com/repos/lagotto/lagotto/deployments","created_at":"2012-05-02T22:07:40Z","updated_at":"2016-02-19T14:54:04Z","pushed_at":"2016-02-22T10:03:13Z","git_url":"git://github.com/lagotto/lagotto.git","ssh_url":"git@github.com:lagotto/lagotto.git","clone_url":"https://github.com/lagotto/lagotto.git","svn_url":"https://github.com/lagotto/lagotto","homepage":"http://lagotto.io","size":68308,"stargazers_count":91,"watchers_count":91,"language":"Ruby","has_issues":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"forks_count":17,"mirror_url":null,"open_issues_count":76,"forks":17,"open_issues":76,"watchers":91,"default_branch":"master","organization":{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false},"network_count":17,"subscribers_count":41}'
+        events around scholarly content","fork":false,"url":"https://api.github.com/repos/lagotto/lagotto","forks_url":"https://api.github.com/repos/lagotto/lagotto/forks","keys_url":"https://api.github.com/repos/lagotto/lagotto/keys{/key_id}","collaborators_url":"https://api.github.com/repos/lagotto/lagotto/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/lagotto/lagotto/teams","hooks_url":"https://api.github.com/repos/lagotto/lagotto/hooks","issue_events_url":"https://api.github.com/repos/lagotto/lagotto/issues/events{/number}","events_url":"https://api.github.com/repos/lagotto/lagotto/events","assignees_url":"https://api.github.com/repos/lagotto/lagotto/assignees{/user}","branches_url":"https://api.github.com/repos/lagotto/lagotto/branches{/branch}","tags_url":"https://api.github.com/repos/lagotto/lagotto/tags","blobs_url":"https://api.github.com/repos/lagotto/lagotto/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/lagotto/lagotto/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/lagotto/lagotto/git/refs{/sha}","trees_url":"https://api.github.com/repos/lagotto/lagotto/git/trees{/sha}","statuses_url":"https://api.github.com/repos/lagotto/lagotto/statuses/{sha}","languages_url":"https://api.github.com/repos/lagotto/lagotto/languages","stargazers_url":"https://api.github.com/repos/lagotto/lagotto/stargazers","contributors_url":"https://api.github.com/repos/lagotto/lagotto/contributors","subscribers_url":"https://api.github.com/repos/lagotto/lagotto/subscribers","subscription_url":"https://api.github.com/repos/lagotto/lagotto/subscription","commits_url":"https://api.github.com/repos/lagotto/lagotto/commits{/sha}","git_commits_url":"https://api.github.com/repos/lagotto/lagotto/git/commits{/sha}","comments_url":"https://api.github.com/repos/lagotto/lagotto/comments{/number}","issue_comment_url":"https://api.github.com/repos/lagotto/lagotto/issues/comments{/number}","contents_url":"https://api.github.com/repos/lagotto/lagotto/contents/{+path}","compare_url":"https://api.github.com/repos/lagotto/lagotto/compare/{base}...{head}","merges_url":"https://api.github.com/repos/lagotto/lagotto/merges","archive_url":"https://api.github.com/repos/lagotto/lagotto/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/lagotto/lagotto/downloads","issues_url":"https://api.github.com/repos/lagotto/lagotto/issues{/number}","pulls_url":"https://api.github.com/repos/lagotto/lagotto/pulls{/number}","milestones_url":"https://api.github.com/repos/lagotto/lagotto/milestones{/number}","notifications_url":"https://api.github.com/repos/lagotto/lagotto/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/lagotto/lagotto/labels{/name}","releases_url":"https://api.github.com/repos/lagotto/lagotto/releases{/id}","deployments_url":"https://api.github.com/repos/lagotto/lagotto/deployments","created_at":"2012-05-02T22:07:40Z","updated_at":"2016-03-14T23:45:01Z","pushed_at":"2016-03-16T22:16:57Z","git_url":"git://github.com/lagotto/lagotto.git","ssh_url":"git@github.com:lagotto/lagotto.git","clone_url":"https://github.com/lagotto/lagotto.git","svn_url":"https://github.com/lagotto/lagotto","homepage":"http://lagotto.io","size":68677,"stargazers_count":92,"watchers_count":92,"language":"Ruby","has_issues":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"forks_count":17,"mirror_url":null,"open_issues_count":80,"forks":17,"open_issues":80,"watchers":92,"default_branch":"master","organization":{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false},"network_count":17,"subscribers_count":40}'
     http_version: 
-  recorded_at: Mon, 22 Feb 2016 19:06:12 GMT
+  recorded_at: Thu, 17 Mar 2016 06:29:36 GMT
 - request:
     method: get
     uri: https://api.github.com/users/lagotto
@@ -88,7 +86,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Mon, 22 Feb 2016 19:06:12 GMT
+      - Thu, 17 Mar 2016 06:29:37 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -100,19 +98,17 @@ http_interactions:
       X-Ratelimit-Remaining:
       - '52'
       X-Ratelimit-Reset:
-      - '1456168003'
+      - '1458198379'
       Cache-Control:
       - public, max-age=60, s-maxage=60
-      Last-Modified:
-      - Sat, 18 Jul 2015 08:51:09 GMT
-      Etag:
-      - '"14f5a7a9f8aea6e70ce0d5ac56593b76"'
       Vary:
       - Accept, Accept-Encoding
+      Etag:
+      - '"0ed8249ec58e4cb89d6c1b11522a46f7"'
+      Last-Modified:
+      - Sat, 27 Feb 2016 02:09:12 GMT
       X-Github-Media-Type:
       - github.v3
-      Access-Control-Allow-Credentials:
-      - 'true'
       Access-Control-Expose-Headers:
       - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
         X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
@@ -129,12 +125,12 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Served-By:
-      - 4c8b2d4732c413f4b9aefe394bd65569
+      - bae57931a6fe678a3dffe9be8e7819c8
       X-Github-Request-Id:
-      - 3EE06981:16020:15B31EEA:56CB5C24
+      - 3EE06AF4:2E04:871782:56EA4ED0
     body:
       encoding: UTF-8
-      string: '{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false,"name":"Lagotto","company":null,"blog":"http://lagotto.io","location":null,"email":null,"hireable":null,"bio":null,"public_repos":35,"public_gists":0,"followers":0,"following":0,"created_at":"2012-05-01T19:38:33Z","updated_at":"2015-07-18T08:51:09Z"}'
+      string: '{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false,"name":"Lagotto","company":null,"blog":"http://lagotto.io","location":null,"email":null,"hireable":null,"bio":null,"public_repos":35,"public_gists":0,"followers":0,"following":0,"created_at":"2012-05-01T19:38:33Z","updated_at":"2016-02-27T02:09:12Z"}'
     http_version: 
-  recorded_at: Mon, 22 Feb 2016 19:06:12 GMT
+  recorded_at: Thu, 17 Mar 2016 06:29:37 GMT
 recorded_with: VCR 2.9.3
