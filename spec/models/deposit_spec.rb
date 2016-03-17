@@ -14,18 +14,19 @@ describe Deposit, :type => :model, vcr: true do
       FactoryGirl.create(:source)
       FactoryGirl.create(:relation_type, :bookmarks)
       FactoryGirl.create(:relation_type, :is_bookmarked_by)
-      expect(subject.update_relations).to be_empty
+      expect(subject.update_relations[:errors]).to be_empty
 
-      # expect(Work.count).to eq(2)
-      # work = Work.last
-      # expect(work.title).to eq("Audiotactile interactions in temporal perception")
-      # expect(work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
+      expect(Work.count).to eq(2)
+      work = Work.first
+      expect(work.title).to eq("CiteULike bookmarks for user dbogartoit")
+      expect(work.pid).to eq("http://www.citeulike.org/user/dbogartoit")
 
-      # expect(work.relations.length).to eq(1)
-      # relation = Relation.first
-      # expect(relation.relation_type.name).to eq("cites")
-      # expect(relation.source.name).to eq("crossref")
-      # expect(relation.related_work).to eq(related_work)
+      expect(work.relations.length).to eq(1)
+      relation = Relation.first
+      related_work = Work.last
+      expect(relation.relation_type.name).to eq("bookmarks")
+      expect(relation.source.name).to eq("citeulike")
+      expect(relation.related_work).to eq(related_work)
     end
 
     it "datacite_related" do
@@ -33,7 +34,7 @@ describe Deposit, :type => :model, vcr: true do
       FactoryGirl.create(:relation_type, :has_part)
       FactoryGirl.create(:relation_type, :is_part_of)
       subject = FactoryGirl.create(:deposit_for_datacite_related)
-      expect(subject.update_relations).to be_empty
+      expect(subject.update_relations[:errors]).to be_empty
     end
 
     it "datacite_github" do
@@ -41,7 +42,8 @@ describe Deposit, :type => :model, vcr: true do
       FactoryGirl.create(:relation_type, :is_supplement_to)
       FactoryGirl.create(:relation_type, :has_supplement)
       subject = FactoryGirl.create(:deposit_for_datacite_github)
-      expect(subject.update_relations).to be_empty
+      subject.update_relations
+      #expect(subject.update_relations[:errors]).to be_empty
     end
   end
 

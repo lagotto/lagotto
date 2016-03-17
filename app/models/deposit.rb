@@ -5,6 +5,9 @@ class Deposit < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include helper module for extracting identifier
+  include Identifiable
+
   # include helper module for query caching
   include Cacheable
 
@@ -62,7 +65,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def queue_deposit_job
-    DepositJob.set(wait: 5.minutes).perform_later(self)
+    DepositJob.set(wait: 1.minute).perform_later(self)
   end
 
   def to_param  # overridden, use uuid instead of id
@@ -115,7 +118,13 @@ class Deposit < ActiveRecord::Base
     inv_relation = update_relation(related_work[:id], work[:id], source[:id], inv_relation_type[:id])
 
     relations += [relation, inv_relation]
-    error_messages = relations.reduce([]) { |sum, item| sum + item[:errors] }
+    error_messages = relations.reduce([]) do |sum, item|
+      if item[:errors].present?
+        sum << item
+      else
+        sum
+      end
+    end
     { errors: error_messages }
   end
 
@@ -141,14 +150,18 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_work(item_id, item)
+    # normalize pid, e.g. http://dx.doi.org/10.5555/123 to http://doi.org/10.5555/123
+    id_hash = get_id_hash(item_id)
+    pid = id_as_pid(id_hash)
+
     item = from_csl(item)
 
     # create work if it doesn't exist, filling out all required fields
-    work = Work.where(pid: item_id).first_or_create(title: item.fetch("title", nil),
-                                                    year: item.fetch("year", nil),
-                                                    month: item.fetch("month", nil),
-                                                    day: item.fetch("day", nil),
-                                                    registration_agency: item.fetch("registration_agency", nil))
+    work = Work.where(pid: pid).first_or_create(title: item.fetch("title", nil),
+                                                year: item.fetch("year", nil),
+                                                month: item.fetch("month", nil),
+                                                day: item.fetch("day", nil),
+                                                registration_agency: item.fetch("registration_agency", nil))
 
     # update all attributes
     work.update_attributes(item.except("pid", "title", "year", "month", "day", "registration_agency"))

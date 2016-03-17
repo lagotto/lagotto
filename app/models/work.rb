@@ -322,7 +322,7 @@ class Work < ActiveRecord::Base
   end
 
   def write_metadata(metadata)
-    csl = {
+    self.csl = {
       "author" => metadata.fetch("author", []),
       "container-title" => metadata.fetch("container-title", nil),
       "volume" => metadata.fetch("volume", nil),
@@ -330,14 +330,13 @@ class Work < ActiveRecord::Base
       "issue" => metadata.fetch("issue", nil) }
 
     type = metadata.fetch("type", nil)
-    work_type_id = WorkType.where(name: type).pluck(:id).first
+    self.work_type_id = WorkType.where(name: type).pluck(:id).first
 
     publisher = metadata.fetch("publisher_id", nil)
-    publisher_id = Publisher.where(name: publisher).pluck(:id).first
+    self.publisher_id = Publisher.where(name: publisher).pluck(:id).first
 
-    date_parts = Array(metadata.fetch("issued", {}).fetch("date-parts", []).first)
-    year, month, day = date_parts[0], date_parts[1], date_parts[2]
+    self.year, self.month, self.day = get_year_month_day(metadata.fetch("issued", nil))
 
-    title = metadata.fetch("title", nil)
+    self.title = metadata.fetch("title", nil)
   end
 end
