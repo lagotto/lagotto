@@ -52,14 +52,14 @@ describe Counter, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the Counter API" do
@@ -67,7 +67,7 @@ describe Counter, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by the Counter API" do
@@ -76,16 +76,20 @@ describe Counter, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("counter")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(3387)
-      expect(event[:pdf]).to eq(447)
-      expect(event[:html]).to eq(2919)
-      expect(event[:extra].length).to eq(37)
-      expect(event[:months].length).to eq(37)
-      expect(event[:months].first).to eq(month: 1, year: 2010, html: 299, pdf: 90, total: 390)
-      expect(event[:events_url]).to be_nil
+      expect(response.length).to eq(2)
+      expect(response.first[:relation]).to eq("subj_id"=>"https://github.com",
+                                              "obj_id"=>"https://github.com/ropensci/alm",
+                                              "relation_type_id"=>"bookmarks",
+                                              "total"=>7,
+                                              "provenance_url" => "https://github.com/ropensci/alm",
+                                              "source_id"=>"github")
+
+      expect(response.last[:relation]).to eq("subj_id"=>"https://github.com",
+                                             "obj_id"=>"https://github.com/ropensci/alm",
+                                             "relation_type_id"=>"is_derived_from",
+                                             "total"=>3,
+                                             "provenance_url" => "https://github.com/ropensci/alm",
+                                             "source_id"=>"github")
     end
 
     it "should catch timeout errors with the Counter API" do

@@ -15,21 +15,35 @@ class Counter < Agent
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
 
-    extra = get_extra(result)
-
     pdf = get_sum(extra, "pdf_views")
     html = get_sum(extra, "html_views")
-    xml = get_sum(extra, "xml_views")
-    total = pdf + html + xml
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        pdf: pdf,
-        html: html,
-        total: total,
-        extra: extra,
-        months: get_events_by_month(extra) }] }
+    relations = []
+    if pdf > 0
+      relations << { relation: { "subj_id" => "http://www.plos.org",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "downloads",
+                                 "total" => pdf,
+                                 "source_id" => source_id },
+                     subj: { "pid" => "http://www.plos.org",
+                             "URL" => "http://www.plos.org",
+                             "title" => "PLOS",
+                             "issued" => "2012-05-15T16:40:23Z" }}
+    end
+
+    if html > 0
+      relations << { relation: { "subj_id" => "https://github.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "views",
+                                 "total" => html,
+                                 "source_id" => source_id },
+                     subj: { "pid" => "http://www.plos.org",
+                             "URL" => "http://www.plos.org",
+                             "title" => "PLOS",
+                             "issued" => "2012-05-15T16:40:23Z" }}
+    end
+
+    relations
   end
 
   def get_extra(result)
@@ -44,19 +58,19 @@ class Counter < Agent
     end
   end
 
-  def get_events_by_month(extra)
-    extra.map do |month|
-      html = month["html_views"].to_i
-      pdf = month["pdf_views"].to_i
-      xml = month["xml_views"].to_i
+  # def get_events_by_month(extra)
+  #   extra.map do |month|
+  #     html = month["html_views"].to_i
+  #     pdf = month["pdf_views"].to_i
+  #     xml = month["xml_views"].to_i
 
-      { month: month["month"].to_i,
-        year: month["year"].to_i,
-        html: html,
-        pdf: pdf,
-        total: html + pdf + xml }
-    end
-  end
+  #     { month: month["month"].to_i,
+  #       year: month["year"].to_i,
+  #       html: html,
+  #       pdf: pdf,
+  #       total: html + pdf + xml }
+  #   end
+  # end
 
   def config_fields
     [:url_private]

@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.bitbucket.org/1.0/repositories//
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto-5-0-unstable.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 404
+      message: ''
+    headers:
+      Server:
+      - nginx/1.6.2
+      Vary:
+      - Authorization, Cookie
+      Cache-Control:
+      - max-age=900
+      Content-Type:
+      - application/json; charset=utf-8
+      Strict-Transport-Security:
+      - max-age=31536000
+      Date:
+      - Thu, 17 Mar 2016 10:04:46 GMT
+      X-Served-By:
+      - app-109
+      X-Static-Version:
+      - 43b1efd49c8b
+      Etag:
+      - '"a753df69116efa33d09f366af4bf0235"'
+      X-Render-Time:
+      - '0.00718998908997'
+      Connection:
+      - keep-alive
+      X-Version:
+      - 43b1efd49c8b
+      X-Request-Count:
+      - '41'
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Cache-Info:
+      - caching
+      Content-Length:
+      - '209'
+    body:
+      encoding: UTF-8
+      string: '{"error": {"message": "Resource not found", "detail": "There is no
+        API hosted at this URL.\n\nFor information about our API''s, please refer
+        to the documentation at: https://confluence.atlassian.com/x/IYBGDQ"}}'
+    http_version: 
+  recorded_at: Thu, 17 Mar 2016 10:04:46 GMT
+recorded_with: VCR 2.9.3
