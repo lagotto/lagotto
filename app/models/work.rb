@@ -338,5 +338,8 @@ class Work < ActiveRecord::Base
     self.year, self.month, self.day = get_year_month_day(metadata.fetch("issued", nil))
 
     self.title = metadata.fetch("title", nil)
+
+    self.doi = metadata.fetch("DOI", nil)
+    self.canonical_url = metadata.fetch("URL", nil)
   end
 end
