@@ -112,7 +112,7 @@ describe Wos, type: :model do
 
     it "should catch timeout errors with the Wos API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc" }
+      result = [{ error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc" }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

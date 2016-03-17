@@ -294,7 +294,6 @@ class Work < ActiveRecord::Base
     return if registration_agency.present? && title.present? && year.present?
 
     id_hash = get_id_hash(pid)
-    return nil unless id_hash.present?
 
     if id_hash[:doi].present?
       registration_agency ||= get_doi_ra(id_hash[:doi])

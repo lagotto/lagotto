@@ -93,7 +93,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do
-      result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
+      result = [{ error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

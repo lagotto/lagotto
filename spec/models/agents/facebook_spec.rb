@@ -179,7 +179,7 @@ describe Facebook, type: :model do
     end
 
     it "should catch errors with the Facebook API" do
-      result = { error: "the server responded with status 401 for https://graph.facebook.com/fql?access_token=EXAMPLE&q=select%20url,%20share_count,%20like_count,%20comment_count,%20click_count,%20total_count%20from%20link_stat%20where%20url%20=%20'http%253A%252F%252Fwww.plosmedicine.org%252Farticle%252Finfo%253Adoi%252F#{CGI.escape(work.doi_escaped)}'", status: 408 }
+      result = [{ error: "the server responded with status 401 for https://graph.facebook.com/fql?access_token=EXAMPLE&q=select%20url,%20share_count,%20like_count,%20comment_count,%20click_count,%20total_count%20from%20link_stat%20where%20url%20=%20'http%253A%252F%252Fwww.plosmedicine.org%252Farticle%252Finfo%253Adoi%252F#{CGI.escape(work.doi_escaped)}'", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

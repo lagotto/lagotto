@@ -89,7 +89,7 @@ describe Copernicus, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the Copernicus API" do
-      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi}", status: 408 }
+      result = [{ error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi}", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

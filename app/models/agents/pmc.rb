@@ -11,9 +11,10 @@ class Pmc < Agent
     # properly handle not found errors
     result = { 'data' => [] } if result[:status] == 404
 
-    return result if result[:error]
+    return [result] if result[:error]
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     extra = Array(result["views"])
     html = get_sum(extra, 'full-text')

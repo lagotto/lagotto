@@ -15,10 +15,11 @@ class EuropePmcData < Agent
   end
 
   def parse_data(result, options={})
-    return result if result[:error]
+    return [result] if result[:error]
     result = result.fetch("responseWrapper", nil) || result
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     total = result.fetch("hitCount", nil).to_i
     related_works = get_related_works(result, work)

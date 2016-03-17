@@ -41,9 +41,9 @@ class Bitbucket < Agent
   end
 
   def parse_data(result, options={})
-    return result if result[:error]
+    return [result] if result[:error]
     work = Work.where(id: options[:work_id]).first
-    return { error: "Resource not found.", status: 404 } unless work.present?
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     relations = []
     provenance_url = get_provenance_url(get_owner_and_repo(work)) if work.canonical_url.present?

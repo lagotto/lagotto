@@ -11,11 +11,12 @@ class Scopus < Agent
   end
 
   def parse_data(result, options={})
-    return result if result[:error]
+    return [result] if result[:error]
 
     extra = result.deep_fetch('search-results', 'entry', 0) { {} }
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     if extra["link"]
       total = extra['citedby-count'].to_i

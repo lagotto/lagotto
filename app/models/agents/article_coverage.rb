@@ -17,7 +17,7 @@ class ArticleCoverage < Agent
       result.extend Hashie::Extensions::DeepFetch
     elsif result[:error]
       # return early if an error occured that is not a not_found error
-      return result
+      return [result]
     end
 
     extra = get_extra(result)
@@ -30,7 +30,7 @@ class ArticleCoverage < Agent
     #     total: metrics[:total],
     #     extra: extra }] }
 
-        # TODO name for 
+        # TODO name for
         [{ "subject" => "http://TODO",
             "object" => work.pid,
             "relation" => "total_count", # TODO

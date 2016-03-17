@@ -1,10 +1,11 @@
 class Mendeley < Agent
   def parse_data(result, options={})
-    return result if result[:error].is_a?(String)
+    return [result] if result[:error].is_a?(String)
 
     result = result.fetch("data", []).first || {}
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     readers = result.fetch("reader_count", 0)
     groups = result.fetch("group_count", 0)

@@ -167,18 +167,12 @@ describe Agent, :type => :model, vcr: true do
 
     it "success" do
       response = subject.collect_data(work_id: work.id)
-      expect(response["uuid"]).to be_present
-      expect(response["message_type"]).to eq("citeulike")
-      expect(response["source_token"]).to eq(subject.uuid)
-
-      expect(Deposit.count).to eq(1)
-      deposit = Deposit.first
-
-      expect(deposit["message"]["works"].length).to eq(6)
-
-      event = deposit["message"]["events"].first
-      expect(event["source_id"]).to eq("citeulike")
-      expect(event["work_id"]).to eq(work.pid)
+      expect(response.length).to eq(7)
+      deposit = response.first
+      expect(deposit.message_type).to eq("relation")
+      expect(deposit.source_token).to eq(subject.uuid)
+      expect(deposit.source_id).to eq("citeulike")
+      expect(deposit.subj_id).to eq("http://www.citeulike.org/user/bkk")
     end
 
     it "success counter" do
@@ -257,7 +251,7 @@ describe Agent, :type => :model, vcr: true do
     it "error" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       deposit = subject.collect_data(work_id: work.id)
-      expect(deposit).to be_empty
+      expect(deposit).to eq(2)
 
       expect(Deposit.count).to eq(0)
     end

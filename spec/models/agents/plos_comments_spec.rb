@@ -101,7 +101,7 @@ describe PlosComments, type: :model do
 
     it "should catch timeout errors with the PLOS comments API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = { error: "http://api.plosjournals.org/v1/articles/#{work.doi}?comments", status: 408 }
+      result = [{ error: "http://api.plosjournals.org/v1/articles/#{work.doi}?comments", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

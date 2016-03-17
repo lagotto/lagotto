@@ -370,7 +370,7 @@ module Resolvable
     end
 
     def get_id_hash(id)
-      return nil if id.nil?
+      return {} if id.nil?
 
       id = id.gsub("%2F", "/")
       id = id.gsub("%3A", ":")

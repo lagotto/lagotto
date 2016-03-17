@@ -48,7 +48,7 @@ class CrossrefOrcid < Agent
 
   def parse_data(result, options={})
     result = { error: "No hash returned." } unless result.is_a?(Hash)
-    return result if result[:error]
+    return [result] if result[:error]
 
     items = result.fetch('message', {}).fetch('items', nil)
     get_relations_with_contributors(items)

@@ -82,7 +82,7 @@ describe Openedition, type: :model, vcr: true do
 
     it "should catch timeout errors with the OpenEdition APi" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", status: 408 }
+      result = [{ error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

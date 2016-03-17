@@ -15,7 +15,7 @@ class BmcFulltext < Agent
   end
 
   def parse_data(result, options={})
-    return result if result[:error]
+    return [result] if result[:error]
     return [] if result["entries"].nil?
     super(result, options)
   end

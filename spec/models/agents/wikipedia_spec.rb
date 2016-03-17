@@ -126,7 +126,7 @@ describe Wikipedia, type: :model, vcr: true do
 
     it "should catch timeout errors with the Wikipedia API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = { error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}", status: 408 }
+      result = [{ error: "the server responded with status 408 for http://scienceseeker.org/search/default/?type=post&filter0=citation&modifier0=doi&value0=#{work.doi_escaped}", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

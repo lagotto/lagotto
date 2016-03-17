@@ -51,7 +51,7 @@ describe Citeulike, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = { error: "query_url is nil." }
-      expect(subject.parse_data(result, work_id: work.id)).to eq(error: "query_url is nil.")
+      expect(subject.parse_data(result, work_id: work.id)).to eq([{ error: "query_url is nil." }])
     end
 
     it "should report if there are no events returned by the CiteULike API" do
@@ -113,7 +113,7 @@ describe Citeulike, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the CiteULike API" do
-      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", status: 408 }
+      result = [{ error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", status: 408 }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end

@@ -18,9 +18,9 @@ class Facebook < Agent
   end
 
   def parse_data(result, options={})
-    return result if result[:error]
+    return [result] if result[:error]
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return { error: "Resource not found.", status: 404 } unless work.present?
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     result.extend Hashie::Extensions::DeepFetch
 

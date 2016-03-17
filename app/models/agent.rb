@@ -150,8 +150,8 @@ class Agent < ActiveRecord::Base
     data = parse_data(data, options.merge(agent_id: id))
 
     # push to deposit API if no error and we have collected works and/or events
-    # returns number of deposits created
-    { total: push_data(data, options) }
+    # returns deposits created
+    push_data(data, options)
   end
 
   def get_data(options={})
@@ -178,8 +178,7 @@ class Agent < ActiveRecord::Base
       result.extend Hashie::Extensions::DeepFetch
     elsif result[:error]
       # return early if an error occured that is not a not_found error
-      # TODO same error return for triples?
-      return result
+      return [result]
     end
 
     work = Work.where(id: options.fetch(:work_id, nil)).first

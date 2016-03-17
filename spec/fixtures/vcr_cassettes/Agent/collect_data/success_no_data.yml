@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto-5-0-unstable.local
       Accept:
       - application/xml
   response:
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/0.8.31
       Date:
-      - Sun, 23 Aug 2015 19:11:02 GMT
+      - Thu, 17 Mar 2016 11:06:25 GMT
       Content-Type:
       - text/xml; charset=UTF-8
       Connection:
@@ -33,5 +33,5 @@ http_interactions:
       string: |
         <posts></posts>
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 19:11:06 GMT
+  recorded_at: Thu, 17 Mar 2016 11:06:25 GMT
 recorded_with: VCR 2.9.3
