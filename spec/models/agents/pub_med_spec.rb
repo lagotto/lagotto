@@ -19,14 +19,14 @@ describe PubMed, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the PubMed API" do
       response = subject.get_data(work_id: work.id)
-      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(17)
+      expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].length).to eq(18)
       expect(response["PubMedToPMCcitingformSET"]["REFORM"]["PMCID"].first).to eq("2464333")
     end
 
     it "should catch errors with the PubMed API" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work, agent: subject.id)
-      expect(response).to eq(error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{work.pmid}", :status=>408)
+      response = subject.get_data(work_id: work, agent_id: subject.id)
+      expect(response).to eq(error: "the server responded with status 408 for http://www.ncbi.nlm.nih.gov/pmc/utils/entrez2pmcciting.cgi?view=xml&id=#{work.pmid}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
@@ -59,29 +59,30 @@ describe PubMed, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("pub_med")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(13)
-      expect(event[:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
+      expect(response.length).to eq(13)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.3389/fendo.2012.00005",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "provenance_url"=>"http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631",
+                                              "source_id"=>"pub_med")
 
-      expect(response[:works].length).to eq(13)
-      related_work = response[:works].first
-      expect(related_work["DOI"]).to eq("10.3389/fendo.2012.00005")
-      expect(related_work["PMID"]).to eq("22389645")
-      expect(related_work["PMCID"]).to eq("3292175")
-      expect(related_work['author']).to eq([{"family"=>"Morrison", "given"=>"Shaun F."}, {"family"=>"Madden", "given"=>"Christopher J."}, {"family"=>"Tupone", "given"=>"Domenico"}])
-      expect(related_work['title']).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
-      expect(related_work['container-title']).to eq("Frontiers in Endocrinology")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
-      expect(related_work['volume']).to eq("3")
-      expect(related_work['issue']).to be_nil
-      expect(related_work['page']).to be_nil
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"pub_med", "relation_type_id"=>"cites"}])
-
-      extra = event[:extra].first
-      expect(extra[:event_url]).to eq("http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=" + extra[:event])
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.3389/fendo.2012.00005",
+                                          "issued"=>"2012",
+                                          "author"=>[{"family"=>"Morrison", "given"=>"Shaun F."},
+                                                     {"family"=>"Madden", "given"=>"Christopher J."},
+                                                     {"family"=>"Tupone", "given"=>"Domenico"}],
+                                          "container-title"=>"Frontiers in Endocrinology",
+                                          "volume"=>"3",
+                                          "issue"=>nil,
+                                          "page"=>nil,
+                                          "title"=>"Central Control of Brown Adipose Tissue Thermogenesis",
+                                          "DOI"=>"10.3389/fendo.2012.00005",
+                                          "PMID"=>"22389645",
+                                          "PMCID"=>"3292175",
+                                          "type"=>"article-journal",
+                                          "tracked"=>false,
+                                          "publisher_id"=>"1965",
+                                          "registration_agency"=>"crossref")
     end
 
     it "should report if there is a single event returned by the PubMed API" do
@@ -90,33 +91,37 @@ describe PubMed, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("pub_med")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq("http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631")
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.3389/fendo.2012.00005",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "provenance_url"=>"http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=link&LinkName=pubmed_pmc_refs&from_uid=17183631",
+                                              "source_id"=>"pub_med")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work["DOI"]).to eq("10.3389/fendo.2012.00005")
-      expect(related_work["PMID"]).to eq("22389645")
-      expect(related_work["PMCID"]).to eq("3292175")
-      expect(related_work['author']).to eq([{"family"=>"Morrison", "given"=>"Shaun F."}, {"family"=>"Madden", "given"=>"Christopher J."}, {"family"=>"Tupone", "given"=>"Domenico"}])
-      expect(related_work['title']).to eq("Central Control of Brown Adipose Tissue Thermogenesis")
-      expect(related_work['container-title']).to eq("Frontiers in Endocrinology")
-      expect(related_work['issued']).to eq("date-parts"=>[[2012]])
-      expect(related_work['volume']).to eq("3")
-      expect(related_work['issue']).to be_nil
-      expect(related_work['page']).to be_nil
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"pub_med", "relation_type_id"=>"cites"}])
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.3389/fendo.2012.00005",
+                                          "issued"=>"2012",
+                                          "author"=>[{"family"=>"Morrison", "given"=>"Shaun F."},
+                                                     {"family"=>"Madden", "given"=>"Christopher J."},
+                                                     {"family"=>"Tupone", "given"=>"Domenico"}],
+                                          "container-title"=>"Frontiers in Endocrinology",
+                                          "volume"=>"3",
+                                          "issue"=>nil,
+                                          "page"=>nil,
+                                          "title"=>"Central Control of Brown Adipose Tissue Thermogenesis",
+                                          "DOI"=>"10.3389/fendo.2012.00005",
+                                          "PMID"=>"22389645",
+                                          "PMCID"=>"3292175",
+                                          "type"=>"article-journal",
+                                          "tracked"=>false,
+                                          "publisher_id"=>"1965",
+                                          "registration_agency"=>"crossref")
     end
 
     it "should catch timeout errors with the PubMed API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = [{ error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/entrez2pmcciting.cgi?view=xml&id=#{work.pmid}", status: 408 }]
+      result = { error: "the server responded with status 408 for http://www.ncbi.nlm.nih.gov/pmc/utils/entrez2pmcciting.cgi?view=xml&id=17183631", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end
