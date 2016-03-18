@@ -55,11 +55,15 @@ class CrossrefImport < Agent
     total
   end
 
-  def get_works(result)
-    # return early if an error occured
-    return [] unless result.is_a?(Hash) && result.fetch('status', nil) == "ok"
+  def parse_data(result, options={})
+    result = { error: "No hash returned." } unless result.is_a?(Hash)
+    return [result] if result[:error] || result.fetch('status', nil) != "ok"
 
     items = result.fetch('message', {}).fetch('items', nil)
+    get_relations_with_related_works(items)
+  end
+
+  def get_relations_with_related_works(items)
     Array(items).map do |item|
       date_parts = item.fetch("issued", {}).fetch("date-parts", []).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
@@ -69,6 +73,9 @@ class CrossrefImport < Agent
         date_parts = item.fetch("indexed", {}).fetch("date-parts", []).first
         year, month, day = date_parts[0], date_parts[1], date_parts[2]
       end
+      issued = get_date_from_parts(year, month, day)
+
+      author = item.fetch("author", []).map { |a| a.except("affiliation") }
 
       title = case item["title"].length
               when 0 then nil
@@ -80,26 +87,29 @@ class CrossrefImport < Agent
         title = item["container-title"][0].presence || "No title"
       end
 
-      member = item.fetch("member", "")[30..-1]
-      publisher = Publisher.where(name: member).first
-      publisher_id = publisher.present? ? publisher.id : nil
-
       type = item.fetch("type", nil)
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       doi = item.fetch("DOI", nil)
+      prefix = doi[/^10\.\d{4,5}/]
 
-      { "pid" => doi_as_url(doi),
-        "author" => item.fetch("author", []),
-        "container-title" => item.fetch("container-title", []).first,
-        "title" => title,
-        "issued" => { "date-parts" => [date_parts] },
-        "DOI" => doi,
-        "publisher_id" => publisher_id,
-        "volume" => item.fetch("volume", nil),
-        "issue" => item.fetch("issue", nil),
-        "page" => item.fetch("page", nil),
-        "type" => type,
-        "tracked" => tracked }
+      subj = { "pid" => doi_as_url(doi),
+               "author" => author,
+               "container-title" => item.fetch("container-title", []).first,
+               "title" => title,
+               "issued" => issued,
+               "DOI" => doi,
+               "publisher_id" => item.fetch("member", "")[30..-1],
+               "volume" => item.fetch("volume", nil),
+               "issue" => item.fetch("issue", nil),
+               "page" => item.fetch("page", nil),
+               "type" => type,
+               "tracked" => tracked  }
+
+      { prefix: prefix,
+        relation: { "subj_id" => subj["pid"],
+                    "source_id" => source_id,
+                    "publisher_id" => subj["publisher_id"] },
+        subj: subj }
     end
   end
 

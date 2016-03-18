@@ -563,6 +563,7 @@ FactoryGirl.define do
     type "CrossrefImport"
     name "crossref_import"
     title "Crossref Import"
+    only_publishers true
     state_event "activate"
 
     group
@@ -597,6 +598,7 @@ FactoryGirl.define do
     name "datacite_import"
     title "Datacite Import"
     state_event "activate"
+    only_publishers true
 
     group
 

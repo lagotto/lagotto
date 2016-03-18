@@ -59,23 +59,23 @@ describe CrossrefImport, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(415496)
+      expect(subject.get_total).to eq(222983)
     end
 
     it "with no works" do
-      expect(subject.get_total(from_date: "2015-04-05", until_date: "2015-04-05")).to eq(0)
+      expect(subject.get_total(from_date: "1915-04-05", until_date: "1915-04-05")).to eq(0)
     end
   end
 
   context "queue_jobs" do
     it "should report if there are no works returned by the Crossref REST API" do
-      response = subject.queue_jobs(from_date: "2015-04-05", until_date: "2015-04-05")
+      response = subject.queue_jobs(from_date: "1915-04-05", until_date: "1915-04-05")
       expect(response).to eq(0)
     end
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(415496)
+      expect(response).to eq(222983)
     end
 
     it "should report if there are sample works returned by the Crossref REST API" do
@@ -87,15 +87,15 @@ describe CrossrefImport, type: :model, vcr: true do
 
   context "get_data" do
     it "should report if there are no works returned by the Crossref REST API" do
-      response = subject.get_data(from_date: "2015-04-05", until_date: "2015-04-05")
+      response = subject.get_data(from_date: "1915-04-05", until_date: "1915-04-05")
       expect(response["message"]["total-results"]).to eq(0)
     end
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(415496)
+      expect(response["message"]["total-results"]).to eq(222983)
       item = response["message"]["items"].first
-      expect(item["DOI"]).to eq("10.1139/cjm-47-5-404")
+      expect(item["DOI"]).to eq("10.15857/ksep.2008.17.4.483")
     end
 
     it "should catch errors with the Crossref REST API" do
@@ -123,15 +123,25 @@ describe CrossrefImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works].first
-      expect(related_work['author']).to eq([{"family"=>"Batra", "given"=>"Geeta"}, {"family"=>"Stone", "given"=>"Andrew H. W."}])
-      expect(related_work['title']).to eq("Investment climate, capabilities and firm performance")
-      expect(related_work['container-title']).to eq("OECD Journal: General Papers")
-      expect(related_work['issued']).to eq("date-parts"=>[[2008, 7, 26]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['DOI']).to eq("10.1787/gen_papers-v2008-art6-en")
-      expect(related_work['publisher_id']).to eq(1963)
+      expect(response.length).to eq(10)
+      expect(response[0][:prefix]).to eq("10.1787")
+      expect(response[0][:relation]).to eq("subj_id"=>"http://doi.org/10.1787/gen_papers-v2008-art6-en",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"1963")
+
+      expect(response[0][:subj]).to eq("pid"=>"http://doi.org/10.1787/gen_papers-v2008-art6-en",
+                                       "author"=>[{"family"=>"Batra", "given"=>"Geeta"},
+                                                  {"family"=>"Stone", "given"=>"Andrew H. W."}],
+                                       "container-title"=>"OECD Journal: General Papers",
+                                       "title"=>"Investment climate, capabilities and firm performance",
+                                       "issued"=>"2008-07-26",
+                                       "DOI"=>"10.1787/gen_papers-v2008-art6-en",
+                                       "publisher_id"=>"1963",
+                                       "volume"=>"2008",
+                                       "issue"=>"1",
+                                       "page"=>"1-37",
+                                       "type"=>"article-journal",
+                                       "tracked"=>true)
     end
 
     it "should report if there are works with incomplete date returned by the Crossref REST API" do
@@ -139,14 +149,24 @@ describe CrossrefImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][5]
-      expect(related_work['author']).to eq([{"family"=>"Moore", "given"=>"J. W"}])
-      expect(related_work['title']).to eq("Sanitary and meteorological notes")
-      expect(related_work['container-title']).to eq("The Dublin Journal of Medical Science")
-      expect(related_work['issued']).to eq("date-parts"=>[[1884, 8]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['DOI']).to eq("10.1007/bf02975686")
+      expect(response.length).to eq(10)
+      expect(response[5][:prefix]).to eq("10.1007")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.1007/bf02975686",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"297")
+
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.1007/bf02975686",
+                                       "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
+                                       "container-title"=>"The Dublin Journal of Medical Science",
+                                       "title"=>"Sanitary and meteorological notes",
+                                       "issued"=>"1884-08",
+                                       "DOI"=>"10.1007/bf02975686",
+                                       "publisher_id"=>"297",
+                                       "volume"=>"78",
+                                       "issue"=>"2",
+                                       "page"=>"185-189",
+                                       "type"=>"article-journal",
+                                       "tracked"=>true)
     end
 
     it "should report if there are works with date in the future returned by the Crossref REST API" do
@@ -154,14 +174,32 @@ describe CrossrefImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work['author']).to eq([{"affiliation"=>[], "family"=>"Beck", "given"=>"Sarah E."}, {"affiliation"=>[], "family"=>"Queen", "given"=>"Suzanne E."}, {"affiliation"=>[], "family"=>"Witwer", "given"=>"Kenneth W."}, {"affiliation"=>[], "family"=>"Metcalf Pate", "given"=>"Kelly A."}, {"affiliation"=>[], "family"=>"Mangus", "given"=>"Lisa M."}, {"affiliation"=>[], "family"=>"Gama", "given"=>"Lucio"}, {"affiliation"=>[], "family"=>"Adams", "given"=>"Robert J."}, {"affiliation"=>[], "family"=>"Clements", "given"=>"Janice E."}, {"affiliation"=>[], "family"=>"Christine Zink", "given"=>"M."}, {"affiliation"=>[], "family"=>"Mankowski", "given"=>"Joseph L."}])
-      expect(related_work['title']).to eq("Paving the path to HIV neurotherapy: Predicting SIV CNS disease")
-      expect(related_work['container-title']).to eq("European Journal of Pharmacology")
-      expect(related_work['issued']).to eq("date-parts"=>[[2015, 5, 24]])
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['DOI']).to eq("10.1016/j.ejphar.2015.03.018")
+      expect(response.length).to eq(1)
+      expect(response[0][:prefix]).to eq("10.1016")
+      expect(response[0][:relation]).to eq("subj_id"=>"http://doi.org/10.1016/j.ejphar.2015.03.018",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"78")
+
+      expect(response[0][:subj]).to eq("pid"=>"http://doi.org/10.1016/j.ejphar.2015.03.018",
+                                       "author"=>[{"family"=>"Beck", "given"=>"Sarah E."},
+                                                  {"family"=>"Queen", "given"=>"Suzanne E."},
+                                                  {"family"=>"Witwer", "given"=>"Kenneth W."},
+                                                  {"family"=>"Metcalf Pate", "given"=>"Kelly A."},
+                                                  {"family"=>"Mangus", "given"=>"Lisa M."},
+                                                  {"family"=>"Gama", "given"=>"Lucio"},
+                                                  {"family"=>"Adams", "given"=>"Robert J."},
+                                                  {"family"=>"Clements", "given"=>"Janice E."},
+                                                  {"family"=>"Christine Zink", "given"=>"M."},
+                                                  {"family"=>"Mankowski", "given"=>"Joseph L."}],
+                                       "container-title"=>"European Journal of Pharmacology",
+                                       "title"=>"Paving the path to HIV neurotherapy: Predicting SIV CNS disease",
+                                       "issued"=>"2015-05-24",
+                                       "DOI"=>"10.1016/j.ejphar.2015.03.018",
+                                       "publisher_id"=>"78", "volume"=>"759",
+                                       "issue"=>nil,
+                                       "page"=>"303-312",
+                                       "type"=>"article-journal",
+                                       "tracked"=>true)
     end
 
     it "should report if there are works with title as second item returned by the Crossref REST API" do
@@ -169,12 +207,24 @@ describe CrossrefImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][2]
-      expect(related_work['title']).to eq("Human capital formation and foreign direct")
-      expect(related_work['container-title']).to eq("OECD Journal: General Papers")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['DOI']).to eq("10.1787/gen_papers-v2008-art4-en")
+      expect(response.length).to eq(10)
+      expect(response[2][:prefix]).to eq("10.1787")
+      expect(response[2][:relation]).to eq("subj_id"=>"http://doi.org/10.1787/gen_papers-v2008-art4-en",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"1963")
+
+      expect(response[2][:subj]).to eq("pid"=>"http://doi.org/10.1787/gen_papers-v2008-art4-en",
+                                       "author"=>[{"family"=>"Miyamoto", "given"=>"Koji"}],
+                                       "container-title"=>"OECD Journal: General Papers",
+                                       "title"=>"Human capital formation and foreign direct",
+                                       "issued"=>"2008-07-26",
+                                       "DOI"=>"10.1787/gen_papers-v2008-art4-en",
+                                       "publisher_id"=>"1963",
+                                       "volume"=>"2008",
+                                       "issue"=>"1",
+                                       "page"=>"1-40",
+                                       "type"=>"article-journal",
+                                       "tracked"=>true)
     end
 
     it "should report if there are works with missing title returned by the Crossref REST API" do
@@ -183,12 +233,24 @@ describe CrossrefImport, type: :model, vcr: true do
       result["message"]["items"][5]["title"] = []
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][5]
-      expect(related_work['title']).to be_nil
-      expect(related_work['container-title']).to eq("The Dublin Journal of Medical Science")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['DOI']).to eq("10.1007/bf02975686")
+      expect(response.length).to eq(10)
+      expect(response[5][:prefix]).to eq("10.1007")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.1007/bf02975686",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"297")
+
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.1007/bf02975686",
+                                       "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
+                                       "container-title"=>"The Dublin Journal of Medical Science",
+                                       "title"=>nil,
+                                       "issued"=>"1884-08",
+                                       "DOI"=>"10.1007/bf02975686",
+                                       "publisher_id"=>"297",
+                                       "volume"=>"78",
+                                       "issue"=>"2",
+                                       "page"=>"185-189",
+                                       "type"=>"article-journal",
+                                       "tracked"=>true)
     end
 
     it "should report if there are works with missing title journal-issue returned by the Crossref REST API" do
@@ -198,12 +260,24 @@ describe CrossrefImport, type: :model, vcr: true do
       result["message"]["items"][5]["type"] = "journal-issue"
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][5]
-      expect(related_work['title']).to eq("The Dublin Journal of Medical Science")
-      expect(related_work['container-title']).to eq("The Dublin Journal of Medical Science")
-      expect(related_work['type']).to be_nil
-      expect(related_work['DOI']).to eq("10.1007/bf02975686")
+      expect(response.length).to eq(10)
+      expect(response[5][:prefix]).to eq("10.1007")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.1007/bf02975686",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"297")
+
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.1007/bf02975686",
+                                       "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
+                                       "container-title"=>"The Dublin Journal of Medical Science",
+                                       "title"=>"The Dublin Journal of Medical Science",
+                                       "issued"=>"1884-08",
+                                       "DOI"=>"10.1007/bf02975686",
+                                       "publisher_id"=>"297",
+                                       "volume"=>"78",
+                                       "issue"=>"2",
+                                       "page"=>"185-189",
+                                       "type"=>nil,
+                                       "tracked"=>true)
     end
 
     it "should report if there are works with missing title missing container-title journal-issue returned by the Crossref REST API" do
@@ -214,12 +288,30 @@ describe CrossrefImport, type: :model, vcr: true do
       result["message"]["items"][5]["type"] = "journal-issue"
       response = subject.parse_data(result)
 
-      expect(response[:works].length).to eq(10)
-      related_work = response[:works][5]
-      expect(related_work['title']).to eq("No title")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['type']).to be_nil
-      expect(related_work['DOI']).to eq("10.1007/bf02975686")
+      expect(response.length).to eq(10)
+      expect(response[5][:prefix]).to eq("10.1007")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.1007/bf02975686",
+                                           "source_id"=>"crossref_import",
+                                           "publisher_id"=>"297")
+
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.1007/bf02975686",
+                                       "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
+                                       "container-title"=>nil,
+                                       "title"=>"No title",
+                                       "issued"=>"1884-08",
+                                       "DOI"=>"10.1007/bf02975686",
+                                       "publisher_id"=>"297",
+                                       "volume"=>"78",
+                                       "issue"=>"2",
+                                       "page"=>"185-189",
+                                       "type"=>nil,
+                                       "tracked"=>true)
+    end
+
+    it "should catch timeout errors with the Crossref Metadata Search API" do
+      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/", status: 408 }
+      response = subject.parse_data(result)
+      expect(response).to eq([result])
     end
   end
 end

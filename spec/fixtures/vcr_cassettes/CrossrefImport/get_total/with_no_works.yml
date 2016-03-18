@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.crossref.org/works?filter=from-update-date:2015-04-05,until-update-date:2015-04-05&offset=0&rows=0
+    uri: http://api.crossref.org/works?filter=from-update-date:1915-04-05,until-update-date:1915-04-05&offset=0&rows=0
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto-5-0-unstable.local
       Accept:
       - application/json
   response:
@@ -16,10 +16,6 @@ http_interactions:
       code: 200
       message: ''
     headers:
-      Date:
-      - Tue, 29 Sep 2015 20:35:50 GMT
-      Server:
-      - http-kit
       Access-Control-Allow-Headers:
       - X-Requested-With
       Access-Control-Allow-Origin:
@@ -29,10 +25,16 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '190'
+      - '186'
+      Server:
+      - http-kit
+      Date:
+      - Fri, 18 Mar 2016 10:14:35 GMT
+      Connection:
+      - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":61732,"facets":{}}}'
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":0,"facets":{}}}'
     http_version: 
-  recorded_at: Tue, 29 Sep 2015 20:35:07 GMT
+  recorded_at: Fri, 18 Mar 2016 10:14:35 GMT
 recorded_with: VCR 2.9.3
