@@ -61,22 +61,27 @@ describe Orcid, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("orcid")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq("https://orcid.org/orcid-search/quick-search/?searchQuery=\"10.1371%2Fjournal.pone.0018011\"&rows=100")
+      expect(response.length).to eq(1)
+      expect(response.first[:contribution]).to eq("subj_id"=>"http://orcid.org/0000-0002-0159-2197",
+                                                  "obj_id"=>work.pid,
+                                                  "source_id"=>"orcid")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://orcid.org/0000-0002-0159-2197")
-      expect(related_work['author']).to eq([{"family"=>"Eisen", "given"=>"Jonathan A."}])
-      expect(related_work['title']).to eq("ORCID profile for Jonathan A. Eisen")
-      expect(related_work['container-title']).to eq("ORCID Registry")
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 9, 5]])
-      expect(related_work['timestamp']).to eq("2013-09-05T00:00:00Z")
-      expect(related_work['type']).to eq("entry")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"orcid", "relation_type_id"=>"bookmarks"}])
+      expect(response.first[:subj]).to eq("pid"=>"http://orcid.org/0000-0002-0159-2197",
+                                          "author"=>[{"family"=>"Eisen", "given"=>"Jonathan A."}],
+                                          "title"=>"ORCID profile for Jonathan A. Eisen",
+                                          "container-title"=>"ORCID Registry",
+                                          "issued"=>"2013-09-05T00:00:00Z",
+                                          "URL"=>"http://orcid.org/0000-0002-0159-2197",
+                                          "type"=>"entry",
+                                          "tracked"=>false,
+                                          "registration_agency"=>"orcid")
+    end
+
+    it "should catch timeout errors with the ORCID API" do
+      work = FactoryGirl.create(:work, :doi => "10.2307/683422")
+      result = { error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", status: 408 }
+      response = subject.parse_data(result, work_id: work.id)
+      expect(response).to eq([result])
     end
   end
 end
