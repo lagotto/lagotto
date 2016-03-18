@@ -171,17 +171,17 @@ describe Facebook, type: :model do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(1)
-      expect(response.first[:relation]).to eq("subj_id"=>work.pid,
-                                              "obj_id"=>"https://facebook.com/",
-                                              "relation_type_id"=>"is_referenced_by",
+      expect(response.first[:relation]).to eq("subj_id"=>"https://facebook.com",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"references",
                                               "total"=>9972,
                                               "source_id"=>"facebook")
     end
 
     it "should catch errors with the Facebook API" do
-      result = [{ error: "the server responded with status 401 for https://graph.facebook.com/fql?access_token=EXAMPLE&q=select%20url,%20share_count,%20like_count,%20comment_count,%20click_count,%20total_count%20from%20link_stat%20where%20url%20=%20'http%253A%252F%252Fwww.plosmedicine.org%252Farticle%252Finfo%253Adoi%252F#{CGI.escape(work.doi_escaped)}'", status: 408 }]
+      result = { error: "the server responded with status 401 for https://graph.facebook.com/fql?access_token=EXAMPLE&q=select%20url,%20share_count,%20like_count,%20comment_count,%20click_count,%20total_count%20from%20link_stat%20where%20url%20=%20'http%253A%252F%252Fwww.plosmedicine.org%252Farticle%252Finfo%253Adoi%252F#{CGI.escape(work.doi_escaped)}'", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 
@@ -205,20 +205,19 @@ describe Facebook, type: :model do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(3)
-      expect(response[0][:relation]).to eq("subj_id"=>work.pid,
-                                           "obj_id"=>"https://facebook.com/",
-                                           "relation_type_id"=>"is_bookmarked_by",
+      expect(response[0][:relation]).to eq("subj_id"=>"https://facebook.com",
+                                           "obj_id"=>work.pid,
+                                           "relation_type_id"=>"bookmarks",
                                            "total"=>3120,
                                            "source_id"=>"facebook")
-
-      expect(response[1][:relation]).to eq("subj_id"=>work.pid,
-                                           "obj_id"=>"https://facebook.com/",
-                                           "relation_type_id"=>"is_discussed_by",
+      expect(response[1][:relation]).to eq("subj_id"=>"https://facebook.com",
+                                           "obj_id"=>work.pid,
+                                           "relation_type_id"=>"discusses",
                                            "total"=>1910,
                                            "source_id"=>"facebook")
-      expect(response[2][:relation]).to eq("subj_id"=>work.pid,
-                                           "obj_id"=>"https://facebook.com/",
-                                           "relation_type_id"=>"is_liked_by",
+      expect(response[2][:relation]).to eq("subj_id"=>"https://facebook.com",
+                                           "obj_id"=>work.pid,
+                                           "relation_type_id"=>"likes",
                                            "total"=>1715,
                                            "source_id"=>"facebook")
 

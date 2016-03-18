@@ -26,9 +26,10 @@ module Pmcable
     end
 
     def parse_data(result, options={})
-      return result if result[:error] || result["#{result_key}List"].nil?
+      return [result] if result[:error] || result["#{result_key}List"].nil?
 
       work = Work.where(id: options.fetch(:work_id, nil)).first
+      return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
       get_relations_with_related_works(result, work)
     end

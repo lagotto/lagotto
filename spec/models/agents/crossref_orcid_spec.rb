@@ -124,5 +124,11 @@ describe CrossrefOrcid, type: :model, vcr: true do
                                           "type"=>"article-journal",
                                           "tracked"=>true)
     end
+
+    it "should catch timeout errors with the Crossref API" do
+      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/", status: 408 }
+      response = subject.parse_data(result)
+      expect(response).to eq([result])
+    end
   end
 end

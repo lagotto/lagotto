@@ -80,11 +80,11 @@ describe Openedition, type: :model, vcr: true do
       expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.2307/683422", "source_id"=>"openedition", "relation_type_id"=>"discusses"}])
     end
 
-    it "should catch timeout errors with the OpenEdition APi" do
+    it "should catch timeout errors with the OpenEdition API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = [{ error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", status: 408 }]
+      result = { error: "the server responded with status 408 for http://search.openedition.org/feed.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

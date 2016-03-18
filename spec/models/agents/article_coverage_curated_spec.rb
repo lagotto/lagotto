@@ -91,9 +91,9 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the Article Coverage API" do
-      result = [{ error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }]
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

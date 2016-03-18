@@ -65,7 +65,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def queue_deposit_job
-    DepositJob.set(wait: 1.minute).perform_later(self)
+    DepositJob.set(wait: 3.minutes).perform_later(self)
   end
 
   def to_param  # overridden, use uuid instead of id

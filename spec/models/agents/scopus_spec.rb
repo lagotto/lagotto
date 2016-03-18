@@ -82,7 +82,7 @@ describe Scopus, type: :model do
         work = FactoryGirl.create(:work, :doi => "10.2307/683422")
         result = { error: "the server responded with status 408 for https://api.elsevier.com/content/search/index:SCOPUS?query=DOI(#{work.doi_escaped})", status: 408 }
         response = subject.parse_data(result, work_id: work.id)
-        expect(response).to eq(result)
+        expect(response).to eq([result])
       end
     end
   end

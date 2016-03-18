@@ -133,9 +133,9 @@ describe TwitterSearch, type: :model, vcr: true do
 
     it "should catch timeout errors with the Twitter Search API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = [{ error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{subject.get_query_string(work_id: work.id)}&result_type=mixed", status: 408 }]
+      result = { error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?count=100&include_entities=1&q=#{subject.get_query_string(work_id: work.id)}&result_type=mixed", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

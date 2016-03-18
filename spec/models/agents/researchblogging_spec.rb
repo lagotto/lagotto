@@ -121,9 +121,9 @@ describe Researchblogging, type: :model do
     end
 
     it "should catch timeout errors with the ResearchBlogging API" do
-      result = [{ error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&work=doi:#{work.doi_escaped}", status: 408 }]
+      result = { error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&work=doi:#{work.doi_escaped}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

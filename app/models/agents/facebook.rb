@@ -46,51 +46,55 @@ class Facebook < Agent
 
     relations = []
     if url_linkstat.blank? && total > 0
-      relations << { relation: { "subj_id" => work.pid,
-                                 "obj_id" => "https://facebook.com/",
-                                 "relation_type_id" => "is_referenced_by",
+      relations << { relation: { "subj_id" => "https://facebook.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "references",
                                  "total" => total,
                                  "source_id" => source_id },
-                     obj: { "pid" => "https://facebook.com/",
-                            "URL" => "https://facebook.com/",
-                            "title" => "Facebook",
-                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                     subj: { "pid" => "https://facebook.com",
+                             "URL" => "https://facebook.com",
+                             "title" => "Facebook",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     if readers > 0
-      relations << { relation: { "subj_id" => work.pid,
-                                 "obj_id" => "https://facebook.com/",
-                                 "relation_type_id" => "is_bookmarked_by",
+      relations << { relation: { "subj_id" => "https://facebook.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "bookmarks",
                                  "total" => readers,
                                  "source_id" => source_id },
-                     obj: { "pid" => "https://facebook.com/",
-                            "URL" => "https://facebook.com/",
-                            "title" => "Facebook",
-                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                     subj: { "pid" => "https://facebook.com",
+                             "URL" => "https://facebook.com",
+                             "title" => "Facebook",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     if comments > 0
-      relations << { relation: { "subj_id" => work.pid,
-                                 "obj_id" => "https://facebook.com/",
-                                 "relation_type_id" => "is_discussed_by",
+      relations << { relation: { "subj_id" => "https://facebook.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "discusses",
                                  "total" => comments,
                                  "source_id" => source_id },
-                     obj: { "pid" => "https://facebook.com/",
-                            "URL" => "https://facebook.com/",
-                            "title" => "Facebook",
-                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                     subj: { "pid" => "https://facebook.com",
+                             "URL" => "https://facebook.com",
+                             "title" => "Facebook",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     if likes > 0
-      relations << { relation: { "subj_id" => work.pid,
-                                 "obj_id" => "https://facebook.com/",
-                                 "relation_type_id" => "is_liked_by",
+      relations << { relation: { "subj_id" => "https://facebook.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "likes",
                                  "total" => likes,
                                  "source_id" => source_id },
-                     obj: { "pid" => "https://facebook.com/",
-                            "URL" => "https://facebook.com/",
-                            "title" => "Facebook",
-                            "issued" => { "date-parts" => [[2008, 2, 8]] }} }
+                     subj: { "pid" => "https://facebook.com",
+                             "URL" => "https://facebook.com",
+                             "title" => "Facebook",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
 
     relations

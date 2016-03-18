@@ -86,9 +86,9 @@ describe EuropePmc, type: :model, vcr: true do
 
     it "should catch timeout errors with the PMC Europe API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = [{ error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/citations/1/json", status: 408 }]
+      result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/citations/1/json", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

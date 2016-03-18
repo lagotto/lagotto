@@ -121,7 +121,7 @@ describe Pmc, type: :model do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://127.0.0.1:5984/pmc_usage_stats_test/", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

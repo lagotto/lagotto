@@ -36,8 +36,8 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work_id: work.id)
-      expect(response["hitCount"]).to eq(117)
-      expect(response["resultList"]["result"].length).to eq(117)
+      expect(response["hitCount"]).to eq(135)
+      expect(response["resultList"]["result"].length).to eq(135)
       result = response["resultList"]["result"].first
       expect(result["doi"]).to eq("10.1128/genomea.00914-15")
     end
@@ -93,9 +93,9 @@ describe EuropePmcFulltext, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the Europe PMC Search API" do
-      result = [{ error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }]
+      result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

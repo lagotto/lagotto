@@ -77,25 +77,22 @@ describe Counter, type: :model, vcr: true do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(2)
-      expect(response.first[:relation]).to eq("subj_id"=>"https://github.com",
-                                              "obj_id"=>"https://github.com/ropensci/alm",
-                                              "relation_type_id"=>"bookmarks",
-                                              "total"=>7,
-                                              "provenance_url" => "https://github.com/ropensci/alm",
-                                              "source_id"=>"github")
-
+      expect(response.first[:relation]).to eq("subj_id"=>"http://www.plos.org",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"downloads",
+                                              "total"=>447,
+                                              "source_id"=>"counter")
       expect(response.last[:relation]).to eq("subj_id"=>"https://github.com",
-                                             "obj_id"=>"https://github.com/ropensci/alm",
-                                             "relation_type_id"=>"is_derived_from",
-                                             "total"=>3,
-                                             "provenance_url" => "https://github.com/ropensci/alm",
-                                             "source_id"=>"github")
+                                             "obj_id"=>work.pid,
+                                             "relation_type_id"=>"views",
+                                             "total"=>2919,
+                                             "source_id"=>"counter")
     end
 
     it "should catch timeout errors with the Counter API" do
-      result = [{ error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }]
+      result = { error: "the server responded with status 408 for http://example.org?doi=#{work.doi_escaped}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

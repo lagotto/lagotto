@@ -183,32 +183,6 @@ class Agent < ActiveRecord::Base
 
     work = Work.where(id: options.fetch(:work_id, nil)).first
 
-
-    # extra = get_extra(result)
-    # events_url = related_works.length > 0 ? get_events_url(options) : nil
-
-    # options.merge!(response_options)
-    # options[:metrics] ||= :total
-    # metrics = get_metrics(options[:metrics] => related_works.length)
-
-    # { works: related_works
-      # events: [{
-      #   source_id: name,
-      #   work_id: work.pid,
-      #   pdf: metrics[:pdf],
-      #   html: metrics[:html],
-      #   readers: metrics[:readers],
-      #   comments: metrics[:comments],
-      #   likes: metrics[:likes],
-      #   total: metrics[:total],
-      #   events_url: events_url,
-      #   extra: extra,
-      #   days: get_events_by_day(related_works, work.published_on, options),
-      #   months: get_events_by_month(related_works, options) }.compact]
-    # }
-
-    # TODO return seq of full deposit envelopes?
-
     get_relations_with_related_works(result, work)
   end
 

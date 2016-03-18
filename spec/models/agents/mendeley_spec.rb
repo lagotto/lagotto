@@ -175,7 +175,7 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       result = { error: "the server responded with status 408 for https://api-oauth2.mendeley.com/oapi/documents/details/#{work.mendeley_uuid}", status: 408 }
       response = subject.parse_data(result, work_id: work)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

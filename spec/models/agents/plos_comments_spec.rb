@@ -67,7 +67,7 @@ describe PlosComments, type: :model do
     end
 
     it "should report if the work was not found by the PLOS comments API" do
-      result = { error: File.read(fixture_path + 'plos_comments_error.txt') }
+      result = [{ error: File.read(fixture_path + 'plos_comments_error.txt') }]
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq(result)
     end
@@ -101,9 +101,9 @@ describe PlosComments, type: :model do
 
     it "should catch timeout errors with the PLOS comments API" do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
-      result = [{ error: "http://api.plosjournals.org/v1/articles/#{work.doi}?comments", status: 408 }]
+      result = { error: "http://api.plosjournals.org/v1/articles/#{work.doi}?comments", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

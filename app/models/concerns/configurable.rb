@@ -238,7 +238,7 @@ module Configurable
     end
 
     def only_publishers
-      config.only_publishers || true
+      config.only_publishers || false
     end
 
     def only_publishers=(value)

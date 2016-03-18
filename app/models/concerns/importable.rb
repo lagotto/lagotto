@@ -34,7 +34,7 @@ module Importable
 
     def parse_data(result, options={})
       result = { error: "No hash returned." } unless result.is_a?(Hash)
-      return result if result[:error]
+      return [result] if result[:error]
 
       items = result.fetch('response', {}).fetch('docs', nil)
       get_relations_with_related_works(items)

@@ -87,11 +87,5 @@ describe Copernicus, type: :model, vcr: true do
       expect(extra["counter"]).not_to be_nil
       expect(extra["counter"]["AbstractViews"].to_i).to eq(72)
     end
-
-    it "should catch timeout errors with the Copernicus API" do
-      result = [{ error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi}", status: 408 }]
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
-    end
   end
 end

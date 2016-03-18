@@ -96,7 +96,7 @@ describe Github, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       result = { error: "the server responded with status 408 for https://api.github.com/repos/ropensci/alm", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

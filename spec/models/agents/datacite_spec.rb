@@ -74,10 +74,10 @@ describe Datacite, type: :model, vcr: true do
       expect(extra[:event_url]).to eq("http://doi.org/10.5061/DRYAD.8515")
     end
 
-    it "should catch timeout errors with the Datacite API" do
-      result = [{ error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{work.doi_escaped}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json", status: 408 }]
+    it "should catch timeout errors with the Datacite Metadata Search API" do
+      result = { error: "the server responded with status 408 for http://search.datacite.org/api?q=relatedIdentifier:#{work.doi_escaped}&fl=relatedIdentifier,doi,creator,title,publisher,publicationYear&fq=is_active:true&fq=has_metadata:true&indent=true&rows=100&wt=json", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

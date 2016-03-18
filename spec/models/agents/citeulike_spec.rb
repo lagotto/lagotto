@@ -46,8 +46,6 @@ describe Citeulike, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    # TODO include triples?
-
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = { error: "query_url is nil." }
@@ -113,9 +111,9 @@ describe Citeulike, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the CiteULike API" do
-      result = [{ error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", status: 408 }]
+      result = { error: "the server responded with status 408 for http://www.citeulike.org/api/posts/for/doi/#{work.doi_escaped}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

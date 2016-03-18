@@ -91,7 +91,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.2307/683422")
       result = { error: "the server responded with status 408 for http://www.reddit.com/search.json?q=#{subject.get_query_string(work_id: work.id)}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

@@ -116,7 +116,7 @@ describe CrossRef, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = { error: "DOI is missing." }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(error: "DOI is missing.")
+      expect(subject.parse_data(result, work_id: work.id)).to eq([{:error=>"DOI is missing."}])
     end
 
     it "should report if there are no events returned by the CrossRef API" do
@@ -208,7 +208,7 @@ describe CrossRef, type: :model, vcr: true do
     it "should catch timeout errors with the CrossRef API" do
       result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=username&id=doi:#{work.doi_escaped}&noredirect=true", :status=>408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 
@@ -243,7 +243,7 @@ describe CrossRef, type: :model, vcr: true do
     it "should catch timeout errors with the CrossRef OpenURL API" do
       result = { error: "the server responded with status 408 for http://www.crossref.org/openurl/?pid=username&id=doi:#{work.doi_escaped}&noredirect=true", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

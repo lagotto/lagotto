@@ -100,5 +100,11 @@ describe PlosImport, type: :model, vcr: true do
                                           "tracked"=>true,
                                           "type"=>"article-journal")
     end
+
+    it "should catch timeout errors with the PLOS Search API" do
+      result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
+      response = subject.parse_data(result)
+      expect(response).to eq([result])
+    end
   end
 end

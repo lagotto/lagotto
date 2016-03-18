@@ -21,6 +21,7 @@ class Citeulike < Agent
     related_works = result["posts"] && result["posts"].is_a?(Hash) && result.fetch("posts", {}).fetch("post", [])
     related_works = [related_works] if related_works.is_a?(Hash)
     related_works ||= nil
+    provenance_url = get_provenance_url(work_id: work.id)
 
     Array(related_works).map do |item|
       timestamp = get_iso8601_from_time(item.fetch("post_time", nil))
@@ -35,7 +36,7 @@ class Citeulike < Agent
                     "relation_type_id" => "bookmarks",
                     "source_id" => name,
                     "occurred_at" => timestamp,
-                    "provenance_url" => get_provenance_url(work_id: work.id) },
+                    "provenance_url" => provenance_url },
         subj: { "pid" => citeulike_url,
                 "author" => get_authors([author]),
                 "title" => "CiteULike bookmarks for #{account} #{author}",

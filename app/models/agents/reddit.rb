@@ -1,8 +1,8 @@
 class Reddit < Agent
   def parse_data(result, options={})
-    return result if result[:error]
-
+    return [result] if result[:error]
     work = Work.where(id: options.fetch(:work_id, nil)).first
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     result = result.deep_fetch('data', 'children') { [] }
 

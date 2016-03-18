@@ -62,6 +62,7 @@ class Github < Agent
                      subj: { "pid" => "https://github.com",
                              "URL" => "https://github.com",
                              "title" => "Github",
+                             "type" => "webpage",
                              "issued" => "2012-05-15T16:40:23Z" }}
     end
 
@@ -76,6 +77,7 @@ class Github < Agent
                      subj: { "pid" => "https://github.com",
                              "URL" => "https://github.com",
                              "title" => "Github",
+                             "type" => "webpage",
                              "issued" => "2012-05-15T16:40:23Z" }}
     end
 
