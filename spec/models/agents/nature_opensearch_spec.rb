@@ -60,44 +60,46 @@ describe NatureOpensearch, type: :model, vcr: true do
     it "should report if the doi and canonical_url are missing" do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the Nature OpenSearch API" do
       body = File.read(fixture_path + 'nature_opensearch_nil.json')
       result = JSON.parse(body)
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "nature_opensearch", work_id: work.pid, total: 0, events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
+      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15", registration_agency: "github")
       body = File.read(fixture_path + 'nature_opensearch.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("nature_opensearch")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(7)
-      expect(event[:months].length).to eq(5)
-      expect(event[:months].first).to eq(year: 2013, month: 8, total: 1)
+      expect(response.length).to eq(7)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1038/ismej.2014.200",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "provenance_url"=>"http://www.nature.com/search?q=%22https://github.com/rougier/ten-rules%22",
+                                              "source_id"=>"nature_opensearch")
 
-      expect(response[:works].length).to eq(7)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Patro", "given"=>"Rob"}, {"family"=>"Mount", "given"=>"Stephen M"}, {"family"=>"Kingsford", "given"=>"Carl"}])
-      expect(related_work['title']).to eq("Sailfish enables alignment-free isoform quantification from RNA-seq reads using lightweight algorithms")
-      expect(related_work['container-title']).to eq("Nature Biotechnology")
-      expect(related_work['issued']).to eq("date-parts"=>[[2014, 4, 20]])
-      expect(related_work['timestamp']).to eq("2014-04-20T00:00:00Z")
-      expect(related_work['DOI']).to eq("10.1038/nbt.2862")
-      expect(related_work['URL']).to eq("http://dx.doi.org/10.1038/nbt.2862")
-      expect(related_work['type']).to eq("article-journal")
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.1038/ismej.2014.200",
+                                          "author"=>[{"family"=>"Goltsman", "given"=>"Daniela S Aliaga"},
+                                                     {"family"=>"Comolli", "given"=>"Luis R"},
+                                                     {"family"=>"Thomas", "given"=>"Brian C"},
+                                                     {"family"=>"Banfield", "given"=>"Jillian F"}],
+                                          "title"=>"Community transcriptomics reveals unexpected high microbial diversity in acidophilic biofilm communities",
+                                          "container-title"=>"The ISME Journal",
+                                          "issued"=>"2014-11-04T00:00:00Z",
+                                          "DOI"=>"10.1038/ismej.2014.200",
+                                          "type"=>"article-journal",
+                                          "tracked"=>true,
+                                          "registration_agency"=>"crossref")
     end
 
     it "should catch timeout errors with the Nature OpenSearch API" do
       result = { error: "the server responded with status 408 for http://example.org?doi={doi}", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
   end
 end

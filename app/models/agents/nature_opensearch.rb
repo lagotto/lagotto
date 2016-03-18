@@ -42,62 +42,45 @@ class NatureOpensearch < Agent
     result.extend Hashie::Extensions::DeepFetch
   end
 
-  def parse_data(result, options={})
-    return result if result[:error]
+  def get_relations_with_related_works(result, work)
+    provenance_url = get_provenance_url(work_id: work.id)
 
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-
-    related_works = get_related_works(result, work)
-    total = related_works.length
-    events_url = total > 0 ? get_events_url(work) : nil
-
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: events_url,
-        months: get_events_by_month(related_works) }] }
-  end
-
-  def get_related_works(result, work)
-    # result.deep_fetch("sru:recordData", "pam:message", "pam:article", "xhtml:head") { nil }
     result.fetch("feed", {}).fetch("entry", []).map do |item|
       item.extend Hashie::Extensions::DeepFetch
       item = item.deep_fetch("sru:recordData", "pam:message", "pam:article", "xhtml:head") { {} }
 
       doi = item.fetch("prism:doi", nil)
-      url = item.fetch("prism:url", nil)
+      subj_id = doi_as_url(doi)
       author_string = item.fetch("authorString", "").chomp(".")
       timestamp = item.fetch("prism:publicationDate", nil)
       timestamp = "#{timestamp}T00:00:00Z"
 
-      { "pid" => doi_as_url(doi),
-        "author" => get_authors(item.fetch("dc:creator", [])),
-        "title" => item.fetch("dc:title", ""),
-        "container-title" => item.fetch("prism:publicationName", nil),
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "DOI" => doi,
-        "URL" => url,
-        "type" => "article-journal",
-        "tracked" => tracked,
-        "registration_agency" => "crossref",
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "cites" }] }
+      { relation: { "subj_id" => subj_id,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "cites",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: { "pid" => subj_id,
+                "author" => get_authors(item.fetch("dc:creator", [])),
+                "title" => item.fetch("dc:title", ""),
+                "container-title" => item.fetch("prism:publicationName", nil),
+                "issued" => timestamp,
+                "DOI" => doi,
+                "type" => "article-journal",
+                "tracked" => tracked,
+                "registration_agency" => "crossref" }}
     end
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://www.nature.com/opensearch/request?query=%{query_string}&httpAccept=application/json&startRecord=%{start_record}"
   end
 
-  def events_url
+  def provenance_url
     "http://www.nature.com/search?q=%{query_string}"
   end
 
@@ -111,5 +94,9 @@ class NatureOpensearch < Agent
 
   def registration_agencies
     ["datacite", "dataone", "cdl", "github", "bitbucket"]
+  end
+
+  def tracked
+    config.tracked || true
   end
 end
