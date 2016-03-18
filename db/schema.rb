@@ -227,7 +227,7 @@ ActiveRecord::Schema.define(version: 20160314065844) do
     t.string   "class_name",   limit: 191
     t.text     "message",      limit: 16777215
     t.text     "trace",        limit: 65535
-    t.string   "target_url",   limit: 1000
+    t.text     "target_url",   limit: 65535
     t.string   "user_agent",   limit: 255
     t.integer  "status",       limit: 4
     t.string   "content_type", limit: 255
