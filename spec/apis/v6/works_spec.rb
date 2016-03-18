@@ -154,7 +154,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(200)
 
         data = response["works"]
-        expect(data.length).to eq(10)
+        expect(data.length).to eq(20)
         expect(data.any? do |work|
           work["DOI"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])

@@ -41,7 +41,6 @@ FactoryGirl.define do
     trait :with_events do
       after :create do |work|
         FactoryGirl.create(:relation, work: work, total: 50, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
-        FactoryGirl.create(:relation, :with_mendeley, work: work, total: 50)
       end
     end
 
