@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314065844) do
+ActiveRecord::Schema.define(version: 20160318101922) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
