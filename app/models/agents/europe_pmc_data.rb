@@ -1,17 +1,16 @@
 class EuropePmcData < Agent
   def get_query_url(options={})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present?
+    return {} unless work.present? && work.get_ids && work.pmid.present?
 
-    if url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/MED/")
-      return {} unless work.get_ids && work.pmid.present?
+    url % { :pmid => work.pmid }
+  end
 
-      url % { :pmid => work.pmid }
-    elsif url.starts_with?("http://www.ebi.ac.uk/europepmc/webservices/rest/search/query")
-      return {} unless work.doi.present?
+  def get_provenance_url(options={})
+    work = Work.where(id: options.fetch(:work_id, nil)).first
+    return nil unless work.present? && work.pmid.present?
 
-      url % { :doi => work.doi }
-    end
+    provenance_url % { :pmid => work.pmid }
   end
 
   def parse_data(result, options={})
@@ -21,51 +20,25 @@ class EuropePmcData < Agent
     work = Work.where(id: options.fetch(:work_id, nil)).first
     return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
+    relations = []
+
     total = result.fetch("hitCount", nil).to_i
-    related_works = get_related_works(result, work)
-    provenance_url = total > 0 ? get_provenance_url(work_id: work.id) : nil
 
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        events_url: provenance_url,
-        extra: get_extra(result) }] }
-  end
-
-  def get_related_works(result, work)
-    result.extend Hashie::Extensions::DeepFetch
-    related_works = result.deep_fetch('resultList', 'result') { nil }
-    related_works = [related_works] if related_works.is_a?(Hash)
-    Array(related_works).map do |item|
-      url = item['pmid'].nil? ? nil : "http://europepmc.org/abstract/MED/#{item['pmid']}"
-
-      { "pid" => url,
-        "author" => get_authors([item.fetch('authorString', "")]),
-        "title" => item.fetch('title', nil),
-        "container-title" => item.fetch('journalTitle', nil),
-        "issued" => get_date_parts_from_parts((item.fetch("pubYear", nil)).to_i),
-        "URL" => url,
-        "type" => 'article-journal',
-        "tracked" => tracked,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "cites" }] }
+    if total > 0
+      relations << { relation: { "subj_id" => "https://europepmc.org",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "cites",
+                                 "total" => total,
+                                 "provenance_url" => get_provenance_url(work_id: work.id),
+                                 "source_id" => source_id },
+                     subj: { "pid"=>"https://europepmc.org",
+                             "URL"=>"https://europepmc.org",
+                             "title"=>"Europe PMC",
+                             "type"=>"webpage",
+                             "issued"=>"2012-05-15T16:40:23Z" }}
     end
-  end
 
-  def get_extra(result)
-    result = result.deep_fetch('dbCountList', 'db') { [] }
-    result.reduce({}) { |hash, db| hash.update(db["dbName"] => db["count"]) }
-  end
-
-  def get_provenance_url(work)
-    if work.pmid.present?
-      provenance_url % { :pmid => work.pmid }
-    else
-      nil
-    end
+    relations
   end
 
   def config_fields

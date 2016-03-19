@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<responseWrapper>
+  <version>3.0.1</version>
+  <hitCount>1</hitCount>
+  <request>
+    <query>ACCESSION_ID:10.5061/dryad.mf1sd</query>
+    <dataSet>METADATA</dataSet>
+    <resultType>LITE</resultType>
+    <page>1</page>
+  </request>
+  <resultList>
+    <result>
+      <id>21765886</id>
+      <source>MED</source>
+      <pmid>21765886</pmid>
+      <pmcid>PMC3135593</pmcid>
+      <DOI>10.1371/journal.pone.0018657</DOI>
+      <title>Who shares? Who doesn't? Factors associated with openly archiving raw research data.</title>
+      <authorString>Piwowar HA.</authorString>
+      <journalTitle>PLoS One</journalTitle>
+      <issue>7</issue>
+      <journalVolume>6</journalVolume>
+      <pubYear>2011</pubYear>
+      <journalIssn>1932-6203</journalIssn>
+      <pageInfo>e18657</pageInfo>
+      <pubType>journal article; research support, n.i.h., extramural</pubType>
+      <isOpenAccess>Y</isOpenAccess>
+      <inEPMC>Y</inEPMC>
+      <inPMC>Y</inPMC>
+      <citedByCount>11</citedByCount>
+      <hasReferences>Y</hasReferences>
+      <hasTextMinedTerms>Y</hasTextMinedTerms>
+      <hasDbCrossReferences>N</hasDbCrossReferences>
+      <hasLabsLinks>Y</hasLabsLinks>
+      <hasTMAccessionNumbers>Y</hasTMAccessionNumbers>
+      <tmAccessionTypeList>
+        <accessionType>doi</accessionType>
+      </tmAccessionTypeList>
+      <luceneScore>1452.6963</luceneScore>
+    </result>
+  </resultList>
+</responseWrapper>

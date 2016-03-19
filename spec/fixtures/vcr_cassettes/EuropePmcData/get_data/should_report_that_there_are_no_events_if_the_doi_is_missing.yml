@@ -1,0 +1,91 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18974831&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Sat, 19 Mar 2016 20:39:23 GMT
+      Server:
+      - Apache
+      Content-Type:
+      - application/json; charset=ISO-8859-1
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "status": "ok",
+         "responseDate": "2016-03-19 16:39:23",
+         "request": "email=info%40example.org;format=json;ids=18974831;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "records": [
+           {
+            "pmcid": "PMC2568856",
+            "pmid": "18974831",
+            "doi": "10.1371/journal.pcbi.1000204",
+            "versions": [
+              {
+               "pmcid": "PMC2568856.1",
+               "current": "true"
+              }
+            ]
+           }
+         ]
+        }
+    http_version: 
+  recorded_at: Sat, 19 Mar 2016 20:39:24 GMT
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/MED/18974831/databaseLinks//1/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Sat, 19 Mar 2016 20:39:23 GMT
+      Access-Control-Max-Age:
+      - '3600'
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - Keep-Alive
+      Set-Cookie:
+      - JSESSIONID=A7A517E8BC98026E33215AFF6DF142FB; Path=/europepmc/webservices
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
+    body:
+      encoding: UTF-8
+      string: '{"version":"4.5.0","hitCount":0,"request":{"id":"18974831","source":"MED","page":1,"pageSize":25,"semanticType":""}}'
+    http_version: 
+  recorded_at: Sat, 19 Mar 2016 20:39:24 GMT
+recorded_with: VCR 2.9.3

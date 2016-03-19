@@ -205,6 +205,17 @@ FactoryGirl.define do
     initialize_with { EuropePmcData.where(name: name).first_or_initialize }
   end
 
+  factory :europe_pmc_fulltext_data, class: EuropePmcFulltextData do
+    type "EuropePmcFulltextData"
+    name "pmc_europe_fulltext_data"
+    title "PMC Europe Fulltext Data Search"
+    state_event "activate"
+
+    group
+
+    initialize_with { EuropePmcFulltextData.where(name: name).first_or_initialize }
+  end
+
   factory :europe_pmc_fulltext, class: EuropePmcFulltext do
     type "EuropePmcFulltext"
     name "europe_pmc_fulltext"

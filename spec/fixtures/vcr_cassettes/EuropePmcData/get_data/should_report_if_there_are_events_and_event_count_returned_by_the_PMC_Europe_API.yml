@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -18,30 +18,36 @@ http_interactions:
     headers:
       Server:
       - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=2B12A188823C9E042E23DD155F25A289; Path=/europepmc/webservices
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Sun, 23 Aug 2015 19:11:28 GMT
+      - Sat, 19 Mar 2016 20:36:37 GMT
+      Access-Control-Max-Age:
+      - '3600'
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - Keep-Alive
+      Set-Cookie:
+      - JSESSIONID=5324D6C4066006F5D7B5B1A2EA3A1362; Path=/europepmc/webservices
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
     body:
       encoding: UTF-8
-      string: '{"version":"4.2","hitCount":27737,"request":{"id":"14624247","source":"MED","pageSize":25,"semanticType":"","page":1},"dbCountList":{"db":[{"dbName":"EMBL","count":5986},{"dbName":"UNIPROT","count":21751}]},"dbCrossReferenceList":{"dbCrossReference":[{"dbName":"EMBL","dbCount":5986,"dbCrossReferenceInfo":[{"info1":"CAAC03003604","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c007800773.Contig2","info3":"22558","info4":"5986"},{"info1":"CAAC03001680","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c011701343.Contig1","info3":"2738","info4":"5986"},{"info1":"CAAC03003922","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c013101292.Contig1","info3":"730","info4":"5986"},{"info1":"CAAC03001157","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c008900817.Contig2","info3":"36530","info4":"5986"},{"info1":"CAAC03005301","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c010001308.Contig1","info3":"5267","info4":"5986"},{"info1":"CAAC03001114","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c000201127.Contig1","info3":"985","info4":"5986"},{"info1":"CAAC03003566","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c010300809.Contig1","info3":"12305","info4":"5986"},{"info1":"CAAC03003852","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c004900885.Contig1","info3":"3072","info4":"5986"},{"info1":"CAAC03001854","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c007401532.Contig1","info3":"35871","info4":"5986"},{"info1":"CAAC03003982","info2":"Caenorhabditis
-        briggsae AF16 WGS project CAAC03000000 data, contig c010001037.Contig1","info3":"32192","info4":"5986"}]},{"dbName":"UNIPROT","dbCount":21751,"dbCrossReferenceInfo":[{"info1":"A8XFT2","info2":"Non-specific
-        protein-tyrosine kinase","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WKF9","info2":"Protein
-        argonaute","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8XJS5","info2":"Chloride
-        channel protein","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WMF5","info2":"Protein
-        CBG00186","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WMH1","info2":"Serpentine
-        receptor class gamma","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WT99","info2":"Protein
+      string: '{"version":"4.5.0","hitCount":22396,"request":{"id":"14624247","source":"MED","page":1,"pageSize":25,"semanticType":""},"dbCountList":{"db":[{"dbName":"EMBL","count":645},{"dbName":"UNIPROT","count":21751}]},"dbCrossReferenceList":{"dbCrossReference":[{"dbName":"EMBL","dbCount":645,"dbCrossReferenceInfo":[{"info1":"HE601321","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.fpc4131","info3":"670021","info4":"645"},{"info1":"HE601307","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_068","info3":"22500","info4":"645"},{"info1":"HE601229","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_236","info3":"11126","info4":"645"},{"info1":"HE601370","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_293","info3":"5693","info4":"645"},{"info1":"HE601291","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_092","info3":"13413","info4":"645"},{"info1":"HE601070","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_041","info3":"23595","info4":"645"},{"info1":"HE601412","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_051","info3":"6439","info4":"645"},{"info1":"HE601339","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.fpc0066","info3":"575805","info4":"645"},{"info1":"HE601384","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.NA_040","info3":"2907","info4":"645"},{"info1":"HE600934","info2":"Caenorhabditis
+        briggsae AF16 supercontig from assembly CB4, cb25.fpc4132b","info3":"143601","info4":"645"}]},{"dbName":"UNIPROT","dbCount":21751,"dbCrossReferenceInfo":[{"info1":"A8WMF5","info2":"Protein
+        CBG00186","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WT99","info2":"Protein
         CBR-RSP-2","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTA1","info2":"Protein
         CBG02889","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTB4","info2":"Protein
         CBG02875","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTC7","info2":"Protein
@@ -51,7 +57,11 @@ http_interactions:
         CBG02832","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WTH2","info2":"Protein
         CBR-MAX-2","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8X4D2","info2":"Protein
         CBR-TAG-299","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8X4D9","info2":"Protein
-        CBR-DSC-1","info3":"Caenorhabditis briggsae","info4":"UniProt"}]}]}}'
+        CBR-DSC-1","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8X4E1","info2":"Protein
+        CBR-MAM-6","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WYI3","info2":"Protein
+        CBG04805","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WYI9","info2":"Protein
+        CBG04811","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WYJ8","info2":"Protein
+        CBG04821","info3":"Caenorhabditis briggsae","info4":"UniProt"}]}]}}'
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 19:11:31 GMT
+  recorded_at: Sat, 19 Mar 2016 20:36:38 GMT
 recorded_with: VCR 2.9.3
