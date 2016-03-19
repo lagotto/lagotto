@@ -14,6 +14,12 @@ describe Agent do
       expect(result).to eq("given"=>"Zaranek")
     end
 
+    it 'should handle author that is not a person' do
+      author = "gbif.org"
+      result = subject.get_one_author(author)
+      expect(result).to eq("literal"=>"gbif.org")
+    end
+
     it 'should handle author in comma-delimited format' do
       author = "Zaranek, Alexander W."
       result = subject.get_one_author(author)

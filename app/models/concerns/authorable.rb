@@ -11,13 +11,13 @@ module Authorable
       author = author.split(options[:sep]).reverse.join(" ") if options[:reversed]
 
       names = Namae.parse(author)
-      if names.present?
+      if names.blank? || /^\S*\.\S*$/.match(author)
+        { "literal" => author }
+      else
         name = names.first
 
         { "family" => name.family,
           "given" => name.given }.compact
-      else
-        { "literal" => author }
       end
     end
 
