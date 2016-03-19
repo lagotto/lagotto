@@ -24,7 +24,7 @@ class SourceReport
   end
 
   def headers
-    ["pid", "relation_type_id", "total"]
+    ["pid", "html", "pdf", "total"]
   end
 
   def line_items

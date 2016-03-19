@@ -23,7 +23,7 @@ class MendeleyReport
   end
 
   def headers
-    ["pid", "relation_type_id", "total"]
+    ["pid", "readers", "groups", "total"]
   end
 
   def line_items
