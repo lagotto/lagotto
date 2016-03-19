@@ -9,10 +9,6 @@ module Coverable
       url_private % { :doi => work.doi_escaped }
     end
 
-    def get_events_url(options={})
-      nil
-    end
-
     def config_fields
       [:url_private]
     end

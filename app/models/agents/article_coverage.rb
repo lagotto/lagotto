@@ -20,35 +20,22 @@ class ArticleCoverage < Agent
       return [result]
     end
 
-    extra = get_extra(result)
-    metrics = get_metrics(comments: extra.length)
+    total = Array(result['referrals']).length
 
-    # { events: [{
-    #     source_id: name,
-    #     work_id: work.pid,
-    #     comments: metrics[:comments],
-    #     total: metrics[:total],
-    #     extra: extra }] }
-
-        # TODO name for
-        [{ "subject" => "http://TODO",
-            "object" => work.pid,
-            "relation" => "total_count", # TODO
-            "source" => name,
-            "total" => metrics[:total]},
-          { "subject" => "http://TODO",
-            "object" => work.pid,
-            "relation" => "comment_count", # TODO
-            "source" => name,
-            "total" => metrics[:comments]}]
-
-  end
-
-  def get_extra(result)
-    Array(result['referrals']).map do |item|
-      { event: item,
-        event_time: get_iso8601_from_time(item['published_on']),
-        event_url: item['referral'] }
+    relations = []
+    if total > 0
+      relations << { relation: { "subj_id" => "https://www.plos.org",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "discusses",
+                                 "total" => total,
+                                 "source_id" => source_id },
+                     subj: { "pid" => "https://www.plos.org",
+                             "URL" => "https://www.plos.org",
+                             "title" => "PLOS",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
     end
+
+    relations
   end
 end

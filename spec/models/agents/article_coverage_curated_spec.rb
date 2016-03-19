@@ -58,15 +58,13 @@ describe ArticleCoverageCurated, type: :model, vcr: true do
 
     it "should report if work doesn't exist in Article Coverage source" do
       result = { error: "Article not found", status: 404 }
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq([])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the Article Coverage API" do
       body = File.read(fixture_path + 'article_coverage_curated_nil.json')
       result = JSON.parse(body)
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq([])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the Article Coverage API" do
