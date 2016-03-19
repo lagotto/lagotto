@@ -18,6 +18,7 @@ prog="<%= File.basename(@daemon) %>"
 user="<%= @user %>"
 exec="<%= @daemon %>"
 pidfile="<%= @pid_file %>"
+logfile="/var/log/$prog.log"
 lockfile="/var/lock/subsys/$prog"
 
 <%- @environment.each do |key, val| -%>
@@ -29,10 +30,12 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 . /lib/lsb/init-functions
 
 _start() {
+  touch $logfile
+  chown $user $logfile
   start-stop-daemon --start --quiet --background \
       --pidfile $pidfile<% unless @pid_file_external %> --make-pidfile<% end %> \
       --chuid $user --chdir "<%= @directory %>" \
-      --exec $exec -- <%= @daemon_options %>
+      --startas /bin/bash -- -c "exec $exec <%= @daemon_options %> >$logfile 2>&1"
 }
 
 _stop() {
@@ -61,7 +64,7 @@ _start() {
     daemon \
          --pidfile=$pidfile \
          --user=$user \
-         " { $exec <%= @daemon_options %> &> /dev/null & } ; echo \$! >| $pidfile "
+         " { $exec <%= @daemon_options %> &> $logfile & } ; echo \$! >| $pidfile "
      RETVAL=$?
      echo
      [ $RETVAL -eq 0 ] && touch $lockfile

@@ -19,82 +19,66 @@ module ConsulCookbook
 
       def action_enable
         notifying_block do
-          case new_resource.install_method
-          when 'binary'
-            windows_zipfile "consul-#{new_resource.version}" do
-              action :unzip
-              path new_resource.install_path
-              source new_resource.binary_url % { version: new_resource.version, filename: new_resource.binary_filename('binary') }
-              not_if { correct_version?(join_path(new_resource.install_path, 'consul.exe'), new_resource.version) }
-            end
-          else
-            Chef::Application.fatal!('The Consul Service provider for Windows only supports the binary install_method at this time')
-          end
-
           directories = %W{#{new_resource.data_dir}
                            #{new_resource.config_dir}
                            #{::File.dirname(new_resource.nssm_params['AppStdout'])}
                            #{::File.dirname(new_resource.nssm_params['AppStderr'])}}.uniq.compact
-
-          # ::File.dirname '' == '.'
           directories.delete_if { |i| i.eql? '.' }.each do |dirname|
             directory dirname do
               recursive true
-              # owner new_resource.user
-              # group new_resource.group
-              # mode '0755'
             end
           end
 
           nssm 'consul' do
             action :install
-            program join_path(new_resource.install_path, 'consul.exe')
-            # Don't try and set empty parameters
+            program new_resource.program
             params new_resource.nssm_params.select { |_k, v| v != '' }
             args command(new_resource.config_file, new_resource.config_dir)
             not_if { nssm_service_installed? }
           end
 
           if nssm_service_installed?
-            # The nssm resource does not check param values after they've been set
             mismatch_params = check_nssm_params
             unless mismatch_params.empty?
               mismatch_params.each do |k, v|
                 action = v.eql?('') ? "reset consul #{k}" : "set consul #{k} #{v}"
                 batch "Set nssm parameter - #{k}" do
                   code "#{nssm_exe} #{action}"
-                  notifies :run, 'batch[Trigger consul restart]', :delayed
+                  notifies :run, 'powershell_script[Trigger consul restart]', :delayed
                 end
               end
-              batch 'Trigger consul restart' do
+              powershell_script 'Trigger consul restart' do
                 action :nothing
-                code "#{nssm_exe} restart consul"
+                code "restart-service consul"
               end
             end
             # Check if the service is running, but don't bother if we're already
             # changing some nssm parameters
             unless nssm_service_status?(%w{SERVICE_RUNNING}) && mismatch_params.empty?
-              batch 'Trigger consul restart' do
-                action :run
-                code "#{nssm_exe} restart consul"
+              powershell_script 'Trigger consul restart' do
+                code "restart-service consul"
               end
             end
           end
         end
       end
 
+      def action_reload
+        Chef::Log.info 'The service provider for Consul on Windows does not support reload!'
+      end
+
       def action_restart
-        batch 'Restart consul' do
-          code "#{nssm_exe} restart consul"
+        powershell_script 'Restart consul' do
+          code "restart-service consul"
         end
       end
 
       def action_disable
         notifying_block do
           # nssm resource doesn't stop the service before it removes it
-          batch 'Stop consul' do
+          powershell_script 'Stop consul' do
             action :run
-            code "#{nssm_exe} stop consul"
+            code "stop-service consul"
             only_if { nssm_service_installed? && nssm_service_status?(%w{SERVICE_RUNNING SERVICE_PAUSED}) }
           end
 

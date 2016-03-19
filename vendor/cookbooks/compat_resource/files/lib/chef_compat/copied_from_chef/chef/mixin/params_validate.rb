@@ -476,7 +476,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
       # "value nil" and to keep default stickiness working exactly the same
       # @api private
       class SetOrReturnProperty < (defined?(::Chef::Mixin::ParamsValidate::SetOrReturnProperty) ? ::Chef::Mixin::ParamsValidate::SetOrReturnProperty : Chef::Property)
-        def get(resource)
+        def get(resource, nil_set: false)
           value = super
           # All values are sticky, frozen or not
           if !is_set?(resource)
@@ -488,7 +488,7 @@ class Chef < (defined?(::Chef) ? ::Chef : Object)
         def call(resource, value = NOT_PASSED)
           # setting to nil does a get
           if value.nil? && !explicitly_accepts_nil?(resource)
-            get(resource)
+            get(resource, nil_set: true)
           else
             super
           end

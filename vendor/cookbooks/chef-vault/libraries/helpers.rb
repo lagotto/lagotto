@@ -38,7 +38,7 @@ module ChefVaultCookbook
     elsif node['chef-vault']['databag_fallback']
       Chef::DataBagItem.load(bag, id)
     else
-      fail "Trying to load a regular data bag item #{id} from #{bag}, and databag_fallback is disabled"
+      raise "Trying to load a regular data bag item #{id} from #{bag}, and databag_fallback is disabled"
     end
   end
 

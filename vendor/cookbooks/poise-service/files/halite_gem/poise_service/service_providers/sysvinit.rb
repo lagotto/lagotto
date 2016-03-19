@@ -40,10 +40,16 @@ module PoiseService
           when 'rhel'
             Chef::Provider::Service::Redhat
           else
-            # This will explode later in the template, but better than nothing for later.
+            # Better than nothing I guess? Will fail on enable I think.
             Chef::Provider::Service::Init
           end)
           r.init_command(script_path)
+          # Pending https://github.com/chef/chef/pull/4709.
+          r.start_command("#{script_path} start")
+          r.stop_command("#{script_path} stop")
+          r.status_command("#{script_path} status")
+          r.restart_command("#{script_path} restart")
+          r.reload_command("#{script_path} reload")
         end
       end
 

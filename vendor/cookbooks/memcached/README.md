@@ -1,10 +1,13 @@
 # memcached Cookbook
+
 [![Build Status](https://travis-ci.org/chef-cookbooks/memcached.svg?branch=master)](http://travis-ci.org/chef-cookbooks/memcached) [![Cookbook Version](https://img.shields.io/cookbook/v/memcached.svg)](https://supermarket.chef.io/cookbooks/memcached)
 
 Installs/configures a single memcached instance managed by the systems init system.  Also provides a custom resource to set up one or more memcached instances running under runit.
 
 ## Requirements
+
 ### Platforms
+
 - Debian / Ubuntu
 - RHEL and derivatives
 - Fedora
@@ -12,15 +15,19 @@ Installs/configures a single memcached instance managed by the systems init syst
 - SmartOS base64 1.8.1 - Note that SMF directly configures memcached with no opportunity to alter settings. If you need custom parameters, use the `memcached_instance` provider instead.
 
 ### Chef
+
 - Chef 12+
 
 ### Cookbooks
+
 - runit
 - yum-epel
 - compat_resource
 
 ## Attributes
+
 The following are node attributes are used to configure `/etc/memcached.conf` if using the default.rb recipe. They are not used if using the memcached_instance custom resource.
+
 - `memcached['memory']` - maximum memory for memcached instances.
 - `memcached['user']` - user to run memcached as.
 - `memcached['port']` - TCP port for memcached to listen on.
@@ -35,20 +42,24 @@ The following are node attributes are used to configure `/etc/memcached.conf` if
 - `memcached['ulimit']` - boolean `true` will set the ulimit to the `maxconn` value
 
 ## Usage
+
 This cookbook can be used to to setup a single memcached instance running under the system's init provider by including `memcached::default` on your runlist.  The above documented attributes can be used to control the configuration of that service.
 
 The cookbook can also within other cookbooks in your infrastructure with the `memcached_instance` custom resource.  See the documentation below for the usage and examples of that custom resource.
 
-##Custom Resources
+## Custom Resources
 
 ### instance
+
 Adds or removes an instance of memcached running under the runit supervisor.
 
 #### Actions
+
 - :add: Add a new instance
 - :remove: Remove an existing instance
 
 #### Properties
+
 - :memory - the amount of memory allocated for the cache. default: 64
 - :port - the TCP port to listen on. default: 11,211
 - :udp_port - the UDP port to listen on. default: 11,211
@@ -60,8 +71,10 @@ Adds or removes an instance of memcached running under the runit supervisor.
 - :experimental_options - an array of additional config options
 - :ulimit - the ulimit setting to use for the service
 - :template_cookbook - the cookbook containing the runit service template. default: memcached
+- :disable_default_instance - disable the default 'memcached' service installed by the package, default: true
 
 #### Examples
+
 Create a new memcached instance named super_custom_memcached:
 
 ```ruby
@@ -80,6 +93,7 @@ end
 ```
 
 ## License & Authors
+
 - Author:: Cookbook Engineering Team ([cookbooks@chef.io](mailto:cookbooks@chef.io))
 - Author:: Joshua Sierles ([joshua@37signals.com](mailto:joshua@37signals.com))
 

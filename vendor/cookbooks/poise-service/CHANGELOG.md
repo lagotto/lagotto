@@ -1,5 +1,10 @@
 # Poise-Service Changelog
 
+## v1.1.2
+
+* [#22](https://github.com/poise/poise-service/pull/22) Set all script commands
+  for the `sysvinit` provider. This should fix compatibility with EL5.
+
 ## v1.1.1
 
 * Fix an incorrect value in `poise_service_test`. This is not relevant to

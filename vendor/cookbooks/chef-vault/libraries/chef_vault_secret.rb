@@ -54,7 +54,8 @@ module ChefVaultCookbook
 
       def load_current_resource
         json = ChefVault::Item.load(new_resource.data_bag, new_resource.id)
-        @current_resource = Chef::Resource::ChefVaultSecret.new(new_resource.id)
+        @current_resource =
+          ChefVaultCookbook::Resource::ChefVaultSecret.new(new_resource.id)
         @current_resource.search(new_resource.search)
         @current_resource.admins(new_resource.admins)
         @current_resource.data_bag(new_resource.data_bag)
