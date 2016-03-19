@@ -60,24 +60,21 @@ describe Openedition, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("openedition")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq("http://search.openedition.org/index.php?op[]=AND&q[]=#{work.doi_escaped}&field[]=All&pf=Hypotheses.org")
-      expect(event[:months].length).to eq(1)
-      expect(event[:months].first).to eq(year: 2013, month: 5, total: 1)
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://ruedesfacs.hypotheses.org/?p=1666",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://search.openedition.org/index.php?op[]=AND&q[]=10.2307%2F683422&field[]=All&pf=Hypotheses.org",
+                                              "source_id"=>"openedition")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work['URL']).to eq("http://ruedesfacs.hypotheses.org/?p=1666")
-      expect(related_work['author']).to eq([{"family"=>"Ruedesfacs", "given"=>""}])
-      expect(related_work['title']).to eq("Saartjie Baartman : la Vénus Hottentote")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 5, 27]])
-      expect(related_work['timestamp']).to eq("2013-05-27T00:00:00Z")
-      expect(related_work['type']).to eq("post")
-      expect(related_work['related_works']).to eq([{"related_work"=>"http://doi.org/10.2307/683422", "source_id"=>"openedition", "relation_type_id"=>"discusses"}])
+      expect(response.first[:subj]).to eq("pid"=>"http://ruedesfacs.hypotheses.org/?p=1666",
+                                          "author"=>[{"given"=>"ruedesfacs"}],
+                                          "title"=>"Saartjie Baartman : la Vénus Hottentote",
+                                          "container-title"=>nil,
+                                          "issued"=>"2013-05-27T00:00:00Z",
+                                          "URL"=>"http://ruedesfacs.hypotheses.org/?p=1666",
+                                          "type"=>"post",
+                                          "tracked"=>false)
     end
 
     it "should catch timeout errors with the OpenEdition API" do

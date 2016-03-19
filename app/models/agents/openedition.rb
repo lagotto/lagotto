@@ -10,37 +10,39 @@ class Openedition < Agent
     work.doi_escaped
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     related_works = result.deep_fetch('RDF', 'item') { nil }
     related_works = [related_works] if related_works.is_a?(Hash)
+    provenance_url = get_provenance_url(work_id: work.id)
+
     Array(related_works).map do |item|
-      timestamp = get_iso8601_from_time(item.fetch("date", nil))
       url = item.fetch('link', nil)
 
-      { "pid" => url,
-        "author" => get_authors([item.fetch('creator', "")]),
-        "title" => item.fetch('title', nil),
-        "container-title" => nil,
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => 'post',
-        "tracked" => tracked,
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "discusses" }] }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: { "pid" => url,
+                "author" => get_authors([item.fetch('creator', "")]),
+                "title" => item.fetch('title', nil),
+                "container-title" => nil,
+                "issued" => get_iso8601_from_time(item.fetch("date", nil)),
+                "URL" => url,
+                "type" => 'post',
+                "tracked" => tracked }}
     end
   end
 
   def config_fields
-    [:url, :events_url]
+    [:url, :provenance_url]
   end
 
   def url
     "http://search.openedition.org/feed.php?op[]=AND&q[]=%{query_string}&field[]=All&pf=Hypotheses.org"
   end
 
-  def events_url
+  def provenance_url
     "http://search.openedition.org/index.php?op[]=AND&q[]=%{query_string}&field[]=All&pf=Hypotheses.org"
   end
 
