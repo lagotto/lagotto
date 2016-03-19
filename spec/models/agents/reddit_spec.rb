@@ -41,7 +41,7 @@ describe Reddit, type: :model, vcr: true do
       work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the Reddit API" do
@@ -50,7 +50,7 @@ describe Reddit, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(works: [], events: [{ source_id: "reddit", work_id: work.pid, comments: 0, likes: 0, total: 0, events_url: nil, extra: [], months: [] }])
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by the Reddit API" do
@@ -60,31 +60,28 @@ describe Reddit, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:total]).to eq(1171)
-      expect(event[:likes]).to eq(1013)
-      expect(event[:comments]).to eq(158)
-      expect(event[:events_url]).to eq("http://www.reddit.com/search?q=#{subject.get_query_string(work_id: work.id)}")
-      expect(event[:months].length).to eq(2)
-      expect(event[:months].first).to eq(year: 2013, month: 5, total: 2)
+      expect(response.length).to eq(4)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://www.reddit.com/r/askscience/comments/1ee560/askscience_ama_we_are_the_authors_of_a_recent/",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://www.reddit.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22",
+                                              "source_id"=>"reddit")
+      expect(response.last[:relation]).to eq("subj_id"=>"https://www.reddit.com",
+                                             "obj_id"=>work.pid,
+                                             "relation_type_id"=>"likes",
+                                             "total"=>1013,
+                                             "provenance_url"=>"http://www.reddit.com/search?q=%22#{work.doi}%22+OR+%22#{work.canonical_url}%22",
+                                             "source_id"=>"reddit")
 
-      expect(response[:works].length).to eq(3)
-      related_work = response[:works].first
-      expect(related_work['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])
-      expect(related_work['title']).to eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
-      expect(related_work['container-title']).to eq("Reddit")
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 5, 15]])
-      expect(related_work['timestamp']).to eq("2013-05-15T17:06:24Z")
-      expect(related_work['type']).to eq("personal_communication")
-
-      extra = event[:extra].first
-      expect(extra[:event_time]).to eq("2013-05-15T17:06:24Z")
-      expect(extra[:event_url]).to eq(extra[:event]['url'])
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Jjberg2", "given"=>""}])
-      expect(extra[:event_csl]['title']).to eq("AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!")
-      expect(extra[:event_csl]['container-title']).to eq("Reddit")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2013, 5, 15]])
-      expect(extra[:event_csl]['type']).to eq("personal_communication")
+      expect(response.first[:subj]).to eq("pid"=>"http://www.reddit.com/r/askscience/comments/1ee560/askscience_ama_we_are_the_authors_of_a_recent/",
+                                          "author"=>[{"given"=>"jjberg2"}],
+                                          "title"=>"AskScience AMA: We are the authors of a recent paper on genetic genealogy and relatedness among the people of Europe. Ask us anything about our paper!",
+                                          "container-title"=>"Reddit",
+                                          "issued"=>"2013-05-15T17:06:24Z",
+                                          "URL"=>"http://www.reddit.com/r/askscience/comments/1ee560/askscience_ama_we_are_the_authors_of_a_recent/",
+                                          "type"=>"personal_communication",
+                                          "tracked"=>false,
+                                          "registration_agency"=>"reddit")
     end
 
     it "should catch timeout errors with the Reddit API" do

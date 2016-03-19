@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 19:10:48 GMT
+      - Sat, 19 Mar 2016 18:56:30 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -25,8 +25,11 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dbea8f11b1d9b386b7a5b33c256ca39411440357048; expires=Mon, 22-Aug-16
-        19:10:48 GMT; path=/; domain=.reddit.com; HttpOnly
+      - __cfduid=d3a1b977186fd7609407f79517fbdf2501458413790; expires=Sun, 19-Mar-17
+        18:56:30 GMT; path=/; domain=.reddit.com; HttpOnly, loid=b2Se7eZdyA9xnLweu5;
+        Domain=reddit.com; Max-Age=63071999; Path=/; expires=Mon, 19-Mar-2018 18:56:30
+        GMT; secure, loidcreated=2016-03-19T18%3A56%3A30.313Z; Domain=reddit.com;
+        Max-Age=63071999; Path=/; expires=Mon, 19-Mar-2018 18:56:30 GMT; secure
       X-Ua-Compatible:
       - IE=edge
       X-Frame-Options:
@@ -40,21 +43,19 @@ http_interactions:
       Access-Control-Expose-Headers:
       - X-Reddit-Tracking, X-Moose
       X-Reddit-Tracking:
-      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=LAqDVYD7hHT%2BT79rNgMY09cZQfrHNf8ycRQMWHlGx4en7PGsbOn5AVr5A%2Bh4nu1FMwLh02FN8cw%3D
+      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=L3u4MUdHQjyH%2BE0s3crP6pFpNNkQ3UvycwsKfeG%2B2Ja%2FtQoIhTE%2BiPVo6gK%2B25cB0eByaas1vhnL0oh5NoM2J8Ntx%2FeGkSM1
       Cache-Control:
       - max-age=0, must-revalidate
       X-Moose:
       - majestic
-      Cf-Cache-Status:
-      - MISS
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 21a91ea258dc26de-FRA
+      - 2863250c8bf2274a-FRA
     body:
       encoding: UTF-8
       string: '{"kind": "Listing", "data": {"facets": {}, "modhash": "", "children":
         [], "after": null, "before": null}}'
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 19:10:52 GMT
+  recorded_at: Sat, 19 Mar 2016 18:56:30 GMT
 recorded_with: VCR 2.9.3

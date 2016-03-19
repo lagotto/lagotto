@@ -7,65 +7,46 @@ class Reddit < Agent
     result = result.deep_fetch('data', 'children') { [] }
 
     likes = get_sum(result, 'data', 'score')
-    comments = get_sum(result, 'data', 'num_comments')
-    total = likes + comments
-    related_works = get_related_works(result, work)
-    extra = get_extra(result)
-    provenance_url = total > 0 ? get_provenance_url(work_id: work.id) : nil
 
-    { works: related_works,
-      events: [{
-        source_id: name,
-        work_id: work.pid,
-        comments: comments,
-        likes: likes,
-        total: total,
-        events_url: events_url,
-        extra: extra,
-        months: get_events_by_month(related_works) }] }
+    relations = get_relations_with_related_works(result, work)
+
+    if likes > 0
+      relations << { relation: { "subj_id" => "https://www.reddit.com",
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "likes",
+                                 "total" => likes,
+                                 "provenance_url" => get_provenance_url(work_id: work.id),
+                                 "source_id" => source_id },
+                     subj: { "pid" => "https://www.reddit.com",
+                             "URL" => "https://www.reddit.com",
+                             "title" => "Reddit",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
+    end
+
+    relations
   end
 
-  def get_related_works(result, work)
+  def get_relations_with_related_works(result, work)
     result.map do |item|
       data = item.fetch('data', {})
-      timestamp = get_iso8601_from_epoch(data.fetch('created_utc', nil))
       url = data.fetch('url', nil)
+      provenance_url = get_provenance_url(work_id: work.id)
 
-      { "pid" => url,
-        "author" => get_authors([data.fetch('author', "")]),
-        "title" => data.fetch("title", ""),
-        "container-title" => "Reddit",
-        "issued" => get_date_parts(timestamp),
-        "timestamp" => timestamp,
-        "URL" => url,
-        "type" => "personal_communication",
-        "tracked" => tracked,
-        "registration_agency" => "reddit",
-        "related_works" => [{ "pid" => work.pid,
-                              "source_id" => name,
-                              "relation_type_id" => "discusses" }] }
-    end
-  end
-
-  def get_extra(result)
-    result.map do |item|
-      data = item['data']
-      event_time = get_iso8601_from_epoch(data['created_utc'])
-      url = data['url']
-
-      { event: data,
-        event_time: event_time,
-        event_url: url,
-
-        # the rest is CSL (citation style language)
-        event_csl: {
-          'author' => get_authors([data.fetch('author', "")]),
-          'title' => data.fetch('title', ""),
-          'container-title' => 'Reddit',
-          'issued' => get_date_parts(event_time),
-          'url' => url,
-          'type' => 'personal_communication' }
-      }
+      { relation: { "subj_id" => url,
+                    "obj_id" => work.pid,
+                    "relation_type_id" => "discusses",
+                    "provenance_url" => provenance_url,
+                    "source_id" => source_id },
+        subj: { "pid" => url,
+                "author" => get_authors([data.fetch('author', "")]),
+                "title" => data.fetch("title", ""),
+                "container-title" => "Reddit",
+                "issued" => get_iso8601_from_epoch(data.fetch('created_utc', nil)),
+                "URL" => url,
+                "type" => "personal_communication",
+                "tracked" => tracked,
+                "registration_agency" => "reddit" }}
     end
   end
 
