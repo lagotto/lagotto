@@ -6,11 +6,11 @@ class DataciteData < Agent
     url % { doi: work.doi_escaped }
   end
 
-  def get_events_url(options={})
+  def get_provenance_url(options={})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present? && events_url.present? && work.doi.present?
+    return {} unless work.present? && provenance_url.present? && work.doi.present?
 
-    events_url % { doi: work.doi_escaped }
+    provenance_url % { doi: work.doi_escaped }
   end
 
   def get_related_works(result, work)

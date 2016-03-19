@@ -56,22 +56,31 @@ describe Datacite, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq("http://search.datacite.org/ui?q=relatedIdentifier:#{work.doi_escaped}")
+      expect(response.length).to eq(1)
+      expect(response.first[:prefix]).to eq("10.5061")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.8515",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"is_referenced_by",
+                                              "source_id"=>"datacite",
+                                              "publisher_id"=>"CDL.DRYAD")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work["DOI"]).to eq("10.5061/DRYAD.8515")
-      expect(related_work['author']).to eq([{"family"=>"Ollomo", "given"=>"Benjamin"}, {"family"=>"Durand", "given"=>"Patrick"}, {"family"=>"Prugnolle", "given"=>"Franck"}, {"family"=>"Douzery", "given"=>"Emmanuel J. P."}, {"family"=>"Arnathau", "given"=>"Céline"}, {"family"=>"Nkoghe", "given"=>"Dieudonné"}, {"family"=>"Leroy", "given"=>"Eric"}, {"family"=>"Renaud", "given"=>"François"}])
-      expect(related_work['title']).to eq("Data from: A new malaria agent in African hominids")
-      expect(related_work['container-title']).to be_nil
-      expect(related_work['issued']).to eq("date-parts"=>[[2011]])
-      expect(related_work['type']).to eq("dataset")
-      expect(related_work['related_works']).to eq([{"pid"=>"http://doi.org/10.1371/journal.ppat.1000446", "source_id"=>"datacite", "relation_type_id"=>"is_referenced_by"}])
-
-      extra = event[:extra].first
-      expect(extra[:event_url]).to eq("http://doi.org/10.5061/DRYAD.8515")
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.8515",
+                                          "author"=>[{"family"=>"Ollomo", "given"=>"Benjamin"},
+                                                     {"family"=>"Durand", "given"=>"Patrick"},
+                                                     {"family"=>"Prugnolle", "given"=>"Franck"},
+                                                     {"family"=>"Douzery", "given"=>"Emmanuel J. P."},
+                                                     {"family"=>"Arnathau", "given"=>"Céline"},
+                                                     {"family"=>"Nkoghe", "given"=>"Dieudonné"},
+                                                     {"family"=>"Leroy", "given"=>"Eric"},
+                                                     {"family"=>"Renaud", "given"=>"François"}],
+                                          "title"=>"Data from: A new malaria agent in African hominids",
+                                          "container-title"=>"Dryad Digital Repository",
+                                          "issued"=>"2011",
+                                          "publisher_id"=>"CDL.DRYAD",
+                                          "DOI"=>"10.5061/DRYAD.8515",
+                                          "type"=>"dataset",
+                                          "tracked"=>false,
+                                          "registration_agency"=>"datacite")
     end
 
     it "should catch timeout errors with the Datacite Metadata Search API" do
