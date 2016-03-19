@@ -57,6 +57,22 @@ class WorkDecorator < Draper::Decorator
     mendeley_uuid
   end
 
+  def viewed
+    model.is_viewed_by
+  end
+
+  def saved
+    model.is_bookmarked_by
+  end
+
+  def discussed
+    model.is_discussed_by
+  end
+
+  def cited
+    model.is_cited_by
+  end
+
   def cache_key
     "work/#{pid}/source_ids:#{source_ids.join(',')}/info:#{context[:info].to_s}/#{timestamp}"
   end
@@ -144,32 +160,32 @@ class WorkDecorator < Draper::Decorator
   end
 
   def viewed_span
-    if model.viewed > 0
-      "<span class=\"alm signpost viewed\" data-viewed=\"#{model.viewed}\">Viewed: #{model.viewed}</span>"
+    if model.is_viewed_by > 0
+      "<span class=\"alm signpost viewed\" data-viewed=\"#{model.is_viewed_by}\">Viewed: #{model.is_viewed_by}</span>"
     else
       ""
     end
   end
 
   def discussed_span
-    if model.discussed > 0
-      "<span class=\"alm signpost discussed\" data-discussed=\"#{model.discussed}\">Discussed: #{model.discussed}</span>"
+    if model.is_discussed_by > 0
+      "<span class=\"alm signpost discussed\" data-discussed=\"#{model.is_discussed_by}\">Discussed: #{model.is_discussed_by}</span>"
     else
       ""
     end
   end
 
   def saved_span
-    if model.saved > 0
-      "<span class=\"alm signpost saved\" data-saved=\"#{model.saved}\">Saved: #{model.saved}</span>"
+    if model.is_bookmarked_by > 0
+      "<span class=\"alm signpost saved\" data-saved=\"#{model.is_bookmarked_by}\">Saved: #{model.is_bookmarked_by}</span>"
     else
       ""
     end
   end
 
   def cited_span
-    if model.cited > 0
-      "<span class=\"alm signpost cited\" data-cited=\"#{model.cited}\">Cited: #{model.cited}</span>"
+    if model.is_cited_by > 0
+      "<span class=\"alm signpost cited\" data-cited=\"#{model.is_cited_by}\">Cited: #{model.is_cited_by}</span>"
     else
       ""
     end

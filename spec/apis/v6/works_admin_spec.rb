@@ -15,7 +15,7 @@ describe "/api/v6/works", :type => :api, vcr: true do
       { "work" => { "pid" => "http://doi.org/10.1371/journal.pone.0036790",
                     "doi" => "10.1371/journal.pone.0036790",
                     "title" => "New Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah, and the Evolution of the Dromaeosaurid Tail",
-                    "publisher_id" => 340,
+                    "publisher_id" => "340",
                     "year" => 2012,
                     "month" => 5,
                     "day" => 15 } }
@@ -140,17 +140,17 @@ describe "/api/v6/works", :type => :api, vcr: true do
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response.status).to eq(400)
+        expect(last_response.status).to eq(422)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("pid"=>["can't be blank"], "title"=>["can't be blank"])
+        expect(response["meta"]["error"]).to eq("found unpermitted parameters: foo, baz")
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
 
-        # expect(Notification.count).to eq(1)
-        # notification = Notification.first
-        # expect(notification.class_name).to eq("ActiveModel::ForbiddenAttributesError")
-        # expect(notification.status).to eq(422)
+        expect(Notification.count).to eq(1)
+        notification = Notification.first
+        expect(notification.class_name).to eq("ActionController::UnpermittedParameters")
+        expect(notification.status).to eq(422)
       end
     end
 
@@ -274,36 +274,23 @@ describe "/api/v6/works", :type => :api, vcr: true do
     context "with missing title and year params" do
       before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
-      let(:params) { { "work" => { "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
+      let(:params) { { "work" => { "pid" => "http://doi.org/10.1371/journal.pone.0036790", "doi" => "10.1371/journal.pone.0036790", "title" => nil, "year" => nil } } }
 
       it "JSON" do
         put uri, params, headers
-        expect(last_response.status).to eq(400)
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("title"=>["can't be blank"], "year"=>["is not a number"], "published_on"=>["is before 1650"])
+        expect(response["meta"]["status"]).to eq("updated")
+        expect(response["meta"]["error"]).to be_nil
+        expect(response["work"]["DOI"]).to eq(params["work"]["doi"])
+        expect(response["work"]["author"]).to eq([{"family"=>"Senter", "given"=>"Phil"},
+                                                  {"family"=>"Kirkland", "given"=>"James I."},
+                                                  {"family"=>"DeBlieux", "given"=>"Donald D."},
+                                                  {"family"=>"Madsen", "given"=>"Scott"},
+                                                  {"family"=>"Toth", "given"=>"Natalie"}])
       end
     end
-
-    # context "with unpermitted params" do
-    #   let(:user) { FactoryGirl.create(:admin_user) }
-    #   let(:params) { { "work" => { "foo" => "bar", "baz" => "biz" } } }
-
-    #   it "JSON" do
-    #     put uri, params, headers
-    #     #expect(last_response.status).to eq(422)
-
-    #     response = JSON.parse(last_response.body)
-    #     #expect(response["error"]).to eq({ "foo"=>["unpermitted parameter"], "baz"=>["unpermitted parameter"] })
-    #     expect(response["success"]).to be_nil
-    #     expect(response["data"]).to be_blank
-
-    #     expect(Notification.count).to eq(1)
-    #     notification = Notification.first
-    #     expect(notification.class_name).to eq("ActiveModel::ForbiddenAttributesError")
-    #     expect(notification.status).to eq(422)
-    #   end
-    # end
   end
 
   context "destroy" do

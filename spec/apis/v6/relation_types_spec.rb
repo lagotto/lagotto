@@ -18,13 +18,13 @@ describe "/api/v6/relation_types", :type => :api do
       expect(data.length).to eq(1)
 
       item = data.first
-      expect(item["id"]).to eq("cites")
-      expect(item["title"]).to eq("Cites")
+      expect(item["id"]).to eq("is_cited_by")
+      expect(item["title"]).to eq("Is cited by")
     end
   end
 
   context "show" do
-    let(:uri) { "/api/relation_types/cites" }
+    let(:uri) { "/api/relation_types/is_cited_by" }
 
     it "JSON" do
       get uri, nil, headers
@@ -32,8 +32,8 @@ describe "/api/v6/relation_types", :type => :api do
 
       response = JSON.parse(last_response.body)
       item = response["relation_type"]
-      expect(item["id"]).to eq("cites")
-      expect(item["title"]).to eq("Cites")
+      expect(item["id"]).to eq("is_cited_by")
+      expect(item["title"]).to eq("Is cited by")
     end
   end
 end

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.1371/journal.pone.0036790
+    uri: http://doi.crossref.org/doiRA/10.1371/JOURNAL.PONE.0036790
     body:
       encoding: US-ASCII
       string: ''
@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Sat, 06 Feb 2016 23:04:27 GMT
+      - Sat, 19 Mar 2016 13:14:50 GMT
       Connection:
       - close
     body:
@@ -33,15 +33,15 @@ http_interactions:
       string: |-
         [
          {
-         "DOI": "10.1371/journal.pone.0036790",
+         "DOI": "10.1371/JOURNAL.PONE.0036790",
          "RA": "CrossRef"
         }
         ]
     http_version: 
-  recorded_at: Sat, 06 Feb 2016 23:04:28 GMT
+  recorded_at: Sat, 19 Mar 2016 13:14:50 GMT
 - request:
     method: get
-    uri: http://api.crossref.org/works/10.1371%2Fjournal.pone.0036790
+    uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PONE.0036790
     body:
       encoding: US-ASCII
       string: ''
@@ -52,51 +52,34 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 404
+      code: 200
       message: ''
     headers:
-      Date:
-      - Sat, 06 Feb 2016 23:04:28 GMT
-      Connection:
-      - close
-      X-Frame-Options:
-      - sameorigin
-      X-Xss-Protection:
-      - 1; mode=block
-      Content-Type:
-      - text/html;charset=utf-8
-      X-Cascade:
-      - pass
+      Access-Control-Allow-Headers:
+      - X-Requested-With
       Access-Control-Allow-Origin:
       - "*"
+      Vary:
+      - Accept
+      Content-Type:
+      - application/json;charset=UTF-8
       Content-Length:
-      - '474'
-      Set-Cookie:
-      - rack.session=0f1b28289808e4f5b8f9d5cc1599d3514d79f767755e058a740fc435fba1040d;
-        path=/; HttpOnly
+      - '1581'
+      Server:
+      - http-kit
+      Date:
+      - Sat, 19 Mar 2016 13:14:51 GMT
+      Connection:
+      - close
     body:
       encoding: UTF-8
-      string: |
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style type="text/css">
-          body { text-align:center;font-family:helvetica,arial;font-size:22px;
-            color:#888;margin:20px}
-          #c {margin:0 auto;width:500px;text-align:left}
-          </style>
-        </head>
-        <body>
-          <h2>Sinatra doesn&rsquo;t know this ditty.</h2>
-          <img src='http://api.crossref.org/__sinatra__/404.png'>
-          <div id="c">
-            Try this:
-            <pre>get '/works/10.1371%2Fjournal.pone.0036790' do
-          "Hello World"
-        end</pre>
-          </div>
-        </body>
-        </html>
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,12,28]],"date-time":"2015-12-28T04:53:13Z","timestamp":1451278393564},"reference-count":0,"publisher":"Public
+        Library of Science (PLoS)","issue":"5","DOI":"10.1371\/journal.pone.0036790","type":"journal-article","created":{"date-parts":[[2012,5,15]],"date-time":"2012-05-15T21:15:00Z","timestamp":1337116500000},"page":"e36790","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["New
+        Dromaeosaurids (Dinosauria: Theropoda) from the Lower Cretaceous of Utah,
+        and the Evolution of the Dromaeosaurid Tail"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"7","author":[{"affiliation":[],"family":"Senter","given":"Phil"},{"affiliation":[],"family":"Kirkland","given":"James
+        I."},{"affiliation":[],"family":"DeBlieux","given":"Donald D."},{"affiliation":[],"family":"Madsen","given":"Scott"},{"affiliation":[],"family":"Toth","given":"Natalie"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2012,5,15]]},"container-title":["PLoS
+        ONE"],"deposited":{"date-parts":[[2014,3,5]],"date-time":"2014-03-05T23:56:41Z","timestamp":1394063801000},"score":1.0,"subtitle":[],"editor":[{"affiliation":[],"family":"Dodson","given":"Peter"}],"issued":{"date-parts":[[2012,5,15]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0036790","ISSN":["1932-6203"],"subject":["Biochemistry,
+        Genetics and Molecular Biology(all)","Agricultural and Biological Sciences(all)","Medicine(all)"]}}'
     http_version: 
-  recorded_at: Sat, 06 Feb 2016 23:04:28 GMT
+  recorded_at: Sat, 19 Mar 2016 13:14:51 GMT
 recorded_with: VCR 2.9.3

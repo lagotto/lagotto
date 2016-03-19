@@ -1,13 +1,16 @@
 require "rails_helper"
 
 describe "/api/v6/deposits", :type => :api do
-  before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
+  before(:each) do
+    allow(Time).to receive(:now).and_return(Time.mktime(2015, 4, 8))
+    allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8))
+  end
 
   let(:deposit) { FactoryGirl.build(:deposit) }
   let(:error) { { "meta" => { "status" => "error", "error" => "You are not authorized to access this page." } } }
   let(:success) { { "id"=>deposit.uuid,
                     "state"=>"waiting",
-                    "message_type"=>"work",
+                    "message_type"=>"relation",
                     "message_action"=>"create",
                     "source_token"=>"citeulike_123",
                     "subj_id"=>"http://www.citeulike.org/user/dbogartoit",
@@ -17,15 +20,14 @@ describe "/api/v6/deposits", :type => :api do
                     "total"=>1,
                     "occurred_at"=>deposit.occurred_at.utc.iso8601,
                     "timestamp"=>deposit.timestamp,
-                    "subj"=>{"pid"=>"http://www.citeulike.org/user/dbogartoit",
-                             "author"=>[{"given"=>"dbogartoit"}],
-                             "title"=>"CiteULike bookmarks for user dbogartoit",
-                             "container-title"=>"CiteULike",
-                             "issued"=>{"date-parts"=>[[2006, 6, 13]]},
-                             "timestamp"=>"2006-06-13T16:14:19Z",
-                             "URL"=>"http://www.citeulike.org/user/dbogartoit",
-                             "type"=>"entry",
-                             "tracked"=>false },
+                    "subj"=>{ "pid"=>"http://www.citeulike.org/user/dbogartoit",
+                              "author"=>[{"given"=>"dbogartoit"}],
+                              "title"=>"CiteULike bookmarks for user dbogartoit",
+                              "container-title"=>"CiteULike",
+                              "issued"=>"2006-06-13T16:14:19Z",
+                              "URL"=>"http://www.citeulike.org/user/dbogartoit",
+                              "type"=>"entry",
+                              "tracked"=>false},
                     "obj"=>{} }}
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:uuid) { SecureRandom.uuid }
@@ -251,25 +253,12 @@ describe "/api/v6/deposits", :type => :api do
 
       it "JSON" do
         get uri, nil, headers
-        expect(last_response.status).to eq(401)
+        expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response).to eq (error)
-      end
-    end
-
-    context "with wrong API key" do
-      let(:headers) do
-        { "HTTP_ACCEPT" => "application/json; version=6",
-          "HTTP_AUTHORIZATION" => "Token token=12345678" }
-      end
-
-      it "JSON" do
-        get uri, nil, headers
-        expect(last_response.status).to eq(401)
-
-        response = JSON.parse(last_response.body)
-        expect(response).to eq (error)
+        expect(response["meta"]["status"]).to eq("ok")
+        expect(response["meta"]["error"]).to be_nil
+        expect(response["deposit"]).to eq(success)
       end
     end
 
@@ -302,7 +291,7 @@ describe "/api/v6/deposits", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        
+
         # Just test that the API can be accessed without a token.
         expect(response["meta"]["status"]).to eq("ok")
         expect(response["meta"]["error"]).to be_nil

@@ -3,7 +3,7 @@ class Api::V5::WorksController < Api::BaseController
   before_filter :authenticate_user_from_token_param!
 
   def show
-    @work = @work.includes(:events).references(:events)
+    @work = @work.includes(:relations).references(:relations)
       .decorate(context: { info: params[:info], source_id: params[:source_id], role: is_admin_or_staff? })
 
     fresh_when last_modified: @work.updated_at
@@ -44,9 +44,9 @@ class Api::V5::WorksController < Api::BaseController
     elsif params[:q]
       collection = Work.query(params[:q])
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
-      collection = Work.joins(:events)
-                   .where("events.source_id = ?", source.id)
-                   .where("events.total > 0")
+      collection = Work.joins(:relations)
+                   .where("relations.source_id = ?", source.id)
+                   .where("relations.total > 0")
     else
       collection = Work
     end
@@ -66,11 +66,11 @@ class Api::V5::WorksController < Api::BaseController
   # we can't filter and sort by two different sources
   def get_order(collection, params, source)
     if params[:order] && source && params[:order] == params[:source_id]
-      collection = collection.order("events.total DESC")
+      collection = collection.order("relations.total DESC")
     elsif params[:order] && !source && order = Source.where(name: params[:order]).first
-      collection = collection.joins(:events)
-        .where("events.source_id = ?", order.id)
-        .order("events.total DESC")
+      collection = collection.joins(:relations)
+        .where("relations.source_id = ?", order.id)
+        .order("relations.total DESC")
     else
       collection = collection.order("published_on DESC")
     end

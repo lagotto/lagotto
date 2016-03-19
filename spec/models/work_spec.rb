@@ -214,6 +214,11 @@ describe Work, type: :model, vcr: true do
     expect(work.is_cited_by).to eq(5)
   end
 
+  it 'metrics' do
+    work = FactoryGirl.create(:work_with_crossref_and_mendeley)
+    expect(work.metrics).to eq(5)
+  end
+
   it "events count" do
     Work.all.each do |work|
       total = work.events.reduce(0) { |sum, rs| sum + rs.event_count }

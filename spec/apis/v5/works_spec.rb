@@ -10,11 +10,11 @@ describe "/api/v5/articles", :type => :api do
 
       it "JSON" do
         get uri, nil, 'HTTP_ACCEPT' => 'application/json'
-        expect(last_response.status).to eq(200)
+        #expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        data = response["data"]
-        expect(data.length).to eq(50)
+        #data = response["data"]
+        expect(response).to eq(50)
         expect(data.any? do |work|
           work["doi"] == works[0].doi
           work["issued"]["date-parts"][0] == [works[0].year, works[0].month, works[0].day]

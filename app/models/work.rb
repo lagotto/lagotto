@@ -198,8 +198,9 @@ class Work < ActiveRecord::Base
   # alias_method :saved, :is_bookmarked_by
   # alias_method :cited, :is_cited_by
 
+  # returns hash with source names as keys and aggregated total for each source as values
   def metrics
-    sources.pluck(:name, :total)
+    relations.group(:source_id).sum(:total).map { |r| [cached_source_names[r[0]], r[1]] }.to_h
   end
 
   def issued

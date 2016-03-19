@@ -5,7 +5,7 @@ describe "/api/v6/works", :type => :api do
   let(:jsonp_headers) { { "HTTP_ACCEPT" => "application/javascript" } }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work, 10, :with_events) }
+    let(:works) { FactoryGirl.create_list(:work, 10) }
 
     context "works found via pid" do
       before(:each) do
@@ -154,7 +154,7 @@ describe "/api/v6/works", :type => :api do
         expect(last_response.status).to eq(200)
 
         data = response["works"]
-        expect(data.length).to eq(20)
+        expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["DOI"] == works[0].doi
           expect(work["issued"]["date-parts"][0]).to eql([works[0].year, works[0].month, works[0].day])
@@ -173,7 +173,7 @@ describe "/api/v6/works", :type => :api do
 
     context "by publisher" do
       let(:publisher) { FactoryGirl.create(:publisher) }
-      let(:works) { FactoryGirl.create_list(:work, 10, :with_events, publisher_id: publisher.name) }
+      let(:works) { FactoryGirl.create_list(:work, 10, publisher_id: publisher.name) }
       let!(:work_list) { works.map { |work| work.doi_escaped }.join(",") }
       let(:uri) { "/api/works?publisher_id=#{publisher.name}" }
 

@@ -1,7 +1,7 @@
 class Api::V6::DepositsController < Api::BaseController
   prepend_before_filter :load_deposit, only: [:show, :destroy]
   before_filter :authenticate_user_from_token!, :except => [:index, :show]
-  load_and_authorize_resource :except => [:create, :index]
+  load_and_authorize_resource :except => [:create, :show, :index]
   load_resource :except => [:create]
 
   swagger_controller :deposits, "Deposits"

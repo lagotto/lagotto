@@ -25,7 +25,7 @@ describe "/api/v6/agents", :type => :api do
         data = response["agents"]
         item = data.first
         expect(item["id"]).to eq(agent.name)
-        expect(item["status"]["stale"]).to eq(10)
+        expect(item["state"]).to eq("waiting")
       end
 
       it "JSONP" do
@@ -37,7 +37,7 @@ describe "/api/v6/agents", :type => :api do
         data = response["agents"]
         item = data.first
         expect(item["id"]).to eq(agent.name)
-        expect(item["status"]["stale"]).to eq(10)
+        expect(item["state"]).to eq("waiting")
       end
     end
 
@@ -86,7 +86,7 @@ describe "/api/v6/agents", :type => :api do
         expect(data["id"]).to eq(agent.name)
         expect(data["responses"]["count"]).to eq(5)
         expect(data["responses"]["average"]).to eq(200)
-        expect(data["status"]["stale"]).to eq(5)
+        expect(data["state"]).to eq("waiting")
       end
 
       it "JSONP" do
@@ -99,7 +99,7 @@ describe "/api/v6/agents", :type => :api do
         expect(data["id"]).to eq(agent.name)
         expect(data["responses"]["count"]).to eq(5)
         expect(data["responses"]["average"]).to eq(200)
-        expect(data["status"]["stale"]).to eq(5)
+        expect(data["state"]).to eq("waiting")
       end
     end
   end

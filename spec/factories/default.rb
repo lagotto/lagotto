@@ -40,7 +40,7 @@ FactoryGirl.define do
 
     trait :with_events do
       after :create do |work|
-        FactoryGirl.create(:relation, work: work, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
+        FactoryGirl.create_list(:relation, 5, work: work, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
       end
     end
 
@@ -77,6 +77,13 @@ FactoryGirl.define do
 
     factory :work_with_mendeley do
       after :create do |work|
+        FactoryGirl.create(:relation, :with_mendeley, work: work)
+      end
+    end
+
+    factory :work_with_crossref_and_mendeley do
+      after :create do |work|
+        FactoryGirl.create_list(:relation, 5, :with_crossref, work: work)
         FactoryGirl.create(:relation, :with_mendeley, work: work)
       end
     end
@@ -388,8 +395,8 @@ FactoryGirl.define do
   factory :relation do
     association :work
     association :related_work
-    association :source, :crossref
-    association :relation_type
+    association :source
+    association :relation_type, :is_bookmarked_by
 
     trait(:with_private) { association :source, private: true }
     trait(:with_mendeley) do
@@ -466,7 +473,7 @@ FactoryGirl.define do
 
   factory :deposit do
     uuid { SecureRandom.uuid }
-    message_type "work"
+    message_type "relation"
     source_id "citeulike"
     source_token "citeulike_123"
     subj_id "http://www.citeulike.org/user/dbogartoit"

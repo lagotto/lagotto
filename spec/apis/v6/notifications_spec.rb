@@ -64,9 +64,9 @@ describe "/api/v6/notifications", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["notifications"]
-        expect(data.length).to eq(1)
-        notification = data.first
-        expect(notification["agent"]).to eq ("citeulike")
+        expect(data.length).to eq(3)
+        notification = data.last
+        expect(notification["agent"]).to eq("citeulike")
       end
     end
 

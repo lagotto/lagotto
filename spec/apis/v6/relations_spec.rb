@@ -21,7 +21,7 @@ describe "/api/v6/relations", :type => :api do
         expect(response["relations"].length).to eq(5)
 
         item = response["relations"].first
-        expect(item["source_id"]).to eq("crossref")
+        expect(item["source_id"]).to eq("citeulike")
         expect(item["work_id"]).to be_present
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})
@@ -36,7 +36,7 @@ describe "/api/v6/relations", :type => :api do
         expect(response["relations"].length).to eq(5)
 
         item = response["relations"].first
-        expect(item["source_id"]).to eq("crossref")
+        expect(item["source_id"]).to eq("citeulike")
         expect(item["work_id"]).to be_present
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})
@@ -67,10 +67,10 @@ describe "/api/v6/relations", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["total"]).to eq(1)
+        expect(response["meta"]["total"]).to eq(6)
 
         item = response["relations"].first
-        expect(item["source_id"]).to eq("crossref")
+        expect(item["source_id"]).to eq("citeulike")
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})
       end
@@ -81,10 +81,10 @@ describe "/api/v6/relations", :type => :api do
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        expect(response["meta"]["total"]).to eq(1)
+        expect(response["meta"]["total"]).to eq(6)
 
         item = response["relations"].first
-        expect(item["source_id"]).to eq("crossref")
+        expect(item["source_id"]).to eq("citeulike")
         expect(item["title"]).to eq("Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web")
         expect(item["events"]).to eq({})
       end

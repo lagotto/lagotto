@@ -8,7 +8,7 @@ describe "/api/v6/works", :type => :api do
   context "caching", :caching => true do
 
     context "index" do
-      let(:works) { FactoryGirl.create_list(:work, 2, :with_events) }
+      let(:works) { FactoryGirl.create_list(:work_with_crossref, 2) }
       let(:work_list) { works.map { |work| "#{work.pid}" }.join(",") }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work_list}" }
 
@@ -28,12 +28,12 @@ describe "/api/v6/works", :type => :api do
         expect(response["id"]).to eq(work.pid)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(response["events"]).to eql("crossref"=>50)
+        expect(response["events"]).to eql("crossref"=>5)
       end
     end
 
     context "work is updated" do
-      let(:work) { FactoryGirl.create(:work, :with_events) }
+      let(:work) { FactoryGirl.create(:work_with_crossref) }
       let(:uri) { "http://#{ENV['HOSTNAME']}/api/works?ids=#{work.pid}" }
       let(:key) { "jbuilder/v6/#{work.decorate(context: { role: 1 }).cache_key}" }
       let(:title) { "Foo" }

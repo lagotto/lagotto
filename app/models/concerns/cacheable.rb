@@ -8,6 +8,12 @@ module Cacheable
       end
     end
 
+    def cached_source_names
+      Rails.cache.fetch("source/names", expires_in: 1.month) do
+        Source.order_by_name.pluck(:id, :name).to_h
+      end
+    end
+
     def cached_publisher(name)
       Rails.cache.fetch("publisher/#{name}", expires_in: 1.month) do
         Publisher.where(name: name).first
