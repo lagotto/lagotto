@@ -40,7 +40,7 @@ FactoryGirl.define do
 
     trait :with_events do
       after :create do |work|
-        FactoryGirl.create(:relation, work: work, total: 50, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
+        FactoryGirl.create(:relation, work: work, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
       end
     end
 
@@ -50,24 +50,6 @@ FactoryGirl.define do
         FactoryGirl.create(:notification, work: work)
       end
     end
-
-    # factory :stale_works do
-    #   after :create do |work|
-    #     FactoryGirl.create(:task, :stale, work: work)
-    #   end
-    # end
-
-    # factory :queued_works do
-    #   after :create do |work|
-    #     FactoryGirl.create(:task, :queued, work: work)
-    #   end
-    # end
-
-    # factory :refreshed_works do
-    #   after :create do |work|
-    #     FactoryGirl.create(:task, :refreshed, work: work)
-    #   end
-    # end
 
     factory :work_with_errors do
       after :create do |work|
@@ -81,51 +63,51 @@ FactoryGirl.define do
       end
     end
 
-    factory :work_with_crossref_citations do
+    factory :work_with_crossref do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_crossref, work: work)
+        FactoryGirl.create_list(:relation, 5, :with_crossref, work: work)
       end
     end
 
-    factory :work_with_pubmed_citations do
+    factory :work_with_pubmed do
       after :create do |work|
         FactoryGirl.create(:relation, :with_pubmed, work: work)
       end
     end
 
-    factory :work_with_mendeley_events do
+    factory :work_with_mendeley do
       after :create do |work|
         FactoryGirl.create(:relation, :with_mendeley, work: work)
       end
     end
 
-    factory :work_with_nature_citations do
+    factory :work_with_nature do
       after :create do |work|
         FactoryGirl.create(:relation, :with_nature, work: work)
       end
     end
 
-    factory :work_with_researchblogging_citations do
+    factory :work_with_researchblogging do
       after :create do |work|
         FactoryGirl.create(:relation, :with_researchblogging, work: work)
       end
     end
 
-    factory :work_with_wos_citations do
+    factory :work_with_wos do
       after :create do |work|
         FactoryGirl.create(:relation, :with_wos, work: work)
       end
     end
 
-    factory :work_with_counter_citations do
+    factory :work_with_counter do
       after :create do |work|
         FactoryGirl.create(:relation, :with_counter, work: work)
       end
     end
 
-    factory :work_with_tweets do
+    factory :work_with_twitter do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_twitter, work: work)
+        FactoryGirl.create_list(:relation, 10, :with_twitter, work: work)
       end
     end
   end
@@ -336,14 +318,14 @@ FactoryGirl.define do
   end
 
   factory :relation_type do
-    name "cites"
-    title "Cites"
-    inverse_name "is_cited_by"
+    name "is_cited_by"
+    title "Is cited by"
+    inverse_name "cites"
 
     trait(:inverse) do
-      name "is_cited_by"
-      title "Is cited by"
-      inverse_name "cites"
+      name "cites"
+      title "Cites"
+      inverse_name "is_cited_by"
     end
 
     trait(:has_part) do
@@ -362,6 +344,18 @@ FactoryGirl.define do
       name "bookmarks"
       title "Bookmarks"
       inverse_name "is_bookmarked_by"
+    end
+
+    trait(:is_discussed_by) do
+      name "is_discussed_by"
+      title "Is discussed by"
+      inverse_name "discusses"
+    end
+
+    trait(:is_viewed_by) do
+      name "is_viewed_by"
+      title "Is viewed by"
+      inverse_name "views"
     end
 
     trait(:is_bookmarked_by) do
@@ -398,31 +392,48 @@ FactoryGirl.define do
     association :relation_type
 
     trait(:with_private) { association :source, private: true }
-    trait(:with_mendeley) { association :source, :mendeley }
+    trait(:with_mendeley) do
+      total 10
+      association :relation_type, :is_bookmarked_by
+      association :source, :mendeley
+    end
     trait(:with_pubmed) { association :source, :pub_med }
-    trait(:with_nature) { association :source, :nature }
+    trait(:with_nature) do
+      association :relation_type, :is_discussed_by
+      association :source, :nature
+    end
     trait(:with_wos) { association :source, :wos }
-    trait(:with_researchblogging) { association :source, :researchblogging }
-    trait(:with_scienceseeker) { association :source, :scienceseeker }
+    trait(:with_researchblogging) do
+      association :relation_type, :is_discussed_by
+      association :source, :researchblogging
+    end
+    trait(:with_scienceseeker) do
+      association :relation_type, :is_discussed_by
+      association :source, :scienceseeker
+    end
     trait(:with_wikipedia) { association :source, :wikipedia }
-    trait(:with_twitter) { association :source, :twitter}
+    trait(:with_twitter) do
+      association :relation_type, :is_discussed_by
+      association :source, :twitter
+    end
 
     trait(:with_work_published_today) { association :work, :published_today }
 
     trait(:with_counter) do
       total 500
+      association :relation_type, :is_viewed_by
       association :work, :published_yesterday
       association :source, :counter
     end
 
     trait(:with_crossref) do
-      total 25
+      association :relation_type
       association :work, :published_yesterday
       association :source, :crossref
     end
 
     trait(:with_crossref_last_month) do
-      total 25
+      association :relation_type
       association :source, :crossref
       after :create do |relation|
         last_month = Time.zone.now.to_date - 1.month
@@ -436,7 +447,7 @@ FactoryGirl.define do
     end
 
     trait(:with_crossref_current_month) do
-      total 20
+      association :relation_type
       association :source, :crossref
       after :create do |relation|
         FactoryGirl.create(:month, relation: relation,
@@ -446,11 +457,6 @@ FactoryGirl.define do
                                    month: Time.zone.now.to_date.month,
                                    total: relation.total)
       end
-    end
-
-    before :create do |reference_relation|
-      FactoryGirl.create(:relation_type)
-      FactoryGirl.create(:relation_type, :inverse)
     end
   end
 

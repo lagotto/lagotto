@@ -189,29 +189,29 @@ describe Work, type: :model, vcr: true do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
 
-  it 'event_counts' do
-    work = FactoryGirl.create(:work, :with_events)
-    expect(work.event_counts(["citeulike", "mendeley"])).to eq(100)
+  it 'event_count' do
+    work = FactoryGirl.create(:work_with_twitter)
+    expect(work.event_count('is_discussed_by')).to eq(10)
   end
 
-  it 'viewed' do
-    work = FactoryGirl.create(:work_with_counter_citations)
-    expect(work.viewed).to eq(500)
+  it 'is_viewed_by' do
+    work = FactoryGirl.create(:work_with_counter)
+    expect(work.is_viewed_by).to eq(500)
   end
 
-  it 'discussed' do
-    work = FactoryGirl.create(:work_with_tweets)
-    expect(work.discussed).to eq(50)
+  it 'is_discussed_by' do
+    work = FactoryGirl.create(:work_with_twitter)
+    expect(work.is_discussed_by).to eq(10)
   end
 
-  it 'saved' do
-    work = FactoryGirl.create(:work, :with_events)
-    expect(work.saved).to eq(100)
+  it 'is_bookmarked_by' do
+    work = FactoryGirl.create(:work_with_mendeley)
+    expect(work.is_bookmarked_by).to eq(10)
   end
 
-  it 'cited' do
-    work = FactoryGirl.create(:work_with_crossref_citations)
-    expect(work.cited).to eq(25)
+  it 'is_cited_by' do
+    work = FactoryGirl.create(:work_with_crossref)
+    expect(work.is_cited_by).to eq(5)
   end
 
   it "events count" do
@@ -253,19 +253,19 @@ describe Work, type: :model, vcr: true do
 
   it "should get all_urls" do
     work = FactoryGirl.build(:work, :canonical_url => "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000001")
-    expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact + work.events_urls)
+    expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact + work.provenance_urls)
   end
 
   context "associations" do
     it "should create associated relations" do
       expect(Relation.count).to eq(0)
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Relation.count).to eq(4)
+      expect(Relation.count).to eq(2)
     end
 
     it "should delete associated relations" do
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Relation.count).to eq(4)
+      expect(Relation.count).to eq(2)
       @works.each(&:destroy)
       expect(Relation.count).to eq(0)
     end

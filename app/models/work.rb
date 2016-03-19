@@ -147,57 +147,56 @@ class Work < ActiveRecord::Base
     CGI.escape(title.to_str).gsub("+", "%20")
   end
 
-  def signposts
-    @signposts ||= sources.pluck(:name, :total, :provenance_url)
-  end
-
-  def events_urls
-    signposts.map { |source| source[2] }.compact
-  end
-
-  def event_count(name)
-    signposts.reduce(0) { |sum, source| source[0] == name ? source[1].to_i : sum }
+  def provenance_urls
+    relations.where.not(provenance_url: nil).pluck(:provenance_url)
   end
 
   def event_counts(names)
     names.reduce(0) { |sum, source| sum + event_count(source) }
   end
 
-  def events_url(name)
-    signposts.reduce(nil) { |sum, source| source[0] == name ? source[2] : sum }
+  def provenance_url(name)
+    source = cached_source(name)
+    relations.where(source_id: source.id).pluck(:provenance_url).first
   end
 
   def scopus_url
-    @scopus_url ||= events_url("scopus")
+    @scopus_url ||= provenance_url("scopus")
   end
 
   def wos_url
-    @wos_url ||= events_url("wos")
+    @wos_url ||= provenance_url("wos")
   end
 
   def mendeley_url
-    @mendeley_url ||= events_url("mendeley")
+    @mendeley_url ||= provenance_url("mendeley")
   end
 
-  def viewed
-    names = ENV["VIEWED"] ? ENV["VIEWED"].split(",") : ["pmc", "counter"]
-    @viewed || event_counts(names)
+  def event_count(relation_type_id)
+    relation_type = cached_relation_type(relation_type_id)
+    relations.where(relation_type_id: relation_type.id).sum(:total)
   end
 
-  def discussed
-    names = ENV["DISCUSSED"] ? ENV["DISCUSSED"].split(",") : ["facebook", "twitter", "twitter_search"]
-    @discussed ||= event_counts(names)
+  def is_viewed_by
+    @is_viewed_by ||= event_count('is_viewed_by')
   end
 
-  def saved
-    names = ENV["SAVED"] ? ENV["SAVED"].split(",") : ["citeulike", "mendeley"]
-    @saved ||= event_counts(names)
+  def is_discussed_by
+    @is_discussed_by ||= event_count('is_discussed_by')
   end
 
-  def cited
-    name = ENV["CITED"] ? ENV["CITED"] : "crossref"
-    @cited ||= event_count(name)
+  def is_bookmarked_by
+    @is_bookmarked_by ||= event_count('is_bookmarked_by')
   end
+
+  def is_cited_by
+    @is_cited_by ||= event_count('is_cited_by')
+  end
+
+  # alias_method :viewed, :is_viewed_by
+  # alias_method :discussed, :is_discussed_by
+  # alias_method :saved, :is_bookmarked_by
+  # alias_method :cited, :is_cited_by
 
   def metrics
     sources.pluck(:name, :total)
