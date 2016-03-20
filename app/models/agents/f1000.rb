@@ -34,37 +34,42 @@ class F1000 < Agent
     # properly handle not found errors
     result = { "ObjectList" => { "Article" => [] }} if result[:status] == 404
 
-    return result if result[:error]
+    return [result] if result[:error]
 
-    { events: get_events(result) }
+    items = result.fetch("ObjectList", {}).fetch("Article", [])
+    get_relations_with_related_works(items)
   end
 
-  def get_events(result)
-    recommendations = result.fetch("ObjectList", {}).fetch("Article", [])
-
-    Array(recommendations).map do |item|
+  def get_relations_with_related_works(items)
+    Array(items).map do |item|
       doi = item.fetch('Doi', nil)
+      url = item.fetch('Url', nil)
+
       # sometimes doi metadata are missing
-      break unless doi
+      if doi.blank? || url.blank?
+        nil
+      else
+        # turn classifications into array with lowercase letters
+        # classifications = item['Classifications'] ? item['Classifications'].downcase.split(", ") : []
 
-      # turn classifications into array with lowercase letters
-      classifications = item['Classifications'] ? item['Classifications'].downcase.split(", ") : []
+        total = item.fetch('TotalScore', 1).to_i
 
-      total = item['TotalScore'].to_i
-      events_url = item.fetch('Url', nil)
+        subj = { "pid" => url,
+                 "title" => "F1000 Prime recommendation for DOI #{doi}",
+                 "container-title" => "F1000 Prime",
+                 "issued" => Time.zone.now.utc.iso8601,
+                 "type" => "entry",
+                 "tracked" => tracked,
+                 "registration_agency" => "f1000" }
 
-      extra = { 'doi' => doi,
-                'f1000_id' => item.fetch('Id'),
-                'url' => events_url,
-                'score' => total,
-                'classifications' => classifications }
-
-      { source_id: "f1000",
-        work_id: "doi:#{doi}",
-        total: total,
-        events_url: events_url,
-        extra: extra }
-    end
+        { relation: { "subj_id" => subj["pid"],
+                      "obj_id" => doi_as_url(doi),
+                      "relation_type_id" => "recommends",
+                      "total" => total,
+                      "source_id" => source_id },
+          subj: subj }
+      end
+    end.compact
   end
 
   def config_fields

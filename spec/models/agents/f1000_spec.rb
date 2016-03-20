@@ -45,20 +45,29 @@ describe F1000, type: :model, vcr: true do
     it "should report if there are no events returned by f1000" do
       result = { error: nil, status: 404 }
       response = subject.parse_data(result)
-      expect(response).to eq(events: [])
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by f1000" do
+      allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8))
       body = File.read(fixture_path + 'f1000.xml')
       result = Hash.from_xml(body)
       response = subject.parse_data(result)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("f1000")
-      expect(event[:work_id]).to eq("doi:10.1371/journal.pmed.0020059")
-      expect(event[:total]).to eq(1)
-      expect(event[:events_url]).to eq("http://f1000.com/prime/4085")
-      expect(event[:extra]).to eq("doi"=>"10.1371/journal.pmed.0020059", "f1000_id"=>"4085", "url"=>"http://f1000.com/prime/4085", "score"=>1, "classifications"=>["technical_advance"])
+      expect(response.length).to eq(10)
+      expect(response[2][:relation]).to eq("subj_id"=>"http://f1000.com/prime/5020",
+                                           "obj_id"=>"http://doi.org/10.1371/journal.pbio.0040009",
+                                           "relation_type_id"=>"recommends",
+                                           "total"=>6,
+                                           "source_id"=>"f1000")
+
+      expect(response[2][:subj]).to eq("pid"=>"http://f1000.com/prime/5020",
+                                       "title"=>"F1000 Prime recommendation for DOI 10.1371/journal.pbio.0040009",
+                                       "container-title"=>"F1000 Prime",
+                                       "issued"=>"2015-04-08T00:00:00Z",
+                                       "type"=>"entry",
+                                       "tracked"=>false,
+                                       "registration_agency"=>"f1000")
     end
   end
 end
