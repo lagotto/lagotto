@@ -4,10 +4,14 @@ class Github < Agent
   end
 
   def get_query_url(options={})
+    return {} unless options[:owner].present? && options[:repo].present?
+
     url % { owner: options[:owner], repo: options[:repo] }
   end
 
   def get_provenance_url(options={})
+    return nil unless options[:owner].present? && options[:repo].present?
+
     provenance_url % { owner: options[:owner], repo: options[:repo] }
   end
 
@@ -34,11 +38,15 @@ class Github < Agent
     return {} unless work.present? && github_repo(work.canonical_url).present?
 
     query_url = get_query_url(get_owner_and_repo(work))
+    return {} if query_url.is_a?(Hash)
+
     get_result(query_url, options.merge(request_options))
   end
 
   def get_owner_and_repo(work)
     # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
+    return {} unless work.canonical_url.present? && /^https:\/\/github\.com\/(.+)\/(.+)/.match(work.canonical_url)
+
     full_name = URI.parse(work.canonical_url).path[1..-1]
     owner, repo = full_name.split('/')
     { owner: owner, repo: repo }

@@ -5,9 +5,20 @@ describe Bitbucket, type: :model, vcr: true do
 
   let(:work) { FactoryGirl.create(:work, :canonical_url => "https://bitbucket.org/galaxy/galaxy-central") }
 
+  context "urls" do
+    it "should get_query_url" do
+      expect(subject.get_query_url(subject.get_owner_and_repo(work))).to eq("https://api.bitbucket.org/1.0/repositories/galaxy/galaxy-central")
+    end
+
+    it "should return empty hash if the canonical_url is missing" do
+      work = FactoryGirl.create(:work, canonical_url: nil)
+      expect(subject.get_query_url(subject.get_owner_and_repo(work))).to eq({})
+    end
+  end
+
   context "get_data" do
     it "should report that there are no events if the canonical_url is missing" do
-      work = FactoryGirl.create(:work, :canonical_url => nil)
+      work = FactoryGirl.create(:work, canonical_url: nil)
       expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
@@ -18,7 +29,7 @@ describe Bitbucket, type: :model, vcr: true do
 
     it "should report if there are no events and event_count returned by the Bitbucket API" do
       body = File.read(fixture_path + 'bitbucket_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(subject.get_owner_and_repo(work))).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
@@ -26,14 +37,14 @@ describe Bitbucket, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Bitbucket API" do
       body = File.read(fixture_path + 'bitbucket.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
+      stub = stub_request(:get, subject.get_query_url(subject.get_owner_and_repo(work))).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
       expect(response).to eq(JSON.parse(body))
       expect(stub).to have_been_requested
     end
 
     it "should catch timeout errors with the bitbucket API" do
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
+      stub = stub_request(:get, subject.get_query_url(subject.get_owner_and_repo(work))).to_return(:status => [408])
       response = subject.get_data(work_id: work.id, :agent_id => subject.id)
       expect(response).to eq(error: "the server responded with status 408 for https://api.bitbucket.org/1.0/repositories/galaxy/galaxy-central", :status=>408)
       expect(stub).to have_been_requested

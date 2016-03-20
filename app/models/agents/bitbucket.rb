@@ -1,9 +1,13 @@
 class Bitbucket < Agent
   def get_query_url(options={})
+    return {} unless options[:owner].present? && options[:repo].present?
+
     url % { owner: options[:owner], repo: options[:repo] }
   end
 
   def get_provenance_url(options={})
+    return nil unless options[:owner].present? && options[:repo].present?
+
     provenance_url % { owner: options[:owner], repo: options[:repo] }
   end
 
@@ -29,12 +33,16 @@ class Bitbucket < Agent
     work = Work.where(id: options[:work_id]).first
     return {} unless work.present?
 
-    query_url = get_query_url(work_id: work.id)
+    query_url = get_query_url(get_owner_and_repo(work))
+    return {} if query_url.is_a?(Hash)
+
     get_result(query_url, options)
   end
 
   def get_owner_and_repo(work)
     # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
+    return {} unless work.canonical_url.present? && /^https:\/\/bitbucket\.org\/(.+)\/(.+)/.match(work.canonical_url)
+
     full_name = URI.parse(work.canonical_url).path[1..-1]
     owner, repo = full_name.split('/')
     { owner: owner, repo: repo }
@@ -46,7 +54,7 @@ class Bitbucket < Agent
     return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     relations = []
-    provenance_url = get_provenance_url(get_owner_and_repo(work)) if work.canonical_url.present?
+    provenance_url = get_provenance_url(get_owner_and_repo(work))
     followers_count = result.fetch("followers_count", 0)
     if followers_count > 0
       relations << { relation: { "subj_id" => "https://bitbucket.org",
