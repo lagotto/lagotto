@@ -151,12 +151,17 @@ FactoryGirl.define do
     name "pmc"
     title "PubMed Central Usage Stats"
     state_event "activate"
-    url_db "http://127.0.0.1:5984/pmc_usage_stats_test/"
 
     group
 
     after(:create) do |agent|
       FactoryGirl.create(:publisher_option_for_pmc, agent: agent)
+    end
+
+    factory :pmc_with_multiple_journals do
+      after(:create) do |agent|
+        FactoryGirl.create(:publisher_option_for_pmc, agent: agent, journals: "plosbiol plosone")
+      end
     end
 
     initialize_with { Pmc.where(name: name).first_or_initialize }

@@ -265,7 +265,7 @@ FactoryGirl.define do
     initialize_with { PublisherOption.where(id: id).first_or_initialize }
 
     factory :publisher_option_for_pmc do
-      journals "ajrccm"
+      journals "plosbiol"
     end
   end
 

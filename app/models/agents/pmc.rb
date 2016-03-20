@@ -1,166 +1,129 @@
 class Pmc < Agent
   def get_query_url(options={})
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present? && work.doi.present?
-    fail ArgumentError, "Source url is missing." if url.blank?
+    # check that we have publisher-specific configuration
+    pc = publisher_config(options[:publisher_id])
+    return nil if pc.username.nil? || pc.password.nil?
 
-    url % { doi: work.doi_escaped }
+    year = options[:year]
+    month = options[:month]
+    journal = options[:journal]
+
+    url % { year: year, month: month, journal: journal, username: pc.username, password: pc.password }
   end
 
-  def parse_data(result, options={})
-    # properly handle not found errors
-    result = { 'data' => [] } if result[:status] == 404
-
-    return [result] if result[:error]
-
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-    return [{ error: "Resource not found.", status: 404 }] unless work.present?
-
-    extra = Array(result["views"])
-    html = get_sum(extra, 'full-text')
-    pdf = get_sum(extra, 'pdf')
-    total = html + pdf
-    events_url = total > 0 ? get_events_url(work) : nil
-
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        pdf: pdf,
-        html: html,
-        total: total,
-        events_url: events_url,
-        extra: extra,
-        months: get_events_by_month(extra) }] }
+  def request_options
+    { content_type: 'xml' }
   end
 
-  def get_events_by_month(extra)
-    extra.map do |event|
-      html = event['full-text'].to_i
-      pdf = event['pdf'].to_i
-
-      { month: event['month'].to_i,
-        year: event['year'].to_i,
-        html: html,
-        pdf: pdf,
-        total: html + pdf }
-    end
-  end
-
-  # Retrieve usage stats in XML and store in /tmp directory. Returns an empty array if no error occured
-  def get_feed(month, year, options={})
-    journals_with_errors = []
-    options[:source_id] = id
-
-    publisher_configs.each do |publisher|
+  # number of xml files to fetch: publishers * journals * months
+  def get_total(options={})
+    options[:months] ||= 1
+    publisher_configs.reduce(0) do |sum, publisher|
       publisher_id = publisher[0]
-      journals_array = publisher[1].journals.to_s.split(" ")
-
-      journals_array.each do |journal|
-        feed_url = get_feed_url(publisher_id, month, year, journal)
-        filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-
-        next if save_to_file(feed_url, filename, options)
-
-        message = "PMC Usage stats for journal #{journal}, month #{month}, year #{year} could not be saved"
-        Notification.where(message: message).where(unresolved: true).first_or_create(
-          :exception => "",
-          :class_name => "Net::HTTPInternalServerError",
-          :status => 500,
-          :source_id => id)
-        journals_with_errors << journal
-      end
+      sum += publisher[1].journals.to_s.split(" ").count * options[:months]
     end
-    journals_with_errors
   end
 
-  # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
-  def parse_feed(month, year, _options = {})
-    journals_with_errors = []
+  def queue_jobs(options={})
+    return 0 unless active?
 
-    publisher_configs.each do |publisher|
-      pc = publisher[1]
-      next if pc.username.nil? || pc.password.nil?
+    from_date = options[:from_date].present? ? Date.parse(options[:from_date]) : Time.zone.now.to_date
+    dates = date_range(year: from_date.year, month: from_date.month)
 
-      journals_array = pc.journals.to_s.split(" ")
+    total = get_total(months: dates.length)
 
-      journals_array.each do |journal|
-        filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-        file = File.open("#{Rails.root}/tmp/#{filename}", 'r') { |f| f.read }
-        document = Nokogiri::XML(file)
+    if total > 0
+      publisher_configs.each do |publisher|
+        options[:publisher_id] = publisher[0]
 
-        status = document.at_xpath("//pmc-web-stat/response/@status").value
-        if status != "0"
-          error_message = document.at_xpath("//pmc-web-stat/response/error").content
-          message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}"
-          Notification.where(message: message).where(unresolved: true).first_or_create(
-            :exception => "",
-            :class_name => "Net::HTTPInternalServerError",
-            :status => 500,
-            :source_id => id)
-          journals_with_errors << journal
-        else
-          # go through all the works in the xml document
-          document.xpath("//work").each do |work|
-            work = work.to_hash
-            work = work["work"]
+        journals = publisher[1].journals.to_s.split(" ")
+        journals.each do |journal|
+          options[:journal] = journal
 
-            doi = work["meta-data"]["doi"]
-            # sometimes doi metadata are missing
-            break unless doi
+          dates.each do |date|
+            options[:month] = date[:month]
+            options[:year] = date[:year]
 
-            view = work["usage"]
-            view['year'] = year.to_s
-            view['month'] = month.to_s
-
-            # try to get the existing information about the given work
-            data = get_result(url_db + CGI.escape(doi))
-
-            if data['views'].nil?
-              data = { 'views' => [view] }
-            else
-              # update existing entry
-              data['views'].delete_if { |view| view['month'] == month.to_s && view['year'] == year.to_s }
-              data['views'] << view
-            end
-
-            put_lagotto_data(url_db + CGI.escape(doi), data: data)
+            AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options)
           end
         end
       end
     end
-    journals_with_errors
+
+    # return number of works queued
+    total
   end
 
-  def put_database
-    put_lagotto_data(url_db)
+  def get_data(options={})
+    query_url = get_query_url(options)
+    get_result(query_url, options)
   end
 
-  def get_feed_url(publisher_id, month, year, journal)
-    # check that we have publisher-specific configuration
-    pc = publisher_config(publisher_id)
-    return nil if pc.username.nil? || pc.password.nil?
+  def parse_data(result, options={})
+    return [result] if result[:error]
+    return { error: result.fetch('pmc_web_stat', {}).fetch('response', {}).fetch('error', "an error occured") } if result.fetch('pmc_web_stat', {}).fetch('response', {}).fetch('status', 1) != "0"
 
-    feed_url % { year: year, month: month, journal: journal, username: pc.username, password: pc.password }
+    items = result.fetch('pmc_web_stat', {}).fetch('articles', {}).fetch('article', [])
+    get_relations_with_related_works(items)
   end
 
-  def get_events_url(work)
-    events_url % { :pmcid => work.pmcid } if work.pmcid.present?
+  def get_relations_with_related_works(items)
+    subj_id = "https://www.ncbi.nlm.nih.gov/pmc"
+    subj = { "pid" => subj_id,
+             "URL" => subj_id,
+             "title" => "PubMed Central",
+             "type" => "webpage",
+             "issued" => "2012-05-15T16:40:23Z" }
+
+    Array(items).reduce([]) do |sum, item|
+      doi = item.fetch('meta_data', {}).fetch('doi', nil)
+      return sum unless doi.present?
+
+      html = item.fetch('usage', {}).fetch('full_text', 0).to_i
+      pdf = item.fetch('usage', {}).fetch('pdf', 0).to_i
+
+      if html > 0
+        sum << { relation: { "subj_id" => subj_id,
+                             "obj_id" => doi_as_url(doi),
+                             "relation_type_id" => "views",
+                             "total" => html,
+                             "source_id" => source_id },
+                 subj: subj }
+      end
+
+      if pdf > 0
+        sum << { relation: { "subj_id" => subj_id,
+                             "obj_id" => doi_as_url(doi),
+                             "relation_type_id" => "downloads",
+                             "total" => pdf,
+                             "source_id" => source_id },
+                 subj: subj }
+      end
+
+      sum
+    end
+  end
+
+  # def get_events_by_month(extra)
+  #   extra.map do |event|
+  #     html = event['full-text'].to_i
+  #     pdf = event['pdf'].to_i
+
+  #     { month: event['month'].to_i,
+  #       year: event['year'].to_i,
+  #       html: html,
+  #       pdf: pdf,
+  #       total: html + pdf }
+  #   end
+  # end
+
+
+  def config_fields
+    [:url]
   end
 
   def url
-    url_db + "%{doi}"
-  end
-
-  def config_fields
-    [:url_db, :feed_url, :events_url, :journals, :username, :password]
-  end
-
-  def feed_url
     "http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
-  end
-
-  def events_url
-    "http://www.ncbi.nlm.nih.gov/pmc/works/PMC%{pmcid}"
   end
 
   def cron_line
