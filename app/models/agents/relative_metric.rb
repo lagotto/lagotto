@@ -8,18 +8,28 @@ class RelativeMetric < Agent
 
   def parse_data(result, options={})
     return [result] if result[:error]
-
-    work = Work.where(id: options.fetch(:work_id, nil)).first
-    return { events: [] } unless work.present?
+    work = Work.where(id: options[:work_id]).first
+    return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
     extra = get_extra(result, work.published_on.year)
     total = extra[:subject_areas].reduce(0) { | sum, subject_area | sum + subject_area[:average_usage].reduce(:+) }
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        total: total,
-        extra: extra }] }
+    if total > 0
+      subj_id = "http://www.plos.org"
+      subj = { "pid" => subj_id,
+             "URL" => subj_id,
+             "title" => "PLOS",
+             "type" => "webpage",
+             "issued" => "2012-05-15T16:40:23Z" }
+      [{ relation: { "subj_id" => subj_id,
+                     "obj_id" => work.pid,
+                     "relation_type_id" => "views",
+                     "total" => total,
+                     "source_id" => source_id },
+                     subj: subj }]
+    else
+      []
+    end
   end
 
   def get_extra(result, year)
