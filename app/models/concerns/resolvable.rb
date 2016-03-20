@@ -197,7 +197,7 @@ module Resolvable
 
       { "author" => get_hashed_authors(authors),
         "title" => title,
-        "container-title" => metadata.fetch("journal_title", nil),
+        "container-title" => metadata.fetch("publisher", nil),
         "issued" => metadata.fetch("publicationYear", nil),
         "DOI" => doi,
         "type" => type,
