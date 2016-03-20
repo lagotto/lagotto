@@ -23,19 +23,25 @@ describe PlosComments, type: :model do
 
     it "should report if the work was not found by the PLOS comments API" do
       work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.008109x")
+      body = File.read(fixture_path + 'plos_comments_error.txt')
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body, status: [404])
       response = subject.get_data(work_id: work.id)
       expect(response).to eq(error: "Item not found at the provided ID: info:doi/10.1371/journal.pone.008109x\n", status: 404)
     end
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
+      body = File.read(fixture_path + 'plos_comments_nil.json')
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
       expect(response).to eq('data' => [])
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pmed.0020124")
+      body = File.read(fixture_path + 'plos_comments.json')
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
-      expect(response["data"].length).to eq(33)
+      expect(response["data"].length).to eq(31)
       data = response["data"].first
       expect(data["title"]).to eq("Open Access and the Skewness of Science: It Can't Be Cream All the Way Down")
     end
@@ -57,46 +63,48 @@ describe PlosComments, type: :model do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report that there are no events if the doi has the wrong prefix" do
       work = FactoryGirl.create(:work, :doi => "10.5194/acp-12-12021-2012")
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if the work was not found by the PLOS comments API" do
-      result = [{ error: File.read(fixture_path + 'plos_comments_error.txt') }]
+      result = { error: File.read(fixture_path + 'plos_comments_error.txt') }
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(result)
+      expect(response).to eq([result])
     end
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
       body = File.read(fixture_path + 'plos_comments_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work_id: work.id)).to eq(works: [], events: [{ source_id: "plos_comments", work_id: work.pid, discussed: 0, total: 0, extra: [], events_url: nil, months: [] }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the PLOS comments API" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pmed.0020124", published_on: "2009-03-15")
+      work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pmed.0020124", doi: "10.1371/journal.pmed.0020124", canonical_url: "http://journals.plos.org/plosmedicine/article?id=10.1371%2Fjournal.pmed.0020124", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_comments.json')
       result = { 'data' => JSON.parse(body) }
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:total]).to eq(36)
-      expect(event[:months].length).to eq(9)
-      expect(event[:months].first).to eq(year: 2009, month: 3, total: 21)
+      expect(response.length).to eq(31)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://journals.plos.org/plosmedicine/article/comment?id=info%3Adoi%2F10.1371%2Fannotation%2F177a9a89-9723-45a3-aac1-d27ca9deb664",
+                                              "obj_id"=>"http://doi.org/10.1371/journal.pmed.0020124",
+                                              "relation_type_id"=>"discusses",
+                                              "provenance_url"=>"http://journals.plos.org/plosmedicine/article/comments?id=10.1371%2Fjournal.pmed.0020124",
+                                              "source_id"=>"plos_comments")
 
-      expect(response[:works].length).to eq(31)
-      related_work = response[:works].last
-      expect(related_work['author']).to eq([{"family"=>"Samigulina", "given"=>"Gulnara"}])
-      expect(related_work['title']).to eq("A small group research.")
-      expect(related_work['container-title']).to eq("PLOS Comments")
-      expect(related_work['issued']).to eq("date-parts"=>[[2013, 10, 27]])
-      expect(related_work['type']).to eq("personal_communication")
-      expect(related_work['related_works']).to eq([{"pid"=>work.pid, "source_id"=>"plos_comments", "relation_type_id"=>"discusses"}])
+      expect(response.first[:subj]).to eq("pid"=>"http://journals.plos.org/plosmedicine/article/comment?id=info%3Adoi%2F10.1371%2Fannotation%2F177a9a89-9723-45a3-aac1-d27ca9deb664",
+                                          "author"=>[{"family"=>"Staff", "given"=>"PLoS Medicine"}],
+                                          "title"=>"Open Access and the Skewness of Science: It Can't Be Cream All the Way Down",
+                                          "container-title"=>"PLOS Comments",
+                                          "issued"=>"2009-03-31T00:31:12Z",
+                                          "URL"=>"http://journals.plos.org/plosmedicine/article/comment?id=info%3Adoi%2F10.1371%2Fannotation%2F177a9a89-9723-45a3-aac1-d27ca9deb664",
+                                          "type"=>"personal_communication",
+                                          "tracked"=>false)
     end
 
     it "should catch timeout errors with the PLOS comments API" do
