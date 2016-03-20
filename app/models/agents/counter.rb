@@ -20,29 +20,30 @@ class Counter < Agent
     pdf = get_sum(extra, "pdf_views")
     html = get_sum(extra, "html_views")
 
+    subj_id = "http://www.plos.org"
+    subj = { "pid" => subj_id,
+             "URL" => subj_id,
+             "title" => "PLOS",
+             "type" => "webpage",
+             "issued" => "2012-05-15T16:40:23Z" }
+
     relations = []
     if pdf > 0
-      relations << { relation: { "subj_id" => "http://www.plos.org",
+      relations << { relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "downloads",
                                  "total" => pdf,
                                  "source_id" => source_id },
-                     subj: { "pid" => "http://www.plos.org",
-                             "URL" => "http://www.plos.org",
-                             "title" => "PLOS",
-                             "issued" => "2012-05-15T16:40:23Z" }}
+                     subj: subj }
     end
 
     if html > 0
-      relations << { relation: { "subj_id" => "https://github.com",
+      relations << { relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "views",
                                  "total" => html,
                                  "source_id" => source_id },
-                     subj: { "pid" => "http://www.plos.org",
-                             "URL" => "http://www.plos.org",
-                             "title" => "PLOS",
-                             "issued" => "2012-05-15T16:40:23Z" }}
+                     subj: subj }
     end
 
     relations
@@ -51,6 +52,7 @@ class Counter < Agent
   def get_extra(result)
     extra = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
     extra = [extra] if extra.is_a?(Hash)
+
     Array(extra).map do |item|
       { "month" => item.fetch("month", nil),
         "year" => item.fetch("year", nil),

@@ -82,7 +82,7 @@ describe Counter, type: :model, vcr: true do
                                               "relation_type_id"=>"downloads",
                                               "total"=>447,
                                               "source_id"=>"counter")
-      expect(response.last[:relation]).to eq("subj_id"=>"https://github.com",
+      expect(response.last[:relation]).to eq("subj_id"=>"http://www.plos.org",
                                              "obj_id"=>work.pid,
                                              "relation_type_id"=>"views",
                                              "total"=>2919,

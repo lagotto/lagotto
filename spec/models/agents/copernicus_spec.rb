@@ -64,13 +64,13 @@ describe Copernicus, type: :model, vcr: true do
     it "should report if the doi is missing" do
       work = FactoryGirl.create(:work, :doi => nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: {} }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the Copernicus API" do
       body = File.read(fixture_path + 'copernicus_nil.json')
       result = { 'data' => JSON.parse(body) }
-      expect(subject.parse_data(result, work_id: work.id)).to eq(events: [{ source_id: "counter", work_id: work.pid, pdf: 0, html: 0, total: 0, extra: {} }])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events and event_count returned by the Copernicus API" do
@@ -78,14 +78,17 @@ describe Copernicus, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("counter")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(83)
-
-      extra = event[:extra]
-      expect(extra["counter"]).not_to be_nil
-      expect(extra["counter"]["AbstractViews"].to_i).to eq(72)
+      expect(response.length).to eq(2)
+      expect(response.first[:relation]).to eq("subj_id"=>"http://publications.copernicus.org",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"downloads",
+                                              "total"=>10,
+                                              "source_id"=>"copernicus")
+      expect(response.last[:relation]).to eq("subj_id"=>"http://publications.copernicus.org",
+                                             "obj_id"=>work.pid,
+                                             "relation_type_id"=>"views",
+                                             "total"=>72,
+                                             "source_id"=>"copernicus")
     end
   end
 end
