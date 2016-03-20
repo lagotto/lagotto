@@ -9,16 +9,36 @@ class Mendeley < Agent
 
     readers = result.fetch("reader_count", 0)
     groups = result.fetch("group_count", 0)
-    total = readers + groups
-    events_url = result.fetch("link", nil)
+    subj_id = result.fetch("link", "https://www.mendeley.com")
 
-    { events: [{
-        source_id: name,
-        work_id: work.pid,
-        readers: readers,
-        total: total,
-        events_url: events_url,
-        extra: result }] }
+    relations = []
+    if readers > 0
+      relations << { relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "bookmarks",
+                                 "total" => readers,
+                                 "source_id" => source_id },
+                     subj: { "pid" => subj_id,
+                             "URL" => subj_id,
+                             "title" => "Mendeley",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
+    end
+
+    if groups > 0
+      relations << { relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "likes",
+                                 "total" => groups,
+                                 "source_id" => source_id },
+                     subj: { "pid" => subj_id,
+                             "URL" => subj_id,
+                             "title" => "Mendeley",
+                             "type" => "webpage",
+                             "issued" => "2012-05-15T16:40:23Z" }}
+    end
+
+    relations
   end
 
   def get_query_url(options={})

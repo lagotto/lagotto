@@ -120,12 +120,11 @@ describe Mendeley, :type => :model do
 
   context "parse_data" do
     let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0008776", doi: "10.1371/journal.pone.0008776", mendeley_uuid: "46cb51a0-6d08-11df-afb8-0026b95d30b2") }
-    let(:null_response) { { events: [{ source_id: "mendeley", work_id: "http://doi.org/10.1371/journal.pone.0008776", readers: 0, total: 0, events_url: nil, extra: {} }] } }
 
     it "should report if the doi, pmid, mendeley uuid and title are missing" do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq([])
     end
 
     it "should report if there are events returned by the Mendeley API" do
@@ -134,24 +133,19 @@ describe Mendeley, :type => :model do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("mendeley")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(34)
-      expect(event[:readers]).to eq(34)
-      expect(event[:events_url]).to eq("http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence")
-
-      extra = event[:extra]
-      expect(extra["reader_count"]).to eq(34)
-      expect(extra["group_count"]).to eq(0)
-      expect(extra["reader_count_by_country"]).to eq("Portugal"=>2, "United States"=>3, "Mexico"=>1, "Brazil"=>2, "United Kingdom"=>1)
+      expect(response.length).to eq(1)
+      expect(response[0][:relation]).to eq("subj_id"=>"http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence",
+                                           "obj_id"=>work.pid,
+                                           "relation_type_id"=>"bookmarks",
+                                           "total"=>34,
+                                           "source_id"=>"mendeley")
     end
 
     it "should report no events if the Mendeley API returns incomplete response" do
       body = File.read(fixture_path + 'mendeley_incomplete.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq([])
       expect(Notification.count).to eq(0)
     end
 
@@ -159,7 +153,7 @@ describe Mendeley, :type => :model do
       body = File.read(fixture_path + 'mendeley_nil.json')
       result = { 'data' => JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq([])
       expect(Notification.count).to eq(0)
     end
 
@@ -167,7 +161,7 @@ describe Mendeley, :type => :model do
       body = File.read(fixture_path + 'mendeley_error.json')
       result = { error: JSON.parse(body) }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work)).to eq([])
       expect(Notification.count).to eq(0)
     end
 
