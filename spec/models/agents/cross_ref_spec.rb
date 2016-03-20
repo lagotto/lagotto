@@ -3,7 +3,9 @@ require 'rails_helper'
 describe CrossRef, type: :model, vcr: true do
   subject { FactoryGirl.create(:crossref) }
 
-  let(:work) { FactoryGirl.create(:work, doi: "10.1371/journal.pone.0043007", canonical_url: "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007", :publisher_id => 340) }
+  let(:publisher) { FactoryGirl.create(:publisher) }
+  let!(:publisher_option) { FactoryGirl.create(:publisher_option, agent: subject, publisher: publisher) }
+  let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0043007", doi: "10.1371/journal.pone.0043007", canonical_url: "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0043007", publisher: publisher) }
 
   it "should report that there are no events if the doi is missing" do
     work = FactoryGirl.create(:work, :doi => nil)
@@ -30,8 +32,8 @@ describe CrossRef, type: :model, vcr: true do
     end
 
     it "without password" do
-      crossref = FactoryGirl.create(:crossref_without_password)
-      expect { crossref.get_query_url(work_id: work.id) }.to raise_error(ArgumentError, "CrossRef username or password is missing.")
+      publisher_option = FactoryGirl.create(:publisher_option, agent: subject, publisher: publisher, password: nil)
+      expect { subject.get_query_url(work_id: work.id) }.to raise_error(ArgumentError, "CrossRef username or password is missing.")
     end
 
     it "without publisher" do
@@ -116,15 +118,14 @@ describe CrossRef, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => nil)
       result = { error: "DOI is missing." }
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq([{:error=>"DOI is missing."}])
+      expect(subject.parse_data(result, work_id: work.id)).to eq([result])
     end
 
     it "should report if there are no events returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are events returned by the CrossRef API" do
@@ -133,43 +134,29 @@ describe CrossRef, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("crossref")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(31)
+      expect(response.length).to eq(31)
+      expect(response.first[:prefix]).to eq("10.3758")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.3758/s13423-011-0070-4",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "source_id"=>"crossref",
+                                              "publisher_id"=>"297")
 
-      expect(response[:works].length).to eq(31)
-      related_work = response[:works].first
-      expect(related_work["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(related_work['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(related_work['title']).to eq("Audiotactile interactions in temporal perception")
-      expect(related_work['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(related_work['issued']).to eq("date-parts"=>[[2011, 3, 12]])
-      expect(related_work['volume']).to eq("18")
-      expect(related_work['issue']).to eq("3")
-      expect(related_work['page']).to eq("429-454")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"crossref", "relation_type_id"=>"cites"}])
-
-      event = response[:works].first
-      expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(event['title']).to eq("Audiotactile interactions in temporal perception")
-      expect(event['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])
-      expect(event['volume']).to eq("18")
-      expect(event['issue']).to eq("3")
-      expect(event['page']).to eq("429-454")
-      expect(event['type']).to eq("article-journal")
-      expect(event['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"crossref", "relation_type_id"=>"cites"}])
-
-      extra = response[:events][:extra].first
-      expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(extra[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(extra[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
-      expect(extra[:event_csl]['type']).to eq("article-journal")
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.3758/s13423-011-0070-4",
+                                          "author"=>[{"family"=>"Occelli", "given"=>"Valeria"},
+                                                     {"family"=>"Spence", "given"=>"Charles"},
+                                                     {"family"=>"Zampini", "given"=>"Massimiliano"}],
+                                          "title"=>"Audiotactile interactions in temporal perception",
+                                          "container-title"=>"Psychonomic Bulletin & Review",
+                                          "issued"=>"2011-03-12",
+                                          "volume"=>"18",
+                                          "issue"=>"3",
+                                          "page"=>"429-454",
+                                          "DOI"=>"10.3758/s13423-011-0070-4",
+                                          "type"=>"article-journal",
+                                          "tracked"=>false,
+                                          "publisher_id"=>"297",
+                                          "registration_agency"=>"crossref")
     end
 
     it "should report if there is one event returned by the CrossRef API" do
@@ -178,31 +165,29 @@ describe CrossRef, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:source_id]).to eq("crossref")
-      expect(event[:work_id]).to eq(work.pid)
-      expect(event[:total]).to eq(1)
+      expect(response.length).to eq(1)
+      expect(response.first[:prefix]).to eq("10.3758")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.3758/s13423-011-0070-4",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "source_id"=>"crossref",
+                                              "publisher_id"=>"297")
 
-      expect(response[:works].length).to eq(1)
-      related_work = response[:works].first
-      expect(related_work["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(related_work['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(related_work['title']).to eq("Audiotactile interactions in temporal perception")
-      expect(related_work['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(related_work['issued']).to eq("date-parts"=>[[2011, 3, 12]])
-      expect(related_work['volume']).to eq("18")
-      expect(related_work['issue']).to eq("3")
-      expect(related_work['page']).to eq("429-454")
-      expect(related_work['type']).to eq("article-journal")
-      expect(related_work['related_works']).to eq([{"pid"=> work.pid, "source_id"=>"crossref", "relation_type_id"=>"cites"}])
-
-      extra = event[:extra].first
-      expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(extra[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(extra[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
-      expect(extra[:event_csl]['type']).to eq("article-journal")
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.3758/s13423-011-0070-4",
+                                          "author"=>[{"family"=>"Occelli", "given"=>"Valeria"},
+                                                     {"family"=>"Spence", "given"=>"Charles"},
+                                                     {"family"=>"Zampini", "given"=>"Massimiliano"}],
+                                          "title"=>"Audiotactile interactions in temporal perception",
+                                          "container-title"=>"Psychonomic Bulletin & Review",
+                                          "issued"=>"2011-03-12",
+                                          "volume"=>"18",
+                                          "issue"=>"3",
+                                          "page"=>"429-454",
+                                          "DOI"=>"10.3758/s13423-011-0070-4",
+                                          "type"=>"article-journal",
+                                          "tracked"=>false,
+                                          "publisher_id"=>"297",
+                                          "registration_agency"=>"crossref")
     end
 
     it "should catch timeout errors with the CrossRef API" do
@@ -219,15 +204,14 @@ describe CrossRef, type: :model, vcr: true do
     it "should report if the doi is missing" do
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there is an event count of zero returned by the CrossRef OpenURL API" do
       body = File.read(fixture_path + 'cross_ref_openurl_nil.xml')
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
-      response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(null_response)
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there is an event count greater than zero returned by the CrossRef OpenURL API" do
@@ -236,8 +220,12 @@ describe CrossRef, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      event = response[:events].first
-      expect(event[:total]).to eq(13)
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"https://crossref.org",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"cites",
+                                              "total"=>13,
+                                              "source_id"=>"crossref")
     end
 
     it "should catch timeout errors with the CrossRef OpenURL API" do

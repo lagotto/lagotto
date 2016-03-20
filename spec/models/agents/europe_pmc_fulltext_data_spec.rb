@@ -68,7 +68,7 @@ describe EuropePmcFulltextData, type: :model, vcr: true do
       expect(response.first[:relation]).to eq("subj_id"=>"http://europepmc.org/abstract/MED/21765886",
                                               "obj_id"=>work.pid,
                                               "relation_type_id"=>"cites",
-                                              "provenance_url"=>"http://europepmc.org/abstract/MED/18974832#fragment-related-bioentities",
+                                              "provenance_url"=>"http://europepmc.org/abstract/MED/#{work.pmid}#fragment-related-bioentities",
                                               "source_id"=>"pmc_europe_fulltext_data")
 
       expect(response.first[:subj]).to eq("pid"=>"http://europepmc.org/abstract/MED/21765886",

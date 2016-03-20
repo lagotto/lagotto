@@ -100,16 +100,6 @@ FactoryGirl.define do
 
     group
 
-    after(:create) do |agent|
-      FactoryGirl.create(:publisher_option, agent: agent)
-    end
-
-    factory :crossref_without_password do
-      after(:create) do |agent|
-        FactoryGirl.create(:publisher_option, agent: agent, password: nil)
-      end
-    end
-
     initialize_with { CrossRef.where(name: name).first_or_initialize }
   end
 

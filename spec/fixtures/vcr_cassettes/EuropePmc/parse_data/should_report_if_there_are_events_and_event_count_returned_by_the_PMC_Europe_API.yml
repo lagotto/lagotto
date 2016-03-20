@@ -2,51 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:16 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19749171&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:16 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -55,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:16 GMT
+      - Sat, 19 Mar 2016 22:33:06 GMT
       Server:
       - Apache
       Content-Type:
@@ -69,8 +31,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:17",
-         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:06",
+         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC2763780",
@@ -86,54 +48,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:17 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:06 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:17 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19776281&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:17 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -142,7 +66,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:17 GMT
+      - Sat, 19 Mar 2016 22:33:07 GMT
       Server:
       - Apache
       Content-Type:
@@ -156,8 +80,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:17",
-         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:07",
+         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC2782675",
@@ -174,54 +98,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:17 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:17 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19308318&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:17 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -230,7 +116,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:17 GMT
+      - Sat, 19 Mar 2016 22:33:07 GMT
       Server:
       - Apache
       Content-Type:
@@ -244,8 +130,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:18",
-         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:07",
+         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "19308318",
@@ -256,54 +142,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:18 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:07 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:18 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=21196160&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:18 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -312,7 +160,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:18 GMT
+      - Sat, 19 Mar 2016 22:33:08 GMT
       Server:
       - Apache
       Content-Type:
@@ -326,8 +174,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:18",
-         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:08",
+         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC3051412",
@@ -343,54 +191,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:18 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:18 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=20107070&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:18 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -399,7 +209,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:18 GMT
+      - Sat, 19 Mar 2016 22:33:08 GMT
       Server:
       - Apache
       Content-Type:
@@ -413,8 +223,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:18",
-         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:08",
+         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC2824913",
@@ -431,54 +241,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:19 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:19 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=17275915&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:19 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -487,7 +259,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:19 GMT
+      - Sat, 19 Mar 2016 22:33:08 GMT
       Server:
       - Apache
       Content-Type:
@@ -501,8 +273,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:19",
-         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:08",
+         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC1976277",
@@ -519,54 +291,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:19 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:08 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:19 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=21270352&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:19 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -575,7 +309,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:20 GMT
+      - Sat, 19 Mar 2016 22:33:09 GMT
       Server:
       - Apache
       Content-Type:
@@ -589,8 +323,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:20",
-         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:09",
+         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC3098654",
@@ -606,54 +340,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:20 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:09 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:20 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=21116297&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:20 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -662,7 +358,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:20 GMT
+      - Sat, 19 Mar 2016 22:33:09 GMT
       Server:
       - Apache
       Content-Type:
@@ -676,8 +372,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:20",
-         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:09",
+         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "21116297",
@@ -688,54 +384,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:20 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:09 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:20 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=17927775&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:20 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -744,7 +402,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:20 GMT
+      - Sat, 19 Mar 2016 22:33:10 GMT
       Server:
       - Apache
       Content-Type:
@@ -758,8 +416,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:21",
-         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:10",
+         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "17927775",
@@ -770,54 +428,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:21 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:10 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:21 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19949811&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:21 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -826,7 +446,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:21 GMT
+      - Sat, 19 Mar 2016 22:33:10 GMT
       Server:
       - Apache
       Content-Type:
@@ -840,8 +460,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:21",
-         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:10",
+         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "19949811",
@@ -852,54 +472,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:21 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:10 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:21 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=18413319&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:21 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -908,7 +490,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:21 GMT
+      - Sat, 19 Mar 2016 22:33:11 GMT
       Server:
       - Apache
       Content-Type:
@@ -922,8 +504,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:21",
-         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:11",
+         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "18413319",
@@ -934,54 +516,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:21 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:11 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:22 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19252922&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:22 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -990,7 +534,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:22 GMT
+      - Sat, 19 Mar 2016 22:33:11 GMT
       Server:
       - Apache
       Content-Type:
@@ -1004,8 +548,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:22",
-         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:11",
+         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "19252922",
@@ -1016,54 +560,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:22 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:11 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:22 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19515980&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:22 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1072,7 +578,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:22 GMT
+      - Sat, 19 Mar 2016 22:33:12 GMT
       Server:
       - Apache
       Content-Type:
@@ -1086,8 +592,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:22",
-         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:12",
+         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC2724239",
@@ -1103,54 +609,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:22 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:12 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:23 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=18617624&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:23 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1159,7 +627,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:23 GMT
+      - Sat, 19 Mar 2016 22:33:12 GMT
       Server:
       - Apache
       Content-Type:
@@ -1173,8 +641,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:23",
-         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:12",
+         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC2576030",
@@ -1190,54 +658,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:23 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:12 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:23 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=18386391&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:23 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1246,7 +676,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:23 GMT
+      - Sat, 19 Mar 2016 22:33:12 GMT
       Server:
       - Apache
       Content-Type:
@@ -1260,8 +690,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:23",
-         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:13",
+         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "18386391",
@@ -1272,54 +702,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:23 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:24 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=20393159&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:24 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1328,7 +720,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:24 GMT
+      - Sat, 19 Mar 2016 22:33:13 GMT
       Server:
       - Apache
       Content-Type:
@@ -1342,8 +734,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:24",
-         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:13",
+         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC2886697",
@@ -1359,54 +751,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:24 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:24 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=20416284&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:24 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1415,7 +769,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:24 GMT
+      - Sat, 19 Mar 2016 22:33:13 GMT
       Server:
       - Apache
       Content-Type:
@@ -1429,8 +783,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:24",
-         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:13",
+         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "20416284",
@@ -1441,54 +795,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:24 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:13 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:25 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=22389645&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:25 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1497,7 +813,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:25 GMT
+      - Sat, 19 Mar 2016 22:33:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -1511,8 +827,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:25",
-         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:14",
+         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -1532,54 +848,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:25 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:14 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:25 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=18686574&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:25 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1588,7 +866,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:25 GMT
+      - Sat, 19 Mar 2016 22:33:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -1602,8 +880,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:25",
-         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:14",
+         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "18686574",
@@ -1614,54 +892,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:25 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:14 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:25 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=19937527&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:26 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1670,7 +910,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:26 GMT
+      - Sat, 19 Mar 2016 22:33:15 GMT
       Server:
       - Apache
       Content-Type:
@@ -1684,8 +924,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:26",
-         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:15",
+         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "19937527",
@@ -1696,54 +936,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:26 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:15 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:26 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=21113688&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:26 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1752,7 +954,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:26 GMT
+      - Sat, 19 Mar 2016 22:33:15 GMT
       Server:
       - Apache
       Content-Type:
@@ -1766,8 +968,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:26",
-         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:15",
+         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "21113688",
@@ -1778,54 +980,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:26 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:15 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:26 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=21142998&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:26 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1834,7 +998,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:27 GMT
+      - Sat, 19 Mar 2016 22:33:16 GMT
       Server:
       - Apache
       Content-Type:
@@ -1848,8 +1012,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:27",
-         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:16",
+         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmid": "21142998",
@@ -1860,54 +1024,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:27 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:16 GMT
 - request:
     method: get
-    uri: http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 301
-      message: ''
-    headers:
-      Date:
-      - Tue, 12 Jan 2016 07:50:27 GMT
-      Server:
-      - Apache
-      Location:
-      - http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local
-      Content-Length:
-      - '391'
-      Content-Type:
-      - text/html; charset=iso-8859-1
-    body:
-      encoding: UTF-8
-      string: |
-        <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-        <html><head>
-        <title>301 Moved Permanently</title>
-        </head><body>
-        <h1>Moved Permanently</h1>
-        <p>The document has moved <a href="http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info%40example.org&amp;format=json&amp;ids=22823405&amp;idtype=pmid&amp;tool=Lagotto+-+http%3A%2F%2Flagotto-5-0-unstable.local">here</a>.</p>
-        </body></html>
-    http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:27 GMT
-- request:
-    method: get
-    uri: http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%20-%20http://lagotto-5-0-unstable.local
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -1916,7 +1042,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Tue, 12 Jan 2016 07:50:27 GMT
+      - Sat, 19 Mar 2016 22:33:16 GMT
       Server:
       - Apache
       Content-Type:
@@ -1930,8 +1056,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-01-12 02:50:27",
-         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto-5-0-unstable.local",
+         "responseDate": "2016-03-19 18:33:16",
+         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
             "pmcid": "PMC3443659",
@@ -1947,5 +1073,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 07:50:27 GMT
+  recorded_at: Sat, 19 Mar 2016 22:33:16 GMT
 recorded_with: VCR 2.9.3
