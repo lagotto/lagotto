@@ -168,7 +168,9 @@ describe Agent, :type => :model, vcr: true do
     it "success" do
       response = subject.collect_data(work_id: work.id)
       expect(response.length).to eq(7)
+
       deposit = response.first
+      expect(deposit.uuid).to be_present
       expect(deposit.message_type).to eq("relation")
       expect(deposit.source_token).to eq(subject.uuid)
       expect(deposit.source_id).to eq("citeulike")
@@ -180,19 +182,15 @@ describe Agent, :type => :model, vcr: true do
       subject = FactoryGirl.create(:counter)
 
       response = subject.collect_data(work_id: work.id)
-      expect(response["message_type"]).to eq("counter")
-      expect(response["source_token"]).to eq(subject.uuid)
+      expect(response.length).to eq(2)
 
-      expect(Deposit.count).to eq(1)
-      deposit = Deposit.first
-
-      expect(deposit["message"]["works"]).to be_nil
-
-      event = deposit["message"]["events"].first
-      expect(event["source_id"]).to eq("counter")
-      expect(event["work_id"]).to eq(work.pid)
-
-      expect(Deposit.count).to eq(1)
+      deposit = response.first
+      expect(deposit.uuid).to be_present
+      expect(deposit.message_type).to eq("relation")
+      expect(deposit.source_token).to eq(subject.uuid)
+      expect(deposit.source_id).to eq("counter")
+      expect(deposit.relation_type_id).to eq("downloads")
+      expect(deposit.subj_id).to eq("http://www.plos.org")
     end
 
     it "success mendeley" do
@@ -202,58 +200,53 @@ describe Agent, :type => :model, vcr: true do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
 
       response = subject.collect_data(work_id: work.id)
-      expect(response["uuid"]).to be_present
-      expect(response["message_type"]).to eq("mendeley")
-      expect(response["source_token"]).to eq(subject.uuid)
+      expect(response.length).to eq(1)
 
-      expect(Deposit.count).to eq(1)
-      deposit = Deposit.first
-
-      expect(deposit["message"]["works"]).to be_nil
-
-      event = deposit["message"]["events"].first
-      expect(event["source_id"]).to eq("mendeley")
-      expect(event["work_id"]).to eq(work.pid)
-
-      expect(Deposit.count).to eq(1)
+      deposit = response.first
+      expect(deposit.uuid).to be_present
+      expect(deposit.message_type).to eq("relation")
+      expect(deposit.source_id).to eq("mendeley")
+      expect(deposit.relation_type_id).to eq("bookmarks")
+      expect(deposit.subj_id).to eq("http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence")
+      expect(deposit.source_token).to eq(subject.uuid)
     end
 
     it "success crossref" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
       subject = FactoryGirl.create(:crossref)
+      publisher = FactoryGirl.create(:publisher)
+      FactoryGirl.create(:publisher_option, agent: subject, publisher: publisher)
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745", publisher: publisher)
       body = File.read(fixture_path + 'cross_ref.xml')
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
 
       response = subject.collect_data(work_id: work.id)
-      expect(response["uuid"]).to be_present
-      expect(response["message_type"]).to eq("crossref")
-      expect(response["source_token"]).to eq(subject.uuid)
+      expect(response.length).to eq(31)
 
-      expect(Deposit.count).to eq(1)
-      deposit = Deposit.first
-
-      expect(deposit["message"]["works"].length).to eq(31)
-
-      event = deposit["message"]["events"].first
-      expect(event["source_id"]).to eq("crossref")
-      expect(event["work_id"]).to eq(work.pid)
+      deposit = response.first
+      expect(deposit.uuid).to be_present
+      expect(deposit.message_type).to eq("relation")
+      expect(deposit.source_id).to eq("crossref")
+      expect(deposit.relation_type_id).to eq("cites")
+      expect(deposit.subj_id).to eq("http://doi.org/10.3758/s13423-011-0070-4")
+      expect(deposit.source_token).to eq(subject.uuid)
     end
 
     it "success no data" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
 
-      deposit = subject.collect_data(work_id: work.id)
-      expect(deposit).to be_empty
-
-      expect(Deposit.count).to eq(0)
+      response = subject.collect_data(work_id: work.id)
+      expect(response.length).to eq(0)
     end
 
     it "error" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      deposit = subject.collect_data(work_id: work.id)
-      expect(deposit).to eq(2)
+      response = subject.collect_data(work_id: work.id)
+      expect(response.length).to eq(0)
 
-      expect(Deposit.count).to eq(0)
+      expect(Notification.count).to eq(2)
+      notification = Notification.where(class_name: "ActiveRecord::RecordInvalid").first
+      expect(notification.message).to eq("Validation failed: Subj can't be blank, Source can't be blank")
+      expect(notification.agent_id).to eq(subject.id)
     end
   end
 end

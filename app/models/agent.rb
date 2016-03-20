@@ -191,20 +191,26 @@ class Agent < ActiveRecord::Base
   end
 
   def push_data(items, options={})
-    Array(items).map do |item|
-      relation = item.fetch(:relation, {})
-      Deposit.create!(source_token: uuid,
-                      message_type: item.fetch(:message_type, 'relation'),
-                      prefix: item.fetch(:prefix, nil),
-                      subj: item.fetch(:subj, nil),
-                      obj: item.fetch(:obj, nil),
-                      subj_id: relation.fetch('subj_id', nil),
-                      obj_id: relation.fetch('obj_id', nil),
-                      relation_type_id: relation.fetch('relation_type_id', nil),
-                      source_id: relation.fetch('source_id', nil),
-                      publisher_id: relation.fetch('publisher_id', nil),
-                      total: relation.fetch('total', nil),
-                      occurred_at: relation.fetch('occurred_at', nil))
+    Array(items).reduce([]) do |sum, item|
+      begin
+        relation = item.fetch(:relation, {})
+        deposit = Deposit.create!(source_token: uuid,
+                        message_type: item.fetch(:message_type, 'relation'),
+                        prefix: item.fetch(:prefix, nil),
+                        subj: item.fetch(:subj, nil),
+                        obj: item.fetch(:obj, nil),
+                        subj_id: relation.fetch('subj_id', nil),
+                        obj_id: relation.fetch('obj_id', nil),
+                        relation_type_id: relation.fetch('relation_type_id', nil),
+                        source_id: relation.fetch('source_id', nil),
+                        publisher_id: relation.fetch('publisher_id', nil),
+                        total: relation.fetch('total', nil),
+                        occurred_at: relation.fetch('occurred_at', nil))
+        sum << deposit
+      rescue ActiveRecord::RecordInvalid => e
+        Notification.create(exception: e, target_url: relation.fetch('subj_id', nil), agent_id: id)
+        sum
+      end
     end
   end
 
