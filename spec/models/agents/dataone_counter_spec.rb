@@ -42,7 +42,7 @@ describe DataoneCounter, type: :model, vcr: true do
       work = FactoryGirl.create(:work, dataone: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
-      expect(subject.parse_data(result, work_id: work.id)).to eq(events: { source: "dataone_counter", work: work.pid, total: 0, months: [] })
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events returned by the DataONE API" do
@@ -50,18 +50,21 @@ describe DataoneCounter, type: :model, vcr: true do
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response).to eq(events: { source: "dataone_counter", work: work.pid, total: 0,  months: [] })
+      expect(response).to eq([])
     end
 
     it "should report if there are events returned by the DataONE API" do
-            body = File.read(fixture_path + 'dataone_usage_raw.json')
+      body = File.read(fixture_path + 'dataone_usage_raw.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
-      expect(response[:events][:total]).to eq(74)
-      expect(response[:events][:months].length).to eq(11)
-      expect(response[:events][:months].first).to eq(month: 9, year: 2014, total: 13)
-      expect(response[:events][:events_url]).to be_nil
+
+      expect(response.length).to eq(1)
+      expect(response.first[:relation]).to eq("subj_id"=>"https://www.dataone.org",
+                                              "obj_id"=>work.pid,
+                                              "relation_type_id"=>"downloads",
+                                              "total"=>74,
+                                              "source_id"=>"dataone_counter")
     end
   end
 end

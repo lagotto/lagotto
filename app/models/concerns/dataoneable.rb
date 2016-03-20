@@ -3,30 +3,44 @@ module Dataoneable
 
   included do
     def parse_data(result, options={})
-      return result if result[:error]
+      return [result] if result[:error]
 
       work = Work.where(id: options.fetch(:work_id, nil)).first
+      return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
       total = result.fetch("response", {}).fetch("numFound", 0)
       months = total > 0 ? get_events_by_month(result) : []
 
-      { events: {
-          source: name,
-          work: work.pid,
-          total: total,
-          months: months } }
-    end
+      subj_id = "https://www.dataone.org"
+      subj = { "pid" => subj_id,
+               "URL" => subj_id,
+               "title" => "DataONE",
+               "type" => "webpage",
+               "issued" => "2012-05-15T16:40:23Z" }
 
-    def get_events_by_month(result)
-      counts = result.deep_fetch("facet_counts", "facet_ranges", "dateLogged", "counts") { [] }
-      counts.each_slice(2).map do |item|
-        year, month = *get_year_month(item.first)
-
-        { month: month,
-          year: year,
-          total: item.last }
+      relations = []
+      if total > 0
+        relations << { relation: { "subj_id" => subj_id,
+                                   "obj_id" => work.pid,
+                                   "relation_type_id" => "downloads",
+                                   "total" => total,
+                                   "source_id" => source_id },
+                       subj: subj }
       end
+
+      relations
     end
+
+    # def get_events_by_month(result)
+    #   counts = result.deep_fetch("facet_counts", "facet_ranges", "dateLogged", "counts") { [] }
+    #   counts.each_slice(2).map do |item|
+    #     year, month = *get_year_month(item.first)
+
+    #     { month: month,
+    #       year: year,
+    #       total: item.last }
+    #   end
+    # end
 
     def config_fields
       [:url]
