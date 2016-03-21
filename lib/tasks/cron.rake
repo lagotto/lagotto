@@ -40,18 +40,12 @@ namespace :cron do
     Rake::Task["mailer:status_report"].invoke
     Rake::Task["mailer:status_report"].reenable
 
-    Rake::Task["f1000:update"].invoke
-    Rake::Task["f1000:update"].reenable
-
     Rake::Task["db:notifications:delete"].invoke
     Rake::Task["db:notifications:delete"].reenable
   end
 
   desc 'Monthly cron task'
   task :monthly => :environment do
-    Rake::Task["pmc:update"].invoke
-    Rake::Task["pmc:update"].reenable
-
     Rake::Task["report:all_stats"].invoke
     Rake::Task["report:all_stats"].reenable
 
