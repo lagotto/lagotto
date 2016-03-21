@@ -14,6 +14,10 @@ class Deposit < ActiveRecord::Base
   # include date methods
   include Dateable
 
+  belongs_to :work
+  belongs_to :related_work, class_name: "Work"
+  belongs_to :contributor
+
   before_create :create_uuid
   before_save :set_defaults
   after_commit :queue_deposit_job, :on => :create
@@ -74,8 +78,8 @@ class Deposit < ActiveRecord::Base
 
   def process_data
     self.start
-    if collect_data[:errors].present?
-      write_attribute(:error_messages, collect_data[:errors])
+    collect_data
+    if error_messages.present?
       self.error
     else
       self.finish
@@ -93,81 +97,100 @@ class Deposit < ActiveRecord::Base
     end
   end
 
+  def source
+    cached_source(source_id)
+  end
+
+  def publisher
+    cached_publisher(publisher_id)
+  end
+
+  def relation_type
+    cached_relation_type(relation_type_id)
+  end
+
+  def inv_relation_type
+    cached_inv_relation_type(relation_type_id)
+  end
+
+  # update in order, stop if an error occured
   def update_relations
-    work = update_work(subj_id, subj)
-
-    # stop here if we only have subj
-    return {} unless obj_id.present?
-
-    related_work = update_work(obj_id, obj)
-
-    source = cached_source(source_id)
-    source = source.present? ? { class: source.class.to_s, id: source.id, errors: [] } : { class: "Source", id: nil, errors: ["Source #{source_id} not found"] }
-
-    relation_type = cached_relation_type(relation_type_id)
-    relation_type = relation_type.present? ? { class: relation_type.class.to_s, id: relation_type.id, errors: [] } : { class: "RelationType", id: nil, errors: ["Relation type #{relation_type_id} not found"] }
-
-    inv_relation_type = cached_inv_relation_type(relation_type_id)
-    inv_relation_type = inv_relation_type.present? ? { class: inv_relation_type.class.to_s, id: inv_relation_type.id, errors: [] } : { class: "RelationType", id: nil, errors: ["Inverse relation type for #{relation_type_id} not found"] }
-
-    relations = [work, related_work, source, relation_type, inv_relation_type]
-    error_messages = relations.reduce([]) { |sum, item| sum + item[:errors] }
-    return { errors: error_messages } if error_messages.present?
-
-    relation = update_relation(work[:id], related_work[:id], source[:id], relation_type[:id])
-    inv_relation = update_relation(related_work[:id], work[:id], source[:id], inv_relation_type[:id])
-
-    relations += [relation, inv_relation]
-    error_messages = relations.reduce([]) do |sum, item|
-      if item[:errors].present?
-        sum << item
-      else
-        sum
-      end
-    end
-    { errors: error_messages }
+    update_work && update_related_work && update_relation && update_inv_relation
   end
 
-  def update_relation(work_id, related_work_id, source_id, rel_type_id)
-    publisher = cached_publisher(publisher_id)
-    publisher = publisher.id if publisher.present?
+  def update_work
+    pid = normalize_pid(subj_id)
+    item = from_csl(subj)
 
-    relation = Relation.where(work_id: work_id, related_work_id: related_work_id, source_id: source_id).first_or_create(
-      relation_type_id: rel_type_id
-    )
+    # create work association if it doesn't exist, filling out all required fields
+    self.work = Work.where(pid: pid)
+                    .first_or_create!(title: item.fetch(:title, nil),
+                                      year: item.fetch(:year, nil),
+                                      month: item.fetch(:month, nil),
+                                      day: item.fetch(:day, nil),
+                                      registration_agency: item.fetch(:registration_agency, nil))
 
     # update all attributes
-    relation.update_attributes(relation_type_id: rel_type_id,
-                               publisher_id: publisher,
-                               total: total,
-                               occurred_at: occurred_at)
-
-    # update months
-    months = [relation.get_events_current_month]
-    update_months(relation, months)
-
-    { class: relation.class.to_s, id: relation.id, errors: relation.errors.to_a }
+    self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
+  rescue ActiveRecord::RecordInvalid => exception
+    handle_exception(exception, class_name: "work")
   end
 
-  def update_work(item_id, item)
-    # normalize pid, e.g. http://dx.doi.org/10.5555/123 to http://doi.org/10.5555/123
-    id_hash = get_id_hash(item_id)
-    pid = id_as_pid(id_hash)
+  def update_related_work
+    return nil unless obj_id.present?
 
-    item = from_csl(item)
+    pid = normalize_pid(obj_id)
+    item = from_csl(obj)
 
-    # create work if it doesn't exist, filling out all required fields
-    work = Work.where(pid: pid).first_or_create(title: item.fetch("title", nil),
-                                                year: item.fetch("year", nil),
-                                                month: item.fetch("month", nil),
-                                                day: item.fetch("day", nil),
-                                                registration_agency: item.fetch("registration_agency", nil))
+    # create related_work association if it doesn't exist, filling out all required fields
+    self.related_work = Work.where(pid: pid)
+                       .first_or_create!(title: item.fetch(:title, nil),
+                                         year: item.fetch(:year, nil),
+                                         month: item.fetch(:month, nil),
+                                         day: item.fetch(:day, nil),
+                                         registration_agency: item.fetch(:registration_agency, nil))
 
     # update all attributes
-    work.update_attributes(item.except("pid", "title", "year", "month", "day", "registration_agency"))
-
-    { class: work.class.to_s, id: work.id, errors: work.errors.to_a }
+    self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
+  rescue ActiveRecord::RecordInvalid => exception
+    handle_exception(exception, class_name: "related_work")
   end
+
+  def update_relation
+    r = Relation.where(work_id: work_id,
+                       related_work_id: related_work_id,
+                       source_id: source.present? ? source.id : nil)
+                .first_or_create!(relation_type_id: relation_type.present? ? relation_type.id : nil)
+
+    # update all attributes, return saved relation
+    r.update_attributes!(relation_type_id: relation_type.present? ? relation_type.id : nil,
+                        publisher_id: publisher.present? ? publisher.id : nil,
+                        total: total,
+                        occurred_at: occurred_at)
+    r
+  rescue ActiveRecord::RecordInvalid => exception
+    handle_exception(exception, class_name: "relation")
+  end
+
+  def update_inv_relation
+    r = Relation.where(work_id: related_work_id,
+                       related_work_id: work_id,
+                       source_id: source.present? ? source.id : nil)
+                .first_or_create!(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil)
+
+    # update all attributes, return saved inv_relation
+    r.update_attributes!(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,
+                        publisher_id: publisher.present? ? publisher.id : nil,
+                        total: total,
+                        occurred_at: occurred_at)
+    r
+  rescue ActiveRecord::RecordInvalid => exception
+    handle_exception(exception, class_name: "inv_relation")
+  end
+
+    #   # update months
+    # months = [relation.get_events_current_month]
+    # update_months(relation, months)
 
   # convert CSL into format that the database understands
   # don't update nil values
@@ -235,12 +258,13 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_publisher
-    publisher = Publisher.where(name: subj_id).first_or_create(title: subj["title"])
-    publisher.update_attributes(title: subj["title"],
-                                registration_agency: subj["registration_agency"],
-                                active: subj["active"])
-
-    { class: publisher.class.to_s, id: publisher.name, errors: publisher.errors.to_a }
+    p = Publisher.where(name: subj_id).first_or_create!(title: subj["title"])
+    p.update_attributes!(title: subj["title"],
+                        registration_agency: subj["registration_agency"],
+                        active: subj["active"])
+    p
+  rescue ActiveRecord::RecordInvalid => exception
+    handle_exception(exception, class_name: "publisher")
   end
 
   def delete_relation
@@ -296,5 +320,13 @@ class Deposit < ActiveRecord::Base
     write_attribute(:total, 1) if total.blank?
     write_attribute(:relation_type_id, "references") if relation_type_id.blank?
     write_attribute(:occurred_at, Time.zone.now.utc) if occurred_at.blank?
+  end
+
+  def handle_exception(exception, options={})
+    Notification.create(exception: exception)
+
+    write_attribute(:error_messages, { options[:class_name] => exception.message })
+
+    nil
   end
 end

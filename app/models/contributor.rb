@@ -17,6 +17,7 @@ class Contributor < ActiveRecord::Base
   has_many :contributions
   has_many :works, :through => :contributions
   has_many :contributor_roles, :through => :contributions
+  has_many :deposits
 
   validates :pid, :presence => true, :uniqueness => true
   validates :orcid, :presence => true, :uniqueness => true

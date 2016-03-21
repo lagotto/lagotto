@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Agent, :type => :model, vcr: true do
+  include ActiveJob::TestHelper
 
   it { is_expected.to belong_to(:group) }
 

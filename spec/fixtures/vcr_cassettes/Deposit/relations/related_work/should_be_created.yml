@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Sun, 20 Mar 2016 17:25:43 GMT
+      - Sun, 20 Mar 2016 17:44:51 GMT
       Connection:
       - close
     body:
@@ -38,7 +38,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:43 GMT
+  recorded_at: Sun, 20 Mar 2016 17:44:51 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PMED.0030186
@@ -68,7 +68,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sun, 20 Mar 2016 17:25:43 GMT
+      - Sun, 20 Mar 2016 17:44:52 GMT
       Connection:
       - close
     body:
@@ -78,7 +78,7 @@ http_interactions:
         Research Is Needed to Achieve International Health Goals"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"3","author":[{"affiliation":[],"family":"Sanders","given":"David"},{"affiliation":[],"family":"Haines","given":"Andy"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,6,6]]},"container-title":["PLoS
         Med","PLoS Medicine"],"deposited":{"date-parts":[[2015,10,20]],"date-time":"2015-10-20T20:03:10Z","timestamp":1445371390000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2006,6,6]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pmed.0030186","ISSN":["1549-1676"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:43 GMT
+  recorded_at: Sun, 20 Mar 2016 17:44:52 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PMED.0030186
@@ -108,7 +108,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sun, 20 Mar 2016 17:25:44 GMT
+      - Sun, 20 Mar 2016 17:44:52 GMT
       Connection:
       - close
     body:
@@ -118,7 +118,7 @@ http_interactions:
         Research Is Needed to Achieve International Health Goals"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"3","author":[{"affiliation":[],"family":"Sanders","given":"David"},{"affiliation":[],"family":"Haines","given":"Andy"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,6,6]]},"container-title":["PLoS
         Med","PLoS Medicine"],"deposited":{"date-parts":[[2015,10,20]],"date-time":"2015-10-20T20:03:10Z","timestamp":1445371390000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2006,6,6]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pmed.0030186","ISSN":["1549-1676"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:44 GMT
+  recorded_at: Sun, 20 Mar 2016 17:44:52 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PMED.0030186
@@ -148,7 +148,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sun, 20 Mar 2016 17:25:44 GMT
+      - Sun, 20 Mar 2016 17:44:53 GMT
       Connection:
       - close
     body:
@@ -158,7 +158,7 @@ http_interactions:
         Research Is Needed to Achieve International Health Goals"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"3","author":[{"affiliation":[],"family":"Sanders","given":"David"},{"affiliation":[],"family":"Haines","given":"Andy"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,6,6]]},"container-title":["PLoS
         Med","PLoS Medicine"],"deposited":{"date-parts":[[2015,10,20]],"date-time":"2015-10-20T20:03:10Z","timestamp":1445371390000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2006,6,6]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pmed.0030186","ISSN":["1549-1676"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:44 GMT
+  recorded_at: Sun, 20 Mar 2016 17:44:53 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PMED.0030186
@@ -188,7 +188,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sun, 20 Mar 2016 17:25:45 GMT
+      - Sun, 20 Mar 2016 17:44:53 GMT
       Connection:
       - close
     body:
@@ -198,5 +198,5 @@ http_interactions:
         Research Is Needed to Achieve International Health Goals"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"3","author":[{"affiliation":[],"family":"Sanders","given":"David"},{"affiliation":[],"family":"Haines","given":"Andy"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,6,6]]},"container-title":["PLoS
         Med","PLoS Medicine"],"deposited":{"date-parts":[[2015,10,20]],"date-time":"2015-10-20T20:03:10Z","timestamp":1445371390000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2006,6,6]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pmed.0030186","ISSN":["1549-1676"],"subject":["Medicine(all)"]}}'
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:45 GMT
+  recorded_at: Sun, 20 Mar 2016 17:44:53 GMT
 recorded_with: VCR 2.9.3

@@ -4,13 +4,8 @@ FactoryGirl.define do
     sequence(:pid) { |n| "http://doi.org/10.1371/journal.pone.00000#{n}" }
     sequence(:doi) { |n| "10.1371/journal.pone.00000#{n}" }
     sequence(:pmid) { |n| "1897483#{n}" }
-    sequence(:pmcid) { |n| "256885#{n}" }
-    sequence(:wos) { |n| "00023796690000#{n}" }
-    sequence(:scp) { |n| "3384533872#{n}" }
-    sequence(:ark) { |n| "ark:/13030/m5br8st#{n}" }
     registration_agency "crossref"
     sequence(:canonical_url) { |n| "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.00000#{n}" }
-    mendeley_uuid "46cb51a0-6d08-11df-afb8-0026b95d30b2"
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     year { Time.zone.now.to_date.year - 1 }
     month { Time.zone.now.to_date.month }
@@ -474,6 +469,7 @@ FactoryGirl.define do
   factory :deposit do
     uuid { SecureRandom.uuid }
     message_type "relation"
+    prefix "10.1371"
     source_id "citeulike"
     source_token "citeulike_123"
     subj_id "http://www.citeulike.org/user/dbogartoit"
@@ -493,16 +489,23 @@ FactoryGirl.define do
     factory :deposit_for_datacite_related do
       source_id "datacite_related"
       source_token "datacite_related_123"
+      prefix "10.5061"
       subj_id "http://doi.org/10.5061/DRYAD.47SD5"
       subj nil
       obj_id "http://doi.org/10.5061/DRYAD.47SD5/1"
       relation_type_id "has_part"
       publisher_id "CDL.DRYAD"
+
+      trait :with_works do
+        association :work, pid: "http://doi.org/10.5061/DRYAD.47SD5"
+        association :related_work, pid: "http://doi.org/10.5061/DRYAD.47SD5/1"
+      end
     end
 
     factory :deposit_for_datacite_github do
       source_id "datacite_github"
       source_token "datacite_github_123"
+      prefix "10.5281"
       subj_id "http://doi.org/10.5281/ZENODO.16668"
       subj nil
       obj_id "https://github.com/konradjk/loftee/tree/v0.2.1-beta"

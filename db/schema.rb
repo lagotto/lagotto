@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160318101922) do
+ActiveRecord::Schema.define(version: 20160320212024) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -146,6 +146,9 @@ ActiveRecord::Schema.define(version: 20160318101922) do
     t.integer  "total",            limit: 4,     default: 1
     t.datetime "occurred_at"
     t.text     "error_messages",   limit: 65535
+    t.integer  "work_id",          limit: 4
+    t.integer  "related_work_id",  limit: 4
+    t.integer  "contributor_id",   limit: 4
   end
 
   add_index "deposits", ["prefix", "created_at"], name: "index_deposits_on_prefix_created_at", using: :btree
