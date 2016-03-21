@@ -150,7 +150,7 @@ function relationToString(work, sources, relation_types) {
   var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
   if (typeof relation_type == "undefined" || relation_type === "") { return []; }
 
-  return [relation_type.inverse_title, " via " + source.title];
+  return [relation_type.title, " via " + source.title];
 }
 
 // construct author object from author parts
