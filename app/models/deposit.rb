@@ -132,6 +132,8 @@ class Deposit < ActiveRecord::Base
 
     # update all attributes
     self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
+  rescue ActiveRecord::RecordNotUnique
+    true
   rescue ActiveRecord::RecordInvalid => exception
     handle_exception(exception, class_name: "work", id: pid)
   end
@@ -152,6 +154,8 @@ class Deposit < ActiveRecord::Base
 
     # update all attributes
     self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
+  rescue ActiveRecord::RecordNotUnique
+    true
   rescue ActiveRecord::RecordInvalid => exception
     handle_exception(exception, class_name: "related_work", id: pid)
   end
@@ -162,12 +166,13 @@ class Deposit < ActiveRecord::Base
                        source_id: source.present? ? source.id : nil)
                 .first_or_create!(relation_type_id: relation_type.present? ? relation_type.id : nil)
 
-    # update all attributes, return saved relation
+    # update all attributes
     r.update_attributes!(relation_type_id: relation_type.present? ? relation_type.id : nil,
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
                         occurred_at: occurred_at)
-    r
+  rescue ActiveRecord::RecordNotUnique
+    true
   rescue ActiveRecord::RecordInvalid => exception
     handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
@@ -183,7 +188,8 @@ class Deposit < ActiveRecord::Base
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
                         occurred_at: occurred_at)
-    r
+  rescue ActiveRecord::RecordNotUnique
+    true
   rescue ActiveRecord::RecordInvalid => exception
     handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
@@ -263,6 +269,8 @@ class Deposit < ActiveRecord::Base
                          registration_agency: subj["registration_agency"],
                          active: subj["active"])
     p
+  rescue ActiveRecord::RecordNotUnique
+    true
   rescue ActiveRecord::RecordInvalid => exception
     handle_exception(exception, class_name: "publisher", id: subj_id)
   end
