@@ -31,7 +31,7 @@ class DataciteOrcid < Agent
       authors = xml.fetch("creators", {}).fetch("creator", [])
       authors = [authors] if authors.is_a?(Hash)
 
-      subj = { "pid" => pid,
+      obj = { "pid" => pid,
                "DOI" => doi,
                "author" => get_hashed_authors(authors),
                "title" => item.fetch("title", []).first,
@@ -43,23 +43,23 @@ class DataciteOrcid < Agent
                "type" => type }
 
       name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
-      sum += get_relations(subj, name_identifiers)
+      sum += get_relations(obj, name_identifiers)
     end
   end
 
-  def get_relations(subj, items)
-    prefix = subj["DOI"][/^10\.\d{4,5}/]
+  def get_relations(obj, items)
+    prefix = obj["DOI"][/^10\.\d{4,5}/]
 
     Array(items).map do |item|
       orcid = item.split(':', 2).last
 
       { prefix: prefix,
         message_type: "contribution",
-        relation: { "subj_id" => subj["pid"],
-                    "obj_id" => "http://orcid.org/#{orcid}",
+        relation: { "subj_id" => "http://orcid.org/#{orcid}",
+                    "obj_id" => obj["pid"],
                     "source_id" => source_id,
-                    "publisher_id" => subj["publisher_id"] },
-        subj: subj }
+                    "publisher_id" => obj["publisher_id"] },
+        obj: obj }
     end
   end
 

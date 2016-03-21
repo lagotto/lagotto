@@ -90,12 +90,12 @@ describe DataciteOrcid, type: :model, vcr: true do
       expect(response.length).to eq(63)
       expect(response.first[:prefix]).to eq("10.1594")
       expect(response.first[:message_type]).to eq("contribution")
-      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.1594/PANGAEA.733793",
-                                              "obj_id"=>"http://orcid.org/0000-0002-4133-2218",
+      expect(response.first[:relation]).to eq("subj_id"=>"http://orcid.org/0000-0002-4133-2218",
+                                              "obj_id"=>"http://doi.org/10.1594/PANGAEA.733793",
                                               "source_id"=>"datacite_orcid",
                                               "publisher_id"=>"TIB.PANGAEA")
 
-      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.1594/PANGAEA.733793",
+      expect(response.first[:obj]).to eq("pid"=>"http://doi.org/10.1594/PANGAEA.733793",
                                           "DOI"=>"10.1594/PANGAEA.733793",
                                           "author"=>[],
                                           "container-title"=>"PANGAEA - Data Publisher for Earth & Environmental Science",

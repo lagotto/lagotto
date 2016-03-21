@@ -81,7 +81,7 @@ class CrossrefOrcid < Agent
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       doi = item.fetch("DOI", nil)
 
-      subj = { "pid" => doi_as_url(doi),
+      obj = { "pid" => doi_as_url(doi),
                "author" => item.fetch("author", []),
                "title" => title,
                "container-title" => item.fetch("container-title", []).first,
@@ -95,21 +95,21 @@ class CrossrefOrcid < Agent
                "tracked" => tracked }
 
       authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
-      sum += get_relations(subj, authors_with_orcid)
+      sum += get_relations(obj, authors_with_orcid)
     end
   end
 
-  def get_relations(subj, items)
-    prefix = subj["DOI"][/^10\.\d{4,5}/]
+  def get_relations(obj, items)
+    prefix = obj["DOI"][/^10\.\d{4,5}/]
 
     Array(items).map do |item|
       { prefix: prefix,
         message_type: "contribution",
-        relation: { "subj_id" => subj["pid"],
-                    "obj_id" => item.fetch('ORCID', nil),
+        relation: { "subj_id" => item.fetch('ORCID', nil),
+                    "obj_id" => obj["pid"],
                     "source_id" => source_id,
-                    "publisher_id" => subj["publisher_id"] },
-        subj: subj }
+                    "publisher_id" => obj["publisher_id"] },
+        obj: obj }
     end
   end
 
