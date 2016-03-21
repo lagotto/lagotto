@@ -280,6 +280,7 @@ class Deposit < ActiveRecord::Base
                "message_type" => message_type,
                "message_action" => message_action,
                "source_token" => source_token,
+               "total" => total,
                "timestamp" => timestamp }}
     get_result(callback, data: data.to_json, token: ENV['API_KEY'])
   end
