@@ -167,7 +167,7 @@ module Resolvable
       metadata["publisher_id"] = metadata.fetch("member", "")[30..-1]
       metadata["container-title"] = metadata.fetch("container-title", [])[0]
       metadata["type"] = CROSSREF_TYPE_TRANSLATIONS[metadata["type"]] if metadata["type"]
-      metadata["author"] = metadata["author"].map { |author| author.except("affiliation") }
+      metadata["author"] = metadata["author"].map { |author| author.except("affiliation") } if metadata["author"]
 
       metadata
     rescue *NETWORKABLE_EXCEPTIONS => e
