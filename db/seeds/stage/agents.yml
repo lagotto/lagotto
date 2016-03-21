@@ -50,6 +50,12 @@ records:
     title: Europe PubMed Central Database Citations
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
     group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: pmceuropefulltextdata
+    type: EuropePmcFulltextData
+    name: pmceuropefulltextdata
+    title: Europe PubMed Central Database Citations in Fulltext
+    description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
+    group_id: <%= sprig_record(Group, "cited").id %>
   - sprig_id: scienceseeker
     type: ScienceSeeker
     name: scienceseeker
