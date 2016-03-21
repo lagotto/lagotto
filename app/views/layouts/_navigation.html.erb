@@ -5,17 +5,15 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Status", status_index_path %></li>
         <li><%= link_to "Works", works_path %></li>
-        <li><%= link_to "Sources", sources_path %></li>
-        <% if can?(:read, Notification) %>
-          <li><%= link_to "Agents", agents_path %></li>
-        <% end %>
         <% if can?(:read, Notification) || contributors.length > 1 %>
           <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
         <% end %>
         <% if can?(:read, Notification) || publishers.length > 1 %>
           <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
         <% end %>
+        <li><%= link_to "Sources", sources_path %></li>
         <% if can?(:read, Notification) %>
+          <li><%= link_to "Agents", agents_path %></li>
           <li><%= link_to "Notifications", notifications_path %></li>
         <% end %>
         <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
