@@ -132,9 +132,7 @@ class Deposit < ActiveRecord::Base
 
     # update all attributes
     self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
-  rescue ActiveRecord::RecordNotUnique
-    true
-  rescue ActiveRecord::RecordInvalid => exception
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "work", id: pid)
   end
 
@@ -154,9 +152,7 @@ class Deposit < ActiveRecord::Base
 
     # update all attributes
     self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
-  rescue ActiveRecord::RecordNotUnique
-    true
-  rescue ActiveRecord::RecordInvalid => exception
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "related_work", id: pid)
   end
 
@@ -171,9 +167,7 @@ class Deposit < ActiveRecord::Base
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
                         occurred_at: occurred_at)
-  rescue ActiveRecord::RecordNotUnique
-    true
-  rescue ActiveRecord::RecordInvalid => exception
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
 
@@ -188,9 +182,7 @@ class Deposit < ActiveRecord::Base
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
                         occurred_at: occurred_at)
-  rescue ActiveRecord::RecordNotUnique
-    true
-  rescue ActiveRecord::RecordInvalid => exception
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
 
@@ -269,9 +261,7 @@ class Deposit < ActiveRecord::Base
                          registration_agency: subj["registration_agency"],
                          active: subj["active"])
     p
-  rescue ActiveRecord::RecordNotUnique
-    true
-  rescue ActiveRecord::RecordInvalid => exception
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "publisher", id: subj_id)
   end
 
@@ -331,11 +321,13 @@ class Deposit < ActiveRecord::Base
   end
 
   def handle_exception(exception, options={})
+    return true if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+
     message = "#{exception.message} for #{options[:class_name]} #{options[:id]}"
     Notification.create(exception: exception, message: message)
 
     write_attribute(:error_messages, { options[:class_name] => exception.message })
 
-    nil
+    false
   end
 end

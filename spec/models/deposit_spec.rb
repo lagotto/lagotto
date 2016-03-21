@@ -65,6 +65,7 @@ describe Deposit, :type => :model, vcr: true do
       expect(subject.work.pid).to eq("http://www.citeulike.org/user/dbogartoit")
       expect(subject.work.relations.first.relation_type.name).to eq("bookmarks")
       #expect(subject.work.related_works.first).to eq(subject.related_work)
+      expect(subject.error_messages).to be_nil
     end
 
     it "datacite_related" do
@@ -79,6 +80,7 @@ describe Deposit, :type => :model, vcr: true do
       expect(subject.work.pid).to eq("http://doi.org/10.5061/DRYAD.47SD5")
       expect(subject.work.relations.first.relation_type.name).to eq("has_part")
       #expect(subject.work.related_works.first).to eq(subject.related_work)
+      expect(subject.error_messages).to be_nil
     end
 
     it "datacite_github" do
@@ -93,6 +95,7 @@ describe Deposit, :type => :model, vcr: true do
       expect(subject.work.pid).to eq("http://doi.org/10.5281/ZENODO.16668")
       expect(subject.work.relations.first.relation_type.name).to eq("is_supplement_to")
       #expect(subject.work.related_works.first).to eq(subject.related_work)
+      expect(subject.error_messages).to be_nil
     end
   end
 
@@ -102,11 +105,12 @@ describe Deposit, :type => :model, vcr: true do
       publisher = subject.update_publisher
       expect(publisher.name).to eq("ANDS.CENTRE-1")
       expect(publisher.title).to eq("Griffith University")
+      expect(subject.error_messages).to be_nil
     end
 
     it "update missing title" do
       subject = FactoryGirl.create(:deposit_for_publisher, :no_publisher_title)
-      expect(subject.update_publisher).to be_nil
+      expect(subject.update_publisher).to be false
       expect(subject.human_state_name).to eq("waiting")
       expect(subject.error_messages).to eq("publisher"=>"Validation failed: Title can't be blank")
     end
