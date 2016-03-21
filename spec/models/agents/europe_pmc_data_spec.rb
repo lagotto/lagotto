@@ -3,7 +3,7 @@ require 'rails_helper'
 describe EuropePmcData, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc_data) }
 
-  let(:work) { FactoryGirl.create(:work, :pmid => "14624247") }
+  let(:work) { FactoryGirl.create(:work, pmid: "14624247", pmcid: "2808249") }
 
   context "get_data" do
     it "should report that there are no events if the doi, pmid and pmcid are missing" do
@@ -76,7 +76,7 @@ describe EuropePmcData, type: :model, vcr: true do
     end
 
     it "should catch timeout errors with the PMC Europe API" do
-      work = FactoryGirl.create(:work, :doi => "10.2307/683422")
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0008776", pmid: "20098740", pmcid: "2808249")
       result = { error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/databaseLinks//1/json", status: 408 }
       response = subject.parse_data(result, work_id: work.id)
       expect(response).to eq([result])

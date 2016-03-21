@@ -1,0 +1,47 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.plosreports.org/services/rest?doi=10.1371/journal.pone.0116034&method=usage.stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 21 Mar 2016 22:58:11 GMT
+      Server:
+      - Apache/2.2.3 (CentOS)
+      X-Powered-By:
+      - PHP/5.1.6
+      Set-Cookie:
+      - SESSe0e030a9f1159c52333478ef6a3cc2c9=444lcfr633u05rrin07so3bsg0; expires=Thu,
+        14 Apr 2016 02:31:31 GMT; path=/; domain=.plosreports.org
+      Expires:
+      - Sun, 19 Nov 1978 05:00:00 GMT
+      Last-Modified:
+      - Mon, 21 Mar 2016 22:58:11 GMT
+      Cache-Control:
+      - store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Content-Length:
+      - '2087'
+      Connection:
+      - close
+      Content-Type:
+      - text/xml
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="utf-8"?>
+        <rest generator="xml_writer" version="1.0"><status>success</status><response><criteria><year>all</year><month>all</month><journal>all</journal><doi>10.1371/journal.pone.0116034</doi></criteria><results><total><total>279</total></total><item id="0"><year>2014</year><month>12</month><get-document>70</get-document><get-pdf>11</get-pdf><get-xml>9</get-xml></item><item id="1"><year>2015</year><month>1</month><get-document>23</get-document><get-pdf>6</get-pdf><get-xml>1</get-xml></item><item id="2"><year>2015</year><month>2</month><get-document>7</get-document><get-pdf>2</get-pdf></item><item id="3"><year>2015</year><month>3</month><get-document>15</get-document><get-pdf>3</get-pdf></item><item id="4"><year>2015</year><month>4</month><get-document>7</get-document><get-pdf>2</get-pdf><get-xml>1</get-xml></item><item id="5"><year>2015</year><month>5</month><get-document>7</get-document><get-pdf>1</get-pdf></item><item id="6"><year>2015</year><month>6</month><get-document>14</get-document><get-pdf>4</get-pdf></item><item id="7"><year>2015</year><month>7</month><get-document>7</get-document><get-pdf>3</get-pdf></item><item id="8"><year>2015</year><month>8</month><get-document>5</get-document><get-pdf>6</get-pdf><get-xml>1</get-xml></item><item id="9"><year>2015</year><month>9</month><get-document>5</get-document><get-pdf>5</get-pdf><get-xml>2</get-xml></item><item id="10"><year>2015</year><month>10</month><get-document>9</get-document><get-pdf>4</get-pdf></item><item id="11"><year>2015</year><month>11</month><get-document>6</get-document><get-pdf>3</get-pdf></item><item id="12"><year>2015</year><month>12</month><get-document>11</get-document><get-pdf>3</get-pdf><get-xml>1</get-xml></item><item id="13"><year>2016</year><month>1</month><get-document>7</get-document><get-pdf>4</get-pdf></item><item id="14"><year>2016</year><month>2</month><get-document>7</get-document><get-pdf>1</get-pdf></item><item id="15"><year>2016</year><month>3</month><get-document>5</get-document><get-pdf>1</get-pdf></item></results></response></rest>
+    http_version: 
+  recorded_at: Mon, 21 Mar 2016 14:59:28 GMT
+recorded_with: VCR 2.9.3
