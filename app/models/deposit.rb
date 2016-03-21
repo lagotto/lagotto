@@ -118,6 +118,10 @@ class Deposit < ActiveRecord::Base
     update_work && update_related_work && update_relation && update_inv_relation
   end
 
+  def update_contributions
+    update_contributor && update_related_work && update_contribution
+  end
+
   def update_work
     pid = normalize_pid(subj_id)
     item = from_csl(subj)
@@ -190,69 +194,18 @@ class Deposit < ActiveRecord::Base
     # months = [relation.get_events_current_month]
     # update_months(relation, months)
 
-  # convert CSL into format that the database understands
-  # don't update nil values
-  def from_csl(item)
-    year, month, day = get_year_month_day(item.fetch("issued", nil))
-
-    type = item.fetch("type", nil)
-    work_type = cached_work_type(type) if type.present?
-    work_type = work_type.present? ? work_type.id : nil
-
-    csl = { "author" => item.fetch("author", []),
-            "container-title" => item.fetch("container-title", nil),
-            "volume" => item.fetch("volume", nil),
-            "page" => item.fetch("page", nil),
-            "issue" => item.fetch("issue", nil) }.compact
-
-    { doi: item.fetch("DOI", nil),
-      pmid: item.fetch("PMID", nil),
-      pmcid: item.fetch("PMCID", nil),
-      arxiv: item.fetch("arxiv", nil),
-      ark: item.fetch("ark", nil),
-      canonical_url: item.fetch("URL", nil),
-      title: item.fetch("title", nil),
-      year: year,
-      month: month,
-      day: day,
-      work_type_id: work_type,
-      tracked: item.fetch("tracked", false),
-      registration_agency: item.fetch("registration_agency", nil),
-      csl: csl }.compact
+  def update_contributor
+    self.contributor = Contributor.where(pid: subj_id).first_or_create!
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
+    handle_exception(exception, class_name: "contributor", id: subj_id)
   end
 
-  def update_contributions
-    return {}
-
-    Array(data).map do |item|
-      # mix symbol and string keys
-      item = item.with_indifferent_access
-      pid = item.fetch(:pid, nil)
-      next unless pid.present?
-
-      source = Source.where(name: item.fetch(:source_id)).first
-
-      # recursion for nested contributors
-      contributor = Contributor.where(pid: pid).first_or_create
-
-      unless contributor.persisted?
-        message = "No metadata for #{pid} found"
-        Notification.where(message: message).where(unresolved: true).first_or_create(
-          class_name: "Net::HTTPNotFound",
-          target_url: pid)
-        next
-      end
-
-      begin
-        Contribution.where(work_id: id,
-                           contributor_id: contributor.id,
-                           source_id: source.id).first_or_create
-      rescue ActiveRecord::RecordNotUnique
-        Contribution.where(work_id: id,
-                           contributor_id: contributor.id,
-                           source_id: source.id).first
-      end
-    end
+  def update_contribution
+    Contribution.where(contributor_id: contributor_id,
+                       work_id: related_work_id,
+                       source_id: source.present? ? source.id : nil).first_or_create!
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
+    handle_exception(exception, class_name: "contribution", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
 
   def update_publisher
@@ -286,6 +239,37 @@ class Deposit < ActiveRecord::Base
                                       work_id: relation.work_id,
                                       source_id: relation.source_id,
                                       total: item.fetch("total", 0)) }
+  end
+
+  # convert CSL into format that the database understands
+  # don't update nil values
+  def from_csl(item)
+    year, month, day = get_year_month_day(item.fetch("issued", nil))
+
+    type = item.fetch("type", nil)
+    work_type = cached_work_type(type) if type.present?
+    work_type = work_type.present? ? work_type.id : nil
+
+    csl = { "author" => item.fetch("author", []),
+            "container-title" => item.fetch("container-title", nil),
+            "volume" => item.fetch("volume", nil),
+            "page" => item.fetch("page", nil),
+            "issue" => item.fetch("issue", nil) }.compact
+
+    { doi: item.fetch("DOI", nil),
+      pmid: item.fetch("PMID", nil),
+      pmcid: item.fetch("PMCID", nil),
+      arxiv: item.fetch("arxiv", nil),
+      ark: item.fetch("ark", nil),
+      canonical_url: item.fetch("URL", nil),
+      title: item.fetch("title", nil),
+      year: year,
+      month: month,
+      day: day,
+      work_type_id: work_type,
+      tracked: item.fetch("tracked", false),
+      registration_agency: item.fetch("registration_agency", nil),
+      csl: csl }.compact
   end
 
   def send_callback

@@ -502,6 +502,22 @@ FactoryGirl.define do
       end
     end
 
+    factory :deposit_for_datacite_orcid do
+      message_type "contribution"
+      source_id "datacite_orcid"
+      source_token "datacite_orcid_123"
+      prefix "10.5061"
+      subj_id "http://orcid.org/0000-0002-4133-2218"
+      subj nil
+      obj_id "http://doi.org/10.1594/PANGAEA.733793"
+      publisher_id "TIB.PANGAEA"
+
+      trait :with_contributor_and_work do
+        association :contributor, pid: "http://orcid.org/0000-0002-4133-2218"
+        association :work, pid: "http://doi.org/10.1594/PANGAEA.733793"
+      end
+    end
+
     factory :deposit_for_datacite_github do
       source_id "datacite_github"
       source_token "datacite_github_123"
@@ -511,6 +527,18 @@ FactoryGirl.define do
       obj_id "https://github.com/konradjk/loftee/tree/v0.2.1-beta"
       relation_type_id "is_supplement_to"
       publisher_id "CERN.ZENODO"
+    end
+
+    factory :deposit_for_contributor do
+      message_type "contribution"
+      source_id "datacite_orcid"
+      source_token "datacite_orcid_123"
+      subj_id "http://orcid.org/0000-0002-0159-2197"
+      obj_id nil
+
+      trait :invalid_orcid do
+        subj_id "555-1212"
+      end
     end
 
     factory :deposit_for_publisher do

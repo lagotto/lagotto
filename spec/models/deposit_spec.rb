@@ -99,6 +99,37 @@ describe Deposit, :type => :model, vcr: true do
     end
   end
 
+  describe "update_contributions" do
+    it "datacite_orcids" do
+      FactoryGirl.create(:source, :datacite_orcid)
+      subject = FactoryGirl.create(:deposit_for_datacite_orcid)
+      subject.update_contributions
+
+      expect(Contributor.count).to eq(1)
+      expect(Work.count).to eq(1)
+
+      expect(subject.contributor.pid).to eq("http://orcid.org/0000-0002-4133-2218")
+      expect(subject.related_work.pid).to eq("http://doi.org/10.1594/PANGAEA.733793")
+      expect(subject.error_messages).to be_nil
+    end
+  end
+
+  describe "update_contributor" do
+    it "update" do
+      subject = FactoryGirl.create(:deposit_for_contributor)
+      contributor = subject.update_contributor
+      expect(contributor.orcid).to eq("0000-0002-0159-2197")
+      expect(contributor.credit_name).to eq("Jonathan A. Eisen")
+      expect(subject.error_messages).to be_nil
+    end
+
+    it "update invalid orcid" do
+      subject = FactoryGirl.create(:deposit_for_contributor, :invalid_orcid)
+      expect(subject.update_contributor).to be false
+      expect(subject.error_messages).to eq("contributor"=>"Validation failed: Orcid can't be blank, Orcid is invalid")
+    end
+  end
+
   describe "update_publisher" do
     it "update" do
       subject = FactoryGirl.create(:deposit_for_publisher)
@@ -111,12 +142,33 @@ describe Deposit, :type => :model, vcr: true do
     it "update missing title" do
       subject = FactoryGirl.create(:deposit_for_publisher, :no_publisher_title)
       expect(subject.update_publisher).to be false
-      expect(subject.human_state_name).to eq("waiting")
       expect(subject.error_messages).to eq("publisher"=>"Validation failed: Title can't be blank")
     end
   end
 
   describe "process_data" do
+    it "datacite_orcid" do
+      FactoryGirl.create(:source, :datacite_orcid)
+      subject = FactoryGirl.create(:deposit_for_datacite_orcid)
+      subject.process_data
+      expect(subject.human_state_name).to eq("done")
+      expect(subject.error_messages).to be_nil
+    end
+
+    it "contributor" do
+      subject = FactoryGirl.create(:deposit_for_contributor)
+      subject.process_data
+      expect(subject.human_state_name).to eq("done")
+      expect(subject.error_messages).to be_nil
+    end
+
+    it "contributor failed" do
+      subject = FactoryGirl.create(:deposit_for_contributor, :invalid_orcid)
+      subject.process_data
+      expect(subject.human_state_name).to eq("failed")
+      expect(subject.error_messages).to eq("contributor"=>"Validation failed: Orcid can't be blank, Orcid is invalid")
+    end
+
     it "publisher" do
       subject = FactoryGirl.create(:deposit_for_publisher)
       subject.process_data
