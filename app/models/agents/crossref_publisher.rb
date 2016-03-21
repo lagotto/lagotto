@@ -46,12 +46,13 @@ class CrossrefPublisher < Agent
 
     Array(items).map do |item|
       publisher_name = item.fetch('id', nil).to_s
+      title = item.fetch('primary-name', nil) || item.fetch('names', []).first
 
       { message_type: "publisher",
         relation: { "subj_id" => publisher_name,
                     "source_id" => name },
         subj: { "name" => publisher_name,
-                "title" => item.fetch('primary-name', nil),
+                "title" => title,
                 "other_names" => item.fetch('names', []),
                 "prefixes" => item.fetch('prefixes', []),
                 "registration_agency" => "crossref",
