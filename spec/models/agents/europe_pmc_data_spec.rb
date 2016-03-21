@@ -12,7 +12,7 @@ describe EuropePmcData, type: :model, vcr: true do
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
-      work = FactoryGirl.create(:work, :pmid => "20098740")
+      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0008776", pmid: "20098740", pmcid: "2808249")
       response = subject.get_data(work_id: work.id)
       expect(response["hitCount"]).to eq(0)
     end
@@ -38,8 +38,8 @@ describe EuropePmcData, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.create(:work, :pmid => "")
+    it "should report that there are no events if the doi, pmid and pmcid are missing" do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
       result = {}
       result.extend Hashie::Extensions::DeepFetch
       expect(subject.parse_data(result, work_id: work.id)).to eq([])

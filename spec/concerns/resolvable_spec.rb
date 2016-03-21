@@ -378,7 +378,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(work.doi, "datacite")
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Uncovering Impact - Moving beyond the journal article and beyond the impact factor")
-        expect(response["container-title"]).to be_nil
+        expect(response["container-title"]).to eq("Figshare")
         expect(response["author"]).to eq([{"family"=>"Trends", "given"=>"Research"}, {"family"=>"Piwowar", "given"=>"Heather", "ORCID"=>"http://orcid.org/0000-0003-1613-5981"}])
         expect(response["issued"]).to eq("2013")
         expect(response["type"]).to eq("dataset")
@@ -490,7 +490,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_datacite_metadata(work.doi)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["title"]).to eq("Data from: A new malaria agent in African hominids")
-        expect(response["container-title"]).to be_nil
+        expect(response["container-title"]).to eq("Dryad Digital Repository")
         expect(response["author"]).to eq([{"family"=>"Ollomo", "given"=>"Benjamin"}, {"family"=>"Durand", "given"=>"Patrick"}, {"family"=>"Prugnolle", "given"=>"Franck"}, {"family"=>"Douzery", "given"=>"Emmanuel J. P."}, {"family"=>"Arnathau", "given"=>"Céline"}, {"family"=>"Nkoghe", "given"=>"Dieudonné"}, {"family"=>"Leroy", "given"=>"Eric"}, {"family"=>"Renaud", "given"=>"François"}])
         expect(response["issued"]).to eq("2011")
         expect(response["type"]).to eq("dataset")

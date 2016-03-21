@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -29,7 +29,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Fri, 18 Mar 2016 10:08:45 GMT
+      - Mon, 21 Mar 2016 13:16:22 GMT
       Connection:
       - close
     body:
@@ -7023,7 +7023,7 @@ http_interactions:
         J."},{"affiliation":[],"family":"Sturhahn","given":"Wolfgang"},{"affiliation":[],"family":"Hu","given":"Michael
         Y."},{"affiliation":[],"family":"Alp","given":"Ercan E."},{"affiliation":[],"family":"Eng","given":"Peter"},{"affiliation":[],"family":"Shen","given":"Guoyin"}],"member":"http:\/\/id.crossref.org\/member\/16","published-online":{"date-parts":[[2001,11,27]]},"container-title":["Phys.
         Rev. Lett.","Physical Review Letters"],"link":[{"intended-application":"syndication","content-version":"vor","content-type":"unspecified","URL":"http:\/\/link.aps.org\/article\/10.1103\/PhysRevLett.87.255501"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T23:46:51Z","timestamp":1428450411000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2001,11,27]]},"URL":"http:\/\/dx.doi.org\/10.1103\/physrevlett.87.255501","ISSN":["0031-9007","1079-7114"],"subject":["Physics
-        and Astronomy(all)"],"article-number":"255501"}],"total-results":222983,"facets":{}}}'
+        and Astronomy(all)"],"article-number":"255501"}],"total-results":222977,"facets":{}}}'
     http_version: 
-  recorded_at: Fri, 18 Mar 2016 10:08:47 GMT
+  recorded_at: Mon, 21 Mar 2016 13:16:27 GMT
 recorded_with: VCR 2.9.3

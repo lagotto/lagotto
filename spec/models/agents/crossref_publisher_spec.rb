@@ -35,21 +35,21 @@ describe CrossrefPublisher, type: :model, vcr: true do
 
   context "get_total" do
     it "with members" do
-      expect(subject.get_total).to eq(6103)
+      expect(subject.get_total).to eq(6260)
     end
   end
 
   context "queue_jobs" do
     it "should report if there are members returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(6103)
+      expect(response).to eq(6260)
     end
   end
 
   context "get_data" do
     it "should report if there are members returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(6103)
+      expect(response["message"]["total-results"]).to eq(6260)
       item = response["message"]["items"].first
       expect(item['primary-name']).to eq("Hogrefe Publishing Group")
       expect(item['prefixes']).to eq(["10.1024", "10.1026", "10.1027"])

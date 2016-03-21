@@ -29,7 +29,7 @@ describe DataciteOrcid, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(62)
+      expect(subject.get_total).to eq(58)
     end
 
     it "with no works" do
@@ -45,7 +45,7 @@ describe DataciteOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       response = subject.queue_jobs
-      expect(response).to eq(62)
+      expect(response).to eq(58)
     end
   end
 
@@ -57,9 +57,9 @@ describe DataciteOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       response = subject.get_data
-      expect(response["response"]["numFound"]).to eq(62)
+      expect(response["response"]["numFound"]).to eq(58)
       doc = response["response"]["docs"].first
-      expect(doc["doi"]).to eq("10.1594/PANGAEA.733793")
+      expect(doc["doi"]).to eq("10.5284/1030449")
     end
 
     it "should catch errors with the Datacite Metadata Search API" do

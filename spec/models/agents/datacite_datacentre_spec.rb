@@ -13,14 +13,14 @@ describe DataciteDatacentre, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(664)
+      expect(subject.get_total).to eq(689)
     end
   end
 
   context "queue_jobs" do
     it "should report if there are publishers returned by the Datacite Metadata Search API" do
       response = subject.queue_jobs
-      expect(response).to eq(664)
+      expect(response).to eq(689)
     end
   end
 
@@ -29,7 +29,7 @@ describe DataciteDatacentre, type: :model, vcr: true do
       response = subject.get_data
       datacentre_facet = response.fetch("facet_counts", {}).fetch("facet_fields", {}).fetch('datacentre_facet', [])
       items = datacentre_facet.values_at(* datacentre_facet.each_index.select {|i| i.even?})
-      expect(items.length).to eq(664)
+      expect(items.length).to eq(689)
       expect(items.first).to eq("ANDS.CENTRE-1 - Griffith University")
     end
 

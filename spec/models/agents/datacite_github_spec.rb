@@ -59,7 +59,7 @@ describe DataciteGithub, type: :model, vcr: true do
       response = subject.get_data
       expect(response["response"]["numFound"]).to eq(20)
       doc = response["response"]["docs"].first
-      expect(doc["doi"]).to eq("10.5281/ZENODO.16668")
+      expect(doc["doi"]).to eq("10.5281/ZENODO.16647")
     end
 
     it "should catch errors with the Datacite Metadata Search API" do

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000067&idtype=doi&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000020&idtype=doi&tool=Lagotto%20-%20http://lagotto.local
     body:
       encoding: US-ASCII
       string: ''
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:39:58 GMT
+      - Mon, 21 Mar 2016 13:36:56 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,16 +31,16 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:39:58",
-         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000067;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-03-21 09:36:56",
+         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000020;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
-            "pmcid": "PMC1762330",
-            "pmid": "17183698",
-            "doi": "10.1371/journal.pone.0000067",
+            "pmcid": "PMC1762333",
+            "pmid": "17183647",
+            "doi": "10.1371/journal.pone.0000020",
             "versions": [
               {
-               "pmcid": "PMC1762330.1",
+               "pmcid": "PMC1762333.1",
                "current": "true"
               }
             ]
@@ -48,7 +48,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:39:58 GMT
+  recorded_at: Mon, 21 Mar 2016 13:36:56 GMT
 - request:
     method: get
     uri: http://www.ebi.ac.uk/europepmc/webservices/rest/MED/14624247/databaseLinks//1/json
@@ -70,7 +70,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 21 Mar 2016 11:40:20 GMT
+      - Mon, 21 Mar 2016 13:37:18 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
@@ -78,7 +78,7 @@ http_interactions:
       Connection:
       - Keep-Alive
       Set-Cookie:
-      - JSESSIONID=A26486AE1985FA70A6F3AD693F587A82; Path=/europepmc/webservices
+      - JSESSIONID=EFFA483F13C567CD1F1181B5DFC461F3; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
@@ -112,5 +112,5 @@ http_interactions:
         CBG04811","info3":"Caenorhabditis briggsae","info4":"UniProt"},{"info1":"A8WYJ8","info2":"Protein
         CBG04821","info3":"Caenorhabditis briggsae","info4":"UniProt"}]}]}}'
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:40:20 GMT
+  recorded_at: Mon, 21 Mar 2016 13:37:19 GMT
 recorded_with: VCR 2.9.3

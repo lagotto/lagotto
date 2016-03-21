@@ -27,7 +27,7 @@ describe Citeulike, type: :model, vcr: true do
 
     it "should report if there are events returned by the CiteULike API" do
       response = subject.get_data(work_id: work.id)
-      expect(response["posts"]["post"].length).to eq(6)
+      expect(response["posts"]["post"].length).to eq(7)
       post = response["posts"]["post"].first
       expect(post["linkout"][0]["url"]).to eq("http://dx.doi.org/10.1371/journal.pone.0115074")
     end

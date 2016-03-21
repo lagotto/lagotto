@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -29,12 +29,12 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sat, 20 Feb 2016 09:14:33 GMT
+      - Mon, 21 Mar 2016 13:17:22 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"member-list","message-version":"1.0.0","message":{"items":[],"total-results":6103,"query":{"search-terms":null,"start-index":0},"items-per-page":0}}'
+      string: '{"status":"ok","message-type":"member-list","message-version":"1.0.0","message":{"items":[],"total-results":6260,"query":{"search-terms":null,"start-index":0},"items-per-page":0}}'
     http_version: 
-  recorded_at: Sat, 20 Feb 2016 09:14:33 GMT
+  recorded_at: Mon, 21 Mar 2016 13:17:22 GMT
 recorded_with: VCR 2.9.3
