@@ -1,6 +1,6 @@
 class CounterReport < SourceReport
   def self.xml_value_for_result(result)
-    result.total - (result.pdf + result.html)
+    result.total - (result.downloaded + result.viewed)
   end
 
   def headers
