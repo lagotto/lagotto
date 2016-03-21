@@ -21,7 +21,8 @@ class Twitter < Agent
 
       url = "http://twitter.com/#{user}/status/#{data['id_str']}"
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "source_id" => source_id },

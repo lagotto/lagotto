@@ -16,7 +16,8 @@ class Orcid < Agent
       url = item.deep_fetch("orcid-profile", "orcid-identifier", "uri") { nil }
       timestamp = Time.zone.now.utc.iso8601
 
-      { contribution: { "subj_id" => url,
+      { prefix: work.prefix,
+        contribution: { "subj_id" => url,
                         "obj_id" => work.pid,
                         "source_id" => source_id },
         subj: { "pid" => url,

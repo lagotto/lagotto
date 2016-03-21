@@ -36,6 +36,7 @@ class Work < ActiveRecord::Base
   has_many :related_works, :through => :relations, source: :work
   has_many :contributions
   has_many :contributors, :through => :contributions
+  has_many :deposits
 
   validates :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, case_sensitive: false, allow_blank: true
@@ -88,8 +89,8 @@ class Work < ActiveRecord::Base
     dataone.gsub(/\:/, '\:')  if dataone.present?
   end
 
-  def doi_prefix
-    doi[/^10\.\d{4,5}/]
+  def prefix
+    doi[/^10\.\d{4,5}/] if doi.present?
   end
 
   def get_url

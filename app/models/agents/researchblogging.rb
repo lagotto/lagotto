@@ -18,7 +18,8 @@ class Researchblogging < Agent
     Array(related_works).map do |item|
       url = item.fetch("post_URL", nil)
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "provenance_url" => provenance_url,

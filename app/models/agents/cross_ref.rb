@@ -83,7 +83,7 @@ class CrossRef < Agent
                    "publisher_id" => metadata.fetch("publisher_id", nil),
                    "registration_agency" => "crossref" }
 
-          { prefix: subj["DOI"][/^10\.\d{4,5}/],
+          { prefix: work.prefix,
             relation: { "subj_id" => subj["pid"],
                         "obj_id" => work.pid,
                         "relation_type_id" => "cites",

@@ -38,7 +38,7 @@ class Datacite < Agent
                "tracked" => tracked,
                "registration_agency" => "datacite" }
 
-      { prefix: subj["DOI"][/^10\.\d{4,5}/],
+      { prefix: work.prefix,
         relation: { "subj_id" => subj["pid"],
                     "obj_id" => work.pid,
                     "relation_type_id" => relation_type_id,

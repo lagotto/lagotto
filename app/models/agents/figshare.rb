@@ -27,7 +27,8 @@ class Figshare < Agent
 
     relations = []
     if downloads > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "downloads",
                                  "total" => downloads,
@@ -36,7 +37,8 @@ class Figshare < Agent
     end
 
     if views > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "views",
                                  "total" => views,
@@ -45,7 +47,8 @@ class Figshare < Agent
     end
 
     if likes > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "likes",
                                  "total" => likes,

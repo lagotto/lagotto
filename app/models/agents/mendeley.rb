@@ -13,7 +13,8 @@ class Mendeley < Agent
 
     relations = []
     if readers > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "bookmarks",
                                  "total" => readers,
@@ -26,7 +27,8 @@ class Mendeley < Agent
     end
 
     if groups > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "likes",
                                  "total" => groups,

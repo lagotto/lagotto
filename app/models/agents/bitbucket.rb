@@ -57,7 +57,8 @@ class Bitbucket < Agent
     provenance_url = get_provenance_url(get_owner_and_repo(work))
     followers_count = result.fetch("followers_count", 0)
     if followers_count > 0
-      relations << { relation: { "subj_id" => "https://bitbucket.org",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://bitbucket.org",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "bookmarks",
                                  "total" => followers_count,
@@ -71,7 +72,8 @@ class Bitbucket < Agent
 
     forks_count = result.fetch("forks_count", 0)
     if forks_count > 0
-      relations << { relation: { "subj_id" => "https://bitbucket.org",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://bitbucket.org",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "is_derived_from",
                                  "total" => forks_count,

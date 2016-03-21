@@ -19,7 +19,8 @@ class ScienceSeeker < Agent
       item.extend Hashie::Extensions::DeepFetch
       url = item.fetch("link", {}).fetch("href", nil)
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "provenance_url" => provenance_url,

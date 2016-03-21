@@ -46,7 +46,8 @@ class Facebook < Agent
 
     relations = []
     if url_linkstat.blank? && total > 0
-      relations << { relation: { "subj_id" => "https://facebook.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://facebook.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "references",
                                  "total" => total,
@@ -59,7 +60,8 @@ class Facebook < Agent
     end
 
     if readers > 0
-      relations << { relation: { "subj_id" => "https://facebook.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://facebook.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "bookmarks",
                                  "total" => readers,
@@ -72,7 +74,8 @@ class Facebook < Agent
     end
 
     if comments > 0
-      relations << { relation: { "subj_id" => "https://facebook.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://facebook.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "discusses",
                                  "total" => comments,
@@ -85,7 +88,8 @@ class Facebook < Agent
     end
 
     if likes > 0
-      relations << { relation: { "subj_id" => "https://facebook.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://facebook.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "likes",
                                  "total" => likes,

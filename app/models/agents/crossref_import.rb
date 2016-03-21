@@ -90,7 +90,6 @@ class CrossrefImport < Agent
       type = item.fetch("type", nil)
       type = CROSSREF_TYPE_TRANSLATIONS[type] if type
       doi = item.fetch("DOI", nil)
-      prefix = doi[/^10\.\d{4,5}/]
 
       subj = { "pid" => doi_as_url(doi),
                "author" => author,
@@ -105,7 +104,7 @@ class CrossrefImport < Agent
                "type" => type,
                "tracked" => tracked  }
 
-      { prefix: prefix,
+      { prefix: doi[/^10\.\d{4,5}/],
         relation: { "subj_id" => subj["pid"],
                     "source_id" => source_id,
                     "publisher_id" => subj["publisher_id"] },

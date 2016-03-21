@@ -8,7 +8,8 @@ class ArticleCoverageCurated < Agent
       type = MEDIACURATION_TYPE_TRANSLATIONS.fetch(type, nil) if type
       item_url = item.fetch('referral', nil)
 
-      { relation: { "subj_id" => item_url,
+      { prefix: "10.1371",
+        relation: { "subj_id" => item_url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "source_id" => source_id },

@@ -25,7 +25,8 @@ class EuropePmcData < Agent
     total = result.fetch("hitCount", nil).to_i
 
     if total > 0
-      relations << { relation: { "subj_id" => "https://europepmc.org",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://europepmc.org",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "cites",
                                  "total" => total,

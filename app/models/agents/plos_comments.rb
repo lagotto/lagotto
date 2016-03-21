@@ -30,7 +30,8 @@ class PlosComments < Agent
       annotation_url = item.fetch("annotationUri", nil)
       url = base_url + "comment?id=" + CGI.escape("info:doi/" + annotation_url)
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "provenance_url" => provenance_url,

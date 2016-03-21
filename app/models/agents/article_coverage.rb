@@ -24,7 +24,8 @@ class ArticleCoverage < Agent
 
     relations = []
     if total > 0
-      relations << { relation: { "subj_id" => "https://www.plos.org",
+      relations << { prefix: "10.1371",
+                     relation: { "subj_id" => "https://www.plos.org",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "discusses",
                                  "total" => total,

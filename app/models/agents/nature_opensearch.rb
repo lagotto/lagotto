@@ -55,7 +55,8 @@ class NatureOpensearch < Agent
       timestamp = item.fetch("prism:publicationDate", nil)
       timestamp = "#{timestamp}T00:00:00Z"
 
-      { relation: { "subj_id" => subj_id,
+      { prefix: work.prefix,
+        relation: { "subj_id" => subj_id,
                     "obj_id" => work.pid,
                     "relation_type_id" => "cites",
                     "provenance_url" => provenance_url,

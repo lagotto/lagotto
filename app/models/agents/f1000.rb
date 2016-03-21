@@ -62,7 +62,8 @@ class F1000 < Agent
                  "tracked" => tracked,
                  "registration_agency" => "f1000" }
 
-        { relation: { "subj_id" => subj["pid"],
+        { prefix: doi[/^10\.\d{4,5}/],
+          relation: { "subj_id" => subj["pid"],
                       "obj_id" => doi_as_url(doi),
                       "relation_type_id" => "recommends",
                       "total" => total,

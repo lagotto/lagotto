@@ -18,7 +18,8 @@ class Ads < Agent
 
       arxiv_url = "http://arxiv.org/abs/#{arxiv}"
 
-      { relation: { "subj_id" => arxiv_url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => arxiv_url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "is_previous_version_of",
                     "source_id" => name },

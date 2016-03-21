@@ -11,7 +11,8 @@ class Reddit < Agent
     relations = get_relations_with_related_works(result, work)
 
     if likes > 0
-      relations << { relation: { "subj_id" => "https://www.reddit.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://www.reddit.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "likes",
                                  "total" => likes,

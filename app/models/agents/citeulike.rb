@@ -31,7 +31,8 @@ class Citeulike < Agent
       author = path[2]
       citeulike_url = "http://www.citeulike.org/" + path[1..2].join("/")
 
-      { relation: { "subj_id" => citeulike_url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => citeulike_url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "bookmarks",
                     "source_id" => name,

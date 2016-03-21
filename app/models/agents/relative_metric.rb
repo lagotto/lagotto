@@ -21,7 +21,8 @@ class RelativeMetric < Agent
              "title" => "PLOS",
              "type" => "webpage",
              "issued" => "2012-05-15T16:40:23Z" }
-      [{ relation: { "subj_id" => subj_id,
+      [{ prefix: work.prefix,
+         relation: { "subj_id" => subj_id,
                      "obj_id" => work.pid,
                      "relation_type_id" => "views",
                      "total" => total,

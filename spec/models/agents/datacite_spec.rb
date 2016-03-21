@@ -57,7 +57,7 @@ describe Datacite, type: :model, vcr: true do
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(1)
-      expect(response.first[:prefix]).to eq("10.5061")
+      expect(response.first[:prefix]).to eq("10.1371")
       expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.8515",
                                               "obj_id"=>work.pid,
                                               "relation_type_id"=>"is_referenced_by",

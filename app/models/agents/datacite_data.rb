@@ -43,7 +43,7 @@ class DataciteData < Agent
                  "publisher_id" => metadata.fetch("publisher_id", nil),
                  "registration_agency" => registration_agency }
 
-      { prefix: work.doi[/^10\.\d{4,5}/],
+      { prefix: work.prefix,
         relation: { "subj_id" => work.pid,
                     "obj_id" => obj["pid"],
                     "relation_type_id" => raw_relation_type.underscore,

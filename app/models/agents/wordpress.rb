@@ -13,7 +13,8 @@ class Wordpress < Agent
     Array(result.fetch("data", nil)).map do |item|
       url = item.fetch("link", nil)
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "provenance_url" => provenance_url,

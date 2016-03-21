@@ -12,7 +12,8 @@ class Nature < Agent
       url = item.fetch("post", {}).fetch("url", nil)
       url = "http://#{url}" unless url.blank? || url.start_with?("http://")
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "source_id" => source_id },

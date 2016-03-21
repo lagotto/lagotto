@@ -32,7 +32,8 @@ class TwitterSearch < Agent
 
       url = "http://twitter.com/#{user}/status/#{item.fetch('id_str', '')}"
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "discusses",
                     "provenance_url" => provenance_url,

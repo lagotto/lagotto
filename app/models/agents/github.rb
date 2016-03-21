@@ -61,7 +61,8 @@ class Github < Agent
     provenance_url = get_provenance_url(get_owner_and_repo(work)) if work.canonical_url.present?
     stargazers_count = result.fetch("stargazers_count", 0)
     if stargazers_count > 0
-      relations << { relation: { "subj_id" => "https://github.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://github.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "bookmarks",
                                  "total" => stargazers_count,
@@ -76,7 +77,8 @@ class Github < Agent
 
     forks_count = result.fetch("forks_count", 0)
     if forks_count > 0
-      relations << { relation: { "subj_id" => "https://github.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "https://github.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "is_derived_from",
                                  "total" => forks_count,

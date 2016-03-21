@@ -29,7 +29,8 @@ class Counter < Agent
 
     relations = []
     if pdf > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "downloads",
                                  "total" => pdf,
@@ -38,7 +39,8 @@ class Counter < Agent
     end
 
     if html > 0
-      relations << { relation: { "subj_id" => subj_id,
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => subj_id,
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "views",
                                  "total" => html,

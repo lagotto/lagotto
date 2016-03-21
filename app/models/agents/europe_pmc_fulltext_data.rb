@@ -25,7 +25,8 @@ class EuropePmcFulltextData < Agent
     Array(related_works).map do |item|
       url = item['pmid'].nil? ? nil : "http://europepmc.org/abstract/MED/#{item['pmid']}"
 
-      { relation: { "subj_id" => url,
+      { prefix: work.prefix,
+        relation: { "subj_id" => url,
                     "obj_id" => work.pid,
                     "relation_type_id" => "cites",
                     "provenance_url" => provenance_url,

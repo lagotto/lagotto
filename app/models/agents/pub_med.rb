@@ -41,7 +41,8 @@ class PubMed < Agent
       if metadata[:error]
         nil
       else
-        { relation: { "subj_id" => pid,
+        { prefix: work.prefix,
+          relation: { "subj_id" => pid,
                       "obj_id" => work.pid,
                       "relation_type_id" => "cites",
                       "provenance_url" => provenance_url,

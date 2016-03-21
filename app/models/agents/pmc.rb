@@ -83,7 +83,8 @@ class Pmc < Agent
       pdf = item.fetch('usage', {}).fetch('pdf', 0).to_i
 
       if html > 0
-        sum << { relation: { "subj_id" => subj_id,
+        sum << { prefix: doi[/^10\.\d{4,5}/],
+                 relation: { "subj_id" => subj_id,
                              "obj_id" => doi_as_url(doi),
                              "relation_type_id" => "views",
                              "total" => html,
@@ -92,7 +93,8 @@ class Pmc < Agent
       end
 
       if pdf > 0
-        sum << { relation: { "subj_id" => subj_id,
+        sum << { prefix: doi[/^10\.\d{4,5}/],
+                 relation: { "subj_id" => subj_id,
                              "obj_id" => doi_as_url(doi),
                              "relation_type_id" => "downloads",
                              "total" => pdf,

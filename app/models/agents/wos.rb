@@ -45,7 +45,8 @@ class Wos < Agent
 
     relations = []
     if total > 0
-      relations << { relation: { "subj_id" => "www.webofknowledge.com",
+      relations << { prefix: work.prefix,
+                     relation: { "subj_id" => "www.webofknowledge.com",
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "cites",
                                  "total" => total,

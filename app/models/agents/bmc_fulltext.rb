@@ -30,7 +30,8 @@ class BmcFulltext < Agent
 
       subj_id = doi_as_url(doi)
 
-      { relation: { "subj_id" => subj_id,
+      { prefix: work.prefix,
+        relation: { "subj_id" => subj_id,
                     "obj_id" => work.pid,
                     "relation_type_id" => "cites",
                     "source_id" => name },
