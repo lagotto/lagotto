@@ -533,6 +533,20 @@ FactoryGirl.define do
 
   factory :contributor do
     pid "http://orcid.org/0000-0002-0159-2197"
+
+    trait :with_works do
+      after :create do |contributor|
+        FactoryGirl.create_list(:contribution, 5, contributor: contributor)
+      end
+    end
+
+    initialize_with { Contributor.where(pid: pid).first_or_initialize }
+  end
+
+  factory :contribution do
+    association :contributor
+    association :work
+    association :source, :datacite_orcid
   end
 
   factory :data_export do

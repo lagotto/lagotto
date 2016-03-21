@@ -31,6 +31,9 @@ ARK_FORMAT = %r(\Aark:\/[0-9]+\/.+\z)
 # Format used for ArXiV validation
 ARXIV_FORMAT = %r(\d{4}\.\d{4,5})
 
+# Format used for ORCID validation
+ORCID_FORMAT = %r(\A\d{4}-\d{4}-\d{4}-\d{3}[0-9X]+\z)
+
 # Form queue options
 QUEUE_OPTIONS = ["high", "default", "low"]
 

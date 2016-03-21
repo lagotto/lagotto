@@ -5,6 +5,9 @@ class Contributor < ActiveRecord::Base
   # include helper module for DOI resolution
   include Resolvable
 
+  # include helper module for extracting identifier
+  include Identifiable
+
   # include author methods
   include Authorable
 
@@ -14,13 +17,13 @@ class Contributor < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
-  has_many :contributions
+  has_many :contributions, :dependent => :destroy
   has_many :works, :through => :contributions
   has_many :contributor_roles, :through => :contributions
   has_many :deposits
 
   validates :pid, :presence => true, :uniqueness => true
-  validates :orcid, :presence => true, :uniqueness => true
+  validates :orcid, :presence => true, :uniqueness => true, format: { with: ORCID_FORMAT }
   before_validation :set_metadata
 
   # after_commit :update_cache, :on => :create
@@ -94,18 +97,16 @@ class Contributor < ActiveRecord::Base
 
   # collect missing metadata for orcid
   def set_metadata
-    return if credit_name.present?
+    return if orcid.present?
 
-    orcid = Array(/^http:\/\/orcid\.org\/(.+)/.match(pid)).last
+    self.orcid = orcid_from_url(pid)
     return unless orcid.present?
 
     metadata = get_metadata(orcid, "orcid")
     return if metadata[:error].present?
 
     author = metadata.fetch('author', [{}]).first
-
-    write_attribute(:orcid, orcid)
-    write_attribute(:family_name, author.fetch('family'))
-    write_attribute(:given_names, author.fetch('given'))
+    self.family_name = author.fetch('family')
+    self.given_names = author.fetch('given')
   end
 end
