@@ -216,7 +216,7 @@ describe Work, type: :model, vcr: true do
 
   it 'metrics' do
     work = FactoryGirl.create(:work_with_crossref_and_mendeley)
-    expect(work.metrics).to eq(5)
+    expect(work.metrics).to eq("crossref"=>5, "mendeley"=>10)
   end
 
   it "events count" do
@@ -265,12 +265,12 @@ describe Work, type: :model, vcr: true do
     it "should create associated relations" do
       expect(Relation.count).to eq(0)
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Relation.count).to eq(2)
+      expect(Relation.count).to eq(10)
     end
 
     it "should delete associated relations" do
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Relation.count).to eq(2)
+      expect(Relation.count).to eq(10)
       @works.each(&:destroy)
       expect(Relation.count).to eq(0)
     end

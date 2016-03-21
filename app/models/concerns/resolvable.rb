@@ -95,6 +95,12 @@ module Resolvable
       end
     end
 
+    # normalize pid, e.g. http://dx.doi.org/10.5555/123 to http://doi.org/10.5555/123
+    def normalize_pid(pid)
+      id_hash = get_id_hash(pid)
+      id_as_pid(id_hash)
+    end
+
     # documentation at http://www.ncbi.nlm.nih.gov/pmc/tools/id-converter-api/
     def get_persistent_identifiers(id, idtype, options = {})
       return {} if id.blank?
