@@ -3,24 +3,24 @@ require 'rails_helper'
 describe EuropePmc, type: :model, vcr: true do
   subject { FactoryGirl.create(:europe_pmc) }
 
-  let(:work) { FactoryGirl.create(:work, :pmid => "15723116") }
+  let(:work) { FactoryGirl.create(:work, pmid: "15723116", pmcid: "256885") }
 
   context "get_data" do
     it "should report that there are no events if the pmid, doi and pmcid are missing" do
-      work = FactoryGirl.create(:work, doi: nil, :pmid => nil, pmcid: nil)
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
       expect(subject.get_data(work_id: work.id)).to eq({})
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do
-      work = FactoryGirl.create(:work, :pmid => "20098740")
+      work = FactoryGirl.create(:work, :pmid => "20098740", pmcid: "256885")
       response = subject.get_data(work_id: work.id)
       expect(response["hitCount"]).to eq(0)
     end
 
     it "should report if there are events and event_count returned by the PMC Europe API" do
       response = subject.get_data(work_id: work.id)
-      expect(response["hitCount"]).to eq(797)
-      expect(response["citationList"]["citation"].length).to eq(797)
+      expect(response["hitCount"]).to eq(810)
+      expect(response["citationList"]["citation"].length).to eq(810)
       citation = response["citationList"]["citation"].first
       expect(citation["title"]).to eq("Passenger-strand cleavage facilitates assembly of siRNA into Ago2-containing RNAi enzyme complexes.")
     end
@@ -39,10 +39,10 @@ describe EuropePmc, type: :model, vcr: true do
   end
 
   context "parse_data" do
-    it "should report that there are no events if the pmid is missing" do
-      work = FactoryGirl.create(:work, :pmid => nil)
+    it "should report that there are no events if the pmid, doi and pmcid are missing" do
+      work = FactoryGirl.create(:work, doi: nil, pmid: nil, pmcid: nil)
       result = {}
-      expect(subject.parse_data(result, work_id: work.id)).to eq({})
+      expect(subject.parse_data(result, work_id: work.id)).to eq([])
     end
 
     it "should report if there are no events and event_count returned by the PMC Europe API" do

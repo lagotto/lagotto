@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000066&idtype=doi&tool=Lagotto%20-%20http://lagotto.local
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Date:
+      - Mon, 21 Mar 2016 11:39:58 GMT
+      Server:
+      - Apache
+      Content-Type:
+      - application/json; charset=ISO-8859-1
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=Edge
+    body:
+      encoding: UTF-8
+      string: |
+        {
+         "status": "ok",
+         "responseDate": "2016-03-21 07:39:58",
+         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000066;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "records": [
+           {
+            "pmcid": "PMC1762375",
+            "pmid": "17183697",
+            "doi": "10.1371/journal.pone.0000066",
+            "versions": [
+              {
+               "pmcid": "PMC1762375.1",
+               "current": "true"
+              }
+            ]
+           }
+         ]
+        }
+    http_version: 
+  recorded_at: Mon, 21 Mar 2016 11:39:58 GMT
+recorded_with: VCR 2.9.3

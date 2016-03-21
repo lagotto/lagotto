@@ -4,7 +4,7 @@ module Pmcable
   included do
     def get_data(options={})
       query_url = get_query_url(options)
-      return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
+      return {} if query_url.is_a?(Hash)
 
       result = get_result(query_url, options)
       total = (result.fetch("hitCount", nil)).to_i
@@ -26,7 +26,8 @@ module Pmcable
     end
 
     def parse_data(result, options={})
-      return [result] if result[:error] || result["#{result_key}List"].nil?
+      return [result] if result[:error]
+      return [] if result["#{result_key}List"].nil?
 
       work = Work.where(id: options.fetch(:work_id, nil)).first
       return [{ error: "Resource not found.", status: 404 }] unless work.present?

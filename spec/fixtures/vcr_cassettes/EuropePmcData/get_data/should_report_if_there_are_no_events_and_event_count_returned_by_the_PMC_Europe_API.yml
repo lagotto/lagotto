@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Sat, 19 Mar 2016 20:36:37 GMT
+      - Mon, 21 Mar 2016 11:39:56 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
@@ -29,7 +29,7 @@ http_interactions:
       Connection:
       - Keep-Alive
       Set-Cookie:
-      - JSESSIONID=F7B247832D6DD3C9E1C3E15BC4A82BFE; Path=/europepmc/webservices
+      - JSESSIONID=038C7DB068C254C1FB6B8489708487D7; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
@@ -38,5 +38,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"version":"4.5.0","hitCount":0,"request":{"id":"20098740","source":"MED","page":1,"pageSize":25,"semanticType":""}}'
     http_version: 
-  recorded_at: Sat, 19 Mar 2016 20:36:38 GMT
+  recorded_at: Mon, 21 Mar 2016 11:39:57 GMT
 recorded_with: VCR 2.9.3
