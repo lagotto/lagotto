@@ -133,7 +133,7 @@ class Deposit < ActiveRecord::Base
     # update all attributes
     self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
   rescue ActiveRecord::RecordInvalid => exception
-    handle_exception(exception, class_name: "work")
+    handle_exception(exception, class_name: "work", id: pid)
   end
 
   def update_related_work
@@ -153,7 +153,7 @@ class Deposit < ActiveRecord::Base
     # update all attributes
     self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
   rescue ActiveRecord::RecordInvalid => exception
-    handle_exception(exception, class_name: "related_work")
+    handle_exception(exception, class_name: "related_work", id: pid)
   end
 
   def update_relation
@@ -169,7 +169,7 @@ class Deposit < ActiveRecord::Base
                         occurred_at: occurred_at)
     r
   rescue ActiveRecord::RecordInvalid => exception
-    handle_exception(exception, class_name: "relation")
+    handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
 
   def update_inv_relation
@@ -185,7 +185,7 @@ class Deposit < ActiveRecord::Base
                         occurred_at: occurred_at)
     r
   rescue ActiveRecord::RecordInvalid => exception
-    handle_exception(exception, class_name: "inv_relation")
+    handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
 
     #   # update months
@@ -260,11 +260,11 @@ class Deposit < ActiveRecord::Base
   def update_publisher
     p = Publisher.where(name: subj_id).first_or_create!(title: subj["title"])
     p.update_attributes!(title: subj["title"],
-                        registration_agency: subj["registration_agency"],
-                        active: subj["active"])
+                         registration_agency: subj["registration_agency"],
+                         active: subj["active"])
     p
   rescue ActiveRecord::RecordInvalid => exception
-    handle_exception(exception, class_name: "publisher")
+    handle_exception(exception, class_name: "publisher", id: subj_id)
   end
 
   def delete_relation
@@ -323,7 +323,8 @@ class Deposit < ActiveRecord::Base
   end
 
   def handle_exception(exception, options={})
-    Notification.create(exception: exception)
+    message = "#{exception.message} for #{options[:class_name]} #{options[:id]}"
+    Notification.create(exception: exception, message: message)
 
     write_attribute(:error_messages, { options[:class_name] => exception.message })
 
