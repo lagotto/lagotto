@@ -6,6 +6,7 @@ class Contribution < ActiveRecord::Base
 
   validates :work_id, :presence => true
   validates :contributor_id, :presence => true
+  validates :source_id, :presence => true
 
   scope :last_x_days, ->(duration) { where("contributions.created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
 
