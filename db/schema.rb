@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160320212024) do
+ActiveRecord::Schema.define(version: 20160321121249) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20160320212024) do
   create_table "changes", force: :cascade do |t|
     t.integer  "work_id",         limit: 4
     t.integer  "source_id",       limit: 4
-    t.integer  "trace_id",        limit: 4
+    t.integer  "relation_id",     limit: 4
     t.integer  "total",           limit: 4
     t.integer  "html",            limit: 4
     t.integer  "pdf",             limit: 4
@@ -155,32 +155,6 @@ ActiveRecord::Schema.define(version: 20160320212024) do
   add_index "deposits", ["source_id", "created_at"], name: "index_deposits_on_source_id_created_at", using: :btree
   add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree
 
-  create_table "events", force: :cascade do |t|
-    t.integer  "work_id",      limit: 4,                                        null: false
-    t.integer  "source_id",    limit: 4,                                        null: false
-    t.datetime "retrieved_at",                  default: '1970-01-01 00:00:00', null: false
-    t.integer  "total",        limit: 4,        default: 0,                     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "events_url",   limit: 65535
-    t.text     "extra",        limit: 16777215
-    t.integer  "pdf",          limit: 4,        default: 0,                     null: false
-    t.integer  "html",         limit: 4,        default: 0,                     null: false
-    t.integer  "readers",      limit: 4,        default: 0,                     null: false
-    t.integer  "comments",     limit: 4,        default: 0,                     null: false
-    t.integer  "likes",        limit: 4,        default: 0,                     null: false
-  end
-
-  add_index "events", ["source_id", "total", "retrieved_at"], name: "index_events_source_id_total_retrieved_at_desc", using: :btree
-  add_index "events", ["source_id", "total"], name: "index_events_source_id_total_desc", using: :btree
-  add_index "events", ["source_id", "work_id", "total"], name: "index_events_source_id_work_id_total_desc", using: :btree
-  add_index "events", ["source_id"], name: "index_events_on_source_id", using: :btree
-  add_index "events", ["source_id"], name: "index_events_on_soure_id_queued_at_scheduled_at", using: :btree
-  add_index "events", ["work_id", "source_id", "total"], name: "index_events_on_work_id_source_id_total", using: :btree
-  add_index "events", ["work_id", "source_id"], name: "index_events_on_work_id_and_source_id", unique: true, using: :btree
-  add_index "events", ["work_id", "total"], name: "index_events_on_work_id_and_total", using: :btree
-  add_index "events", ["work_id"], name: "index_events_on_work_id", using: :btree
-
   create_table "file_write_logs", force: :cascade do |t|
     t.string   "filepath",   limit: 255
     t.string   "file_type",  limit: 255
@@ -209,7 +183,6 @@ ActiveRecord::Schema.define(version: 20160320212024) do
   create_table "months", force: :cascade do |t|
     t.integer  "work_id",          limit: 4,             null: false
     t.integer  "source_id",        limit: 4,             null: false
-    t.integer  "event_id",         limit: 4
     t.integer  "year",             limit: 4,             null: false
     t.integer  "month",            limit: 4,             null: false
     t.integer  "total",            limit: 4, default: 0, null: false
@@ -219,11 +192,11 @@ ActiveRecord::Schema.define(version: 20160320212024) do
     t.integer  "relation_type_id", limit: 4
   end
 
-  add_index "months", ["event_id", "year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
   add_index "months", ["relation_id"], name: "months_relation_id_fk", using: :btree
   add_index "months", ["relation_type_id"], name: "months_relation_type_id_fk", using: :btree
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
+  add_index "months", ["year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "source_id",    limit: 4
@@ -469,9 +442,6 @@ ActiveRecord::Schema.define(version: 20160320212024) do
   add_index "works", ["wos", "published_on", "id"], name: "index_works_on_wos_published_on_id", using: :btree
   add_index "works", ["wos"], name: "index_works_on_wos", unique: true, using: :btree
 
-  add_foreign_key "events", "sources", name: "events_source_id_fk", on_delete: :cascade
-  add_foreign_key "events", "works", name: "events_work_id_fk", on_delete: :cascade
-  add_foreign_key "months", "events", name: "months_event_id_fk", on_delete: :cascade
   add_foreign_key "months", "relation_types", name: "months_relation_type_id_fk", on_delete: :cascade
   add_foreign_key "months", "relations", name: "months_relation_id_fk", on_delete: :cascade
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade

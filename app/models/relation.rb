@@ -5,6 +5,7 @@ class Relation < ActiveRecord::Base
   belongs_to :source
   belongs_to :publisher
   has_many :months, dependent: :destroy
+  has_many :changes, dependent: :destroy
 
   before_validation :set_occurred_at
 
