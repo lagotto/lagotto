@@ -9,18 +9,14 @@ module Networkable
 
   included do
     def get_result(url, options={})
-      # content_type defaults to json
-      # make sure we use a 'Host' header
-      uri = URI.parse(url)
       options[:content_type] ||= 'json'
       options[:headers] ||= {}
-      options[:headers]['Host'] = uri.host
+      options[:headers] = set_request_headers(url, options)
 
       conn = faraday_conn(options[:content_type], options)
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.authorization :Bearer, options[:bearer] if options[:bearer]
-      conn.authorization :Token, token: options[:token] if options[:token]
+
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
+
       if options[:data]
         response = conn.post url, {}, options[:headers] do |request|
           request.body = options[:data]
@@ -47,33 +43,20 @@ module Networkable
       rescue_faraday_error(url, e, options)
     end
 
-    def save_to_file(url, filename = "tmpdata", options = { content_type: 'xml' })
-      conn = faraday_conn(options[:content_type], options)
-      conn.basic_auth(options[:username], options[:password]) if options[:username]
-      conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
-      response = conn.get url
+    def set_request_headers(url, options)
+      options[:headers] ||= {}
+      options[:headers]['Host'] = URI.parse(url).host
 
-      File.open("#{Rails.root}/tmp/#{filename}", 'w') { |file| file.write(response.body) }
-      filename
-    rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options)
-    rescue => exception
-      options[:level] = Notification::FATAL
-      create_notification(exception, options)
-    end
-
-    def read_from_file(filename = "tmpdata", options = { content_type: 'xml' })
-      file = File.open("#{Rails.root}/tmp/#{filename}", 'r') { |f| f.read }
-      if options[:content_type] == "json"
-        JSON.parse(file)
-      else
-        Hash.from_xml(file)
+      if options[:bearer].present?
+        options[:headers]['Authorization'] = "Bearer #{options[:bearer]}"
+      elsif options[:token].present?
+        options[:headers]["Authorization"] = "Token token=#{options[:token]}"
+      elsif options[:username].present?
+        basic = Base64.encode64("#{options[:username]}:#{options[:password].to_s}")
+        options[:headers]["Authorization"] = "Basic #{basic}"
       end
-    rescue *NETWORKABLE_EXCEPTIONS => e
-      rescue_faraday_error(url, e, options)
-    rescue => exception
-      options[:level] = Notification::FATAL
-      create_notification(exception, options)
+
+      options[:headers]
     end
 
     def faraday_conn(content_type = 'json', options = {})
@@ -228,16 +211,6 @@ module Networkable
       JSON.parse(string)
     rescue JSON::ParserError
       false
-    end
-
-    def create_notification(exception, options = {})
-      Notification.where(message: exception.message).where(unresolved: true).first_or_create(
-        :exception => exception,
-        :class_name => exception.class.to_s,
-        :status => options[:status] || 500,
-        :level => options[:level],
-        :agent_id => options[:agent_id])
-      nil
     end
   end
 end
