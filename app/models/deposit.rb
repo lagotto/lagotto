@@ -212,7 +212,7 @@ class Deposit < ActiveRecord::Base
     p = Publisher.where(name: subj_id).first_or_create!(title: subj["title"])
     p.update_attributes!(title: subj["title"],
                          registration_agency: subj["registration_agency"],
-                         checked_at: subj["issued"],
+                         checked_at: subj.fetch("issued", Time.zone.now.utc.iso8601),
                          active: subj["active"])
     p
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
