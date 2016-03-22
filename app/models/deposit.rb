@@ -137,7 +137,11 @@ class Deposit < ActiveRecord::Base
     # update all attributes
     self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    handle_exception(exception, class_name: "work", id: pid)
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+      self.work = Work.where(pid: pid).first
+    else
+      handle_exception(exception, class_name: "work", id: pid)
+    end
   end
 
   def update_related_work
@@ -157,7 +161,11 @@ class Deposit < ActiveRecord::Base
     # update all attributes
     self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    handle_exception(exception, class_name: "related_work", id: pid)
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+      self.related_work = Work.where(pid: pid).first
+    else
+      handle_exception(exception, class_name: "related_work", id: pid)
+    end
   end
 
   def update_relation
@@ -197,7 +205,11 @@ class Deposit < ActiveRecord::Base
   def update_contributor
     self.contributor = Contributor.where(pid: subj_id).first_or_create!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    handle_exception(exception, class_name: "contributor", id: subj_id)
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+      self.contributor = Contributor.where(pid: subj_id).first
+    else
+      handle_exception(exception, class_name: "contributor", id: subj_id)
+    end
   end
 
   def update_contribution
@@ -307,8 +319,6 @@ class Deposit < ActiveRecord::Base
   end
 
   def handle_exception(exception, options={})
-    return true if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
-
     message = "#{exception.message} for #{options[:class_name]} #{options[:id]}"
     Notification.create(exception: exception, message: message)
 
