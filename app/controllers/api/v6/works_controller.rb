@@ -186,7 +186,7 @@ class Api::V6::WorksController < Api::BaseController
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
-    when contributor then contributor.work_count
+    #when contributor then contributor.work_count
     else Work.count_all
     end
   end

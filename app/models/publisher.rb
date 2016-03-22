@@ -14,7 +14,7 @@ class Publisher < ActiveRecord::Base
   validates :title, :presence => true
   validates :name, :presence => true, :uniqueness => true
 
-  # after_commit :update_cache, :on => :create
+  after_commit :update_cache, :on => :create
 
   scope :order_by_name, -> { order("publishers.title") }
   scope :active, -> { where(active: true).order_by_name }

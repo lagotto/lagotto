@@ -15,10 +15,10 @@ namespace :cache do
     end
     puts "Cache update for agents has been queued."
 
-    # Publisher.active.each do |publisher|
-    #   CacheJob.perform_later(publisher)
-    # end
-    # puts "Cache update for publishers has been queued."
+    Publisher.active.each do |publisher|
+      CacheJob.perform_later(publisher)
+    end
+    puts "Cache update for publishers has been queued."
     #
     # Contributor.all.each do |contributor|
     #   CacheJob.perform_later(contributor)
