@@ -43,47 +43,52 @@ module Opscode
         begin
           require 'aws-sdk'
         rescue LoadError
-          Chef::Log.error("Missing gem 'aws-sdk'. Use the default aws recipe to install it first.")
+          Chef::Log.fatal("Missing gem 'aws-sdk'. Use the default aws recipe to install it first.")
+          raise
         end
 
-        @@ec2 ||= create_aws_interface(::Aws::EC2::Client)
+        Chef::Log.debug('Initializing the AWS Client')
+        @ec2 ||= create_aws_interface(::Aws::EC2::Client)
       end
 
       def instance_id
-        @@instance_id ||= query_instance_id
+        node['ec2']['instance_id']
       end
 
       def instance_availability_zone
-        @@instance_availability_zone ||= query_instance_availability_zone
+        node['ec2']['placement_availability_zone']
       end
 
       private
 
       # determine the AWS region of the node
-      # Priority: User set node attribute -> ohai data -> us-east-1
+      # Priority: resource property, user set node attribute -> ohai data -> us-east-1
       def query_aws_region
-        region = node['aws']['region']
-
-        if region.nil?
-          if node.attribute?('ec2')
-            region = instance_availability_zone
-            region = region[0, region.length - 1]
-          else
-            region = 'us-east-1'
-          end
+        # facilitate support for region in resource name
+        if new_resource.region
+          Chef::Log.debug("Using overridden region name, #{new_resource.region}, from resource")
+          new_resource.region
+        elsif node.attribute?('ec2')
+          Chef::Log.debug("Using region #{instance_availability_zone.chop} from Ohai attributes")
+          instance_availability_zone.chop
+        else
+          Chef::Log.debug('Falling back to region us-east-1 as Ohai data and resource defined region not present')
+          'us-east-1'
         end
-        region
       end
 
       # setup AWS instance using passed creds, iam profile, or assumed role
       def create_aws_interface(aws_interface)
-        region = query_aws_region
+        aws_interface_opts = { region: query_aws_region }
 
         if !new_resource.aws_access_key.to_s.empty? && !new_resource.aws_secret_access_key.to_s.empty?
-          creds = ::Aws::Credentials.new(new_resource.aws_access_key, new_resource.aws_secret_access_key, new_resource.aws_session_token)
+          Chef::Log.debug('Using resource-defined credentials')
+          aws_interface_opts[:credentials] = ::Aws::Credentials.new(
+            new_resource.aws_access_key,
+            new_resource.aws_secret_access_key,
+            new_resource.aws_session_token)
         else
-          Chef::Log.info('Attempting to use iam profile')
-          creds = ::Aws::InstanceProfileCredentials.new
+          Chef::Log.debug('Using local credential chain')
         end
 
         if !new_resource.aws_assume_role_arn.to_s.empty? && !new_resource.aws_role_session_name.to_s.empty?
@@ -91,23 +96,7 @@ module Opscode
           sts_client = ::Aws::STS::Client.new(credentials: creds, region: region)
           creds = ::Aws::AssumeRoleCredentials.new(client: sts_client, role_arn: new_resource.aws_assume_role_arn, role_session_name: new_resource.aws_role_session_name)
         end
-        aws_interface.new(credentials: creds, region: region)
-      end
-
-      # fetch the instance ID from the metadata endpoint
-      def query_instance_id
-        instance_id = open('http://169.254.169.254/latest/meta-data/instance-id', options = { proxy: false }, &:gets)
-        raise 'Cannot find instance id!' unless instance_id
-        Chef::Log.debug("Instance ID is #{instance_id}")
-        instance_id
-      end
-
-      # fetch the availability zone from the metadata endpoint
-      def query_instance_availability_zone
-        availability_zone = open('http://169.254.169.254/latest/meta-data/placement/availability-zone/', options = { proxy: false }, &:gets)
-        raise 'Cannot find availability zone!' unless availability_zone
-        Chef::Log.debug("Instance's availability zone is #{availability_zone}")
-        availability_zone
+        aws_interface.new(aws_interface_opts)
       end
 
       # fetch the mac address of an interface.

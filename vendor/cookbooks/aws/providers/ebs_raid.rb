@@ -1,10 +1,11 @@
 include Opscode::Aws::Ec2
 
+use_inline_resources
+
 action :auto_attach do # ~FC017 https://github.com/acrmp/foodcritic/issues/387
   package 'mdadm'
 
   # Set node['aws']['raid'] = {} if it doesn't already exist
-  node.set['aws'] ||= {}
   node.set['aws']['raid'] ||= {}
 
   # Save mount point information to the node if it doesn't already exist
@@ -317,7 +318,7 @@ end
 def create_raid_disks(mount_point, mount_point_owner, mount_point_group, mount_point_mode, num_disks, disk_size,
                       level, filesystem, filesystem_options, snapshots, disk_type, disk_piops, existing_raid, disk_encrypted, disk_kms_key_id)
 
-  creating_from_snapshot = !(snapshots.nil? || snapshots.size.empty?)
+  creating_from_snapshot = !snapshots.empty?
 
   disk_dev = find_free_volume_device_prefix
   Chef::Log.debug("vol device prefix is #{disk_dev}")
@@ -390,9 +391,11 @@ def create_raid_disks(mount_point, mount_point_owner, mount_point_group, mount_p
         case filesystem
         when 'ext4'
           system("mke2fs -t #{filesystem} -F #{md_device}")
+        when 'xfs'
+          system("mkfs -t #{filesystem} -F #{md_device}")
         else
           # TODO: fill in details on how to format other filesystems here
-          Chef::Log.info("Can't format filesystem #{filesystem}")
+          Chef::Log.info("Can't format filesystem #{filesystem}. Only ext4 or xfs currently supported.")
         end
       end
     end
@@ -431,13 +434,8 @@ end
 
 def aws_creds
   h = {}
-  if new_resource.aws_access_key && new_resource.aws_secret_access_key
-    h['aws_access_key_id'] = new_resource.aws_access_key
-    h['aws_secret_access_key'] = new_resource.aws_secret_access_key
-    h['aws_session_token'] = new_resource.aws_session_token
-  elsif node['aws']['databag_name'] && node['aws']['databag_entry']
-    Chef::Log.warn("DEPRECATED: node['aws']['databag_name'] and node['aws']['databag_entry'] are deprecated. Use LWRP parameters instead.")
-    h = data_bag_item(node['aws']['databag_name'], node['aws']['databag_entry'])
-  end
+  h['aws_access_key_id'] = new_resource.aws_access_key
+  h['aws_secret_access_key'] = new_resource.aws_secret_access_key
+  h['aws_session_token'] = new_resource.aws_session_token
   h
 end

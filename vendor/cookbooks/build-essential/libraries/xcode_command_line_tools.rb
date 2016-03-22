@@ -2,7 +2,7 @@
 # Cookbook Name:: build-essential
 # Library:: xcode_command_line_tools
 #
-# Copyright 2014, Chef Software, Inc.
+# Copyright 2014-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,10 +29,12 @@ class Chef
     def initialize(name, run_context = nil)
       super
 
-      @provider = case node['platform_version'].to_f
-                  when 10.7, 10.8
+      # => Break down SemVer
+      major, minor, _patch = node['platform_version'].split('.').map { |v| String(v) }
+      @provider = case [major, minor].join('.')
+                  when '10.7', '10.8'
                     Provider::XcodeCommandLineToolsFromDmg
-                  when 10.9, 10.10
+                  when '10.9', '10.10', '10.11'
                     Provider::XcodeCommandLineToolsFromSoftwareUpdate
                   else
                     Chef::Log.warn <<-EOH

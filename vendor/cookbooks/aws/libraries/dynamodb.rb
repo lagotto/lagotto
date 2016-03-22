@@ -2,10 +2,10 @@ require File.join(File.dirname(__FILE__), 'ec2')
 
 module Opscode
   module Aws
-    module Elb
+    module DynamoDB
       include Opscode::Aws::Ec2
 
-      def elb
+      def dynamodb
         begin
           require 'aws-sdk'
         rescue LoadError
@@ -14,7 +14,7 @@ module Opscode
         end
 
         Chef::Log.debug('Initializing the AWS Client')
-        @elb ||= create_aws_interface(::Aws::ElasticLoadBalancing::Client)
+        @dynamodb ||= create_aws_interface(::Aws::DynamoDB::Client)
       end
     end
   end

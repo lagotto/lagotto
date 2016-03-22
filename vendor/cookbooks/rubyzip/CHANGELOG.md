@@ -1,7 +1,14 @@
 # Change Log
 
-## [v1.2.1](https://github.com/johnbellone/rubyzip-cookbook/tree/v1.2.1) (2016-03-19)
+## [v1.2.2](https://github.com/johnbellone/rubyzip-cookbook/tree/v1.2.2)
 
+[Full Changelog](https://github.com/johnbellone/rubyzip-cookbook/compare/v1.2.1...v1.2.2)
+
+**Merged pull requests:**
+
+- Add chefspec matchers [\#3](https://github.com/johnbellone/rubyzip-cookbook/pull/3) ([shortdudey123](https://github.com/shortdudey123))
+
+## [v1.2.1](https://github.com/johnbellone/rubyzip-cookbook/tree/v1.2.1) (2016-03-19)
 [Full Changelog](https://github.com/johnbellone/rubyzip-cookbook/compare/v1.2.0...v1.2.1)
 
 **Merged pull requests:**

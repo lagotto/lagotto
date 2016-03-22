@@ -9,7 +9,7 @@ DEPENDENCIES
     revision: 3760e235c2cf7876119e6e2488c7c2b39319d4c4
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: 507793ab485dccf29c37a7e783eb67ff7be07567
+    revision: 51173d18ba4edf964f310bb5226b507f2cc67c5d
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
@@ -38,9 +38,9 @@ GRAPH
     build-essential (>= 0.0.0)
     seven_zip (>= 0.0.0)
     windows (>= 0.0.0)
-  aws (2.9.3)
+  aws (3.0.0)
     ohai (>= 2.1.0)
-  build-essential (2.3.1)
+  build-essential (2.4.0)
     7-zip (>= 0.0.0)
   capistrano (1.0.22)
     apt (>= 0.0.0)
@@ -83,7 +83,7 @@ GRAPH
   hostnames (0.3.6)
     hostsfile (>= 0.0.0)
   hostsfile (2.4.5)
-  lagotto (5.0.9)
+  lagotto (5.0.10)
     apt (>= 0.0.0)
     capistrano (~> 1.0.0)
     consul (>= 0.0.0)
@@ -143,8 +143,8 @@ GRAPH
   ruby (0.7.7)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
-  rubyzip (1.2.1)
-    compat_resource (~> 12.0)
+  rubyzip (1.3.0)
+    poise (~> 2.2)
   runit (1.7.6)
     packagecloud (>= 0.0.0)
   seven_zip (2.0.0)

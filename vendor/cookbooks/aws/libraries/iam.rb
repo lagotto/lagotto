@@ -2,10 +2,10 @@ require File.join(File.dirname(__FILE__), 'ec2')
 
 module Opscode
   module Aws
-    module Elb
+    module IAM
       include Opscode::Aws::Ec2
 
-      def elb
+      def iam
         begin
           require 'aws-sdk'
         rescue LoadError
@@ -14,7 +14,7 @@ module Opscode
         end
 
         Chef::Log.debug('Initializing the AWS Client')
-        @elb ||= create_aws_interface(::Aws::ElasticLoadBalancing::Client)
+        @iam ||= create_aws_interface(::Aws::IAM::Client)
       end
     end
   end

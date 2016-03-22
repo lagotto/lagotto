@@ -2,6 +2,25 @@
 
 This file is used to list changes made in each version of the aws cookbook.
 
+## v3.0.0 (2016-03-20)
+
+### Breaking changes:
+
+- Removed the ability to use databags for credentials with the ebs_raid provider. You must now pass the credentials in via the resource, [@tas50][]
+- [#218][] Remove support for Chef < 11.6.0, [@tas50][]
+- Switched to Ohai to gather information on the AWS instance instead of direct AWS metadata calls. This also removes the node['region'] attribute, which is no longer necessary.  If you would like to mock the region for some reason in local testing set `node['ec2']['placement_availability_zone']` to the AZ, as this is used to determine the region, [@tas50][]
+
+### Other Changes
+
+- [#172][] Several new features (AWS CloudFormation Support, IAM Support, Kinesis, DynamoDB, and local auth options) [@vancluever][]
+- Changes the AWS connect to not be shared accross resources.  This allows each resource to run against a different region or use different credentials, [@tas50][]
+- [#63][] Add xfs support for ebs_raid filesystem, [@bazbremner][]
+- Fixed nil default value deprecation warnings in the providers, [@tas50][]
+- Fixed errors in the ebs_raid provider, [@tas50][]
+- Fixed missing values in the converge messaging in the ebs_volume provider, [@tas50][]
+- Fixed a failure when detaching ebs volumes, [@dhui][]
+- Added use_inline_resources to all providers, [@tas50][]
+
 ## v2.9.3 (2016-03-07)
 
 - Resolved a default value warning in ebs_raid when running Chef 12.7.2+
@@ -224,7 +243,18 @@ This file is used to list changes made in each version of the aws cookbook.
 
 
 
+
+
+
+
+
+
+
+
+
+
 [#60]: https://github.com/opscode-cookbooks/aws/issues/60
+[#63]: https://github.com/opscode-cookbooks/aws/issues/63
 [#64]: https://github.com/opscode-cookbooks/aws/issues/64
 [#65]: https://github.com/opscode-cookbooks/aws/issues/65
 [#74]: https://github.com/opscode-cookbooks/aws/issues/74
@@ -241,6 +271,7 @@ This file is used to list changes made in each version of the aws cookbook.
 [#160]: https://github.com/opscode-cookbooks/aws/issues/160
 [#162]: https://github.com/opscode-cookbooks/aws/issues/162
 [#165]: https://github.com/opscode-cookbooks/aws/issues/165
+[#172]: https://github.com/opscode-cookbooks/aws/issues/183
 [#183]: https://github.com/opscode-cookbooks/aws/issues/183
 [#185]: https://github.com/opscode-cookbooks/aws/issues/185
 [#189]: https://github.com/opscode-cookbooks/aws/issues/189
@@ -249,6 +280,7 @@ This file is used to list changes made in each version of the aws cookbook.
 [#192]: https://github.com/opscode-cookbooks/aws/issues/192
 [#203]: https://github.com/opscode-cookbooks/aws/issues/203
 [#205]: https://github.com/opscode-cookbooks/aws/issues/205
+[#218]: https://github.com/opscode-cookbooks/aws/issues/218
 [@drmerlin]: https://github.com/DrMerlin
 [@scythril]: https://github.com/Scythril
 [@dhui]: https://github.com/dhui
@@ -263,3 +295,5 @@ This file is used to list changes made in each version of the aws cookbook.
 [@tas50]: https://github.com/tas50
 [@ubiquitousthey]: https://github.com/ubiquitousthey
 [@zl4bv]: https://github.com/zl4bv
+[@bazbremner]: https://github.com/bazbremner
+[@vancluever]: https://github.com/vancluever
