@@ -55,6 +55,7 @@ class CrossrefPublisher < Agent
                 "title" => title,
                 "other_names" => item.fetch('names', []),
                 "prefixes" => item.fetch('prefixes', []),
+                "issued" => get_iso8601_from_epoch(item.fetch('last-status-check-time', nil)),
                 "registration_agency" => "crossref",
                 "active" => true } }
     end

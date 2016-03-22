@@ -87,6 +87,7 @@ describe CrossrefPublisher, type: :model, vcr: true do
                                           "title"=>"Hogrefe & Huber",
                                           "other_names"=>["Hogrefe & Huber Publishing Group", "Hogrefe & Huber"],
                                           "prefixes"=>["10.1024", "10.1026", "10.1027"],
+                                          "issued" => "2015-10-26T05:00:49Z",
                                           "registration_agency"=>"crossref",
                                           "active"=>true)
     end

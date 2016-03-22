@@ -136,6 +136,7 @@ describe Deposit, :type => :model, vcr: true do
       publisher = subject.update_publisher
       expect(publisher.name).to eq("ANDS.CENTRE-1")
       expect(publisher.title).to eq("Griffith University")
+      expect(publisher.checked_at.utc.iso8601).to eq("2006-06-13T16:14:19Z")
       expect(subject.error_messages).to be_nil
     end
 
