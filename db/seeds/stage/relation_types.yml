@@ -65,6 +65,10 @@ records:
     inverse_name: is_compiled_by
     title: Compiles
     inverse_title: Is compiled by
+  - name: is_compiled_by
+    inverse_name: compiles
+    title: Is compiled by
+    inverse_title: Compiles
   - name: reviews
     inverse_name: is_reviewed_by
     title: Reviews
