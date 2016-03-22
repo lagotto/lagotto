@@ -81,6 +81,13 @@ describe Work, type: :model, vcr: true do
     end
   end
 
+  context "validate github" do
+    it "https://github.com/lagotto/lagotto/tree/v.4.3" do
+      work = FactoryGirl.build(:work, pid: "https://github.com/lagotto/lagotto/tree/v.4.3", doi: nil, canonical_url: "https://github.com/lagotto/lagotto/tree/v.4.3")
+      expect(work).to be_valid
+    end
+  end
+
   context "validate ark format" do
     it "ark:/13030/m5br8stc" do
       work = FactoryGirl.build(:work, :ark => "ark:/13030/m5br8stc")

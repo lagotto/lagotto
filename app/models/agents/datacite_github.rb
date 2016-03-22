@@ -60,10 +60,9 @@ class DataciteGithub < Agent
       # get parent repo
       # code from https://github.com/octokit/octokit.rb/blob/master/lib/octokit/repository.rb
       related_identifier = PostRank::URI.clean(related_identifier)
-      full_name = URI.parse(related_identifier).path[1..-1]
-      owner, repo, _tail = full_name.split('/', 3)
-      owner_url = "https://github.com/#{owner}"
-      repo_url = "https://github.com/#{owner}/#{repo}"
+      github_hash = github_from_url(related_identifier)
+      owner_url = github_as_owner_url(github_hash)
+      repo_url = github_as_repo_url(github_hash)
 
       sum << { prefix: prefix,
                relation: { "subj_id" => subj["pid"],

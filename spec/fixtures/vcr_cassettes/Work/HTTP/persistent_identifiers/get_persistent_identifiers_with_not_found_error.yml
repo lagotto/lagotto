@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 19 Mar 2016 18:15:29 GMT
+      - Mon, 21 Mar 2016 23:39:22 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,7 +31,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-19 14:15:29",
+         "responseDate": "2016-03-21 19:39:22",
          "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000030x;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
          "records": [
            {
@@ -43,5 +43,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 19 Mar 2016 18:15:29 GMT
+  recorded_at: Mon, 21 Mar 2016 23:39:22 GMT
 recorded_with: VCR 2.9.3

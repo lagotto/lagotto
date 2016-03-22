@@ -241,15 +241,13 @@ module Resolvable
     def get_github_metadata(url, options = {})
       return {} if url.blank?
 
-      full_name = URI.parse(url).path[1..-1]
-      owner, repo, _tail = full_name.split('/', 3)
-
-      api_url = "https://api.github.com/repos/#{owner}/#{repo}"
-      response = get_result(api_url, options)
+      github_hash = github_from_url(url)
+      repo_url = "https://api.github.com/repos/#{github_hash[:owner]}/#{github_hash[:repo]}"
+      response = get_result(repo_url, options)
 
       return { error: 'Resource not found.', status: 404 } if response[:error]
 
-      author = get_github_owner(owner)
+      author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
         "title" => response.fetch('description', nil),
@@ -264,11 +262,9 @@ module Resolvable
     def get_github_owner_metadata(url, options = {})
       return {} if url.blank?
 
-      full_name = URI.parse(url).path[1..-1]
-      owner, _tail = full_name.split('/', 2)
-
-      api_url = "https://api.github.com/users/#{owner}"
-      response = get_result(api_url, options)
+      github_hash = github_from_url(url)
+      owner_url = "https://api.github.com/users/#{github_hash[:owner]}"
+      response = get_result(owner_url, options)
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
@@ -287,15 +283,13 @@ module Resolvable
     def get_github_release_metadata(url, options = {})
       return {} if url.blank?
 
-      full_name = URI.parse(url).path[1..-1]
-      owner, repo, _tree, release = full_name.split('/', 4)
-
-      api_url = "https://api.github.com/repos/#{owner}/#{repo}/releases/tags/#{release}"
-      response = get_result(api_url, options)
+      github_hash = github_from_url(url)
+      release_url = "https://api.github.com/repos/#{github_hash[:owner]}/#{github_hash[:repo]}/releases/tags/#{github_hash[:release]}"
+      response = get_result(release_url, options)
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
-      author = get_github_owner(owner)
+      author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
         "title" => response.fetch('name', nil),

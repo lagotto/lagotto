@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Thu, 17 Mar 2016 06:06:23 GMT
+      - Mon, 21 Mar 2016 23:40:02 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
@@ -29,7 +29,7 @@ http_interactions:
       Connection:
       - Keep-Alive
       Set-Cookie:
-      - JSESSIONID=0BA17720331650C132485BD859629A95; Path=/europepmc/webservices
+      - JSESSIONID=D6BC5C20D45C2885A768CE0F85BA716B; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
@@ -38,5 +38,5 @@ http_interactions:
       encoding: UTF-8
       string: '{"version":"4.5.0","hitCount":0,"request":{"query":"ext_id:17183658x","resultType":"lite","synonym":false,"page":1,"pageSize":25},"resultList":{"result":[]}}'
     http_version: 
-  recorded_at: Thu, 17 Mar 2016 06:06:23 GMT
+  recorded_at: Mon, 21 Mar 2016 23:40:03 GMT
 recorded_with: VCR 2.9.3

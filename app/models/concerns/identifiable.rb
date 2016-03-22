@@ -15,16 +15,25 @@ module Identifiable
       Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
     end
 
-    def github_repo(url)
-      Array(/^https:\/\/github\.com\/(.+)\/(.+)/.match(url)).last
+    def github_from_url(url)
+      return {} unless /\Ahttps:\/\/github\.com\/(.+)(?:\/)?(.+)?(?:\/tree\/)?(.*)\z/.match(url)
+      words = URI.parse(url).path[1..-1].split('/')
+
+      { owner: words[0],
+        repo: words[1],
+        release: words[3] }.compact
     end
 
-    def github_release(url)
-      Array(/^https:\/\/github\.com\/(.+)\/(.+)\/tree\/(.+)/.match(url)).last
+    def github_repo_from_url(url)
+      github_from_url(url).fetch(:repo, nil)
     end
 
-    def github_owner(url)
-      Array(/^https:\/\/github\.com\/(.+)/.match(url)).last
+    def github_release_from_url(url)
+      github_from_url(url).fetch(:release, nil)
+    end
+
+    def github_owner_from_url(url)
+      github_from_url(url).fetch(:owner, nil)
     end
 
     def doi_as_url(doi)
@@ -49,6 +58,18 @@ module Identifiable
 
     def dataone_as_url(dataone)
       "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
+    end
+
+    def github_as_owner_url(github_hash)
+      "https://github.com/#{github_hash[:owner]}" if github_hash[:owner].present?
+    end
+
+    def github_as_repo_url(github_hash)
+      "https://github.com/#{github_hash[:owner]}/#{github_hash[:repo]}" if github_hash[:repo].present?
+    end
+
+    def github_as_release_url(github_hash)
+      "https://github.com/#{github_hash[:owner]}/#{github_hash[:repo]}/tree/#{github_hash[:release]}" if github_hash[:release].present?
     end
   end
 end

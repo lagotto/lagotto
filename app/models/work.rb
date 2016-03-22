@@ -302,18 +302,18 @@ class Work < ActiveRecord::Base
 
       tracked = true
       metadata = get_metadata(id_hash[:doi], registration_agency)
-    elsif id_hash[:canonical_url].present? && github_release(id_hash[:canonical_url]).present?
+    elsif id_hash[:canonical_url].present? && github_release_from_url(id_hash[:canonical_url]).present?
       registration_agency = "github"
       tracked = false
-      metadata = get_metadata(canonical_url, "github_release")
-    elsif id_hash[:canonical_url].present? && github_repo(id_hash[:canonical_url]).present?
+      metadata = get_metadata(id_hash[:canonical_url], "github_release")
+    elsif id_hash[:canonical_url].present? && github_repo_from_url(id_hash[:canonical_url]).present?
       registration_agency = "github"
       tracked = true
-      metadata = get_metadata(canonical_url, "github")
-    elsif id_hash[:canonical_url].present? && github_owner(id_hash[:canonical_url]).present?
+      metadata = get_metadata(id_hash[:canonical_url], "github")
+    elsif id_hash[:canonical_url].present? && github_owner_from_url(id_hash[:canonical_url]).present?
       registration_agency = "github"
       tracked = false
-      metadata = get_metadata(canonical_url, "github_owner")
+      metadata = get_metadata(id_hash[:canonical_url], "github_owner")
     else
       return nil
     end
