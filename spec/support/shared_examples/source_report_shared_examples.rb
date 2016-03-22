@@ -36,7 +36,8 @@ shared_examples_for "SourceReport examples" do |options|
   describe "#headers" do
     subject(:headers){ report.headers }
     it { should include("pid")}
-    it { should include("relation_type_id")}
+    it { should include("html")}
+    it { should include("pdf")}
     it { should include("total")}
   end
 
