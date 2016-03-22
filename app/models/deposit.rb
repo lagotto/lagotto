@@ -136,8 +136,8 @@ class Deposit < ActiveRecord::Base
 
     # update all attributes
     self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.work = Work.where(pid: pid).first
     else
       handle_exception(exception, class_name: "work", id: pid)
@@ -160,8 +160,8 @@ class Deposit < ActiveRecord::Base
 
     # update all attributes
     self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.related_work = Work.where(pid: pid).first
     else
       handle_exception(exception, class_name: "related_work", id: pid)
@@ -204,8 +204,8 @@ class Deposit < ActiveRecord::Base
 
   def update_contributor
     self.contributor = Contributor.where(pid: subj_id).first_or_create!
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken")
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.contributor = Contributor.where(pid: subj_id).first
     else
       handle_exception(exception, class_name: "contributor", id: subj_id)
