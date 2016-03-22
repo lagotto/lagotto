@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '59'
       Date:
-      - Sun, 20 Mar 2016 17:25:39 GMT
+      - Tue, 22 Mar 2016 10:55:21 GMT
       Connection:
       - close
     body:
@@ -38,7 +38,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:40 GMT
+  recorded_at: Tue, 22 Mar 2016 10:55:21 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5281/ZENODO.16668&rows=1&wt=json
@@ -58,7 +58,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sun, 20 Mar 2016 17:26:51 GMT
+      - Tue, 22 Mar 2016 10:56:35 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -70,9 +70,9 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CERN.ZENODO","xml":"PHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS96ZW5vZG8uMTY2Njg8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5Lb25yYWQgS2FyY3pld3NraTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVsaSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkV2YW4gU3RhdG9uPC9jcmVhdG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPlVuaXZlcnNpdHkgb2YgQnJpdGlzaCBDb2x1bWJpYTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkJyYWQgQ2hhcG1hbjwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5IYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVyaWMgTWluaWtlbDwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5QcmlvbiBBbGxpYW5jZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPmxvZnRlZTogdjAuMi4xLWJldGE8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAxNS0wNC0wNzwvZGF0ZT4KICA8L2RhdGVzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iU29mdHdhcmUiLz4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2Njg8L2FsdGVybmF0ZUlkZW50aWZpZXI+CiAgPC9hbHRlcm5hdGVJZGVudGlmaWVycz4KICA8cmVsYXRlZElkZW50aWZpZXJzPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNTdXBwbGVtZW50VG8iIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwczovL2dpdGh1Yi5jb20va29ucmFkamsvbG9mdGVlL3RyZWUvdjAuMi4xLWJldGE8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSGFzUGFydCIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJVUkwiPmh0dHBzOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2NjgvZmlsZXMvbG9mdGVlLXYwLjIuMS1iZXRhLnppcDwvcmVsYXRlZElkZW50aWZpZXI+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0c0xpc3Q+CiAgICA8cmlnaHRzIHJpZ2h0c1VSST0iaW5mbzpldS1yZXBvL3NlbWFudGljcy9vcGVuQWNjZXNzIj5PcGVuIEFjY2VzczwvcmlnaHRzPgogICAgPHJpZ2h0cyByaWdodHNVUkk9IiI+T3RoZXIgKE9wZW4pPC9yaWdodHM+CiAgPC9yaWdodHNMaXN0PgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+Jmx0O3AmZ3Q7UGh5bG9DU0YgZGF0YSBjYW4gbm93IGJlIHJlYWQgZnJvbSBNeVNRTCBpbnN0ZWFkIG9mIFNRTGl0ZSZsdDsvcCZndDs8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=","datacentre":"CERN.ZENODO - ZENODO - Research. Shared.","updated":"2015-04-07T23:49:45Z","prefix":"10.5281","doi":"10.5281/ZENODO.16668","relatedIdentifier":["IsSupplementTo:URL:https://github.com/konradjk/loftee/tree/v0.2.1-beta","HasPart:URL:https://zenodo.org/record/16668/files/loftee-v0.2.1-beta.zip"],"creator":["Konrad Karczewski","Eli Roberson","Evan Staton","Brad Chapman","Eric Minikel"],"publisher":"Zenodo","title":["loftee: v0.2.1-beta"],"publicationYear":"2015","resourceTypeGeneral":"Software"}]}}
+        {"responseHeader":{"status":0,"QTime":3},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CERN.ZENODO","xml":"PHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS96ZW5vZG8uMTY2Njg8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5Lb25yYWQgS2FyY3pld3NraTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVsaSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkV2YW4gU3RhdG9uPC9jcmVhdG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPlVuaXZlcnNpdHkgb2YgQnJpdGlzaCBDb2x1bWJpYTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkJyYWQgQ2hhcG1hbjwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5IYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVyaWMgTWluaWtlbDwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5QcmlvbiBBbGxpYW5jZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPmxvZnRlZTogdjAuMi4xLWJldGE8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAxNS0wNC0wNzwvZGF0ZT4KICA8L2RhdGVzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iU29mdHdhcmUiLz4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2Njg8L2FsdGVybmF0ZUlkZW50aWZpZXI+CiAgPC9hbHRlcm5hdGVJZGVudGlmaWVycz4KICA8cmVsYXRlZElkZW50aWZpZXJzPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNTdXBwbGVtZW50VG8iIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwczovL2dpdGh1Yi5jb20va29ucmFkamsvbG9mdGVlL3RyZWUvdjAuMi4xLWJldGE8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSGFzUGFydCIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJVUkwiPmh0dHBzOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2NjgvZmlsZXMvbG9mdGVlLXYwLjIuMS1iZXRhLnppcDwvcmVsYXRlZElkZW50aWZpZXI+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0c0xpc3Q+CiAgICA8cmlnaHRzIHJpZ2h0c1VSST0iaW5mbzpldS1yZXBvL3NlbWFudGljcy9vcGVuQWNjZXNzIj5PcGVuIEFjY2VzczwvcmlnaHRzPgogICAgPHJpZ2h0cyByaWdodHNVUkk9IiI+T3RoZXIgKE9wZW4pPC9yaWdodHM+CiAgPC9yaWdodHNMaXN0PgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+Jmx0O3AmZ3Q7UGh5bG9DU0YgZGF0YSBjYW4gbm93IGJlIHJlYWQgZnJvbSBNeVNRTCBpbnN0ZWFkIG9mIFNRTGl0ZSZsdDsvcCZndDs8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=","datacentre":"CERN.ZENODO - ZENODO - Research. Shared.","updated":"2015-04-07T23:49:45Z","prefix":"10.5281","doi":"10.5281/ZENODO.16668","relatedIdentifier":["IsSupplementTo:URL:https://github.com/konradjk/loftee/tree/v0.2.1-beta","HasPart:URL:https://zenodo.org/record/16668/files/loftee-v0.2.1-beta.zip"],"creator":["Konrad Karczewski","Eli Roberson","Evan Staton","Brad Chapman","Eric Minikel"],"publisher":"Zenodo","title":["loftee: v0.2.1-beta"],"publicationYear":"2015","resourceTypeGeneral":"Software"}]}}
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:40 GMT
+  recorded_at: Tue, 22 Mar 2016 10:55:22 GMT
 - request:
     method: get
     uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5281/ZENODO.16668&rows=1&wt=json
@@ -92,41 +92,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sun, 20 Mar 2016 17:26:51 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CERN.ZENODO","xml":"PHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS96ZW5vZG8uMTY2Njg8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5Lb25yYWQgS2FyY3pld3NraTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVsaSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkV2YW4gU3RhdG9uPC9jcmVhdG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPlVuaXZlcnNpdHkgb2YgQnJpdGlzaCBDb2x1bWJpYTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkJyYWQgQ2hhcG1hbjwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5IYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVyaWMgTWluaWtlbDwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5QcmlvbiBBbGxpYW5jZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPmxvZnRlZTogdjAuMi4xLWJldGE8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAxNS0wNC0wNzwvZGF0ZT4KICA8L2RhdGVzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iU29mdHdhcmUiLz4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2Njg8L2FsdGVybmF0ZUlkZW50aWZpZXI+CiAgPC9hbHRlcm5hdGVJZGVudGlmaWVycz4KICA8cmVsYXRlZElkZW50aWZpZXJzPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNTdXBwbGVtZW50VG8iIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwczovL2dpdGh1Yi5jb20va29ucmFkamsvbG9mdGVlL3RyZWUvdjAuMi4xLWJldGE8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSGFzUGFydCIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJVUkwiPmh0dHBzOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2NjgvZmlsZXMvbG9mdGVlLXYwLjIuMS1iZXRhLnppcDwvcmVsYXRlZElkZW50aWZpZXI+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0c0xpc3Q+CiAgICA8cmlnaHRzIHJpZ2h0c1VSST0iaW5mbzpldS1yZXBvL3NlbWFudGljcy9vcGVuQWNjZXNzIj5PcGVuIEFjY2VzczwvcmlnaHRzPgogICAgPHJpZ2h0cyByaWdodHNVUkk9IiI+T3RoZXIgKE9wZW4pPC9yaWdodHM+CiAgPC9yaWdodHNMaXN0PgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+Jmx0O3AmZ3Q7UGh5bG9DU0YgZGF0YSBjYW4gbm93IGJlIHJlYWQgZnJvbSBNeVNRTCBpbnN0ZWFkIG9mIFNRTGl0ZSZsdDsvcCZndDs8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=","datacentre":"CERN.ZENODO - ZENODO - Research. Shared.","updated":"2015-04-07T23:49:45Z","prefix":"10.5281","doi":"10.5281/ZENODO.16668","relatedIdentifier":["IsSupplementTo:URL:https://github.com/konradjk/loftee/tree/v0.2.1-beta","HasPart:URL:https://zenodo.org/record/16668/files/loftee-v0.2.1-beta.zip"],"creator":["Konrad Karczewski","Eli Roberson","Evan Staton","Brad Chapman","Eric Minikel"],"publisher":"Zenodo","title":["loftee: v0.2.1-beta"],"publicationYear":"2015","resourceTypeGeneral":"Software"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:40 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5281/ZENODO.16668&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:26:52 GMT
+      - Tue, 22 Mar 2016 10:56:35 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -140,10 +106,10 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CERN.ZENODO","xml":"PHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS96ZW5vZG8uMTY2Njg8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5Lb25yYWQgS2FyY3pld3NraTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVsaSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkV2YW4gU3RhdG9uPC9jcmVhdG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPlVuaXZlcnNpdHkgb2YgQnJpdGlzaCBDb2x1bWJpYTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkJyYWQgQ2hhcG1hbjwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5IYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVyaWMgTWluaWtlbDwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5QcmlvbiBBbGxpYW5jZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPmxvZnRlZTogdjAuMi4xLWJldGE8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAxNS0wNC0wNzwvZGF0ZT4KICA8L2RhdGVzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iU29mdHdhcmUiLz4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2Njg8L2FsdGVybmF0ZUlkZW50aWZpZXI+CiAgPC9hbHRlcm5hdGVJZGVudGlmaWVycz4KICA8cmVsYXRlZElkZW50aWZpZXJzPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNTdXBwbGVtZW50VG8iIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwczovL2dpdGh1Yi5jb20va29ucmFkamsvbG9mdGVlL3RyZWUvdjAuMi4xLWJldGE8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSGFzUGFydCIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJVUkwiPmh0dHBzOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2NjgvZmlsZXMvbG9mdGVlLXYwLjIuMS1iZXRhLnppcDwvcmVsYXRlZElkZW50aWZpZXI+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0c0xpc3Q+CiAgICA8cmlnaHRzIHJpZ2h0c1VSST0iaW5mbzpldS1yZXBvL3NlbWFudGljcy9vcGVuQWNjZXNzIj5PcGVuIEFjY2VzczwvcmlnaHRzPgogICAgPHJpZ2h0cyByaWdodHNVUkk9IiI+T3RoZXIgKE9wZW4pPC9yaWdodHM+CiAgPC9yaWdodHNMaXN0PgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+Jmx0O3AmZ3Q7UGh5bG9DU0YgZGF0YSBjYW4gbm93IGJlIHJlYWQgZnJvbSBNeVNRTCBpbnN0ZWFkIG9mIFNRTGl0ZSZsdDsvcCZndDs8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=","datacentre":"CERN.ZENODO - ZENODO - Research. Shared.","updated":"2015-04-07T23:49:45Z","prefix":"10.5281","doi":"10.5281/ZENODO.16668","relatedIdentifier":["IsSupplementTo:URL:https://github.com/konradjk/loftee/tree/v0.2.1-beta","HasPart:URL:https://zenodo.org/record/16668/files/loftee-v0.2.1-beta.zip"],"creator":["Konrad Karczewski","Eli Roberson","Evan Staton","Brad Chapman","Eric Minikel"],"publisher":"Zenodo","title":["loftee: v0.2.1-beta"],"publicationYear":"2015","resourceTypeGeneral":"Software"}]}}
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:40 GMT
+  recorded_at: Tue, 22 Mar 2016 10:55:22 GMT
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5281/ZENODO.16668&rows=1&wt=json
+    uri: https://api.github.com/repos/konradjk/loftee/releases/tags/v0.2.1-beta
     body:
       encoding: US-ASCII
       string: ''
@@ -158,21 +124,255 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - nginx/1.1.19
+      - GitHub.com
       Date:
-      - Sun, 20 Mar 2016 17:26:52 GMT
+      - Tue, 22 Mar 2016 10:55:22 GMT
       Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1646'
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '59'
+      X-Ratelimit-Reset:
+      - '1458647722'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Accept-Encoding
+      Etag:
+      - '"47b5fd4254bf5f96a6e10e83d33d892d"'
+      Last-Modified:
+      - Tue, 07 Apr 2015 23:49:02 GMT
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
       Access-Control-Allow-Origin:
       - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 2c18a09f3ac5e4dd1e004af7c5a94769
+      X-Github-Request-Id:
+      - 3EE06C37:36C9:5C242F0:56F12499
     body:
       encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CERN.ZENODO","xml":"PHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS96ZW5vZG8uMTY2Njg8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5Lb25yYWQgS2FyY3pld3NraTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVsaSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkV2YW4gU3RhdG9uPC9jcmVhdG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPlVuaXZlcnNpdHkgb2YgQnJpdGlzaCBDb2x1bWJpYTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkJyYWQgQ2hhcG1hbjwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5IYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkVyaWMgTWluaWtlbDwvY3JlYXRvck5hbWU+CiAgICAgIDxhZmZpbGlhdGlvbj5QcmlvbiBBbGxpYW5jZTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPmxvZnRlZTogdjAuMi4xLWJldGE8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAxNS0wNC0wNzwvZGF0ZT4KICA8L2RhdGVzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iU29mdHdhcmUiLz4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2Njg8L2FsdGVybmF0ZUlkZW50aWZpZXI+CiAgPC9hbHRlcm5hdGVJZGVudGlmaWVycz4KICA8cmVsYXRlZElkZW50aWZpZXJzPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNTdXBwbGVtZW50VG8iIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iVVJMIj5odHRwczovL2dpdGh1Yi5jb20va29ucmFkamsvbG9mdGVlL3RyZWUvdjAuMi4xLWJldGE8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSGFzUGFydCIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJVUkwiPmh0dHBzOi8vemVub2RvLm9yZy9yZWNvcmQvMTY2NjgvZmlsZXMvbG9mdGVlLXYwLjIuMS1iZXRhLnppcDwvcmVsYXRlZElkZW50aWZpZXI+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0c0xpc3Q+CiAgICA8cmlnaHRzIHJpZ2h0c1VSST0iaW5mbzpldS1yZXBvL3NlbWFudGljcy9vcGVuQWNjZXNzIj5PcGVuIEFjY2VzczwvcmlnaHRzPgogICAgPHJpZ2h0cyByaWdodHNVUkk9IiI+T3RoZXIgKE9wZW4pPC9yaWdodHM+CiAgPC9yaWdodHNMaXN0PgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+Jmx0O3AmZ3Q7UGh5bG9DU0YgZGF0YSBjYW4gbm93IGJlIHJlYWQgZnJvbSBNeVNRTCBpbnN0ZWFkIG9mIFNRTGl0ZSZsdDsvcCZndDs8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=","datacentre":"CERN.ZENODO - ZENODO - Research. Shared.","updated":"2015-04-07T23:49:45Z","prefix":"10.5281","doi":"10.5281/ZENODO.16668","relatedIdentifier":["IsSupplementTo:URL:https://github.com/konradjk/loftee/tree/v0.2.1-beta","HasPart:URL:https://zenodo.org/record/16668/files/loftee-v0.2.1-beta.zip"],"creator":["Konrad Karczewski","Eli Roberson","Evan Staton","Brad Chapman","Eric Minikel"],"publisher":"Zenodo","title":["loftee: v0.2.1-beta"],"publicationYear":"2015","resourceTypeGeneral":"Software"}]}}
+      string: '{"url":"https://api.github.com/repos/konradjk/loftee/releases/1136485","assets_url":"https://api.github.com/repos/konradjk/loftee/releases/1136485/assets","upload_url":"https://uploads.github.com/repos/konradjk/loftee/releases/1136485/assets{?name,label}","html_url":"https://github.com/konradjk/loftee/releases/tag/v0.2.1-beta","id":1136485,"tag_name":"v0.2.1-beta","target_commitish":"master","name":"v0.2.1-beta","draft":false,"author":{"login":"konradjk","id":1450986,"avatar_url":"https://avatars.githubusercontent.com/u/1450986?v=3","gravatar_id":"","url":"https://api.github.com/users/konradjk","html_url":"https://github.com/konradjk","followers_url":"https://api.github.com/users/konradjk/followers","following_url":"https://api.github.com/users/konradjk/following{/other_user}","gists_url":"https://api.github.com/users/konradjk/gists{/gist_id}","starred_url":"https://api.github.com/users/konradjk/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/konradjk/subscriptions","organizations_url":"https://api.github.com/users/konradjk/orgs","repos_url":"https://api.github.com/users/konradjk/repos","events_url":"https://api.github.com/users/konradjk/events{/privacy}","received_events_url":"https://api.github.com/users/konradjk/received_events","type":"User","site_admin":false},"prerelease":true,"created_at":"2015-04-07T19:38:00Z","published_at":"2015-04-07T23:49:02Z","assets":[],"tarball_url":"https://api.github.com/repos/konradjk/loftee/tarball/v0.2.1-beta","zipball_url":"https://api.github.com/repos/konradjk/loftee/zipball/v0.2.1-beta","body":"PhyloCSF
+        data can now be read from MySQL instead of SQLite"}'
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:25:41 GMT
+  recorded_at: Tue, 22 Mar 2016 10:55:22 GMT
+- request:
+    method: get
+    uri: https://api.github.com/users/konradjk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 22 Mar 2016 10:55:22 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1137'
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '58'
+      X-Ratelimit-Reset:
+      - '1458647722'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Accept-Encoding
+      Etag:
+      - '"8d8a121bb002dcc3cb715300568a472d"'
+      Last-Modified:
+      - Wed, 16 Mar 2016 02:25:00 GMT
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - a30e6f9aa7cf5731b87dfb3b9992202d
+      X-Github-Request-Id:
+      - 3EE06C37:2E06:7AD0AA3:56F1249A
+    body:
+      encoding: UTF-8
+      string: '{"login":"konradjk","id":1450986,"avatar_url":"https://avatars.githubusercontent.com/u/1450986?v=3","gravatar_id":"","url":"https://api.github.com/users/konradjk","html_url":"https://github.com/konradjk","followers_url":"https://api.github.com/users/konradjk/followers","following_url":"https://api.github.com/users/konradjk/following{/other_user}","gists_url":"https://api.github.com/users/konradjk/gists{/gist_id}","starred_url":"https://api.github.com/users/konradjk/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/konradjk/subscriptions","organizations_url":"https://api.github.com/users/konradjk/orgs","repos_url":"https://api.github.com/users/konradjk/repos","events_url":"https://api.github.com/users/konradjk/events{/privacy}","received_events_url":"https://api.github.com/users/konradjk/received_events","type":"User","site_admin":false,"name":"Konrad
+        Karczewski","company":null,"blog":"konradjkarczewski.com","location":null,"email":null,"hireable":null,"bio":null,"public_repos":10,"public_gists":0,"followers":27,"following":0,"created_at":"2012-02-19T10:43:45Z","updated_at":"2016-03-16T02:25:00Z"}'
+    http_version: 
+  recorded_at: Tue, 22 Mar 2016 10:55:23 GMT
+- request:
+    method: get
+    uri: https://api.github.com/repos/konradjk/loftee/releases/tags/v0.2.1-beta
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 22 Mar 2016 10:55:23 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1646'
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '57'
+      X-Ratelimit-Reset:
+      - '1458647722'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Accept-Encoding
+      Etag:
+      - '"47b5fd4254bf5f96a6e10e83d33d892d"'
+      Last-Modified:
+      - Tue, 07 Apr 2015 23:49:02 GMT
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 52437fedc85beec8da3449496900fb9a
+      X-Github-Request-Id:
+      - 3EE06C37:36C9:5C243BA:56F1249A
+    body:
+      encoding: UTF-8
+      string: '{"url":"https://api.github.com/repos/konradjk/loftee/releases/1136485","assets_url":"https://api.github.com/repos/konradjk/loftee/releases/1136485/assets","upload_url":"https://uploads.github.com/repos/konradjk/loftee/releases/1136485/assets{?name,label}","html_url":"https://github.com/konradjk/loftee/releases/tag/v0.2.1-beta","id":1136485,"tag_name":"v0.2.1-beta","target_commitish":"master","name":"v0.2.1-beta","draft":false,"author":{"login":"konradjk","id":1450986,"avatar_url":"https://avatars.githubusercontent.com/u/1450986?v=3","gravatar_id":"","url":"https://api.github.com/users/konradjk","html_url":"https://github.com/konradjk","followers_url":"https://api.github.com/users/konradjk/followers","following_url":"https://api.github.com/users/konradjk/following{/other_user}","gists_url":"https://api.github.com/users/konradjk/gists{/gist_id}","starred_url":"https://api.github.com/users/konradjk/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/konradjk/subscriptions","organizations_url":"https://api.github.com/users/konradjk/orgs","repos_url":"https://api.github.com/users/konradjk/repos","events_url":"https://api.github.com/users/konradjk/events{/privacy}","received_events_url":"https://api.github.com/users/konradjk/received_events","type":"User","site_admin":false},"prerelease":true,"created_at":"2015-04-07T19:38:00Z","published_at":"2015-04-07T23:49:02Z","assets":[],"tarball_url":"https://api.github.com/repos/konradjk/loftee/tarball/v0.2.1-beta","zipball_url":"https://api.github.com/repos/konradjk/loftee/zipball/v0.2.1-beta","body":"PhyloCSF
+        data can now be read from MySQL instead of SQLite"}'
+    http_version: 
+  recorded_at: Tue, 22 Mar 2016 10:55:23 GMT
+- request:
+    method: get
+    uri: https://api.github.com/users/konradjk
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Tue, 22 Mar 2016 10:55:23 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1137'
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '56'
+      X-Ratelimit-Reset:
+      - '1458647722'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Accept-Encoding
+      Etag:
+      - '"8d8a121bb002dcc3cb715300568a472d"'
+      Last-Modified:
+      - Wed, 16 Mar 2016 02:25:00 GMT
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 01d096e6cfe28f8aea352e988c332cd3
+      X-Github-Request-Id:
+      - 3EE06C37:2E04:764985F:56F1249B
+    body:
+      encoding: UTF-8
+      string: '{"login":"konradjk","id":1450986,"avatar_url":"https://avatars.githubusercontent.com/u/1450986?v=3","gravatar_id":"","url":"https://api.github.com/users/konradjk","html_url":"https://github.com/konradjk","followers_url":"https://api.github.com/users/konradjk/followers","following_url":"https://api.github.com/users/konradjk/following{/other_user}","gists_url":"https://api.github.com/users/konradjk/gists{/gist_id}","starred_url":"https://api.github.com/users/konradjk/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/konradjk/subscriptions","organizations_url":"https://api.github.com/users/konradjk/orgs","repos_url":"https://api.github.com/users/konradjk/repos","events_url":"https://api.github.com/users/konradjk/events{/privacy}","received_events_url":"https://api.github.com/users/konradjk/received_events","type":"User","site_admin":false,"name":"Konrad
+        Karczewski","company":null,"blog":"konradjkarczewski.com","location":null,"email":null,"hireable":null,"bio":null,"public_repos":10,"public_gists":0,"followers":27,"following":0,"created_at":"2012-02-19T10:43:45Z","updated_at":"2016-03-16T02:25:00Z"}'
+    http_version: 
+  recorded_at: Tue, 22 Mar 2016 10:55:24 GMT
 recorded_with: VCR 2.9.3

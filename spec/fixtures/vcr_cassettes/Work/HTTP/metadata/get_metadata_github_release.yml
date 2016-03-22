@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 22 Mar 2016 00:27:13 GMT
+      - Tue, 22 Mar 2016 11:01:44 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -29,9 +29,9 @@ http_interactions:
       X-Ratelimit-Limit:
       - '60'
       X-Ratelimit-Remaining:
-      - '53'
+      - '52'
       X-Ratelimit-Reset:
-      - '1458607200'
+      - '1458647722'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
@@ -58,9 +58,9 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Served-By:
-      - cee4c0729c8e9147e7abcb45b9d69689
+      - 2c18a09f3ac5e4dd1e004af7c5a94769
       X-Github-Request-Id:
-      - 3EE06C37:36C9:54CB313:56F09161
+      - 3EE06C37:6B9D:7C9FF3B:56F12618
     body:
       encoding: UTF-8
       string: '{"url":"https://api.github.com/repos/lagotto/lagotto/releases/1557733","assets_url":"https://api.github.com/repos/lagotto/lagotto/releases/1557733/assets","upload_url":"https://uploads.github.com/repos/lagotto/lagotto/releases/1557733/assets{?name,label}","html_url":"https://github.com/lagotto/lagotto/releases/tag/v.4.3","id":1557733,"tag_name":"v.4.3","target_commitish":"master","name":"Lagotto
@@ -88,7 +88,7 @@ http_interactions:
         COUNTER-compliant usage stats, whereas the `dataone_usage` source also includes
         machine usage from some useragents.\r\n"}'
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 00:27:13 GMT
+  recorded_at: Tue, 22 Mar 2016 11:01:44 GMT
 - request:
     method: get
     uri: https://api.github.com/users/lagotto
@@ -108,7 +108,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 22 Mar 2016 00:27:13 GMT
+      - Tue, 22 Mar 2016 11:01:45 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -118,9 +118,9 @@ http_interactions:
       X-Ratelimit-Limit:
       - '60'
       X-Ratelimit-Remaining:
-      - '52'
+      - '51'
       X-Ratelimit-Reset:
-      - '1458607200'
+      - '1458647722'
       Cache-Control:
       - public, max-age=60, s-maxage=60
       Vary:
@@ -147,12 +147,12 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Served-By:
-      - 139317cebd6caf9cd03889139437f00b
+      - e724c57ebb9961c772a91e2dd7421c8d
       X-Github-Request-Id:
-      - 3EE06C37:36C4:1625BBA:56F09161
+      - 3EE06C37:6B9A:5CE3B7B:56F12618
     body:
       encoding: UTF-8
       string: '{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false,"name":"Lagotto","company":null,"blog":"http://lagotto.io","location":null,"email":null,"hireable":null,"bio":null,"public_repos":35,"public_gists":0,"followers":0,"following":0,"created_at":"2012-05-01T19:38:33Z","updated_at":"2016-02-27T02:09:12Z"}'
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 00:27:13 GMT
+  recorded_at: Tue, 22 Mar 2016 11:01:45 GMT
 recorded_with: VCR 2.9.3

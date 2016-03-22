@@ -44,7 +44,7 @@ class Status < ActiveRecord::Base
   end
 
   def get_current_version
-    result = get_result(RELEASES_URL)
+    result = get_result(RELEASES_URL, bearer: ENV['GITHUB_PERSONAL_ACCESS_TOKEN'])
     result = result.is_a?(Array) ? result.first : {}
     result.fetch("tag_name", "v.#{version}")[2..-1]
   end

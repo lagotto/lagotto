@@ -65,6 +65,7 @@ VCR.configure do |c|
   c.ignore_localhost = true
   c.ignore_hosts "codeclimate.com"
   c.filter_sensitive_data("<API_KEY>") { ENV["API_KEY"] }
+  c.filter_sensitive_data("<GITHUB_PERSONAL_ACCESS_TOKEN>") { ENV["GITHUB_PERSONAL_ACCESS_TOKEN"] }
   c.configure_rspec_metadata!
 end
 

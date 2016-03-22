@@ -243,7 +243,7 @@ module Resolvable
 
       github_hash = github_from_url(url)
       repo_url = "https://api.github.com/repos/#{github_hash[:owner]}/#{github_hash[:repo]}"
-      response = get_result(repo_url, options)
+      response = get_result(repo_url, options.merge(bearer: ENV['GITHUB_PERSONAL_ACCESS_TOKEN']))
 
       return { error: 'Resource not found.', status: 404 } if response[:error]
 
@@ -264,7 +264,7 @@ module Resolvable
 
       github_hash = github_from_url(url)
       owner_url = "https://api.github.com/users/#{github_hash[:owner]}"
-      response = get_result(owner_url, options)
+      response = get_result(owner_url, options.merge(bearer: ENV['GITHUB_PERSONAL_ACCESS_TOKEN']))
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
@@ -285,7 +285,7 @@ module Resolvable
 
       github_hash = github_from_url(url)
       release_url = "https://api.github.com/repos/#{github_hash[:owner]}/#{github_hash[:repo]}/releases/tags/#{github_hash[:release]}"
-      response = get_result(release_url, options)
+      response = get_result(release_url, options.merge(bearer: ENV['GITHUB_PERSONAL_ACCESS_TOKEN']))
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
