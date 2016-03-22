@@ -18,7 +18,6 @@ cookbook "rsyslog",
          :git => "git@github.com:datacite/rsyslog.git"
 cookbook "database", "~> 2.3.1"
 cookbook "memcached"
-cookbook "phantomjs"
 cookbook "postfix"
 cookbook "redisio"
 cookbook "consul"
