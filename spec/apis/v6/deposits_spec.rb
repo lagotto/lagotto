@@ -15,6 +15,7 @@ describe "/api/v6/deposits", :type => :api do
                     "source_token"=>"citeulike_123",
                     "subj_id"=>"http://www.citeulike.org/user/dbogartoit",
                     "obj_id"=>"http://doi.org/10.1371/journal.pmed.0030186",
+                    "prefix" => "10.1371",
                     "relation_type_id"=>"bookmarks",
                     "source_id"=>"citeulike",
                     "total"=>1,
