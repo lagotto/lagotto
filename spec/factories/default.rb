@@ -39,6 +39,13 @@ FactoryGirl.define do
       end
     end
 
+    factory :work_with_ids do
+      sequence(:pmcid) { |n| "256885#{n}" }
+      sequence(:wos) { |n| "00023796690000#{n}" }
+      sequence(:scp) { |n| "3384533872#{n}" }
+      sequence(:ark) { |n| "ark:/13030/m5br8st#{n}" }
+    end
+
     factory :work_with_events_and_alerts do
       after :create do |work|
         FactoryGirl.create(:relation, work: work)
@@ -185,8 +192,8 @@ FactoryGirl.define do
     status 408
     content_type "text/html"
 
-    factory :notification_with_agent do
-      agent
+    factory :notification_with_source do
+      source
     end
   end
 

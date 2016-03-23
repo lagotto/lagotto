@@ -5,7 +5,7 @@ describe "/api/v6/works", :type => :api do
   let(:jsonp_headers) { { "HTTP_ACCEPT" => "application/javascript" } }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work, 10) }
+    let(:works) { FactoryGirl.create_list(:work_with_ids, 10) }
 
     context "works found via pid" do
       before(:each) do
