@@ -247,7 +247,7 @@ describe Agent, :type => :model, vcr: true do
       expect(Notification.count).to eq(2)
       notification = Notification.where(class_name: "ActiveRecord::RecordInvalid").first
       expect(notification.message).to eq("Validation failed: Subj can't be blank, Source can't be blank")
-      expect(notification.agent_id).to eq(subject.source_id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 end

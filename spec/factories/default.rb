@@ -67,56 +67,56 @@ FactoryGirl.define do
 
     factory :work_with_crossref do
       after :create do |work|
-        FactoryGirl.create_list(:relation, 5, :with_crossref, work: work)
+        FactoryGirl.create_list(:aggregation, 5, :with_crossref, work: work)
       end
     end
 
     factory :work_with_pubmed do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_pubmed, work: work)
+        FactoryGirl.create(:aggregation, :with_pubmed, work: work)
       end
     end
 
     factory :work_with_mendeley do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_mendeley, work: work)
+        FactoryGirl.create(:aggregation, :with_mendeley, work: work)
       end
     end
 
     factory :work_with_crossref_and_mendeley do
       after :create do |work|
         FactoryGirl.create_list(:relation, 5, :with_crossref, work: work)
-        FactoryGirl.create(:relation, :with_mendeley, work: work)
+        FactoryGirl.create(:aggregation, :with_mendeley, work: work)
       end
     end
 
     factory :work_with_nature do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_nature, work: work)
+        FactoryGirl.create(:aggregation, :with_nature, work: work)
       end
     end
 
     factory :work_with_researchblogging do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_researchblogging, work: work)
+        FactoryGirl.create(:aggregation, :with_researchblogging, work: work)
       end
     end
 
     factory :work_with_wos do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_wos, work: work)
+        FactoryGirl.create(:aggregation, :with_wos, work: work)
       end
     end
 
     factory :work_with_counter do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_counter, work: work)
+        FactoryGirl.create(:aggregation, :with_counter, work: work)
       end
     end
 
     factory :work_with_twitter do
       after :create do |work|
-        FactoryGirl.create_list(:relation, 10, :with_twitter, work: work)
+        FactoryGirl.create_list(:aggregation, 10, :with_twitter, work: work)
       end
     end
   end

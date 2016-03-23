@@ -14,7 +14,7 @@ describe AlmStatsReport do
 
   let!(:aggregations){ [
     aggregation_with_mendeley_work,
-    aggregation_with_with_pmc_work
+    aggregation_with_pmc_work
   ] }
 
   let(:mendeley_work){ FactoryGirl.create(:work) }
@@ -28,7 +28,7 @@ describe AlmStatsReport do
     )
   }
 
-  let(:raggregation_with_with_pmc_work){
+  let(:raggregation_with_pmc_work){
     FactoryGirl.create(:aggregation, :with_work_published_today,
       work: pmc_work,
       source: source_pmc,
@@ -77,26 +77,26 @@ describe AlmStatsReport do
 
         it "has the pid" do
           expect(first_line_item.field("pid")).to eq(aggregation_with_mendeley_work.work.pid)
-          expect(second_line_item.field("pid")).to eq(aggregation_with_with_pmc_work.work.pid)
+          expect(second_line_item.field("pid")).to eq(aggregation_with_pmc_work.work.pid)
         end
 
         it "has the publication_date" do
           expect(first_line_item.field("publication_date")).to eq(aggregation_with_mendeley_work.work.published_on)
-          expect(second_line_item.field("publication_date")).to eq(aggregation_with_with_pmc_work.work.published_on)
+          expect(second_line_item.field("publication_date")).to eq(aggregation_with_pmc_work.work.published_on)
         end
 
         it "has the title" do
           expect(first_line_item.field("title")).to eq(aggregation_with_mendeley_work.work.title)
-          expect(second_line_item.field("title")).to eq(aggregation_with_with_pmc_work.work.title)
+          expect(second_line_item.field("title")).to eq(aggregation_with_pmc_work.work.title)
         end
 
         it "has the total count for each source for the work" do
           expect(first_line_item.field("mendeley")).to eq(aggregation_with_mendeley_work.total)
-          expect(second_line_item.field("pmc")).to eq(aggregation_with_with_pmc_work.total)
+          expect(second_line_item.field("pmc")).to eq(aggregation_with_pmc_work.total)
         end
 
         it "defaults the count to 0 when there is no count for a source/work" do
-          aggregation_with_with_pmc_work.destroy
+          aggregation_with_pmc_work.destroy
           expect(second_line_item.field("pmc")).to eq(0)
         end
       end

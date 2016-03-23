@@ -18,8 +18,8 @@ class Aggregation < ActiveRecord::Base
 
   scope :tracked, -> { joins(:work).where("works.tracked = ?", true) }
 
-  scope :last_x_days, ->(duration) { tracked.where("updated_at >= ?", Time.zone.now.to_date - duration.days) }
-  scope :not_updated, ->(duration) { tracked.where("updated_at < ?", Time.zone.now.to_date - duration.days) }
+  scope :last_x_days, ->(duration) { tracked.where("aggregations.updated_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :not_updated, ->(duration) { tracked.where("aggregations.updated_at < ?", Time.zone.now.to_date - duration.days) }
 
   scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_months, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date  - duration.months) }

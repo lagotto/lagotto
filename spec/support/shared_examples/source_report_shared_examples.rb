@@ -5,28 +5,28 @@ shared_examples_for "SourceReport examples" do |options|
   subject(:report){ options[:report_class].new(source) }
   let(:source){ FactoryGirl.create(:source, options[:source_factory]) }
 
-  let!(:relations){ [
-    relation_with_few_readers,
-    relation_with_many_readers
+  let!(:aggregations){ [
+    aggregation_with_few_readers,
+    aggregation_with_many_readers
   ] }
 
   let(:work_1){ FactoryGirl.create(:work)}
   let(:work_2){ FactoryGirl.create(:work)}
 
-  let(:relation_with_few_readers){
-    FactoryGirl.create(:relation,
+  let(:aggregation_with_few_readers){
+    FactoryGirl.create(:aggregation,
       work: work_1,
       source: source,
-      relation_type: FactoryGirl.create(:relation_type),
+      aggregation_type: FactoryGirl.create(:aggregation_type),
       total: 3
     )
   }
 
-  let(:relation_with_many_readers){
-    FactoryGirl.create(:relation,
+  let(:aggregation_with_many_readers){
+    FactoryGirl.create(:aggregation,
       work: work_2,
       source: source,
-      relation_type: FactoryGirl.create(:relation_type),
+      aggregation_type: FactoryGirl.create(:aggregation_type),
       total: 1420
     )
   }
@@ -43,7 +43,7 @@ shared_examples_for "SourceReport examples" do |options|
 
   describe "line items" do
     describe "when there are no events" do
-      let!(:relations){ [] }
+      let!(:aggregations){ [] }
 
       it "has no line items" do
         expect(line_items).to eq([])
@@ -61,11 +61,11 @@ shared_examples_for "SourceReport examples" do |options|
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
-        expect(items.length).to eq(relations.length)
+        expect(items.length).to eq(aggregations.length)
       end
 
       it "has an array of line items for every retrieval status" do
-        expect(report.line_items.length).to eq(relations.length)
+        expect(report.line_items.length).to eq(aggregations.length)
       end
 
       describe "each line item" do
@@ -73,42 +73,42 @@ shared_examples_for "SourceReport examples" do |options|
         let(:second_line_item){ line_items[1] }
 
         it "has the pid" do
-          expect(first_line_item.field("pid")).to eq(relation_with_few_readers.work.pid)
-          expect(second_line_item.field("pid")).to eq(relation_with_many_readers.work.pid)
+          expect(first_line_item.field("pid")).to eq(aggregation_with_few_readers.work.pid)
+          expect(second_line_item.field("pid")).to eq(aggregation_with_many_readers.work.pid)
         end
 
         it "has the html count" do
-          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
         end
 
         it "has the pdf count" do
-          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
         end
 
         it "has the total count" do
-          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
         end
       end
     end
 
-    describe "when there are relations for works for sources other sources" do
-      let!(:relations){ [
-        relation_for_another_source
+    describe "when there are aggregations for works for sources other sources" do
+      let!(:aggregations){ [
+        aggregation_for_another_source
       ] }
 
-      let(:relation_for_another_source){
-        FactoryGirl.create(:relation, :with_work_published_today,
+      let(:aggregation_for_another_source){
+        FactoryGirl.create(:aggregation, :with_work_published_today,
           source: FactoryGirl.create(:source),
-          relation_type: FactoryGirl.create(:relation_type),
+          aggregation_type: FactoryGirl.create(:aggregation_type),
           total: 44
         )
       }
 
       it "does not include line item stats for other sources" do
-        line_item = line_items.detect{ |item| item.field("pid") == relation_for_another_source.work.pid }
+        line_item = line_items.detect{ |item| item.field("pid") == aggregation_for_another_source.work.pid }
         expect(line_item).to be(nil)
       end
     end

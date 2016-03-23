@@ -69,7 +69,7 @@ module Statable
         Notification.where(message: message).where(unresolved: true).first_or_create(
           exception: "",
           class_name: class_name,
-          agent_id: agent.id,
+          source_id: agent.source_id,
           level: Notification::FATAL)
       end
 
