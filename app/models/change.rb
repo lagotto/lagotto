@@ -3,7 +3,7 @@ class Change < ActiveRecord::Base
   include Networkable
 
   belongs_to :source
-  belongs_to :relation
+  belongs_to :aggregation
 
   scope :unresolved, -> { where(unresolved: true) }
   scope :filter, ->(id) { where(unresolved: true).where("id <= ?", id) }

@@ -35,7 +35,7 @@ FactoryGirl.define do
 
     trait :with_events do
       after :create do |work|
-        FactoryGirl.create_list(:relation, 5, work: work, provenance_url: "http://www.citeulike.org/doi/#{work.doi}")
+        FactoryGirl.create_list(:aggregation, 5, work: work)
       end
     end
 
@@ -48,7 +48,7 @@ FactoryGirl.define do
 
     factory :work_with_events_and_alerts do
       after :create do |work|
-        FactoryGirl.create(:relation, work: work)
+        FactoryGirl.create(:aggregation, work: work)
         FactoryGirl.create(:notification, work: work)
       end
     end
@@ -61,7 +61,7 @@ FactoryGirl.define do
 
     factory :work_with_private_citations do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_private, work: work)
+        FactoryGirl.create(:aggregation, :with_private, work: work)
       end
     end
 
@@ -121,14 +121,76 @@ FactoryGirl.define do
     end
   end
 
+  factory :aggregation do
+    total 25
+
+    association :work
+    association :source
+    association :relation_type
+
+    trait(:with_private) { association :source, private: true }
+    trait(:with_mendeley) { association :source, :mendeley }
+    trait(:with_pubmed) { association :source, :pub_med }
+    trait(:with_nature) { association :source, :nature }
+    trait(:with_wos) { association :source, :wos }
+    trait(:with_researchblogging) { association :source, :researchblogging }
+    trait(:with_scienceseeker) { association :source, :scienceseeker }
+    trait(:with_wikipedia) { association :source, :wikipedia }
+    trait(:with_twitter) { association :source, :twitter}
+
+    trait(:with_work_published_today) { association :work, :published_today }
+
+    trait(:with_counter) do
+      total 500
+      association :relation_type, :is_viewed_by
+      association :work, :published_yesterday
+      association :source, :counter
+    end
+
+    trait(:with_crossref) do
+      association :relation_type
+      association :work, :published_yesterday
+      association :source, :crossref
+    end
+
+    trait(:with_crossref_last_month) do
+      association :relation_type
+      association :source, :crossref
+      after :create do |aggregation|
+        last_month = Time.zone.now.to_date - 1.month
+        FactoryGirl.create(:month, aggregation: aggregation,
+                                   work: aggregation.work,
+                                   source: aggregation.source,
+                                   year: last_month.year,
+                                   month: last_month.month,
+                                   total: 20)
+      end
+    end
+
+    trait(:with_crossref_current_month) do
+      association :relation_type
+      association :source, :crossref
+      after :create do |aggregation|
+        FactoryGirl.create(:month, aggregation: aggregation,
+                                   work: aggregation.work,
+                                   source: aggregation.source,
+                                   year: Time.zone.now.to_date.year,
+                                   month: Time.zone.now.to_date.month,
+                                   total: aggregation.total)
+      end
+    end
+
+    initialize_with { Aggregation.where(work_id: work.id, source_id: source.id, relation_type_id: relation_type.id).first_or_initialize }
+  end
+
   factory :month do
     trait(:with_work) do
       association :work, :published_today
       after :build do |month|
         if month.work.relations.any?
-          month.relation_id = month.work.relations.first.id
+          month.aggregation_id = month.work.aggregations.first.id
         else
-          month.relation = FactoryGirl.create(:relation, work: month.work)
+          month.aggregation = FactoryGirl.create(:aggregation, work: month.work)
         end
       end
     end
@@ -398,6 +460,7 @@ FactoryGirl.define do
     association :work
     association :related_work
     association :source
+    association :aggregation
     association :relation_type, :is_bookmarked_by
 
     trait(:with_private) { association :source, private: true }
@@ -427,46 +490,6 @@ FactoryGirl.define do
     end
 
     trait(:with_work_published_today) { association :work, :published_today }
-
-    trait(:with_counter) do
-      total 500
-      association :relation_type, :is_viewed_by
-      association :work, :published_yesterday
-      association :source, :counter
-    end
-
-    trait(:with_crossref) do
-      association :relation_type
-      association :work, :published_yesterday
-      association :source, :crossref
-    end
-
-    trait(:with_crossref_last_month) do
-      association :relation_type
-      association :source, :crossref
-      after :create do |relation|
-        last_month = Time.zone.now.to_date - 1.month
-        FactoryGirl.create(:month, relation: relation,
-                                   work: relation.work,
-                                   source: relation.source,
-                                   year: last_month.year,
-                                   month: last_month.month,
-                                   total: 20)
-      end
-    end
-
-    trait(:with_crossref_current_month) do
-      association :relation_type
-      association :source, :crossref
-      after :create do |relation|
-        FactoryGirl.create(:month, relation: relation,
-                                   work: relation.work,
-                                   source: relation.source,
-                                   year: Time.zone.now.to_date.year,
-                                   month: Time.zone.now.to_date.month,
-                                   total: relation.total)
-      end
-    end
   end
 
   factory :status do

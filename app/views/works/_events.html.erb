@@ -1,4 +1,4 @@
-<% if @work.relations.sum(:total) > 0 %>
+<% if @work.aggregations.sum(:total) > 0 %>
   <div class="panel panel-default">
     <div class="panel-heading panel-title">Events <small class="pull-right" id="control-events"></small></div>
     <div class="panel-body" id="panel-events">

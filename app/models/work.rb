@@ -201,7 +201,7 @@ class Work < ActiveRecord::Base
 
   # returns hash with source names as keys and aggregated total for each source as values
   def metrics
-    relations.group(:source_id).sum(:total).map { |r| [cached_source_names[r[0]], r[1]] }.to_h
+    aggregations.group(:source_id).sum(:total).map { |r| [cached_source_names[r[0]], r[1]] }.to_h
   end
 
   def issued

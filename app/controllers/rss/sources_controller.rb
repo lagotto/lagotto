@@ -3,13 +3,13 @@ class Rss::SourcesController < ApplicationController
 
   def show
     if params[:days]
-      @relations = @source.relations.most_cited
+      @aggregations = @source.aggregations.most_cited
                 .published_last_x_days(params[:days].to_i)
     elsif params[:months]
-      @relations = @source.relations.most_cited
+      @aggregations = @source.aggregations.most_cited
                 .published_last_x_months(params[:months].to_i)
     else
-      @relations = @source.relations.most_cited
+      @aggregations = @source.aggregations.most_cited
     end
     render :show
   end

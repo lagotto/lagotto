@@ -11,7 +11,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def filtered_events
-    model.relations.select { |r| source_ids.include?(r.source_id) }
+    model.aggregations.select { |r| source_ids.include?(r.source_id) }
   end
 
   def filtered_sources

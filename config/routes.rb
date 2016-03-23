@@ -69,10 +69,11 @@ Lagotto::Application.routes.draw do
       end
 
       concern :eventable do
-        resources :events
+        resources :aggregations, path: "events"
       end
 
       resources :agents
+      resources :aggregations, path: "events"
       resources :api_requests, only: [:index]
       resources :contributor_roles, only: [:index, :show]
       resources :contributions
@@ -81,7 +82,6 @@ Lagotto::Application.routes.draw do
       end
       resources :deposits
       resources :docs, only: [:index, :show]
-      resources :events
       resources :groups, only: [:index, :show]
       resources :notifications
       resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable, :eventable]
@@ -95,7 +95,7 @@ Lagotto::Application.routes.draw do
         resources :relations
         resources :versions
         resources :recommendations
-        resources :events
+        resources :aggregations, path: "events"
       end
     end
   end

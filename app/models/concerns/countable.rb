@@ -8,11 +8,11 @@ module Countable
     end
 
     def event_count
-      cache_read("event_count", relations.sum(:total))
+      cache_read("event_count", aggregations.sum(:total))
     end
 
     def event_count=(time)
-      cache_write("event_count", relations.sum(:total), time)
+      cache_write("event_count", aggregations.sum(:total), time)
     end
 
     def work_count
@@ -24,11 +24,11 @@ module Countable
     end
 
     def relation_count
-      cache_read("relation_count", relations.size)
+      cache_read("relation_count", aggregations.size)
     end
 
     def relation_count=(time)
-      cache_write("relation_count", relations.size, time)
+      cache_write("relation_count", aggregations.size, time)
     end
 
     def relative_work_count
@@ -68,51 +68,51 @@ module Countable
     end
 
     def with_events_by_day_count
-      cache_read("with_events_by_day_count", relations.with_events.last_x_days(1).size)
+      cache_read("with_events_by_day_count", aggregations.with_events.last_x_days(1).size)
     end
 
     def with_events_by_day_count=(time)
-      cache_write("with_events_by_day_count", relations.with_events.last_x_days(1).size, time)
+      cache_write("with_events_by_day_count", aggregations.with_events.last_x_days(1).size, time)
     end
 
     def without_events_by_day_count
-      cache_read("without_events_by_day_count", relations.without_events.last_x_days(1).size)
+      cache_read("without_events_by_day_count", aggregations.without_events.last_x_days(1).size)
     end
 
     def without_events_by_day_count=(time)
-      cache_write("without_events_by_day_count", relations.without_events.last_x_days(1).size, time)
+      cache_write("without_events_by_day_count", aggregations.without_events.last_x_days(1).size, time)
     end
 
     def not_updated_by_day_count
-      cache_read("not_updated_by_day_count", relations.not_updated(1).size)
+      cache_read("not_updated_by_day_count", aggregations.not_updated(1).size)
     end
 
     def not_updated_by_day_count=(time)
-      cache_write("not_updated_by_day_count", relations.not_updated(1).size, time)
+      cache_write("not_updated_by_day_count", aggregations.not_updated(1).size, time)
     end
 
     def with_events_by_month_count
-      cache_read("with_events_by_month_count", relations.with_events.last_x_days(31).size)
+      cache_read("with_events_by_month_count", aggregations.with_events.last_x_days(31).size)
     end
 
     def with_events_by_month_count=(time)
-      cache_write("with_events_by_month_count", relations.with_events.last_x_days(31).size, time)
+      cache_write("with_events_by_month_count", aggregations.with_events.last_x_days(31).size, time)
     end
 
     def without_events_by_month_count
-      cache_read("without_events_by_month_count", relations.without_events.last_x_days(31).size)
+      cache_read("without_events_by_month_count", aggregations.without_events.last_x_days(31).size)
     end
 
     def without_events_by_month_count=(time)
-      cache_write("without_events_by_month_count", relations.without_events.last_x_days(31).size, time)
+      cache_write("without_events_by_month_count", aggregations.without_events.last_x_days(31).size, time)
     end
 
     def not_updated_by_month_count
-      cache_read("not_updated_by_month_count", relations.not_updated(31).size)
+      cache_read("not_updated_by_month_count", aggregations.not_updated(31).size)
     end
 
     def not_updated_by_month_count=(time)
-      cache_write("not_updated_by_month_count", relations.not_updated(31).size, time)
+      cache_write("not_updated_by_month_count", aggregations.not_updated(31).size, time)
     end
 
     def cache_read(id, value)

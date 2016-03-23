@@ -4,7 +4,7 @@ describe "/api/v5/articles", :type => :api do
   let(:error) { { "error" => "Article not found."} }
 
   context "index" do
-    let(:works) { FactoryGirl.create_list(:work, 50, :with_events) }
+    let(:works) { FactoryGirl.create_list(:work_with_ids, 10, :with_events) }
 
     context "works found via DOI" do
       before(:each) do

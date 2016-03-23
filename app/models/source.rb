@@ -12,8 +12,9 @@ class Source < ActiveRecord::Base
   include Hashie::Extensions::DeepFetch
 
   has_many :relations, :dependent => :destroy
+  has_many :aggregations, :dependent => :destroy
   has_many :months
-  has_many :works, :through => :relations
+  has_many :works, :through => :aggregations
   belongs_to :group
 
   serialize :config, OpenStruct
@@ -42,11 +43,11 @@ class Source < ActiveRecord::Base
     (active ? "active" : "inactive")
   end
 
-  def get_relations_by_month(relations, options={})
-    relations = relations.reject { |relation| relation["occurred_at"].nil? }
+  def get_aggregations_by_month(aggregations, options={})
+    aggregations = aggregations.reject { |relation| relation["occurred_at"].nil? }
 
     options[:metrics] ||= :total
-    relations.group_by { |relation| relation["occurred_at"][0..6] }.sort.map do |k, v|
+    aggregations.group_by { |relation| relation["occurred_at"][0..6] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
         options[:metrics] => v.length,
