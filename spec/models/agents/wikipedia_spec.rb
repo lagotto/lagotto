@@ -48,7 +48,6 @@ describe Wikipedia, type: :model, vcr: true do
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.message).to eq("the server responded with status 408 for http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work_id: work.id)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
       expect(notification.status).to eq(408)
-      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

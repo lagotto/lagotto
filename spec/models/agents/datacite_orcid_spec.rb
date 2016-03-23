@@ -71,7 +71,6 @@ describe DataciteOrcid, type: :model, vcr: true do
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

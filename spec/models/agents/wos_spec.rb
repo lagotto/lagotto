@@ -50,7 +50,6 @@ describe Wos, type: :model do
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 
@@ -107,7 +106,6 @@ describe Wos, type: :model do
       expect(notification.class_name).to eq("Net::HTTPUnauthorized")
       expect(notification.message).to include("Web of Science error Server.authentication")
       expect(notification.status).to eq(401)
-      expect(notification.source_id).to eq(subject.source_id)
     end
 
     it "should catch timeout errors with the Wos API" do
