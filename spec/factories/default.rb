@@ -21,7 +21,7 @@ FactoryGirl.define do
       month { Time.zone.now.to_date.month }
       day { Time.zone.now.to_date.day }
       after :create do |work|
-        FactoryGirl.create(:relation, occurred_at: Time.zone.now, work: work)
+        FactoryGirl.create(:aggregation, updated_at: Time.zone.now, work: work)
       end
     end
     trait(:published_yesterday) do
@@ -55,7 +55,7 @@ FactoryGirl.define do
 
     factory :work_with_errors do
       after :create do |work|
-        FactoryGirl.create(:relation, :with_errors, work: work)
+        FactoryGirl.create(:aggregation, :with_errors, work: work)
       end
     end
 
@@ -85,7 +85,7 @@ FactoryGirl.define do
 
     factory :work_with_crossref_and_mendeley do
       after :create do |work|
-        FactoryGirl.create_list(:relation, 5, :with_crossref, work: work)
+        FactoryGirl.create_list(:aggregation, 5, :with_crossref, work: work)
         FactoryGirl.create(:aggregation, :with_mendeley, work: work)
       end
     end
