@@ -32,16 +32,25 @@ records:
     title: DataCite
     description: Helping you to find, access, and reuse research data.
     group_id: <%= sprig_record(Group, "cited").id %>
-  - sprig_id: pmceurope
-    name: pmceurope
+  - sprig_id: europe_pmc
+    name: europe_pmc
     title: Europe PubMed Central
     description: Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.
     group_id: <%= sprig_record(Group, "cited").id %>
-  - sprig_id: pmceuropedata
-    name: pmceuropedata
+  - sprig_id: europe_pmc_data
+    name: europe_pmc_data
     title: Europe PubMed Central Database Citations
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
-    eventable: false
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: europe_pmc_fulltext
+    name: europe_pmc_fulltext
+    title: Europe PubMed Central Citations in Fulltext
+    description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
+    group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: europe_pmc_fulltext_data
+    name: europe_pmc_fulltext_data
+    title: Europe PubMed Central Database Citations in Fulltext
+    description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
     group_id: <%= sprig_record(Group, "cited").id %>
   - sprig_id: scienceseeker
     name: scienceseeker
@@ -72,7 +81,12 @@ records:
     name: datacite_orcid
     title: DataCite ORCID
     description: Import works with ORCID nameIdentifier via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "saved").id %>
+    group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: orcid
+    name: orcid
+    title: ORCID
+    description: Import works via the ORCID API.
+    group_id: <%= sprig_record(Group, "other").id %>
   - sprig_id: datacite_github
     name: datacite_github
     title: DataCite Github
@@ -82,7 +96,7 @@ records:
     name: crossref_orcid
     title: CrossRef ORCID
     description: Import works with ORCID identifiers via the CrossRef REST API.
-    group_id: <%= sprig_record(Group, "saved").id %>
+    group_id: <%= sprig_record(Group, "other").id %>
   - sprig_id: crossref
     name: crossref
     title: CrossRef
@@ -204,6 +218,16 @@ records:
     title: PLOS Import
     description: Import works via the PLOS Solr API.
     group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: datacite_datacentre
+    name: datacite_datacentre
+    title: DataCite Datacentre
+    description: Import data centres via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "other").id %>
+  - sprig_id: datacite_import
+    name: datacite_import
+    title: DataCite Import
+    description: Import works via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "other").id %>
   - sprig_id: crossref_import
     name: crossref_import
     title: CrossRef Import
@@ -219,3 +243,9 @@ records:
     title: DataCite Data
     description: Helping you to find, access, and reuse research data.
     group_id: <%= sprig_record(Group, "cited").id %>
+  - sprig_id: crossref_publisher
+    type: CrossrefPublisher
+    name: crossref_publisher
+    title: CrossRef Publisher
+    description: Import publishers via the Crossref REST API.
+    group_id: <%= sprig_record(Group, "other").id %>
