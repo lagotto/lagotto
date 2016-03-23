@@ -244,7 +244,6 @@ records:
     description: Helping you to find, access, and reuse research data.
     group_id: <%= sprig_record(Group, "cited").id %>
   - sprig_id: crossref_publisher
-    type: CrossrefPublisher
     name: crossref_publisher
     title: CrossRef Publisher
     description: Import publishers via the Crossref REST API.
