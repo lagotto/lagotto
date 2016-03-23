@@ -28,7 +28,7 @@ describe AlmStatsReport do
     )
   }
 
-  let(:raggregation_with_pmc_work){
+  let(:aggregation_with_pmc_work){
     FactoryGirl.create(:aggregation, :with_work_published_today,
       work: pmc_work,
       source: source_pmc,

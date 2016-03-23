@@ -24,7 +24,7 @@ describe "/api/v6/status", :type => :api do
         response = JSON.parse(last_response.body)
         item = response["status"].first
         expect(item["timestamp"]).not_to eq("1970-01-01T00:00:00Z")
-        expect(item["works_count"]).to eq(10)
+        expect(item["works_count"]).to eq(15)
         expect(item["version"]).to eq(Lagotto::VERSION)
       end
 
@@ -36,7 +36,7 @@ describe "/api/v6/status", :type => :api do
         response = JSON.parse(last_response.body[6...-1])
         item = response["status"].first
         expect(item["timestamp"]).not_to eq("1970-01-01T00:00:00Z")
-        expect(item["works_count"]).to eq(10)
+        expect(item["works_count"]).to eq(15)
         expect(item["version"]).to eq(Lagotto::VERSION)
       end
     end
