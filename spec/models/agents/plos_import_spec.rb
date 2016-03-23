@@ -55,15 +55,15 @@ describe PlosImport, type: :model, vcr: true do
     end
 
     it "should catch errors with the PLOS Search API" do
-      stub = stub_request(:get, subject.get_query_url(rows: 0, agent_id: subject.id)).to_return(:status => [408])
-      response = subject.get_data(rows: 0, agent_id: subject.id)
+      stub = stub_request(:get, subject.get_query_url(rows: 0, source_id: subject.source_id)).to_return(:status => [408])
+      response = subject.get_data(rows: 0, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=publication_date%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D%2Bdoc_type%3Afull&q=%2A%3A%2A&rows=0&start=0&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

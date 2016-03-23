@@ -43,14 +43,14 @@ describe Wos, type: :model do
 
     it "should catch timeout errors with the Wos API" do
       stub = stub_request(:post, subject.get_query_url(work_id: work.id)).with(:body => /.*/, :headers => { "Accept" => "application/xml" }).to_return(:status => [408])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for https://ws.isiknowledge.com:80/cps/xrpc", status: 408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 
@@ -107,7 +107,7 @@ describe Wos, type: :model do
       expect(notification.class_name).to eq("Net::HTTPUnauthorized")
       expect(notification.message).to include("Web of Science error Server.authentication")
       expect(notification.status).to eq(401)
-      expect(notification.source_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
 
     it "should catch timeout errors with the Wos API" do

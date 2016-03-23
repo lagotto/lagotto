@@ -43,14 +43,14 @@ describe Researchblogging, type: :model do
     it "should catch errors with the ResearchBlogging API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, "http://researchbloggingconnect.com/blogposts?article=doi:#{work.doi_escaped}&count=100").with(:headers => { :authorization => auth }).to_return(:status => [408])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for http://researchbloggingconnect.com/blogposts?count=100&article=doi:#{work.doi_escaped}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

@@ -120,7 +120,7 @@ class Agent < ActiveRecord::Base
 
   # disable agent if more than max_failed_queries (default: 200) in 24 hrs
   def check_for_failures
-    failed_queries = Notification.where("agent_id = ? AND level > 1 AND updated_at > ?", id, Time.zone.now - max_failed_query_time_interval).count
+    failed_queries = Notification.where("source_id = ? AND level > 1 AND updated_at > ?", source_id, Time.zone.now - max_failed_query_time_interval).count
     failed_queries > max_failed_queries
   end
 
@@ -140,14 +140,14 @@ class Agent < ActiveRecord::Base
   end
 
   def collect_data(options = {})
-    data = get_data(options.merge(timeout: timeout, agent_id: id))
+    data = get_data(options.merge(timeout: timeout, source_id: source_id))
 
     # if ENV["LOGSTASH_PATH"].present?
     #   # write API response from external agent to log/agent.log, using agent name and work pid as tags
     #   AGENT_LOGGER.tagged(name, pid) { AGENT_LOGGER.info "#{result.inspect}" }
     # end
 
-    data = parse_data(data, options.merge(agent_id: id))
+    data = parse_data(data, options.merge(source_id: source_id))
 
     # push to deposit API if no error and we have collected works and/or events
     # returns deposits created
@@ -208,7 +208,7 @@ class Agent < ActiveRecord::Base
                         occurred_at: relation.fetch('occurred_at', nil))
         sum << deposit
       rescue ActiveRecord::RecordInvalid => e
-        Notification.create(exception: e, target_url: relation.fetch('subj_id', nil), agent_id: id)
+        Notification.create(exception: e, target_url: relation.fetch('subj_id', nil), source_id: source_id)
         sum
       end
     end

@@ -116,7 +116,7 @@ describe Agent, :type => :model, vcr: true do
         it "with too many failed queries" do
           report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
-          FactoryGirl.create_list(:notification, 10, agent_id: subject.id, updated_at: Time.zone.now - 10.minutes)
+          FactoryGirl.create_list(:notification, 10, source_id: subject.source_.id, updated_at: Time.zone.now - 10.minutes)
           subject.max_failed_queries = 5
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)
@@ -148,7 +148,7 @@ describe Agent, :type => :model, vcr: true do
 
       context "check for failures" do
         let(:class_name) { "Net::HTTPRequestTimeOut" }
-        let!(:notifications) { FactoryGirl.create_list(:notification, 10, agent_id: subject.id, updated_at: Time.zone.now - 10.minutes, class_name: class_name) }
+        let!(:notifications) { FactoryGirl.create_list(:notification, 10, source_id: subject.source_id, updated_at: Time.zone.now - 10.minutes, class_name: class_name) }
 
         it "few failed queries" do
           expect(subject.check_for_failures).to be false
@@ -247,7 +247,7 @@ describe Agent, :type => :model, vcr: true do
       expect(Notification.count).to eq(2)
       notification = Notification.where(class_name: "ActiveRecord::RecordInvalid").first
       expect(notification.message).to eq("Validation failed: Subj can't be blank, Source can't be blank")
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.agent_id).to eq(subject.source_id)
     end
   end
 end

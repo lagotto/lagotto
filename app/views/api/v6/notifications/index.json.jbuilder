@@ -9,6 +9,6 @@ end
 
 json.notifications @notifications do |notification|
   json.cache! ['v6', notification], skip_digest: true do
-    json.(notification, :id, :level, :class_name, :message, :status, :hostname, :target_url, :source, :work, :unresolved, :timestamp)
+    json.(notification, :id, :level, :class_name, :message, :status, :hostname, :target_url, :source_id, :work_id, :unresolved, :timestamp)
   end
 end

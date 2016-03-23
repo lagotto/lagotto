@@ -60,7 +60,7 @@ class TwitterSearch < Agent
       username: api_key,
       password: api_secret,
       data: "grant_type=client_credentials",
-      agent_id: id,
+      source_id: source_id,
       headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
     if result.present? && result["access_token"]

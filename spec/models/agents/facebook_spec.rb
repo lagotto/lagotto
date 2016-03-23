@@ -22,7 +22,7 @@ describe Facebook, type: :model do
       stub_auth = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
 
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -81,14 +81,14 @@ describe Facebook, type: :model do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id))
              .with(:headers => headers)
              .to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 401 for #{subject.get_query_url(work_id: work.id)}", status: 401)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPUnauthorized")
       expect(notification.status).to eq(401)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 
@@ -120,27 +120,27 @@ describe Facebook, type: :model do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id))
              .with(:headers => headers)
              .to_return(:body => File.read(fixture_path + 'facebook_error.json'), :status => [401])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 401 for #{subject.get_query_url(work_id: work.id)}", status: 401)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPUnauthorized")
       expect(notification.status).to eq(401)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
 
     it "should catch timeout errors with the Facebook API" do
       work = FactoryGirl.create(:work, :canonical_url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for #{subject.get_query_url(work_id: work.id)}", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

@@ -29,6 +29,11 @@ FactoryGirl.define do
       title "DataCite ORCID"
     end
 
+    trait(:datacite_datacentre) do
+      name "datacite_datacentre"
+      title "DataCite Data Centres"
+    end
+
     trait(:mendeley) do
       name "mendeley"
       title "Mendeley"

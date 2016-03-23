@@ -7,11 +7,11 @@ class NotificationsController < ApplicationController
     @servers = ENV['SERVERS'].split(",")
 
     collection = Notification
-    if params[:agent_id]
-      collection = collection.includes(:agent)
-                   .where("agents.name = ?", params[:agent_id])
-                   .references(:agent)
-      @agent = Agent.where(name: params[:agent_id]).first
+    if params[:source_id]
+      collection = collection.includes(:source)
+                   .where("sources.name = ?", params[:source_id])
+                   .references(:source)
+      @source = Source.where(name: params[:source_id]).first
     end
 
     if params[:hostname]
@@ -62,8 +62,8 @@ class NotificationsController < ApplicationController
     @servers = ENV['SERVERS'].split(",")
     if params[:filter] == "class_name"
       Notification.where(:class_name => @notification.class_name).update_all(:unresolved => false)
-    elsif params[:filter] == "agent"
-      Notification.where(:agent_id => @notification.agent_id).update_all(:unresolved => false)
+    elsif params[:filter] == "source_id"
+      Notification.where(:source_id => @notification.source_id).update_all(:unresolved => false)
     elsif params[:filter] == "work_id"
       Notification.where(:work_id => @notification.work_id).update_all(:unresolved => false)
     else
@@ -71,11 +71,11 @@ class NotificationsController < ApplicationController
     end
 
     collection = Notification
-    if params[:agent_id]
-      collection = collection.includes(:agent)
-                   .where("agents.name = ?", params[:agent_id])
-                   .references(:agent)
-      @agent = Agent.where(name: params[:agent_id]).first
+    if params[:source_id]
+      collection = collection.includes(:source)
+                   .where("sources.name = ?", params[:source_id])
+                   .references(:source)
+      @source = Source.where(name: params[:source_id]).first
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
@@ -105,7 +105,7 @@ class NotificationsController < ApplicationController
   def load_notification
     @notification = Notification.where(uuid: params[:id]).first
 
-    # raise error if agent wasn't found
+    # raise error if source wasn't found
     fail ActiveRecord::RecordNotFound, "No record for \"#{params[:id]}\" found" if @notification.blank?
   end
 end

@@ -303,7 +303,7 @@ module Resolvable
 
     def get_github_owner(owner)
       url = "https://api.github.com/users/#{owner}"
-      response = get_result(url)
+      response = get_result(url, bearer: ENV['GITHUB_PERSONAL_ACCESS_TOKEN'])
 
       return nil if response["message"] == "Not Found"
 

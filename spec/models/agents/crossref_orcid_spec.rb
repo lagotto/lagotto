@@ -79,15 +79,15 @@ describe CrossrefOrcid, type: :model, vcr: true do
     end
 
     it "should catch errors with the Crossref REST API" do
-      stub = stub_request(:get, subject.get_query_url(rows: 0, agent_id: subject.id)).to_return(:status => [408])
-      response = subject.get_data(rows: 0, agent_id: subject.id)
+      stub = stub_request(:get, subject.get_query_url(rows: 0, source_id: subject.source_id)).to_return(:status => [408])
+      response = subject.get_data(rows: 0, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for http://api.crossref.org/works?filter=has-orcid%3Atrue%2Cfrom-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08&offset=0&rows=0", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

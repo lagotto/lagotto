@@ -97,7 +97,7 @@ class Mendeley < Agent
         exception: "",
         class_name: "Faraday::ResourceNotFound",
         status: 404,
-        source_id: id,
+        source_id: source_id,
         level: Notification::FATAL)
       return nil
     end

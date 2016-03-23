@@ -69,7 +69,7 @@ describe Pmc, type: :model do
     end
 
     it "should catch errors with the PMC API" do
-      options = { publisher_id: publisher.id, journal: journal, year: year, month: month, agent_id: subject.id }
+      options = { publisher_id: publisher.id, journal: journal, year: year, month: month, source_id: subject.source_id }
       stub = stub_request(:get, subject.get_query_url(options)).to_return(:status => [408])
       response = subject.get_data(options)
       expect(response).to eq(error: "the server responded with status 408 for http://www.pubmedcentral.nih.gov/utils/publisher/pmcstat/pmcstat.cgi?year=2015&month=4&jrid=plosbiol&user=username&password=password", :status=>408)
@@ -78,7 +78,7 @@ describe Pmc, type: :model do
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

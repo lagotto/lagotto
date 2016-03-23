@@ -27,14 +27,14 @@ describe EuropePmc, type: :model, vcr: true do
 
     it "should catch errors with the PMC Europe API" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work, agent_id: subject.id)
+      response = subject.get_data(work_id: work, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for http://www.ebi.ac.uk/europepmc/webservices/rest/MED/#{work.pmid}/citations/1/json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

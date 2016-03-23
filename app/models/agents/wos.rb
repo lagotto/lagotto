@@ -79,7 +79,7 @@ class Wos < Agent
       exception: "",
       class_name: class_name,
       status: status_code,
-      source_id: id)
+      source_id: source_id)
     message
   end
 

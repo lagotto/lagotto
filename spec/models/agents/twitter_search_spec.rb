@@ -35,7 +35,7 @@ describe TwitterSearch, type: :model, vcr: true do
                   .to_return(:body => File.read(fixture_path + 'twitter_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
 
-      response = subject.get_data(work_id: work.id, source_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -88,14 +88,14 @@ describe TwitterSearch, type: :model, vcr: true do
     it "should catch errors with the Twitter Search API" do
       work = FactoryGirl.create(:work_with_twitter, :doi => "10.1371/journal.pone.0000001", :canonical_url => "http://www.plosone.org/work/info%3Adoi%2F10.1371%2Fjournal.pmed.0000001")
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for https://api.twitter.com/1.1/search/tweets.json?q=#{subject.get_query_string(work_id: work.id)}&count=100&include_entities=1&result_type=recent", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

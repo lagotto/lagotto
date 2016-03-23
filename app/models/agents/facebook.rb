@@ -109,7 +109,7 @@ class Facebook < Agent
     return true if access_token.present?
 
     # Otherwise get new access token
-    result = get_result(get_authentication_url, options.merge(agent_id: id))
+    result = get_result(get_authentication_url, options.merge(source_id: source_id))
 
     if result && result.is_a?(String)
       # response is in format "access_token=12345"

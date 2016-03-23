@@ -25,7 +25,7 @@ describe Mendeley, :type => :model do
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
 
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -38,7 +38,7 @@ describe Mendeley, :type => :model do
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
 
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response[:error]).not_to be_nil
       expect(stub_auth).to have_been_requested
       expect(stub).to have_been_requested
@@ -49,7 +49,7 @@ describe Mendeley, :type => :model do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
       stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
              .to_return(:body => "Credentials are required to access this resource.", :status => 401)
-      expect { subject.get_data(work_id: work.id, agent_id: subject.id) }.to raise_error(ArgumentError, "No Mendeley access token.")
+      expect { subject.get_data(work_id: work.id, source_id: subject.source_id) }.to raise_error(ArgumentError, "No Mendeley access token.")
       expect(stub).to have_been_requested
 
       expect(Notification.count).to eq(1)
@@ -107,14 +107,14 @@ describe Mendeley, :type => :model do
     it "should catch timeout errors with the Mendeley API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0000001")
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
-      response = subject.get_data(work_id: work.id, agent_id: subject.id)
+      response = subject.get_data(work_id: work.id, source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for https://api.mendeley.com/catalog?doi=#{work.doi}&view=stats", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

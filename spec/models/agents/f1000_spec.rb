@@ -22,7 +22,7 @@ describe F1000, type: :model, vcr: true do
 
     it "should catch not found errors with f1000" do
       stub = stub_request(:get, subject.get_query_url).to_return(status: [404], body: "")
-      response = subject.get_data(agent_id: subject.id)
+      response = subject.get_data(source_id: subject.source_id)
       expect(response).to eq(error: nil, status: 404)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(0)
@@ -30,14 +30,14 @@ describe F1000, type: :model, vcr: true do
 
     it "should catch timeout errors with f1000" do
       stub = stub_request(:get, subject.get_query_url).to_return(:status => [408])
-      response = subject.get_data(agent_id: subject.id)
+      response = subject.get_data(source_id: subject.source_id)
       expect(response).to eq(error: "the server responded with status 408 for http://example.com/intermediate.xml", status: 408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
       expect(notification.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(notification.status).to eq(408)
-      expect(notification.agent_id).to eq(subject.id)
+      expect(notification.source_id).to eq(subject.source_id)
     end
   end
 

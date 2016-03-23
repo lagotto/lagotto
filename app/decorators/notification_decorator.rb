@@ -14,12 +14,12 @@ class NotificationDecorator < Draper::Decorator
     model.human_level_name
   end
 
-  def source
-    source_id ? model.source.name : nil
+  def source_id
+    model.source ? model.source.name : nil
   end
 
-  def work
-    work_id ? model.work.to_param : nil
+  def work_id
+    model.work ? model.work.to_param : nil
   end
 
   def timestamp
