@@ -2,10 +2,6 @@ class SourceDecorator < Draper::Decorator
   delegate_all
   decorates_association :group
 
-  def group
-    model.group.name
-  end
-
   def group_id
     model.group.name
   end
