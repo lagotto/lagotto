@@ -5,16 +5,16 @@ describe MendeleyReport do
   let(:source){ FactoryGirl.create(:source, :mendeley) }
   let(:relation_type){ FactoryGirl.create(:relation_type) }
 
-  let!(:relations){ [
-    relation_with_few_readers,
-    relation_with_many_readers
+  let!(:aggregations){ [
+    aggregation_with_few_readers,
+    raggregation_with_many_readers
   ] }
 
   let(:work_1){ FactoryGirl.create(:work)}
   let(:work_2){ FactoryGirl.create(:work)}
 
-  let(:relation_with_few_readers){
-    FactoryGirl.create(:relation,
+  let(:aggregation_with_few_readers){
+    FactoryGirl.create(:aggregation,
       work: work_1,
       source: source,
       relation_type: relation_type,
@@ -22,8 +22,8 @@ describe MendeleyReport do
     )
   }
 
-  let(:relation_with_many_readers){
-    FactoryGirl.create(:relation,
+  let(:aggregation_with_many_readers){
+    FactoryGirl.create(:aggregation,
       work: work_2,
       source: source,
       relation_type: relation_type,
@@ -41,7 +41,7 @@ describe MendeleyReport do
     let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
 
     describe "when there are no events or works" do
-      let!(:relations){ [] }
+      let!(:aggregations){ [] }
 
       it "has no line items" do
         expect(line_items).to eq([])
@@ -52,11 +52,11 @@ describe MendeleyReport do
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
-        expect(items.length).to eq(relations.length)
+        expect(items.length).to eq(aggregations.length)
       end
 
       it "has an array of line items for every retrieval status" do
-        expect(report.line_items.length).to eq(relations.length)
+        expect(report.line_items.length).to eq(aggregations.length)
       end
 
       describe "each line item" do
@@ -64,22 +64,22 @@ describe MendeleyReport do
         let(:second_line_item){ line_items[1] }
 
         it "has the pid" do
-          expect(first_line_item.field("pid")).to eq(relation_with_few_readers.work.pid)
-          expect(second_line_item.field("pid")).to eq(relation_with_many_readers.work.pid)
+          expect(first_line_item.field("pid")).to eq(aggregation_with_few_readers.work.pid)
+          expect(second_line_item.field("pid")).to eq(aggregation_with_many_readers.work.pid)
         end
 
         it "has the readers count" do
-          expect(first_line_item.field("readers")).to eq(relation_with_few_readers.readers)
-          expect(second_line_item.field("readers")).to eq(relation_with_many_readers.readers)
+          expect(first_line_item.field("readers")).to eq(aggregation_with_few_readers.readers)
+          expect(second_line_item.field("readers")).to eq(aggregation_with_many_readers.readers)
         end
 
         it "has the total count" do
-          expect(first_line_item.field("total")).to eq(relation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(relation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
         end
 
         context "and the # of readers is 0" do
-          before { relation_with_few_readers.update_attributes total: 8 }
+          before { aggregation_with_few_readers.update_attributes total: 8 }
 
           it "sets the groups count to 0" do
             expect(first_line_item.field("groups")).to eq(0)
@@ -87,7 +87,7 @@ describe MendeleyReport do
         end
 
         context "and the number of readers is greater than 0" do
-          before { relation_with_few_readers.update_attributes total: 8 }
+          before { aggregation_with_few_readers.update_attributes total: 8 }
 
           it "sets the groups count to difference between the total and readers counts" do
             expect(first_line_item.field("groups")).to eq(3)
@@ -97,12 +97,12 @@ describe MendeleyReport do
     end
 
     describe "when there are events for works for sources other sources" do
-      let!(:relations){ [
-        relation_for_another_source
+      let!(:aggregations){ [
+        aggregation_for_another_source
       ] }
 
-      let(:relation_for_another_source){
-        FactoryGirl.create(:relation, :with_work_published_today,
+      let(:aggregation_for_another_source){
+        FactoryGirl.create(:aggregation, :with_work_published_today,
           source: FactoryGirl.create(:source),
           relation_type: FactoryGirl.create(:relation_type),
           total: 44
@@ -110,7 +110,7 @@ describe MendeleyReport do
       }
 
       it "does not include line item stats for other sources" do
-        line_item = line_items.detect{ |item| item.field("pid") == relation_for_another_source.work.pid }
+        line_item = line_items.detect{ |item| item.field("pid") == aggregation_for_another_source.work.pid }
         expect(line_item).to be(nil)
       end
     end

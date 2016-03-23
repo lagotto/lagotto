@@ -29,7 +29,8 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher
   belongs_to :work_type
-  has_many :sources, :through => :relations
+  has_many :aggregations
+  has_many :sources, :through => :aggregations
   has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations, dependent: :destroy

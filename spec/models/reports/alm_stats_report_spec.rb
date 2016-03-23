@@ -12,24 +12,24 @@ describe AlmStatsReport do
   let(:source_pmc){ FactoryGirl.create(:source, :pmc) }
   let(:source_counter){ FactoryGirl.create(:source, :counter) }
 
-  let!(:relations){ [
-    relation_with_mendeley_work,
-    relation_with_with_pmc_work
+  let!(:aggregations){ [
+    aggregation_with_mendeley_work,
+    aggregation_with_with_pmc_work
   ] }
 
   let(:mendeley_work){ FactoryGirl.create(:work) }
   let(:pmc_work){ FactoryGirl.create(:work) }
 
-  let(:relation_with_mendeley_work){
-    FactoryGirl.create(:relation,
+  let(:aggregation_with_mendeley_work){
+    FactoryGirl.create(:aggregation,
       work: mendeley_work,
       source: source_mendeley,
       total: 3
     )
   }
 
-  let(:relation_with_with_pmc_work){
-    FactoryGirl.create(:relation, :with_work_published_today,
+  let(:raggregation_with_with_pmc_work){
+    FactoryGirl.create(:aggregation, :with_work_published_today,
       work: pmc_work,
       source: source_pmc,
       total: 1420
@@ -53,7 +53,7 @@ describe AlmStatsReport do
     let(:line_items){ items = [] ; report.each_line_item{ |item| items << item } ; items }
 
     describe "when there are no events for works" do
-      let!(:relations){ [] }
+      let!(:aggregations){ [] }
 
       it "has no line items" do
         expect(line_items).to eq([])
@@ -64,11 +64,11 @@ describe AlmStatsReport do
       it "yields each line item, one for each event" do
         items = []
         report.each_line_item{ |item| items << item }
-        expect(items.length).to eq(relations.length)
+        expect(items.length).to eq(aggregations.length)
       end
 
       it "has an array of line items for every event" do
-        expect(report.line_items.length).to eq(relations.length)
+        expect(report.line_items.length).to eq(aggregations.length)
       end
 
       describe "each line item" do
@@ -76,56 +76,56 @@ describe AlmStatsReport do
         let(:second_line_item){ line_items[1] }
 
         it "has the pid" do
-          expect(first_line_item.field("pid")).to eq(relation_with_mendeley_work.work.pid)
-          expect(second_line_item.field("pid")).to eq(relation_with_with_pmc_work.work.pid)
+          expect(first_line_item.field("pid")).to eq(aggregation_with_mendeley_work.work.pid)
+          expect(second_line_item.field("pid")).to eq(aggregation_with_with_pmc_work.work.pid)
         end
 
         it "has the publication_date" do
-          expect(first_line_item.field("publication_date")).to eq(relation_with_mendeley_work.work.published_on)
-          expect(second_line_item.field("publication_date")).to eq(relation_with_with_pmc_work.work.published_on)
+          expect(first_line_item.field("publication_date")).to eq(aggregation_with_mendeley_work.work.published_on)
+          expect(second_line_item.field("publication_date")).to eq(aggregation_with_with_pmc_work.work.published_on)
         end
 
         it "has the title" do
-          expect(first_line_item.field("title")).to eq(relation_with_mendeley_work.work.title)
-          expect(second_line_item.field("title")).to eq(relation_with_with_pmc_work.work.title)
+          expect(first_line_item.field("title")).to eq(aggregation_with_mendeley_work.work.title)
+          expect(second_line_item.field("title")).to eq(aggregation_with_with_pmc_work.work.title)
         end
 
         it "has the total count for each source for the work" do
-          expect(first_line_item.field("mendeley")).to eq(relation_with_mendeley_work.total)
-          expect(second_line_item.field("pmc")).to eq(relation_with_with_pmc_work.total)
+          expect(first_line_item.field("mendeley")).to eq(aggregation_with_mendeley_work.total)
+          expect(second_line_item.field("pmc")).to eq(aggregation_with_with_pmc_work.total)
         end
 
         it "defaults the count to 0 when there is no count for a source/work" do
-          relation_with_with_pmc_work.destroy
+          aggregation_with_with_pmc_work.destroy
           expect(second_line_item.field("pmc")).to eq(0)
         end
       end
 
       context "and there are multiple events for one work across sources" do
-        let!(:relations){ [
-          relation_with_mendeley_work,
-          relation_for_same_work_but_for_pmc,
-          relation_for_same_work_but_for_counter
+        let!(:aggregations){ [
+          aggregation_with_mendeley_work,
+          aggregation_for_same_work_but_for_pmc,
+          aggregation_for_same_work_but_for_counter
         ] }
 
-        let!(:relation_for_same_work_but_for_pmc){
-          FactoryGirl.create(:relation,
-            work: relation_with_mendeley_work.work,
+        let!(:aggregation_for_same_work_but_for_pmc){
+          FactoryGirl.create(:aggregation,
+            work: aggregation_with_mendeley_work.work,
             source: source_pmc,
             total: 14
           )
         }
 
-        let!(:relation_for_same_work_but_for_counter){
-          FactoryGirl.create(:relation,
-            work: relation_with_mendeley_work.work,
+        let!(:aggregation_for_same_work_but_for_counter){
+          FactoryGirl.create(:aggregation,
+            work: aggregation_with_mendeley_work.work,
             source: source_counter,
             total: 13
           )
         }
 
         let(:line_items_for_work){
-          line_items.select{ |i| i.field("pid") == relation_with_mendeley_work.work.pid }
+          line_items.select{ |i| i.field("pid") == aggregation_with_mendeley_work.work.pid }
         }
         let!(:line_item){ line_items_for_work.first }
 
@@ -134,27 +134,27 @@ describe AlmStatsReport do
         end
 
         it "includes the totals for each source as fields on the line item" do
-          expect(line_item.field("mendeley")).to eq(relation_with_mendeley_work.total)
-          expect(line_item.field("pmc")).to      eq(relation_for_same_work_but_for_pmc.total)
-          expect(line_item.field("counter")).to  eq(relation_for_same_work_but_for_counter.total)
+          expect(line_item.field("mendeley")).to eq(aggregation_with_mendeley_work.total)
+          expect(line_item.field("pmc")).to      eq(aggregation_for_same_work_but_for_pmc.total)
+          expect(line_item.field("counter")).to  eq(aggregation_for_same_work_but_for_counter.total)
         end
       end
     end
 
     describe "when there are events for works for sources other sources" do
-      let!(:relations){ [
-        relation_for_another_source
+      let!(:aggregations){ [
+        aggregation_for_another_source
       ] }
 
-      let(:relation_for_another_source){
-        FactoryGirl.create(:relation, :with_work_published_today,
+      let(:aggregation_for_another_source){
+        FactoryGirl.create(:aggregation, :with_work_published_today,
           source: FactoryGirl.create(:source),
           total: 44
         )
       }
 
       it "includes them in the report" do
-        line_item = report.line_items.detect{ |item| item.field("pid") == relation_for_another_source.work.pid }
+        line_item = report.line_items.detect{ |item| item.field("pid") == aggregation_for_another_source.work.pid }
         expect(line_item).to_not be(nil)
       end
     end

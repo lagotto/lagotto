@@ -138,24 +138,24 @@ describe AlmCombinedStatsReport do
 
     let(:work){ FactoryGirl.create(:work) }
 
-    let(:work_relation_mendeley){
-      FactoryGirl.create(:relation,
+    let(:work_aggregation_mendeley){
+      FactoryGirl.create(:aggregation,
         work: work,
         source: source_mendeley,
         total: 50
       )
     }
 
-    let!(:work_relation_pmc){
-      FactoryGirl.create(:relation,
+    let!(:work_aggregation_pmc){
+      FactoryGirl.create(:aggregation,
         work: work,
         source: source_pmc,
         total: 14
       )
     }
 
-    let!(:work_relation_counter){
-      FactoryGirl.create(:relation,
+    let!(:work_aggregation_counter){
+      FactoryGirl.create(:aggregation,
         work: work,
         source: source_counter,
         total: 23
@@ -167,10 +167,10 @@ describe AlmCombinedStatsReport do
         pid:              work.pid,
         publication_date: work.published_on,
         title:            work.title,
-        pmc:              work_relation_pmc.total,
-        counter:          work_relation_counter.total,
-        mendeley:         work_relation_mendeley.total,
-        # mendeley_readers: work_relation_mendeley.readers,
+        pmc:              work_aggregation_pmc.total,
+        counter:          work_aggregation_counter.total,
+        mendeley:         work_aggregation_mendeley.total,
+        # mendeley_readers: work_aggregation_mendeley.readers,
         # mendeley_groups:  work_event_mendeley.total - work_event_mendeley.readers,
         # pmc_pdf:          work_event_pmc.pdf,
         # pmc_html:         work_event_pmc.html,

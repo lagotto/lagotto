@@ -253,46 +253,46 @@ describe Agent, type: :model, vcr: true do
       end
     end
 
-    context "store agent_id with error" do
+    context "store source_id with error" do
       it "get json" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        response = subject.get_result(url, agent_id: 1)
+        response = subject.get_result(url, source_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
         expect(notification.status).to eq(429)
-        expect(notification.agent_id).to eq(1)
+        expect(notification.source_id).to eq(1)
       end
 
       it "get xml" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        response = subject.get_result(url, content_type: 'xml', agent_id: 1)
+        response = subject.get_result(url, content_type: 'xml', source_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(notification.agent_id).to eq(1)
+        expect(notification.source_id).to eq(1)
       end
 
       it "get html" do
         stub = stub_request(:get, url).to_return(:status => [429])
-        response = subject.get_result(url, content_type: 'html', agent_id: 1)
+        response = subject.get_result(url, content_type: 'html', source_id: 1)
         expect(response).to eq(error: "the server responded with status 429 for #{url}. Rate-limit  exceeded.", status: 429)
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
         expect(notification.status).to eq(429)
-        expect(notification.agent_id).to eq(1)
+        expect(notification.source_id).to eq(1)
       end
 
       it "post xml" do
         stub = stub_request(:post, url).with(:body => post_data.to_xml).to_return(:status => [429])
-        subject.get_result(url, content_type: 'xml', data: post_data.to_xml, agent_id: 1) { |response| expect(response).to be_nil }
+        subject.get_result(url, content_type: 'xml', data: post_data.to_xml, source_id: 1) { |response| expect(response).to be_nil }
         expect(Notification.count).to eq(1)
         notification = Notification.first
         expect(notification.class_name).to eq("Net::HTTPTooManyRequests")
-        expect(notification.agent_id).to eq(1)
+        expect(notification.source_id).to eq(1)
       end
     end
   end

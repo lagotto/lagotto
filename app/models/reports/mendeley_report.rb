@@ -10,9 +10,9 @@ class MendeleyReport
 
     def execute
       return [] unless source_model
-      source_model.works.includes(:relations)
+      source_model.works.includes(:aggregations)
         .group("works.id")
-        .select("works.pid, relations.relation_type_id, relations.total")
+        .select("works.pid, aggregations.relation_type_id, aggregations.total")
         .order("works.published_on ASC")
         .all
     end

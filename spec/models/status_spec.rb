@@ -5,17 +5,17 @@ describe Status, type: :model, vcr: true do
 
   it "works_count" do
     FactoryGirl.create_list(:work, 5, :published_today)
-    expect(subject.works_count).to eq(10)
+    expect(subject.works_count).to eq(15)
   end
 
   it "works_new_count" do
     FactoryGirl.create_list(:work, 5, :published_today)
-    expect(subject.works_new_count).to eq(10)
+    expect(subject.works_new_count).to eq(15)
   end
 
   it "events_count" do
     FactoryGirl.create_list(:work, 5, :published_today)
-    expect(subject.events_count).to eq(5)
+    expect(subject.events_count).to eq(125)
   end
 
   it "notifications_count" do
