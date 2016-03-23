@@ -116,7 +116,7 @@ describe Agent, :type => :model, vcr: true do
         it "with too many failed queries" do
           report = FactoryGirl.create(:fatal_error_report_with_admin_user)
 
-          FactoryGirl.create_list(:notification, 10, source_id: subject.source_.id, updated_at: Time.zone.now - 10.minutes)
+          FactoryGirl.create_list(:notification, 10, source_id: subject.source_id, updated_at: Time.zone.now - 10.minutes)
           subject.max_failed_queries = 5
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           expect(subject.queue_jobs).to eq(10)

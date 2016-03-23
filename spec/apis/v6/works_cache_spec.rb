@@ -28,7 +28,7 @@ describe "/api/v6/works", :type => :api do
         expect(response["id"]).to eq(work.pid)
         expect(response["DOI"]).to eq(work.doi)
         expect(response["issued"]["date-parts"][0]).to eql([work.year, work.month, work.day])
-        expect(response["events"]).to eql("crossref"=>5)
+        expect(response["events"]).to eql("crossref"=>25)
       end
     end
 

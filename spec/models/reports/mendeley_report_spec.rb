@@ -7,7 +7,7 @@ describe MendeleyReport do
 
   let!(:aggregations){ [
     aggregation_with_few_readers,
-    raggregation_with_many_readers
+    aggregation_with_many_readers
   ] }
 
   let(:work_1){ FactoryGirl.create(:work)}

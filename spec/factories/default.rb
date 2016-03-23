@@ -29,7 +29,7 @@ FactoryGirl.define do
       month { (Time.zone.now.to_date - 1.day).month }
       day { (Time.zone.now.to_date - 1.day).day }
       after :create do |work|
-        FactoryGirl.create(:relation, occurred_at: Time.zone.now - 1.day, work: work)
+        FactoryGirl.create(:aggregation, updated_at: Time.zone.now - 1.day, work: work)
       end
     end
 

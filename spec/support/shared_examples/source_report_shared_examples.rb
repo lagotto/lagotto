@@ -17,7 +17,7 @@ shared_examples_for "SourceReport examples" do |options|
     FactoryGirl.create(:aggregation,
       work: work_1,
       source: source,
-      aggregation_type: FactoryGirl.create(:aggregation_type),
+      relation_type: FactoryGirl.create(:relation_type),
       total: 3
     )
   }
@@ -26,7 +26,7 @@ shared_examples_for "SourceReport examples" do |options|
     FactoryGirl.create(:aggregation,
       work: work_2,
       source: source,
-      aggregation_type: FactoryGirl.create(:aggregation_type),
+      relation_type: FactoryGirl.create(:relation_type),
       total: 1420
     )
   }
@@ -102,7 +102,7 @@ shared_examples_for "SourceReport examples" do |options|
       let(:aggregation_for_another_source){
         FactoryGirl.create(:aggregation, :with_work_published_today,
           source: FactoryGirl.create(:source),
-          aggregation_type: FactoryGirl.create(:aggregation_type),
+          relation_type: FactoryGirl.create(:relation_type),
           total: 44
         )
       }
