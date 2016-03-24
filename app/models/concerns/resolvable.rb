@@ -250,7 +250,7 @@ module Resolvable
       author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
-        "title" => response.fetch('description', nil),
+        "title" => response.fetch('description', "(:unas)"),
         "container-title" => "Github",
         "issued" => response.fetch('created_at', nil),
         "URL" => url,
@@ -268,7 +268,7 @@ module Resolvable
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
-      author = response.fetch('name', nil).to_s
+      author = response.fetch('name', '(:unas)').to_s
 
       { "author" => [get_one_author(author)],
         "title" => "Github profile for #{author}",
@@ -292,7 +292,7 @@ module Resolvable
       author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
-        "title" => response.fetch('name', nil),
+        "title" => response.fetch('name', "(:unas)"),
         "container-title" => "Github",
         "issued" => response.fetch('created_at', nil),
         "URL" => url,
@@ -307,7 +307,7 @@ module Resolvable
 
       return nil if response["message"] == "Not Found"
 
-      response.fetch('name', nil)
+      response.fetch('name', '(:unas)')
     rescue *NETWORKABLE_EXCEPTIONS
       nil
     end
