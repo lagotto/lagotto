@@ -13,7 +13,7 @@ class SourceByMonthReport
 
     def execute
       source_model.months.joins(:work)
-        .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.relation_type_id, months.total")
+        .select("months.id, works.pid, CONCAT(months.year, '-', months.month) AS date_key, months.year, months.month, months.total")
         .where("(months.year >= :year AND months.month >= :month) OR (months.year > :year)", year: starting_year, month: starting_month)
         .group("works.pid")
         .order("works.published_on, year ASC, month ASC")
