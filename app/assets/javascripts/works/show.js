@@ -5,7 +5,7 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api-key');
   var pid = params.attr('data-pid');
-  var query = encodeURI("/api/v6/works?ids=" + pid);
+  var query = encodeURI("/api/works?ids=" + pid);
 }
 
 // load the data from the Lagotto API

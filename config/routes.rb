@@ -53,7 +53,7 @@ Lagotto::Application.routes.draw do
   get "/api", to: "api/index#index"
 
   namespace :api, defaults: { format: "json" } do
-    scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
+    scope module: :v7, constraints: ApiConstraint.new(version: 7, default: :true) do
       match 'relations', to: 'relations#index', via: [:get, :post]
 
       concern :workable do
@@ -61,11 +61,11 @@ Lagotto::Application.routes.draw do
       end
 
       concern :eventable do
-        resources :aggregations, path: "events"
+        resources :aggregations
       end
 
       resources :agents
-      resources :aggregations, path: "events"
+      resources :aggregations
       resources :api_requests, only: [:index]
       resources :contributor_roles, only: [:index, :show]
       resources :contributions
@@ -87,7 +87,7 @@ Lagotto::Application.routes.draw do
         resources :relations
         resources :versions
         resources :recommendations
-        resources :aggregations, path: "events"
+        resources :aggregations
       end
     end
   end
