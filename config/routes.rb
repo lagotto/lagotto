@@ -53,14 +53,6 @@ Lagotto::Application.routes.draw do
   get "/api", to: "api/index#index"
 
   namespace :api, defaults: { format: "json" } do
-    namespace :v5 do
-      resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
-      resources :sources, only: [:index, :show]
-      resources :status, only: [:index]
-      resources :api_requests, only: [:index]
-      resources :publishers, only: [:index]
-    end
-
     scope module: :v6, constraints: ApiConstraint.new(version: 6, default: :true) do
       match 'relations', to: 'relations#index', via: [:get, :post]
 
