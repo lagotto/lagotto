@@ -190,7 +190,7 @@ FactoryGirl.define do
       end
     end
 
-    initialize_with { Aggregation.where(work_id: work.id, source_id: source.id, relation_type_id: relation_type.id).first_or_initialize }
+    initialize_with { Aggregation.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
 
   factory :month do
