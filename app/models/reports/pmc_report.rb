@@ -1,0 +1,2 @@
+class PmcReport < SourceReport
+end
