@@ -81,12 +81,12 @@ describe Copernicus, type: :model, vcr: true do
                                               "obj_id"=>work.pid,
                                               "relation_type_id"=>"downloads",
                                               "total"=>10,
-                                              "source_id"=>"copernicus")
+                                              "source_id"=>"counter_pdf")
       expect(response.last[:relation]).to eq("subj_id"=>"http://publications.copernicus.org",
                                              "obj_id"=>work.pid,
                                              "relation_type_id"=>"views",
                                              "total"=>72,
-                                             "source_id"=>"copernicus")
+                                             "source_id"=>"counter_html")
     end
   end
 end

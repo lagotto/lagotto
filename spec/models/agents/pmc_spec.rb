@@ -92,13 +92,13 @@ describe Pmc, type: :model do
                                            "obj_id"=>"http://doi.org/10.1371/journal.pbio.0030085",
                                            "relation_type_id"=>"views",
                                            "total"=>128,
-                                           "source_id"=>"pmc")
+                                           "source_id"=>"pmc_html")
 
       expect(response[3][:relation]).to eq("subj_id"=>"https://www.ncbi.nlm.nih.gov/pmc",
                                            "obj_id"=>"http://doi.org/10.1371/journal.pbio.0030085",
                                            "relation_type_id"=>"downloads",
                                            "total"=>90,
-                                           "source_id"=>"pmc")
+                                           "source_id"=>"pmc_pdf")
     end
 
     it "should report errors with the PMC API" do

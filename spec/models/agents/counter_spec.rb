@@ -80,12 +80,12 @@ describe Counter, type: :model, vcr: true do
                                               "obj_id"=>work.pid,
                                               "relation_type_id"=>"downloads",
                                               "total"=>447,
-                                              "source_id"=>"counter")
+                                              "source_id"=>"counter_pdf")
       expect(response.last[:relation]).to eq("subj_id"=>"http://www.plos.org",
                                              "obj_id"=>work.pid,
                                              "relation_type_id"=>"views",
                                              "total"=>2919,
-                                             "source_id"=>"counter")
+                                             "source_id"=>"counter_html")
     end
 
     it "should catch timeout errors with the Counter API" do
