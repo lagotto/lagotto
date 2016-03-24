@@ -470,7 +470,6 @@ FactoryGirl.define do
     association :work
     association :related_work
     association :source
-    association :aggregation
     association :relation_type, :is_bookmarked_by
   end
 

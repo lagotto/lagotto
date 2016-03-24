@@ -2,13 +2,13 @@ class Relation < ActiveRecord::Base
   belongs_to :work
   belongs_to :related_work, class_name: "Work"
   belongs_to :relation_type
-  belongs_to :aggregation
+  belongs_to :month
   belongs_to :source
   belongs_to :publisher
 
   before_validation :set_occurred_at
 
-  validates :work_id, :related_work_id, :source_id, :relation_type_id, :aggregation_id, :presence => true
+  validates :work_id, :related_work_id, :source_id, :relation_type_id, :presence => true
 
   scope :similar, ->(work_id) { where("total > ?", 0) }
 
@@ -34,9 +34,5 @@ class Relation < ActiveRecord::Base
 
   def set_occurred_at
     occurred_at = Time.zone.now if occurred_at.blank?
-  end
-
-  def metrics
-    @metrics ||= { total: total }
   end
 end

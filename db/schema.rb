@@ -293,10 +293,10 @@ ActiveRecord::Schema.define(version: 20160323182352) do
     t.datetime "occurred_at"
     t.integer  "publisher_id",     limit: 4
     t.text     "provenance_url",   limit: 65535
-    t.integer  "aggregation_id",   limit: 4
+    t.integer  "month_id",         limit: 4
   end
 
-  add_index "relations", ["aggregation_id"], name: "relations_aggregations_id_fk", using: :btree
+  add_index "relations", ["month_id"], name: "relations_month_id_fk", using: :btree
   add_index "relations", ["related_work_id"], name: "relations_related_work_id_fk", using: :btree
   add_index "relations", ["relation_type_id"], name: "relations_relation_type_id_fk", using: :btree
   add_index "relations", ["source_id"], name: "relations_source_id_fk", using: :btree
@@ -460,7 +460,7 @@ ActiveRecord::Schema.define(version: 20160323182352) do
   add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "agents", name: "publisher_options_agent_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "publishers", name: "publisher_options_publisher_id_fk", on_delete: :cascade
-  add_foreign_key "relations", "aggregations", name: "relations_aggregations_id_fk", on_delete: :cascade
+  add_foreign_key "relations", "months", name: "relations_months_id_fk", on_delete: :cascade
   add_foreign_key "relations", "relation_types", name: "relations_relation_type_id_fk", on_delete: :cascade
   add_foreign_key "relations", "sources", name: "relations_source_id_fk", on_delete: :cascade
   add_foreign_key "relations", "works", column: "related_work_id", name: "relations_related_work_id_fk", on_delete: :cascade

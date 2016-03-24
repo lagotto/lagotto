@@ -2,6 +2,7 @@ class Month < ActiveRecord::Base
   belongs_to :source
   belongs_to :work
   belongs_to :aggregation
+  has_many :relations
 
   default_scope { order("year, month") }
 
