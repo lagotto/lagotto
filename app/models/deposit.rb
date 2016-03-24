@@ -140,7 +140,7 @@ class Deposit < ActiveRecord::Base
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.work = Work.where(pid: pid).first
     else
-      handle_exception(exception, class_name: "work", id: pid)
+      handle_exception(exception, class_name: "work", id: pid, target_url: pid)
     end
   end
 
@@ -164,7 +164,7 @@ class Deposit < ActiveRecord::Base
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.related_work = Work.where(pid: pid).first
     else
-      handle_exception(exception, class_name: "related_work", id: pid)
+      handle_exception(exception, class_name: "related_work", id: pid, target_url: pid)
     end
   end
 
@@ -208,7 +208,7 @@ class Deposit < ActiveRecord::Base
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.contributor = Contributor.where(pid: subj_id).first
     else
-      handle_exception(exception, class_name: "contributor", id: subj_id)
+      handle_exception(exception, class_name: "contributor", id: subj_id, target_url: subj_id)
     end
   end
 
@@ -228,7 +228,11 @@ class Deposit < ActiveRecord::Base
                          active: subj["active"])
     p
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    handle_exception(exception, class_name: "publisher", id: subj_id)
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
+       Publisher.where(name: subj_id).first
+    else
+      handle_exception(exception, class_name: "publisher", id: subj_id)
+    end
   end
 
   def delete_relation
@@ -320,7 +324,7 @@ class Deposit < ActiveRecord::Base
 
   def handle_exception(exception, options={})
     message = "#{exception.message} for #{options[:class_name]} #{options[:id]}"
-    Notification.create(exception: exception, message: message, source_id: source.present? ? source.id : nil)
+    Notification.create(exception: exception, message: message, target_url: options[:target_url], source_id: source.present? ? source.id : nil)
 
     write_attribute(:error_messages, { options[:class_name] => exception.message })
 
