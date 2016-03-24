@@ -132,49 +132,40 @@ FactoryGirl.define do
 
     association :work
     association :source
-    association :relation_type
 
     trait(:with_private) { association :source, private: true }
     trait(:with_mendeley) do
       total 10
-      association :relation_type, :is_bookmarked_by
       association :source, :mendeley
     end
     trait(:with_pubmed) { association :source, :pub_med }
     trait(:with_nature) do
-      association :relation_type, :is_discussed_by
       association :source, :nature
     end
     trait(:with_wos) { association :source, :wos }
     trait(:with_researchblogging) do
-      association :relation_type, :is_discussed_by
       association :source, :researchblogging
     end
     trait(:with_scienceseeker) do
-      association :relation_type, :is_discussed_by
       association :source, :scienceseeker
     end
     trait(:with_wikipedia) { association :source, :wikipedia }
     trait(:with_twitter) do
-      association :relation_type, :is_discussed_by
       association :source, :twitter
     end
     trait(:with_counter) do
       total 500
-      association :relation_type, :is_viewed_by
       association :source, :nature
     end
 
     trait(:with_work_published_today) { association :work, :published_today }
 
     trait(:with_crossref) do
-      association :relation_type
       association :work, :published_yesterday
       association :source, :crossref
     end
 
     trait(:with_crossref_last_month) do
-      association :relation_type
       association :source, :crossref
       after :create do |aggregation|
         last_month = Time.zone.now.to_date - 1.month
@@ -188,7 +179,6 @@ FactoryGirl.define do
     end
 
     trait(:with_crossref_current_month) do
-      association :relation_type
       association :source, :crossref
       after :create do |aggregation|
         FactoryGirl.create(:month, aggregation: aggregation,

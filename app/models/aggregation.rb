@@ -9,7 +9,7 @@ class Aggregation < ActiveRecord::Base
   belongs_to :source
   has_many :months, :dependent => :destroy
 
-  validates :work_id, :source_id, :relation_type_id, presence: true
+  validates :work_id, :source_id, :presence: true
   validates_associated :work, :source
 
   delegate :name, :to => :source
@@ -30,7 +30,7 @@ class Aggregation < ActiveRecord::Base
   scope :with_sources, -> { joins(:source).where("sources.active = ?", 1).order("group_id, title") }
 
   def to_param
-    "#{source.name}:#{work.pid}:#{relation_type.name}"
+    "#{source.name}:#{work.pid}"
   end
 
   def group_name

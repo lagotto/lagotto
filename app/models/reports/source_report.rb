@@ -13,7 +13,7 @@ class SourceReport
       source_model.works.includes(:aggregations)
         .where("works.tracked = ?", 1)
         .group("works.id")
-        .select("works.pid, aggregations.relation_type_id, aggregations.total")
+        .select("works.pid, aggregations.total")
         .all
         .order("works.published_on ASC")
     end
@@ -24,7 +24,7 @@ class SourceReport
   end
 
   def headers
-    ["pid", "html", "pdf", "total"]
+    ["pid", "total"]
   end
 
   def line_items
@@ -42,7 +42,6 @@ class SourceReport
   def build_line_item_for_result(result)
     Reportable::LineItem.new(
       pid: result.pid,
-      relation_type_id: result.relation_type_id,
       total: result.total
     )
   end

@@ -30,17 +30,15 @@ ActiveRecord::Schema.define(version: 20160323182352) do
   end
 
   create_table "aggregations", force: :cascade do |t|
-    t.integer  "work_id",          limit: 4,             null: false
-    t.integer  "source_id",        limit: 4,             null: false
-    t.integer  "relation_type_id", limit: 4,             null: false
-    t.integer  "total",            limit: 4, default: 0, null: false
+    t.integer  "work_id",    limit: 4,             null: false
+    t.integer  "source_id",  limit: 4,             null: false
+    t.integer  "total",      limit: 4, default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "aggregations", ["source_id", "relation_type_id", "total"], name: "index_on_source_id_relation_type_id_total", using: :btree
-  add_index "aggregations", ["work_id", "relation_type_id", "total"], name: "index_on_work_id_relation_type_id_total", using: :btree
-  add_index "aggregations", ["work_id", "source_id", "relation_type_id", "total"], name: "index_on_work_id_source_id_relation_type_id_total", using: :btree
+  add_index "aggregations", ["source_id", "total"], name: "index_on_source_id_total", using: :btree
+  add_index "aggregations", ["work_id", "source_id", "total"], name: "index_on_work_id_source_id_total", using: :btree
 
   create_table "api_requests", force: :cascade do |t|
     t.string   "format",        limit: 255
@@ -194,19 +192,17 @@ ActiveRecord::Schema.define(version: 20160323182352) do
   end
 
   create_table "months", force: :cascade do |t|
-    t.integer  "work_id",          limit: 4,             null: false
-    t.integer  "source_id",        limit: 4,             null: false
-    t.integer  "year",             limit: 4,             null: false
-    t.integer  "month",            limit: 4,             null: false
-    t.integer  "total",            limit: 4, default: 0, null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "relation_type_id", limit: 4
-    t.integer  "aggregation_id",   limit: 4
+    t.integer  "work_id",        limit: 4,             null: false
+    t.integer  "source_id",      limit: 4,             null: false
+    t.integer  "year",           limit: 4,             null: false
+    t.integer  "month",          limit: 4,             null: false
+    t.integer  "total",          limit: 4, default: 0, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "aggregation_id", limit: 4
   end
 
   add_index "months", ["aggregation_id"], name: "months_aggregations_id_fk", using: :btree
-  add_index "months", ["relation_type_id"], name: "months_relation_type_id_fk", using: :btree
   add_index "months", ["source_id", "year", "month"], name: "index_months_on_source_id_and_year_and_month", using: :btree
   add_index "months", ["work_id", "source_id", "year", "month"], name: "index_months_on_work_id_and_source_id_and_year_and_month", using: :btree
   add_index "months", ["year", "month"], name: "index_months_on_event_id_and_year_and_month", using: :btree
@@ -460,7 +456,6 @@ ActiveRecord::Schema.define(version: 20160323182352) do
   add_foreign_key "aggregations", "sources", name: "aggregations_source_id_fk", on_delete: :cascade
   add_foreign_key "aggregations", "works", name: "aggregations_work_id_fk", on_delete: :cascade
   add_foreign_key "months", "aggregations", name: "months_aggregations_id_fk", on_delete: :cascade
-  add_foreign_key "months", "relation_types", name: "months_relation_type_id_fk", on_delete: :cascade
   add_foreign_key "months", "sources", name: "months_source_id_fk", on_delete: :cascade
   add_foreign_key "months", "works", name: "months_work_id_fk", on_delete: :cascade
   add_foreign_key "publisher_options", "agents", name: "publisher_options_agent_id_fk", on_delete: :cascade
