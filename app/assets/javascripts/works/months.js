@@ -28,7 +28,7 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api-key');
   var work_id = params.attr('data-pid');
-  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/relations");
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/months");
 }
 
 // asynchronously load data from the Lagotto API
