@@ -194,6 +194,13 @@ FactoryGirl.define do
   end
 
   factory :month do
+    year 2015
+    month 4
+
+    association :work
+    association :aggregation
+    association :source
+
     trait(:with_work) do
       association :work, :published_today
       after :build do |month|
@@ -204,6 +211,8 @@ FactoryGirl.define do
         end
       end
     end
+
+    initialize_with { Month.where(work_id: work.id, source_id: source.id, aggregation_id: aggregation.id).first_or_initialize }
   end
 
   factory :report do
