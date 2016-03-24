@@ -253,6 +253,13 @@ describe Work, type: :model, vcr: true do
     expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact + work.provenance_urls)
   end
 
+  context "relation_types_for_recommendations" do
+    FactoryGirl.create(:relation_type)
+    it "should return ids" do
+      expect(subject.relation_types_for_recommendations).to eq([5])
+    end
+  end
+
   context "associations" do
     it "should create associated aggregations" do
       expect(Aggregation.count).to eq(0)

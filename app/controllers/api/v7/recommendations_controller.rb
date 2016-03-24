@@ -18,7 +18,8 @@ class Api::V7::RecommendationsController < Api::BaseController
 
   def index
     related_work_ids = @work.relations.pluck(:related_work_id)
-    relation_type_ids = RelationType.where("name = 'is_cited_by' OR name = 'is_bookmarked_by' OR name = 'is_referenced_by'").pluck(:id)
+    relation_type_ids = @work.relation_types_for_recommendations
+
     collection = Relation.where.not(work_id: @work.id)
                          .where(related_work_id: related_work_ids)
                          .where(relation_type_id: relation_type_ids)

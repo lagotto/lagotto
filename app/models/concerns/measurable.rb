@@ -26,6 +26,16 @@ module Measurable
       end
     end
 
+    def relation_types_for_recommendations
+      cached_relation_type_names.reduce([]) do |sum, rt|
+        if %w(is_cited_by is_bookmarked_by is_referenced_by).include?(rt.last)
+          sum << rt.first
+        else
+          sum
+        end
+      end
+    end
+
     def get_iso8601_from_time(time)
       return nil if time.blank?
 

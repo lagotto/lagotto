@@ -26,6 +26,12 @@ module Cacheable
       end
     end
 
+    def cached_relation_type_names
+      Rails.cache.fetch("relation_type/names", expires_in: 1.month) do
+        RelationType.order(:name).pluck(:id, :name).to_h
+      end
+    end
+
     def cached_inv_relation_type(name)
       Rails.cache.fetch("inv_relation_type/#{name}", expires_in: 1.month) do
         RelationType.where(inverse_name: name).first
