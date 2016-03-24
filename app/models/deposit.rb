@@ -180,7 +180,13 @@ class Deposit < ActiveRecord::Base
                         total: total,
                         occurred_at: occurred_at)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
+    if exception.class == ActiveRecord::RecordNotUnique
+      Relation.where(work_id: work_id,
+                     related_work_id: related_work_id,
+                     source_id: source.present? ? source.id : nil).first
+    else
+      handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
+    end
   end
 
   def update_inv_relation
@@ -195,7 +201,13 @@ class Deposit < ActiveRecord::Base
                         total: total,
                         occurred_at: occurred_at)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-    handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
+    if exception.class == ActiveRecord::RecordNotUnique
+      Relation.where(work_id: related_work_id,
+                     related_work_id: work_id,
+                     source_id: source.present? ? source.id : nil).first
+    else
+      handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
+    end
   end
 
     #   # update months
