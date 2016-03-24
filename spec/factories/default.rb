@@ -73,7 +73,7 @@ FactoryGirl.define do
 
     factory :work_with_crossref do
       after :create do |work|
-        FactoryGirl.create_list(:aggregation, 5, :with_crossref, work: work)
+        FactoryGirl.create(:aggregation, :with_crossref, work: work)
       end
     end
 
@@ -91,7 +91,7 @@ FactoryGirl.define do
 
     factory :work_with_crossref_and_mendeley do
       after :create do |work|
-        FactoryGirl.create_list(:aggregation, 5, :with_crossref, work: work)
+        FactoryGirl.create(:aggregation, :with_crossref, work: work)
         FactoryGirl.create(:aggregation, :with_mendeley, work: work)
       end
     end
@@ -122,7 +122,7 @@ FactoryGirl.define do
 
     factory :work_with_twitter do
       after :create do |work|
-        FactoryGirl.create_list(:aggregation, 10, :with_twitter, work: work)
+        FactoryGirl.create(:aggregation, :with_twitter, work: work)
       end
     end
   end

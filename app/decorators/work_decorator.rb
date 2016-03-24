@@ -28,13 +28,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def publisher_id
-    if model.publisher.present?
-      model.publisher.name
-    end
-  end
-
-  def url
-    canonical_url
+    model.publisher.name if model.publisher.present?
   end
 
   def DOI
@@ -53,28 +47,8 @@ class WorkDecorator < Draper::Decorator
     model.pmcid
   end
 
-  def mendeley
-    mendeley_uuid
-  end
-
-  def viewed
-    model.is_viewed_by
-  end
-
-  def saved
-    model.is_bookmarked_by
-  end
-
-  def discussed
-    model.is_discussed_by
-  end
-
-  def cited
-    model.is_cited_by
-  end
-
   def cache_key
-    "work/#{pid}/source_ids:#{source_ids.join(',')}/info:#{context[:info].to_s}/#{timestamp}"
+    "work/#{pid}/#{timestamp}"
   end
 
   def update_date
@@ -160,32 +134,32 @@ class WorkDecorator < Draper::Decorator
   end
 
   def viewed_span
-    if model.is_viewed_by > 0
-      "<span class=\"alm signpost viewed\" data-viewed=\"#{model.is_viewed_by}\">Viewed: #{model.is_viewed_by}</span>"
+    if event_count('counter_html') > 0
+      "<span class=\"alm signpost viewed\" data-viewed=\"#{event_count('counter_html')}\">Viewed: #{event_count('counter_html')}</span>"
     else
       ""
     end
   end
 
   def discussed_span
-    if model.is_discussed_by > 0
-      "<span class=\"alm signpost discussed\" data-discussed=\"#{model.is_discussed_by}\">Discussed: #{model.is_discussed_by}</span>"
+    if event_count('twitter') > 0
+      "<span class=\"alm signpost discussed\" data-discussed=\"#{event_count('twitter')}\">Discussed: #{event_count('twitter')}</span>"
     else
       ""
     end
   end
 
   def saved_span
-    if model.is_bookmarked_by > 0
-      "<span class=\"alm signpost saved\" data-saved=\"#{model.is_bookmarked_by}\">Saved: #{model.is_bookmarked_by}</span>"
+    if event_count('mendeley') > 0
+      "<span class=\"alm signpost saved\" data-saved=\"#{event_count('mendeley')}\">Saved: #{event_count('mendeley')}</span>"
     else
       ""
     end
   end
 
   def cited_span
-    if model.is_cited_by > 0
-      "<span class=\"alm signpost cited\" data-cited=\"#{model.is_cited_by}\">Cited: #{model.is_cited_by}</span>"
+    if event_count('crossref') > 0
+      "<span class=\"alm signpost cited\" data-cited=\"#{event_count('crossref')}\">Cited: #{event_count('crossref')}</span>"
     else
       ""
     end

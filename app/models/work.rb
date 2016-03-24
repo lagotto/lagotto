@@ -153,12 +153,10 @@ class Work < ActiveRecord::Base
     relations.where.not(provenance_url: nil).pluck(:provenance_url)
   end
 
-  def event_counts(names)
-    names.reduce(0) { |sum, source| sum + event_count(source) }
-  end
-
   def provenance_url(name)
     source = cached_source(name)
+    return nil unless source.present?
+
     relations.where(source_id: source.id).pluck(:provenance_url).first
   end
 
@@ -174,31 +172,16 @@ class Work < ActiveRecord::Base
     @mendeley_url ||= provenance_url("mendeley")
   end
 
-  def event_count(relation_type_id)
-    relation_type = cached_relation_type(relation_type_id)
-    aggregations.where(relation_type_id: relation_type.id).sum(:total)
+  def event_counts(names)
+    names.reduce(0) { |sum, source| sum + event_count(source) }
   end
 
-  def is_viewed_by
-    @is_viewed_by ||= event_count('is_viewed_by')
-  end
+  def event_count(name)
+    source = cached_source(name)
+    return 0 unless source.present?
 
-  def is_discussed_by
-    @is_discussed_by ||= event_count('is_discussed_by')
+    aggregations.where(source_id: source.id).pluck(:total).first
   end
-
-  def is_bookmarked_by
-    @is_bookmarked_by ||= event_count('is_bookmarked_by')
-  end
-
-  def is_cited_by
-    @is_cited_by ||= event_count('is_cited_by')
-  end
-
-  # alias_method :viewed, :is_viewed_by
-  # alias_method :discussed, :is_discussed_by
-  # alias_method :saved, :is_bookmarked_by
-  # alias_method :cited, :is_cited_by
 
   # returns hash with source names as keys and aggregated total for each source as values
   def metrics

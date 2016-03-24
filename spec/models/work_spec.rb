@@ -196,29 +196,14 @@ describe Work, type: :model, vcr: true do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
 
-  it 'event_count' do
+  it 'event_count twitter' do
     work = FactoryGirl.create(:work_with_twitter)
-    expect(work.event_count('is_discussed_by')).to eq(25)
+    expect(work.event_count('twitter')).to eq(25)
   end
 
-  it 'is_viewed_by' do
-    work = FactoryGirl.create(:work_with_counter)
-    expect(work.is_viewed_by).to eq(500)
-  end
-
-  it 'is_discussed_by' do
-    work = FactoryGirl.create(:work_with_twitter)
-    expect(work.is_discussed_by).to eq(25)
-  end
-
-  it 'is_bookmarked_by' do
+  it 'event_count mendeley' do
     work = FactoryGirl.create(:work_with_mendeley)
-    expect(work.is_bookmarked_by).to eq(10)
-  end
-
-  it 'is_cited_by' do
-    work = FactoryGirl.create(:work_with_crossref)
-    expect(work.is_cited_by).to eq(25)
+    expect(work.event_count('mendeley')).to eq(10)
   end
 
   it 'metrics' do
