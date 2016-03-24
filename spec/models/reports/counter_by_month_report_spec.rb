@@ -2,11 +2,11 @@ require "rails_helper"
 
 describe "Running a SourceByMonthReport for Counter" do
   include_examples "SourceByMonthReport examples",
-    source_factory: :counter,
+    source_factory: :counter_html,
     report_class: CounterByMonthReport
 
   subject(:report){ CounterByMonthReport.new(source, format: format, year: year, month: month) }
-  let(:source){ FactoryGirl.create(:source, :counter) }
+  let(:source){ FactoryGirl.create(:source, :counter_html) }
 
   describe "#line_items" do
     describe "when there are months (with stats) for a set of Work(s)" do

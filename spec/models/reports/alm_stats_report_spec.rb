@@ -9,8 +9,8 @@ describe AlmStatsReport do
   ] }
 
   let(:source_mendeley){ FactoryGirl.create(:source, :mendeley) }
-  let(:source_pmc){ FactoryGirl.create(:source, :pmc) }
-  let(:source_counter){ FactoryGirl.create(:source, :counter) }
+  let(:source_pmc){ FactoryGirl.create(:source, :pmc_html) }
+  let(:source_counter){ FactoryGirl.create(:source, :counter_html) }
 
   let!(:aggregations){ [
     aggregation_with_mendeley_work,

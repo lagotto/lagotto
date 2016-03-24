@@ -2,11 +2,11 @@ require "rails_helper"
 
 describe "Running a SourceReport for Counter" do
   include_examples "SourceReport examples",
-    source_factory: :counter,
+    source_factory: :counter_html,
     report_class: CounterReport
 
   subject(:report){ CounterReport.new(source) }
-  let(:source){ FactoryGirl.create(:source, :counter) }
+  let(:source){ FactoryGirl.create(:source, :counter_html) }
 
   # describe "#headers" do
   #   subject(:headers){ report.headers }
