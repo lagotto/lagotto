@@ -39,6 +39,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_relations do
+      after :create do |work|
+        FactoryGirl.create_list(:relation, 5, work: work)
+      end
+    end
+
     factory :work_with_ids do
       sequence(:pmcid) { |n| "256885#{n}" }
       sequence(:wos) { |n| "00023796690000#{n}" }
@@ -129,23 +135,37 @@ FactoryGirl.define do
     association :relation_type
 
     trait(:with_private) { association :source, private: true }
-    trait(:with_mendeley) { association :source, :mendeley }
+    trait(:with_mendeley) do
+      total 10
+      association :relation_type, :is_bookmarked_by
+      association :source, :mendeley
+    end
     trait(:with_pubmed) { association :source, :pub_med }
-    trait(:with_nature) { association :source, :nature }
+    trait(:with_nature) do
+      association :relation_type, :is_discussed_by
+      association :source, :nature
+    end
     trait(:with_wos) { association :source, :wos }
-    trait(:with_researchblogging) { association :source, :researchblogging }
-    trait(:with_scienceseeker) { association :source, :scienceseeker }
+    trait(:with_researchblogging) do
+      association :relation_type, :is_discussed_by
+      association :source, :researchblogging
+    end
+    trait(:with_scienceseeker) do
+      association :relation_type, :is_discussed_by
+      association :source, :scienceseeker
+    end
     trait(:with_wikipedia) { association :source, :wikipedia }
-    trait(:with_twitter) { association :source, :twitter}
-
-    trait(:with_work_published_today) { association :work, :published_today }
-
+    trait(:with_twitter) do
+      association :relation_type, :is_discussed_by
+      association :source, :twitter
+    end
     trait(:with_counter) do
       total 500
       association :relation_type, :is_viewed_by
-      association :work, :published_yesterday
-      association :source, :counter
+      association :source, :nature
     end
+
+    trait(:with_work_published_today) { association :work, :published_today }
 
     trait(:with_crossref) do
       association :relation_type
@@ -462,34 +482,6 @@ FactoryGirl.define do
     association :source
     association :aggregation
     association :relation_type, :is_bookmarked_by
-
-    trait(:with_private) { association :source, private: true }
-    trait(:with_mendeley) do
-      total 10
-      association :relation_type, :is_bookmarked_by
-      association :source, :mendeley
-    end
-    trait(:with_pubmed) { association :source, :pub_med }
-    trait(:with_nature) do
-      association :relation_type, :is_discussed_by
-      association :source, :nature
-    end
-    trait(:with_wos) { association :source, :wos }
-    trait(:with_researchblogging) do
-      association :relation_type, :is_discussed_by
-      association :source, :researchblogging
-    end
-    trait(:with_scienceseeker) do
-      association :relation_type, :is_discussed_by
-      association :source, :scienceseeker
-    end
-    trait(:with_wikipedia) { association :source, :wikipedia }
-    trait(:with_twitter) do
-      association :relation_type, :is_discussed_by
-      association :source, :twitter
-    end
-
-    trait(:with_work_published_today) { association :work, :published_today }
   end
 
   factory :status do

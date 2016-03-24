@@ -51,8 +51,8 @@ class Work < ActiveRecord::Base
 
   scope :query, ->(query) { where("pid like ?", "#{query}%") }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:relations).where("relations.total > ?", 0).references(:relations) }
-  scope :by_source, ->(source_id) { joins(:relations).where("relations.source_id = ?", source_id) }
+  scope :has_events, -> { includes(:aggregations).where("aggregations.total > ?", 0).references(:aggregations) }
+  scope :by_source, ->(source_id) { joins(:aggregations).where("aggregations.source_id = ?", source_id) }
 
   scope :tracked, -> { where("works.tracked = ?", true) }
 
@@ -75,7 +75,7 @@ class Work < ActiveRecord::Base
   end
 
   def events_count
-    @events_count ||= relations.reduce(0) { |sum, r| sum + r.total }
+    @events_count ||= aggregations.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -176,7 +176,7 @@ class Work < ActiveRecord::Base
 
   def event_count(relation_type_id)
     relation_type = cached_relation_type(relation_type_id)
-    relations.where(relation_type_id: relation_type.id).sum(:total)
+    aggregations.where(relation_type_id: relation_type.id).sum(:total)
   end
 
   def is_viewed_by

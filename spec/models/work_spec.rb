@@ -198,7 +198,7 @@ describe Work, type: :model, vcr: true do
 
   it 'event_count' do
     work = FactoryGirl.create(:work_with_twitter)
-    expect(work.event_count('is_discussed_by')).to eq(10)
+    expect(work.event_count('is_discussed_by')).to eq(25)
   end
 
   it 'is_viewed_by' do
@@ -208,7 +208,7 @@ describe Work, type: :model, vcr: true do
 
   it 'is_discussed_by' do
     work = FactoryGirl.create(:work_with_twitter)
-    expect(work.is_discussed_by).to eq(10)
+    expect(work.is_discussed_by).to eq(25)
   end
 
   it 'is_bookmarked_by' do
@@ -218,12 +218,12 @@ describe Work, type: :model, vcr: true do
 
   it 'is_cited_by' do
     work = FactoryGirl.create(:work_with_crossref)
-    expect(work.is_cited_by).to eq(5)
+    expect(work.is_cited_by).to eq(25)
   end
 
   it 'metrics' do
     work = FactoryGirl.create(:work_with_crossref_and_mendeley)
-    expect(work.metrics).to eq("crossref"=>5, "mendeley"=>10)
+    expect(work.metrics).to eq("crossref"=>25, "mendeley"=>10)
   end
 
   it "events count" do
@@ -269,14 +269,27 @@ describe Work, type: :model, vcr: true do
   end
 
   context "associations" do
+    it "should create associated aggregations" do
+      expect(Aggregation.count).to eq(0)
+      @works = FactoryGirl.create_list(:work, 2, :with_events)
+      expect(Aggregation.count).to eq(2)
+    end
+
+    it "should delete associated aggregations" do
+      @works = FactoryGirl.create_list(:work, 2, :with_events)
+      expect(Aggregation.count).to eq(2)
+      @works.each(&:destroy)
+      expect(Aggregation.count).to eq(0)
+    end
+
     it "should create associated relations" do
       expect(Relation.count).to eq(0)
-      @works = FactoryGirl.create_list(:work, 2, :with_events)
+      @works = FactoryGirl.create_list(:work, 2, :with_relations)
       expect(Relation.count).to eq(10)
     end
 
     it "should delete associated relations" do
-      @works = FactoryGirl.create_list(:work, 2, :with_events)
+      @works = FactoryGirl.create_list(:work, 2, :with_relations)
       expect(Relation.count).to eq(10)
       @works.each(&:destroy)
       expect(Relation.count).to eq(0)
