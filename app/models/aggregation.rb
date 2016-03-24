@@ -9,7 +9,7 @@ class Aggregation < ActiveRecord::Base
   belongs_to :source
   has_many :months, :dependent => :destroy
 
-  validates :work_id, :source_id, :presence: true
+  validates :work_id, :source_id, presence: true
   validates_associated :work, :source
 
   delegate :name, :to => :source
