@@ -22,7 +22,6 @@ describe "Running a SourceReport for Counter" do
       let(:aggregation_with_readers){
         FactoryGirl.create(:aggregation, :with_work_published_today,
           source: source,
-          relation_type: FactoryGirl.create(:relation_type),
           total: 30
         )
       }

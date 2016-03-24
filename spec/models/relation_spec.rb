@@ -9,10 +9,9 @@ describe Relation, :type => :model do
   it { is_expected.to belong_to(:related_work) }
   it { is_expected.to belong_to(:source) }
   it { is_expected.to belong_to(:relation_type) }
-  it { is_expected.to belong_to(:aggregation) }
+  it { is_expected.to belong_to(:month) }
 
   it { is_expected.to validate_presence_of(:work_id) }
   it { is_expected.to validate_presence_of(:related_work_id) }
   it { is_expected.to validate_presence_of(:relation_type_id) }
-  it { is_expected.to validate_presence_of(:aggregation_id) }
 end

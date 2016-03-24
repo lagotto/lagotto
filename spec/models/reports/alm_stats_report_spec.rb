@@ -92,12 +92,12 @@ describe AlmStatsReport do
 
         it "has the total count for each source for the work" do
           expect(first_line_item.field("mendeley")).to eq(aggregation_with_mendeley_work.total)
-          expect(second_line_item.field("pmc")).to eq(aggregation_with_pmc_work.total)
+          expect(second_line_item.field("pmc_html")).to eq(aggregation_with_pmc_work.total)
         end
 
         it "defaults the count to 0 when there is no count for a source/work" do
           aggregation_with_pmc_work.destroy
-          expect(second_line_item.field("pmc")).to eq(0)
+          expect(second_line_item.field("pmc_html")).to eq(0)
         end
       end
 
@@ -135,8 +135,8 @@ describe AlmStatsReport do
 
         it "includes the totals for each source as fields on the line item" do
           expect(line_item.field("mendeley")).to eq(aggregation_with_mendeley_work.total)
-          expect(line_item.field("pmc")).to      eq(aggregation_for_same_work_but_for_pmc.total)
-          expect(line_item.field("counter")).to  eq(aggregation_for_same_work_but_for_counter.total)
+          expect(line_item.field("pmc_html")).to      eq(aggregation_for_same_work_but_for_pmc.total)
+          expect(line_item.field("counter_html")).to  eq(aggregation_for_same_work_but_for_counter.total)
         end
       end
     end
@@ -162,7 +162,7 @@ describe AlmStatsReport do
 
   describe "#to_csv" do
     let(:expected_csv){ <<-CSV.gsub(/^\s+/, '')
-      pid,publication_date,title,mendeley,pmc,counter
+      pid,publication_date,title,mendeley,pmc_html,counter_html
       #{mendeley_work.pid},#{mendeley_work.published_on.to_date},#{mendeley_work.title},3,0,0
       #{pmc_work.pid},#{pmc_work.published_on.to_date},#{pmc_work.title},0,1420,0
       CSV

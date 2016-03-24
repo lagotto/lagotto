@@ -189,7 +189,7 @@ describe Agent, :type => :model, vcr: true do
       expect(deposit.uuid).to be_present
       expect(deposit.message_type).to eq("relation")
       expect(deposit.source_token).to eq(subject.uuid)
-      expect(deposit.source_id).to eq("counter")
+      expect(deposit.source_id).to eq("counter_pdf")
       expect(deposit.relation_type_id).to eq("downloads")
       expect(deposit.subj_id).to eq("http://www.plos.org")
     end
