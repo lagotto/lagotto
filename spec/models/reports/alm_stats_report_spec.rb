@@ -134,7 +134,7 @@ describe AlmStatsReport do
         end
 
         it "includes the totals for each source as fields on the line item" do
-          expect(line_item.field("mendeley")).to eq(aggregation_with_mendeley_work.total)
+          expect(line_item.field("mendeley")).to      eq(aggregation_with_mendeley_work.total)
           expect(line_item.field("pmc_html")).to      eq(aggregation_for_same_work_but_for_pmc.total)
           expect(line_item.field("counter_html")).to  eq(aggregation_for_same_work_but_for_counter.total)
         end
