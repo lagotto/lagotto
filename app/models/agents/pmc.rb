@@ -88,7 +88,7 @@ class Pmc < Agent
                              "obj_id" => doi_as_url(doi),
                              "relation_type_id" => "views",
                              "total" => html,
-                             "source_id" => source_id },
+                             "source_id" => "pmc_html" },
                  subj: subj }
       end
 
@@ -98,7 +98,7 @@ class Pmc < Agent
                              "obj_id" => doi_as_url(doi),
                              "relation_type_id" => "downloads",
                              "total" => pdf,
-                             "source_id" => source_id },
+                             "source_id" => "pmc_pdf" },
                  subj: subj }
       end
 

@@ -125,16 +125,28 @@ records:
     title: Research Blogging
     description: Research Blogging is a science blog aggregator.
     group_id: <%= sprig_record(Group, "discussed").id %>
-  - sprig_id: pmc
-    name: pmc
-    title: PubMed Central Usage Stats
+  - sprig_id: pmc_html
+    name: pmc_html
+    title: PubMed Central View Stats
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
     eventable: false
     group_id: <%= sprig_record(Group, "viewed").id %>
-  - sprig_id: counter
-    name: counter
-    title: Counter
-    description: Publisher usage stats following COUNTER standard.
+  - sprig_id: pmc_pdf
+    name: pmc_pdf
+    title: PubMed Central Download Stats
+    description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
+    eventable: false
+    group_id: <%= sprig_record(Group, "viewed").id %>
+  - sprig_id: counter_html
+    name: counter_html
+    title: Counter Views
+    description: Publisher view stats following COUNTER standard.
+    eventable: false
+    group_id: <%= sprig_record(Group, "viewed").id %>
+  - sprig_id: counter_pdf
+    name: counter_pdf
+    title: Counter Downloads
+    description: Publisher download stats following COUNTER standard.
     eventable: false
     group_id: <%= sprig_record(Group, "viewed").id %>
   - sprig_id: twitter

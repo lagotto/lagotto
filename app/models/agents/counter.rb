@@ -34,7 +34,7 @@ class Counter < Agent
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "downloads",
                                  "total" => pdf,
-                                 "source_id" => source_id },
+                                 "source_id" => "counter_pdf" },
                      subj: subj }
     end
 
@@ -44,7 +44,7 @@ class Counter < Agent
                                  "obj_id" => work.pid,
                                  "relation_type_id" => "views",
                                  "total" => html,
-                                 "source_id" => source_id },
+                                 "source_id" => "counter_html" },
                      subj: subj }
     end
 

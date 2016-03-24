@@ -39,14 +39,24 @@ FactoryGirl.define do
       title "Mendeley"
     end
 
-    trait(:counter) do
-      name "counter"
-      title "Counter"
+    trait(:counter_html) do
+      name "counter_html"
+      title "Counter Views"
     end
 
-    trait(:pmc) do
-      name "pmc"
-      title "PubMed Central Usage Stats"
+    trait(:counter_pdf) do
+      name "counter_pdf"
+      title "Counter Downloads"
+    end
+
+    trait(:pmc_html) do
+      name "pmc_html"
+      title "PubMed Central View Stats"
+    end
+
+    trait(:pmc_pdf) do
+      name "pmc_pdf"
+      title "PubMed Central Download Stats"
     end
 
     trait(:crossref) do
