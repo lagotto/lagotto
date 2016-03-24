@@ -1,6 +1,6 @@
 class Github < Agent
   def request_options
-    { bearer: personal_access_token }
+    { bearer: personal_access_token, agent_id: id }
   end
 
   def get_query_url(options={})

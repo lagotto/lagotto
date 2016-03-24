@@ -1,4 +1,8 @@
 class Twitter < Agent
+  def request_options
+    { agent_id: id }
+  end
+
   def get_query_url(options={})
     work = Work.where(id: options.fetch(:work_id, nil)).first
     return {} unless work.present? && work.doi =~ /^10.1371/
