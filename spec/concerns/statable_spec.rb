@@ -30,7 +30,7 @@ describe Agent do
         notification = Notification.first
         expect(notification.class_name).to eq("TooManyErrorsBySourceError")
         expect(notification.message).to eq("#{subject.title} has exceeded maximum failed queries. Disabling the agent.")
-        expect(notification.agent_id).to eq(subject.id)
+        expect(notification.source_id).to eq(subject.source_id)
       end
     end
 
@@ -52,7 +52,7 @@ describe Agent do
         notification = Notification.first
         expect(notification.class_name).to eq("TooManyErrorsBySourceError")
         expect(notification.message).to eq("#{subject.title} has exceeded maximum failed queries. Disabling the agent.")
-        expect(notification.agent_id).to eq(subject.id)
+        expect(notification.source_id).to eq(subject.source_id)
       end
 
       it "should change to :waiting on :wait" do

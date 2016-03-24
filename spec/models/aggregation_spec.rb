@@ -31,7 +31,7 @@ describe Aggregation, type: :model, vcr: true do
 
     it "current month" do
       subject = FactoryGirl.create(:aggregation, :with_crossref_current_month)
-      expect(subject.get_events_current_month).to eq("year" => 2015, "month" => 4, "total" => 20)
+      expect(subject.get_events_current_month).to eq("year" => 2015, "month" => 4, "total" => 25)
     end
 
     it "last month" do
