@@ -9,7 +9,6 @@
             <th>Status</th>
             <th class="number">Responses&nbsp;(24&nbsp;hours)</th>
             <th class="number">Average&nbsp;(ms)</th>
-            <th class="number">Errors (24&nbsp;hours)</th>
           </tr>
         </thead>
         <tbody>
@@ -19,7 +18,6 @@
               <td><%= state_label(agent.human_state_name).html_safe %></td>
               <td class="number" id="response_count_<%= agent.name %>"></td>
               <td class="number" id="average_count_<%= agent.name %>"></td>
-              <td class="number" id="error_count_<%= agent.name %>"><%= agent.error_count > 0 ? link_to(number_hiding_zero(agent.error_count), notifications_path(agent_id: agent.name)) : "" %></td>
             </tr>
           <% end %>
         </tbody>

@@ -7,6 +7,7 @@
           <tr>
             <th class="name">Source</th>
             <th class="description">Description</th>
+            <th class="number">Errors (24&nbsp;hours)</th>
           </tr>
         </thead>
         <tbody>
@@ -14,6 +15,7 @@
             <tr>
               <td><%= link_to source.title, source_path(source) %></td>
               <td><%= h(source.description) %></td>
+              <td class="number" id="error_count_<%= source.name %>"><%= source.error_count > 0 ? link_to(number_hiding_zero(source.error_count), notifications_path(source_id: source.id)) : "" %></td>
             </tr>
           <% end %>
         </tbody>
