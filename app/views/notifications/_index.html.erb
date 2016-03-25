@@ -163,9 +163,9 @@
                 <%= link_to notification.remote_ip, notification.remote_ip %>
               <% end %>
 
-              <% unless notification.user_source.blank? %>
+              <% unless notification.user_agent.blank? %>
                 <h5>User Agent</h5>
-                <%= notification.user_source %>
+                <%= notification.user_agent %>
               <% end %>
             <% end %>
 
