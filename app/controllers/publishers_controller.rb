@@ -46,7 +46,7 @@ class PublishersController < ApplicationController
 
   def load_index
     collection = Publisher.active
-    collection = collection.query(params[:query]) if params[:query]
+    collection = collection.query(params[:q]) if params[:q]
 
     if params[:registration_agency].present?
       collection = collection.where(registration_agency: params[:registration_agency])

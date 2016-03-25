@@ -20,6 +20,12 @@ module Cacheable
       end
     end
 
+    def cached_publisher_id(id)
+      Rails.cache.fetch("publisher/#{id}", expires_in: 1.month) do
+        Publisher.where(id: id).first
+      end
+    end
+
     def cached_relation_type(name)
       Rails.cache.fetch("relation_type/#{name}", expires_in: 1.month) do
         RelationType.where(name: name).first
@@ -41,6 +47,12 @@ module Cacheable
     def cached_work_type(name)
       Rails.cache.fetch("work_type/#{name}", expires_in: 1.month) do
         WorkType.where(name: name).first
+      end
+    end
+
+    def cached_work_type_names
+      Rails.cache.fetch("work_type/names", expires_in: 1.month) do
+        WorkType.pluck(:id, :name).to_h
       end
     end
 

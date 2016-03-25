@@ -476,7 +476,7 @@ $input-height-base:              ($line-height-computed + ($padding-base-vertica
 $input-height-large:             (floor($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
 $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
 $input-color:                    black;
-$input-color-placeholder:        $gray-dark;
+$input-color-placeholder:        $gray-darker;
 
 
 $bar-color-1: $turquoise;
@@ -532,7 +532,8 @@ select.form-control.date { display: inline; }
 .form-group.has-error input, .form-group.has-error textarea, .form-group.has-error select { border: 1px solid $brand-danger; }
 h1 { margin-top: 0; }
 h5, h4.work { margin-top: 0; margin-bottom: 0; }
-.loading {margin: 1em; color: $gray; }
+h4.results { font-weight: normal; font-size: 1.25em; margin: 0 0 .5em .75em; }
+.loading {margin: 1em; color: $gray-darker; }
 td h4 { margin-top: 0; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
 div.search-wide { padding-top: 10px; padding-bottom: 20px; margin-bottom: 20px; margin-left: auto; margin-right: auto; }

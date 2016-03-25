@@ -153,6 +153,14 @@ function relationToString(work, sources, relation_types) {
   return [relation_type.title, " via " + source.title];
 }
 
+function metadataToString(work) {
+  var date_parts = work["issued"]["date-parts"][0];
+  var date = datePartsToDate(date_parts);
+  var containerTitleString = work["container-title"] ? " via " + work["container-title"] : "";
+
+  return formattedType(work.work_type_id) + " published " + formattedDate(date, date_parts.length) + containerTitleString;
+}
+
 // construct author object from author parts
 function formattedAuthor(author) {
   author = author.map(function(d) { return d.given + " " + d.family; });
@@ -177,5 +185,5 @@ function formattedType(type) {
                 "webpage": "Web page",
                 "broadcast": "Podcast/Video",
                 "personal_communication": "Personal communication" };
-  return types[type] || "Other";
+  return types[type] || "Work";
 }

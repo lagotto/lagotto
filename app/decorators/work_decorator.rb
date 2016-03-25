@@ -28,7 +28,11 @@ class WorkDecorator < Draper::Decorator
   end
 
   def publisher_id
-    model.publisher.name if model.publisher.present?
+    cached_publisher_id(model.publisher_id).name if model.publisher_id.present?
+  end
+
+  def work_type_id
+    cached_work_type_names[model.work_type_id] if model.work_type.present?
   end
 
   def DOI

@@ -58,28 +58,35 @@ function worksViz(json, sources) {
     return;
   }
 
-  d3.select("#content").insert("div")
-    .attr("class", "panel").insert("div")
-    .attr("class", "panel-body")
-    .attr("id", "results");
+  d3.select("#content").insert("h4")
+    .attr("class", "results")
+    .text(numberWithDelimiter(json.meta.total) + " Results");
+
+  d3.select("#work-sort").classed("hidden", false);
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
-    var date_parts = work["issued"]["date-parts"][0];
-    var date = datePartsToDate(date_parts);
 
-    d3.select("#results").append("h4")
+    d3.select("#content").insert("div")
+      .attr("class", "panel panel-default")
+      .attr("id", "panel-" + i).insert("div")
+      .attr("class", "panel-body")
+      .attr("id", "panel-body-" + i);
+
+    d3.select("#panel-body-" + i).append("h4")
       .attr("class", "work")
       .append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
-    d3.select("#results").append("span")
-      .attr("class", "date")
-      .text(formattedDate(date, date_parts.length) + ". ");
-    d3.select("#results").append("a")
-      .attr("href", function() { return work.id; })
-      .text(work.id);
-    d3.select("#results").append("p")
+    d3.select("#panel-body-" + i).append("p")
+      .html(formattedAuthor(work.author)).append("p")
+      .html(metadataToString(work));
+    d3.select("#panel-body" + i).append("p")
       .text(signpostsToString(work, sources, source_id, sort));
+
+    d3.select("#panel-" + i).insert("div")
+      .attr("class", "panel-footer").append("a")
+      .attr("href", function() { return work.id; })
+      .html(work.id);
   }
 }
