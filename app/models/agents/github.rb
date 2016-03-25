@@ -116,7 +116,7 @@ class Github < Agent
   end
 
   def rate_limiting
-    config.rate_limiting || 5000
+    config.rate_limiting || 4500
   end
 
   def cron_line
