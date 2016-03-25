@@ -1,13 +1,8 @@
 <% if can?(:manage, Publisher) and (controller.action_name == "new" or (controller.action_name == "create" and !@publisher.errors.empty?)) %>
-
-  <div class="page-header">
-    <h2>Add Publisher</h2>
-  </div>
-
   <div class="search">
     <%= form_tag(new_publisher_path, :method => "get", :id => "search_form", :class => "form-inline", :role => "form", remote: true) do %>
       <div class="form-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control", autofocus: true %>
+        <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control", autofocus: true %>
       </div>
       <button type="submit" id="submit" class="btn btn-default"><%= icon("search") %></button>
       <% if params[:q].blank? %>
@@ -51,49 +46,78 @@
     <% end %>
   </div>
 <% else %>
-  <div class="page-header">
-    <div class="btn-toolbar pull-right">
-      <% if can?(:manage, Publisher) %>
-        <div class="btn-group btn-group-sm">
-          <%= link_to icon("plus").html_safe, new_publisher_path, { :remote => true, :id => "new-publisher", :class => 'btn btn-default' } %>
+  <div class="search-wide">
+    <%= form_tag(publishers_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+      <div class="input-group">
+        <%= hidden_field_tag :registration_agency, params[:registration_agency] %>
+        <%= search_field_tag :query, params[:query], :placeholder => "Search", :class => "form-control" %>
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
         </div>
-      <% end %>
-    </div>
-
-    <%= form_tag(publishers_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
-      <div class="form-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
       </div>
-      <button type="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
-      <% unless params[:q].blank? %>
-        <%= link_to "clear", publishers_path, :class => "btn" %>
-      <% end %>
     <% end %>
   </div>
 
-  <div class="content" id="content">
-    <% if @publishers.size > 0 %>
-      <div class="panel" id="results">
-        <div class="panel-body">
-          <% @publishers.each do |publisher| %>
-            <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.name) %></h4>
-            ID: <%= publisher.name %>
-            <% if publisher.prefixes.present? %>
-              <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
-            <% end %>
+  <div class="row">
+    <div class='col-md-9'>
+      <% if @publishers.size > 0 %>
+        <% @publishers.each do |publisher| %>
+          <div class="panel panel-default" id="results">
+            <div class="panel-body">
+              <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.name) %></h4>
+              <% if publisher.prefixes.present? %>
+                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+              <% end %>
+            </div>
+            <div class="panel-footer">
+              <%= icon("info-circle") %> <%= publisher.name %>
+              <span class="pull-right"> <%= publisher.registration_agency %></span>
+            </div>
+          </div>
+        <% end %>
+        <div class="text-center">
+          &nbsp;<%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          There are currently no publishers
+          <% unless params[:q].blank? %>
+            with <em><%= params[:q] %></em> in the name
           <% end %>
         </div>
-      </div>
-      <div class="text-center">
-        <%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
-      </div>
-    <% else %>
-      <div class="alert alert-info">
-        There are currently no publishers
-        <% unless params[:q].blank? %>
-          with <em><%= params[:q] %></em> in the name
-        <% end %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+    <div class='col-md-3'>
+      <% if can?(:manage, Publisher) %>
+        <div class="panel facets">
+          <div class="panel-body">
+            <h4 class="link"><%= link_to "Add Publisher", new_publisher_path, { remote: true, id: "new-publisher" } %></h4>
+          </div>
+        </div>
+      <% end %>
+      <% if @registration_agencies.size > 0 %>
+        <div class="panel facets">
+          <div class="panel-body">
+            <h4>Registration agencies</h4>
+            <ul>
+              <% if @registration_agency %>
+                <li class="active">
+                  <%= link_to icon('check-square-o').html_safe, publishers_path(query: params[:query]) %>
+                  <%= @registration_agency.first.humanize %>
+                  <span class="number pull-right"><%= number_with_delimiter(@registration_agency.last) %></span>
+                </li>
+              <% else %>
+                <% @registration_agencies.each do |registration_agency| %>
+                  <li>
+                    <%= link_to icon('square-o').html_safe, publishers_path(query: params[:query], registration_agency: registration_agency.first) %>
+                    <%= registration_agency.first.humanize %>
+                    <span class="number pull-right"><%= number_with_delimiter(registration_agency.last) %></span>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
   </div>
 <% end %>

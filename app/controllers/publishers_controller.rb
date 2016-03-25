@@ -46,8 +46,14 @@ class PublishersController < ApplicationController
 
   def load_index
     collection = Publisher.active
-    collection = collection.query(params[:q]) if params[:q]
+    collection = collection.query(params[:query]) if params[:query]
 
+    if params[:registration_agency].present?
+      collection = collection.where(registration_agency: params[:registration_agency])
+      @registration_agency = collection.where(registration_agency: params[:registration_agency]).group(:registration_agency).count.first
+    end
+
+    @registration_agencies = collection.where.not(registration_agency: nil).group(:registration_agency).count
     @publishers = collection.order(:title).paginate(page: (params[:page] || 1).to_i)
   end
 

@@ -9,22 +9,26 @@
     <% end %>
     <%= @publisher.title %>
   </div>
-  <div class="panel-body">
-    <dl class="dl-horizontal">
-      <dt>ID</dt>
-      <dd><%= @publisher.name %></dd>
-      <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
-        <dt>Other Names</dt>
-        <dd><%= @publisher.other_names.reject { |name| name == @publisher.title }.join("</br>").html_safe %></dd>
-      <% end %>
-      <% if @publisher.prefixes.present? %>
-        <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
-        <dd><%= @publisher.prefixes.join(" ") %></dd>
-      <% end %>
-      <% if can?(:read, Notification) && @publisher.users.present? %>
-        <dt>Users</dt>
-        <dd><%= @publisher.users.map { |user| link_to h(user.email), users_path(query: user.email) }.join("</br>").html_safe %></dd>
-      <% end %>
-    </dl>
+  <% if (@publisher.other_names.present? && @publisher.other_names.length > 1) || @publisher.prefixes.present? %>
+    <div class="panel-body">
+      <dl class="dl-horizontal">
+        <% if @publisher.other_names.present? && @publisher.other_names.length > 1 %>
+          <dt>Other Names</dt>
+          <dd><%= @publisher.other_names.reject { |name| name == @publisher.title }.join("</br>").html_safe %></dd>
+        <% end %>
+        <% if @publisher.prefixes.present? %>
+          <dt>DOI <%= 'Prefix'.pluralize(@publisher.prefixes.size) %></dt>
+          <dd><%= @publisher.prefixes.join(" ") %></dd>
+        <% end %>
+        <% if can?(:read, Notification) && @publisher.users.present? %>
+          <dt>Users</dt>
+          <dd><%= @publisher.users.map { |user| link_to h(user.email), users_path(query: user.email) }.join("</br>").html_safe %></dd>
+        <% end %>
+      </dl>
+    </div>
+  <% end %>
+  <div class="panel-footer">
+    <%= icon("info-circle") %> <%= @publisher.name %>
+    <span class="pull-right"> <%= @publisher.registration_agency %></span>
   </div>
 </div>
