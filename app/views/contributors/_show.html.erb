@@ -9,10 +9,7 @@
     <% end %>
     <%= @contributor.credit_name.presence || @contributor.orcid %>
   </div>
-  <div class="panel-body">
-    <dl class="dl-horizontal">
-      <dt>ORCID</dt>
-      <dd><%= link_to h(@contributor.pid), @contributor.pid %></dd>
-    </dl>
+  <div class="panel-footer">
+    <%= link_to h(icon("external-link") + " " + @contributor.pid).html_safe, @contributor.pid %>
   </div>
 </div>

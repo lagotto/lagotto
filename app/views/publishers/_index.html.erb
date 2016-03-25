@@ -62,7 +62,7 @@
     <div class='col-md-9'>
       <% if @publishers.size > 0 %>
         <% @publishers.each do |publisher| %>
-          <div class="panel panel-default" id="results">
+          <div class="panel panel-default">
             <div class="panel-body">
               <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.name) %></h4>
               <% if publisher.prefixes.present? %>

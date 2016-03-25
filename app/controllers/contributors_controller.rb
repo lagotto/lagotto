@@ -28,7 +28,7 @@ class ContributorsController < ApplicationController
 
   def load_index
     collection = Contributor
-    collection = collection.query(params[:q]) if params[:q]
+    collection = collection.query(params[:query]) if params[:query]
     collection = collection.order("contributors.created_at DESC")
     @contributors = collection.paginate(page: (params[:page] || 1).to_i)
   end

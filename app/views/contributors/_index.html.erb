@@ -1,42 +1,46 @@
-<div class="page-header">
-  <% if can?(:read, Notification) %>
-    <div class="btn-toolbar pull-right">
-      <div class="btn-group btn-group-sm">
-        <%= link_to "#{icon("user")} Users".html_safe, users_path, { id: "users", class: "btn btn-default" } %>
+<div class="search-wide">
+  <%= form_tag(contributors_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+    <div class="input-group">
+      <%= search_field_tag :query, params[:query], :placeholder => "Search by ORCID ID", :class => "form-control" %>
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
       </div>
     </div>
-  <% end %>
-
-  <%= form_tag(contributors_path, :method => "get", :class => "form-inline text-center", :role => "form") do %>
-    <div class="form-group">
-      <%= search_field_tag :q, params[:q], :placeholder => "Search by ORCID ID", :class => "form-control" %>
-    </div>
-    <button type="submit" class="btn btn-default hidden-xs"><%= icon("search") %></button>
-    <% unless params[:q].blank? %>
-      <%= link_to "clear", contributors_path, :class => "btn" %>
-    <% end %>
   <% end %>
 </div>
 
-<div class="content" id="content">
-  <% if @contributors.size > 0 %>
-    <div class="panel" id="results">
-      <div class="panel-body">
-        <% @contributors.each do |contributor| %>
-          <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
-          <%= link_to h(contributor.pid), contributor.pid %>
+<div class="row">
+  <div class='col-md-9'>
+    <% if @contributors.size > 0 %>
+      <% @contributors.each do |contributor| %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
+          </div>
+          <div class="panel-footer">
+            <%= link_to h(icon("external-link") + " " + contributor.pid).html_safe, contributor.pid %>
+          </div>
+        </div>
+      <% end %>
+      <div class="text-center">
+        &nbsp;<%= will_paginate @contributors, :params => { :controller => contributors_path }, :renderer => BootstrapPagination::Rails %>
+      </div>
+    <% else %>
+      <div class="alert alert-info">
+        There are currently no contributors
+        <% unless params[:q].blank? %>
+          with <em><%= params[:q] %></em> in the name
         <% end %>
       </div>
-    </div>
-    <div class="text-center">
-      <%= will_paginate @contributors, :params => { :controller => contributors_path }, :renderer => BootstrapPagination::Rails %>
-    </div>
-  <% else %>
-    <div class="alert alert-info">
-      There are currently no contributors
-      <% unless params[:q].blank? %>
-        with <em><%= params[:q] %></em> in the name
-      <% end %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
+  <div class='col-md-3'>
+    <% if can?(:read, Notification) %>
+      <div class="panel facets">
+        <div class="panel-body">
+          <h4 class="link"><%= link_to "Users", users_path, { id: "users" } %></h4>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
