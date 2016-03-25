@@ -81,8 +81,8 @@ function hBarViz(data, name) {
     return;
   }
 
-  // remove source not needed for the following visualizations
-  data = data.filter(function(d) { return d.id !== "relativemetric"; });
+  // remove source not appropriate for the following visualizations
+  data = data.filter(function(d) { return d.group_id !== "other"; });
 
   // Works tab
   var chart = d3.select("div#" + name + "-body").append("svg")
