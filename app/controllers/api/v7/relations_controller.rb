@@ -24,15 +24,15 @@ class Api::V7::RelationsController < Api::BaseController
       collection = @work.relations
     else
       collection = Relation
-    end
 
-    if params[:work_ids]
-      work_ids = params[:work_ids].split(",")
-      collection = collection.joins(:work).where(works: { "pid" => work_ids })
-    end
+      if params[:work_ids]
+        work_ids = params[:work_ids].split(",")
+        collection = collection.joins(:work).where(works: { "pid" => work_ids })
+      end
 
-    if params[:q]
-      collection = collection.joins(:work).where("works.doi = ?", params[:q])
+      if params[:q]
+        collection = collection.joins(:work).where("works.doi = ?", params[:q])
+      end
     end
 
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])

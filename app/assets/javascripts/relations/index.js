@@ -48,38 +48,47 @@ function eventsViz(json, sources, relation_types) {
     return;
   }
 
-  d3.select("#content").insert("div")
-    .attr("class", "panel").insert("div")
-    .attr("class", "panel-body")
-    .attr("id", "results");
+  if (json.meta.total > 1) {
+    d3.select("#content").insert("h4")
+      .attr("class", "results")
+      .text(numberWithDelimiter(json.meta.total) + " Relations");
+
+    d3.select("#relation-sort").classed("hidden", false);
+  }
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
-    var date_parts = work["issued"]["date-parts"][0];
-    var date = datePartsToDate(date_parts);
     var relation = relationToString(work, sources, relation_types);
 
-    d3.select("#results").append("h4")
+    d3.select("#content").insert("div")
+      .attr("class", "panel panel-default")
+      .attr("id", "panel-" + i).insert("div")
+      .attr("class", "panel-body")
+      .attr("id", "panel-body-" + i);
+
+    d3.select("#panel-body-" + i).append("h4")
       .attr("class", "work")
       .append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
-    d3.select("#results").append("span")
-      .attr("class", "date")
-      .text(formattedDate(date, date_parts.length) + ". ");
-    d3.select("#results").append("a")
-      .attr("href", function() { return work.id; })
-      .text(work.id);
-    d3.select("#results").append("br")
+    d3.select("#panel-body-" + i).append("p")
+      .html(formattedAuthor(work.author)).append("p")
+      .html(metadataToString(work));
+    d3.select("#panel-body" + i).append("p")
       .text(signpostsToString(work, sources));
-    d3.select("#results").append("span")
+    d3.select("#panel-body" + i).append("span")
       .text(relation[0] + " ")
       .append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.work_id); })
       .html(work.work_id);
-    d3.select("#results").append("span")
+    d3.select("#panel-body" + i).append("span")
       .text(relation[1]);
-    d3.select("#results").append("p")
+    d3.select("#panel-body" + i).append("p")
       .text(signpostsToString(work, sources));
+
+    d3.select("#panel-" + i).insert("div")
+      .attr("class", "panel-footer").append("a")
+      .attr("href", function() { return work.id; })
+      .html(work.id);
   }
 }

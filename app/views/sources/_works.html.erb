@@ -1,9 +1,7 @@
-<div id="rss" class="pull-right">
-  <%= link_to image_tag("feed-icon-28x28.png"), rss_source_path(@source) %>
-</div>
-
-<div id="content">
-  <div class="text-muted" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+<div class="row">
+  <div class="col-md-9" id="content">
+    <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+  </div>
 </div>
 
 <%= javascript_include_tag 'works/index' %>

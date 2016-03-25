@@ -88,13 +88,6 @@
       <% end %>
     </div>
     <div class='col-md-3'>
-      <% if can?(:manage, Publisher) %>
-        <div class="panel facets">
-          <div class="panel-body">
-            <h4 class="link"><%= link_to "Add Publisher", new_publisher_path, { remote: true, id: "new-publisher" } %></h4>
-          </div>
-        </div>
-      <% end %>
       <% if @registration_agencies.size > 0 %>
         <div class="panel facets">
           <div class="panel-body">
@@ -116,6 +109,13 @@
                 <% end %>
               <% end %>
             </ul>
+          </div>
+        </div>
+      <% end %>
+      <% if can?(:manage, Publisher) %>
+        <div class="panel facets">
+          <div class="panel-body">
+            <h4 class="link"><%= link_to "Add Publisher", new_publisher_path, { remote: true, id: "new-publisher" } %></h4>
           </div>
         </div>
       <% end %>

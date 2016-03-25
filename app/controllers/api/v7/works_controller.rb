@@ -145,7 +145,7 @@ class Api::V7::WorksController < Api::BaseController
                    .where("relations.source_id = ?", source.id)
                    .where("relations.total > 0")
     elsif params[:publisher_id] && publisher = Publisher.active.where(name: params[:publisher_id]).first
-      collection = Work.where(publisher_id: params[:publisher_id])
+      collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
       collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
     else

@@ -34,13 +34,4 @@
       </div>
     <% end %>
   </div>
-  <div class='col-md-3'>
-    <% if can?(:read, Notification) %>
-      <div class="panel facets">
-        <div class="panel-body">
-          <h4 class="link"><%= link_to "Users", users_path, { id: "users" } %></h4>
-        </div>
-      </div>
-    <% end %>
-  </div>
 </div>

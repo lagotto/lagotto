@@ -31,7 +31,7 @@
   <div class="search-wide">
     <%= form_tag(works_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
       <div class="input-group">
-        <%= search_field_tag :query, params[:query], :placeholder => "Search by DOI", :class => "form-control" %>
+        <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
         <div class="input-group-btn">
           <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
         </div>
@@ -63,18 +63,6 @@
       </div>
     </div>
     <div class='col-md-3'>
-      <% if can?(:manage, Work) %>
-        <div class="panel facets">
-          <div class="panel-body">
-            <h4 class="link"><%= link_to "Add Work", new_work_path, { remote: true, id: "new-work" } %></h4>
-          </div>
-        </div>
-        <div class="panel facets">
-          <div class="panel-body">
-            <h4 class="link"><%= link_to "Relations", relations_path, { id: "relations" } %></h4>
-          </div>
-        </div>
-      <% end %>
       <% if Source.active.size > 0 %>
         <div class="panel facets">
           <div class="panel-body">
@@ -96,6 +84,13 @@
                 <% end %>
               <% end %>
             </ul>
+          </div>
+        </div>
+      <% end %>
+      <% if can?(:manage, Work) %>
+        <div class="panel facets">
+          <div class="panel-body">
+            <h4 class="link"><%= link_to "Add Work", new_work_path, { remote: true, id: "new-work" } %></h4>
           </div>
         </div>
       <% end %>

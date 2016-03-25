@@ -58,11 +58,13 @@ function worksViz(json, sources) {
     return;
   }
 
-  d3.select("#content").insert("h4")
-    .attr("class", "results")
-    .text(numberWithDelimiter(json.meta.total) + " Results");
+  if (json.meta.total > 1) {
+    d3.select("#content").insert("h4")
+      .attr("class", "results")
+      .text(numberWithDelimiter(json.meta.total) + " Works");
 
-  d3.select("#work-sort").classed("hidden", false);
+    d3.select("#work-sort").classed("hidden", false);
+  }
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];

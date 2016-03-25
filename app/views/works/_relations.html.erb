@@ -1,36 +1,74 @@
-<div class="work">&nbsp;
-  <div class="btn-toolbar pull-left">
-    <div class="btn-group btn-group-sm" id="work-relation">
-      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @relation_type.nil? ? "All Relations" : h(@relation_type.title) %> <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><%= link_to "All Relations", work_path(@work, source_id: params[:source_id]) %></li>
-        <% RelationType.order("name").each_with_index do |relation_type, i| %>
-          <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-          <li><%= link_to "Filter by #{relation_type.title}", work_path(@work, relation_type_id: relation_type.name, source_id: params[:source_id]) %></li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="btn-group btn-group-sm" id="work-source">
-      <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : h(@source.title) %> <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><%= link_to "All Sources", work_path(@work) %></li>
-        <% Group.order("id").each do |group| %>
-          <% group.sources.eventable.each_with_index do |source, i| %>
-            <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-            <li><%= link_to "Filter by #{source.title}", work_path(@work, source_id: source.name) %></li>
+<div class="row">
+  <div class="col-md-9" id="content">
+    <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group btn-group-sm">
+        <a class="btn btn-default dropdown-toggle hidden" id="relation-sort" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
+        <ul class="dropdown-menu pull-right">
+          <li><%= link_to "Sort by Date", relations_path(q: params[:q], source_id: params[:source_id]) %></li>
+          <% if @source.nil? %>
+            <% Group.order("id").each do |group| %>
+              <% group.sources.active.each_with_index do |source, i| %>
+                <%= '<li class="divider"></li>'.html_safe if i == 0 %>
+                <li><%= link_to "Sort by #{source.title}", relations_path(q: params[:q], source_id: params[:source_id], sort: source.name) %></li>
+              <% end %>
+            <% end %>
+          <% else %>
+            <li class="divider"></li>
+            <li><%= link_to "Sort by #{@source.title}", relations_path(q: params[:q], source_id: @source.name, sort: @source.name) %></li>
           <% end %>
-        <% end %>
-      </ul>
+        </ul>
+      </div>
     </div>
+  </div>
+  <div class='col-md-3'>
+    <% if Source.active.size > 0 %>
+      <div class="panel facets">
+        <div class="panel-body">
+          <h4>Sources</h4>
+          <ul>
+            <% if @source.present? %>
+              <li class="active">
+                <%= link_to icon('check-square-o').html_safe, relations_path(q: params[:q], relation_type_id: params[:relation_type_id]) %>
+                <%= @source.title %>
+              </li>
+            <% else %>
+              <% Group.order("id").each do |group| %>
+                <% group.sources.active.each do |source| %>
+                  <li>
+                    <%= link_to icon('square-o').html_safe, relations_path(q: params[:q], relation_type_id: params[:relation_type_id], source_id: source.name) %>
+                    <%= source.title %>
+                  </li>
+                <% end %>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+    <% if RelationType.all.size > 0 %>
+      <div class="panel facets">
+        <div class="panel-body">
+          <h4>Relation types</h4>
+          <ul>
+            <% if @relation_type.present? %>
+              <li class="active">
+                <%= link_to icon('check-square-o').html_safe, relations_path(q: params[:q], source_id: params[:source_id]) %>
+                <%= @relation_type.title %>
+              </li>
+            <% else %>
+              <% RelationType.order("name").each do |relation_type| %>
+                <li>
+                  <%= link_to icon('square-o').html_safe, relations_path(q: params[:q], relation_type_id: relation_type.name, source_id: params[:source_id]) %>
+                  <%= relation_type.title %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 
-<div id="rss" style="display: none;" class="pull-right">
-  <%= link_to image_tag("feed-icon-28x28.png"), rss_work_path(@work) %>
-</div>
-
-<div class="content" id="content">
-  <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
-</div>
-
-<%= javascript_include_tag 'works/relations' %>
+<%= javascript_include_tag 'relations/index' %>
