@@ -250,9 +250,9 @@ module Resolvable
       author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
-        "title" => response.fetch('description', "(:unas)"),
+        "title" => response.fetch('description', nil) || '(:unas)',
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil),
+        "issued" => response.fetch('created_at', nil) || Time.zone.now.utc.iso8601,
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -268,12 +268,12 @@ module Resolvable
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
-      author = response.fetch('name', '(:unas)').to_s
+      author = response.fetch('name', nil) || '(:unas)'
 
       { "author" => [get_one_author(author)],
         "title" => "Github profile for #{author}",
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil),
+        "issued" => response.fetch('created_at', nil) || Time.zone.now.utc.iso8601,
         "URL" => url,
         "type" => 'entry' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -292,9 +292,9 @@ module Resolvable
       author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
-        "title" => response.fetch('name', "(:unas)"),
+        "title" => response.fetch('name', nil) || '(:unas)',
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil),
+        "issued" => response.fetch('created_at', nil) || Time.zone.now.utc.iso8601,
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -307,7 +307,7 @@ module Resolvable
 
       return nil if response["message"] == "Not Found"
 
-      response.fetch('name', '(:unas)')
+      response.fetch('name', nil) || '(:unas)'
     rescue *NETWORKABLE_EXCEPTIONS
       nil
     end
