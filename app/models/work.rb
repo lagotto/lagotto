@@ -49,7 +49,7 @@ class Work < ActiveRecord::Base
 
   before_validation :set_metadata, :sanitize_title, :normalize_url
 
-  scope :query, ->(query) { where("pid like ?", "#{query}%") }
+  scope :query, ->(query) { where(doi: query) }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
   scope :has_events, -> { includes(:aggregations).where("aggregations.total > ?", 0).references(:aggregations) }
   scope :by_source, ->(source_id) { joins(:aggregations).where("aggregations.source_id = ?", source_id) }
