@@ -17,6 +17,8 @@ class Deposit < ActiveRecord::Base
   belongs_to :work
   belongs_to :related_work, class_name: "Work"
   belongs_to :contributor
+  belongs_to :source, primary_key: :name
+  belongs_to :relation_type, primary_key: :name
 
   before_create :create_uuid
   before_save :set_defaults
@@ -51,9 +53,9 @@ class Deposit < ActiveRecord::Base
   serialize :obj, JSON
   serialize :error_messages, JSON
 
-  validates :source_token, presence: true
-  validates :subj_id, presence: true
-  validates :source_id, presence: true
+  validates :subj_id, :source_id, :source_token, presence: true
+  validates_associated :source
+  validates_associated :relation_type
 
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :order_by_date, -> { order("updated_at DESC") }
@@ -78,7 +80,9 @@ class Deposit < ActiveRecord::Base
 
   def process_data
     self.start
+
     collect_data
+
     if error_messages.present?
       self.error
     else
@@ -236,7 +240,7 @@ class Deposit < ActiveRecord::Base
     p = Publisher.where(name: subj_id).first_or_create!(title: subj["title"])
     p.update_attributes!(title: subj["title"],
                          registration_agency: subj["registration_agency"],
-                         checked_at: subj.fetch("issued", Time.zone.now.utc.iso8601),
+                         checked_at: subj.fetch("issued", nil) || Time.zone.now.utc.iso8601,
                          active: subj["active"])
     p
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
