@@ -14,6 +14,7 @@ class Source < ActiveRecord::Base
   has_many :relations, :dependent => :destroy
   has_many :aggregations, :dependent => :destroy
   has_many :months
+  has_many :notifications
   has_many :works, :through => :aggregations
   belongs_to :group
 

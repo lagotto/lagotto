@@ -47,7 +47,6 @@ class Agent < ActiveRecord::Base
 
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
-  has_many :notifications
   has_many :api_responses
   has_many :reference_relations
   has_many :version_relations
