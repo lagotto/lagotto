@@ -19,7 +19,7 @@ describe "publishers", type: :feature, vcr: true, js: true do
     click_link "new-publisher"
     expect(page).to have_css ".alert-info", text: "Please enter a search term"
 
-    fill_in "query", with: "plos"
+    fill_in "q", with: "plos"
     click_button "submit"
     sleep 3
     expect(page).to have_css ".panel-heading a", text: "Public Library of Science (PLoS)"
