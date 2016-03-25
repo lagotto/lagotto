@@ -53,20 +53,6 @@
 
   <div class="work">&nbsp;
     <div class="btn-toolbar pull-left">
-      <% if can?(:read, Notification) %>
-        <div class="btn-group btn-group-sm" id="work-notifications">
-          <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @class_name.nil? ? "All Works" : h(@class_name) %> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><%= link_to "All Works", works_path(:q => params[:q], source_id: params[:source_id], sort: params[:sort]) %></li>
-            <li class="divider"></li>
-            <li><%= link_to "All Notifications", works_path(:class_name => "All Notifications", :q => params[:q], source_id: params[:source_id], sort: params[:sort]) %></li>
-            <li class="divider"></li>
-            <% work_notifications.each do |notification| %>
-              <li><%= link_to h(notification), works_path(:class_name => notification, :q => params[:q], source_id: params[:source_id], sort: params[:sort]) %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
       <div class="btn-group btn-group-sm" id="work-source">
         <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"><%= icon("filter") %> <%= @source.nil? ? "All Sources" : h(@source.title) %> <span class="caret"></span></a>
         <ul class="dropdown-menu">
