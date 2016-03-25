@@ -32,14 +32,14 @@ class Api::V7::RelationsController < Api::BaseController
     end
 
     if params[:q]
-      collection = collection.joins(:work).where("works.pid like ?", "#{params[:q]}%")
+      collection = collection.joins(:work).where("works.doi = ?", params[:q])
     end
 
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       collection = collection.where(relation_type_id: relation_type.id)
     end
 
-    if params[:source_id] && source = Source.where(name: params[:source_id]).first
+    if params[:source_id] && source = cached_source(params[:source_id])
       collection = collection.where(source_id: source.id)
     end
 
