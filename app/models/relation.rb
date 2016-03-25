@@ -1,4 +1,7 @@
 class Relation < ActiveRecord::Base
+  # include helper module for query caching
+  include Cacheable
+
   belongs_to :work
   belongs_to :related_work, class_name: "Work"
   belongs_to :relation_type

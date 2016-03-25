@@ -7,15 +7,23 @@ class RelationDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
-  def work_id
+  def subj_id
     model.work.pid
   end
 
+  def obj_id
+    model.related_work.pid
+  end
+
   def source_id
-    model.source.name
+    cached_source_names[model.source_id]
+  end
+
+  def publisher_id
+    cached_publisher_id(model.publisher_id).name if model.publisher_id.present?
   end
 
   def relation_type_id
-    model.relation_type.name
+    cached_relation_type_names[model.relation_type_id]
   end
 end

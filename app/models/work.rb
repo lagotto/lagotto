@@ -34,6 +34,7 @@ class Work < ActiveRecord::Base
   has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations, dependent: :destroy
+  has_many :inverse_relations, class_name: "Relation", foreign_key: "related_work_id", dependent: :destroy
   has_many :related_works, :through => :relations, source: :work
   has_many :contributions
   has_many :contributors, :through => :contributions

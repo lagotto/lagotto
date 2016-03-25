@@ -9,11 +9,10 @@ end
 
 json.relations @relations do |relation|
   json.cache! ['v7', "relation", relation, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
-    json.(relation.related_work, :id, :publisher_id)
-    json.(relation, :work_id, :source_id, :relation_type_id, :total)
-    json.(relation.related_work, :author, :title, :issued)
-    json.set! :"container-title", relation.related_work.container_title
-    json.(relation.related_work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :events)
+    json.(relation, :subj_id, :obj_id, :source_id, :publisher_id, :relation_type_id, :total)
+    json.(relation.work, :author, :title, :issued)
+    json.set! :"container-title", relation.work.container_title
+    json.(relation.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :events)
     json.(relation, :timestamp)
   end
 end

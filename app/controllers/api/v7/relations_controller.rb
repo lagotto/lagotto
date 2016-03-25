@@ -21,7 +21,7 @@ class Api::V7::RelationsController < Api::BaseController
 
   def index
     if @work
-      collection = @work.relations
+      collection = @work.inverse_relations
     else
       collection = Relation
 
@@ -60,8 +60,7 @@ class Api::V7::RelationsController < Api::BaseController
     total_entries = get_total_entries(params, source)
 
     collection = collection.paginate(per_page: per_page,
-                                     page: page,
-                                     total_entries: total_entries)
+                                     page: page)
 
     @relations = collection.decorate
   end
