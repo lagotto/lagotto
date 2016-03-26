@@ -252,7 +252,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => response.fetch('description', nil).presence || '(:unas)',
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.utc.iso8601,
+        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -269,11 +269,12 @@ module Resolvable
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
       author = response.fetch('name', nil).presence || '(:unas)'
+      title = author == '(:unas)' ? author : "Github profile for #{author}"
 
       { "author" => [get_one_author(author)],
-        "title" => "Github profile for #{author}",
+        "title" => title,
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.utc.iso8601,
+        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
         "URL" => url,
         "type" => 'entry' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -294,7 +295,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => response.fetch('name', nil).presence || '(:unas)',
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.utc.iso8601,
+        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
