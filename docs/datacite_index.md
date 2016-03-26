@@ -3,6 +3,6 @@ layout: page
 title: "Home"
 ---
 
-## Link Store
+## Event Data
 
-The DataCite Link Store collects citations and other references to DataCite content. Please contact DataCite staff for more information.
+The DataCite Event Data service collects citations and other references to DataCite content. Please contact DataCite staff for more information.
