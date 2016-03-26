@@ -79,6 +79,7 @@ function worksViz(json, sources) {
     d3.select("#panel-" + i).insert("div")
       .attr("class", "panel-footer").append("a")
       .attr("href", function() { return work.id; })
-      .html(work.id);
+      .html('<i class="fa fa-external-link"/>').append('span')
+      .text(work.work_id);
   }
 }

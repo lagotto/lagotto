@@ -76,7 +76,8 @@ function contributionsViz(json, sources) {
       .attr("class", "panel-footer")
       .attr("id", "panel-footer-" + i).append("a")
       .attr("href", function() { return work.obj_id; })
-      .html(work.obj_id);
+      .html('<i class="fa fa-external-link"/>').append('span')
+      .text(work.obj_id);
     d3.select("#panel-footer-" + i).append("a")
       .attr("class", "pull-right")
       .attr("href", function() { return "/contributors/" + pathForWork(work.subj_id) + "?source_id=" + work.source_id; })

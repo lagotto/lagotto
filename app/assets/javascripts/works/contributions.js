@@ -80,7 +80,8 @@ function contributionsViz(json, sources, contributor_roles) {
       .attr("class", "panel-footer")
       .attr("id", "panel-footer-contribution-" + i).append("a")
       .attr("href", function() { return contribution.subj_id; })
-      .html(contribution.subj_id);
+      .html('<i class="fa fa-external-link"/>').append('span')
+      .text(contribution.subj_id);
     d3.select("#panel-footer-contribution-" + i).append("a")
       .attr("class", "pull-right")
       .attr("href", function() { return "/works/" + pathForWork(contribution.obj_id) + "?source_id=" + contribution.source_id; })

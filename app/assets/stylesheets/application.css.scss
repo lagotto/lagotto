@@ -699,6 +699,11 @@ html {
   line-height: 1.4em;
   color: $gray-darker;
 
+  i {
+    padding-right: .2em;
+    font-size: .85em;
+  }
+
   img {
     margin-top: -0.33em;
   }
