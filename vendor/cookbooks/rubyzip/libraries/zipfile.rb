@@ -15,7 +15,7 @@ module RubyzipCookbook
       include Poise(fused: true)
       provides(:zipfile)
 
-      property :path, kind_of: String, name_property: true
+      property :path, kind_of: String, name_attribute: true
       property :files_owner, kind_of: String
       property :files_group, kind_of: String
       property :overwrite, equal_to: [true, false], default: false
@@ -25,7 +25,7 @@ module RubyzipCookbook
       action :unzip do
         filename = ::File.join(Chef::Config[:file_cache_path], ::File.basename(new_resource.source))
         notifying_block do
-          include_recipe 'rubyzip::default'
+          run_context.include_recipe 'rubyzip::default'
 
           remote_file filename do
             source URI.parse(new_resource.source).to_s
@@ -53,7 +53,7 @@ module RubyzipCookbook
       end
 
       action :zip do
-        notifying_block { include_recipe 'rubyzip::default' }
+        notifying_block { run_context.include_recipe 'rubyzip::default' }
 
         if new_resource.overwrite == false && ::File.exist?(new_resource.path)
           Chef::Log.info("file #{new_resource.path} already exists and overwrite is set to false, exiting")

@@ -15,11 +15,29 @@
 # limitations under the License.
 #
 
+require File.join(File.dirname(__FILE__), 'aws')
 require 'open-uri'
 
 module Opscode
   module Aws
     module Ec2
+      include Opscode::Aws
+
+      def ec2
+        require_aws_sdk
+
+        Chef::Log.debug('Initializing the EC2 Client')
+        @ec2 ||= create_aws_interface(::Aws::EC2::Client)
+      end
+
+      def instance_id
+        node['ec2']['instance_id']
+      end
+
+      def instance_availability_zone
+        node['ec2']['placement_availability_zone']
+      end
+
       def find_snapshot_id(volume_id = '', find_most_recent = false)
         snapshot_id = nil
         response = if find_most_recent
@@ -39,31 +57,9 @@ module Opscode
         snapshot_id
       end
 
-      def ec2
-        begin
-          require 'aws-sdk'
-        rescue LoadError
-          Chef::Log.fatal("Missing gem 'aws-sdk'. Use the default aws recipe to install it first.")
-          raise
-        end
-
-        Chef::Log.debug('Initializing the AWS Client')
-        @ec2 ||= create_aws_interface(::Aws::EC2::Client)
-      end
-
-      def instance_id
-        node['ec2']['instance_id']
-      end
-
-      def instance_availability_zone
-        node['ec2']['placement_availability_zone']
-      end
-
-      private
-
       # determine the AWS region of the node
       # Priority: resource property, user set node attribute -> ohai data -> us-east-1
-      def query_aws_region
+      def aws_region
         # facilitate support for region in resource name
         if new_resource.region
           Chef::Log.debug("Using overridden region name, #{new_resource.region}, from resource")
@@ -77,9 +73,11 @@ module Opscode
         end
       end
 
+      private
+
       # setup AWS instance using passed creds, iam profile, or assumed role
       def create_aws_interface(aws_interface)
-        aws_interface_opts = { region: query_aws_region }
+        aws_interface_opts = { region: aws_region }
 
         if !new_resource.aws_access_key.to_s.empty? && !new_resource.aws_secret_access_key.to_s.empty?
           Chef::Log.debug('Using resource-defined credentials')
