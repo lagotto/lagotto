@@ -1,25 +1,6 @@
 <div class="row">
   <div class="col-md-9" id="content">
     <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
-    <div class="btn-toolbar pull-right">
-      <div class="btn-group btn-group-sm">
-        <a class="btn btn-default dropdown-toggle hidden" id="relation-sort" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
-        <ul class="dropdown-menu pull-right">
-          <li><%= link_to "Sort by Date", relations_path(q: params[:q], source_id: params[:source_id]) %></li>
-          <% if @source.nil? %>
-            <% Group.order("id").each do |group| %>
-              <% group.sources.active.each_with_index do |source, i| %>
-                <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-                <li><%= link_to "Sort by #{source.title}", relations_path(q: params[:q], source_id: params[:source_id], sort: source.name) %></li>
-              <% end %>
-            <% end %>
-          <% else %>
-            <li class="divider"></li>
-            <li><%= link_to "Sort by #{@source.title}", relations_path(q: params[:q], source_id: @source.name, sort: @source.name) %></li>
-          <% end %>
-        </ul>
-      </div>
-    </div>
   </div>
   <div class='col-md-3'>
     <% if Source.active.size > 0 %>

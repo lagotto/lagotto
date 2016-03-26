@@ -49,11 +49,7 @@ class Api::V7::RelationsController < Api::BaseController
       collection = collection.last_x_days(params[:recent].to_i)
     end
 
-    if params[:sort] == "created_at"
-      collection = collection.order("works.created_at ASC")
-    else
-      collection = collection.order("works.published_on DESC")
-    end
+    collection = collection.order("relations.updated_at DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1

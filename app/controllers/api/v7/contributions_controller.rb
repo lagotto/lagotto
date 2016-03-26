@@ -40,6 +40,8 @@ class Api::V7::ContributionsController < Api::BaseController
       collection = collection.last_x_days(params[:recent].to_i)
     end
 
+    collection = collection.order("contributions.updated_at DESC")
+
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
 
