@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class='col-md-3'>
-    <% if Source.active.size > 0 %>
+    <% if Source.for_relations.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Sources</h4>
@@ -33,13 +33,11 @@
                 <%= @source.title %>
               </li>
             <% else %>
-              <% Group.order("id").each do |group| %>
-                <% group.sources.active.each do |source| %>
-                  <li>
-                    <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name) %>
-                    <%= source.title %>
-                  </li>
-                <% end %>
+              <% Source.for_relations.each do |source| %>
+                <li>
+                  <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name) %>
+                  <%= source.title %>
+                </li>
               <% end %>
             <% end %>
           </ul>
