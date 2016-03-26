@@ -52,8 +52,6 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").insert("h4")
       .attr("class", "results")
       .text(numberWithDelimiter(json.meta.total) + " Relations");
-
-    d3.select("#relation-sort").classed("hidden", false);
   }
 
   for (var i=0; i<data.length; i++) {

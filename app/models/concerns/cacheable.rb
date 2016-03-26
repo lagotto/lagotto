@@ -61,5 +61,17 @@ module Cacheable
         Prefix.where(prefix: name).first
       end
     end
+
+    def cached_contributor_role(name)
+      Rails.cache.fetch("contributor_role/#{name}", expires_in: 1.month) do
+        ContributorRole.where(name: name).first
+      end
+    end
+
+    def cached_contributor_role_names
+      Rails.cache.fetch("contributor_role/names", expires_in: 1.month) do
+        ContributorRole.order(:name).pluck(:id, :name).to_h
+      end
+    end
   end
 end

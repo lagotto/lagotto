@@ -82,7 +82,7 @@ function hBarViz(data, name) {
   }
 
   // remove source not appropriate for the following visualizations
-  data = data.filter(function(d) { return d.group_id !== "other"; });
+  data = data.filter(function(d) { return ["relations","events"].indexOf(d.group_id) != -1; });
 
   // Works tab
   var chart = d3.select("div#" + name + "-body").append("svg")

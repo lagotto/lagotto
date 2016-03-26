@@ -15,3 +15,4 @@ The following people contributed to the development of the Lagotto software:
 * [Juan Pablo Alperin](https://github.com/jalperin) - Software developer at PKP
 * [Ruth Ivimey-Cook](https://github.com/rivimey) - Software developer at eLife
 * [Zach Dennis](https://github.com/zdennis) - Software developer at Mutually Human
+* [Joe Wass](https://github.com/afandian) - Software developer at Crossref

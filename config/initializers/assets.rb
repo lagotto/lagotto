@@ -1,1 +1,1 @@
-Rails.application.config.assets.precompile += %W( api_requests/*.js works/*.js relations/*.js sources/*.js agents/*.js contributors/*.js layouts/*.js publishers/*.js status/*.js api/*.js docs/*.js #{ENV['MODE']}.css )
+Rails.application.config.assets.precompile += %W( api_requests/*.js works/*.js relations/*.js contributions/*.js sources/*.js agents/*.js contributors/*.js layouts/*.js publishers/*.js status/*.js api/*.js docs/*.js #{ENV['MODE']}.css )

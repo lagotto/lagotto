@@ -8,21 +8,19 @@ class ContributionDecorator < Draper::Decorator
     PaginatingDecorator
   end
 
-  def contributor_id
+  def subj_id
     model.contributor.pid
   end
 
-  def work_id
+  def obj_id
     model.work.pid
   end
 
   def source_id
-    model.source.name
+    cached_source_names[model.source_id]
   end
 
   def contributor_role_id
-    if model.contributor_role_id.present?
-      nil #model.contributor_role.name
-    end
+    cached_contributor_role_names.fetch(model.contributor_role_id, "contribution")
   end
 end

@@ -167,6 +167,7 @@ module ApplicationHelper
     data[:publisher_id] = @publisher.name if @publisher.present?
     data[:source_id] = @source.name if @source.present?
     data[:relation_type_id] = @relation_type.name if @relation_type.present?
+    data[:contributor_role_id] = @contributor_role.name if @contributor_role.present?
     data[:contributor_id] = @contributor.pid if @contributor.present?
     data[:sort] = @sort.name if @sort.present?
 

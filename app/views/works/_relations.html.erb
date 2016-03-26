@@ -3,7 +3,7 @@
     <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
   </div>
   <div class='col-md-3'>
-    <% if Source.active.size > 0 %>
+    <% if Source.for_relations.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Sources</h4>
@@ -14,13 +14,11 @@
                 <%= @source.title %>
               </li>
             <% else %>
-              <% Group.order("id").each do |group| %>
-                <% group.sources.active.each do |source| %>
-                  <li>
-                    <%= link_to icon('square-o').html_safe, relations_path(q: params[:q], relation_type_id: params[:relation_type_id], source_id: source.name) %>
-                    <%= source.title %>
-                  </li>
-                <% end %>
+              <% Source.for_relations.each do |source| %>
+                <li>
+                  <%= link_to icon('square-o').html_safe, relations_path(q: params[:q], relation_type_id: params[:relation_type_id], source_id: source.name) %>
+                  <%= source.title %>
+                </li>
               <% end %>
             <% end %>
           </ul>
@@ -34,13 +32,13 @@
           <ul>
             <% if @relation_type.present? %>
               <li class="active">
-                <%= link_to icon('check-square-o').html_safe, relations_path(q: params[:q], source_id: params[:source_id]) %>
+                <%= link_to icon('check-square-o').html_safe, work_path(@work, source_id: params[:source_id]) %>
                 <%= @relation_type.title %>
               </li>
             <% else %>
               <% RelationType.order("name").each do |relation_type| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, relations_path(q: params[:q], relation_type_id: relation_type.name, source_id: params[:source_id]) %>
+                  <%= link_to icon('square-o').html_safe, work_path(@work, relation_type_id: relation_type.name, source_id: params[:source_id]) %>
                   <%= relation_type.title %>
                 </li>
               <% end %>

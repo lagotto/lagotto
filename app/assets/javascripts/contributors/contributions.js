@@ -49,12 +49,11 @@ function contributionsViz(json, sources) {
     d3.select("#content").insert("h4")
       .attr("class", "results")
       .text(numberWithDelimiter(json.meta.total) + " Contributions");
-
-    d3.select("#contribution-sort").classed("hidden", false);
   }
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
+    var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
 
     d3.select("#content").insert("div")
       .attr("class", "panel panel-default")
@@ -65,7 +64,7 @@ function contributionsViz(json, sources) {
     d3.select("#panel-body-" + i).append("h4")
       .attr("class", "work")
       .append("a")
-      .attr("href", function() { return "/works/" + pathForWork(work.work_id); })
+      .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
       .html(formattedAuthor(work.author)).append("p")
@@ -74,8 +73,13 @@ function contributionsViz(json, sources) {
       .text(signpostsToString(work, sources, source_id, sort));
 
     d3.select("#panel-" + i).insert("div")
-      .attr("class", "panel-footer").append("a")
-      .attr("href", function() { return work.work_id; })
-      .html(work.work_id);
+      .attr("class", "panel-footer")
+      .attr("id", "panel-footer-" + i).append("a")
+      .attr("href", function() { return work.obj_id; })
+      .html(work.obj_id);
+    d3.select("#panel-footer-" + i).append("a")
+      .attr("class", "pull-right")
+      .attr("href", function() { return "/contributors/" + pathForWork(work.subj_id) + "?source_id=" + work.source_id; })
+      .text(source.title);
   }
 }

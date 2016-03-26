@@ -24,6 +24,7 @@ Lagotto::Application.routes.draw do
     resources :publisher_options, only: [:show, :edit, :update]
   end
   resources :api_requests
+  resources :contributions
   resources :contributors, constraints: { :id => /.+/ }
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
@@ -85,9 +86,10 @@ Lagotto::Application.routes.draw do
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do
         resources :relations
-        resources :versions
-        resources :recommendations
         resources :aggregations
+        resources :contributions
+        resources :recommendations
+        resources :notifications
       end
     end
   end

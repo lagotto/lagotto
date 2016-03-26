@@ -2,7 +2,7 @@ class Api::V7::ContributionsController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :authenticate_user_from_token!, :load_contributor
+  before_filter :authenticate_user_from_token!, :load_contributor, :load_work
 
   swagger_controller :contributions, "Contributions"
 
@@ -22,13 +22,15 @@ class Api::V7::ContributionsController < Api::BaseController
   def index
     if @contributor
       collection = @contributor.contributions
+    elsif @work
+      collection = @work.contributions
     elsif params[:contributor_id]
       collection = Contribution.none
     else
       collection = Contribution
     end
 
-    if params[:contributor_role_id] && contributor_role = ContributorRole.where(name: params[:contributor_role_id]).first
+    if params[:contributor_role_id] && contributor_role = cached_contributor_role(params[:contributor_role_id])
       collection = collection.where(contributor_role_id: contributor_role.id)
     end
 
@@ -52,6 +54,19 @@ class Api::V7::ContributionsController < Api::BaseController
   end
 
   protected
+
+  def load_work
+    return nil unless params[:work_id].present?
+
+    id_hash = get_id_hash(params[:work_id])
+    if id_hash.respond_to?("key")
+      key, value = id_hash.first
+      @work = Work.where(key => value).first
+    else
+      @work = nil
+    end
+    fail ActiveRecord::RecordNotFound unless @work.present?
+  end
 
   def load_contributor
     return nil unless params[:contributor_id].present?

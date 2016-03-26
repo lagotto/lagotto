@@ -7,6 +7,7 @@ class Publisher < ActiveRecord::Base
   has_many :publisher_options
   has_many :sources, :through => :publisher_options
   has_many :relations
+  has_many :contributions
 
   serialize :prefixes
   serialize :other_names

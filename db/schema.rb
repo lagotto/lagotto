@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20160326073320) do
     t.integer  "contributor_role_id", limit: 4
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.integer  "publisher_id",        limit: 4
   end
 
   add_index "contributions", ["contributor_id"], name: "index_contributions_on_contributor_id", using: :btree
