@@ -106,19 +106,16 @@ records:
     name: scopus
     title: Scopus
     description: Scopus is an abstract and citation database of peer-reviewed literature.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: mendeley
     name: mendeley
     title: Mendeley
     description: Mendeley is a reference manager and social bookmarking tool.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: facebook
     name: facebook
     title: Facebook
     description: Facebook is the largest social network.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: researchblogging
     name: researchblogging
@@ -129,25 +126,21 @@ records:
     name: pmc_html
     title: PubMed Central View Stats
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: pmc_pdf
     name: pmc_pdf
     title: PubMed Central Download Stats
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: counter_html
     name: counter_html
     title: Counter Views
     description: Publisher view stats following COUNTER standard.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: counter_pdf
     name: counter_pdf
     title: Counter Downloads
     description: Publisher download stats following COUNTER standard.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: twitter
     name: twitter
@@ -158,25 +151,21 @@ records:
     name: wos
     title: Web of Science
     description: Web of Science is an online academic citation index.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: f1000
     name: f1000
     title: F1000Prime
     description: Post-publication peer review of the biomedical literature.
-    eventable: false
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: figshare
     name: figshare
     title: Figshare
     description: Publisher figures, tables and supplementary files hosted by figshare.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: articlecoverage
     name: articlecoverage
     title: Article Coverage
     description: Article Coverage.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: articlecoveragecurated
     name: articlecoveragecurated
@@ -192,13 +181,11 @@ records:
     name: github
     title: Github
     description: GitHub is a web-based Git repository hosting service.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: bitbucket
     name: bitbucket
     title: Bitbucket
     description: Bitbucket is a web-based repository hosting service using git and mercurial.
-    eventable: false
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: ads
     name: ads

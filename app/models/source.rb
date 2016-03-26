@@ -25,7 +25,10 @@ class Source < ActiveRecord::Base
 
   scope :order_by_name, -> { order("group_id, sources.title") }
   scope :active, -> { where(active: true).order_by_name }
-  scope :eventable, -> { active.where(eventable: true) }
+  scope :for_events, -> { active.joins(:group).where("groups.name = ?", "events") }
+  scope :for_relations, -> { active.joins(:group).where("groups.name = ?", "relations") }
+  scope :for_contributions, -> { active.joins(:group).where("groups.name = ?", "contributions") }
+  scope :for_publishers, -> { active.joins(:group).where("groups.name = ?", "publishers") }
 
   # some sources cannot be redistributed
   scope :public_sources, -> { where(private: false) }
