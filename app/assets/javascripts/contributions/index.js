@@ -70,7 +70,7 @@ function contributionsViz(json, sources, contributor_roles) {
       .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
-      .html(formattedAuthor(work.author)).append("p")
+      .html(formattedAuthorList(work.author)).append("p")
       .html(metadataToString(work)).append("p")
       .append("span")
       .text(contributor_role.title + " by ").append("a")

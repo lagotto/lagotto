@@ -161,20 +161,29 @@ function metadataToString(work) {
   return formattedType(work.work_type_id) + " published " + formattedDate(date, date_parts.length) + containerTitleString;
 }
 
-// construct author object from author parts
-function formattedAuthor(author) {
-  author = author.map(function(d) { return d.given + " " + d.family; });
-  switch (author.length) {
+// construct author list from author object
+function formattedAuthorList(authorList) {
+  authorList = authorList.map(function(d) { return formattedAuthor(d); });
+  switch (authorList.length) {
     case 0:
     case 1:
     case 2:
-      return author.join(" & ");
+      return authorList.join(" & ");
     case 3:
     case 4:
-      return author.slice(0,-1).join(", ") + " & " + author[author.length - 1];
+      return authorList.slice(0,-1).join(", ") + " & " + authorList[authorList.length - 1];
     default:
-      return author.slice(0,3).join(", ") + ", <em>et al</em>";
+      return authorList.slice(0,3).join(", ") + ", <em>et al</em>";
   }
+}
+
+// construct author object from author parts
+function formattedAuthor(author) {
+  var given = (typeof author.given !== "undefined") ? author.given : "";
+  var family = (typeof author.family !== "undefined") ? author.family : "";
+  var name = [given, family].join(" ");
+  var name = (typeof author["ORCID"] !== "undefined") ? '<a href="/contributors/' + author["ORCID"].substring(7) + '">' + name + '</a>' : name;
+  return name;
 }
 
 // format event type

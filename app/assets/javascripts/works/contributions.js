@@ -69,7 +69,7 @@ function contributionsViz(json, sources, contributor_roles) {
       .attr("class", "work")
       .append("a")
       .attr("href", function() { return "/contributors/" + pathForWork(contribution.subj_id); })
-      .html(author);
+      .html(function() { return formattedAuthorList(author)); });
     d3.select("#panel-body-contribution-" + i).append("p")
       .append("span")
       .text(contributor_role.title);

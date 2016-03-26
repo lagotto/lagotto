@@ -67,7 +67,7 @@ function contributionsViz(json, sources) {
       .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
-      .html(formattedAuthor(work.author)).append("p")
+      .html(formattedAuthorList(work.author)).append("p")
       .html(metadataToString(work));
     d3.select("#panel-body" + i).append("p")
       .text(signpostsToString(work, sources, source_id, sort));

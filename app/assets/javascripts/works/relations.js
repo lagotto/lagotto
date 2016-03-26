@@ -71,7 +71,7 @@ function eventsViz(json, sources, relation_types) {
       .attr("href", function() { return "/works/" + pathForWork(work.subj_id); })
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
-      .html(formattedAuthor(work.author)).append("p")
+      .html(formattedAuthorList(work.author)).append("p")
       .html(metadataToString(work)).append("p")
       .append("span")
       .text(relation_type.title + " ").append("a")
