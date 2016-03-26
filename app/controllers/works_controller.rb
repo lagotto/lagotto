@@ -8,8 +8,8 @@ class WorksController < ApplicationController
     @page = (params[:page] || 1).to_i
     @q = params[:q]
     @class_name = params[:class_name]
-    @publisher = Publisher.where(name: params[:publisher_id]).first
-    @source = Source.active.where(name: params[:source_id]).first
+    @publisher = cached_publisher(params[:publisher_id])
+    @source = cached_source(params[:source_id])
     @sort = Source.active.where(name: params[:sort]).first
     @relation_type = cached_relation_type(params[:relation_type_id])
   end
@@ -19,8 +19,9 @@ class WorksController < ApplicationController
 
     @groups = Group.order("id")
     @page = params[:page] || 1
-    @source = Source.active.where(name: params[:source_id]).first
+    @source = cached_source(params[:source_id])
     @relation_type = cached_relation_type(params[:relation_type_id])
+    @contributor_role = cached_contributor_role(params[:contributor_role_id])
     render :show
   end
 
