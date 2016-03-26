@@ -79,7 +79,7 @@ class UsersController < ApplicationController
       collection = collection.where(:role => params[:role])
       @role = params[:role]
     end
-    collection = collection.query(params[:query]) if params[:query]
+    collection = collection.query(params[:q]) if params[:q]
     collection = collection.ordered
 
     @users = collection.paginate(page: (params[:page] || 1).to_i)
