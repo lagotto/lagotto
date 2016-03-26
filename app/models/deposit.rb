@@ -131,15 +131,10 @@ class Deposit < ActiveRecord::Base
     item = from_csl(subj)
 
     # create work association if it doesn't exist, filling out all required fields
-    self.work = Work.where(pid: pid)
-                    .first_or_create!(title: item.fetch(:title, nil),
-                                      year: item.fetch(:year, nil),
-                                      month: item.fetch(:month, nil),
-                                      day: item.fetch(:day, nil),
-                                      registration_agency: item.fetch(:registration_agency, nil))
+    self.work = Work.where(pid: pid).first_or_initialize
 
     # update all attributes
-    self.work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
+    self.work.update_attributes!(item)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.work = Work.where(pid: pid).first
@@ -154,16 +149,11 @@ class Deposit < ActiveRecord::Base
     pid = normalize_pid(obj_id)
     item = from_csl(obj)
 
-    # create related_work association if it doesn't exist, filling out all required fields
-    self.related_work = Work.where(pid: pid)
-                       .first_or_create!(title: item.fetch(:title, nil),
-                                         year: item.fetch(:year, nil),
-                                         month: item.fetch(:month, nil),
-                                         day: item.fetch(:day, nil),
-                                         registration_agency: item.fetch(:registration_agency, nil))
+    # initialize related_work association if it doesn't exist
+    self.related_work = Work.where(pid: pid).first_or_initialize
 
     # update all attributes
-    self.related_work.update_attributes!(item.except(:pid, :title, :year, :month, :day, :registration_agency))
+    self.related_work.update_attributes!(item)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.related_work = Work.where(pid: pid).first
@@ -176,7 +166,7 @@ class Deposit < ActiveRecord::Base
     r = Relation.where(work_id: work_id,
                        related_work_id: related_work_id,
                        source_id: source.present? ? source.id : nil)
-                .first_or_create!(relation_type_id: relation_type.present? ? relation_type.id : nil)
+                .first_or_initialize
 
     # update all attributes
     r.update_attributes!(relation_type_id: relation_type.present? ? relation_type.id : nil,
@@ -197,7 +187,7 @@ class Deposit < ActiveRecord::Base
     r = Relation.where(work_id: related_work_id,
                        related_work_id: work_id,
                        source_id: source.present? ? source.id : nil)
-                .first_or_create!(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil)
+                .first_or_initialize
 
     # update all attributes, return saved inv_relation
     r.update_attributes!(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,
@@ -231,17 +221,15 @@ class Deposit < ActiveRecord::Base
   def update_contribution
     Contribution.where(contributor_id: contributor_id,
                        work_id: related_work_id,
-                       source_id: source.present? ? source.id : nil).first_or_create!
+                       source_id: source.present? ? source.id : nil).first_or_create
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "contribution", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
 
   def update_publisher
-    p = Publisher.where(name: subj_id).first_or_create!(title: subj["title"])
-    p.update_attributes!(title: subj["title"],
-                         registration_agency: subj["registration_agency"],
-                         checked_at: subj.fetch("issued", nil) || Time.zone.now.utc.iso8601,
-                         active: subj["active"])
+    item = Publisher.from_csl(subj)
+    p = Publisher.where(name: subj_id).first_or_initialize
+    p.update_attributes!(item)
     p
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
@@ -268,7 +256,7 @@ class Deposit < ActiveRecord::Base
   def update_months(relation, months)
     months.map { |item| Month.where(relation_id: relation.id,
                                     month: item.fetch("month"),
-                                    year: item.fetch("year")).first_or_create(
+                                    year: item.fetch("year")).first_or_initialize(
                                       work_id: relation.work_id,
                                       source_id: relation.source_id,
                                       total: item.fetch("total", 0)) }

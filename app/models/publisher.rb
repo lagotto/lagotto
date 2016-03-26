@@ -22,6 +22,17 @@ class Publisher < ActiveRecord::Base
   scope :inactive, -> { where(active: false).order_by_name }
   scope :query, ->(query) { where("title like ?", "%#{query}%") }
 
+  # convert CSL into format that the database understands
+  # don't update nil values
+  def self.from_csl(item)
+    { title: item.fetch("title", nil),
+      prefixes: item.fetch("prefixes", nil),
+      other_names: item.fetch("other_names", nil),
+      registration_agency: item.fetch("registration_agency", nil),
+      checked_at: Time.parse(item.fetch("issued", Time.now.utc)).to_s(:db),
+      active: item.fetch("active", nil) }.compact
+  end
+
   def to_param  # overridden, use name instead of id
     name
   end
