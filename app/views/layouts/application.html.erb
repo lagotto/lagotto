@@ -31,7 +31,7 @@
 
   <body>
     <%= render partial: "layouts/#{ENV['MODE']}/header" -%>
-    <%= render partial: "layouts/navigation" -%>
+    <%= render partial: "layouts/#{ENV['MODE']}/navigation" -%>
 
     <div class="container-fluid">
       <% @flash = flash -%>

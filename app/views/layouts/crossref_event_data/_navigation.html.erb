@@ -6,27 +6,29 @@
         <li><%= link_to "Works", works_path %></li>
         <li><%= link_to "Relations", relations_path %></li>
         <% if can?(:read, Notification) || contributors.length > 1 %>
+          <li class="hidden-sm"><%= link_to "Contributions", contributions_path %></li>
           <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
         <% end %>
         <% if can?(:read, Notification) || publishers.length > 1 %>
           <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
         <% end %>
-        <li><%= link_to "Sources", sources_path %></li>
-        <li><%= link_to "Status", status_index_path %></li>
-        <% if can?(:read, Notification) %>
-          <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Notifications", notifications_path %></li>
+        <%= %w(status agents sources notifications users api_requests filters).include?(controller.controller_name) ? '<li class="dropdown active hidden-sm">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Status", status_index_path %></li>
+            <li class="divider"></li>
+            <li><%= link_to "Agents", agents_path %></li>
+            <li><%= link_to "Sources", sources_path %></li>
+            <% if can?(:read, Notification) %>
               <li class="divider"></li>
-              <li><%= link_to "Agents", agents_path %></li>
-              <li><%= link_to "Filters", filters_path %></li>
+              <li><%= link_to "Notifications", notifications_path %></li>
               <li class="divider"></li>
               <li><%= link_to "Users", users_path %></li>
               <li><%= link_to "API Requests", api_requests_path %></li>
-            </ul>
-          </li>
-        <% end %>
+              <li><%= link_to "Filters", filters_path %></li>
+            <% end %>
+          </ul>
+        </li>
         <%= controller.controller_name == "docs" && controller.action_name != "index" ? '<li class="dropdown active hidden-sm">'.html_safe : '<li class="dropdown hidden-sm hidden-md">'.html_safe %>
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
           <ul class="dropdown-menu">
