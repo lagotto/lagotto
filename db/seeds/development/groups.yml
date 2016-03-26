@@ -2,21 +2,18 @@
 options:
   find_existing_by: ['name']
 records:
-  - sprig_id: viewed
-    name: viewed
-    title: Viewed
-  - sprig_id: saved
-    name: saved
-    title: Saved
-  - sprig_id: discussed
-    name: discussed
-    title: Discussed
-  - sprig_id: cited
-    name: cited
-    title: Cited
-  - sprig_id: recommended
-    name: recommended
-    title: Recommended
-  - sprig_id: other
-    name: other
-    title: Other
+  - sprig_id: relations
+    name: relations
+    title: Relations
+  - sprig_id: events
+    name: events
+    title: Events
+  - sprig_id: contributions
+    name: contributions
+    title: Contributions
+  - sprig_id: works
+    name: works
+    title: Works
+  - sprig_id: publishers
+    name: publishers
+    title: Publishers
