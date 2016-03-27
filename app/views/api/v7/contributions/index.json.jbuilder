@@ -14,7 +14,7 @@ json.contributions @contributions do |contribution|
     json.(contribution, :obj_id)
     json.(contribution.work, :publisher_id, :author, :title, :issued)
     json.set! :"container-title", contribution.work.container_title
-    json.(contribution.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :events)
+    json.(contribution.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :publisher_id, :work_type_id, :events)
     json.(contribution, :source_id, :contributor_role_id, :timestamp)
   end
 end

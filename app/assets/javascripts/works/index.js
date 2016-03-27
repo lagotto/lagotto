@@ -28,15 +28,16 @@ if (!params.empty()) {
 // asynchronously load data from the Lagotto API
 queue()
   .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, encodeURI("/api/work_types"))
   .defer(d3.json, query)
-  .await(function(error, s, w) {
+  .await(function(error, s, wt, w) {
     if (error) { return console.warn(error); }
-    worksViz(w, s.sources);
+    worksViz(w, s.sources, wt.work_types);
     if (model !== "sources") { paginate(w, "#content"); }
 });
 
 // add data to page
-function worksViz(json, sources) {
+function worksViz(json, sources, work_types) {
   data = json.works;
 
   json.href = "?page={{number}}";
@@ -82,7 +83,7 @@ function worksViz(json, sources) {
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
       .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work));
+      .html(metadataToString(work, work_types));
     d3.select("#panel-body" + i).append("p")
       .text(signpostsToString(work, sources, source_id, sort));
 

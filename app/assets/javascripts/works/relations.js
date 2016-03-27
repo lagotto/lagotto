@@ -21,15 +21,16 @@ if (!params.empty()) {
 queue()
   .defer(d3.json, encodeURI("/api/sources"))
   .defer(d3.json, encodeURI("/api/relation_types"))
+  .defer(d3.json, encodeURI("/api/work_types"))
   .defer(d3.json, query)
-  .await(function(error, s, r, w) {
+  .await(function(error, s, r, wt, w) {
     if (error) { return console.warn(error); }
-    eventsViz(w, s.sources, r.relation_types);
+    eventsViz(w, s.sources, r.relation_types, wt.work_types);
     paginate(w, "#content");
 });
 
 // add data to page
-function eventsViz(json, sources, relation_types) {
+function eventsViz(json, sources, relation_types, work_types) {
   data = json.relations;
 
   // remove duplicate events based on id
@@ -72,7 +73,7 @@ function eventsViz(json, sources, relation_types) {
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
       .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work)).append("p")
+      .html(metadataToString(work, work_types)).append("p")
       .append("span")
       .text(relation_type.title + " ").append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })

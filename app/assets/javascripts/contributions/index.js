@@ -20,15 +20,16 @@ if (!params.empty()) {
 queue()
   .defer(d3.json, encodeURI("/api/sources"))
   .defer(d3.json, encodeURI("/api/contributor_roles"))
+  .defer(d3.json, encodeURI("/api/work_types"))
   .defer(d3.json, query)
-  .await(function(error, s, cr, c) {
+  .await(function(error, s, cr, wt, c) {
     if (error) { return console.warn(error); }
-    contributionsViz(c, s.sources, cr.contributor_roles);
+    contributionsViz(c, s.sources, cr.contributor_roles, wt.work_types);
     paginate(c, "#content");
 });
 
 // add data to page
-function contributionsViz(json, sources, contributor_roles) {
+function contributionsViz(json, sources, contributor_roles, work_types) {
   data = json.contributions;
 
   json.href = "?page={{number}}";
@@ -71,7 +72,7 @@ function contributionsViz(json, sources, contributor_roles) {
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
       .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work)).append("p")
+      .html(metadataToString(work, work_types)).append("p")
       .append("span")
       .text(contributor_role.title + " by ").append("a")
       .attr("href", function() { return "/contributors/" + pathForWork(work.subj_id); })

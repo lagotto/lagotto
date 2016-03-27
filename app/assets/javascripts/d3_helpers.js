@@ -153,12 +153,15 @@ function relationToString(work, sources, relation_types) {
   return [relation_type.title, " via " + source.title];
 }
 
-function metadataToString(work) {
+function metadataToString(work, work_types) {
   var date_parts = work["issued"]["date-parts"][0];
   var date = datePartsToDate(date_parts);
   var containerTitleString = work["container-title"] ? " via " + work["container-title"] : "";
 
-  return formattedType(work.work_type_id) + " published " + formattedDate(date, date_parts.length) + containerTitleString;
+  var work_type = work_types.filter(function(d) { return d.id === work.work_type_id; })[0];
+  if (typeof work_type == "undefined" || work_type === "") { work_type = { "title": "Work" }; }
+
+  return work_type.title + " published " + formattedDate(date, date_parts.length) + containerTitleString;
 }
 
 // construct author list from author object
@@ -184,15 +187,4 @@ function formattedAuthor(author) {
   var name = [given, family].join(" ");
   var name = (typeof author["ORCID"] !== "undefined") ? '<a href="/contributors/' + author["ORCID"].substring(7) + '">' + name + '</a>' : name;
   return name;
-}
-
-// format event type
-function formattedType(type) {
-  var types = { "article-journal": "Journal article",
-                "article-newspaper": "News",
-                "post": "Blog post",
-                "webpage": "Web page",
-                "broadcast": "Podcast/Video",
-                "personal_communication": "Personal communication" };
-  return types[type] || "Work";
 }
