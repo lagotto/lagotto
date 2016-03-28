@@ -54,6 +54,7 @@ class PublishersController < ApplicationController
     end
 
     @registration_agencies = collection.where.not(registration_agency: nil).group(:registration_agency).count
+    @publisher_count = collection.count
     @publishers = collection.order(:title).paginate(page: (params[:page] || 1).to_i)
   end
 

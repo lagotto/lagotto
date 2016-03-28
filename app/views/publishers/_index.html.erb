@@ -60,7 +60,10 @@
 
   <div class="row">
     <div class='col-md-9'>
-      <% if @publishers.size > 0 %>
+      <% if @publisher_count > 0 %>
+        <% if @publisher_count > 1 %>
+          <h4 class="results"><%= number_with_delimiter(@publisher_count) %> Publishers</h4>
+        <% end %>
         <% @publishers.each do |publisher| %>
           <div class="panel panel-default">
             <div class="panel-body">

@@ -30,6 +30,7 @@ class ContributorsController < ApplicationController
     collection = Contributor
     collection = collection.query(params[:q]) if params[:q]
     collection = collection.order("contributors.created_at DESC")
+    @contributor_count = collection.count
     @contributors = collection.paginate(page: (params[:page] || 1).to_i)
   end
 
