@@ -22,6 +22,9 @@ Lagotto::Application.configure do
 
   # config.assets.prefix = "/dev-assets"
 
+  # Compress JavaScripts and CSS
+  config.assets.js_compressor = :uglifier
+
   # See everything in the log (default is :info)
   config.log_level = :debug
 
