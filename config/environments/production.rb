@@ -14,7 +14,7 @@ Lagotto::Application.configure do
   config.serve_static_files = false
 
   # Compress JavaScripts and CSS
-  config.assets.js_compressor = :uglifier
+  #config.assets.js_compressor = :uglifier
 
   # See everything in the log (default is :info)
   log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
