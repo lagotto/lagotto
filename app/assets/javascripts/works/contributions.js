@@ -36,10 +36,10 @@ function contributionsViz(json, sources, contributor_roles) {
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
   if (sort !== "") { json.href += "&sort=" + sort; }
 
-  d3.select("#loading-contributions").remove();
+  d3.select("#loading-results-contributions").remove();
 
   if (typeof data === "undefined" || data.length === 0) {
-    d3.select("#content").text("")
+    d3.select("#content-contributions").text("")
       .insert("div")
       .attr("class", "alert alert-info")
       .text("There are currently no contributions");
@@ -69,7 +69,7 @@ function contributionsViz(json, sources, contributor_roles) {
       .attr("class", "work")
       .append("a")
       .attr("href", function() { return "/contributors/" + pathForWork(contribution.subj_id); })
-      .html(function() { return formattedAuthorList(author); });
+      .html(author);
     d3.select("#panel-body-contribution-" + i).append("p")
       .append("span")
       .text(contributor_role.title);

@@ -3,7 +3,7 @@
 var params = d3.select("#api_key");
 
 if (!params.empty()) {
-  var work_id = params.attr('data-pid');
+  var subj_id = params.attr('data-pid');
   var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
   if (page === null) { page = 1; }
@@ -11,7 +11,7 @@ if (!params.empty()) {
   var source_id = params.attr('data-source-id');
   var relation_type_id = params.attr('data-relation-type-id');
 
-  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/relations?page=" + page);
+  var query = encodeURI("/api/works/" + pathForWork(subj_id) + "/relations?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
   if (relation_type_id !== null) { query += "&relation_type_id=" + relation_type_id; }
