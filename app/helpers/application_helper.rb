@@ -91,10 +91,6 @@ module ApplicationHelper
     Contributor.order("family_name")
   end
 
-  def notifications
-    %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable - Faraday::ResourceNotFound ActiveRecord::RecordInvalid - Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError AgentInactiveError - EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
-  end
-
   def author_format(author)
     author = [author] if author.is_a?(Hash)
     authors = Array(author).map do |a|

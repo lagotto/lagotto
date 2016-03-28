@@ -3,15 +3,15 @@ class NotificationsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
 
-  def index
-    @servers = ENV['SERVERS'].split(",")
+  CLASS_NAMES = %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable Faraday::ResourceNotFound ActiveRecord::RecordInvalid Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError AgentInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
 
+  def index
     collection = Notification
     if params[:source_id]
       collection = collection.includes(:source)
                    .where("sources.name = ?", params[:source_id])
                    .references(:source)
-      @source = Source.where(name: params[:source_id]).first
+      @source = cached_source(params[:source_id])
     end
 
     if params[:hostname]
@@ -32,6 +32,11 @@ class NotificationsController < ApplicationController
 
     collection = collection.query(params[:q]) if params[:q]
 
+    @levels = Notification::LEVELS[1..-1]
+    @hostnames = ENV['SERVERS'].split(",")
+    @class_names = CLASS_NAMES
+
+    @notification_count = collection.count
     @notifications = collection.paginate(page: (params[:page] || 1).to_i)
   end
 
@@ -59,7 +64,6 @@ class NotificationsController < ApplicationController
   end
 
   def destroy
-    @servers = ENV['SERVERS'].split(",")
     if params[:filter] == "class_name"
       Notification.where(:class_name => @notification.class_name).update_all(:unresolved => false)
     elsif params[:filter] == "source_id"
@@ -75,7 +79,7 @@ class NotificationsController < ApplicationController
       collection = collection.includes(:source)
                    .where("sources.name = ?", params[:source_id])
                    .references(:source)
-      @source = Source.where(name: params[:source_id]).first
+      @source = cached_source(params[:source_id])
     end
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
@@ -87,6 +91,11 @@ class NotificationsController < ApplicationController
     end
     collection = collection.query(params[:q]) if params[:q]
 
+    @levels = Notification::LEVELS[1..-1]
+    @hostnames = ENV['SERVERS'].split(",")
+    @class_names = CLASS_NAMES
+
+    @notification_count = collection.count
     @notifications = collection.paginate(page: (params[:page] || 1).to_i)
 
     if params[:work_id]
