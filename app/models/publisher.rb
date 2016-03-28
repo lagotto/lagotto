@@ -29,7 +29,7 @@ class Publisher < ActiveRecord::Base
       prefixes: item.fetch("prefixes", nil),
       other_names: item.fetch("other_names", nil),
       registration_agency: item.fetch("registration_agency", nil),
-      checked_at: Time.parse(item.fetch("issued", Time.now.utc)).to_s(:db),
+      checked_at: Time.parse(item.fetch("issued", Time.now.utc.iso8601)).to_s(:db),
       active: item.fetch("active", nil) }.compact
   end
 
