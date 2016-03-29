@@ -48,11 +48,9 @@
           <ul class="dropdown-menu pull-right">
             <li><%= link_to "Sort by Date", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id]) %></li>
             <% if @source.nil? %>
-              <% Group.order("id").each do |group| %>
-                <% group.sources.active.each_with_index do |source, i| %>
-                  <%= '<li class="divider"></li>'.html_safe if i == 0 %>
-                  <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>
-                <% end %>
+              <li class="divider"></li>
+              <% Source.for_aggregations.each do |source| %>
+                <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>
               <% end %>
             <% else %>
               <li class="divider"></li>
