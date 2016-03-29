@@ -20,7 +20,7 @@ datacite:
      url: https://www.datacite.org
      icon: globe
    - name: Event Data
-     url: https://events.datacite.org
+     url: https://eventdata.datacite.org
      icon: link
    - name: MDS
      url: https://mds.datacite.org
