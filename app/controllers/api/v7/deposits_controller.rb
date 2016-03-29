@@ -45,10 +45,11 @@ class Api::V7::DepositsController < Api::BaseController
   def index
     collection = Deposit.all
 
-    collection = collection.where(message_type: params[:message_type]) if params[:message_type]
-    collection = collection.where(prefix: params[:prefix]) if params[:prefix]
-    collection = collection.where(source_token: params[:source_token]) if params[:source_token]
-    collection = collection.query(params[:q]) if params[:q]
+    collection = collection.where(message_type: params[:message_type]) if params[:message_type].present?
+    collection = collection.where(prefix: params[:prefix]) if params[:prefix].present?
+    collection = collection.where(source_token: params[:source_token]) if params[:source_token].present?
+    collection = collection.where(source_id: params[:source_id]) if params[:source_id].present?
+    collection = collection.query(params[:q]) if params[:q].present?
 
     if params[:state]
       states = { "waiting" => 0, "working" => 1, "failed" => 2, "done" => 3 }
