@@ -78,7 +78,7 @@ class NotificationsController < ApplicationController
     if params[:level]
       level = Notification::LEVELS.index(params[:level].upcase) || 0
       collection = collection.where("level >= ?", level)
-      @level = collection.where(:level => params[:level]).group(:level).count.first
+      @level = collection.where("level >= ?", level).group(:level).count.first
     end
 
     if params[:work_id]

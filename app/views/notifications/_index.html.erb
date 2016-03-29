@@ -133,7 +133,7 @@
           for <%= @source.title %>
         <% end %>
         <% unless @level.nil? %>
-          with at least level <em><%= @level.titleize %></em>
+          with at least level <em><%= Notification::LEVELS[@level] %></em>
         <% end %>
         <% unless params[:q].blank? %>
           with <em><%= params[:q] %></em> in the class name, message or PID
@@ -166,7 +166,7 @@
         </div>
       </div>
     <% end %>
-    <% if @level || @levels.length > 1 %>
+    <% if @level || @levels.length > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Levels</h4>
@@ -174,14 +174,14 @@
             <% if @level.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, notifications_path(class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %>
-                <%= @level.first.titleize %>
+                <%= Notification::LEVELS[@level.first].humanize %>
                 <span class="number pull-right"><%= number_with_delimiter(@level.last) %></span>
               </li>
             <% else %>
               <% @levels.each do |level| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, notifications_path(level: level.first.downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %>
-                  <%= level.first.titleize %>
+                  <%= link_to icon('square-o').html_safe, notifications_path(level: Notification::LEVELS[level.first].downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %>
+                  <%= Notification::LEVELS[level.first].humanize %>
                   <span class="number pull-right"><%= number_with_delimiter(level.last) %></span>
                 </li>
               <% end %>
