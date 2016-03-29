@@ -142,7 +142,7 @@
     <% end %>
   </div>
   <div class='col-md-3'>
-    <% if @hostnames.length > 1 %>
+    <% if @hostname || @hostnames.size > 1 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Servers</h4>
@@ -150,13 +150,15 @@
             <% if @hostname.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, notifications_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %>
-                <%= @hostname %>
+                <%= @hostname.first %>
+                <span class="number pull-right"><%= number_with_delimiter(@hostname.last) %></span>
               </li>
             <% else %>
               <% @hostnames.each do |hostname| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: hostname, q: params[:q]) %>
-                  <%= hostname %>
+                  <%= link_to icon('square-o').html_safe, notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: hostname.first, q: params[:q]) %>
+                  <%= hostname.first %>
+                  <span class="number pull-right"><%= number_with_delimiter(hostname.last) %></span>
                 </li>
               <% end %>
             <% end %>
@@ -164,7 +166,7 @@
         </div>
       </div>
     <% end %>
-    <% if @levels.length > 1 %>
+    <% if @level || @levels.length > 1 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Levels</h4>
@@ -172,13 +174,15 @@
             <% if @level.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, notifications_path(class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %>
-                <%= @level.titleize %>
+                <%= @level.first.titleize %>
+                <span class="number pull-right"><%= number_with_delimiter(@level.last) %></span>
               </li>
             <% else %>
               <% @levels.each do |level| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, notifications_path(level: level.downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %>
-                  <%= level.titleize %>
+                  <%= link_to icon('square-o').html_safe, notifications_path(level: level.first.downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]) %>
+                  <%= level.first.titleize %>
+                  <span class="number pull-right"><%= number_with_delimiter(level.last) %></span>
                 </li>
               <% end %>
             <% end %>
@@ -186,7 +190,7 @@
         </div>
       </div>
     <% end %>
-    <% if Source.active.size > 0 %>
+    <% if @source || @sources.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Sources</h4>
@@ -194,13 +198,15 @@
             <% if @source.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, contributions_path(q: params[:q], contribution_type_id: params[:contribution_type_id]) %>
-                <%= @source.title %>
+                <%= Source.where(name: @source.first).first.title %>
+                <span class="number pull-right"><%= number_with_delimiter(@source.last) %></span>
               </li>
             <% else %>
-              <% Source.active.each do |source| %>
+              <% @sources.each do |source| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, contributions_path(q: params[:q], contribution_type_id: params[:contribution_type_id], source_id: source.name) %>
-                  <%= source.title %>
+                  <%= link_to icon('square-o').html_safe, contributions_path(q: params[:q], contribution_type_id: params[:contribution_type_id], source_id: source.first) %>
+                  <%= Source.where(name: source.first).first.title %>
+                  <span class="number pull-right"><%= number_with_delimiter(source.last) %></span>
                 </li>
               <% end %>
             <% end %>
@@ -208,7 +214,7 @@
         </div>
       </div>
     <% end %>
-    <% if @class_names.length > 1 %>
+    <% if @class_name || @class_names.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Class names</h4>
@@ -216,13 +222,15 @@
             <% if @class_name.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, notifications_path(source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %>
-                <%= @class_name %>
+                <%= @class_name.first %>
+                <span class="number pull-right"><%= number_with_delimiter(@class_name.last) %></span>
               </li>
             <% else %>
               <% @class_names.each do |class_name| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, notifications_path(class_name: class_name, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %>
-                  <%= class_name %>
+                  <%= link_to icon('square-o').html_safe, notifications_path(class_name: class_name.first, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %>
+                  <%= class_name.first %>
+                  <span class="number pull-right"><%= number_with_delimiter(class_name.last) %></span>
                 </li>
               <% end %>
             <% end %>

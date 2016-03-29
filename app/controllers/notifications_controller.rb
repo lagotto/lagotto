@@ -3,41 +3,8 @@ class NotificationsController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
 
-  CLASS_NAMES = %w(Net::HTTPUnauthorized Net::HTTPForbidden Net::HTTPRequestTimeOut Net::HTTPGatewayTimeOut Net::HTTPConflict Net::HTTPServiceUnavailable Faraday::ResourceNotFound ActiveRecord::RecordInvalid Net::HTTPTooManyRequests ActiveJobError TooManyErrorsBySourceError AgentInactiveError EventCountDecreasingError EventCountIncreasingTooFastError ApiResponseTooSlowError HtmlRatioTooHighError WorkNotUpdatedError SourceNotUpdatedError CitationMilestoneAlert)
-
   def index
-    collection = Notification
-    if params[:source_id]
-      collection = collection.includes(:source)
-                   .where("sources.name = ?", params[:source_id])
-                   .references(:source)
-      @source = cached_source(params[:source_id])
-    end
-
-    if params[:hostname]
-      collection = collection.where(:hostname => params[:hostname])
-      @hostname = params[:hostname]
-    end
-
-    if params[:class_name]
-      collection = collection.where(:class_name => params[:class_name])
-      @class_name = params[:class_name]
-    end
-
-    if params[:level]
-      level = Notification::LEVELS.index(params[:level].upcase) || 0
-      collection = collection.where("level >= ?", level)
-      @level = params[:level]
-    end
-
-    collection = collection.query(params[:q]) if params[:q]
-
-    @levels = Notification::LEVELS[1..-1]
-    @hostnames = ENV['SERVERS'].split(",")
-    @class_names = CLASS_NAMES
-
-    @notification_count = collection.count
-    @notifications = collection.paginate(page: (params[:page] || 1).to_i)
+    load_index
   end
 
   def create
@@ -74,29 +41,7 @@ class NotificationsController < ApplicationController
       Notification.where(:message => @notification.message).update_all(:unresolved => false)
     end
 
-    collection = Notification
-    if params[:source_id]
-      collection = collection.includes(:source)
-                   .where("sources.name = ?", params[:source_id])
-                   .references(:source)
-      @source = cached_source(params[:source_id])
-    end
-    if params[:class_name]
-      collection = collection.where(:class_name => params[:class_name])
-      @class_name = params[:class_name]
-    end
-    if params[:work_id]
-      collection = collection.where(:work_id => params[:work_id])
-      @work = Work.where(id: params[:work_id]).first
-    end
-    collection = collection.query(params[:q]) if params[:q]
-
-    @levels = Notification::LEVELS[1..-1]
-    @hostnames = ENV['SERVERS'].split(",")
-    @class_names = CLASS_NAMES
-
-    @notification_count = collection.count
-    @notifications = collection.paginate(page: (params[:page] || 1).to_i)
+    load_index
 
     if params[:work_id]
       render :notification
@@ -110,6 +55,47 @@ class NotificationsController < ApplicationController
   end
 
   protected
+
+  def load_index
+    collection = Notification
+    if params[:source_id]
+      collection = collection.includes(:source)
+                   .where("sources.name = ?", params[:source_id])
+                   .references(:source)
+      @source = collection.where(:source_id => params[:source_id]).group(:source_id).count.first
+    end
+
+    if params[:hostname]
+      collection = collection.where(:hostname => params[:hostname])
+      @hostname = @class_name = collection.where(:hostname => params[:hostname]).group(:hostname).count.first
+    end
+
+    if params[:class_name]
+      collection = collection.where(:class_name => params[:class_name])
+      @class_name = collection.where(:class_name => params[:class_name]).group(:class_name).count.first
+    end
+
+    if params[:level]
+      level = Notification::LEVELS.index(params[:level].upcase) || 0
+      collection = collection.where("level >= ?", level)
+      @level = collection.where(:level => params[:level]).group(:level).count.first
+    end
+
+    if params[:work_id]
+      collection = collection.where(:work_id => params[:work_id])
+      @work = Work.where(id: params[:work_id]).first
+    end
+
+    collection = collection.query(params[:q]) if params[:q]
+
+    @levels = collection.where.not(level: nil).group(:level).count
+    @hostnames = collection.where.not(hostname: nil).group(:hostname).count
+    @class_names = collection.where.not(class_name: nil).group(:class_name).count
+    @sources = collection.where.not(source_id: nil).group(:source_id).count
+
+    @notification_count = collection.count
+    @notifications = collection.paginate(page: (params[:page] || 1).to_i)
+  end
 
   def load_notification
     @notification = Notification.where(uuid: params[:id]).first
