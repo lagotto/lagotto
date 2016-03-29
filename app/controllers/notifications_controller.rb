@@ -62,23 +62,24 @@ class NotificationsController < ApplicationController
       collection = collection.includes(:source)
                    .where("sources.name = ?", params[:source_id])
                    .references(:source)
-      @source = collection.where(:source_id => params[:source_id]).group(:source_id).count.first
+      @source_group = collection.group(:source_id).count.first
+      @source = cached_source(params[:source_id])
     end
 
     if params[:hostname]
       collection = collection.where(:hostname => params[:hostname])
-      @hostname = @class_name = collection.where(:hostname => params[:hostname]).group(:hostname).count.first
+      @hostname = collection.group(:hostname).count.first
     end
 
     if params[:class_name]
       collection = collection.where(:class_name => params[:class_name])
-      @class_name = collection.where(:class_name => params[:class_name]).group(:class_name).count.first
+      @class_name = collection.group(:class_name).count.first
     end
 
     if params[:level]
       level = Notification::LEVELS.index(params[:level].upcase) || 0
       collection = collection.where("level >= ?", level)
-      @level = collection.where("level >= ?", level).group(:level).count.first
+      @level = collection.group(:level).count.first
     end
 
     if params[:work_id]

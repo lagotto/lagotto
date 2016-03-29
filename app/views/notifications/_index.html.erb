@@ -195,17 +195,19 @@
         <div class="panel-body">
           <h4>Sources</h4>
           <ul>
-            <% if @source.present? %>
+            <% if @source_group.present? %>
+             <% s = Source.where(id: @source_group.first).first %>
               <li class="active">
-                <%= link_to icon('check-square-o').html_safe, contributions_path(q: params[:q], contribution_type_id: params[:contribution_type_id]) %>
-                <%= Source.where(name: @source.first).first.title %>
-                <span class="number pull-right"><%= number_with_delimiter(@source.last) %></span>
+                <%= link_to icon('check-square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %>
+                <%= s.title %>
+                <span class="number pull-right"><%= number_with_delimiter(@source_group.last) %></span>
               </li>
             <% else %>
               <% @sources.each do |source| %>
+                <% s = Source.where(id: source.first).first %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, contributions_path(q: params[:q], contribution_type_id: params[:contribution_type_id], source_id: source.first) %>
-                  <%= Source.where(name: source.first).first.title %>
+                  <%= link_to icon('square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], source_id: s.name, hostname: params[:hostname], q: params[:q]) %>
+                  <%= s.title %>
                   <span class="number pull-right"><%= number_with_delimiter(source.last) %></span>
                 </li>
               <% end %>

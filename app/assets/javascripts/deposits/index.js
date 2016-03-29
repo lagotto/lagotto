@@ -105,7 +105,7 @@ function eventsViz(json, sources, relation_types) {
       .text(deposit.subj_id);
     d3.select("#panel-footer-" + i).append("a")
       .attr("class", "pull-right")
-      .attr("href", function() { return "/relations?source_id=" + deposit.source_id; })
+      .attr("href", function() { return "/deposits?source_id=" + deposit.source_id; })
       .text(source.title);
   }
 }
