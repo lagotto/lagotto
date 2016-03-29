@@ -57,6 +57,8 @@ class Deposit < ActiveRecord::Base
   validates_associated :source
   validates_associated :relation_type
 
+  scope :query, ->(query) { where(subj_id: query) }
+
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :order_by_date, -> { order("updated_at DESC") }
 

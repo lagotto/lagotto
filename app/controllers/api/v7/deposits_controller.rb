@@ -48,6 +48,7 @@ class Api::V7::DepositsController < Api::BaseController
     collection = collection.where(message_type: params[:message_type]) if params[:message_type]
     collection = collection.where(prefix: params[:prefix]) if params[:prefix]
     collection = collection.where(source_token: params[:source_token]) if params[:source_token]
+    collection = collection.query(params[:q]) if params[:q]
 
     if params[:state]
       states = { "waiting" => 0, "working" => 1, "failed" => 2, "done" => 3 }
