@@ -39,6 +39,10 @@ module ApplicationHelper
     doc.to_s
   end
 
+  def states
+     %w(waiting working failed done)
+  end
+
   def state_label(state)
     case state
     when "working" then '<span class="label label-success">working</span>'
@@ -166,6 +170,7 @@ module ApplicationHelper
     data[:contributor_role_id] = @contributor_role.name if @contributor_role.present?
     data[:contributor_id] = @contributor.pid if @contributor.present?
     data[:sort] = @sort.name if @sort.present?
+    data[:state] = states[@state] if @state.present?
 
     { class: "navbar-text", id: "api_key", data: data }
   end
