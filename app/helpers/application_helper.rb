@@ -146,7 +146,7 @@ module ApplicationHelper
   end
 
   def roles
-    %w(user staff admin)
+    %w(user contributor staff admin)
   end
 
   def settings
