@@ -13,11 +13,11 @@
     <dl class="dl-horizontal">
       <% if @contributor.orcid.present? %>
         <dt>ORCID</dt>
-        <dd><% link_to "http://orcid.org/#{@contributor.orcid}", "http://orcid.org/#{@contributor.orcid}" %></dd>
+        <dd><%= link_to "http://orcid.org/#{@contributor.orcid}", "http://orcid.org/#{@contributor.orcid}" %></dd>
       <% end %>
       <% if @contributor.github.present? %>
         <dt>Github</dt>
-        <dd><% link_to "https://github.com/#{@contributor.github}", "https://github.com/#{@contributor.github}" %></dd>
+        <dd><%= link_to "https://github.com/#{@contributor.github}", "https://github.com/#{@contributor.github}" %></dd>
       <% end %>
     </dl>
   </div>
