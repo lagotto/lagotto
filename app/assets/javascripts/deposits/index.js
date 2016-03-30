@@ -65,6 +65,10 @@ function eventsViz(json, sources, relation_types) {
       .attr("class", "panel-body")
       .attr("id", "panel-body-" + i);
 
+    d3.select("#panel-body-" + i).append("h4")
+      .attr("class", "work")
+      .html(work.id);
+
     d3.select("#panel-body-" + i).append("span")
       .attr("class", "pull-right")
       .text(deposit.state);
