@@ -7,13 +7,10 @@ if (!params.empty()) {
   var api_key = params.attr('data-api-key');
   var page = params.attr('data-page');
   if (page === null) { page = 1; }
-  var per_page = params.attr('data-per-page');
   var source_id = params.attr('data-source-id');
-  var sort = params.attr('data-sort');
   var relation_type_id = params.attr('data-relation-type-id');
 
   var query = encodeURI("/api/works/" + pathForWork(work_id) + "/recommendations?page=" + page);
-  if (per_page !== null) { query += "&per_page=" + per_page; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
   if (relation_type_id !== null) { query += "&relation_type_id=" + relation_type_id; }
 }
@@ -22,15 +19,15 @@ if (!params.empty()) {
 queue()
   .defer(d3.json, encodeURI("/api/sources"))
   .defer(d3.json, encodeURI("/api/relation_types"))
+  .defer(d3.json, encodeURI("/api/work_types"))
   .defer(d3.json, query)
-  .await(function(error, s, r, w) {
+  .await(function(error, s, r, wt, w) {
     if (error) { return console.warn(error); }
-    recommendationsViz(w, s.sources, r.relation_types);
-    paginate(w, "#content-recommendations");
+    recommendationsViz(w, s.sources, r.relation_types, wt.work_types);
 });
 
 // add data to page
-function recommendationsViz(json, sources, relation_types) {
+function recommendationsViz(json, sources, relation_types, work_types) {
   data = json.recommendations;
 
   // remove duplicate events based on id
@@ -50,27 +47,49 @@ function recommendationsViz(json, sources, relation_types) {
     return;
   }
 
+  if (data.length > 1) {
+    d3.select("#content-recommendations").insert("h4")
+      .attr("class", "results")
+      .text(numberWithDelimiter(data.length) + " Recommendations");
+  }
+
   d3.select("#content-recommendations").insert("div")
     .attr("id", "results-recommendations");
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
-    var date_parts = work["issued"]["date-parts"][0];
-    var date = datePartsToDate(date_parts);
-    var relation = relationToString(work, sources, relation_types);
+    var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
+    var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
 
-    d3.select("#results-recommendations").append("h4")
-      .attr("class", "work")
-      .append("a")
-      .attr("href", function() { return "/works/" + pathForWork(work.id); })
+    d3.select("#content-recommendations").insert("div")
+      .attr("class", "panel panel-default")
+      .attr("id", "panel-recommendations-" + i).insert("div")
+      .attr("class", "panel-body")
+      .attr("id", "panel-body-recommendations-" + i);
+
+    d3.select("#panel-body-recommendations-" + i).append("h4")
+      .attr("class", "work").append("a")
+      .attr("href", function() { return "/works/" + pathForWork(work.subj_id); })
       .html(work.title);
-    d3.select("#results-recommendations").append("span")
-      .attr("class", "date")
-      .text(formattedDate(date, date_parts.length) + ". ");
-    d3.select("#results-recommendations").append("a")
-      .attr("href", function() { return work.id; })
-      .text(work.id);
-    d3.select("#results").append("p")
-      .text(signpostsToString(work, sources, source_id, sort));
+    d3.select("#panel-body-recommendations-" + i).append("p")
+      .html(formattedAuthorList(work.author)).append("p")
+      .html(metadataToString(work, work_types)).append("p")
+      .append("span")
+      .text(relation_type.title + " ").append("a")
+      .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
+      .html(work.obj_id);
+    d3.select("#panel-body-recommendations-" + i).append("p")
+      .text(signpostsToString(work, sources));
+
+    d3.select("#panel-recommendations-" + i).insert("div")
+      .attr("class", "panel-footer")
+      .attr("id", "panel-footer-" + i).append("a")
+      .attr("href", function() { return work.subj_id; })
+      .html('<i class="fa fa-external-link"/>').append('span')
+      .text(work.subj_id);
+    d3.select("#panel-footer-recommendations-" + i).append("a")
+      .attr("class", "pull-right")
+      .attr("href", function() { return "/relations?source_id=" + work.source_id; })
+      .text(source.title);
   }
 }

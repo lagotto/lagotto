@@ -34,7 +34,6 @@ function contributionsViz(json, sources, contributor_roles) {
 
   json.href = "?page={{number}}";
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results-contributions").remove();
 
@@ -74,7 +73,7 @@ function contributionsViz(json, sources, contributor_roles) {
       .append("span")
       .text(contributor_role.title);
     d3.select("#panel-body" + i).append("p")
-      .text(signpostsToString(contribution, sources, source_id, sort));
+      .text(signpostsToString(contribution, sources, source_id));
 
     d3.select("#panel-contribution-" + i).insert("div")
       .attr("class", "panel-footer")
