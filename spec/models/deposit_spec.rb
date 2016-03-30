@@ -9,6 +9,23 @@ describe Deposit, :type => :model, vcr: true do
   it { is_expected.to validate_presence_of(:subj_id) }
   it { is_expected.to validate_presence_of(:source_id) }
 
+  describe "from_csl" do
+    it "should parse subj" do
+      expect(subject.from_csl(subject.subj)).to eq(canonical_url: "http://www.citeulike.org/user/dbogartoit",
+                                                   title: "CiteULike bookmarks for user dbogartoit",
+                                                   year: 2006,
+                                                   month: 6,
+                                                   day: 13,
+                                                   tracked: false,
+                                                   csl: { "author"=>[{"given"=>"dbogartoit"}],
+                                                          "container-title"=>"CiteULike"})
+    end
+
+    it "should parse an empty subj" do
+      expect(subject.from_csl({})).to eq(csl: {"author"=>[]})
+    end
+  end
+
   describe "update_work" do
     it "should be created" do
       expect(subject.update_work).not_to be_nil
