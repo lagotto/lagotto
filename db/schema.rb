@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326073320) do
+ActiveRecord::Schema.define(version: 20160330184033) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -116,6 +116,8 @@ ActiveRecord::Schema.define(version: 20160326073320) do
     t.datetime "cached_at",               default: '1970-01-01 00:00:00', null: false
     t.datetime "created_at",                                              null: false
     t.datetime "updated_at",                                              null: false
+    t.string   "github",      limit: 191
+    t.string   "literal",     limit: 191
   end
 
   add_index "contributors", ["orcid"], name: "index_contributors_on_orcid", using: :btree
@@ -284,17 +286,18 @@ ActiveRecord::Schema.define(version: 20160326073320) do
   end
 
   create_table "relations", force: :cascade do |t|
-    t.integer  "work_id",          limit: 4,                 null: false
-    t.integer  "related_work_id",  limit: 4,                 null: false
+    t.integer  "work_id",          limit: 4,                     null: false
+    t.integer  "related_work_id",  limit: 4,                     null: false
     t.integer  "source_id",        limit: 4
-    t.integer  "relation_type_id", limit: 4,                 null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.integer  "total",            limit: 4,     default: 1, null: false
+    t.integer  "relation_type_id", limit: 4,                     null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.integer  "total",            limit: 4,     default: 1,     null: false
     t.datetime "occurred_at"
     t.integer  "publisher_id",     limit: 4
     t.text     "provenance_url",   limit: 65535
     t.integer  "month_id",         limit: 4
+    t.boolean  "implicit",                       default: false
   end
 
   add_index "relations", ["month_id"], name: "relations_month_id_fk", using: :btree

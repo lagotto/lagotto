@@ -18,7 +18,7 @@
       <% @contributors.each do |contributor| %>
         <div class="panel panel-default">
           <div class="panel-body">
-            <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.orcid), contributor_path(contributor) %></h4>
+            <h4 class="work"><%= link_to h(contributor.credit_name.presence || contributor.pid), contributor_path(contributor) %></h4>
           </div>
           <div class="panel-footer">
             <%= link_to h(icon("external-link") + " " + contributor.pid).html_safe, contributor.pid %>

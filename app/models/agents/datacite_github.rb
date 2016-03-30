@@ -78,11 +78,10 @@ class DataciteGithub < Agent
                            "source_id" => source_id,
                            "publisher_id" => "github" } }
 
-      sum << { relation: { "subj_id" => repo_url,
-                           "obj_id" => owner_url,
-                           "relation_type_id" => "is_compiled_by",
-                           "source_id" => source_id,
-                           "publisher_id" => "github" } }
+      sum << {  message_type: "contribution",
+                relation: { "subj_id" => owner_url,
+                            "obj_id" => repo_url,
+                            "source_id" => source_id }}
     end
   end
 

@@ -294,9 +294,6 @@ class Work < ActiveRecord::Base
       registration_agency = "github"
       tracked = true
       metadata = get_metadata(id_hash[:canonical_url], "github")
-    elsif id_hash[:canonical_url].present? && github_owner_from_url(id_hash[:canonical_url]).present?
-      tracked = false
-      metadata = get_metadata(id_hash[:canonical_url], "github_owner")
     else
       return nil
     end

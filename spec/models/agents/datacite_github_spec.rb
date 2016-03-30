@@ -112,11 +112,10 @@ describe DataciteGithub, type: :model, vcr: true do
                                            "source_id"=>"datacite_github",
                                            "publisher_id"=>"github")
 
-      expect(response[2][:relation]).to eq("subj_id"=>"https://github.com/konradjk/loftee",
-                                           "obj_id"=>"https://github.com/konradjk",
-                                           "relation_type_id"=>"is_compiled_by",
-                                           "source_id"=>"datacite_github",
-                                           "publisher_id"=>"github")
+      expect(response[2][:message_type]).to eq("contribution")
+      expect(response[2][:relation]).to eq("subj_id"=>"https://github.com/konradjk",
+                                           "obj_id"=>"https://github.com/konradjk/loftee",
+                                           "source_id"=>"datacite_github")
     end
 
     it "should catch timeout errors with the Datacite Metadata Search API" do

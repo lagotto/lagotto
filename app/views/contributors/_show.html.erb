@@ -7,7 +7,7 @@
         </div>
       </div>
     <% end %>
-    <%= @contributor.credit_name.presence || @contributor.orcid %>
+    <%= @contributor.credit_name.presence || @contributor.pid %>
   </div>
   <div class="panel-footer">
     <%= link_to h(icon("external-link") + " " + @contributor.pid).html_safe, @contributor.pid %>

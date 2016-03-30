@@ -44,6 +44,8 @@ class Contributor < ActiveRecord::Base
   end
 
   def credit_name
+    return literal if literal.present?
+
     [given_names, family_name].compact.join(' ')
   end
 
@@ -99,14 +101,26 @@ class Contributor < ActiveRecord::Base
   def set_metadata
     return if orcid.present?
 
-    self.orcid = orcid_from_url(pid)
-    return unless orcid.present?
+      #   elsif id_hash[:canonical_url].present? && github_owner_from_url(id_hash[:canonical_url]).present?
+      # tracked = false
+      # metadata = get_metadata(id_hash[:canonical_url], "github_owner")
 
-    metadata = get_metadata(orcid, "orcid")
+    self.github = github_owner_from_url(pid)
+    self.orcid = orcid_from_url(pid)
+
+    if orcid.present?
+      metadata = get_metadata(orcid, "orcid")
+    elsif gihub.present?
+      metadata = get_metadata(github, "github_owner")
+    else
+      return nil
+    end
+
     return if metadata[:error].present?
 
     author = metadata.fetch('author', [{}]).first
-    self.family_name = author.fetch('family')
-    self.given_names = author.fetch('given')
+    self.family_name = author.fetch('family', nil)
+    self.given_names = author.fetch('given', nil)
+    self.literal = author.fetch('literal', nil)
   end
 end

@@ -207,10 +207,6 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-    #   # update months
-    # months = [relation.get_events_current_month]
-    # update_months(relation, months)
-
   def update_contributor
     self.contributor = Contributor.where(pid: subj_id).first_or_create!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
