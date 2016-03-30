@@ -75,17 +75,19 @@ describe Counter, type: :model, vcr: true do
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
-      expect(response.length).to eq(2)
-      expect(response.first[:relation]).to eq("subj_id"=>"http://www.plos.org",
+      expect(response.length).to eq(74)
+      expect(response.first[:occurred_at]).to eq("2010-01-01")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://www.plos.org/2010/1",
                                               "obj_id"=>work.pid,
-                                              "relation_type_id"=>"downloads",
-                                              "total"=>447,
-                                              "source_id"=>"counter_pdf")
-      expect(response.last[:relation]).to eq("subj_id"=>"http://www.plos.org",
+                                              "relation_type_id"=>"views",
+                                              "total"=>299,
+                                              "source_id"=>"counter_html")
+      expect(response.last[:occurred_at]).to eq("2013-01-01")
+      expect(response.last[:relation]).to eq("subj_id"=>"http://www.plos.org/2013/1",
                                              "obj_id"=>work.pid,
-                                             "relation_type_id"=>"views",
-                                             "total"=>2919,
-                                             "source_id"=>"counter_html")
+                                             "relation_type_id"=>"downloads",
+                                             "total"=>4,
+                                             "source_id"=>"counter_pdf")
     end
 
     it "should catch timeout errors with the Counter API" do

@@ -63,41 +63,45 @@ class Pmc < Agent
     return [result] if result[:error]
     return { error: result.fetch('pmc_web_stat', {}).fetch('response', {}).fetch('error', "an error occured") } if result.fetch('pmc_web_stat', {}).fetch('response', {}).fetch('status', 1) != "0"
 
-    items = result.fetch('pmc_web_stat', {}).fetch('articles', {}).fetch('article', [])
-    get_relations_with_related_works(items)
-  end
+    year = result.fetch('pmc_web_stat', {}).fetch('request', {}).fetch('year', nil)
+    month = result.fetch('pmc_web_stat', {}).fetch('request', {}).fetch('month', nil)
+    return [] if month.nil? || year.nil?
 
-  def get_relations_with_related_works(items)
-    subj_id = "https://www.ncbi.nlm.nih.gov/pmc"
-    subj = { "pid" => subj_id,
-             "URL" => subj_id,
-             "title" => "PubMed Central",
-             "type" => "webpage",
-             "issued" => "2012-05-15T16:40:23Z" }
+    items = result.fetch('pmc_web_stat', {}).fetch('articles', {}).fetch('article', [])
 
     Array(items).reduce([]) do |sum, item|
       doi = item.fetch('meta_data', {}).fetch('doi', nil)
-      return sum unless doi.present?
+      views = item.fetch('usage', {}).fetch('full_text', 0).to_i
+      downloads = item.fetch('usage', {}).fetch('pdf', 0).to_i
 
-      html = item.fetch('usage', {}).fetch('full_text', 0).to_i
-      pdf = item.fetch('usage', {}).fetch('pdf', 0).to_i
+      return sum if doi.blank? || (views + downloads == 0)
 
-      if html > 0
+      subj_date = get_date_from_parts(year, month, 1)
+      subj_id = "https://www.ncbi.nlm.nih.gov/pmc/#{year}/#{month}"
+      subj = { "pid" => subj_id,
+               "URL" => "https://www.ncbi.nlm.nih.gov/pmc",
+               "title" => "PubMed Central",
+               "type" => "webpage",
+               "issued" => subj_date }
+
+      if views > 0
         sum << { prefix: doi[/^10\.\d{4,5}/],
+                 occurred_at: subj_date,
                  relation: { "subj_id" => subj_id,
                              "obj_id" => doi_as_url(doi),
                              "relation_type_id" => "views",
-                             "total" => html,
+                             "total" => views,
                              "source_id" => "pmc_html" },
                  subj: subj }
       end
 
-      if pdf > 0
+      if downloads > 0
         sum << { prefix: doi[/^10\.\d{4,5}/],
+                 occurred_at: subj_date,
                  relation: { "subj_id" => subj_id,
                              "obj_id" => doi_as_url(doi),
                              "relation_type_id" => "downloads",
-                             "total" => pdf,
+                             "total" => downloads,
                              "source_id" => "pmc_pdf" },
                  subj: subj }
       end
@@ -105,20 +109,6 @@ class Pmc < Agent
       sum
     end
   end
-
-  # def get_events_by_month(extra)
-  #   extra.map do |event|
-  #     html = event['full-text'].to_i
-  #     pdf = event['pdf'].to_i
-
-  #     { month: event['month'].to_i,
-  #       year: event['year'].to_i,
-  #       html: html,
-  #       pdf: pdf,
-  #       total: html + pdf }
-  #   end
-  # end
-
 
   def config_fields
     [:url]

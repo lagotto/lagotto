@@ -87,14 +87,16 @@ describe Pmc, type: :model do
       result = Hash.from_xml(body)
       response = subject.parse_data(result)
 
-      expect(response.length).to eq(5228)
-      expect(response[2][:relation]).to eq("subj_id"=>"https://www.ncbi.nlm.nih.gov/pmc",
+      expect(response.length).to eq(814)
+      expect(response[2][:occurred_at]).to eq("2013-10-01")
+      expect(response[2][:relation]).to eq("subj_id"=>"https://www.ncbi.nlm.nih.gov/pmc/2013/10",
                                            "obj_id"=>"http://doi.org/10.1371/journal.pbio.0030085",
                                            "relation_type_id"=>"views",
                                            "total"=>128,
                                            "source_id"=>"pmc_html")
 
-      expect(response[3][:relation]).to eq("subj_id"=>"https://www.ncbi.nlm.nih.gov/pmc",
+      expect(response[3][:occurred_at]).to eq("2013-10-01")
+      expect(response[3][:relation]).to eq("subj_id"=>"https://www.ncbi.nlm.nih.gov/pmc/2013/10",
                                            "obj_id"=>"http://doi.org/10.1371/journal.pbio.0030085",
                                            "relation_type_id"=>"downloads",
                                            "total"=>90,

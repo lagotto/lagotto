@@ -16,67 +16,48 @@ class Counter < Agent
     work = Work.where(id: options.fetch(:work_id, nil)).first
     return [{ error: "Resource not found.", status: 404 }] unless work.present?
 
-    extra = get_extra(result)
-    pdf = get_sum(extra, "pdf_views")
-    html = get_sum(extra, "html_views")
+    items = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
+    items = [items] if items.is_a?(Hash)
 
-    subj_id = "http://www.plos.org"
-    subj = { "pid" => subj_id,
-             "URL" => subj_id,
-             "title" => "PLOS",
-             "type" => "webpage",
-             "issued" => "2012-05-15T16:40:23Z" }
+    Array(items).reduce([]) do |sum, item|
+      month = item.fetch("month", nil)
+      year = item.fetch("year", nil)
+      views = item.fetch("get_document", 0).to_i
+      downloads = item.fetch("get_pdf", 0).to_i
 
-    relations = []
-    if pdf > 0
-      relations << { prefix: work.prefix,
-                     relation: { "subj_id" => subj_id,
-                                 "obj_id" => work.pid,
-                                 "relation_type_id" => "downloads",
-                                 "total" => pdf,
-                                 "source_id" => "counter_pdf" },
-                     subj: subj }
-    end
+      return sum if month.nil? || year.nil? || (views + downloads == 0)
 
-    if html > 0
-      relations << { prefix: work.prefix,
-                     relation: { "subj_id" => subj_id,
-                                 "obj_id" => work.pid,
-                                 "relation_type_id" => "views",
-                                 "total" => html,
-                                 "source_id" => "counter_html" },
-                     subj: subj }
-    end
+      subj_date = get_date_from_parts(year, month, 1)
+      subj_id = "http://www.plos.org/#{year}/#{month}"
+      subj = { "pid" => subj_id,
+               "URL" => "http://www.plos.org",
+               "title" => "PLOS",
+               "type" => "webpage",
+               "issued" => subj_date }
 
-    relations
-  end
+      if views > 0
+        sum << { prefix: work.prefix,
+                 occurred_at: subj_date,
+                 relation: { "subj_id" => subj_id,
+                             "obj_id" => work.pid,
+                             "relation_type_id" => "views",
+                             "total" => views,
+                             "source_id" => "counter_html" },
+                 subj: subj }
+      end
 
-  def get_extra(result)
-    extra = result.deep_fetch('rest', 'response', 'results', 'item') { nil }
-    extra = [extra] if extra.is_a?(Hash)
-
-    Array(extra).map do |item|
-      { "month" => item.fetch("month", nil),
-        "year" => item.fetch("year", nil),
-        "pdf_views" => item.fetch("get_pdf", "0"),
-        "xml_views" => item.fetch("get_xml", "0"),
-        "html_views" => item.fetch("get_document", "0") }
+      if downloads > 0
+        sum << { prefix: work.prefix,
+                 occurred_at: subj_date,
+                 relation: { "subj_id" => subj_id,
+                             "obj_id" => work.pid,
+                             "relation_type_id" => "downloads",
+                             "total" => downloads,
+                             "source_id" => "counter_pdf" },
+                 subj: subj }
+      end
     end
   end
-
-  # def get_events_by_month(extra)
-  #   extra.map do |month|
-  #     html = month["html_views"].to_i
-  #     pdf = month["pdf_views"].to_i
-  #     xml = month["xml_views"].to_i
-
-  #     { month: month["month"].to_i,
-  #       year: month["year"].to_i,
-  #       html: html,
-  #       pdf: pdf,
-  #       total: html + pdf + xml }
-  #   end
-  # end
 
   def config_fields
     [:url_private]

@@ -257,6 +257,14 @@ module Configurable
       name
     end
 
+    def current_month
+      Time.zone.now.to_date.month
+    end
+
+    def current_year
+      Time.zone.now.to_date.year
+    end
+
     # is this source no longer accepting new data?
     def obsolete
       config.obsolete || false
