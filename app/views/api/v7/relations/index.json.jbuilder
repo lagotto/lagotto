@@ -13,6 +13,6 @@ json.relations @relations do |relation|
     json.(relation.work, :author, :title, :issued)
     json.set! :"container-title", relation.work.container_title
     json.(relation.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :publisher_id, :work_type_id, :events)
-    json.(relation, :timestamp)
+    json.(relation, :implicit, :timestamp)
   end
 end

@@ -26,4 +26,8 @@ class RelationDecorator < Draper::Decorator
   def relation_type_id
     cached_relation_type_names[model.relation_type_id]
   end
+
+  def implicit
+    model.implicit ? true : nil
+  end
 end

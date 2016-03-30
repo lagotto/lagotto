@@ -195,7 +195,8 @@ class Deposit < ActiveRecord::Base
     r.update_attributes!(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
-                        occurred_at: occurred_at)
+                        occurred_at: occurred_at,
+                        implicit: true)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique
       Relation.where(work_id: related_work_id,
@@ -290,7 +291,7 @@ class Deposit < ActiveRecord::Base
       month: month,
       day: day,
       work_type_id: work_type,
-      tracked: item.fetch("tracked", false),
+      tracked: item.fetch("tracked", nil),
       registration_agency: item.fetch("registration_agency", nil),
       csl: csl }.compact
   end
