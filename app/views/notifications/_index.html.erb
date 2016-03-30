@@ -205,7 +205,7 @@
               <% @sources.each do |source| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], source_id: source.first, hostname: params[:hostname], q: params[:q]) %>
-                  <%= Source.where(name: source.first).first.title %>
+                  <%= Source.where(name: source.first).first ? Source.where(name: source.first).first.title : source.first %>
                   <span class="number pull-right"><%= number_with_delimiter(source.last) %></span>
                 </li>
               <% end %>

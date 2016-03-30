@@ -323,8 +323,8 @@ class Agent < ActiveRecord::Base
     relation = Relation.where(work_id: work_id)
                        .where(source_id: source.id)
                        .where(relation_type_id: relation_type.id)
-                       .where("occured_at < ?", Time.zone.now.beginning_of_month)
-                       .order("occured_at DESC").first
+                       .where("occurred_at < ?", Time.zone.now.beginning_of_month)
+                       .order("occurred_at DESC").first
 
     return 0 unless relation.present?
 

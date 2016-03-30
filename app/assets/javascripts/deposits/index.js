@@ -67,7 +67,7 @@ function eventsViz(json, sources, relation_types) {
 
     d3.select("#panel-body-" + i).append("h4")
       .attr("class", "work")
-      .html(work.id);
+      .html(deposit.id);
 
     d3.select("#panel-body-" + i).append("span")
       .attr("class", "pull-right")
