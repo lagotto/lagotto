@@ -9,7 +9,22 @@
     <% end %>
     <%= @contributor.credit_name.presence || @contributor.pid %>
   </div>
+  <div class="panel-body">
+    <dl class="dl-horizontal">
+      <% if @contributor.orcid.present? %>
+        <dt>ORCID</dt>
+        <dd><% link_to "http://orcid.org/#{@contributor.orcid}", "http://orcid.org/#{@contributor.orcid}" %></dd>
+      <% end %>
+      <% if @contributor.github.present? %>
+        <dt>Github</dt>
+        <dd><% link_to "https://github.com/#{@contributor.github}", "https://github.com/#{@contributor.github}" %></dd>
+      <% end %>
+    </dl>
+  </div>
   <div class="panel-footer">
     <%= link_to h(icon("external-link") + " " + @contributor.pid).html_safe, @contributor.pid %>
   </div>
 </div>
+
+
+<%= link_to @work.pmid_as_url(@work.pmid), @work.pmid_as_url(@work.pmid) %>
