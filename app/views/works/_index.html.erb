@@ -1,97 +1,59 @@
-<% if can?(:manage, Work) and (controller.action_name == "new" or (controller.action_name == "create" and !@work.errors.empty?)) %>
-  <div class="panel panel-default">
-    <div class="panel-heading panel-title">New Work</div>
-    <div class="panel-body">
-      <%= simple_form_for @work, :url => works_path, :html => { :remote => true } do |f| %>
-        <%= f.input :title, :input_html => { :rows => 2 } %>
-        <%= f.input :doi, :label => 'DOI' %>
-        <%= f.input :canonical_url, :label => 'Canonical URL' %>
-        <%= f.input :pmid, :label => 'PubMed' %>
-        <%= f.input :pmcid, :label => 'PubMed Central' %>
-        <%= f.input :arxiv, :label => 'ArXiV' %>
-        <%= f.input :wos, :label => 'Web of Science' %>
-        <%= f.input :scp, :label => 'Scopus' %>
-        <%= f.input :ark, :label => 'Ark' %>
-        <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
-       <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
-        <%= f.input :published_on, label: "Publication Date" do %>
-          <%= f.input_field :day, as: :day %>
-          <%= f.input_field :month, as: :month %>
-          <%= f.input_field :year, as: :year %>
-        <% end %>
+<div class="search-wide">
+  <%= form_tag(works_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+    <div class="input-group">
+      <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-        <div class="form-group">
-          <%= f.submit "Save", class: "btn btn-default" %>
-          <%= link_to "Cancel", works_path, { remote: true, class: "btn" } %>
-        </div>
-      <% end %>
+<div class="row">
+  <div class="col-md-9" id="content">
+    <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
+    <div class="btn-toolbar pull-right">
+      <div class="btn-group btn-group-sm">
+        <a class="btn btn-default dropdown-toggle hidden" id="work-sort" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
+        <ul class="dropdown-menu pull-right">
+          <li><%= link_to "Sort by Date", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id]) %></li>
+          <% if @source.nil? %>
+            <li class="divider"></li>
+            <% Source.for_aggregations.each do |source| %>
+              <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>
+            <% end %>
+          <% else %>
+            <li class="divider"></li>
+            <li><%= link_to "Sort by #{@source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: @source.name, sort: @source.name) %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
-<% else %>
-  <div class="search-wide">
-    <%= form_tag(works_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
-      <div class="input-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search by DOI", :class => "form-control" %>
-        <div class="input-group-btn">
-          <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="row">
-    <div class="col-md-9" id="content">
-      <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group btn-group-sm">
-          <a class="btn btn-default dropdown-toggle hidden" id="work-sort" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
-          <ul class="dropdown-menu pull-right">
-            <li><%= link_to "Sort by Date", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id]) %></li>
-            <% if @source.nil? %>
-              <li class="divider"></li>
-              <% Source.for_aggregations.each do |source| %>
-                <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>
-              <% end %>
+  <div class='col-md-3'>
+    <% if Source.for_aggregations.size > 0 %>
+      <div class="panel facets">
+        <div class="panel-body">
+          <h4>Sources</h4>
+          <ul>
+            <% if @source.present? %>
+              <li class="active">
+                <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q]) %>
+                <%= @source.title %>
+              </li>
             <% else %>
-              <li class="divider"></li>
-              <li><%= link_to "Sort by #{@source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: @source.name, sort: @source.name) %></li>
+              <% Source.for_aggregations.each do |source| %>
+                <li>
+                  <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name) %>
+                  <%= source.title %>
+                </li>
+              <% end %>
             <% end %>
           </ul>
         </div>
       </div>
-    </div>
-    <div class='col-md-3'>
-      <% if Source.for_aggregations.size > 0 %>
-        <div class="panel facets">
-          <div class="panel-body">
-            <h4>Sources</h4>
-            <ul>
-              <% if @source.present? %>
-                <li class="active">
-                  <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q]) %>
-                  <%= @source.title %>
-                </li>
-              <% else %>
-                <% Source.for_aggregations.each do |source| %>
-                  <li>
-                    <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name) %>
-                    <%= source.title %>
-                  </li>
-                <% end %>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
-      <% if can?(:manage, Work) %>
-        <div class="panel facets">
-          <div class="panel-body">
-            <h4 class="link"><%= link_to "Add Work", new_work_path, { remote: true, id: "new-work" } %></h4>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <% end %>
   </div>
+</div>
 
-  <%= javascript_include_tag 'works/index' %>
-<% end %>
+<%= javascript_include_tag 'works/index' %>

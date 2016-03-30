@@ -25,16 +25,6 @@ class WorksController < ApplicationController
     render :show
   end
 
-  def new
-    @work = Work.new(day: Time.zone.now.day, month: Time.zone.now.month, year: Time.zone.now.year, tracked: true)
-    render :index
-  end
-
-  def create
-    @work.save
-    render :index
-  end
-
   def edit
     render :show
   end
