@@ -110,7 +110,7 @@ class Contributor < ActiveRecord::Base
 
     if orcid.present?
       metadata = get_metadata(orcid, "orcid")
-    elsif gihub.present?
+    elsif github.present?
       metadata = get_metadata(github, "github_owner")
     else
       return nil
