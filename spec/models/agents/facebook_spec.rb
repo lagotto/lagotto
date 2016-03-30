@@ -162,13 +162,15 @@ describe Facebook, type: :model do
     end
 
     it "should report if there are events returned by the Facebook API" do
+      allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
       body = File.read(fixture_path + 'facebook.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(1)
-      expect(response.first[:relation]).to eq("subj_id"=>"https://facebook.com",
+      expect(response.first[:occurred_at]).to eq("2013-09-01")
+      expect(response.first[:relation]).to eq("subj_id"=>"https://facebook.com/2013/9",
                                               "obj_id"=>work.pid,
                                               "relation_type_id"=>"references",
                                               "total"=>9972,
@@ -196,23 +198,27 @@ describe Facebook, type: :model do
     end
 
     it "should report if there are events returned by the Facebook API" do
+      allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
       body = File.read(fixture_path + 'facebook_linkstat.json')
       result = JSON.parse(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work_id: work.id)
 
       expect(response.length).to eq(3)
-      expect(response[0][:relation]).to eq("subj_id"=>"https://facebook.com",
+      expect(response[0][:occurred_at]).to eq("2013-09-01")
+      expect(response[0][:relation]).to eq("subj_id"=>"https://facebook.com/2013/9",
                                            "obj_id"=>work.pid,
                                            "relation_type_id"=>"bookmarks",
                                            "total"=>3120,
                                            "source_id"=>"facebook")
-      expect(response[1][:relation]).to eq("subj_id"=>"https://facebook.com",
+      expect(response[1][:occurred_at]).to eq("2013-09-01")
+      expect(response[1][:relation]).to eq("subj_id"=>"https://facebook.com/2013/9",
                                            "obj_id"=>work.pid,
                                            "relation_type_id"=>"discusses",
                                            "total"=>1910,
                                            "source_id"=>"facebook")
-      expect(response[2][:relation]).to eq("subj_id"=>"https://facebook.com",
+      expect(response[2][:occurred_at]).to eq("2013-09-01")
+      expect(response[2][:relation]).to eq("subj_id"=>"https://facebook.com/2013/9",
                                            "obj_id"=>work.pid,
                                            "relation_type_id"=>"likes",
                                            "total"=>1715,

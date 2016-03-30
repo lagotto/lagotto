@@ -44,61 +44,77 @@ class Facebook < Agent
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
     end
 
+    subj_date = get_date_from_parts(current_year, current_month, 1)
+    subj_id = "https://facebook.com/#{current_year}/#{current_month}"
+    subj = { "pid" => subj_id,
+             "URL" => "https://facebook.com",
+             "title" => "Facebook",
+             "type" => "webpage",
+             "issued" => subj_date }
+
     relations = []
     if url_linkstat.blank? && total > 0
-      relations << { prefix: work.prefix,
-                     relation: { "subj_id" => "https://facebook.com",
-                                 "obj_id" => work.pid,
-                                 "relation_type_id" => "references",
-                                 "total" => total,
-                                 "source_id" => source_id },
-                     subj: { "pid" => "https://facebook.com",
-                             "URL" => "https://facebook.com",
-                             "title" => "Facebook",
-                             "type" => "webpage",
-                             "issued" => "2012-05-15T16:40:23Z" }}
+      total_previous_month = get_total_previous_month(work.id, "references")
+      total = total - total_previous_month
+
+      if total > 0
+        relations << { prefix: work.prefix,
+                       occurred_at: subj_date,
+                       relation: { "subj_id" => subj_id,
+                                   "obj_id" => work.pid,
+                                   "relation_type_id" => "references",
+                                   "total" => total,
+                                   "source_id" => source_id },
+                       subj: subj }
+      end
     end
 
     if readers > 0
-      relations << { prefix: work.prefix,
-                     relation: { "subj_id" => "https://facebook.com",
-                                 "obj_id" => work.pid,
-                                 "relation_type_id" => "bookmarks",
-                                 "total" => readers,
-                                 "source_id" => source_id },
-                     subj: { "pid" => "https://facebook.com",
-                             "URL" => "https://facebook.com",
-                             "title" => "Facebook",
-                             "type" => "webpage",
-                             "issued" => "2012-05-15T16:40:23Z" }}
+      readers_previous_month = get_total_previous_month(work.id, "bookmarks")
+      total = readers - readers_previous_month
+
+      if total > 0
+        relations << { prefix: work.prefix,
+                       occurred_at: subj_date,
+                       relation: { "subj_id" => subj_id,
+                                   "obj_id" => work.pid,
+                                   "relation_type_id" => "bookmarks",
+                                   "total" => total,
+                                   "source_id" => source_id },
+                       subj: subj }
+      end
     end
 
     if comments > 0
-      relations << { prefix: work.prefix,
-                     relation: { "subj_id" => "https://facebook.com",
-                                 "obj_id" => work.pid,
-                                 "relation_type_id" => "discusses",
-                                 "total" => comments,
-                                 "source_id" => source_id },
-                     subj: { "pid" => "https://facebook.com",
-                             "URL" => "https://facebook.com",
-                             "title" => "Facebook",
-                             "type" => "webpage",
-                             "issued" => "2012-05-15T16:40:23Z" }}
+      comments_previous_month = get_total_previous_month(work.id, "discusses")
+      total = comments - comments_previous_month
+
+      if total > 0
+        relations << { prefix: work.prefix,
+                       occurred_at: subj_date,
+                       relation: { "subj_id" => subj_id,
+                                   "obj_id" => work.pid,
+                                   "relation_type_id" => "discusses",
+                                   "total" => total,
+                                   "source_id" => source_id },
+                       subj: subj }
+      end
     end
 
     if likes > 0
-      relations << { prefix: work.prefix,
-                     relation: { "subj_id" => "https://facebook.com",
-                                 "obj_id" => work.pid,
-                                 "relation_type_id" => "likes",
-                                 "total" => likes,
-                                 "source_id" => source_id },
-                     subj: { "pid" => "https://facebook.com",
-                             "URL" => "https://facebook.com",
-                             "title" => "Facebook",
-                             "type" => "webpage",
-                             "issued" => "2012-05-15T16:40:23Z" }}
+      likes_previous_month = get_total_previous_month(work.id, "likes")
+      total = likes - likes_previous_month
+
+      if total > 0
+        relations << { prefix: work.prefix,
+                       occurred_at: subj_date,
+                       relation: { "subj_id" => subj_id,
+                                   "obj_id" => work.pid,
+                                   "relation_type_id" => "likes",
+                                   "total" => total,
+                                   "source_id" => source_id },
+                       subj: subj }
+      end
     end
 
     relations
