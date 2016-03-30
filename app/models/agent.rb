@@ -312,6 +312,23 @@ class Agent < ActiveRecord::Base
     errors.add(:cron_line, "is not a valid crontab entry")
   end
 
+  def get_total_previous_month(work_id, relation_type_id)
+    source = cached_source(source_id)
+    relation_type = cached_relation_type(relation_type_id)
+
+    return 0 unless relation_type.present? && source.present?
+
+    relation = Relation.where(work_id: work_id)
+                       .where(source_id: source.id)
+                       .where(relation_type_id: relation_type.id)
+                       .where("occured_at < ?", Time.zone.now.beginning_of_month)
+                       .order("occured_at DESC").first
+
+    return 0 unless relation.present?
+
+    return relation.total
+  end
+
   def timestamp
     cached_at.utc.iso8601
   end
