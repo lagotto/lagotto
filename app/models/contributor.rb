@@ -22,7 +22,7 @@ class Contributor < ActiveRecord::Base
   has_many :contributor_roles, :through => :contributions
   has_many :deposits
 
-  validates :pid, presence: true, :uniqueness: true
+  validates :pid, presence: true, uniqueness: true
   validates :orcid, uniqueness: true, format: { with: ORCID_FORMAT }, allow_blank: true
   before_validation :set_metadata
 
