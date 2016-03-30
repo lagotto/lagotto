@@ -133,7 +133,7 @@
           for <%= @source.title %>
         <% end %>
         <% unless @level.nil? %>
-          with at least level <em><%= Notification::LEVELS[@level] %></em>
+          with at least level <em><%= Notification::LEVELS[@level.first].humanize %></em>
         <% end %>
         <% unless params[:q].blank? %>
           with <em><%= params[:q] %></em> in the class name, message or PID
@@ -142,7 +142,7 @@
     <% end %>
   </div>
   <div class='col-md-3'>
-    <% if @hostname || @hostnames.size > 1 %>
+    <% if @hostname.present? || @hostnames.size > 1 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Servers</h4>
@@ -166,7 +166,7 @@
         </div>
       </div>
     <% end %>
-    <% if @level || @levels.length > 0 %>
+    <% if @level.present? || @levels.length > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Levels</h4>
@@ -196,18 +196,16 @@
           <h4>Sources</h4>
           <ul>
             <% if @source_group.present? %>
-             <% s = Source.where(id: @source_group.first).first %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %>
-                <%= s.title %>
+                <%= Source.where(name: @source_group.first).first.title %>
                 <span class="number pull-right"><%= number_with_delimiter(@source_group.last) %></span>
               </li>
             <% else %>
               <% @sources.each do |source| %>
-                <% s = Source.where(id: source.first).first %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], source_id: s.name, hostname: params[:hostname], q: params[:q]) %>
-                  <%= s.title %>
+                  <%= link_to icon('square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], source_id: source.first, hostname: params[:hostname], q: params[:q]) %>
+                  <%= Source.where(name: source.first).first.title %>
                   <span class="number pull-right"><%= number_with_delimiter(source.last) %></span>
                 </li>
               <% end %>
@@ -216,7 +214,7 @@
         </div>
       </div>
     <% end %>
-    <% if @class_name || @class_names.size > 0 %>
+    <% if @class_name.present? || @class_names.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Class names</h4>
