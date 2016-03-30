@@ -149,7 +149,7 @@ class Agent < ActiveRecord::Base
     data = parse_data(data, options.merge(source_id: source_id))
 
     # push to deposit API if no error and we have collected works and/or events
-    # returns deposits created
+    # returns hash with number of deposits created, e.g. { total: 10 }
     push_data(data, options)
   end
 
@@ -190,7 +190,7 @@ class Agent < ActiveRecord::Base
   end
 
   def push_data(items, options={})
-    Array(items).reduce([]) do |sum, item|
+    deposits = Array(items).reduce([]) do |sum, item|
       begin
         relation = item.fetch(:relation, {})
         deposit = Deposit.create!(source_token: uuid,
@@ -211,6 +211,8 @@ class Agent < ActiveRecord::Base
         sum
       end
     end
+
+    { total: deposits.size }
   end
 
   def get_events_by_month(events, options={})
