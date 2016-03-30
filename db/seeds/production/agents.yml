@@ -11,7 +11,7 @@ records:
   - sprig_id: pubmed
     type: PubMed
     name: pubmed
-    title: PubMed Central
+    title: PubMed Central (Citations)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: wordpress
@@ -41,25 +41,25 @@ records:
   - sprig_id: europe_pmc
     type: EuropePmc
     name: europe_pmc
-    title: Europe PubMed Central
+    title: Europe PMC (Citations)
     description: Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: europe_pmc_data
     type: EuropePmcData
     name: europe_pmc_data
-    title: Europe PubMed Central Database Citations
+    title: Europe PMC (Database)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: europe_pmc_fulltext
     type: EuropePmcFulltext
     name: europe_pmc_fulltext
-    title: Europe PubMed Central Citations in Fulltext
+    title: Europe PMC (Fulltext)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: europe_pmc_fulltext_data
     type: EuropePmcFulltextData
     name: europe_pmc_fulltext_data
-    title: Europe PubMed Central Database Citations in Fulltext
+    title: Europe PMC (DB Fulltext)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: scienceseeker
@@ -71,7 +71,7 @@ records:
   - sprig_id: nature
     type: Nature
     name: nature
-    title: Nature Blogs
+    title: Nature (Blogs)
     description: Nature Blogs is a science blog aggregator.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: openedition
@@ -83,25 +83,25 @@ records:
   - sprig_id: datacite_related
     type: DataciteRelated
     name: datacite_related
-    title: DataCite Related
+    title: DataCite (RelatedIdentifier)
     description: Import works with relatedIdentifiers via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_orcid
     type: DataciteOrcid
     name: datacite_orcid
-    title: DataCite ORCID
+    title: DataCite (ORCID)
     description: Import works with ORCID nameIdentifier via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: datacite_github
     type: DataciteGithub
     name: datacite_github
-    title: DataCite Github
+    title: DataCite (Github)
     description: Import works with Github relatedIdentifiers via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: crossref_orcid
     type: CrossrefOrcid
     name: crossref_orcid
-    title: CrossRef ORCID
+    title: CrossRef (ORCID)
     description: Import works with ORCID identifiers via the CrossRef REST API.
     group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: orcid
@@ -113,7 +113,7 @@ records:
   - sprig_id: crossref
     type: CrossRef
     name: crossref
-    title: CrossRef
+    title: CrossRef (Citations)
     description: CrossRef is a non-profit organization that enables cross-publisher citation linking.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: scopus
@@ -143,7 +143,7 @@ records:
   - sprig_id: pmc
     type: Pmc
     name: pmc
-    title: PubMed Central Usage Stats
+    title: PubMed Central (Usage Stats)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: counter
@@ -155,13 +155,13 @@ records:
   - sprig_id: twitter
     type: Twitter
     name: twitter
-    title: Twitter
+    title: Twitter (PLOS)
     description: Twitter is a social networking and microblogging service.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: twitter_search
     type: TwitterSearch
     name: twitter_search
-    title: Twitter Search
+    title: Twitter (Search API)
     description: Twitter is a social networking and microblogging service.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: wos
@@ -191,13 +191,13 @@ records:
   - sprig_id: articlecoveragecurated
     type: ArticleCoverageCurated
     name: articlecoveragecurated
-    title: Article Coverage Curated
+    title: Article Coverage (Curated)
     description: Article Coverage Curated.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: plos_comments
     type: PlosComments
     name: plos_comments
-    title: PLOS Comments
+    title: PLOS (Comments)
     description: Comments from the PLOS journals website.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: github
@@ -221,60 +221,60 @@ records:
   - sprig_id: ads_fulltext
     type: AdsFulltext
     name: ads_fulltext
-    title: ADS Fulltext Search
+    title: ADS (Fulltext)
     description: Astrophysics Data System Fulltext Search.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: plos_fulltext
     type: PlosFulltext
     name: plos_fulltext
-    title: PLOS Fulltext Search
+    title: PLOS (Fulltext)
     description: Search the PLOS corpus for citations.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: bmc_fulltext
     type: BmcFulltext
     name: bmc_fulltext
-    title: BMC Fulltext Search
+    title: BMC (Fulltext)
     description: Search the BioMed Central corpus for citations.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: nature_opensearch
     type: NatureOpensearch
     name: nature_opensearch
-    title: Nature.com OpenSearch
+    title: Nature (OpenSearch)
     description: Search the Nature.com corpus for citations.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: plos_import
     type: PlosImport
     name: plos_import
-    title: PLOS Import
+    title: PLOS (Import)
     description: Import works via the PLOS Solr API.
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: crossref_import
     type: CrossrefImport
     name: crossref_import
-    title: CrossRef Import
+    title: CrossRef (Import)
     description: Import works via the CrossRef REST API.
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: dataone_import
     type: DataoneImport
-    name: DataONE Import
+    name: DataONE (Import)
     title: DataoneImport
     description: Import works via the DataONE Solr API.
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: datacite_data
     type: DataciteData
     name: datacite_data
-    title: DataCite Data
+    title: DataCite (Data)
     description: Helping you to find, access, and reuse research data.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_datacentre
     type: DataciteDatacentre
     name: datacite_datacentre
-    title: DataCite Datacentre
+    title: DataCite (Datacentre)
     description: Import data centres via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "publishers").id %>
   - sprig_id: crossref_publisher
     type: CrossrefPublisher
     name: crossref_publisher
-    title: CrossRef Publisher
+    title: CrossRef (Publisher)
     description: Import publishers via the Crossref REST API.
     group_id: <%= sprig_record(Group, "publishers").id %>
