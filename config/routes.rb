@@ -24,7 +24,6 @@ Lagotto::Application.routes.draw do
     resources :publisher_options, only: [:show, :edit, :update]
   end
   resources :api_requests
-  resources :contributions
   resources :contributors, constraints: { :id => /.+/ }
   resources :deposits
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
