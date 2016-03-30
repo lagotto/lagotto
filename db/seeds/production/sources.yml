@@ -111,11 +111,13 @@ records:
     name: mendeley
     title: Mendeley
     description: Mendeley is a reference manager and social bookmarking tool.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: facebook
     name: facebook
     title: Facebook
     description: Facebook is the largest social network.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: researchblogging
     name: researchblogging
@@ -151,6 +153,7 @@ records:
     name: wos
     title: Web of Science
     description: Web of Science is an online academic citation index.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: f1000
     name: f1000
@@ -161,11 +164,13 @@ records:
     name: figshare
     title: Figshare
     description: Publisher figures, tables and supplementary files hosted by figshare.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: articlecoverage
     name: articlecoverage
     title: Article Coverage
     description: Article Coverage.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: articlecoveragecurated
     name: articlecoveragecurated
@@ -181,11 +186,13 @@ records:
     name: github
     title: Github
     description: GitHub is a web-based Git repository hosting service.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: bitbucket
     name: bitbucket
     title: Bitbucket
     description: Bitbucket is a web-based repository hosting service using git and mercurial.
+    cumulative: true
     group_id: <%= sprig_record(Group, "events").id %>
   - sprig_id: ads
     name: ads
