@@ -10,7 +10,7 @@ class ContributorsController < ApplicationController
   def show
     @page = (params[:page] || 1).to_i
     @source = Source.active.where(name: params[:source_id]).first
-    @sort = Source.active.where(name: params[:sort]).first
+    @contributor_role = cached_contributor_role(params[:contributor_role_id])
   end
 
   def destroy

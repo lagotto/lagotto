@@ -10,14 +10,36 @@
           <ul>
             <% if @source.present? %>
               <li class="active">
-                <%= link_to icon('check-square-o').html_safe, contributor_path(@contributor.pid, q: params[:q]) %>
+                <%= link_to icon('check-square-o').html_safe, contributor_path(@contributor.pid, contributor_role_id: params[:contributor_role_id]) %>
                 <%= @source.title %>
               </li>
             <% else %>
               <% Source.for_contributions.each do |source| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, contributor_path(@contributor.pid, q: params[:q], source_id: source.name) %>
+                  <%= link_to icon('square-o').html_safe, contributor_path(@contributor.pid, source_id: source.name, contributor_role_id: params[:contributor_role_id]) %>
                   <%= source.title %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+    <% if ContributorRole.all.size > 0 %>
+      <div class="panel facets">
+        <div class="panel-body">
+          <h4>Contributor roles</h4>
+          <ul>
+            <% if @contributor_role.present? %>
+              <li class="active">
+                <%= link_to icon('check-square-o').html_safe, contributor_path(@contributor.pid, source_id: params[:source_id]) %>
+                <%= @contributor_role.title %>
+              </li>
+            <% else %>
+              <% ContributorRole.order("name").each do |contributor_role| %>
+                <li>
+                  <%= link_to icon('square-o').html_safe, contributor_path(@contributor.pid, contributor_role_id: contributor_role.name, source_id: params[:source_id]) %>
+                  <%= contributor_role.title %>
                 </li>
               <% end %>
             <% end %>

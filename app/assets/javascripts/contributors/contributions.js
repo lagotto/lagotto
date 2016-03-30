@@ -9,32 +9,32 @@ if (!params.empty()) {
   var per_page = params.attr('data-per-page');
   var contributor_id = params.attr('data-contributor-id');
   var source_id = params.attr('data-source-id');
-  var sort = params.attr('data-sort');
+  var contributor_role_id = params.attr('data-contributor-role-id');
 
   var query = encodeURI("/api/contributors/" + contributor_id + "/contributions?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
-  if (sort !== null) { query += "&sort=" + sort; }
+   if (contributor_role_id !== null) { query += "&contributor_role_id=" + contributor_role_id; }
 }
 
 // asynchronously load data from the Lagotto API
 queue()
   .defer(d3.json, encodeURI("/api/sources"))
+  .defer(d3.json, encodeURI("/api/contributor_roles"))
   .defer(d3.json, encodeURI("/api/work_types"))
   .defer(d3.json, query)
-  .await(function(error, s, wt, c) {
+  .await(function(error, s, cr, wt, c) {
     if (error) { return console.warn(error); }
-    contributionsViz(c, s.sources, wt.work_types);
+    contributionsViz(c, s.sources, cr.contributor_roles, wt.work_types);
     paginate(c, "#content");
 });
 
 // add data to page
-function contributionsViz(json, sources, work_types) {
+function contributionsViz(json, sources, contributor_roles, work_types) {
   data = json.contributions;
 
   json.href = "?page={{number}}";
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
-  if (sort !== "") { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
 
@@ -54,6 +54,8 @@ function contributionsViz(json, sources, work_types) {
 
   for (var i=0; i<data.length; i++) {
     var work = data[i];
+    var contributor_role = contributor_roles.filter(function(d) { return d.id === work.contributor_role_id; })[0];
+    if (typeof contributor_role === "undefined") { contributor_role = { "title": "Contribution" }};
     var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
 
     d3.select("#content").insert("div")
@@ -69,9 +71,11 @@ function contributionsViz(json, sources, work_types) {
       .html(work.title);
     d3.select("#panel-body-" + i).append("p")
       .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work, work_types));
+      .html(metadataToString(work, work_types)).append("p")
+      .append("span")
+      .text(contributor_role.title);
     d3.select("#panel-body" + i).append("p")
-      .text(signpostsToString(work, sources, source_id, sort));
+      .text(signpostsToString(work, sources, source_id));
 
     d3.select("#panel-" + i).insert("div")
       .attr("class", "panel-footer")
