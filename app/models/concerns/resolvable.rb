@@ -250,7 +250,7 @@ module Resolvable
       author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
-        "title" => response.fetch('description', nil).presence || '(:unas)',
+        "title" => response.fetch('description', nil).presence || github_hash[:repo],
         "container-title" => "Github",
         "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
         "URL" => url,
