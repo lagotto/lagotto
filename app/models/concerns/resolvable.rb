@@ -268,8 +268,8 @@ module Resolvable
 
       return { error: 'Resource not found.', status: 404 } if response["message"] == "Not Found"
 
-      author = response.fetch('name', nil).presence || '(:unas)'
-      title = author == '(:unas)' ? author : "Github profile for #{author}"
+      author = response.fetch('name', nil).presence || github_hash[:owner]
+      title = "Github profile for #{author}"
 
       { "author" => [get_one_author(author)],
         "title" => title,
