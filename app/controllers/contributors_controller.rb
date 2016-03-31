@@ -42,6 +42,6 @@ class ContributorsController < ApplicationController
   private
 
   def safe_params
-    params.require(:contributor).permit(:given_names, :family_name, :pid, :orcid)
+    params.require(:contributor).permit(:given_names, :family_name, :literal, :pid, :orcid, :github)
   end
 end

@@ -308,7 +308,7 @@ module Resolvable
 
       return nil if response["message"] == "Not Found"
 
-      response.fetch('name', nil).presence || '(:unas)'
+      response.fetch('name', nil).presence || owner
     rescue *NETWORKABLE_EXCEPTIONS
       nil
     end
