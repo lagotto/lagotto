@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330184033) do
+ActiveRecord::Schema.define(version: 20160331002009) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20160330184033) do
 
   create_table "contributors", force: :cascade do |t|
     t.string   "pid",         limit: 191,                                 null: false
-    t.string   "orcid",       limit: 191,                                 null: false
+    t.string   "orcid",       limit: 191
     t.string   "given_names", limit: 191
     t.string   "family_name", limit: 191
     t.datetime "cached_at",               default: '1970-01-01 00:00:00', null: false

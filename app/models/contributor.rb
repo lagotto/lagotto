@@ -24,6 +24,7 @@ class Contributor < ActiveRecord::Base
 
   validates :pid, presence: true, uniqueness: true
   validates :orcid, uniqueness: true, format: { with: ORCID_FORMAT }, allow_blank: true
+  validates :github, uniqueness: true, allow_blank: true
   before_validation :set_metadata
 
   # after_commit :update_cache, :on => :create
