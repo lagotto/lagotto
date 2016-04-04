@@ -144,6 +144,9 @@ module Resolvable
       metadata = response.fetch("message", {})
       return { error: 'Resource not found.', status: 404 } if metadata.blank?
 
+      # don't use these metadata, we need the URL from the publisher
+      metadata = metadata.except("URL")
+
       date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
       year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
