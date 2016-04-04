@@ -2,7 +2,8 @@ class AddRelationTypeTitle < ActiveRecord::Migration
   def up
     add_column :relation_types, :title, :string
     add_column :relation_types, :inverse_title, :string
-
+    add_column :relation_types, :inverse_name, :string
+    add_column :relation_types, :level, :integer, default: 1
     rename_table :events, :relations
     rename_column :relations, :citation_id, :related_work_id
 
@@ -89,6 +90,8 @@ class AddRelationTypeTitle < ActiveRecord::Migration
   def down
     remove_column :relation_types, :title
     remove_column :relation_types, :inverse_title
+    remove_column :relation_types, :inverse_name
+    remove_column :relation_types, :level
 
     rename_column :relations, :related_work_id, :citation_id
     rename_table :relations, :events

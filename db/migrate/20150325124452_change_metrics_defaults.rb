@@ -1,7 +1,4 @@
 class ChangeMetricsDefaults < ActiveRecord::Migration
-  class Event < ActiveRecord::Base; end
-  class Day < ActiveRecord::Base; end
-
   def up
     change_column :retrieval_statuses, :pdf, :integer, default: 0, null: false
     change_column :retrieval_statuses, :html, :integer, default: 0, null: false
@@ -26,10 +23,10 @@ class ChangeMetricsDefaults < ActiveRecord::Migration
     change_column :api_responses, :html, :integer, default: 0, null: false
     change_column :api_responses, :total, :integer, default: 0, null: false
 
-    Event.update_all(pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, extra: nil)
-    Month.update_all(pdf: 0, html: 0, readers: 0, comments: 0, likes: 0)
-    Day.update_all(pdf: 0, html: 0, readers: 0, comments: 0, likes: 0)
-    Change.update_all(pdf: 0, html: 0, total: 0)
+    RetrievalStatus.update_all(pdf: 0, html: 0, readers: 0, comments: 0, likes: 0, extra: nil) if !!RetrievalStatus rescue false
+    Month.update_all(pdf: 0, html: 0, readers: 0, comments: 0, likes: 0) if !!Month rescue false
+    Day.update_all(pdf: 0, html: 0, readers: 0, comments: 0, likes: 0) if !!Day rescue false
+    Change.update_all(pdf: 0, html: 0, total: 0) if !!Change rescue false
   end
 
   def down
