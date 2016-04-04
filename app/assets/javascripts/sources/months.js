@@ -124,19 +124,7 @@ function AlmViz(options) {
     // Flag that there is at least one metric
     metricsFound_ = true;
 
-    // Some sources have multiple data
-    var html = d3.sum(data, function(g) { return g.html; });
-    var pdf = d3.sum(data, function(g) { return g.pdf; });
-    var readers = d3.sum(data, function(g) { return g.readers; });
-    var comments = d3.sum(data, function(g) { return g.comments; });
-    var likes = d3.sum(data, function(g) { return g.likes; });
     var total = d3.sum(data, function(g) { return g.total; });
-
-    if (html > 0) { addSource_(source, "HTML", html, group, "html", $groupRow); }
-    if (pdf > 0) { addSource_(source, "PDF", pdf, group, "pdf", $groupRow); }
-    if (readers > 0) { addSource_(source, "Readers", readers, group, "readers", $groupRow); }
-    if (comments > 0) { addSource_(source, "Comments", comments, group, "comments", $groupRow); }
-    if (likes > 0) { addSource_(source, "Likes", likes, group, "likes", $groupRow); }
     if (total > 0) { addSource_(source, "Total", total, group, "total", $groupRow); }
   };
 

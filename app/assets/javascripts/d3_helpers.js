@@ -28,6 +28,27 @@ function numberToHumanSize(bytes) {
   return bytes.toFixed(1) + ' ' + units[u];
 }
 
+// construct date object from date parts
+function datePartsToDate(date_parts) {
+  var len = date_parts.length;
+
+  // not in expected format
+  if (len === 0 || len > 3) { return null; }
+
+  // turn numbers to strings and pad with 0
+  for (var i = 0; i < len; ++i) {
+    if (date_parts[i] < 10) {
+      date_parts[i] = "0" + date_parts[i];
+    } else {
+      date_parts[i] = "" + date_parts[i];
+    }
+  }
+
+  // convert to date, workaround for different time zones
+  var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
+  return new Date(timestamp);
+}
+
 // format date
 function formattedDate(date) {
   var timestamp = new Date(Date.parse(date));
