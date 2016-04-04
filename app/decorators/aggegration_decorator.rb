@@ -1,6 +1,7 @@
 class AggregationDecorator < Draper::Decorator
   delegate_all
   decorates_finders
+  decorates_association :work
 
   def self.collection_decorator_class
     PaginatingDecorator

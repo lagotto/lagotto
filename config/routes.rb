@@ -61,12 +61,7 @@ Lagotto::Application.routes.draw do
         resources :works, constraints: { :id => /.+?/, format: false }
       end
 
-      concern :eventable do
-        resources :aggregations
-      end
-
       resources :agents
-      resources :aggregations
       resources :api_requests, only: [:index]
       resources :contributor_roles, only: [:index, :show]
       resources :contributions
@@ -77,9 +72,9 @@ Lagotto::Application.routes.draw do
       resources :docs, only: [:index, :show]
       resources :groups, only: [:index, :show]
       resources :notifications
-      resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable, :eventable]
+      resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable]
       resources :relation_types, only: [:index, :show]
-      resources :sources, concerns: [:workable, :eventable] do
+      resources :sources, concerns: [:workable] do
         resources :months
       end
       resources :status, only: [:index]

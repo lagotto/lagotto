@@ -1,10 +1,10 @@
 <% if @work.aggregations.sum(:total) > 0 %>
   <div class="panel panel-default">
-    <div class="panel-heading panel-title">Events <small class="pull-right" id="control-events"></small></div>
-    <div class="panel-body" id="panel-events">
+    <div class="panel-heading panel-title">Events <small class="pull-right" id="control-aggregations"></small></div>
+    <div class="panel-body" id="panel-aggregations">
       <div class="text-muted" id="loading">Loading … <%= image_tag "spinner.gif" %></div>
 
-      <%= javascript_include_tag 'works/months' %>
+      <%= javascript_include_tag 'works/aggregations' %>
     </div>
   </div>
 <% else %>

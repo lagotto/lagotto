@@ -28,7 +28,7 @@ var params = d3.select("#api_key");
 if (!params.empty()) {
   var api_key = params.attr('data-api-key');
   var work_id = params.attr('data-pid');
-  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/months");
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/aggregations");
 }
 
 // asynchronously load data from the Lagotto API
@@ -42,7 +42,7 @@ queue()
     options.work = w.work;
     options.sources = s.sources;
     options.groups = g.groups;
-    options.almStatsJson = e.events;
+    options.almStatsJson = e.aggregations;
     var almviz = new AlmViz(options);
     almviz.initViz();
 });
@@ -133,18 +133,8 @@ function AlmViz(options) {
       // Flag that there is at least one metric
       metricsFound_ = true;
 
-      // Some sources have multiple data
-      if (source.group_id === "viewed") {
-        if (events.html > 0) {
-          addSource_(source, source.title + " HTML", events, events.html, group, "html", $groupRow);
-        }
-        if (events.pdf > 0) {
-          addSource_(source, source.title + " PDF", events, events.pdf, group, "pdf", $groupRow);
-        }
-      } else {
-        var label = source.title;
-        addSource_(source, label, events, events.total, group, "total", $groupRow);
-      }
+      var label = source.title;
+      addSource_(source, label, events, events.total, group, "total", $groupRow);
     });
   };
 

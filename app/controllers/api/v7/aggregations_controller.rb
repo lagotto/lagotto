@@ -1,7 +1,7 @@
 class Api::V7::AggregationsController < Api::BaseController
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :events, "Events"
+  swagger_controller :aggregations, "Aggregations"
 
   swagger_api :index do
     summary "Returns event counts by work IDs and/or source names"
@@ -23,20 +23,19 @@ class Api::V7::AggregationsController < Api::BaseController
       collection = @work.aggregations
     elsif params[:work_ids]
       work_ids = params[:work_ids].split(",")
-      collection = Event.joins(:work).where(works: { "pid" => work_ids })
+      collection = Aggregation.joins(:work).where(works: { "pid" => work_ids })
     elsif params[:source_id]
-      collection = Event.joins(:source).where("sources.name = ?", params[:source_id])
+      collection = Aggregation.joins(:source).where("sources.name = ?", params[:source_id])
     elsif params[:publisher_id]
-      collection = Event.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
+      collection = Aggregation.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
     else
-      collection = Event
+      collection = Aggregation
     end
 
     collection = collection.joins(:source).where("private <= ?", is_admin_or_staff?)
 
-    if params[:sort]
-      sort = ["pdf", "html", "readers", "comments", "likes", "total"].include?(params[:sort]) ? params[:sort] : "total"
-      collection = collection.order(sort.to_sym => :desc)
+    if params[:sort] == "total"
+      collection = collection.order("aggregations.total DESC")
     else
       collection = collection.order("aggregations.updated_at DESC")
     end
