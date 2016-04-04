@@ -70,7 +70,7 @@ class Mendeley < Agent
       username: client_id,
       password: client_secret,
       data: "grant_type=client_credentials",
-      agent_id: id,
+      source_id: source_id,
       headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
     if result.present? && result["access_token"] && result["expires_in"]

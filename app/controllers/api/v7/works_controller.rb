@@ -173,11 +173,12 @@ class Api::V7::WorksController < Api::BaseController
     if params[:sort].nil?
       collection.order("works.published_on DESC")
     elsif params[:sort] && source && params[:sort] == params[:source_id]
-      collection = collection.order("aggregations.total DESC")
-    elsif params[:sort] && !source && sort = cached_source(params[:source_id])
       collection = collection.joins(:aggregations)
-        .where("aggregations.source_id = ?", sort.id)
-        .order("aggregations.total DESC")
+                             .order("aggregations.total DESC")
+    elsif params[:sort] && !source && sort = cached_source(params[:sort])
+      collection = collection.joins(:aggregations)
+                             .where("aggregations.source_id = ?", sort.id)
+                             .order("aggregations.total DESC")
     elsif params[:sort] && params[:sort] == "created_at"
       collection.order("works.created_at ASC")
     end
