@@ -18,9 +18,9 @@ describe "/api/v7/work_types", :type => :api do
       expect(data.length).to eq(1)
 
       item = data.first
-      expect(item["id"]).to eq ("article-journal")
-      expect(item["title"]).to eq ("Journal Article")
-      expect(item["container"]).to eq ("Journal")
+      expect(item["id"]).to eq("article-journal")
+      expect(item["title"]).to eq("Journal Article")
+      expect(item["container"]).to eq("Journal")
     end
   end
 
@@ -33,9 +33,9 @@ describe "/api/v7/work_types", :type => :api do
 
       response = JSON.parse(last_response.body)
       item = response["work_type"]
-      expect(item["id"]).to eq ("article-journal")
-      expect(item["title"]).to eq ("Journal Article")
-      expect(item["container"]).to eq ("Journal")
+      expect(item["id"]).to eq("article-journal")
+      expect(item["title"]).to eq("Journal Article")
+      expect(item["container"]).to eq("Journal")
     end
   end
 end

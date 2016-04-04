@@ -78,7 +78,7 @@ describe "/api/v7/works", :type => :api do
 
         # wait a second so that the timestamp for cache_key is different
         sleep 1
-        work.relations.first.update_attributes!(total: total)
+        work.aggregations.first.update_attributes!(total: total)
         # TODO: make sure that touch works in production
         work.touch
 
