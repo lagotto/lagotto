@@ -83,12 +83,10 @@ class Deposit < ActiveRecord::Base
   def process_data
     self.start
 
-    collect_data
-
-    if error_messages.present?
-      self.error
-    else
+    if collect_data
       self.finish
+    else
+      self.error
     end
   end
 
