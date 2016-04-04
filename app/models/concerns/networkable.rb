@@ -9,7 +9,6 @@ module Networkable
 
   included do
     def get_result(url, options={})
-      options[:headers] ||= {}
       options[:headers] = set_request_headers(url, options)
 
       conn = faraday_conn(options)
@@ -31,13 +30,7 @@ module Networkable
                                 last_response: Time.zone.now)
       end
       # parsing by content type is not reliable, so we check the response format
-      if is_json?(response.body)
-        JSON.parse(response.body)
-      elsif is_xml?(response.body)
-        Hash.from_xml(response.body)
-      else
-        response.body
-      end
+      parse_success_response(response.body)
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     end
@@ -51,6 +44,8 @@ module Networkable
                            "xml" => 'application/xml',
                            "json" => 'application/json' }
         options[:headers]['Accept'] = accept_headers.fetch(options[:content_type], options[:content_type])
+      else
+        options[:headers]['Accept'] ||= "application/json"
       end
 
       if options[:bearer].present?
@@ -65,15 +60,12 @@ module Networkable
     end
 
     def faraday_conn(options = {})
-      options[:headers] ||= {}
-      options[:headers]['Accept'] ||= "application/json"
-
-      limit = options[:limit] || 10
+      options[:limit] ||= 10
 
       Faraday.new do |c|
         c.headers['Accept'] = options[:headers]['Accept']
         c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
-        c.use      FaradayMiddleware::FollowRedirects, limit: limit, cookie: :all
+        c.use      FaradayMiddleware::FollowRedirects, limit: options[:limit], cookie: :all
         c.request  :multipart
         c.request  :json if options[:headers]['Accept'] == 'application/json'
         c.use      Faraday::Response::RaiseError
@@ -184,7 +176,7 @@ module Networkable
     end
 
     # currently supported by twitter, github, ads and ads_fulltext
-    # sources with slightly different header names
+    # agents with slightly different header names
     def get_rate_limit_remaining(headers)
       headers["X-Rate-Limit-Remaining"] || headers["X-RateLimit-Remaining"]
     end
@@ -197,24 +189,52 @@ module Networkable
       headers["X-Rate-Limit-Reset"] || headers["X-RateLimit-Reset"]
     end
 
+    def parse_success_response(string)
+      string = parse_response(string)
+
+      # if string == ""
+      #   { 'data' => nil }
+      # elsif string.is_a?(Hash) && string['data']
+      #   string
+      # elsif string.is_a?(Hash) && string['hash']
+      #   { 'data' => string['hash'] }
+      # else
+      #   { 'data' => string }
+      # end
+    end
+
     def parse_error_response(string)
-      if is_json?(string)
-        string = JSON.parse(string)
-      elsif is_xml?(string)
-        string = Hash.from_xml(string)
+      string = parse_response(string)
+
+      if string.is_a?(Hash) && string['error']
+        string['error']
+      else
+        string
       end
-      string = string['error'] if string.is_a?(Hash) && string['error']
-      string
     end
 
-    def is_xml?(string)
-      Nokogiri::XML(string).errors.empty?
+    protected
+
+    def parse_response(string)
+      parse_from_json(string) || parse_from_xml(string) || parse_from_string(string)
     end
 
-    def is_json?(string)
+    def parse_from_xml(string)
+      if Nokogiri::XML(string).errors.empty?
+        Hash.from_xml(string)
+      else
+        nil
+      end
+    end
+
+    def parse_from_json(string)
       JSON.parse(string)
     rescue JSON::ParserError
-      false
+      nil
+    end
+
+    def parse_from_string(string)
+      string.gsub(/\s+\n/, "\n").strip.force_encoding('UTF-8')
     end
   end
 end

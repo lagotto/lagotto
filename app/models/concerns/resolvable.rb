@@ -5,8 +5,13 @@ module Resolvable
     require "addressable/uri"
 
     def get_canonical_url(url, options={})
-      options[:timeout] ||= 120
-      conn = faraday_conn('html', options)
+      options[:content_type] = "html"
+      options[:headers] ||= {}
+      options[:headers] = set_request_headers(url, options)
+
+      conn = faraday_conn(options)
+      conn.options[:timeout] = options[:timeout] || 120
+
       response = conn.get url, {}, options[:headers]
 
       # Priority to find URL:

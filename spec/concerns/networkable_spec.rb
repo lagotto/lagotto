@@ -37,7 +37,7 @@ describe Agent, type: :model, vcr: true do
       it "get json" do
         stub = stub_request(:get, url).to_return(:body => nil, :status => 200, :headers => { "Content-Type" => "application/json" })
         response = subject.get_result(url)
-        expect(response).to be_nil
+        expect(response).to be_blank
       end
 
       it "get xml" do
