@@ -23,7 +23,7 @@ describe F1000, type: :model, vcr: true do
     it "should catch not found errors with f1000" do
       stub = stub_request(:get, subject.get_query_url).to_return(status: [404], body: "")
       response = subject.get_data(source_id: subject.source_id)
-      expect(response).to eq(error: nil, status: 404)
+      expect(response).to eq(error: "", status: 404)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(0)
     end

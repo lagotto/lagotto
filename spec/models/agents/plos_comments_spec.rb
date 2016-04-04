@@ -26,7 +26,7 @@ describe PlosComments, type: :model do
       body = File.read(fixture_path + 'plos_comments_error.txt')
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body, status: [404])
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq(error: "Item not found at the provided ID: info:doi/10.1371/journal.pone.008109x\n", status: 404)
+      expect(response).to eq(error: "Item not found at the provided ID: info:doi/10.1371/journal.pone.008109x", status: 404)
     end
 
     it "should report if there are no events and event_count returned by the PLOS comments API" do
