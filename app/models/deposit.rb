@@ -119,9 +119,20 @@ class Deposit < ActiveRecord::Base
     cached_inv_relation_type(relation_type_id)
   end
 
+  def year
+    occurred_at.year
+  end
+
+  def month
+    occurred_at.month
+  end
+
   # update in order, stop if an error occured
   def update_relations
-    update_work && update_related_work && update_relation && update_inv_relation
+    update_work &&
+    update_related_work &&
+    update_relation &&
+    update_inv_relation
   end
 
   def update_contributions
@@ -165,9 +176,19 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_relation
+    aggregation = Aggregation.where(work_id: related_work_id,
+                                    source_id: source.id).first_or_create
+
+    m = Month.where(work_id: related_work_id,
+                    source_id: source.id,
+                    aggregation_id: aggregation.id,
+                    year: year,
+                    month: month).first_or_create
+
     r = Relation.where(work_id: work_id,
                        related_work_id: related_work_id,
-                       source_id: source.present? ? source.id : nil)
+                       source_id: source.id,
+                       month_id: m.id)
                 .first_or_initialize
 
     # update all attributes
@@ -179,7 +200,7 @@ class Deposit < ActiveRecord::Base
     if exception.class == ActiveRecord::RecordNotUnique
       Relation.where(work_id: work_id,
                      related_work_id: related_work_id,
-                     source_id: source.present? ? source.id : nil).first
+                     source_id: source.id).first
     else
       handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
     end
@@ -188,7 +209,7 @@ class Deposit < ActiveRecord::Base
   def update_inv_relation
     r = Relation.where(work_id: related_work_id,
                        related_work_id: work_id,
-                       source_id: source.present? ? source.id : nil)
+                       source_id: source.id)
                 .first_or_initialize
 
     # update all attributes, return saved inv_relation
@@ -201,7 +222,7 @@ class Deposit < ActiveRecord::Base
     if exception.class == ActiveRecord::RecordNotUnique
       Relation.where(work_id: related_work_id,
                      related_work_id: work_id,
-                     source_id: source.present? ? source.id : nil).first
+                     source_id: source.id).first
     else
       handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
     end
@@ -250,15 +271,6 @@ class Deposit < ActiveRecord::Base
 
   def delete_publisher
     Publisher.where(name: subj_id).destroy_all
-  end
-
-  def update_months(relation, months)
-    months.map { |item| Month.where(relation_id: relation.id,
-                                    month: item.fetch("month"),
-                                    year: item.fetch("year")).first_or_initialize(
-                                      work_id: relation.work_id,
-                                      source_id: relation.source_id,
-                                      total: item.fetch("total", 0)) }
   end
 
   # convert CSL into format that the database understands

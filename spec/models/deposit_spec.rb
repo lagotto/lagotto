@@ -9,6 +9,16 @@ describe Deposit, :type => :model, vcr: true do
   it { is_expected.to validate_presence_of(:subj_id) }
   it { is_expected.to validate_presence_of(:source_id) }
 
+  describe "attributes" do
+    it "year" do
+      expect(subject.year).to eq(2015)
+    end
+
+    it "month" do
+      expect(subject.month).to eq(4)
+    end
+  end
+
   describe "from_csl" do
     it "should parse subj" do
       expect(subject.from_csl(subject.subj)).to eq(canonical_url: "http://www.citeulike.org/user/dbogartoit",

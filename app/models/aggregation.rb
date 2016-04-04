@@ -5,12 +5,15 @@ class Aggregation < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
-  belongs_to :work, :touch => true
+  belongs_to :work, touch: true
   belongs_to :source
-  has_many :months, :dependent => :destroy
+  has_many :months, dependent: :destroy, inverse_of: :aggregation
 
   validates :work_id, :source_id, presence: true
   validates_associated :work, :source
+  validates :work_id, uniqueness: { scope: :source_id }
+
+  after_touch :set_total
 
   delegate :name, :to => :source
   delegate :title, :to => :source
@@ -58,7 +61,7 @@ class Aggregation < ActiveRecord::Base
   end
 
   def by_month
-    months.map { |month| month.metrics }
+    months.map { |month| month.total }
   end
 
   def by_year
@@ -70,37 +73,8 @@ class Aggregation < ActiveRecord::Base
     end
   end
 
-  def get_events_previous_month
-    row = months.last
-
-    if row.nil?
-      # first record
-      { "total" => 0 }
-    elsif [row.year, row.month] == [today.year, today.month]
-      # update this month's record
-      { "total" => total - row.total }
-    else
-      # add record
-      { "total" => row.total }
-    end
-  end
-
-  # calculate events for current month based on past numbers
-  def get_events_current_month
-    row = get_events_previous_month
-
-    { "year" => today.year,
-      "month" => today.month,
-      "total" => total - row.fetch("total") }
-  end
-
-  def update_months(data)
-    Array(data).map { |item| Month.where(aggregation_id: id,
-                                         month: item[:month],
-                                         year: item[:year]).first_or_create(
-                                           work_id: work_id,
-                                           source_id: source_id,
-                                           total: item.fetch(:total, 0)) }
+  def set_total
+    update_columns(total: months.sum(:total))
   end
 
   def metrics
