@@ -28,36 +28,16 @@ function numberToHumanSize(bytes) {
   return bytes.toFixed(1) + ' ' + units[u];
 }
 
-// construct date object from date parts
-function datePartsToDate(date_parts) {
-  var len = date_parts.length;
-
-  // not in expected format
-  if (len === 0 || len > 3) { return null; }
-
-  // turn numbers to strings and pad with 0
-  for (var i = 0; i < len; ++i) {
-    if (date_parts[i] < 10) {
-      date_parts[i] = "0" + date_parts[i];
-    } else {
-      date_parts[i] = "" + date_parts[i];
-    }
-  }
-
-  // convert to date, workaround for different time zones
-  var timestamp = Date.parse(date_parts.join('-') + 'T12:00');
-  return new Date(timestamp);
-}
-
 // format date
-function formattedDate(date, len) {
-  switch (len) {
-    case 1:
-      return formatYear(date);
-    case 2:
-      return formatMonthYear(date);
-    case 3:
-      return formatDate(date);
+function formattedDate(date) {
+  var timestamp = new Date(Date.parse(date));
+  switch (date.length) {
+    case 4:
+      return formatYear(timestamp);
+    case 7:
+      return formatMonthYear(timestamp);
+    default:
+      return formatDate(timestamp);
   }
 }
 
@@ -153,15 +133,13 @@ function relationToString(work, sources, relation_types) {
   return [relation_type.title, " via " + source.title];
 }
 
-function metadataToString(work, work_types) {
-  var date_parts = work["issued"]["date-parts"][0];
-  var date = datePartsToDate(date_parts);
+function metadataToString(work, work_types) {;
   var containerTitleString = work["container-title"] ? " via " + work["container-title"] : "";
 
   var work_type = work_types.filter(function(d) { return d.id === work.work_type_id; })[0];
   if (typeof work_type == "undefined" || work_type === "") { work_type = { "title": "Work" }; }
 
-  return work_type.title + " published " + formattedDate(date, date_parts.length) + containerTitleString;
+  return work_type.title + " published " + formattedDate(work.issued) + containerTitleString;
 }
 
 // construct author list from author object
