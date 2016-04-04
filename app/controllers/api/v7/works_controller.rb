@@ -145,6 +145,7 @@ class Api::V7::WorksController < Api::BaseController
     elsif params[:source_id] && source = cached_source(params[:source_id])
       collection = Work.joins(:aggregations)
                    .where("aggregations.source_id = ?", source.id)
+                   .where("aggregations.total > 0")
     elsif params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       collection = Work.joins(:relations)
                    .where("relations.relation_type_id = ?", relation_type.id)
