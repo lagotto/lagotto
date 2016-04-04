@@ -3,6 +3,10 @@ class AddStatusUuid < ActiveRecord::Migration
     add_column :status, :uuid, :string
     add_column :alerts, :uuid, :string
     add_column :api_requests, :uuid, :string
+
+    Status.where(uuid: nil).update_all(uuid: SecureRandom.uuid)
+    Notification.unscoped.where(uuid: nil).update_all(uuid: SecureRandom.uuid)
+    ApiRequest.where(uuid: nil).update_all(uuid: SecureRandom.uuid)
   end
 
   def down
