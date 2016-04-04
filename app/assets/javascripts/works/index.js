@@ -59,7 +59,7 @@ function worksViz(json, sources, work_types) {
     return;
   }
 
-  if (json.meta.total > 1) {
+  if (json.meta.total > 1 && model !== "sources") {
     d3.select("#content").insert("h4")
       .attr("class", "results")
       .text(numberWithDelimiter(json.meta.total) + " Works");
