@@ -19,8 +19,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def events
-    # or to_h in Ruby 2.1, ignore nil and 0
-    Hash[*model.metrics.flatten].select { |k,v| filtered_sources.include?(k) && v.to_i > 0 }
+    model.metrics.select { |k,v| filtered_sources.include?(k) && v.to_i > 0 }
   end
 
   def publication_date
@@ -55,7 +54,7 @@ class WorkDecorator < Draper::Decorator
     "work/#{pid}/#{timestamp}"
   end
 
-  def update_date
+  def updated
     model.timestamp
   end
 

@@ -190,12 +190,12 @@ class Work < ActiveRecord::Base
   end
 
   def issued
-    { "date-parts" => [[year, month, day].reject(&:blank?)] }
+    get_date_from_parts(year, month, day)
   end
 
   def issued_date
-    date_parts = issued["date-parts"].first
-    date = Date.new(*date_parts)
+    date_parts = [year, month, day].compact
+    date = Date.new(date)
 
     case date_parts.length
     when 1 then date.strftime("%Y")
