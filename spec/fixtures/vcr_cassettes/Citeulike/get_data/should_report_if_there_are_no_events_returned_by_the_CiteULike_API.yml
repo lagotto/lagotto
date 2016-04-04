@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/0.8.31
       Date:
-      - Mon, 21 Mar 2016 13:16:56 GMT
+      - Mon, 04 Apr 2016 16:27:51 GMT
       Content-Type:
       - text/xml; charset=UTF-8
       Connection:
@@ -33,5 +33,5 @@ http_interactions:
       string: |
         <posts></posts>
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 13:16:56 GMT
+  recorded_at: Mon, 04 Apr 2016 16:27:51 GMT
 recorded_with: VCR 2.9.3
