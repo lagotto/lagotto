@@ -44,7 +44,9 @@ describe "notifications", type: :feature, js: true do
     notification = FactoryGirl.create(:notification)
 
     visit "/notifications"
-    click_link "Warn"
+    within('.col-md-3') do
+      click_link "Warn"
+    end
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
     click_link "Error"
@@ -55,7 +57,9 @@ describe "notifications", type: :feature, js: true do
     notification = FactoryGirl.create(:notification)
 
     visit "/notifications"
-    click_link "Net::HTTPRequestTimeOut"
+    within('.col-md-3') do
+      click_link "Net::HTTPRequestTimeOut"
+    end
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
     click_link "Net::HTTPUnauthorized"
