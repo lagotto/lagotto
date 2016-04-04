@@ -9,11 +9,10 @@ module Networkable
 
   included do
     def get_result(url, options={})
-      options[:content_type] ||= 'json'
       options[:headers] ||= {}
       options[:headers] = set_request_headers(url, options)
 
-      conn = faraday_conn(options[:content_type], options)
+      conn = faraday_conn(options)
 
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
 
@@ -47,31 +46,36 @@ module Networkable
       options[:headers] ||= {}
       options[:headers]['Host'] = URI.parse(url).host
 
+      if options[:content_type].present?
+        accept_headers = { "html" => 'text/html; charset=UTF-8',
+                           "xml" => 'application/xml',
+                           "json" => 'application/json' }
+        options[:headers]['Accept'] = accept_headers.fetch(options[:content_type], options[:content_type])
+      end
+
       if options[:bearer].present?
         options[:headers]['Authorization'] = "Bearer #{options[:bearer]}"
       elsif options[:token].present?
         options[:headers]["Authorization"] = "Token token=#{options[:token]}"
       elsif options[:username].present?
-        basic = Base64.encode64("#{options[:username]}:#{options[:password].to_s}")
-        options[:headers]["Authorization"] = "Basic #{basic}"
+        options[:headers]["Authorization"] = ActionController::HttpAuthentication::Basic.encode_credentials(options[:username], options[:password])
       end
 
       options[:headers]
     end
 
-    def faraday_conn(content_type = 'json', options = {})
-      content_types = { "html" => 'text/html; charset=UTF-8',
-                        "xml" => 'application/xml',
-                        "json" => 'application/json' }
-      accept_header = content_types.fetch(content_type, content_type)
+    def faraday_conn(options = {})
+      options[:headers] ||= {}
+      options[:headers]['Accept'] ||= "application/json"
+
       limit = options[:limit] || 10
 
       Faraday.new do |c|
-        c.headers['Accept'] = accept_header
+        c.headers['Accept'] = options[:headers]['Accept']
         c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
         c.use      FaradayMiddleware::FollowRedirects, limit: limit, cookie: :all
         c.request  :multipart
-        c.request  :json if accept_header == 'application/json'
+        c.request  :json if options[:headers]['Accept'] == 'application/json'
         c.use      Faraday::Response::RaiseError
         c.adapter  Faraday.default_adapter
       end
