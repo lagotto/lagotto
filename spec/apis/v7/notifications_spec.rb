@@ -66,7 +66,7 @@ describe "/api/v7/notifications", :type => :api do
         data = response["notifications"]
         expect(data.length).to eq(1)
         notification = data.last
-        expect(notification["source"]).to eq("citeulike")
+        expect(notification["source_id"]).to eq("citeulike")
       end
     end
 
