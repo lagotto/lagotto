@@ -6,7 +6,6 @@ describe "notifications", type: :feature, js: true do
   it "show no notifications" do
     visit "/notifications"
     expect(page).to have_css ".alert-info", text: "There are currently no notifications"
-    expect(page).to have_css "#filters"
   end
 
   it "show and delete notifications" do
@@ -28,13 +27,13 @@ describe "notifications", type: :feature, js: true do
     notification = FactoryGirl.create(:notification)
 
     visit "/notifications"
-    within('.form-inline') do
+    within('.form-horizontal') do
       fill_in "q", with: "The request timed out"
       click_button "submit"
     end
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
-    within('.form-inline') do
+    within('.form-horizontal') do
       fill_in "q", with: "no implicit conversion of nil into String"
       click_button "submit"
     end
@@ -45,12 +44,9 @@ describe "notifications", type: :feature, js: true do
     notification = FactoryGirl.create(:notification)
 
     visit "/notifications"
-    click_link "level-menu"
     click_link "Warn"
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
-
-    click_link "level-menu"
     click_link "Error"
     expect(page).to have_css ".alert-info", text: "There are currently no notifications"
   end
@@ -59,12 +55,9 @@ describe "notifications", type: :feature, js: true do
     notification = FactoryGirl.create(:notification)
 
     visit "/notifications"
-    click_link "notification-menu"
     click_link "Net::HTTPRequestTimeOut"
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
-
-    click_link "notification-menu"
     click_link "Net::HTTPUnauthorized"
     expect(page).to have_css ".alert-info", text: "There are currently no Net::HTTPUnauthorized notifications"
   end

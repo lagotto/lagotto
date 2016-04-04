@@ -4,7 +4,7 @@ describe "docs", type: :feature, js: true do
   it "show homepage" do
     visit "/"
 
-    expect(page).to have_css "h2", text: "Link Store"
+    expect(page).to have_css "h2", text: "DataCite Event Data"
   end
 
   it "show installation" do

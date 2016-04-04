@@ -10,7 +10,7 @@ describe "/api/v7/relations", :type => :api do
 
   context "index" do
     context "JSON" do
-      let!(:relations) { FactoryGirl.create_list(:relation, 5) }
+      let!(:relations) { FactoryGirl.create(:relation) }
       let(:uri) { "/api/relations" }
 
       it "JSON" do
@@ -18,7 +18,7 @@ describe "/api/v7/relations", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["relations"].length).to eq(5)
+        expect(response["relations"].length).to eq(1)
 
         item = response["relations"].first
         expect(item["source_id"]).to eq("citeulike")
@@ -33,7 +33,7 @@ describe "/api/v7/relations", :type => :api do
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        expect(response["relations"].length).to eq(5)
+        expect(response["relations"].length).to eq(1)
 
         item = response["relations"].first
         expect(item["source_id"]).to eq("citeulike")
@@ -45,7 +45,7 @@ describe "/api/v7/relations", :type => :api do
 
     context "show subj_id" do
       let(:work) { FactoryGirl.create(:work, :with_events) }
-      let!(:relation) { FactoryGirl.create_list(:relation, 5, work: work) }
+      let!(:relation) { FactoryGirl.create(:relation, work: work) }
       let(:uri) { "/api/works/#{work.pid}/relations" }
 
       it "JSON" do
@@ -53,7 +53,7 @@ describe "/api/v7/relations", :type => :api do
         expect(last_response.status).to eq(200)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["total"]).to eq(5)
+        expect(response["meta"]["total"]).to eq(1)
 
         item = response["relations"].first
         expect(item["source_id"]).to eq("citeulike")
@@ -67,7 +67,7 @@ describe "/api/v7/relations", :type => :api do
 
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
-        expect(response["meta"]["total"]).to eq(5)
+        expect(response["meta"]["total"]).to eq(1)
 
         item = response["relations"].first
         expect(item["source_id"]).to eq("citeulike")

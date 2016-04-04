@@ -7,7 +7,6 @@ describe "users for admin user", type: :feature, js: true do
     visit "/users"
 
     expect(page).to have_css ".panel-heading a", text: "Josiah Carberry"
-    expect(page).to have_css "#api_requests"
   end
 
   it "show user profile" do

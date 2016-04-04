@@ -204,7 +204,7 @@ FactoryGirl.define do
     trait(:with_work) do
       association :work, :published_today
       after :build do |month|
-        if month.work.relations.any?
+        if month.work.aggregations.any?
           month.aggregation_id = month.work.aggregations.first.id
         else
           month.aggregation = FactoryGirl.create(:aggregation, work: month.work)
