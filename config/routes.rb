@@ -68,6 +68,7 @@ Lagotto::Application.routes.draw do
       resources :contributors, constraints: { :id => /.+/ } do
         resources :contributions
       end
+      resources :data_exports, only: [:index]
       resources :deposits
       resources :docs, only: [:index, :show]
       resources :groups, only: [:index, :show]
