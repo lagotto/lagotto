@@ -1,4 +1,7 @@
 class ChangeMetricsDefaults < ActiveRecord::Migration
+  class Event < ActiveRecord::Base; end
+  class Day < ActiveRecord::Base; end
+
   def up
     change_column :retrieval_statuses, :pdf, :integer, default: 0, null: false
     change_column :retrieval_statuses, :html, :integer, default: 0, null: false
