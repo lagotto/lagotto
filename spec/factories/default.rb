@@ -479,6 +479,7 @@ FactoryGirl.define do
     association :work
     association :related_work
     association :source
+    association :month
     association :relation_type, :is_bookmarked_by
   end
 
