@@ -8,9 +8,9 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-5-0-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
-      - ''
+      - application/json
   response:
     status:
       code: 200
@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 12 Jan 2016 08:18:21 GMT
+      - Mon, 04 Apr 2016 16:45:16 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
@@ -29,15 +29,15 @@ http_interactions:
       Connection:
       - Keep-Alive
       Set-Cookie:
-      - JSESSIONID=DFD6DF3A13E391D7A9BBABFA727FB55C; Path=/europepmc/webservices
+      - JSESSIONID=BD258C69975A64B7E6F9D40F281D8F76; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
       - Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
     body:
       encoding: UTF-8
-      string: '{"version":"4.4.0","hitCount":0,"request":{"query":"\"https:/github.com/pymor/pymor\"
+      string: '{"version":"4.5.0","hitCount":0,"request":{"query":"\"https:/github.com/pymor/pymor\"
         OR REF:\"https:/github.com/pymor/pymor\"","resultType":"lite","synonym":false,"page":1,"pageSize":25},"resultList":{"result":[]}}'
     http_version: 
-  recorded_at: Tue, 12 Jan 2016 08:18:21 GMT
+  recorded_at: Mon, 04 Apr 2016 16:45:17 GMT
 recorded_with: VCR 2.9.3

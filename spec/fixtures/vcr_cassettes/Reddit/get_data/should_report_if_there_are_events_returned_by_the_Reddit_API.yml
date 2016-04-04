@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 19 Mar 2016 18:56:30 GMT
+      - Mon, 04 Apr 2016 16:44:09 GMT
       Content-Type:
       - application/json; charset=UTF-8
       Content-Length:
@@ -25,11 +25,11 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d3a1b977186fd7609407f79517fbdf2501458413790; expires=Sun, 19-Mar-17
-        18:56:30 GMT; path=/; domain=.reddit.com; HttpOnly, loid=b2Se7eZdyA9xnLweu5;
-        Domain=reddit.com; Max-Age=63071999; Path=/; expires=Mon, 19-Mar-2018 18:56:30
-        GMT; secure, loidcreated=2016-03-19T18%3A56%3A30.313Z; Domain=reddit.com;
-        Max-Age=63071999; Path=/; expires=Mon, 19-Mar-2018 18:56:30 GMT; secure
+      - __cfduid=d2b477a45ade7a82f0aedc300d46be70e1459788249; expires=Tue, 04-Apr-17
+        16:44:09 GMT; path=/; domain=.reddit.com; HttpOnly, loid=cK6zlLoNV3piL6N6ME;
+        Domain=reddit.com; Max-Age=63071999; Path=/; expires=Wed, 04-Apr-2018 16:44:09
+        GMT; secure, loidcreated=2016-04-04T16%3A44%3A09.493Z; Domain=reddit.com;
+        Max-Age=63071999; Path=/; expires=Wed, 04-Apr-2018 16:44:09 GMT; secure
       X-Ua-Compatible:
       - IE=edge
       X-Frame-Options:
@@ -43,7 +43,7 @@ http_interactions:
       Access-Control-Expose-Headers:
       - X-Reddit-Tracking, X-Moose
       X-Reddit-Tracking:
-      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=L3u4MUdHQjyH%2BE0s3crP6pFpNNkQ3UvycwsKfeG%2B2Ja%2FtQoIhTE%2BiPVo6gK%2B25cB0eByaas1vhnL0oh5NoM2J8Ntx%2FeGkSM1
+      - https://pixel.redditmedia.com/pixel/of_destiny.png?v=ODfzc9Ypz4yyf8daiTrbNU1N0t4%2Bdm%2B7hV6XiARA%2FnmXfkp%2B8LiF%2FF%2Bd0RiU3cPPkKS1J8kUTl8KuE6Pz4poclZxFCL18sAs
       Cache-Control:
       - max-age=0, must-revalidate
       X-Moose:
@@ -51,11 +51,11 @@ http_interactions:
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2863250c8bf2274a-FRA
+      - 28e6392e6c262798-FRA
     body:
       encoding: UTF-8
       string: '{"kind": "Listing", "data": {"facets": {}, "modhash": "", "children":
         [], "after": null, "before": null}}'
     http_version: 
-  recorded_at: Sat, 19 Mar 2016 18:56:30 GMT
+  recorded_at: Mon, 04 Apr 2016 16:44:09 GMT
 recorded_with: VCR 2.9.3
