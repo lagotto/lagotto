@@ -6,7 +6,7 @@ class Month < ActiveRecord::Base
 
   validates :work_id, :source_id, :aggregation_id, :presence => true
   validates_associated :work, :source, :aggregation
-  validates :work_id, uniqueness: { scope: :aggregation_id }
+  validates :work_id, uniqueness: { scope: :source_id, :year, :month }
 
   after_touch :set_total
 
