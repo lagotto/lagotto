@@ -195,7 +195,7 @@ class Work < ActiveRecord::Base
 
   def issued_date
     date_parts = [year, month, day].compact
-    date = Date.new(date)
+    date = Date.new(*date_parts)
 
     case date_parts.length
     when 1 then date.strftime("%Y")
