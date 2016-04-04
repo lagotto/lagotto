@@ -69,11 +69,9 @@ function contributionsViz(json, sources, contributor_roles) {
       .append("a")
       .attr("href", function() { return "/contributors/" + pathForWork(contribution.subj_id); })
       .html(author);
-    d3.select("#panel-body-contribution-" + i).append("p")
-      .append("span")
+    d3.select("#panel-body-contribution-" + i).append("div")
+      .attr("class", "contribution")
       .text(contributor_role.title);
-    d3.select("#panel-body" + i).append("p")
-      .text(signpostsToString(contribution, sources, source_id));
 
     d3.select("#panel-contribution-" + i).insert("div")
       .attr("class", "panel-footer")

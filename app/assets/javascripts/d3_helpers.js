@@ -97,30 +97,23 @@ function signpostsToString(work, sources, source_id, sort) {
     var a = [];
   }
 
-  var b = [],
-      signposts = signpostsFromWork(work);
-
-  if (signposts.viewed > 0) { b.push("Viewed: " + formatFixed(signposts.viewed)); }
-  if (signposts.cited > 0) { b.push("Cited: " + formatFixed(signposts.cited)); }
-  if (signposts.saved > 0) { b.push("Saved: " + formatFixed(signposts.saved)); }
-  if (signposts.discussed > 0) { b.push("Discussed: " + formatFixed(signposts.discussed)); }
-  if (b.length > 0) {
-    a.push(b.join(" • "));
-    return a.join(" | ");
-  } else if (a.length > 0) {
-    return a;
-  } else {
-    return "";
-  }
+  var b = signpostsFromWork(work, sources, name);
+  if (b.length > 0) { a.push(b.join(" • ")); }
+  return a.join(" | ");
 }
 
-function signpostsFromWork(work) {
-  var viewed = (work.events.counter || 0) + (work.events.pmc || 0);
-  var cited = work.events.crossref;
-  var saved = (work.events.citeulike || 0) + (work.events.mendeley || 0);
-  var discussed = (work.events.facebook || 0) + (work.events.twitter || 0) + (work.events.twitter_search || 0);
+function signpostsFromWork(work, sources, name) {
+  var signposts = [],
+      source = {};
 
-  return { "viewed": viewed, "cited": cited, "saved": saved, "discussed": discussed };
+  for (var key in work.events) {
+    source = sources.filter(function(d) { return d.id === key && d.id !== name; })[0];
+    if (typeof source !== "undefined" && source !== {}) {
+      signposts.push(source.title + ": " + formatFixed(work.events[name]));
+    }
+  }
+
+  return signposts;
 }
 
 function relationToString(work, sources, relation_types) {

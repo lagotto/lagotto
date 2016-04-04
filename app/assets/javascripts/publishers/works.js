@@ -70,11 +70,19 @@ function worksViz(json, sources) {
       .append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
-    d3.select("#panel-body-" + i).append("p")
-      .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work));
-    d3.select("#panel-body" + i).append("p")
-      .text(signpostsToString(work, sources, source_id, sort));
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "author")
+      .html(formattedAuthorList(work.author));
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "metadata")
+      .html(metadataToString(work, work_types));
+
+    var signposts = signpostsToString(work, sources, source_id, sort);
+    if (signposts !== "") {
+      d3.select("#panel-body-" + i).append("div")
+        .attr("class", "signposts")
+        .text(signposts);
+    }
 
     d3.select("#panel-" + i).insert("div")
       .attr("class", "panel-footer").append("a")

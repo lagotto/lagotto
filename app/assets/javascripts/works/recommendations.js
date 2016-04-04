@@ -71,15 +71,25 @@ function recommendationsViz(json, sources, relation_types, work_types) {
       .attr("class", "work").append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.subj_id); })
       .html(work.title);
-    d3.select("#panel-body-recommendations-" + i).append("p")
-      .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work, work_types)).append("p")
-      .append("span")
+
+    d3.select("#panel-body-recommendations-" + i).append("div")
+      .attr("class", "author")
+      .html(formattedAuthorList(work.author));
+    d3.select("#panel-body-recommendations-" + i).append("div")
+      .attr("class", "metadata")
+      .html(metadataToString(work, work_types));
+    d3.select("#panel-body-recommendations-" + i).append("div")
+      .attr("class", "relation")
       .text(relation_type.title + " ").append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
       .html(work.obj_id);
-    d3.select("#panel-body-recommendations-" + i).append("p")
-      .text(signpostsToString(work, sources));
+
+    var signposts = signpostsToString(work, sources);
+    if (signposts !== "") {
+      d3.select("#panel-body-" + i).append("div")
+        .attr("class", "signposts")
+        .text(signposts);
+    }
 
     d3.select("#panel-recommendations-" + i).insert("div")
       .attr("class", "panel-footer")

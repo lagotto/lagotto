@@ -69,13 +69,22 @@ function contributionsViz(json, sources, contributor_roles, work_types) {
       .append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
       .html(work.title);
-    d3.select("#panel-body-" + i).append("p")
-      .html(formattedAuthorList(work.author)).append("p")
-      .html(metadataToString(work, work_types)).append("p")
-      .append("span")
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "author")
+      .html(formattedAuthorList(work.author));
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "metadata")
+      .html(metadataToString(work, work_types));
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "contribution")
       .text(contributor_role.title);
-    d3.select("#panel-body" + i).append("p")
-      .text(signpostsToString(work, sources, source_id));
+
+    var signposts = signpostsToString(work, sources);
+    if (signposts !== "") {
+      d3.select("#panel-body-" + i).append("div")
+        .attr("class", "signposts")
+        .text(signposts);
+    }
 
     d3.select("#panel-" + i).insert("div")
       .attr("class", "panel-footer")

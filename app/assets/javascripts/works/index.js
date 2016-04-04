@@ -81,11 +81,19 @@ function worksViz(json, sources, work_types) {
       .append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.id); })
       .html(work.title);
-    d3.select("#panel-body-" + i).append("p")
-      .html(formattedAuthorList(work.author)).append("p")
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "author")
+      .html(formattedAuthorList(work.author));
+    d3.select("#panel-body-" + i).append("div")
+      .attr("class", "metadata")
       .html(metadataToString(work, work_types));
-    d3.select("#panel-body" + i).append("p")
-      .text(signpostsToString(work, sources, source_id, sort));
+
+    var signposts = signpostsToString(work, sources, source_id, sort);
+    if (signposts !== "") {
+      d3.select("#panel-body-" + i).append("div")
+        .attr("class", "signposts")
+        .text(signposts);
+    }
 
     d3.select("#panel-" + i).insert("div")
       .attr("class", "panel-footer").append("a")
