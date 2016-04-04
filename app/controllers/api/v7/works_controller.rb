@@ -141,9 +141,9 @@ class Api::V7::WorksController < Api::BaseController
     elsif params[:q]
       collection = Work.query(params[:q])
     elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
-      collection = Work.joins(:relations)
-                   .where("relations.source_id = ?", source.id)
-                   .where("relations.total > 0")
+      collection = Work.joins(:aggregations)
+                   .where("aggregations.source_id = ?", source.id)
+                   .where("aggregations.total > 0")
     elsif params[:publisher_id] && publisher = Publisher.active.where(name: params[:publisher_id]).first
       collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
@@ -169,11 +169,11 @@ class Api::V7::WorksController < Api::BaseController
     if params[:sort].nil?
       collection.order("works.published_on DESC")
     elsif params[:sort] && source && params[:sort] == params[:source_id]
-      collection = collection.order("relations.total DESC")
+      collection = collection.order("aggregations.total DESC")
     elsif params[:sort] && !source && sort = Source.where(name: params[:sort]).first
-      collection = collection.joins(:relations)
-        .where("relations.source_id = ?", sort.id)
-        .order("relations.total DESC")
+      collection = collection.joins(:aggregations)
+        .where("aggregations.source_id = ?", sort.id)
+        .order("aggregations.total DESC")
     elsif params[:sort] && params[:sort] == "created_at"
       collection.order("works.created_at ASC")
     end
