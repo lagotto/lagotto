@@ -18,6 +18,7 @@ describe Citeulike, type: :model, vcr: true do
     end
 
     it "should report if there is an incomplete response returned by the CiteULike API" do
+      body = File.read(fixture_path + 'citeulike_incomplete.xml')
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
       expect(response).to eq('data' => "")
