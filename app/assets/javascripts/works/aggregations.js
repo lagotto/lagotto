@@ -18,7 +18,7 @@ var options = {
     minMonthsForMonthly: 1,
     minDaysForDaily: 1
   },
-  vizDiv: "#panel-events",
+  vizDiv: "#panel-aggregations",
   work: {},
   sources: [],
   groups: []

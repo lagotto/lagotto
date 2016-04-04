@@ -127,7 +127,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#relations" data-toggle="tab" title="Relations">Relations</a></li>
-  <li><a href="#events" data-toggle="tab" title="Events">Events</a></li>
+  <li><a href="#aggregations" data-toggle="tab" title="Events">Events</a></li>
   <li><a href="#contributions" data-toggle="tab" title="Contributions">Contributions</a></li>
   <li><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
   <% if can?(:read, Notification) %>
@@ -139,8 +139,8 @@
   <div class="tab-pane active" id="relations">
     <%= render :partial => 'relations' %>
   </div>
-  <div class="tab-pane" id="events">
-    <%= render :partial => 'events' %>
+  <div class="tab-pane" id="aggregations">
+    <%= render :partial => 'aggregations' %>
   </div>
   <div class="tab-pane" id="contributions">
     <%= render :partial => 'contributions' %>

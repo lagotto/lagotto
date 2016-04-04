@@ -29,7 +29,7 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher
   belongs_to :work_type
-  has_many :aggregations
+  has_many :aggregations, inverse_of: :work
   has_many :sources, :through => :aggregations
   has_many :notifications, :dependent => :destroy
   has_many :api_responses

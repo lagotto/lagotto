@@ -5,7 +5,7 @@ class Aggregation < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
-  belongs_to :work, touch: true
+  belongs_to :work, inverse_of: :aggregations, touch: true
   belongs_to :source
   has_many :months, dependent: :destroy, inverse_of: :aggregation
 
