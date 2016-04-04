@@ -172,6 +172,15 @@ RSpec.configure do |config|
     ActionController::Base.perform_caching = caching
   end
 
+  # only run vcr for metadata key :vcr, use webmock otherwise
+  config.around(:each) do |ex|
+    if ex.metadata.key?(:vcr)
+      ex.run
+    else
+      VCR.turned_off { ex.run }
+    end
+  end
+
   config.before(:each) do |example|
     # Clears out the jobs for tests using the fake testing
     Sidekiq::Worker.clear_all
@@ -186,15 +195,15 @@ RSpec.configure do |config|
       Sidekiq::Testing.fake!
     end
   end
+end
 
-  def capture_stdout(&block)
-    original_stdout = $stdout
-    $stdout = fake = StringIO.new
-    begin
-      yield
-    ensure
-      $stdout = original_stdout
-    end
-    fake.string
+def capture_stdout(&block)
+  original_stdout = $stdout
+  $stdout = fake = StringIO.new
+  begin
+    yield
+  ensure
+    $stdout = original_stdout
   end
+  fake.string
 end
