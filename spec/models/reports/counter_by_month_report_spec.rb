@@ -20,13 +20,11 @@ describe "Running a SourceByMonthReport for Counter" do
           line_items.detect{ |i| i.field("pid") == work_abc.pid }
         }
 
-        context "when there is data for a given year-month for the given format" do
-          context "and the specified format is :xml" do
-            let(:format){ :total }
-            it "has the count which is made up of: total - (pdf + html)" do
-              november_2014_abc.update_attributes total: 22
-              expect(work_abc_line_item.field("2014-11")).to eq(7)
-            end
+        context "when there is data for a given year-month" do
+          let(:format){ :total }
+          it "has the count which is made up of: total - (pdf + html)" do
+            november_2014_abc.update_attributes total: 22
+            expect(work_abc_line_item.field("2014-11")).to eq(22)
           end
         end
       end

@@ -29,8 +29,8 @@ describe "Running a SourceReport for Counter" do
       describe "each line item" do
         let(:first_line_item){ report.line_items[0] }
 
-        it "has an xml count which is (total - (pdf + html))" do
-          expect(first_line_item.field("xml")).to eq(17)
+        it "has an html count" do
+          expect(first_line_item.field("total")).to eq(30)
         end
       end
     end
