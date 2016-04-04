@@ -154,8 +154,8 @@ describe Work, type: :model, vcr: true do
 
     it 'issued' do
       work = FactoryGirl.create(:work)
-      date = { "date-parts" => [[work.year, work.month, work.day]] }
-      expect(work.issued).to eq(date)
+      date = Date.new(work.year, work.month, work.day)
+      expect(work.issued).to eq(date.iso8601)
     end
 
     it 'issued_date year month day' do
