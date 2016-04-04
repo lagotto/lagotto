@@ -5,7 +5,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Status", status_index_path %></li>
         <li><%= link_to "Works", works_path %></li>
-        <li><%= link_to "Relations", relations_path %></li>
         <% if can?(:read, Notification) || contributors.length > 1 %>
           <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
         <% end %>

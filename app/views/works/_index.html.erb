@@ -53,6 +53,28 @@
         </div>
       </div>
     <% end %>
+    <% if RelationType.all.size > 0 %>
+      <div class="panel facets">
+        <div class="panel-body">
+          <h4>Relation types</h4>
+          <ul>
+            <% if @relation_type.present? %>
+              <li class="active">
+                <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], source_id: params[:source_id]) %>
+                <%= @relation_type.title %>
+              </li>
+            <% else %>
+              <% RelationType.order("name").each do |relation_type| %>
+                <li>
+                  <%= link_to icon('square-o').html_safe, works_path(q: params[:q], relation_type_id: relation_type.name, source_id: params[:source_id]) %>
+                  <%= relation_type.title %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 

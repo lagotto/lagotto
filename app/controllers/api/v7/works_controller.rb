@@ -16,6 +16,7 @@ class Api::V7::WorksController < Api::BaseController
     param :query, :source_id, :string, :optional, "Source ID"
     param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :contributor_id, :string, :optional, "Contributor ID"
+    param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :registration_agency, :string, :optional, "Registration agency"
     param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
@@ -74,13 +75,14 @@ class Api::V7::WorksController < Api::BaseController
   end
 
   def index
-    source = Source.where(name: params[:source_id]).first
-    publisher = Publisher.active.where(name: params[:publisher_id]).first
+    source = cached_source(params[:source_id])
+    relation_type = cached_relation_type(params[:relation_type_id])
+    publisher = cached_publisher(params[:publisher_id])
     contributor = Contributor.where(pid: params[:contributor_id]).first
 
     collection = get_ids(params)
-    collection = collection.where(registration_agency: params[:registration_agency]) if params[:registration_agency]
-    collection = get_class_name(collection, params) if params[:class_name]
+    collection = collection.where(registration_agency: params[:registration_agency]) if params[:registration_agency].present?
+    collection = get_class_name(collection, params) if params[:class_name].present?
     collection = get_sort(collection, params, source)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
@@ -140,10 +142,12 @@ class Api::V7::WorksController < Api::BaseController
       collection = Work.where(works: { type => ids })
     elsif params[:q]
       collection = Work.query(params[:q])
-    elsif params[:source_id] && source = Source.where(name: params[:source_id]).first
+    elsif params[:source_id] && source = cached_source(params[:source_id])
       collection = Work.joins(:aggregations)
                    .where("aggregations.source_id = ?", source.id)
-                   .where("aggregations.total > 0")
+    elsif params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
+      collection = Work.joins(:relations)
+                   .where("relations.relation_type_id = ?", relation_type.id)
     elsif params[:publisher_id] && publisher = Publisher.active.where(name: params[:publisher_id]).first
       collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
@@ -170,7 +174,7 @@ class Api::V7::WorksController < Api::BaseController
       collection.order("works.published_on DESC")
     elsif params[:sort] && source && params[:sort] == params[:source_id]
       collection = collection.order("aggregations.total DESC")
-    elsif params[:sort] && !source && sort = Source.where(name: params[:sort]).first
+    elsif params[:sort] && !source && sort = cached_source(params[:source_id])
       collection = collection.joins(:aggregations)
         .where("aggregations.source_id = ?", sort.id)
         .order("aggregations.total DESC")
