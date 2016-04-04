@@ -102,12 +102,8 @@ class Contributor < ActiveRecord::Base
   def set_metadata
     return if orcid.present?
 
-      #   elsif id_hash[:canonical_url].present? && github_owner_from_url(id_hash[:canonical_url]).present?
-      # tracked = false
-      # metadata = get_metadata(id_hash[:canonical_url], "github_owner")
-
-    self.github = github_owner_from_url(pid)
-    self.orcid = orcid_from_url(pid)
+    self.orcid = orcid_from_url(pid) unless orcid.present?
+    self.github = github_owner_from_url(pid) unless github.present?
 
     if orcid.present?
       metadata = get_metadata(orcid, "orcid")
