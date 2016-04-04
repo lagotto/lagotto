@@ -168,9 +168,9 @@ describe Agent, :type => :model, vcr: true do
 
     it "success" do
       response = subject.collect_data(work_id: work.id)
-      expect(response.length).to eq(7)
+      expect(response).to eq(total: 7)
 
-      deposit = response.first
+      deposit = Deposit.first
       expect(deposit.uuid).to be_present
       expect(deposit.message_type).to eq("relation")
       expect(deposit.source_token).to eq(subject.uuid)
@@ -183,15 +183,15 @@ describe Agent, :type => :model, vcr: true do
       subject = FactoryGirl.create(:counter)
 
       response = subject.collect_data(work_id: work.id)
-      expect(response.length).to eq(2)
+      expect(response).to eq(total: 32)
 
-      deposit = response.first
+      deposit = Deposit.first
       expect(deposit.uuid).to be_present
       expect(deposit.message_type).to eq("relation")
       expect(deposit.source_token).to eq(subject.uuid)
-      expect(deposit.source_id).to eq("counter_pdf")
-      expect(deposit.relation_type_id).to eq("downloads")
-      expect(deposit.subj_id).to eq("http://www.plos.org")
+      expect(deposit.source_id).to eq("counter_html")
+      expect(deposit.relation_type_id).to eq("views")
+      expect(deposit.subj_id).to eq("http://www.plos.org/2014/12")
     end
 
     it "success mendeley" do
@@ -201,9 +201,9 @@ describe Agent, :type => :model, vcr: true do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
 
       response = subject.collect_data(work_id: work.id)
-      expect(response.length).to eq(1)
+      expect(response).to eq(total: 1)
 
-      deposit = response.first
+      deposit = Deposit.first
       expect(deposit.uuid).to be_present
       expect(deposit.message_type).to eq("relation")
       expect(deposit.source_id).to eq("mendeley")
@@ -221,9 +221,9 @@ describe Agent, :type => :model, vcr: true do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
 
       response = subject.collect_data(work_id: work.id)
-      expect(response.length).to eq(31)
+      expect(response).to eq(total: 31)
 
-      deposit = response.first
+      deposit = Deposit.first
       expect(deposit.uuid).to be_present
       expect(deposit.message_type).to eq("relation")
       expect(deposit.source_id).to eq("crossref")
@@ -236,13 +236,13 @@ describe Agent, :type => :model, vcr: true do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0116034")
 
       response = subject.collect_data(work_id: work.id)
-      expect(response.length).to eq(0)
+      expect(response).to eq(total: 0)
     end
 
     it "error" do
       stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:status => [408])
       response = subject.collect_data(work_id: work.id)
-      expect(response.length).to eq(0)
+      expect(response).to eq(total: 0)
 
       expect(Notification.count).to eq(2)
       notification = Notification.where(class_name: "ActiveRecord::RecordInvalid").first
