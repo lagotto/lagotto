@@ -65,11 +65,11 @@ Vagrant.configure("2") do |config|
       override.vm.box = "bento/ubuntu-14.04"
 
       vb.name = ENV["APPLICATION"]
-      vb.customize ["modifyvm", :id, "--memory", "4096"]
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
     end
 
     machine.vm.provider :vmware_fusion do |fusion|
-      fusion.vmx["memsize"] = "4096"
+      fusion.vmx["memsize"] = "2048"
       fusion.vmx["numvcpus"] = "2"
     end
 
