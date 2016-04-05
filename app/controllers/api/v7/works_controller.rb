@@ -142,19 +142,23 @@ class Api::V7::WorksController < Api::BaseController
       collection = Work.where(works: { type => ids })
     elsif params[:q]
       collection = Work.query(params[:q])
-    elsif params[:source_id] && source = cached_source(params[:source_id])
-      collection = Work.joins(:aggregations)
-                   .where("aggregations.source_id = ?", source.id)
-                   .where("aggregations.total > 0")
-    elsif params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
-      collection = Work.joins(:relations)
-                   .where("relations.relation_type_id = ?", relation_type.id)
     elsif params[:publisher_id] && publisher = Publisher.active.where(name: params[:publisher_id]).first
       collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
       collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
     else
       collection = Work.tracked
+    end
+
+    if params[:source_id] && source = cached_source(params[:source_id])
+      collection = collection.joins(:aggregations)
+                   .where("aggregations.source_id = ?", source.id)
+                   .where("aggregations.total > 0")
+    end
+
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
+      collection = collection.joins(:relations)
+                   .where("relations.relation_type_id = ?", relation_type.id)
     end
   end
 
@@ -171,6 +175,8 @@ class Api::V7::WorksController < Api::BaseController
   # sort by source total
   # we can't filter and sort by two different sources
   def get_sort(collection, params, source)
+    collection ||= Work.none
+
     if params[:sort].nil?
       collection.order("works.published_on DESC")
     elsif params[:sort] && source && params[:sort] == params[:source_id]
