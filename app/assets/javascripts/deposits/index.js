@@ -107,9 +107,11 @@ function eventsViz(json, sources, relation_types) {
       .attr("href", function() { return deposit.subj_id; })
       .html('<i class="fa fa-external-link"/>').append('span')
       .text(deposit.subj_id);
-    d3.select("#panel-footer-" + i).append("a")
-      .attr("class", "pull-right")
-      .attr("href", function() { return "/deposits?source_id=" + deposit.source_id; })
-      .text(source.title);
+    if (typeof source !== "undefined") {
+      d3.select("#panel-footer-" + i).append("a")
+        .attr("class", "pull-right")
+        .attr("href", function() { return "/deposits?source_id=" + deposit.source_id; })
+        .text(source.title);
+    }
   }
 }
