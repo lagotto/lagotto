@@ -222,14 +222,14 @@
             <% if @class_name.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, notifications_path(source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %>
-                <%= @class_name.first %>
+                <%= formatted_class_name(@class_name.first) %>
                 <span class="number pull-right"><%= number_with_delimiter(@class_name.last) %></span>
               </li>
             <% else %>
               <% @class_names.each do |class_name| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, notifications_path(class_name: class_name.first, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]) %>
-                  <%= class_name.first %>
+                  <%= formatted_class_name(class_name.first) %>
                   <span class="number pull-right"><%= number_with_delimiter(class_name.last) %></span>
                 </li>
               <% end %>

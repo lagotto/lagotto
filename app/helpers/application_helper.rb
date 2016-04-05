@@ -39,6 +39,12 @@ module ApplicationHelper
     doc.to_s
   end
 
+  def formatted_class_name(string)
+    return string if string.length < 25
+
+    string.split("::", 2).last
+  end
+
   def states
      %w(waiting working failed done)
   end
