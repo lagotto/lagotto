@@ -62,6 +62,7 @@ Lagotto::Application.routes.draw do
       end
 
       resources :agents
+      resources :aggregations
       resources :api_requests, only: [:index]
       resources :contributor_roles, only: [:index, :show]
       resources :contributions

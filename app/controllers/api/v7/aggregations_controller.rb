@@ -24,15 +24,15 @@ class Api::V7::AggregationsController < Api::BaseController
     elsif params[:work_ids]
       work_ids = params[:work_ids].split(",")
       collection = Aggregation.joins(:work).where(works: { "pid" => work_ids })
-    elsif params[:source_id]
-      collection = Aggregation.joins(:source).where("sources.name = ?", params[:source_id])
-    elsif params[:publisher_id]
-      collection = Aggregation.joins(:work).where("works.publisher_id = ?", params[:publisher_id])
+    elsif params[:source_id] && source = cached_source(params[:source_id])
+      collection = Aggregation.where(source_id: source.id)
+    elsif params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
+      collection = Aggregation.joins(:work).where(works: { "publisher_id" => publisher.id })
     else
       collection = Aggregation
     end
 
-    collection = collection.joins(:source).where("private <= ?", is_admin_or_staff?)
+    collection = collection.joins(:source).where("sources.private <= ?", is_admin_or_staff?)
 
     if params[:sort] == "total"
       collection = collection.order("aggregations.total DESC")
