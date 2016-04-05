@@ -133,7 +133,7 @@ function signpostsFromWork(work, sources, name) {
   for (var key in work.events) {
     source = sources.filter(function(d) { return d.id === key && d.id !== name; })[0];
     if (typeof source !== "undefined" && source !== {}) {
-      signposts.push(source.title + ": " + formatFixed(work.events[name]));
+      signposts.push(source.title + ": " + formatFixed(work.events[key]));
     }
   }
 
