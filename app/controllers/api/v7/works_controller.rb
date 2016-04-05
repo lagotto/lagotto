@@ -187,8 +187,11 @@ class Api::V7::WorksController < Api::BaseController
 
   # use cached counts for total number of results
   def get_total_entries(params, source, publisher, contributor)
+    # temporarily disable caching
+    return nil
+
     case
-    when params[:ids] || params[:q] || params[:class_name] || params[:registration_agency] then nil # can't be cached
+    when params[:ids] || params[:q] || params[:class_name] || params[:relation_type_id] || params[:registration_agency] then nil # can't be cached
     when source && publisher then publisher.work_count_by_source(source.id)
     when source then source.work_count
     when publisher then publisher.work_count
