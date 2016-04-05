@@ -97,6 +97,11 @@ records:
     title: CrossRef (ORCID)
     description: Import works with ORCID identifiers via the CrossRef REST API.
     group_id: <%= sprig_record(Group, "contributions").id %>
+  - sprig_id: github_contributor
+    name: github_contributor
+    title: Github (Contributor)
+    description: Import contributors with works via the Github API.
+    group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: crossref
     name: crossref
     title: CrossRef (Citations)

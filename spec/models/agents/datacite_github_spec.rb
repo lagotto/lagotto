@@ -115,7 +115,7 @@ describe DataciteGithub, type: :model, vcr: true do
       expect(response[2][:message_type]).to eq("contribution")
       expect(response[2][:relation]).to eq("subj_id"=>"https://github.com/konradjk",
                                            "obj_id"=>"https://github.com/konradjk/loftee",
-                                           "source_id"=>"datacite_github")
+                                           "source_id"=>"github_contributor")
     end
 
     it "should catch timeout errors with the Datacite Metadata Search API" do

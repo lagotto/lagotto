@@ -2,6 +2,10 @@ class DataciteGithub < Agent
   # include common methods for Import
   include Importable
 
+  def request_options
+    { agent_id: id }
+  end
+
   def get_query_url(options={})
     offset = options[:offset].to_i
     rows = options[:rows].presence || job_batch_size
@@ -81,7 +85,7 @@ class DataciteGithub < Agent
       sum << {  message_type: "contribution",
                 relation: { "subj_id" => owner_url,
                             "obj_id" => repo_url,
-                            "source_id" => source_id }}
+                            "source_id" => "github_contributor" }}
     end
   end
 
