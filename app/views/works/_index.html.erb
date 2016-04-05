@@ -16,15 +16,15 @@
       <div class="btn-group btn-group-sm">
         <a class="btn btn-default dropdown-toggle hidden" id="work-sort" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
-          <li><%= link_to "Sort by Date", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id]) %></li>
+          <li><%= link_to "Sort by Date", works_path(q: params[:q], source_id: params[:source_id]) %></li>
           <% if @source.nil? %>
             <li class="divider"></li>
             <% Source.for_aggregations.each do |source| %>
-              <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>
+              <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], source_id: params[:source_id], sort: source.name) %></li>
             <% end %>
           <% else %>
             <li class="divider"></li>
-            <li><%= link_to "Sort by #{@source.title}", works_path(q: params[:q], class_name: params[:class_name], source_id: @source.name, sort: @source.name) %></li>
+            <li><%= link_to "Sort by #{@source.title}", works_path(q: params[:q], source_id: @source.name, sort: @source.name) %></li>
           <% end %>
         </ul>
       </div>
@@ -38,13 +38,13 @@
           <ul>
             <% if @source.present? %>
               <li class="active">
-                <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q]) %>
+                <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], relation_type_id: params[:relation_type_id]) %>
                 <%= @source.title %>
               </li>
             <% else %>
               <% Source.for_aggregations.each do |source| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name) %>
+                  <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name, relation_type_id: params[:relation_type_id]) %>
                   <%= source.title %>
                 </li>
               <% end %>

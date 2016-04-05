@@ -75,23 +75,15 @@ class Api::V7::WorksController < Api::BaseController
   end
 
   def index
-    source = cached_source(params[:source_id])
-    relation_type = cached_relation_type(params[:relation_type_id])
-    publisher = cached_publisher(params[:publisher_id])
-    contributor = Contributor.where(pid: params[:contributor_id]).first
-
     collection = get_ids(params)
-    collection = collection.where(registration_agency: params[:registration_agency]) if params[:registration_agency].present?
-    collection = get_class_name(collection, params) if params[:class_name].present?
-    collection = get_sort(collection, params, source)
+    collection = get_sort(collection, params)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
     page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
-    total_entries = get_total_entries(params, source, publisher, contributor)
+    #total_entries = get_total_entries(params, source, publisher, contributor)
 
     collection = collection.paginate(per_page: per_page,
-                                     page: page,
-                                     total_entries: total_entries)
+                                     page: page)
 
     @works = collection.decorate(context: { role: is_admin_or_staff? })
   end
@@ -142,7 +134,7 @@ class Api::V7::WorksController < Api::BaseController
       collection = Work.where(works: { type => ids })
     elsif params[:q]
       collection = Work.query(params[:q])
-    elsif params[:publisher_id] && publisher = Publisher.active.where(name: params[:publisher_id]).first
+    elsif params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
       collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
       collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
@@ -160,51 +152,42 @@ class Api::V7::WorksController < Api::BaseController
       collection = collection.joins(:relations)
                    .where("relations.relation_type_id = ?", relation_type.id)
     end
-  end
 
-  def get_class_name(collection, params)
-    @class_name = params[:class_name]
-    collection = collection.includes(:notifications).references(:notifications)
-    if @class_name == "All Notifications"
-      collection = collection.where("notifications.unresolved = ?", true)
-    else
-      collection = collection.where("notifications.unresolved = ?", true).where("notifications.class_name = ?", @class_name)
+    if params[:registration_agency].present?
+      collection = collection.where(registration_agency: params[:registration_agency])
     end
+
+    collection
   end
 
   # sort by source total
   # we can't filter and sort by two different sources
-  def get_sort(collection, params, source)
-    collection ||= Work.none
-
-    if params[:sort].nil?
-      collection.order("works.published_on DESC")
-    elsif params[:sort] && source && params[:sort] == params[:source_id]
-      collection = collection.joins(:aggregations)
-                             .order("aggregations.total DESC")
-    elsif params[:sort] && !source && sort = cached_source(params[:sort])
-      collection = collection.joins(:aggregations)
-                             .where("aggregations.source_id = ?", sort.id)
-                             .order("aggregations.total DESC")
-    elsif params[:sort] && params[:sort] == "created_at"
+  def get_sort(collection, params)
+    if params[:sort] && sort = cached_source(params[:sort])
+      collection.joins(:aggregations)
+                .where("aggregations.source_id = ?", sort.id)
+                .order("aggregations.total DESC")
+    elsif params[:sort] == "created_at"
       collection.order("works.created_at ASC")
+    else
+      collection.order("works.published_on DESC")
     end
   end
 
-  # use cached counts for total number of results
-  def get_total_entries(params, source, publisher, contributor)
-    # temporarily disable caching
-    return nil
+  # # use cached counts for total number of results
+  # def get_total_entries(params, source, publisher, contributor)
+  #   # temporarily disable caching
+  #   return nil
 
-    case
-    when params[:ids] || params[:q] || params[:class_name] || params[:relation_type_id] || params[:registration_agency] then nil # can't be cached
-    when source && publisher then publisher.work_count_by_source(source.id)
-    when source then source.work_count
-    when publisher then publisher.work_count
-    #when contributor then contributor.work_count
-    else Work.count_all
-    end
-  end
+  #   case
+  #   when params[:ids] || params[:q] || params[:class_name] || params[:relation_type_id] || params[:registration_agency] then nil # can't be cached
+  #   when source && publisher then publisher.work_count_by_source(source.id)
+  #   when source then source.work_count
+  #   when publisher then publisher.work_count
+  #   #when contributor then contributor.work_count
+  #   else Work.count_all
+  #   end
+  # end
 
   private
 
