@@ -60,72 +60,56 @@
   border: 2px solid $wet-asphalt;
 }
 
-.viewed {
+.relations {
   border: 2px solid $peter-river;
 }
 
-.bar.viewed {
+.bar.relations {
   fill: $peter-river;
 }
 
-.bar.viewed-alt {
+.bar.relations-alt {
   fill: darken($peter-river, 15%);
 }
 
-.alm-label.viewed p, .alm-label.viewed a {
+.alm-label.relations p, .alm-label.relations a {
   color: $peter-river;
 }
 
-.saved {
+.events {
   border: 2px solid $emerald;
 }
 
-.bar.saved {
+.bar.events {
   fill: $emerald;
 }
 
-.bar.saved-alt {
+.bar.events-alt {
   fill: darken($emerald, 15%);
 }
 
-.alm-label.saved p, .alm-label.saved a {
+.alm-label.events p, .alm-label.events a {
   color: $emerald;
 }
 
-.discussed {
+.contributions {
   border: 2px solid $turquoise;
 }
 
-.bar.discussed {
+.bar.contributions {
   fill: $turquoise;
 }
 
-.discussed_event {
+.contributions_event {
   color: $turquoise;
 }
 
-.bar.discussed-alt {
+.bar.contributions-alt {
   fill: darken($turquoise, 15%);
 }
 
-.alm-label.discussed p, .alm-label.discussed a {
+.alm-label.contributions p, .alm-label.contributions a {
   color: $turquoise;
-}
-
-.cited {
-  border: 2px solid $amethyst;
-}
-
-.bar.cited {
-  fill: $amethyst;
-}
-
-.bar.cited-alt {
-  fill: darken($amethyst, 15%);
-}
-
-.alm-label.cited p, .alm-label.cited a {
-  color: $amethyst;
 }
 
 .alm-label p, .alm-label a {
