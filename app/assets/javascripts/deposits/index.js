@@ -69,7 +69,7 @@ function eventsViz(json, sources, relation_types) {
       .attr("class", "work")
       .html(deposit.id).append("small")
       .attr("class", "pull-right")
-      .text(deposit.state);
+      .html(formattedState(deposit.state));
 
     if (typeof Object.keys(deposit.subj).length > 0) {
       d3.select("#panel-body-" + i).append("h5")
@@ -81,32 +81,34 @@ function eventsViz(json, sources, relation_types) {
     if (typeof Object.keys(deposit.obj).length > 0) {
       d3.select("#panel-body-" + i).append("h5")
         .text("Obj");
-      d3.select("#panel-body-" + i).append("p")
+      d3.select("#panel-body-" + i).append("div")
         .html(function() { return deposit.obj; });
     }
 
     if (typeof deposit.obj_id !== "undefined") {
-      d3.select("#panel-body-" + i).append("p")
+      d3.select("#panel-body-" + i).append("div")
         .text(relation_type.title + " ").append("a")
         .attr("href", function() { return pathForWork(deposit.obj_id); })
         .html(deposit.obj_id);
     }
+
+    d3.select("#panel-body-" + i).append("div")
+      .text("Occurred at " + formattedDate(deposit.occurred_at));
 
     if (typeof deposit.errors !== "undefined") {
       var error_key = Object.keys(deposit.errors);
 
       d3.select("#panel-body-" + i).append("h5")
         .text("Errors in " + error_key);
-      d3.select("#panel-body-" + i).append("p")
+      d3.select("#panel-body-" + i).append("div")
         .html(deposit.errors[error_key]);
     }
 
     if (deposit.message_type === "publisher") {
       d3.select("#panel-" + i).insert("div")
         .attr("class", "panel-footer")
-        .attr("id", "panel-footer-" + i).append('span')
-        .html('<i class="fa fa-info-circle"/>').append('span')
-        .text(deposit.subj_id);
+        .attr("id", "panel-footer-" + i)
+        .html('<i class="fa fa-info-circle"/> ' + deposit.subj_id);
     } else {
       d3.select("#panel-" + i).insert("div")
         .attr("class", "panel-footer")

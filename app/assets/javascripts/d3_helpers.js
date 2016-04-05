@@ -3,6 +3,7 @@
 var formatDate = d3.time.format.utc("%B %d, %Y"),
     formatMonthYear = d3.time.format.utc("%B %Y"),
     formatYear = d3.time.format.utc("%Y"),
+    formatDateTime = d3.time.format.utc("%d %b %Y %H:%M UTC"),
     formatTime = d3.time.format.utc("%H:%M UTC"),
     formatWeek = d3.time.format.utc("%U"),
     formatHour = d3.time.format.utc("%H"),
@@ -57,8 +58,10 @@ function formattedDate(date) {
       return formatYear(timestamp);
     case 7:
       return formatMonthYear(timestamp);
-    default:
+    case 10:
       return formatDate(timestamp);
+    default:
+      return formatDateTime(timestamp);
   }
 }
 
@@ -179,4 +182,12 @@ function formattedAuthor(author) {
   var name = [given, family].join(" ");
   var name = (typeof author["ORCID"] !== "undefined") ? '<a href="/contributors/' + author["ORCID"].substring(7) + '">' + name + '</a>' : name;
   return name;
+}
+
+function formattedState(state) {
+  if (state === "failed") {
+    return '<span class="label label-fatal">failed</span>';
+  } else {
+    return state;
+  }
 }

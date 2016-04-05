@@ -87,7 +87,7 @@
               <% end %>
 
               <h5>Time</h5>
-              <%= notification.created_at.to_s(:friendly) %>
+              <%= l notification.created_at, format: :medium %>
 
               <% unless notification.hostname.blank? %>
                 <h5>Hostname</h5>
