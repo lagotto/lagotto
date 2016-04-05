@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe "/api/v7/works", :type => :api do
-  let(:work) { FactoryGirl.create(:work_with_private_citations) }
+  let(:work) { FactoryGirl.create(:work_with_private_citations, year: 2015, month: 4, day: 4) }
   let(:headers) do
     { "HTTP_ACCEPT" => "application/json; version=7",
       "HTTP_AUTHORIZATION" => "Token token=#{user.api_key}" }
