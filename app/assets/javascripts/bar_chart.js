@@ -38,7 +38,7 @@ function barViz(data, div, count, format) {
     .attr("class", function(d) {
       var timestamp = Date.parse(d.key + ':00:01Z');
       var hour = formatHour(new Date(timestamp));
-      return (hour >= 11 && hour <= 22) ? "bar viewed-alt" : "bar viewed"; })
+      return (hour >= 11 && hour <= 22) ? "bar relations-alt" : "bar relations"; })
     .attr("x", function(d) {
       return x(new Date(Date.parse(d.key + ':00:00Z'))); })
     .attr("width", width/30 - 1)

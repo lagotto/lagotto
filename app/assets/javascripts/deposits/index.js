@@ -107,8 +107,9 @@ function eventsViz(json, sources, relation_types) {
     if (deposit.message_type === "publisher") {
       d3.select("#panel-" + i).insert("div")
         .attr("class", "panel-footer")
-        .attr("id", "panel-footer-" + i)
-        .html('<i class="fa fa-info-circle"/> ' + deposit.subj_id);
+        .attr("id", "panel-footer-" + i).append("span")
+        .html('<i class="fa fa-info-circle"/>').append("span")
+        .text(deposit.subj_id);
     } else {
       d3.select("#panel-" + i).insert("div")
         .attr("class", "panel-footer")
