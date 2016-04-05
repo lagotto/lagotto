@@ -3,21 +3,23 @@
     <div class="text-muted loading" id="loading-results">Loading … <%= image_tag "spinner.gif" %></div>
   </div>
   <div class='col-md-3'>
-    <% if Source.for_relations.size > 0 %>
+    <% if @source_group || @sources.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Sources</h4>
           <ul>
-            <% if @source.present? %>
+            <% if @source_group.present? %>
               <li class="active">
-                <%= link_to icon('check-square-o').html_safe, relations_path(q: params[:q], relation_type_id: params[:relation_type_id]) %>
-                <%= @source.title %>
+                <%= link_to icon('check-square-o').html_safe, work_path(@work, relation_type_id: params[:relation_type_id]) %>
+                <%= Source.where(name: @source_group.first).first.title %>
+                <span class="number pull-right"><%= number_with_delimiter(@source_group.last) %></span>
               </li>
             <% else %>
-              <% Source.for_relations.each do |source| %>
+              <% @sources.each do |source| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, relations_path(q: params[:q], relation_type_id: params[:relation_type_id], source_id: source.name) %>
-                  <%= source.title %>
+                  <%= link_to icon('square-o').html_safe, work_path(@work, relation_type_id: params[:relation_type_id], source_id: source.first) %>
+                  <%= Source.where(name: source.first).first.title %>
+                  <span class="number pull-right"><%= number_with_delimiter(source.last) %></span>
                 </li>
               <% end %>
             <% end %>
@@ -25,21 +27,23 @@
         </div>
       </div>
     <% end %>
-    <% if RelationType.all.size > 0 %>
+    <% if @relation_type_group || @relation_types.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Relation types</h4>
           <ul>
-            <% if @relation_type.present? %>
+            <% if @relation_type_group.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, work_path(@work, source_id: params[:source_id]) %>
-                <%= @relation_type.title %>
+                <%= RelationType.where(name: @relation_type_group.first).first.title %>
+                <span class="number pull-right"><%= number_with_delimiter(@relation_type_group.last) %></span>
               </li>
             <% else %>
-              <% RelationType.order("name").each do |relation_type| %>
+              <% @relation_types.each do |relation_type| %>
                 <li>
-                  <%= link_to icon('square-o').html_safe, work_path(@work, relation_type_id: relation_type.name, source_id: params[:source_id]) %>
-                  <%= relation_type.title %>
+                  <%= link_to icon('square-o').html_safe, work_path(@work, relation_type_id: relation_type.first, source_id: params[:source_id]) %>
+                  <%= RelationType.where(name: relation_type.first).first.title %>
+                  <span class="number pull-right"><%= number_with_delimiter(relation_type.last) %></span>
                 </li>
               <% end %>
             <% end %>

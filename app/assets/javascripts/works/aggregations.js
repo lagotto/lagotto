@@ -72,8 +72,8 @@ function AlmViz(options) {
 
   // extract publication date
   // Construct date object from date parts, using "1" for missing day and month
-  var date_parts = work_["issued"]["date-parts"][0];
-  var pub_date = datePartsToDate(date_parts);
+  var timestamp = Date.parse(work_["issued"]);
+  var pub_date = new Date(timestamp);
 
   var vizDiv;
   // Get the Div where the viz should go (default to one with ID "alm')
