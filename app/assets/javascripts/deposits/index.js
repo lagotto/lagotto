@@ -102,17 +102,19 @@ function eventsViz(json, sources, relation_types) {
     }
 
     if (deposit.message_type === "publisher") {
-      deposit.link = "publishers/" + deposit.subj_id;
+      d3.select("#panel-" + i).insert("div")
+        .attr("class", "panel-footer")
+        .attr("id", "panel-footer-" + i).append('span')
+        .html('<i class="fa fa-info-circle"/>').append('span')
+        .text(deposit.subj_id);
     } else {
-      deposit.link = deposit.subj_id;
+      d3.select("#panel-" + i).insert("div")
+        .attr("class", "panel-footer")
+        .attr("id", "panel-footer-" + i).append("a")
+        .attr("href", function() { return deposit.subj_id; })
+        .html('<i class="fa fa-external-link"/>').append('span')
+        .text(deposit.subj_id);
     }
-
-    d3.select("#panel-" + i).insert("div")
-      .attr("class", "panel-footer")
-      .attr("id", "panel-footer-" + i).append("a")
-      .attr("href", function() { return deposit.link; })
-      .html('<i class="fa fa-external-link"/>').append('span')
-      .text(deposit.link);
 
     if (typeof source !== "undefined") {
       d3.select("#panel-footer-" + i).append("a")

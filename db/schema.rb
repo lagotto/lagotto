@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331002009) do
+ActiveRecord::Schema.define(version: 20160405112525) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -228,10 +228,12 @@ ActiveRecord::Schema.define(version: 20160331002009) do
     t.integer  "level",        limit: 4,        default: 3
     t.string   "hostname",     limit: 255
     t.string   "uuid",         limit: 255
+    t.integer  "deposit_id",   limit: 4
   end
 
   add_index "notifications", ["class_name"], name: "index_notifications_on_class_name", using: :btree
   add_index "notifications", ["created_at"], name: "index_notifications_on_created_at", using: :btree
+  add_index "notifications", ["deposit_id"], name: "index_on_deposit_id", using: :btree
   add_index "notifications", ["level", "created_at"], name: "index_notifications_on_level_and_created_at", using: :btree
   add_index "notifications", ["source_id", "created_at"], name: "index_notifications_on_source_id_and_created_at", using: :btree
   add_index "notifications", ["source_id", "unresolved", "updated_at"], name: "index_notifications_on_source_id_and_unresolved_and_updated_at", using: :btree
