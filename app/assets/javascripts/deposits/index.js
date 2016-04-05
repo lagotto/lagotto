@@ -62,7 +62,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").insert("div")
       .attr("class", "panel panel-default")
       .attr("id", "panel-" + i).insert("div")
-      .attr("class", "panel-body")
+      .attr("class", "panel-body deposit")
       .attr("id", "panel-body-" + i);
 
     d3.select("#panel-body-" + i).append("h4")
