@@ -22,6 +22,10 @@ class NotificationDecorator < Draper::Decorator
     model.work ? model.work.to_param : nil
   end
 
+  def deposit_id
+    model.deposit ? model.deposit.to_param : nil
+  end
+
   def timestamp
     model.create_date
   end

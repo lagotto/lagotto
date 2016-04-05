@@ -81,6 +81,11 @@
                 <%= link_to notification.work.pid, work_path(notification.work) %>
               <% end %>
 
+              <% if notification.deposit %>
+                <h5>Deposit</h5>
+                <%= link_to notification.deposit.uuid, deposits_path(q: notification.deposit.uuid) %>
+              <% end %>
+
               <h5>Time</h5>
               <%= notification.created_at.to_s(:friendly) %>
 

@@ -351,7 +351,7 @@ class Deposit < ActiveRecord::Base
 
   def handle_exception(exception, options={})
     message = "#{exception.message} for #{options[:class_name]} #{options[:id]}"
-    Notification.create(exception: exception, message: message, target_url: options[:target_url], source_id: source.present? ? source.id : nil)
+    Notification.create(exception: exception, message: message, target_url: options[:target_url], source_id: source.present? ? source.id : nil, deposit_id: id)
 
     write_attribute(:error_messages, { options[:class_name] => exception.message })
 
