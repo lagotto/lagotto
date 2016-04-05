@@ -1,6 +1,6 @@
 class TwitterSearch < Agent
   def request_options
-    { bearer: access_token }
+    { bearer: access_token, agent_id: id }
   end
 
   def get_query_url(options = {})
