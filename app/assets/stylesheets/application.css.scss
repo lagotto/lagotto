@@ -498,6 +498,7 @@ $bar-color-7: lighten($bar-color-1, 20%);
 // small span.label { vertical-align: bottom; font-size: 66%; margin-left: 0.5em; }
 .label { font-weight: normal; }
 .label-fatal { background-color: $alizarin; }
+.label-signpost { color: $gray-darker; border: 1px solid $gray-darker; }
 .btn-link { color: $navbar-inverse-link-color; }
 .btn-link:hover, .btn-link:focus, .btn-link:active { color: $navbar-inverse-link-hover-color; text-decoration: none; }
 .configuration-edit { margin-bottom: 1em; }
@@ -539,7 +540,7 @@ td h4 { margin-top: 0; }
 div.search { padding-top: 10px; padding-bottom: 10px; width: 400px; margin-left: auto; margin-right: auto; }
 div.search-wide { padding-top: 10px; padding-bottom: 20px; margin-bottom: 20px; margin-left: auto; margin-right: auto; }
 div.search-orcid { padding-top: 20px; padding-bottom: 0px; margin-left: auto; margin-right: auto; }
-.signposts { margin-top: .5em; color: $gray-darker; }
+.signposts { font-size: 1.15em; margin-top: .5em; color: $gray-darker; }
 dt, dd { line-height: 1.5; }
 .border-bottom { border-bottom: 1px solid #eee; }
 .alert-inner { min-height: 120px; }

@@ -83,7 +83,7 @@ function contributionsViz(json, sources, contributor_roles, work_types) {
     if (signposts !== "") {
       d3.select("#panel-body-" + i).append("div")
         .attr("class", "signposts")
-        .text(signposts);
+        .html(signposts);
     }
 
     d3.select("#panel-" + i).insert("div")

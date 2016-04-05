@@ -88,7 +88,7 @@ function recommendationsViz(json, sources, relation_types, work_types) {
     if (signposts !== "") {
       d3.select("#panel-body-" + i).append("div")
         .attr("class", "signposts")
-        .text(signposts);
+        .html(signposts);
     }
 
     d3.select("#panel-recommendations-" + i).insert("div")
