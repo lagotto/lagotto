@@ -8,20 +8,20 @@ if (!params.empty()) {
   if (page === null) { page = 1; }
   var per_page = params.attr('data-per-page');
   var q = params.attr('data-q');
-  var class_name = params.attr('data-class-name');
   var publisher_id = params.attr('data-publisher-id');
   var contributor_id = params.attr('data-contributor-id');
   var source_id = params.attr('data-source-id');
+  var relation_type_id = params.attr('data-relation-type-id');
   var sort = params.attr('data-sort');
   var model = params.attr('data-model');
 
   var query = encodeURI("/api/works?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
   if (q !== null) { query += "&q=" + q; }
-  if (class_name !== null) { query += "&class_name=" + class_name; }
   if (publisher_id !== null) { query += "&publisher_id=" + publisher_id; }
   if (contributor_id !== null) { query += "&contributor_id=" + contributor_id; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
+  if (relation_type_id !== null) { query += "&relation_type_id=" + relation_type_id; }
   if (sort !== null) { query += "&sort=" + sort; }
 }
 
@@ -42,10 +42,10 @@ function worksViz(json, sources, work_types) {
 
   json.href = "?page={{number}}";
   if (q !== null) { json.href += "&q=" + q; }
-  if (class_name !== null) { json.href += "&class_name=" + class_name; }
   if (publisher_id !== null && model !== "publishers") { json.href += "&publisher_id=" + publisher_id; }
   if (contributor_id !== null && model !== "contributors") { json.href += "&contributor_id=" + contributor_id; }
   if (source_id !== null) { json.href += "&source_id=" + source_id; }
+  if (relation_type_id !== null) { json.href += "&relation_type_id=" + relation_type_id; }
   if (sort !== null) { json.href += "&sort=" + sort; }
 
   d3.select("#loading-results").remove();
