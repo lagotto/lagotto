@@ -67,9 +67,7 @@ function eventsViz(json, sources, relation_types) {
 
     d3.select("#panel-body-" + i).append("h4")
       .attr("class", "work")
-      .html(deposit.id);
-
-    d3.select("#panel-body-" + i).append("span")
+      .html(deposit.id).append("small")
       .attr("class", "pull-right")
       .text(deposit.state);
 
@@ -87,10 +85,12 @@ function eventsViz(json, sources, relation_types) {
         .html(function() { return deposit.obj; });
     }
 
-    d3.select("#panel-body-" + i).append("p")
-      .text(relation_type.title + " ").append("a")
-      .attr("href", function() { return pathForWork(deposit.obj_id); })
-      .html(deposit.obj_id);
+    if (typeof deposit.obj_id !== "undefined") {
+      d3.select("#panel-body-" + i).append("p")
+        .text(relation_type.title + " ").append("a")
+        .attr("href", function() { return pathForWork(deposit.obj_id); })
+        .html(deposit.obj_id);
+    }
 
     if (typeof deposit.errors !== "undefined") {
       var error_key = Object.keys(deposit.errors);
@@ -101,12 +101,19 @@ function eventsViz(json, sources, relation_types) {
         .html(deposit.errors[error_key]);
     }
 
+    if (deposit.message_type === "publisher") {
+      deposit.link = "publishers/" + deposit.subj_id;
+    } else {
+      deposit.link = deposit.subj_id;
+    }
+
     d3.select("#panel-" + i).insert("div")
       .attr("class", "panel-footer")
       .attr("id", "panel-footer-" + i).append("a")
-      .attr("href", function() { return deposit.subj_id; })
+      .attr("href", function() { return deposit.link; })
       .html('<i class="fa fa-external-link"/>').append('span')
-      .text(deposit.subj_id);
+      .text(deposit.link);
+
     if (typeof source !== "undefined") {
       d3.select("#panel-footer-" + i).append("a")
         .attr("class", "pull-right")
