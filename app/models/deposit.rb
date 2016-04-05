@@ -19,6 +19,7 @@ class Deposit < ActiveRecord::Base
   belongs_to :contributor, inverse_of: :deposits, autosave: true
   belongs_to :source, primary_key: :name, inverse_of: :deposits
   belongs_to :relation_type, primary_key: :name, inverse_of: :deposits
+  has_many :notifications
 
   before_create :create_uuid
   before_save :set_defaults

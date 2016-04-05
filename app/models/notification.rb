@@ -3,6 +3,7 @@ class Notification < ActiveRecord::Base
 
   belongs_to :source
   belongs_to :work
+  belongs_to :deposit
 
   before_create :collect_env_info, :create_uuid
   after_create :send_fatal_error_report, if: proc { level == 4 }
