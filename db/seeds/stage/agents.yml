@@ -254,6 +254,12 @@ records:
     title: CrossRef (Import)
     description: Import works via the CrossRef REST API.
     group_id: <%= sprig_record(Group, "works").id %>
+  - sprig_id: datacite_import
+    type: DataciteImport
+    name: datacite_import
+    title: DataCite (Import)
+    description: Import works via the DataCite Solr API.
+    group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: dataone_import
     type: DataoneImport
     name: DataONE (Import)
