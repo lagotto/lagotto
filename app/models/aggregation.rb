@@ -5,6 +5,9 @@ class Aggregation < ActiveRecord::Base
   # include methods for calculating metrics
   include Measurable
 
+  # include helper module for query caching
+  include Cacheable
+
   belongs_to :work, inverse_of: :aggregations, touch: true
   belongs_to :source
   has_many :months, dependent: :destroy, inverse_of: :aggregation
@@ -61,7 +64,11 @@ class Aggregation < ActiveRecord::Base
   end
 
   def by_month
-    months.map { |month| month.total }
+    months.map do |month|
+      { month: month.month,
+        year: month.year,
+        total: month.total }
+    end
   end
 
   def by_year

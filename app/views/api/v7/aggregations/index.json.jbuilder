@@ -1,6 +1,6 @@
 json.meta do
   json.status "ok"
-  json.set! :"message-type", "events-list"
+  json.set! :"message-type", "aggregations-list"
   json.set! :"message-version", "v7"
   json.total @aggregations.total_entries
   json.total_pages @aggregations.per_page > 0 ? @aggregations.total_pages : 1
