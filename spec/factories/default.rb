@@ -519,7 +519,7 @@ FactoryGirl.define do
 
       trait :with_works do
         association :work, pid: "http://doi.org/10.5061/DRYAD.47SD5"
-        association :related_work, pid: "http://doi.org/10.5061/DRYAD.47SD5/1"
+        association :related_work, factory: :work, pid: "http://doi.org/10.5061/DRYAD.47SD5/1"
       end
     end
 

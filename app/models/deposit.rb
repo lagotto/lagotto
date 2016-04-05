@@ -14,11 +14,11 @@ class Deposit < ActiveRecord::Base
   # include date methods
   include Dateable
 
-  belongs_to :work
-  belongs_to :related_work, class_name: "Work"
-  belongs_to :contributor
-  belongs_to :source, primary_key: :name
-  belongs_to :relation_type, primary_key: :name
+  belongs_to :work, inverse_of: :deposits, autosave: true
+  belongs_to :related_work, class_name: "Work", inverse_of: :deposits, autosave: true
+  belongs_to :contributor, inverse_of: :deposits, autosave: true
+  belongs_to :source, primary_key: :name, inverse_of: :deposits
+  belongs_to :relation_type, primary_key: :name, inverse_of: :deposits
 
   before_create :create_uuid
   before_save :set_defaults
@@ -141,11 +141,14 @@ class Deposit < ActiveRecord::Base
     pid = normalize_pid(subj_id)
     item = from_csl(subj)
 
-    # create work association if it doesn't exist, filling out all required fields
+    # initialize work if it doesn't exist
     self.work = Work.where(pid: pid).first_or_initialize
 
     # update all attributes
-    self.work.update_attributes!(item)
+    self.work.assign_attributes(item)
+
+    # save deposit and work (thanks to autosave option) to the database
+    self.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.work = Work.where(pid: pid).first
@@ -155,16 +158,19 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_related_work
-    return nil unless obj_id.present?
+    return true unless obj_id.present?
 
     pid = normalize_pid(obj_id)
     item = from_csl(obj)
 
-    # initialize related_work association if it doesn't exist
+    # initialize related_work if it doesn't exist
     self.related_work = Work.where(pid: pid).first_or_initialize
 
     # update all attributes
-    self.related_work.update_attributes!(item)
+    self.related_work.assign_attributes(item)
+
+    # save deposit and related_work (thanks to autosave option) to the database
+    self.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.related_work = Work.where(pid: pid).first
@@ -190,10 +196,11 @@ class Deposit < ActiveRecord::Base
                 .first_or_initialize
 
     # update all attributes
-    r.update_attributes!(relation_type_id: relation_type.present? ? relation_type.id : nil,
+    r.assign_attributes(relation_type_id: relation_type.present? ? relation_type.id : nil,
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
                         occurred_at: occurred_at)
+    r.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique
       Relation.where(work_id: work_id,
@@ -211,11 +218,12 @@ class Deposit < ActiveRecord::Base
                 .first_or_initialize
 
     # update all attributes, return saved inv_relation
-    r.update_attributes!(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,
+    r.assign_attributes(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,
                         publisher_id: publisher.present? ? publisher.id : nil,
                         total: total,
                         occurred_at: occurred_at,
                         implicit: true)
+    r.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique
       Relation.where(work_id: related_work_id,
@@ -227,7 +235,10 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_contributor
-    self.contributor = Contributor.where(pid: subj_id).first_or_create!
+    self.contributor = Contributor.where(pid: subj_id).first_or_initialize
+
+    # save deposit and contributor (thanks to autosave option) to the database
+    self.contributor.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
       self.contributor = Contributor.where(pid: subj_id).first
@@ -237,9 +248,12 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_contribution
-    Contribution.where(contributor_id: contributor_id,
-                       work_id: related_work_id,
-                       source_id: source.present? ? source.id : nil).first_or_create
+    return true unless obj_id.present?
+
+    c = Contribution.where(contributor_id: contributor_id,
+                           work_id: related_work_id,
+                           source_id: source.present? ? source.id : nil).first_or_initialize
+    c.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     handle_exception(exception, class_name: "contribution", id: "#{subj_id}/#{obj_id}/#{source_id}")
   end
@@ -247,8 +261,8 @@ class Deposit < ActiveRecord::Base
   def update_publisher
     item = Publisher.from_csl(subj)
     p = Publisher.where(name: subj_id).first_or_initialize
-    p.update_attributes!(item)
-    p
+    p.assign_attributes(item)
+    p.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
        Publisher.where(name: subj_id).first

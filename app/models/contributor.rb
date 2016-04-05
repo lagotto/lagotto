@@ -20,7 +20,7 @@ class Contributor < ActiveRecord::Base
   has_many :contributions, :dependent => :destroy
   has_many :works, :through => :contributions
   has_many :contributor_roles, :through => :contributions
-  has_many :deposits
+  has_many :deposits, inverse_of: :contributor
 
   validates :pid, presence: true, uniqueness: true
   validates :orcid, uniqueness: true, format: { with: ORCID_FORMAT }, allow_blank: true

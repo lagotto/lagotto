@@ -38,7 +38,7 @@ class Work < ActiveRecord::Base
   has_many :related_works, :through => :relations, source: :work
   has_many :contributions
   has_many :contributors, :through => :contributions
-  has_many :deposits
+  has_many :deposits, inverse_of: :work
 
   validates :pid, :title, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, case_sensitive: false, allow_blank: true

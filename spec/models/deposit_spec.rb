@@ -38,16 +38,24 @@ describe Deposit, :type => :model, vcr: true do
 
   describe "update_work" do
     it "should be created" do
-      expect(subject.update_work).not_to be_nil
+      expect(subject.update_work).to be true
       expect(subject.error_messages).to be_nil
+
+      expect(Work.count).to eq(1)
+      expect(Deposit.count).to eq(1)
+
       expect(subject.work.pid).to eq("http://www.citeulike.org/user/dbogartoit")
     end
   end
 
   describe "update_related_work" do
     it "should be created" do
-      expect(subject.update_related_work).not_to be_nil
+      expect(subject.update_related_work).to be true
       expect(subject.error_messages).to be_nil
+
+      expect(Work.count).to eq(1)
+      expect(Deposit.count).to eq(1)
+
       expect(subject.related_work.pid).to eq("http://doi.org/10.1371/JOURNAL.PMED.0030186")
     end
   end
@@ -61,8 +69,8 @@ describe Deposit, :type => :model, vcr: true do
 
     describe "update_relation" do
       it "should be created" do
-        # expect(subject.work.valid?).to eq("http://doi.org/10.5061/DRYAD.47SD5")
-        # expect(subject.related_work.errors).to eq("http://doi.org/10.5061/DRYAD.47SD5/1")
+        expect(subject.work.pid).to eq("http://doi.org/10.5061/DRYAD.47SD5")
+        expect(subject.related_work.pid).to eq("http://doi.org/10.5061/DRYAD.47SD5/1")
         expect(Work.count).to eq(2)
 
         expect(subject.update_relation).not_to be_nil
@@ -91,7 +99,7 @@ describe Deposit, :type => :model, vcr: true do
 
       expect(subject.work.pid).to eq("http://www.citeulike.org/user/dbogartoit")
       expect(subject.work.relations.first.relation_type.name).to eq("bookmarks")
-      #expect(subject.work.related_works.first).to eq(subject.related_work)
+      expect(subject.work.relations.first.related_work).to eq(subject.related_work)
       expect(subject.error_messages).to be_nil
     end
 
@@ -106,7 +114,7 @@ describe Deposit, :type => :model, vcr: true do
 
       expect(subject.work.pid).to eq("http://doi.org/10.5061/DRYAD.47SD5")
       expect(subject.work.relations.first.relation_type.name).to eq("has_part")
-      #expect(subject.work.related_works.first).to eq(subject.related_work)
+      expect(subject.work.relations.first.related_work).to eq(subject.related_work)
       expect(subject.error_messages).to be_nil
     end
 
@@ -121,7 +129,7 @@ describe Deposit, :type => :model, vcr: true do
 
       expect(subject.work.pid).to eq("http://doi.org/10.5281/ZENODO.16668")
       expect(subject.work.relations.first.relation_type.name).to eq("is_supplement_to")
-      #expect(subject.work.related_works.first).to eq(subject.related_work)
+      expect(subject.work.relations.first.related_work).to eq(subject.related_work)
       expect(subject.error_messages).to be_nil
     end
   end
@@ -144,7 +152,12 @@ describe Deposit, :type => :model, vcr: true do
   describe "update_contributor" do
     it "update" do
       subject = FactoryGirl.create(:deposit_for_contributor)
-      contributor = subject.update_contributor
+      expect(subject.update_contributor).to be true
+      expect(subject.error_messages).to be_nil
+
+      expect(Contributor.count).to eq(1)
+
+      contributor = Contributor.first
       expect(contributor.orcid).to eq("0000-0002-0159-2197")
       expect(contributor.credit_name).to eq("Jonathan A. Eisen")
       expect(subject.error_messages).to be_nil
@@ -154,23 +167,31 @@ describe Deposit, :type => :model, vcr: true do
       subject = FactoryGirl.create(:deposit_for_contributor, :invalid_orcid)
       expect(subject.update_contributor).to be false
       expect(subject.error_messages).to eq("contributor"=>"Validation failed: Orcid can't be blank, Orcid is invalid")
+
+      expect(Contributor.count).to eq(0)
     end
   end
 
   describe "update_publisher" do
     it "update" do
       subject = FactoryGirl.create(:deposit_for_publisher)
-      publisher = subject.update_publisher
+      expect(subject.update_publisher).to be true
+      expect(subject.error_messages).to be_nil
+
+      expect(Publisher.count).to eq(1)
+
+      publisher = Publisher.first
       expect(publisher.name).to eq("ANDS.CENTRE-1")
       expect(publisher.title).to eq("Griffith University")
       expect(publisher.checked_at.utc.iso8601).to eq("2006-06-13T16:14:19Z")
-      expect(subject.error_messages).to be_nil
     end
 
     it "update missing title" do
       subject = FactoryGirl.create(:deposit_for_publisher, :no_publisher_title)
       expect(subject.update_publisher).to be false
       expect(subject.error_messages).to eq("publisher"=>"Validation failed: Title can't be blank")
+
+      expect(Publisher.count).to eq(0)
     end
   end
 
