@@ -299,11 +299,12 @@ class Work < ActiveRecord::Base
     end
 
     return if metadata[:error].present?
-    write_metadata(metadata, registration_agency)
+    write_metadata(metadata, registration_agency, tracked)
   end
 
-  def write_metadata(metadata, ra)
+  def write_metadata(metadata, ra, tracked)
     self.registration_agency = ra
+    self.tracked = tracked
 
     self.csl = {
       "author" => metadata.fetch("author", []),
