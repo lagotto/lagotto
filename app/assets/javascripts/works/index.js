@@ -90,7 +90,8 @@ function worksViz(json, sources, work_types) {
 
     var signposts = signpostsToString(work, sources, source_id, sort);
     if (signposts !== "") {
-      d3.select("#panel-body-" + i).append("div")
+      d3.select("#panel-" + i).insert("div")
+        .attr("class", "panel-footer").append("div")
         .attr("class", "signposts")
         .html(signposts);
     }
@@ -100,5 +101,5 @@ function worksViz(json, sources, work_types) {
       .attr("href", function() { return work.id; })
       .html('<i class="fa fa-external-link"/>').append('span')
       .text(work.id);
-  }
+    }
 }

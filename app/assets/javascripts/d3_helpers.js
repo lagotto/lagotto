@@ -116,14 +116,14 @@ function signpostsToString(work, sources, source_id, sort) {
   }
 
   if (typeof source !== "undefined" && source !== "") {
-    var a = ['<span class="label label-signpost">' + source.title + " " + formatFixed(work.events[name]) + '</span>'];
+    var a = [source.title + " " + formatFixed(work.events[name])];
   } else {
     var a = [];
   }
 
   var b = signpostsFromWork(work, sources, name);
   if (b.length > 0) { a.push(b.join(" • ")); }
-  return a.join(" ");
+  return a.join(" | ");
 }
 
 function signpostsFromWork(work, sources, name) {
@@ -133,7 +133,7 @@ function signpostsFromWork(work, sources, name) {
   for (var key in work.events) {
     source = sources.filter(function(d) { return d.id === key && d.id !== name; })[0];
     if (typeof source !== "undefined" && source !== {}) {
-      signposts.push('<span class="label label-signpost">' + source.title + " " + formatFixed(work.events[key]) + '</span>');
+      signposts.push(source.title + " " + formatFixed(work.events[key]));
     }
   }
 

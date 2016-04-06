@@ -85,9 +85,10 @@ function eventsViz(json, sources, relation_types, work_types) {
 
     var signposts = signpostsToString(work, sources);
     if (signposts !== "") {
-      d3.select("#panel-body-" + i).append("div")
+      d3.select("#panel-" + i).insert("div")
+        .attr("class", "panel-footer").append("div")
         .attr("class", "signposts")
-        .text(signposts);
+        .html(signposts);
     }
 
     d3.select("#panel-" + i).insert("div")

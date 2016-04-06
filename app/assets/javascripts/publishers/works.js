@@ -79,7 +79,8 @@ function worksViz(json, sources) {
 
     var signposts = signpostsToString(work, sources, source_id, sort);
     if (signposts !== "") {
-      d3.select("#panel-body-" + i).append("div")
+      d3.select("#panel-" + i).insert("div")
+        .attr("class", "panel-footer").append("div")
         .attr("class", "signposts")
         .html(signposts);
     }
