@@ -44,11 +44,12 @@ class Facebook < Agent
       likes = result.deep_fetch('data', 0, 'like_count') { 0 }
     end
 
+    now = Date.new(current_year, current_month, 1)
     subj_date = get_date_from_parts(current_year, current_month, 1)
     subj_id = "https://facebook.com/#{current_year}/#{current_month}"
     subj = { "pid" => subj_id,
              "URL" => "https://facebook.com",
-             "title" => "Facebook",
+             "title" => "Facebook activity for #{now.strftime("%B %Y")}",
              "type" => "webpage",
              "issued" => subj_date }
 

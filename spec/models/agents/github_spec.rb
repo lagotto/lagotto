@@ -83,6 +83,10 @@ describe Github, type: :model, vcr: true do
                                               "total"=>7,
                                               "provenance_url" => "https://github.com/ropensci/alm",
                                               "source_id"=>"github")
+      expect(response.first[:subj]).to eq("pid"=>"https://github.com/2013/9",
+                                          "URL"=>"https://github.com", "title"=>"Github activity for September 2013",
+                                          "type"=>"webpage",
+                                          "issued"=>"2013-09-01")
 
       expect(response.first[:occurred_at]).to eq("2013-09-01")
       expect(response.last[:relation]).to eq("subj_id"=>"https://github.com/2013/9",

@@ -175,6 +175,11 @@ describe Facebook, type: :model do
                                               "relation_type_id"=>"references",
                                               "total"=>9972,
                                               "source_id"=>"facebook")
+      expect(response.first[:subj]).to eq("pid"=>"https://facebook.com/2013/9",
+                                          "URL"=>"https://facebook.com",
+                                          "title"=>"Facebook activity for September 2013",
+                                          "type"=>"webpage",
+                                          "issued"=>"2013-09-01")
     end
 
     it "should catch errors with the Facebook API" do
@@ -211,6 +216,11 @@ describe Facebook, type: :model do
                                            "relation_type_id"=>"bookmarks",
                                            "total"=>3120,
                                            "source_id"=>"facebook")
+      expect(response[0][:subj]).to eq("pid"=>"https://facebook.com/2013/9",
+                                       "URL"=>"https://facebook.com",
+                                       "title"=>"Facebook activity for September 2013",
+                                       "type"=>"webpage",
+                                       "issued"=>"2013-09-01")
       expect(response[1][:occurred_at]).to eq("2013-09-01")
       expect(response[1][:relation]).to eq("subj_id"=>"https://facebook.com/2013/9",
                                            "obj_id"=>work.pid,

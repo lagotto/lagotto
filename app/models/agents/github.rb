@@ -59,11 +59,12 @@ class Github < Agent
 
     relations = []
     provenance_url = get_provenance_url(get_owner_and_repo(work)) if work.canonical_url.present?
+    now = Date.new(current_year, current_month, 1)
     subj_date = get_date_from_parts(current_year, current_month, 1)
     subj_id = "https://github.com/#{current_year}/#{current_month}"
     subj = { "pid" => subj_id,
              "URL" => "https://github.com",
-             "title" => "Github",
+             "title" => "Github activity for #{now.strftime("%B %Y")}",
              "type" => "webpage",
              "issued" => subj_date }
 
