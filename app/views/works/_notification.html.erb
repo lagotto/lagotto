@@ -36,13 +36,13 @@
                 </div>
               <% end %>
               <p class="class_name"><%= h(notification.class_name) %></p>
-              <% unless notification.source_id.blank? %>
+              <% if notification.source %>
                 <h5>Source</h5>
                 <%= link_to notification.source.title, notifications_path(source_id: notification.source_id) %>
               <% end %>
 
               <h5>Time</h5>
-              <%= notification.created_at.to_s(:friendly) %>
+              <%= l notification.created_at, format: :medium %>
 
               <% unless notification.content_type.blank? or notification.content_type == "text/html" %>
                 <h5>Content Type</h5>
