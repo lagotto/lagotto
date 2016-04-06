@@ -90,6 +90,12 @@ function eventsViz(json, sources, relation_types, work_types) {
           .text(relation_type.title + " ").append("a")
           .attr("href", function() { return "/works/" + pathForWork(relation.obj_id); })
           .text(relation.obj_id);
+
+        if (relation.total > 1) {
+          d3.select("#panel-relation-" + i).append("span")
+            .text("(" + relation.total + " Events)");
+        }
+
         d3.select("#panel-relation-" + i).append("a")
           .attr("class", "pull-right")
           .attr("href", function() { return "/relations?source_id=" + relation.source_id; })
