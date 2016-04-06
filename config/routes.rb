@@ -30,7 +30,6 @@ Lagotto::Application.routes.draw do
   resources :filters
   resources :notifications
   resources :publishers, constraints: { :id => /.+/ }
-  resources :relations
 
   # use namespace for rss feeds rather than file extension
   namespace :rss, defaults: { format: "rss" } do
