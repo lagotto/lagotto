@@ -33,8 +33,8 @@ queue()
 function eventsViz(json, sources, relation_types, work_types) {
   data = json.relations;
 
-  // remove duplicate events based on id
-  data = _.uniq(data, "subj_id");
+  // group relations based on subj_id
+  data = _.groupBy(data, "subj_id");
 
   json.href = "?page={{number}}";
   if (relation_type_id !== "") { json.href += "&relation_type_id=" + relation_type_id; }
@@ -56,51 +56,69 @@ function eventsViz(json, sources, relation_types, work_types) {
       .text(numberWithDelimiter(json.meta.total) + " Relations");
   }
 
-  for (var i=0; i<data.length; i++) {
-    var work = data[i];
-    var relation_type = relation_types.filter(function(d) { return d.id === work.relation_type_id; })[0];
-    var source = sources.filter(function(d) { return d.id === work.source_id; })[0];
+  var i = 0;
+  for (var subj_id in data) {
+    if (data.hasOwnProperty(subj_id)) {
+      var work = data[subj_id][0];
 
-    d3.select("#content").insert("div")
-      .attr("class", "panel panel-default")
-      .attr("id", "panel-" + i).insert("div")
-      .attr("class", "panel-body")
-      .attr("id", "panel-body-" + i);
+      d3.select("#content").insert("div")
+        .attr("class", "panel panel-default")
+        .attr("id", "panel-" + i).insert("div")
+        .attr("class", "panel-body")
+        .attr("id", "panel-body-" + i);
 
-    d3.select("#panel-body-" + i).append("h4")
-      .attr("class", "work").append("a")
-      .attr("href", function() { return "/works/" + pathForWork(work.subj_id); })
-      .html(work.title);
-    d3.select("#panel-body-" + i).append("div")
-      .attr("class", "author")
-      .html(formattedAuthorList(work.author));
-    d3.select("#panel-body-" + i).append("div")
-      .attr("class", "metadata")
-      .html(metadataToString(work, work_types));
-    d3.select("#panel-body-" + i).append("div")
-      .attr("class", "relation")
-      .text(relation_type.title + " ").append("a")
-      .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
-      .html(work.obj_id);
+      d3.select("#panel-body-" + i).append("h4")
+        .attr("class", "work").append("a")
+        .attr("href", function() { return "/works/" + pathForWork(work.subj_id); })
+        .html(work.title);
+      d3.select("#panel-body-" + i).append("div")
+        .attr("class", "author")
+        .html(formattedAuthorList(work.author));
+      d3.select("#panel-body-" + i).append("div")
+        .attr("class", "metadata")
+        .html(metadataToString(work, work_types));
 
-    var signposts = signpostsToString(work, sources);
-    if (signposts !== "") {
+      // display all relations from grouping
+      for (var j=0; j<data[subj_id].length; j++) {
+        var relation = data[subj_id][j];
+        var relation_type = relation_types.filter(function(d) { return d.id === relation.relation_type_id; })[0];
+        var source = sources.filter(function(d) { return d.id === relation.source_id; })[0];
+
+        d3.select("#panel-" + i).insert("div")
+          .attr("class", "panel-footer")
+          .attr("id", "panel-relation-" + i).append("span")
+          .text(relation_type.title + " ").append("a")
+          .attr("href", function() { return "/works/" + pathForWork(relation.obj_id); })
+          .text(relation.obj_id);
+        d3.select("#panel-relation-" + i).append("a")
+          .attr("class", "pull-right")
+          .attr("href", function() { return "/relations?source_id=" + relation.source_id; })
+          .text(source.title);
+      }
+
+      var signposts = signpostsFromWork(work, sources);
+      if (typeof signposts !== "undefined" && signposts.length > 0)  {
+        for (var k=0; k<signposts.length; k++) {
+          d3.select("#panel-" + i).insert("div")
+            .attr("class", "panel-footer")
+            .attr("id", "panel-signpost-" + i + k).append("a")
+            .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
+            .text(signposts[k].count);
+          d3.select("#panel-signpost-" + i + k).append("a")
+            .attr("class", "pull-right")
+            .attr("href", function() { return "/works?source_id=" + signposts[k].name; })
+            .text(signposts[k].title);
+        }
+      }
+
       d3.select("#panel-" + i).insert("div")
-        .attr("class", "panel-footer").append("div")
-        .attr("class", "signposts")
-        .html(signposts);
-    }
+        .attr("class", "panel-footer").append("a")
+        .attr("href", function() { return work.subj_id; })
+        .html('<i class="fa fa-external-link"/>').append('span')
+        .text(work.subj_id);
 
-    d3.select("#panel-" + i).insert("div")
-      .attr("class", "panel-footer")
-      .attr("id", "panel-footer-" + i).append("a")
-      .attr("href", function() { return work.subj_id; })
-      .html('<i class="fa fa-external-link"/>').append('span')
-      .text(work.subj_id);
-    d3.select("#panel-footer-" + i).append("a")
-      .attr("class", "pull-right")
-      .attr("href", function() { return "/relations?source_id=" + work.source_id; })
-      .text(source.title);
+      i++
+    }
   }
 
   d3.select("div#rss").style("display", "inline");

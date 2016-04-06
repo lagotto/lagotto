@@ -88,12 +88,19 @@ function worksViz(json, sources, work_types) {
       .attr("class", "metadata")
       .html(metadataToString(work, work_types));
 
-    var signposts = signpostsToString(work, sources, source_id, sort);
-    if (signposts !== "") {
-      d3.select("#panel-" + i).insert("div")
-        .attr("class", "panel-footer").append("div")
-        .attr("class", "signposts")
-        .html(signposts);
+    var signposts = signpostsFromWork(work, sources, source_id, sort);
+    if (typeof signposts !== "undefined" && signposts.length > 0)  {
+      for (var j=0; j<signposts.length; j++) {
+        d3.select("#panel-" + i).insert("div")
+          .attr("class", "panel-footer")
+          .attr("id", "panel-signpost-" + i + j).append("a")
+          .attr("href", function() { return "/works/" + pathForWork(work.id); })
+          .text(signposts[j].count);
+        d3.select("#panel-signpost-" + i + j).append("a")
+          .attr("class", "pull-right")
+          .attr("href", function() { return "/works?source_id=" + signposts[j].name; })
+          .text(signposts[j].title);
+      }
     }
 
     d3.select("#panel-" + i).insert("div")

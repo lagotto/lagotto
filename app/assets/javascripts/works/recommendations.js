@@ -78,17 +78,31 @@ function recommendationsViz(json, sources, relation_types, work_types) {
     d3.select("#panel-body-recommendations-" + i).append("div")
       .attr("class", "metadata")
       .html(metadataToString(work, work_types));
-    d3.select("#panel-body-recommendations-" + i).append("div")
-      .attr("class", "relation")
+
+    d3.select("#panel-recommendations-" + i).insert("div")
+      .attr("class", "panel-footer")
+      .attr("id", "panel-recommendation-" + i).append("span")
       .text(relation_type.title + " ").append("a")
       .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
-      .html(work.obj_id);
+      .text(work.obj_id);
+    d3.select("#panel-recommendation-" + i).append("a")
+      .attr("class", "pull-right")
+      .attr("href", function() { return "/relations?source_id=" + work.source_id; })
+      .text(source.title);
 
-    var signposts = signpostsToString(work, sources);
-    if (signposts !== "") {
-      d3.select("#panel-body-" + i).append("div")
-        .attr("class", "signposts")
-        .html(signposts);
+    var signposts = signpostsFromWork(work, sources);
+    if (typeof signposts !== "undefined" && signposts.length > 0)  {
+      for (var j=0; j<signposts.length; j++) {
+        d3.select("#panel-" + i).insert("div")
+          .attr("class", "panel-footer")
+          .attr("id", "panel-signpost-" + i + j).append("a")
+          .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
+          .text(signposts[j].count);
+        d3.select("#panel-signpost-" + i + j).append("a")
+          .attr("class", "pull-right")
+          .attr("href", function() { return "/works?source_id=" + signposts[j].name; })
+          .text(signposts[j].title);
+      }
     }
 
     d3.select("#panel-recommendations-" + i).insert("div")

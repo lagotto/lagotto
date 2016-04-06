@@ -103,8 +103,11 @@ function pathForWork(id) {
   }
 }
 
-function signpostsToString(work, sources, source_id, sort) {
+function signpostsFromWork(work, sources, source_id, sort) {
   var name = "";
+  var signposts = [];
+  var source = "";
+
   if (typeof source_id !== "undefined" && source_id !== "") {
     name = source_id;
   } else if (typeof sort !== "undefined" && sort !== "") {
@@ -112,32 +115,27 @@ function signpostsToString(work, sources, source_id, sort) {
   }
 
   if (name !== "") {
-    var source = sources.filter(function(d) { return d.id === name; })[0];
+    source = sources.filter(function(d) { return d.id === name; })[0];
   }
 
   if (typeof source !== "undefined" && source !== "") {
-    var a = [source.title + " " + formatFixed(work.events[name])];
-  } else {
-    var a = [];
+    signposts.push(formattedSignpost(source.title, work.events[name], name));
   }
-
-  var b = signpostsFromWork(work, sources, name);
-  if (b.length > 0) { a.push(b.join(" • ")); }
-  return a.join(" | ");
-}
-
-function signpostsFromWork(work, sources, name) {
-  var signposts = [],
-      source = {};
 
   for (var key in work.events) {
     source = sources.filter(function(d) { return d.id === key && d.id !== name; })[0];
     if (typeof source !== "undefined" && source !== {}) {
-      signposts.push(source.title + " " + formatFixed(work.events[key]));
+      signposts.push(formattedSignpost(source.title, work.events[key], key));
     }
   }
-
   return signposts;
+}
+
+function formattedSignpost(title, count, name) {
+  var events = (count > 1) ? " Events" : " Event";
+  return { "title": title,
+           "count": formatFixed(count) + events,
+           "name": name };
 }
 
 function relationToString(work, sources, relation_types) {
