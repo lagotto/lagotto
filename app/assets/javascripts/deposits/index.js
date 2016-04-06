@@ -62,19 +62,19 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").insert("div")
       .attr("class", "panel panel-default")
       .attr("id", "panel-" + i).insert("div")
-      .attr("class", "panel-body deposit")
-      .attr("id", "panel-body-" + i);
-
-    d3.select("#panel-body-" + i).append("h4")
-      .attr("class", "work")
+      .attr("class", "panel-heading panel-title")
       .html(deposit.id).append("small")
       .attr("class", "pull-right")
       .html(formattedState(deposit.state));
 
+      d3.select("#panel-" + i).insert("div")
+        .attr("class", "panel-body deposit")
+        .attr("id", "panel-body-" + i);
+
     if (typeof Object.keys(deposit.subj).length > 0) {
       d3.select("#panel-body-" + i).append("h5")
         .text("Subj");
-      d3.select("#panel-body-" + i).append("p")
+      d3.select("#panel-body-" + i).append("div")
         .html(function() { return deposit.subj; });
     }
 
