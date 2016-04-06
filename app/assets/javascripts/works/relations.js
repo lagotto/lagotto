@@ -86,17 +86,17 @@ function eventsViz(json, sources, relation_types, work_types) {
 
         d3.select("#panel-" + i).insert("div")
           .attr("class", "panel-footer")
-          .attr("id", "panel-relation-" + i).append("span")
+          .attr("id", "panel-relation-" + i + "-" + j).append("span")
           .text(relation_type.title + " ").append("a")
           .attr("href", function() { return "/works/" + pathForWork(relation.obj_id); })
           .text(relation.obj_id);
 
         if (relation.total > 1) {
-          d3.select("#panel-relation-" + i).append("span")
+          d3.select("#panel-relation-" + i + "-" + j).append("span")
             .text("(" + relation.total + " Events)");
         }
 
-        d3.select("#panel-relation-" + i).append("a")
+        d3.select("#panel-relation-" + i + "-" + j).append("a")
           .attr("class", "pull-right")
           .attr("href", function() { return "/relations?source_id=" + relation.source_id; })
           .text(source.title);
@@ -107,10 +107,10 @@ function eventsViz(json, sources, relation_types, work_types) {
         for (var k=0; k<signposts.length; k++) {
           d3.select("#panel-" + i).insert("div")
             .attr("class", "panel-footer")
-            .attr("id", "panel-signpost-" + i + k).append("a")
+            .attr("id", "panel-signpost-" + i + "-" + k).append("a")
             .attr("href", function() { return "/works/" + pathForWork(work.obj_id); })
             .text(signposts[k].count);
-          d3.select("#panel-signpost-" + i + k).append("a")
+          d3.select("#panel-signpost-" + i + "-" + k).append("a")
             .attr("class", "pull-right")
             .attr("href", function() { return "/works?source_id=" + signposts[k].name; })
             .text(signposts[k].title);
