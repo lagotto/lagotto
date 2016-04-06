@@ -62,7 +62,7 @@ function eventsViz(json, sources, relation_types) {
     d3.select("#content").insert("div")
       .attr("class", "panel panel-default")
       .attr("id", "panel-" + i).insert("div")
-      .attr("class", "panel-heading panel-title")
+      .attr("class", "panel-heading panel-title panel-list")
       .html(deposit.id).append("small")
       .attr("class", "pull-right")
       .html(formattedState(deposit.state));
