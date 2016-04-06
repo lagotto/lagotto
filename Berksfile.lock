@@ -9,7 +9,7 @@ DEPENDENCIES
     revision: 3760e235c2cf7876119e6e2488c7c2b39319d4c4
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: 0b534fae9411660a119aaabf2535aa6b2f9669fd
+    revision: bf3fb1be1a75f9026817cc3ea1c6e22c4c13b454
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
@@ -73,12 +73,12 @@ GRAPH
   firewall (2.5.0)
     chef-sugar (>= 0.0.0)
   golang (1.7.0)
-  homebrew (2.0.5)
+  homebrew (2.1.0)
     build-essential (>= 2.1.2)
   hostnames (0.3.6)
     hostsfile (>= 0.0.0)
   hostsfile (2.4.5)
-  lagotto (5.0.12)
+  lagotto (5.0.13)
     apt (>= 0.0.0)
     capistrano (~> 1.0.0)
     consul (>= 0.0.0)
@@ -119,10 +119,10 @@ GRAPH
     hostnames (>= 0.0.0)
     nodejs (>= 0.0.0)
     ruby (~> 0.7.0)
-  poise (2.6.0)
-  poise-service (1.1.2)
+  poise (2.6.1)
+  poise-service (1.2.1)
     poise (~> 2.0)
-  postfix (3.7.0)
+  postfix (3.8.0)
   postgresql (4.0.4)
     apt (>= 1.9.0)
     build-essential (>= 0.0.0)
@@ -148,5 +148,5 @@ GRAPH
   yum (3.10.0)
   yum-epel (0.6.6)
     yum (~> 3.10.0)
-  yum-mysql-community (0.1.21)
+  yum-mysql-community (0.2.0)
     yum (>= 3.2)

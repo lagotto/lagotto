@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ module Poise
     NOT_PASSED = if defined?(Chef::NOT_PASSED)
        Chef::NOT_PASSED
     else
-      # Copyright 2015, Chef Software Inc.
+      # Copyright 2015-2016, Chef Software Inc.
       # Used under Apache License, Version 2.0.
       Object.new.tap do |not_passed|
         def not_passed.to_s

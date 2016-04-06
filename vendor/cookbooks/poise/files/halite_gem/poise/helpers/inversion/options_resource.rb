@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 require 'chef/mash'
 
+require 'poise/backports'
 require 'poise/error'
 
 
@@ -46,6 +47,19 @@ module Poise
             _options[method_sym] = block || args.first
           end
           _options[method_sym]
+        end
+
+        # Capture setting the provider and make it Do What I Mean. This does
+        # mean you can't set the actual provider for the options resource, which
+        # is fine because the provider is a no-op.
+        #
+        # @api private
+        def provider(val=Poise::NOT_PASSED)
+          if val == Poise::NOT_PASSED
+            super()
+          else
+            _options[:provider] = val
+          end
         end
 
         # Insert the options data in to the run state. This has to match the

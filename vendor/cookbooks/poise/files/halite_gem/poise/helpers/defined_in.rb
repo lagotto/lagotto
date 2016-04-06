@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,6 +36,14 @@ module Poise
     #     end
     #   end
     module DefinedIn
+      # Path to the root of Poise's code.
+      # @see #poise_defined!
+      POISE_LIB_ROOT = ::File.expand_path('../..', __FILE__)
+
+      # Path to the root of Chef's code.
+      # @see #poise_defined!
+      CHEF_LIB_ROOT = ::Gem::Specification.find_by_name('chef').gem_dir
+
       # Wrapper for {.poise_defined_in_cookbook} to pass the run context for you.
       #
       # @see .poise_defined_in_cookbook
@@ -79,14 +87,12 @@ module Poise
         def poise_defined!(caller_array)
           # Only try to set this once.
           return if @poise_defined_in
-          # Path to ignore, assumes Halite transformation which I'm not thrilled
-          # about.
-          poise_libraries = File.expand_path('../..', __FILE__)
           # Parse out just the filenames.
           caller_array = caller_array.map {|line| line.split(/:/, 2).first }
-          # Find the first non-poise line.
+          # Find the first non-poise, non-chef line. This assumes Halite
+          # transformation which I'm not thrilled about.
           caller_path = caller_array.find do |line|
-            !line.start_with?(poise_libraries)
+            !line.start_with?(POISE_LIB_ROOT) && !line.start_with?(CHEF_LIB_ROOT)
           end
           Chef::Log.debug("[#{self.name}] Recording poise_defined_in as #{caller_path}")
           @poise_defined_in = caller_path

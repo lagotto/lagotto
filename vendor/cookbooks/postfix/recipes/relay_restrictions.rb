@@ -26,4 +26,3 @@ template node['postfix']['relay_restrictions_db'] do
   source 'relay_restrictions.erb'
   notifies :run, 'execute[update-postfix-relay-restrictions]'
 end
-

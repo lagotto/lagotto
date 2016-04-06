@@ -8,6 +8,7 @@ ExecReload=/bin/kill -<%= @reload_signal %> $MAINPID
 KillSignal=<%= @stop_signal %>
 User=<%= @user %>
 WorkingDirectory=<%= @directory %>
+Restart=<%= @restart_mode %>
 
 [Install]
 WantedBy=multi-user.target

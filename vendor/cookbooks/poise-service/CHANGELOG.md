@@ -1,5 +1,14 @@
 # Poise-Service Changelog
 
+## v1.2.1
+
+* [#23](https://github.com/poise/poise-service/pull/23) Fix service templates on AIX and FreeBSD to use the correct root group.
+
+## v1.2.0
+
+* The `Restart` mode for systemd services can now be controlled via provider
+  option and defaults to `on-failure` to match other providers.
+
 ## v1.1.2
 
 * [#22](https://github.com/poise/poise-service/pull/22) Set all script commands

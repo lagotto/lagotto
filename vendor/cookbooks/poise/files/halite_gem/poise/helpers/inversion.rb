@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Noah Kantrowitz
+# Copyright 2015-2016, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -364,7 +364,7 @@ module Poise
               end
             end
             return false unless resource_name_equivalents[inversion_resource]
-            provider_name = resolve_inversion_provider(node, resource)
+            provider_name = resolve_inversion_provider(node, resource).to_s
             Poise.debug("[#{resource}] Checking provides? on #{self.name}. Got provider_name #{provider_name.inspect}")
             provider_name == provides.to_s || ( provider_name == 'auto' && !resource.provider_no_auto.include?(provides.to_s) && provides_auto?(node, resource) )
           end

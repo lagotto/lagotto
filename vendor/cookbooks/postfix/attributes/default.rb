@@ -16,7 +16,7 @@
 # limitations under the License.
 
 # Generic cookbook attributes
-default['postfix']['mail_type']  = 'client'
+default['postfix']['mail_type'] = 'client'
 default['postfix']['relayhost_role'] = 'relayhost'
 default['postfix']['multi_environment_relay'] = false
 default['postfix']['use_procmail'] = false
@@ -25,7 +25,7 @@ default['postfix']['use_transport_maps'] = false
 default['postfix']['use_access_maps'] = false
 default['postfix']['use_virtual_aliases'] = false
 default['postfix']['use_virtual_aliases_domains'] = false
-default['postfix']['use_relay_restirictions_maps'] = false
+default['postfix']['use_relay_restrictions_maps'] = false
 default['postfix']['transports'] = {}
 default['postfix']['access'] = {}
 default['postfix']['virtual_aliases'] = {}
@@ -121,28 +121,27 @@ end
 default['postfix']['master']['submission'] = false
 
 # OS Aliases
-case node['platform']
-when 'freebsd'
-  default['postfix']['aliases'] = {
-    'MAILER-DAEMON' =>  'postmaster',
-    'bin' =>            'root',
-    'daemon' =>         'root',
-    'named' =>          'root',
-    'nobody' =>         'root',
-    'uucp' =>           'root',
-    'www' =>            'root',
-    'ftp-bugs' =>       'root',
-    'postfix' =>        'root',
-    'manager' =>        'root',
-    'dumper' =>         'root',
-    'operator' =>       'root',
-    'abuse' =>          'postmaster'
-  }
-else
-  default['postfix']['aliases'] = {}
-end
+default['postfix']['aliases'] = case node['platform']
+                                when 'freebsd'
+                                  {
+                                    'MAILER-DAEMON' =>  'postmaster',
+                                    'bin' =>            'root',
+                                    'daemon' =>         'root',
+                                    'named' =>          'root',
+                                    'nobody' =>         'root',
+                                    'uucp' =>           'root',
+                                    'www' =>            'root',
+                                    'ftp-bugs' =>       'root',
+                                    'postfix' =>        'root',
+                                    'manager' =>        'root',
+                                    'dumper' =>         'root',
+                                    'operator' =>       'root',
+                                    'abuse' =>          'postmaster'
+                                  }
+                                else
+                                  {}
+                                end
 
 if node['postfix']['use_relay_restirictions_maps']
   default['postfix']['main']['smtpd_relay_restrictions'] = "hash:#{node['postfix']['relay_restrictions_db']}, reject"
 end
-

@@ -20,7 +20,7 @@ execute 'update-postfix-aliases' do
   command 'newaliases'
   environment PATH: "#{ENV['PATH']}:/opt/omni/bin:/opt/omni/sbin" if platform_family?('omnios')
   # On FreeBSD, /usr/sbin/newaliases is the sendmail command, and it's in the path before postfix's /usr/local/bin/newaliases
-  environment ({ 'PATH' => "/usr/local/bin:#{ENV['PATH']}" }) if platform_family?('freebsd')
+  environment ({ 'PATH' => "/usr/local/bin:#{ENV['PATH']}" }) if platform_family?('freebsd') # rubocop: disable Lint/ParenthesesAsGroupedExpression
   action :nothing
 end
 

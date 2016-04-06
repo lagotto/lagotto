@@ -37,6 +37,8 @@ module PoiseService
         super.merge({
           # Automatically reload systemd on changes.
           auto_reload: true,
+          # Service restart mode.
+          restart_mode: 'on-failure',
         })
       end
 
@@ -68,7 +70,7 @@ module PoiseService
         reloader = systemctl_daemon_reload
         service_template("/etc/systemd/system/#{new_resource.service_name}.service", 'systemd.service.erb') do
           notifies :run, reloader, :immediately if options['auto_reload']
-          variables.update(auto_reload: options['auto_reload'])
+          variables.update(auto_reload: options['auto_reload'], restart_mode: options['restart_mode'])
         end
       end
 

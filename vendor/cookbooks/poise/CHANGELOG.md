@@ -1,5 +1,12 @@
 # Changelog
 
+## v2.6.1
+
+* Compatibility with Chef master to fix issues with `defined_in!` not ignoring
+  stack frames from Chef code.
+* Setting a provider in a inversion options resource now works as (probably)
+  expected.
+
 ## v2.6.0
 
 * New backwards-compatibility helper: `Poise::Backports::VERIFY_PATH`. Use it
