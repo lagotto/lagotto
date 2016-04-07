@@ -10,13 +10,13 @@ shared_examples_for "a rake task that requires SERVERNAME env var" do
   end
 end
 
-describe "api:snapshot:aggregations" do
+describe "api:snapshot:results" do
   include WithEnv
   include ActiveJob::TestHelper
   include_context "rake"
 
   let!(:source) { FactoryGirl.create(:source) }
-  let(:output) { "Queuing a snapshot for /api/aggregations\n" }
+  let(:output) { "Queuing a snapshot for /api/results\n" }
 
   include_examples "a rake task that requires SERVERNAME env var"
 
