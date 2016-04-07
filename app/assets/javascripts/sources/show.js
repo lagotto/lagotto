@@ -22,7 +22,7 @@ if (query) {
       var byMonth = d3.entries(data.by_month);
       var byMonthTitle = formatPercent(data.by_month.with_events / d3.sum(byMonth, function(g) { return g.value; }));
 
-      donutViz(byDay, "div#chart_day", byDayTitle, "with events", colors, "works");
-      donutViz(byMonth, "div#chart_month", byMonthTitle, "with events", colors, "works");
+      donutViz(byDay, "div#chart_day", byDayTitle, "with results", colors, "works");
+      donutViz(byMonth, "div#chart_month", byMonthTitle, "with results", colors, "works");
   });
 }

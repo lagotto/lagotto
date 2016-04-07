@@ -6,5 +6,5 @@ queue()
   .await(function(error, s) {
     if (error) { return console.warn(error); }
     hBarViz(s.sources, "work")
-    hBarViz(s.sources, "event")
+    hBarViz(s.sources, "result")
 });

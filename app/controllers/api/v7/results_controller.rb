@@ -1,15 +1,15 @@
-class Api::V7::AggregationsController < Api::BaseController
+class Api::V7::ResultsController < Api::BaseController
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :aggregations, "Aggregations"
+  swagger_controller :results, "Results"
 
   swagger_api :index do
-    summary "Returns event counts by work IDs and/or source names"
-    notes "If no work ids or source names are provided in the query, all events are returned, 1000 per page and sorted by update date."
+    summary "Returns results by work IDs and/or source names"
+    notes "If no work ids or source names are provided in the query, all results are returned, 1000 per page and sorted by update date."
     param :query, :work_id, :string, :optional, "Work ID"
     param :query, :work_ids, :string, :optional, "Work IDs"
     param :query, :source_id, :string, :optional, "Source name"
-    param :query, :sort, :string, :optional, "Sort by event count (pdf, html, readers, comments, likes or total) descending, or by update date descending if left empty."
+    param :query, :sort, :string, :optional, "Sort by result descending, or by update date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page, defaults to 1000"
     response :ok
@@ -20,24 +20,24 @@ class Api::V7::AggregationsController < Api::BaseController
 
   def index
     if @work
-      collection = @work.aggregations
+      collection = @work.results
     elsif params[:work_ids]
       work_ids = params[:work_ids].split(",")
-      collection = Aggregation.joins(:work).where(works: { "pid" => work_ids })
+      collection = Result.joins(:work).where(works: { "pid" => work_ids })
     elsif params[:source_id] && source = cached_source(params[:source_id])
-      collection = Aggregation.where(source_id: source.id)
+      collection = Result.where(source_id: source.id)
     elsif params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
-      collection = Aggregation.joins(:work).where(works: { "publisher_id" => publisher.id })
+      collection = Result.joins(:work).where(works: { "publisher_id" => publisher.id })
     else
-      collection = Aggregation
+      collection = Result
     end
 
     collection = collection.joins(:source).where("sources.private <= ?", is_admin_or_staff?)
 
     if params[:sort] == "total"
-      collection = collection.order("aggregations.total DESC")
+      collection = collection.order("results.total DESC")
     else
-      collection = collection.order("aggregations.updated_at DESC")
+      collection = collection.order("results.updated_at DESC")
     end
 
     collection = collection.includes(:work, :source, :months)
@@ -46,7 +46,7 @@ class Api::V7::AggregationsController < Api::BaseController
     page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
     collection = collection.paginate(per_page: per_page, :page => page)
 
-    @aggregations = collection.decorate
+    @results = collection.decorate
   end
 
   protected

@@ -18,27 +18,31 @@ var options = {
     minMonthsForMonthly: 1,
     minDaysForDaily: 1
   },
-  vizDiv: "#panel-events",
-  source: {},
-  groups: [],
-  events: []
+  vizDiv: "#panel-results",
+  work: {},
+  sources: [],
+  groups: []
 };
 
+var params = d3.select("#api_key");
 if (!params.empty()) {
-  var source_id = params.attr('data-source-id');
-  var query = encodeURI("/api/sources/" + source_id + "/months");
+  var api_key = params.attr('data-api-key');
+  var work_id = params.attr('data-pid');
+  var query = encodeURI("/api/works/" + pathForWork(work_id) + "/results");
 }
 
 // asynchronously load data from the Lagotto API
 queue()
-  .defer(d3.json, encodeURI("/api/sources/" + source_id))
+  .defer(d3.json, encodeURI("/api/works/" + pathForWork(work_id)))
+  .defer(d3.json, encodeURI("/api/sources"))
   .defer(d3.json, encodeURI("/api/groups"))
   .defer(d3.json, query)
-  .await(function(error, s, g, m) {
+  .await(function(error, w, s, g, e) {
     if (error) { return console.warn(error); }
-    options.source = s.source;
+    options.work = w.work;
+    options.sources = s.sources;
     options.groups = g.groups;
-    options.almStatsJson = m.months;
+    options.almStatsJson = e.results;
     var almviz = new AlmViz(options);
     almviz.initViz();
 });
@@ -49,8 +53,10 @@ function AlmViz(options) {
   $ = options.jQuery || $;
 
   // Init data
-  var groups_ = options.groups;
-  var source_ = options.source;
+  // remove group not needed for the following visualizations
+  var work_ = options.work;
+  var groups_ = options.groups.filter(function(d) { return d.id !== "other"; });
+  var sources_ = options.sources;
   var data = options.almStatsJson;
 
   // Abort if data are missing
@@ -64,9 +70,10 @@ function AlmViz(options) {
   var minItems_ = options.minItemsToShowGraph;
   var formatNumber_ = d3.format(",d");
 
-  // extract publication date, i.e. first month we have any data
+  // extract publication date
   // Construct date object from date parts, using "1" for missing day and month
-  var pub_date = datePartsToDate([data[0].year, data[0].month]);
+  var timestamp = Date.parse(work_["issued"]);
+  var pub_date = new Date(timestamp);
 
   var vizDiv;
   // Get the Div where the viz should go (default to one with ID "alm')
@@ -91,7 +98,7 @@ function AlmViz(options) {
 
     // loop through groups
     groups_.forEach(function(group) {
-      addGroup_(vizDiv, group, source_, data);
+      addGroup_(vizDiv, group, sources_, data);
     });
 
     if (!metricsFound_) {
@@ -108,24 +115,27 @@ function AlmViz(options) {
    * @param {Object} data Statistics.
    * @return {JQueryObject|boolean}
    */
-  var addGroup_ = function(canvas, group, source, data) {
+  var addGroup_ = function(canvas, group, sources_, data) {
     var $groupRow = false;
 
-    if (source.group_id !== group.id) { return; }
+    // Loop through sources to add statistics data to the group.
+    sources_.forEach(function(source) {
+      if (source.group_id !== group.id) { return; }
 
-    var total = d3.sum(data, function(g) { return g.total; });
-    if (total === 0) { return; }
+      events = data.filter(function(d) { return d.source_id === source.id; })[0];
+      if (typeof events === "undefined" || events.total === 0) { return; }
 
-    // Only add the group row the first time
-    if (!$groupRow) {
-      $groupRow = getgroupRow_(canvas, group);
-    }
+      // Only add the group row the first time
+      if (!$groupRow) {
+        $groupRow = getgroupRow_(canvas, group);
+      }
 
-    // Flag that there is at least one metric
-    metricsFound_ = true;
+      // Flag that there is at least one metric
+      metricsFound_ = true;
 
-    var total = d3.sum(data, function(g) { return g.total; });
-    if (total > 0) { addSource_(source, "Total", total, group, "total", $groupRow); }
+      var label = source.title;
+      addSource_(source, label, events, events.total, group, "total", $groupRow);
+    });
   };
 
 
@@ -156,7 +166,7 @@ function AlmViz(options) {
    * @param {JQueryObject} $groupRow
    * @return {JQueryObject}
    */
-  var addSource_ = function(source, label, sourceTotalValue, group, subgroup, $groupRow) {
+  var addSource_ = function(source, label, events, sourceTotalValue, group, subgroup, $groupRow) {
     var $row, $countLabel, $count,
         total = sourceTotalValue;
 
@@ -166,13 +176,33 @@ function AlmViz(options) {
       .attr("id", "source-" + source.id + "-" + subgroup);
     $countLabel = $row.append("div")
       .attr("class", "alm-label " + group.id);
-    $count = $countLabel.append("p")
-      .attr("class", "alm-count")
-      .attr("id", "alm-count-" + source.id + "-" + group.id);
+
+    if (events.events_url) {
+      // if there is an eventsUrl, we can link to it from the count
+      $count = $countLabel.append("p")
+        .attr("class", "alm-count")
+        .attr("id", "alm-count-" + source.id + "-" + group.id)
+        .append("a")
+        .attr("href", function() { return events.events_url; });
+    } else {
+      // if no eventsUrl, we just put in the count
+      $count = $countLabel.append("p")
+        .attr("class", "alm-count")
+        .attr("id", "alm-count-" + source.id + "-" + group.id);
+    }
+
     $count
       .text(formatNumber_(total));
-    $countLabel.append("p")
-      .text(label);
+
+    if (source.id === 'pkpTimedViews') {
+      $countLabel.append("p")
+        .text(label);
+    } else {
+      // link the source name
+      $countLabel.append("p").append("a")
+        .attr("href", baseUrl_ + "/sources/" + source.id)
+        .text(label);
+    }
 
     // Only add a chart if the browser supports SVG
     if (hasSVG_) {
@@ -183,18 +213,31 @@ function AlmViz(options) {
       var showMonthly = false;
       var showYearly = false;
 
-      var monthTotal = data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
-      var end_date = new Date();
-      end_date = end_date.setMonth(end_date.getMonth() + 1);
-      var numMonths = d3.time.month.utc.range(pub_date, end_date).length;
+      if (events.by_year) {
+        var level_data = getData_('year', events);
+        var yearTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
+        var numYears = d3.time.year.utc.range(pub_date, new Date()).length;
 
-      if (monthTotal >= minItems_.minEventsForMonthly &&
-        numMonths >= minItems_.minMonthsForMonthly) {
-          showMonthly = true;
-          level = 'month';
+        if (yearTotal >= minItems_.minEventsForYearly &&
+          numYears >= minItems_.minYearsForYearly) {
+          showYearly = true;
+          level = 'year';
+        }
       }
 
-      // The level and data should be set to the finest level
+      if (events.by_month) {
+        var level_data = getData_('month', events);
+        var monthTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
+        var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
+
+        if (monthTotal >= minItems_.minEventsForMonthly &&
+            numMonths >= minItems_.minMonthsForMonthly) {
+            showMonthly = true;
+            level = 'month';
+        }
+      }
+
+      // The level and level_data should be set to the finest level
       // of granularity that we can show
       timeInterval = getTimeInterval_(level);
 
@@ -208,11 +251,74 @@ function AlmViz(options) {
 
         var viz = getViz_($chartDiv, source, group, subgroup, events);
         loadData_(viz, level);
+
+        var update_controls = function(control) {
+            control.siblings('.alm-control').removeClass('active');
+            control.addClass('active');
+        };
+
+        var $levelControlsDiv = $chartDiv.append("div")
+          .attr("class", "alm-control-label")
+          .attr("style", "width: " + (viz.margin.left + viz.width) + "px;");
+
+        if (showDaily) {
+          $levelControlsDiv.append("a")
+            .attr("href", "javascript:void(0)")
+            .classed("alm-control", true)
+            .classed("disabled", !showDaily)
+            .classed("active", (level === 'day'))
+            .text("daily (first 30)")
+            .on("click", function() {
+              if (showDaily && !$(this).hasClass('active')) {
+                loadData_(viz, 'day');
+                update_controls($(this));
+              }
+            }
+          );
+
+          $levelControlsDiv.append("text").text(" | ");
+        }
+
+        if (showMonthly) {
+          $levelControlsDiv.append("a")
+            .attr("href", "javascript:void(0)")
+            .classed("alm-control", true)
+            .classed("disabled", !showMonthly || !showYearly)
+            .classed("active", (level === 'month'))
+            .text("monthly")
+            .on("click", function() { if (showMonthly && !$(this).hasClass('active')) {
+              loadData_(viz, 'month');
+              update_controls($(this));
+            } });
+
+          if (showYearly) {
+            $levelControlsDiv.append("text")
+              .text(" | ");
+          }
+
+        }
+
+        if (showYearly) {
+          $levelControlsDiv.append("a")
+            .attr("href", "javascript:void(0)")
+            .classed("alm-control", true)
+            .classed("disabled", !showYearly || !showMonthly)
+            .classed("active", (level === 'year'))
+            .text("yearly")
+            .on("click", function() {
+              if (showYearly && !$(this).hasClass('active')) {
+                loadData_(viz, 'year');
+                update_controls($(this));
+              }
+            }
+          );
+        }
       }
     }
 
     return $row;
   };
+
 
   /**
    * Extract the date from the source
@@ -248,6 +354,22 @@ function AlmViz(options) {
         return d3.time.format("%b %y")(getDate_(level, d));
       case 'day':
         return d3.time.format("%d %b %y")(getDate_(level, d));
+    }
+  };
+
+
+  /**
+   * Extract the data from the source.
+   * @param {string} level (day|month|year)
+   * @param {Object} source
+   * @return {Array} Metrics
+   */
+  var getData_ = function(level, events) {
+    switch (level) {
+      case 'year':
+        return events.by_year;
+      case 'month':
+        return events.by_month;
     }
   };
 
@@ -335,10 +457,17 @@ function AlmViz(options) {
   var loadData_ = function(viz, level) {
     var group = viz.group;
     var subgroup = viz.subgroup;
+    var level_data = getData_(level, viz.events);
     var timeInterval = getTimeInterval_(level);
 
     var end_date = new Date();
-    end_date = d3.time.year.utc.ceil(end_date);
+    // use only first 29 days if using day view
+    // close out the year otherwise
+    if (level === 'day') {
+      end_date = timeInterval.offset(pub_date, 29);
+    } else {
+      end_date = d3.time.year.utc.ceil(end_date);
+    }
 
     //
     // Domains for x and y
@@ -347,7 +476,7 @@ function AlmViz(options) {
     viz.x.domain([timeInterval.floor(pub_date), end_date]);
 
     // a linear axis from 0 to max value found
-    viz.y.domain([0, d3.max(data, function(d) { return d[subgroup]; })]);
+    viz.y.domain([0, d3.max(level_data, function(d) { return d[subgroup]; })]);
 
     //
     // Axis
@@ -377,14 +506,14 @@ function AlmViz(options) {
     var barWidth = Math.max(rawWidth - rawWidth/5, 1);
 
     var barsForTooltips = viz.barsForTooltips.selectAll(".barsForTooltip")
-      .data(data, function(d) { return getDate_(level, d); });
+      .data(level_data, function(d) { return getDate_(level, d); });
 
     barsForTooltips
       .exit()
       .remove();
 
     var bars = viz.bars.selectAll(".bar")
-      .data(data, function(d) { return getDate_(level, d); });
+      .data(level_data, function(d) { return getDate_(level, d); });
 
     bars
       .enter().append("rect")

@@ -18,7 +18,7 @@ class WorkDecorator < Draper::Decorator
     @filtered_sources ||= Source.accessible(context[:role]).pluck(:name)
   end
 
-  def events
+  def results
     model.metrics.select { |k,v| filtered_sources.include?(k) && v.to_i > 0 }
   end
 

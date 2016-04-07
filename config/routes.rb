@@ -54,14 +54,11 @@ Lagotto::Application.routes.draw do
 
   namespace :api, defaults: { format: "json" } do
     scope module: :v7, constraints: ApiConstraint.new(version: 7, default: :true) do
-      match 'relations', to: 'relations#index', via: [:get, :post]
-
       concern :workable do
         resources :works, constraints: { :id => /.+?/, format: false }
       end
 
       resources :agents
-      resources :aggregations
       resources :api_requests, only: [:index]
       resources :contributor_roles, only: [:index, :show]
       resources :contributions
@@ -74,7 +71,9 @@ Lagotto::Application.routes.draw do
       resources :groups, only: [:index, :show]
       resources :notifications
       resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable]
+      resources :relations
       resources :relation_types, only: [:index, :show]
+      resources :results
       resources :sources, concerns: [:workable] do
         resources :months
       end
@@ -82,7 +81,7 @@ Lagotto::Application.routes.draw do
       resources :work_types, only: [:index, :show]
       resources :works, constraints: { :id => /.+?/, :format=> false } do
         resources :relations
-        resources :aggregations
+        resources :results
         resources :contributions
         resources :recommendations
         resources :notifications

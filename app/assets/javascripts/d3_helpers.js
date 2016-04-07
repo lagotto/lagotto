@@ -119,22 +119,22 @@ function signpostsFromWork(work, sources, source_id, sort) {
   }
 
   if (typeof source !== "undefined" && source !== "") {
-    signposts.push(formattedSignpost(source.title, work.events[name], name));
+    signposts.push(formattedSignpost(source.title, work.results[name], name));
   }
 
-  for (var key in work.events) {
+  for (var key in work.results) {
     source = sources.filter(function(d) { return d.id === key && d.id !== name; })[0];
     if (typeof source !== "undefined" && source !== {}) {
-      signposts.push(formattedSignpost(source.title, work.events[key], key));
+      signposts.push(formattedSignpost(source.title, work.results[key], key));
     }
   }
   return signposts;
 }
 
 function formattedSignpost(title, count, name) {
-  var events = (count > 1) ? " Events" : " Event";
+  var results = (count > 1) ? " Results" : " Result";
   return { "title": title,
-           "count": formatFixed(count) + events,
+           "count": formatFixed(count) + results,
            "name": name };
 }
 

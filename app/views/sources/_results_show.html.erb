@@ -1,0 +1,12 @@
+<% if @source.results.sum(:total) > 0 %>
+  <div class="panel panel-default">
+    <div class="panel-heading panel-title">Results <small class="pull-right">monthly</small></div>
+    <div class="panel-body" id="panel-results">
+      <div class="text-muted" id="loading">Loading … <%= image_tag "spinner.gif" %></div>
+
+      <%= javascript_include_tag 'sources/results' %>
+    </div>
+  </div>
+<% else %>
+  <div class="alert alert-info">There are currently no results</div>
+<% end %>
