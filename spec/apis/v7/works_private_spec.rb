@@ -21,7 +21,7 @@ describe "/api/v7/works", :type => :api do
         item = response["works"].first
         expect(item["DOI"]).to eq(work.doi)
         expect(item["issued"]).to eql("2015-04-04")
-        expect(item["events"]["citeulike"]).to eq(work.aggregations.first.total)
+        expect(item["events"]["citeulike"]).to eq(work.results.first.total)
       end
     end
 
@@ -38,7 +38,7 @@ describe "/api/v7/works", :type => :api do
         item = response["works"].first
         expect(item["DOI"]).to eq(work.doi)
         expect(item["issued"]).to eql("2015-04-04")
-        expect(item["events"]["citeulike"]).to eq(work.aggregations.first.total)
+        expect(item["events"]["citeulike"]).to eq(work.results.first.total)
       end
     end
 

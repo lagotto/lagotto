@@ -181,12 +181,12 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_relation
-    aggregation = Aggregation.where(work_id: related_work_id,
+    result = Result.where(work_id: related_work_id,
                                     source_id: source.id).first_or_create
 
     m = Month.where(work_id: related_work_id,
                     source_id: source.id,
-                    aggregation_id: aggregation.id,
+                    result_id: result.id,
                     year: year,
                     month: month).first_or_create
 

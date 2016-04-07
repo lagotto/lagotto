@@ -6,9 +6,9 @@ namespace :api do
       ENV['SERVERNAME'] || raise("SERVERNAME env variable must be set!")
     end
 
-    desc 'Snapshot /api/aggregations, zip it, and upload to Zenodo'
-    task :aggregations => [:environment, :requirements_check] do
-      endpoint = "/api/aggregations"
+    desc 'Snapshot /api/results, zip it, and upload to Zenodo'
+    task :results => [:environment, :requirements_check] do
+      endpoint = "/api/results"
       ApiSnapshotUtility.snapshot_later "#{endpoint}?sort=created_at", upload_on_finished: true
       puts "Queuing a snapshot for #{endpoint}"
     end
@@ -28,6 +28,6 @@ namespace :api do
     end
 
     desc 'Run all of the api:snapshot:* tasks in order to snapshot all available end-points'
-    task :all => ['api:snapshot:works', 'api:snapshot:aggregations', 'api:snapshot:relations']
+    task :all => ['api:snapshot:works', 'api:snapshot:results', 'api:snapshot:relations']
   end
 end

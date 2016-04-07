@@ -1,4 +1,4 @@
-class Aggregation < ActiveRecord::Base
+class Result < ActiveRecord::Base
   # include HTTP request helpers
   include Networkable
 
@@ -8,9 +8,9 @@ class Aggregation < ActiveRecord::Base
   # include helper module for query caching
   include Cacheable
 
-  belongs_to :work, inverse_of: :aggregations, touch: true
+  belongs_to :work, inverse_of: :results, touch: true
   belongs_to :source
-  has_many :months, dependent: :destroy, inverse_of: :aggregation
+  has_many :months, dependent: :destroy, inverse_of: :result
 
   validates :work_id, :source_id, presence: true
   validates_associated :work, :source
@@ -24,8 +24,8 @@ class Aggregation < ActiveRecord::Base
 
   scope :tracked, -> { joins(:work).where("works.tracked = ?", true) }
 
-  scope :last_x_days, ->(duration) { tracked.where("aggregations.updated_at >= ?", Time.zone.now.to_date - duration.days) }
-  scope :not_updated, ->(duration) { tracked.where("aggregations.updated_at < ?", Time.zone.now.to_date - duration.days) }
+  scope :last_x_days, ->(duration) { tracked.where("results.updated_at >= ?", Time.zone.now.to_date - duration.days) }
+  scope :not_updated, ->(duration) { tracked.where("results.updated_at < ?", Time.zone.now.to_date - duration.days) }
 
   scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_months, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date  - duration.months) }
@@ -55,7 +55,7 @@ class Aggregation < ActiveRecord::Base
   alias_method :update_date, :timestamp
 
   def cache_key
-    "aggregation/#{id}-#{timestamp}"
+    "result/#{id}-#{timestamp}"
   end
 
   # dates via utc time are more accurate than Date.today

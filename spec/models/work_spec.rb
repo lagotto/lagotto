@@ -262,16 +262,16 @@ describe Work, type: :model, vcr: true do
 
   context "associations" do
     it "should create associated aggregations" do
-      expect(Aggregation.count).to eq(0)
+      expect(Result.count).to eq(0)
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Aggregation.count).to eq(2)
+      expect(Result.count).to eq(2)
     end
 
     it "should delete associated aggregations" do
       @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Aggregation.count).to eq(2)
+      expect(Result.count).to eq(2)
       @works.each(&:destroy)
-      expect(Aggregation.count).to eq(0)
+      expect(Result.count).to eq(0)
     end
 
     it "should create associated relations" do

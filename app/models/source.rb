@@ -12,10 +12,10 @@ class Source < ActiveRecord::Base
   include Hashie::Extensions::DeepFetch
 
   has_many :relations, :dependent => :destroy
-  has_many :aggregations, :dependent => :destroy
+  has_many :results, :dependent => :destroy
   has_many :months
   has_many :notifications
-  has_many :works, :through => :aggregations
+  has_many :works, :through => :results
   belongs_to :group
 
   serialize :config, OpenStruct
@@ -25,9 +25,9 @@ class Source < ActiveRecord::Base
 
   scope :order_by_name, -> { order("group_id, sources.title") }
   scope :active, -> { where(active: true).order_by_name }
-  scope :for_events, -> { active.joins(:group).where("groups.name = ?", "events") }
+  scope :for_events, -> { active.joins(:group).where("groups.name = ?", "results") }
   scope :for_relations, -> { active.joins(:group).where("groups.name = ?", "relations") }
-  scope :for_aggregations, -> { active.joins(:group).where("groups.name IN (?)", ["events", "relations"]) }
+  scope :for_results, -> { active.joins(:group).where("groups.name IN (?)", ["results", "relations"]) }
   scope :for_contributions, -> { active.joins(:group).where("groups.name = ?", "contributions") }
   scope :for_publishers, -> { active.joins(:group).where("groups.name = ?", "publishers") }
 
@@ -48,11 +48,11 @@ class Source < ActiveRecord::Base
     (active ? "active" : "inactive")
   end
 
-  def get_aggregations_by_month(aggregations, options={})
-    aggregations = aggregations.reject { |relation| relation["occurred_at"].nil? }
+  def get_results_by_month(results, options={})
+    results = results.reject { |relation| relation["occurred_at"].nil? }
 
     options[:metrics] ||= :total
-    aggregations.group_by { |relation| relation["occurred_at"][0..6] }.sort.map do |k, v|
+    results.group_by { |relation| relation["occurred_at"][0..6] }.sort.map do |k, v|
       { year: k[0..3].to_i,
         month: k[5..6].to_i,
         options[:metrics] => v.length,
@@ -71,7 +71,7 @@ class Source < ActiveRecord::Base
       view = options[:name]
     end
 
-    service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
+    # service_url = "#{ENV['COUCHDB_URL']}/_design/reports/_view/#{view}"
 
     result = get_result(service_url, options.merge(timeout: 1800))
     if result.blank? || result["rows"].blank?

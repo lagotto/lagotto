@@ -10,10 +10,6 @@ class WorkDecorator < Draper::Decorator
     to_param
   end
 
-  def filtered_events
-    model.aggregations.select { |r| source_ids.include?(r.source_id) }
-  end
-
   def filtered_sources
     @filtered_sources ||= Source.accessible(context[:role]).pluck(:name)
   end

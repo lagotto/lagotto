@@ -143,9 +143,9 @@ class Api::V7::WorksController < Api::BaseController
     end
 
     if params[:source_id] && source = cached_source(params[:source_id])
-      collection = collection.joins(:aggregations)
-                   .where("aggregations.source_id = ?", source.id)
-                   .where("aggregations.total > 0")
+      collection = collection.joins(:results)
+                   .where("results.source_id = ?", source.id)
+                   .where("results.total > 0")
     end
 
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
@@ -164,9 +164,9 @@ class Api::V7::WorksController < Api::BaseController
   # we can't filter and sort by two different sources
   def get_sort(collection, params)
     if params[:sort] && sort = cached_source(params[:sort])
-      collection.joins(:aggregations)
-                .where("aggregations.source_id = ?", sort.id)
-                .order("aggregations.total DESC")
+      collection.joins(:results)
+                .where("results.source_id = ?", sort.id)
+                .order("results.total DESC")
     elsif params[:sort] == "created_at"
       collection.order("works.created_at ASC")
     else

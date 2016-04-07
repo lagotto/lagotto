@@ -28,14 +28,14 @@ class Relation < ActiveRecord::Base
 
   def self.set_month_id
     Relation.where(implicit: false).where(month_id: nil).each do |relation|
-      aggregation = Aggregation.where(work_id: relation.related_work_id,
+      result = Result.where(work_id: relation.related_work_id,
                                       source_id: relation.source_id).first_or_create
 
       m = Month.where(work_id: relation.related_work_id,
                       source_id: relation.source_id,
                       year: relation.occurred_at.year,
                       month: relation.occurred_at.month,
-                      aggregation_id: aggregation.id).first_or_create
+                      result_id: result.id).first_or_create
 
       relation.update_attributes(month_id: m.id)
     end

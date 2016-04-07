@@ -21,7 +21,7 @@ FactoryGirl.define do
       month { Time.zone.now.to_date.month }
       day { Time.zone.now.to_date.day }
       after :create do |work|
-        FactoryGirl.create(:aggregation, updated_at: Time.zone.now, work: work)
+        FactoryGirl.create(:result, updated_at: Time.zone.now, work: work)
       end
     end
     trait(:published_yesterday) do
@@ -29,13 +29,13 @@ FactoryGirl.define do
       month { (Time.zone.now.to_date - 1.day).month }
       day { (Time.zone.now.to_date - 1.day).day }
       after :create do |work|
-        FactoryGirl.create(:aggregation, updated_at: Time.zone.now - 1.day, work: work)
+        FactoryGirl.create(:result, updated_at: Time.zone.now - 1.day, work: work)
       end
     end
 
     trait :with_events do
       after :create do |work|
-        FactoryGirl.create_list(:aggregation, 5, work: work)
+        FactoryGirl.create_list(:result, 5, work: work)
       end
     end
 
@@ -54,80 +54,80 @@ FactoryGirl.define do
 
     factory :work_with_events_and_alerts do
       after :create do |work|
-        FactoryGirl.create(:aggregation, work: work)
+        FactoryGirl.create(:result, work: work)
         FactoryGirl.create(:notification, work: work)
       end
     end
 
     factory :work_with_errors do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_errors, work: work)
+        FactoryGirl.create(:result, :with_errors, work: work)
       end
     end
 
     factory :work_with_private_citations do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_private, work: work)
+        FactoryGirl.create(:result, :with_private, work: work)
       end
     end
 
     factory :work_with_crossref do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_crossref, work: work)
+        FactoryGirl.create(:result, :with_crossref, work: work)
       end
     end
 
     factory :work_with_pubmed do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_pubmed, work: work)
+        FactoryGirl.create(:result, :with_pubmed, work: work)
       end
     end
 
     factory :work_with_mendeley do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_mendeley, work: work)
+        FactoryGirl.create(:result, :with_mendeley, work: work)
       end
     end
 
     factory :work_with_crossref_and_mendeley do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_crossref, work: work)
-        FactoryGirl.create(:aggregation, :with_mendeley, work: work)
+        FactoryGirl.create(:result, :with_crossref, work: work)
+        FactoryGirl.create(:result, :with_mendeley, work: work)
       end
     end
 
     factory :work_with_nature do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_nature, work: work)
+        FactoryGirl.create(:result, :with_nature, work: work)
       end
     end
 
     factory :work_with_researchblogging do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_researchblogging, work: work)
+        FactoryGirl.create(:result, :with_researchblogging, work: work)
       end
     end
 
     factory :work_with_wos do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_wos, work: work)
+        FactoryGirl.create(:result, :with_wos, work: work)
       end
     end
 
     factory :work_with_counter do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_counter, work: work)
+        FactoryGirl.create(:result, :with_counter, work: work)
       end
     end
 
     factory :work_with_twitter do
       after :create do |work|
-        FactoryGirl.create(:aggregation, :with_twitter, work: work)
+        FactoryGirl.create(:result, :with_twitter, work: work)
       end
     end
   end
 
-  factory :aggregation do
+  factory :result do
     total 25
 
     association :work
@@ -167,11 +167,11 @@ FactoryGirl.define do
 
     trait(:with_crossref_last_month) do
       association :source, :crossref
-      after :create do |aggregation|
+      after :create do |result|
         last_month = Time.zone.now.to_date - 1.month
-        FactoryGirl.create(:month, aggregation: aggregation,
-                                   work: aggregation.work,
-                                   source: aggregation.source,
+        FactoryGirl.create(:month, result: result,
+                                   work: result.work,
+                                   source: result.source,
                                    year: last_month.year,
                                    month: last_month.month,
                                    total: 20)
@@ -180,17 +180,17 @@ FactoryGirl.define do
 
     trait(:with_crossref_current_month) do
       association :source, :crossref
-      after :create do |aggregation|
-        FactoryGirl.create(:month, aggregation: aggregation,
-                                   work: aggregation.work,
-                                   source: aggregation.source,
+      after :create do |result|
+        FactoryGirl.create(:month, result: result,
+                                   work: result.work,
+                                   source: result.source,
                                    year: Time.zone.now.to_date.year,
                                    month: Time.zone.now.to_date.month,
-                                   total: aggregation.total)
+                                   total: result.total)
       end
     end
 
-    initialize_with { Aggregation.where(work_id: work.id, source_id: source.id).first_or_initialize }
+    initialize_with { Result.where(work_id: work.id, source_id: source.id).first_or_initialize }
   end
 
   factory :month do
@@ -198,21 +198,21 @@ FactoryGirl.define do
     month 4
 
     association :work
-    association :aggregation
+    association :result
     association :source
 
     trait(:with_work) do
       association :work, :published_today
       after :build do |month|
-        if month.work.aggregations.any?
-          month.aggregation_id = month.work.aggregations.first.id
+        if month.work.results.any?
+          month.result_id = month.work.results.first.id
         else
-          month.aggregation = FactoryGirl.create(:aggregation, work: month.work)
+          month.result = FactoryGirl.create(:result, work: month.work)
         end
       end
     end
 
-    initialize_with { Month.where(work_id: work.id, source_id: source.id, aggregation_id: aggregation.id).first_or_initialize }
+    initialize_with { Month.where(work_id: work.id, source_id: source.id, result_id: result.id).first_or_initialize }
   end
 
   factory :report do

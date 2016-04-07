@@ -29,8 +29,8 @@ class Work < ActiveRecord::Base
 
   belongs_to :publisher
   belongs_to :work_type
-  has_many :aggregations, inverse_of: :work
-  has_many :sources, :through => :aggregations
+  has_many :results, inverse_of: :work
+  has_many :sources, :through => :results
   has_many :notifications, :dependent => :destroy
   has_many :api_responses
   has_many :relations, dependent: :destroy
@@ -52,8 +52,8 @@ class Work < ActiveRecord::Base
 
   scope :query, ->(query) { where(doi: query) }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:aggregations).where("aggregations.total > ?", 0).references(:aggregations) }
-  scope :by_source, ->(source_id) { joins(:aggregations).where("aggregations.source_id = ?", source_id) }
+  scope :has_events, -> { includes(:results).where("results.total > ?", 0).references(:results) }
+  scope :by_source, ->(source_id) { joins(:results).where("results.source_id = ?", source_id) }
 
   scope :tracked, -> { where("works.tracked = ?", true) }
 
@@ -76,7 +76,7 @@ class Work < ActiveRecord::Base
   end
 
   def events_count
-    @events_count ||= aggregations.reduce(0) { |sum, r| sum + r.total }
+    @events_count ||= results.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -181,12 +181,12 @@ class Work < ActiveRecord::Base
     source = cached_source(name)
     return 0 unless source.present?
 
-    aggregations.where(source_id: source.id).pluck(:total).first
+    results.where(source_id: source.id).pluck(:total).first
   end
 
   # returns hash with source names as keys and aggregated total for each source as values
   def metrics
-    aggregations.group(:source_id).sum(:total).map { |r| [cached_source_names[r[0]], r[1]] }.to_h
+    results.group(:source_id).sum(:total).map { |r| [cached_source_names[r[0]], r[1]] }.to_h
   end
 
   def issued

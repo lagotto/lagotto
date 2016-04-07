@@ -1,11 +1,11 @@
 class Month < ActiveRecord::Base
   belongs_to :source
   belongs_to :work
-  belongs_to :aggregation, inverse_of: :months, touch: true
+  belongs_to :result, inverse_of: :months, touch: true
   has_many :relations, inverse_of: :month
 
-  validates :work_id, :source_id, :aggregation_id, :presence => true
-  validates_associated :work, :source, :aggregation
+  validates :work_id, :source_id, :result_id, :presence => true
+  validates_associated :work, :source, :result
 
   after_touch :set_total
 
@@ -13,7 +13,7 @@ class Month < ActiveRecord::Base
 
   def set_total
     update_columns(total: relations.sum(:total))
-    aggregation.touch
+    result.touch
   end
 
   def timestamp

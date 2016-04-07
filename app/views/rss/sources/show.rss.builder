@@ -8,7 +8,7 @@ xml.rss :version => "2.0" do
       xml.title "Lagotto: most-cited works in #{@source.title}"
       xml.link source_url(@source)
 
-      @aggregations.each do |relation|
+      @results.each do |relation|
         xml.item do
           xml.title relation.work.title
           xml.description pluralize(relation.total, "#{@source.title} event")
