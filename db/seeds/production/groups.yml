@@ -6,8 +6,8 @@ records:
     name: relations
     title: Relations
   - sprig_id: events
-    name: events
-    title: Events
+    name: results
+    title: Results
   - sprig_id: contributions
     name: contributions
     title: Contributions

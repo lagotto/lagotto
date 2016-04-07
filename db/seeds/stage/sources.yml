@@ -41,7 +41,7 @@ records:
     name: europe_pmc_data
     title: Europe PMC (Databases)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: europe_pmc_fulltext
     name: europe_pmc_fulltext
     title: Europe PMC (Fulltext)
@@ -111,17 +111,17 @@ records:
     name: scopus
     title: Scopus
     description: Scopus is an abstract and citation database of peer-reviewed literature.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: mendeley
     name: mendeley
     title: Mendeley
     description: Mendeley is a reference manager and social bookmarking tool.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: facebook
     name: facebook
     title: Facebook
     description: Facebook is the largest social network.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: researchblogging
     name: researchblogging
     title: Research Blogging
@@ -131,22 +131,22 @@ records:
     name: pmc_html
     title: PubMed Central (Views)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: pmc_pdf
     name: pmc_pdf
     title: PubMed Central (Downloads)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: counter_html
     name: counter_html
     title: Counter (Views)
     description: Publisher view stats following COUNTER standard.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: counter_pdf
     name: counter_pdf
     title: Counter (Downloads)
     description: Publisher download stats following COUNTER standard.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: twitter
     name: twitter
     title: Twitter
@@ -156,7 +156,7 @@ records:
     name: wos
     title: Web of Science
     description: Web of Science is an online academic citation index.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: f1000
     name: f1000
     title: F1000Prime
@@ -166,12 +166,12 @@ records:
     name: figshare
     title: Figshare
     description: Publisher figures, tables and supplementary files hosted by figshare.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: articlecoverage
     name: articlecoverage
     title: Article Coverage
     description: Article Coverage.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: articlecoveragecurated
     name: articlecoveragecurated
     title: Article Coverage (Curated)
@@ -186,12 +186,12 @@ records:
     name: github
     title: Github
     description: GitHub is a web-based Git repository hosting service.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: bitbucket
     name: bitbucket
     title: Bitbucket
     description: Bitbucket is a web-based repository hosting service using git and mercurial.
-    group_id: <%= sprig_record(Group, "events").id %>
+    group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: ads
     name: ads
     title: ADS
