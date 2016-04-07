@@ -359,13 +359,25 @@ describe Work, type: :model, vcr: true do
     context "missing metadata" do
 
       # Missing metadata should be added for any service, test via Crossref.
-      it "get_metadata" do
-        doi = "10.1023/a:1004636609126"
+      it "get_metadata with missing title" do
+        doi = "10.1023/MISSING_TITLE_AND_ISSUED"
         response = subject.get_metadata(doi, "crossref")
+        
+        expect(response["DOI"]).to eq(doi)
 
         # If the title is empty in the response use the "(:unas)" value, per http://doi.org/10.5438/0010
-        expect(response["DOI"]).to eq(doi)
         expect(response["title"]).to eq("(:unas)")
+        
+        # If the issued is empty, it has to be *something*. 1970-01-01 is obvious.
+        expect(response["issued"]).to eq("1970-01-01")
+      end
+
+      it "get_metadata but error in response should not add title" do
+        doi = "10.1023/XXXXXXXXX"
+        response = subject.get_metadata(doi, "crossref")
+
+        expect(response["DOI"]).to be_nil
+        expect(response["title"]).to be_nil
       end
     end
 
