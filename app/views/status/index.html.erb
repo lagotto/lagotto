@@ -21,12 +21,12 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="panel <%= @current_status.events_count > 0 ? 'panel-default' : 'panel-warning' %>">
-      <div class="panel-heading">Events</div>
+    <div class="panel <%= @current_status.results_count > 0 ? 'panel-default' : 'panel-warning' %>">
+      <div class="panel-heading">Results</div>
       <div class="panel-body panel-chart">
-        <h2 class="graphs"><%= link_to_if @current_status.events_count > 0, number_with_delimiter(@current_status.events_count), sources_path %></h2>
-        <div class="graphs" id="chart_events"></div>
-        <div class="text-muted" id="chart_events-loading">Loading … <%= image_tag "spinner.gif" %></div>
+        <h2 class="graphs"><%= link_to_if @current_status.results_count > 0, number_with_delimiter(@current_status.results_count), sources_path %></h2>
+        <div class="graphs" id="chart_results"></div>
+        <div class="text-muted" id="chart_results-loading">Loading … <%= image_tag "spinner.gif" %></div>
       </div>
     </div>
   </div>
@@ -53,7 +53,13 @@
     <div class="panel <%= @current_status.deposits_count.to_i > 0 ? 'panel-default' : 'panel-warning' %>">
       <div class="panel-heading">Processed deposits <small class="pull-right">last hour</small></div>
       <div class="panel-body panel-chart">
-        <h2 class="graphs"><%= number_with_delimiter(@current_status.deposits_count.to_i) %></h2>
+        <h2 class="graphs">
+          <% if can?(:read, Notification) %>
+             <%= link_to_if @current_status.deposits_count > 0, number_with_delimiter(@current_status.deposits_count), deposits_path %>
+          <% else %>
+            <%= number_with_delimiter(@current_status.deposits_count.to_i) %>
+          <% end %>
+        </h2>
         <div class="graphs" id="chart_deposits"></div>
         <div class="text-muted" id="chart_deposits-loading">Loading … <%= image_tag "spinner.gif" %></div>
       </div>

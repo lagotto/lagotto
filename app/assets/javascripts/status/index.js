@@ -32,7 +32,7 @@ if (query) {
           return { "works_count": d3.max(leaves, function(d) { return d.works_new_count;}),
                    "contributors_count": d3.max(leaves, function(d) { return d.contributors_count;}),
                    "publishers_count": d3.max(leaves, function(d) { return d.publishers_count;}),
-                   "events_count": d3.max(leaves, function(d) { return d.events_count;}),
+                   "results_count": d3.max(leaves, function(d) { return d.results_count;}),
                    "notifications_count": d3.max(leaves, function(d) { return d.notifications_count;}),
                    "db_size": d3.max(leaves, function(d) { return d.db_size;}),
                   };})
@@ -58,7 +58,7 @@ if (query) {
       barViz(by_day, "#chart_works", "works_count", "days");
       barViz(by_day, "#chart_contributors", "contributors_count", "days");
       barViz(by_day, "#chart_publishers", "publishers_count", "days");
-      barViz(by_day, "#chart_events", "events_count", "days");
+      barViz(by_day, "#chart_results", "results_count", "days");
       barViz(by_day, "#chart_notifications", "notifications_count", "days");
       barViz(by_day, "#chart_db_size", "db_size", "days");
 
