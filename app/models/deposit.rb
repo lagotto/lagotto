@@ -25,6 +25,7 @@ class Deposit < ActiveRecord::Base
   before_save :set_defaults
   after_commit :queue_deposit_job, :on => :create
 
+  # NB this is coupled to deposits_controller, deposit.rake
   state_machine :initial => :waiting do
     state :waiting, value: 0
     state :working, value: 1
@@ -33,6 +34,12 @@ class Deposit < ActiveRecord::Base
 
     after_transition :to => [:failed, :done] do |deposit|
       deposit.send_callback if deposit.callback.present?
+    end
+
+    # Reset after failure.
+    event :reset do
+      transition [:failed] => :waiting
+      transition any => same
     end
 
     event :start do
@@ -75,6 +82,12 @@ class Deposit < ActiveRecord::Base
 
   def queue_deposit_job
     DepositJob.set(wait: 3.minutes).perform_later(self)
+  end
+
+  # Reprocess this deposit after failure.
+  def reprocess
+    self.reset
+    self.queue_deposit_job
   end
 
   def to_param  # overridden, use uuid instead of id

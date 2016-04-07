@@ -52,6 +52,7 @@ class Api::V7::DepositsController < Api::BaseController
     collection = collection.query(params[:q]) if params[:q].present?
 
     if params[:state]
+      # NB this is coupled to deposit.rb's state machine.
       states = { "waiting" => 0, "working" => 1, "failed" => 2, "done" => 3 }
       state = states.fetch(params[:state], 0)
       collection = collection.where(state: state)
