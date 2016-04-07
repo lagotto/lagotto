@@ -93,7 +93,7 @@ function eventsViz(json, sources, relation_types) {
     }
 
     d3.select("#panel-body-" + i).append("div")
-      .text("Occurred at " + formattedDate(deposit.occurred_at));
+      .text("Updated at " + formattedDate(deposit.timestamp));
 
     if (typeof deposit.errors !== "undefined") {
       var error_key = Object.keys(deposit.errors);

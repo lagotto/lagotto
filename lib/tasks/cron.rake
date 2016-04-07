@@ -33,6 +33,9 @@ namespace :cron do
 
     Rake::Task["db:notifications:resolve"].invoke
     Rake::Task["db:notifications:resolve"].reenable
+
+    Rake::Task["deposit:reprocess_stuck"].invoke
+    Rake::Task["deposit:reprocess_stuck"].reenable
   end
 
   desc 'Weekly cron task'

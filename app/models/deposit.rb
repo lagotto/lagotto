@@ -36,6 +36,10 @@ class Deposit < ActiveRecord::Base
       deposit.send_callback if deposit.callback.present?
     end
 
+    after_transition :failed => :waiting do |deposit|
+      deposit.queue_deposit_job
+    end
+
     # Reset after failure.
     event :reset do
       transition [:failed] => :waiting
@@ -73,6 +77,7 @@ class Deposit < ActiveRecord::Base
   scope :waiting, -> { by_state(0).order_by_date }
   scope :working, -> { by_state(1).order_by_date }
   scope :failed, -> { by_state(2).order_by_date }
+  scope :stuck, -> { by_state(1).where("updated_at < ?", Time.zone.now - 24.hours).order_by_date }
   scope :done, -> { by_state(3).order_by_date }
   scope :total, ->(duration) { where(updated_at: (Time.zone.now.beginning_of_hour - duration.hours)..Time.zone.now.beginning_of_hour) }
 
@@ -82,12 +87,6 @@ class Deposit < ActiveRecord::Base
 
   def queue_deposit_job
     DepositJob.set(wait: 3.minutes).perform_later(self)
-  end
-
-  # Reprocess this deposit after failure.
-  def reprocess
-    self.reset
-    self.queue_deposit_job
   end
 
   def to_param  # overridden, use uuid instead of id
