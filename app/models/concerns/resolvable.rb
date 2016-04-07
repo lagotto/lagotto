@@ -127,14 +127,23 @@ module Resolvable
     end
 
     def get_metadata(id, service, options = {})
-      case service
-      when "crossref" then get_crossref_metadata(id, options = {})
-      when "datacite" then get_datacite_metadata(id, options = {})
-      when "pubmed" then get_pubmed_metadata(id, options = {})
-      when "orcid" then get_orcid_metadata(id, options = {})
-      when "github" then get_github_metadata(id, options = {})
-      when "github_owner" then get_github_owner_metadata(id, options = {})
-      when "github_release" then get_github_release_metadata(id, options = {})
+      metadata = case service
+        when "crossref" then get_crossref_metadata(id, options = {})
+        when "datacite" then get_datacite_metadata(id, options = {})
+        when "pubmed" then get_pubmed_metadata(id, options = {})
+        when "orcid" then get_orcid_metadata(id, options = {})
+        when "github" then get_github_metadata(id, options = {})
+        when "github_owner" then get_github_owner_metadata(id, options = {})
+        when "github_release" then get_github_release_metadata(id, options = {})
+      end
+
+      # Default values if it was recognised but items were missing.
+      if metadata
+        if metadata["title"].blank?
+          metadata["title"] = "(:unas)"
+        end
+
+        metadata
       else
         { error: 'Resource not found.', status: 404 }
       end

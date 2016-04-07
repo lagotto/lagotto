@@ -356,6 +356,19 @@ describe Work, type: :model, vcr: true do
       end
     end
 
+    context "missing metadata" do
+
+      # Missing metadata should be added for any service, test via Crossref.
+      it "get_metadata" do
+        doi = "10.1023/a:1004636609126"
+        response = subject.get_metadata(doi, "crossref")
+
+        # If the title is empty in the response use the "(:unas)" value, per http://doi.org/10.5438/0010
+        expect(response["DOI"]).to eq(doi)
+        expect(response["title"]).to eq("(:unas)")
+      end
+    end
+
     context "metadata" do
       before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 6, 25)) }
 
