@@ -73,6 +73,7 @@ function AlmViz(options) {
   // extract publication date
   // Construct date object from date parts, using "1" for missing day and month
   var timestamp = Date.parse(work_["issued"]);
+  if (work_["issued"] === "0000") { timestamp = Date.parse("2000"); }
   var pub_date = new Date(timestamp);
 
   var vizDiv;

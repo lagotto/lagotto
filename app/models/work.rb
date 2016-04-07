@@ -247,8 +247,8 @@ class Work < ActiveRecord::Base
     published_on = Date.new(*date_parts)
     if published_on > Time.zone.now.to_date
       errors.add :published_on, "is a date in the future"
-    elsif published_on < Date.new(1650)
-      errors.add :published_on, "is before 1650"
+    elsif published_on < Date.new(0000)
+      errors.add :published_on, "is before 0000"
     else
       write_attribute(:published_on, published_on)
     end

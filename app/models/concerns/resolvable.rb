@@ -141,13 +141,8 @@ module Resolvable
       if metadata
 
         if !metadata[:error]
-          if metadata["title"].blank?
-            metadata["title"] = "(:unas)"
-          end
-
-          if metadata["issued"].blank?
-             metadata["issued"] = get_date_from_parts(0000, 1, 1)
-          end
+          metadata["title"] = "(:unas)" if metadata["title"].blank?
+          metadata["issued"] = "0000" if metadata["issued"].blank?
         end
 
         metadata
@@ -169,7 +164,7 @@ module Resolvable
       metadata = metadata.except("URL")
 
       date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
-      
+
       # Don't set issued if date-parts are missing.
       if !date_parts.nil?
         year, month, day = date_parts[0], date_parts[1], date_parts[2]
@@ -181,7 +176,6 @@ module Resolvable
         end
         metadata["issued"] = get_date_from_parts(year, month, day)
       end
-      
 
       metadata["title"] = case metadata["title"].length
             when 0 then nil
@@ -190,7 +184,7 @@ module Resolvable
             end
 
       if metadata["title"].blank? && !TYPES_WITH_TITLE.include?(metadata["type"])
-        metadata["title"] = metadata["container-title"][0].presence || "No title"
+        metadata["title"] = metadata["container-title"][0].presence || "(:unas)"
       end
 
       metadata["publisher_id"] = metadata.fetch("member", "")[30..-1]
@@ -260,7 +254,7 @@ module Resolvable
       { "author" => [author],
         "title" => "ORCID record for #{author.fetch('given', '')} #{author.fetch('family', '')}",
         "container-title" => "ORCID Registry",
-        "issued" => Time.zone.now.utc.iso8601,
+        "issued" => Time.zone.now.year.to_s,
         "URL" => url,
         "type" => 'entry' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -281,7 +275,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => response.fetch('description', nil).presence || github_hash[:repo],
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
+        "issued" => response.fetch('created_at', nil),
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -303,7 +297,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => title,
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
+        "issued" => response.fetch('created_at', nil),
         "URL" => url,
         "type" => 'entry' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -322,9 +316,9 @@ module Resolvable
       author = get_github_owner(github_hash[:owner])
 
       { "author" => [get_one_author(author)],
-        "title" => response.fetch('name', nil).presence || '(:unas)',
+        "title" => response.fetch('name', nil),
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil).presence || Time.zone.now.year,
+        "issued" => response.fetch('created_at', nil),
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e

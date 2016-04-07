@@ -362,14 +362,14 @@ describe Work, type: :model, vcr: true do
       it "get_metadata with missing title" do
         doi = "10.1023/MISSING_TITLE_AND_ISSUED"
         response = subject.get_metadata(doi, "crossref")
-        
+
         expect(response["DOI"]).to eq(doi)
 
         # If the title is empty in the response use the "(:unas)" value, per http://doi.org/10.5438/0010
         expect(response["title"]).to eq("(:unas)")
-        
-        # If the issued is empty, it has to be *something*. 1970-01-01 is obvious.
-        expect(response["issued"]).to eq("0000-01-01")
+
+        # If the date issued is empty, it has to be *something*. 1970-01-01 is obvious.
+        expect(response["issued"]).to eq("0000")
       end
 
       it "get_metadata but error in response should not add title" do
@@ -425,7 +425,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_metadata(orcid, "orcid")
         expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("2015-06-25T00:00:00Z")
+        expect(response["issued"]).to eq("2015")
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
@@ -560,7 +560,7 @@ describe Work, type: :model, vcr: true do
         response = subject.get_orcid_metadata(orcid)
         expect(response["title"]).to eq("ORCID record for Jonathan A. Eisen")
         expect(response["container-title"]).to eq("ORCID Registry")
-        expect(response["issued"]).to eq("2015-06-25T00:00:00Z")
+        expect(response["issued"]).to eq("2015")
         expect(response["type"]).to eq("entry")
         expect(response["URL"]).to eq("http://orcid.org/0000-0002-0159-2197")
       end
