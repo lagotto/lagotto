@@ -34,11 +34,11 @@ queue()
   .defer(d3.json, encodeURI("/api/sources/" + source_id))
   .defer(d3.json, encodeURI("/api/groups"))
   .defer(d3.json, query)
-  .await(function(error, s, g, m) {
+  .await(function(error, s, g, r) {
     if (error) { return console.warn(error); }
     options.source = s.source;
     options.groups = g.groups;
-    options.almStatsJson = m.results;
+    options.almStatsJson = r.results;
     var almviz = new AlmViz(options);
     almviz.initViz();
 });

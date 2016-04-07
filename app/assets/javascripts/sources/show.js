@@ -17,10 +17,10 @@ if (query) {
       if (error) { return console.warn(error); }
       var data = json.source;
       var byDay = d3.entries(data.by_day);
-      var byDayTitle = formatPercent(data.by_day.with_events / d3.sum(byDay, function(g) { return g.value; }));
+      var byDayTitle = formatPercent(data.by_day.with_results / d3.sum(byDay, function(g) { return g.value; }));
 
       var byMonth = d3.entries(data.by_month);
-      var byMonthTitle = formatPercent(data.by_month.with_events / d3.sum(byMonth, function(g) { return g.value; }));
+      var byMonthTitle = formatPercent(data.by_month.with_results / d3.sum(byMonth, function(g) { return g.value; }));
 
       donutViz(byDay, "div#chart_day", byDayTitle, "with results", colors, "works");
       donutViz(byMonth, "div#chart_month", byMonthTitle, "with results", colors, "works");
