@@ -19,14 +19,14 @@ class SourceDecorator < Draper::Decorator
   end
 
   def by_day
-    { "with_events" => with_events_by_day_count,
-      "without_events" => without_events_by_day_count,
+    { "with_results" => with_results_by_day_count,
+      "without_results" => without_results_by_day_count,
       "not_updated" => not_updated_by_day_count }
   end
 
   def by_month
-    { "with_events" => with_events_by_month_count,
-      "without_events" => without_events_by_month_count,
+    { "with_results" => with_results_by_month_count,
+      "without_results" => without_results_by_month_count,
       "not_updated" => not_updated_by_month_count }
   end
 end

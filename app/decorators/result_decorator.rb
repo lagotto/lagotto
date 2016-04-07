@@ -1,4 +1,4 @@
-class ResultsDecorator < Draper::Decorator
+class ResultDecorator < Draper::Decorator
   delegate_all
 
   def self.collection_decorator_class

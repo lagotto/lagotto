@@ -9,7 +9,7 @@ class Api::V7::WorksController < Api::BaseController
 
   swagger_api :index do
     summary "Returns list of works either by ID, or all"
-    notes "If no ids are provided in the query, all works are returned, 1000 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
+    notes "If no ids are provided in the query, all works are returned, 1000 per page and sorted by publication date (default), or source result count. Search is not supported by the API."
     param :query, :ids, :string, :optional, "Work IDs"
     param :query, :q, :string, :optional, "Query for ids"
     param :query, :type, :string, :optional, "Work ID type (one of doi, pmid, pmcid, arxiv, wos, scp, ark, or url)"
@@ -18,7 +18,7 @@ class Api::V7::WorksController < Api::BaseController
     param :query, :contributor_id, :string, :optional, "Contributor ID"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
     param :query, :registration_agency, :string, :optional, "Registration agency"
-    param :query, :sort, :string, :optional, "Sort by source event count descending, or by publication date descending if left empty."
+    param :query, :sort, :string, :optional, "Sort by source result count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
     response :ok
@@ -29,7 +29,7 @@ class Api::V7::WorksController < Api::BaseController
 
   swagger_api :show do
     summary "Show a work"
-    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source event count. Search is not supported by the API."
+    notes "If no ids are provided in the query, all works are returned, 500 per page and sorted by publication date (default), or source result count. Search is not supported by the API."
     param :path, :id, :string, :required, "Work ID"
     response :ok
     response :unprocessable_entity

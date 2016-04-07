@@ -52,7 +52,7 @@ class Work < ActiveRecord::Base
 
   scope :query, ->(query) { where(doi: query) }
   scope :last_x_days, ->(duration) { where("created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
-  scope :has_events, -> { includes(:results).where("results.total > ?", 0).references(:results) }
+  scope :has_results, -> { includes(:results).where("results.total > ?", 0).references(:results) }
   scope :by_source, ->(source_id) { joins(:results).where("results.source_id = ?", source_id) }
 
   scope :tracked, -> { where("works.tracked = ?", true) }

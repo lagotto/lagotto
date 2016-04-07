@@ -30,8 +30,8 @@ class Result < ActiveRecord::Base
   scope :published_last_x_days, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date - duration.days) }
   scope :published_last_x_months, ->(duration) { joins(:work).where("works.published_on >= ?", Time.zone.now.to_date  - duration.months) }
 
-  scope :with_events, -> { where("total > ?", 0) }
-  scope :without_events, -> { where("total = ?", 0) }
+  scope :with_results, -> { where("total > ?", 0) }
+  scope :without_results, -> { where("total = ?", 0) }
   scope :most_cited, -> { with_events.order("total desc").limit(25) }
   scope :with_sources, -> { joins(:source).where("sources.active = ?", 1).order("group_id, title") }
 

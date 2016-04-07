@@ -16,11 +16,11 @@ module Countable
     end
 
     def work_count
-      cache_read("work_count", works.has_events.size)
+      cache_read("work_count", works.has_results.size)
     end
 
     def work_count=(time)
-      cache_write("work_count", works.has_events.size, time)
+      cache_write("work_count", works.has_results.size, time)
     end
 
     def relation_count
@@ -67,20 +67,20 @@ module Countable
       notifications.total_errors(1).size
     end
 
-    def with_events_by_day_count
-      cache_read("with_events_by_day_count", results.with_events.last_x_days(1).size)
+    def with_results_by_day_count
+      cache_read("with_results_by_day_count", results.with_results.last_x_days(1).size)
     end
 
-    def with_events_by_day_count=(time)
-      cache_write("with_events_by_day_count", results.with_events.last_x_days(1).size, time)
+    def with_results_by_day_count=(time)
+      cache_write("with_results_by_day_count", results.with_results.last_x_days(1).size, time)
     end
 
-    def without_events_by_day_count
-      cache_read("without_events_by_day_count", results.without_events.last_x_days(1).size)
+    def without_results_by_day_count
+      cache_read("without_results_by_day_count", results.without_results.last_x_days(1).size)
     end
 
-    def without_events_by_day_count=(time)
-      cache_write("without_events_by_day_count", results.without_events.last_x_days(1).size, time)
+    def without_results_by_day_count=(time)
+      cache_write("without_results_by_day_count", results.without_results.last_x_days(1).size, time)
     end
 
     def not_updated_by_day_count
@@ -91,20 +91,20 @@ module Countable
       cache_write("not_updated_by_day_count", results.not_updated(1).size, time)
     end
 
-    def with_events_by_month_count
-      cache_read("with_events_by_month_count", results.with_events.last_x_days(31).size)
+    def with_results_by_month_count
+      cache_read("with_results_by_month_count", results.with_results.last_x_days(31).size)
     end
 
-    def with_events_by_month_count=(time)
-      cache_write("with_events_by_month_count", results.with_events.last_x_days(31).size, time)
+    def with_results_by_month_count=(time)
+      cache_write("with_results_by_month_count", results.with_results.last_x_days(31).size, time)
     end
 
-    def without_events_by_month_count
-      cache_read("without_events_by_month_count", results.without_events.last_x_days(31).size)
+    def without_results_by_month_count
+      cache_read("without_results_by_month_count", results.without_results.last_x_days(31).size)
     end
 
-    def without_events_by_month_count=(time)
-      cache_write("without_events_by_month_count", results.without_events.last_x_days(31).size, time)
+    def without_results_by_month_count=(time)
+      cache_write("without_results_by_month_count", results.without_results.last_x_days(31).size, time)
     end
 
     def not_updated_by_month_count

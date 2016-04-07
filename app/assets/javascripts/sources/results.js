@@ -18,10 +18,10 @@ var options = {
     minMonthsForMonthly: 1,
     minDaysForDaily: 1
   },
-  vizDiv: "#panel-events",
+  vizDiv: "#panel-results",
   source: {},
   groups: [],
-  events: []
+  results: []
 };
 
 if (!params.empty()) {
@@ -97,7 +97,7 @@ function AlmViz(options) {
     if (!metricsFound_) {
       vizDiv.append("p")
         .attr("class", "text-muted")
-        .text("No events found.");
+        .text("No results found.");
     }
   };
 
@@ -206,7 +206,7 @@ function AlmViz(options) {
         var $chartDiv = $row.append("div")
           .attr("class", "alm-chart");
 
-        var viz = getViz_($chartDiv, source, group, subgroup, events);
+        var viz = getViz_($chartDiv, source, group, subgroup, results);
         loadData_(viz, level);
       }
     }
@@ -274,7 +274,7 @@ function AlmViz(options) {
    * @param {Array} group The group for 86 chart
    * @return {Object}
    */
-  var getViz_ = function(chartDiv, source, group, subgroup, events) {
+  var getViz_ = function(chartDiv, source, group, subgroup, results) {
     var viz = {};
 
     // size parameters
@@ -289,7 +289,7 @@ function AlmViz(options) {
     viz.group = group;
     viz.subgroup = subgroup;
     viz.source = source;
-    viz.events = events;
+    viz.results = results;
 
     // just for record keeping
     viz.name = source.id + '-' + group.id + '-' + viz.subgroup;

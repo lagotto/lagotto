@@ -25,9 +25,9 @@ class Source < ActiveRecord::Base
 
   scope :order_by_name, -> { order("group_id, sources.title") }
   scope :active, -> { where(active: true).order_by_name }
-  scope :for_events, -> { active.joins(:group).where("groups.name = ?", "results") }
+  scope :for_results, -> { active.joins(:group).where("groups.name = ?", "results") }
   scope :for_relations, -> { active.joins(:group).where("groups.name = ?", "relations") }
-  scope :for_results, -> { active.joins(:group).where("groups.name IN (?)", ["results", "relations"]) }
+  scope :for_results_or_relations, -> { active.joins(:group).where("groups.name IN (?)", ["results", "relations"]) }
   scope :for_contributions, -> { active.joins(:group).where("groups.name = ?", "contributions") }
   scope :for_publishers, -> { active.joins(:group).where("groups.name = ?", "publishers") }
 
@@ -60,7 +60,7 @@ class Source < ActiveRecord::Base
     end
   end
 
-  # Format events for all works as csv
+  # Format results for all works as csv
   # Show historical data if options[:format] is used
   # options[:format] can be "html", "pdf" or "combined"
   # options[:month] and options[:year] are the starting month and year, default to last month
@@ -132,14 +132,14 @@ class Source < ActiveRecord::Base
     now = Time.zone.now
 
     # loop through cached attributes we want to update
-    [:event_count,
+    [:result_count,
      :work_count,
      :relation_count,
-     :with_events_by_day_count,
-     :without_events_by_day_count,
+     :with_results_by_day_count,
+     :without_results_by_day_count,
      :not_updated_by_day_count,
-     :with_events_by_month_count,
-     :without_events_by_month_count,
+     :with_results_by_month_count,
+     :without_results_by_month_count,
      :not_updated_by_month_count].each { |cached_attr| send("#{cached_attr}=", now.utc.iso8601) }
 
     update_column(:cached_at, now)
