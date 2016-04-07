@@ -127,14 +127,30 @@ module Resolvable
     end
 
     def get_metadata(id, service, options = {})
-      case service
-      when "crossref" then get_crossref_metadata(id, options = {})
-      when "datacite" then get_datacite_metadata(id, options = {})
-      when "pubmed" then get_pubmed_metadata(id, options = {})
-      when "orcid" then get_orcid_metadata(id, options = {})
-      when "github" then get_github_metadata(id, options = {})
-      when "github_owner" then get_github_owner_metadata(id, options = {})
-      when "github_release" then get_github_release_metadata(id, options = {})
+      metadata = case service
+        when "crossref" then get_crossref_metadata(id, options = {})
+        when "datacite" then get_datacite_metadata(id, options = {})
+        when "pubmed" then get_pubmed_metadata(id, options = {})
+        when "orcid" then get_orcid_metadata(id, options = {})
+        when "github" then get_github_metadata(id, options = {})
+        when "github_owner" then get_github_owner_metadata(id, options = {})
+        when "github_release" then get_github_release_metadata(id, options = {})
+      end
+
+      # Default values if it was recognised but items were missing. This can happen with missing upstream metadata.
+      if metadata
+
+        if !metadata[:error]
+          if metadata["title"].blank?
+            metadata["title"] = "(:unas)"
+          end
+
+          if metadata["issued"].blank?
+             metadata["issued"] = get_date_from_parts(0000, 1, 1)
+          end
+        end
+
+        metadata
       else
         { error: 'Resource not found.', status: 404 }
       end
@@ -153,14 +169,19 @@ module Resolvable
       metadata = metadata.except("URL")
 
       date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
-      year, month, day = date_parts[0], date_parts[1], date_parts[2]
-
-      # use date indexed if date issued is in the future
-      if year.nil? || Date.new(*date_parts) > Time.zone.now.to_date
-        date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
+      
+      # Don't set issued if date-parts are missing.
+      if !date_parts.nil?
         year, month, day = date_parts[0], date_parts[1], date_parts[2]
+
+        # use date indexed if date issued is in the future
+        if year.nil? || Date.new(*date_parts) > Time.zone.now.to_date
+          date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
+          year, month, day = date_parts[0], date_parts[1], date_parts[2]
+        end
+        metadata["issued"] = get_date_from_parts(year, month, day)
       end
-      metadata["issued"] = get_date_from_parts(year, month, day)
+      
 
       metadata["title"] = case metadata["title"].length
             when 0 then nil
