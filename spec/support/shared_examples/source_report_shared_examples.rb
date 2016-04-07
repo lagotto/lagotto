@@ -5,24 +5,24 @@ shared_examples_for "SourceReport examples" do |options|
   subject(:report){ options[:report_class].new(source) }
   let(:source){ FactoryGirl.create(:source, options[:source_factory]) }
 
-  let!(:aggregations){ [
-    aggregation_with_few_readers,
-    aggregation_with_many_readers
+  let!(:results){ [
+    result_with_few_readers,
+    result_with_many_readers
   ] }
 
   let(:work_1){ FactoryGirl.create(:work)}
   let(:work_2){ FactoryGirl.create(:work)}
 
-  let(:aggregation_with_few_readers){
-    FactoryGirl.create(:aggregation,
+  let(:result_with_few_readers){
+    FactoryGirl.create(:result,
       work: work_1,
       source: source,
       total: 3
     )
   }
 
-  let(:aggregation_with_many_readers){
-    FactoryGirl.create(:aggregation,
+  let(:result_with_many_readers){
+    FactoryGirl.create(:result,
       work: work_2,
       source: source,
       total: 1420
@@ -39,7 +39,7 @@ shared_examples_for "SourceReport examples" do |options|
 
   describe "line items" do
     describe "when there are no events" do
-      let!(:aggregations){ [] }
+      let!(:results){ [] }
 
       it "has no line items" do
         expect(line_items).to eq([])
@@ -57,11 +57,11 @@ shared_examples_for "SourceReport examples" do |options|
       it "yields each line item, one for each retrieval status" do
         items = []
         report.each_line_item{ |item| items << item }
-        expect(items.length).to eq(aggregations.length)
+        expect(items.length).to eq(results.length)
       end
 
       it "has an array of line items for every retrieval status" do
-        expect(report.line_items.length).to eq(aggregations.length)
+        expect(report.line_items.length).to eq(results.length)
       end
 
       describe "each line item" do
@@ -69,41 +69,41 @@ shared_examples_for "SourceReport examples" do |options|
         let(:second_line_item){ line_items[1] }
 
         it "has the pid" do
-          expect(first_line_item.field("pid")).to eq(aggregation_with_few_readers.work.pid)
-          expect(second_line_item.field("pid")).to eq(aggregation_with_many_readers.work.pid)
+          expect(first_line_item.field("pid")).to eq(result_with_few_readers.work.pid)
+          expect(second_line_item.field("pid")).to eq(result_with_many_readers.work.pid)
         end
 
         it "has the html count" do
-          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(result_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(result_with_many_readers.total)
         end
 
         it "has the pdf count" do
-          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(result_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(result_with_many_readers.total)
         end
 
         it "has the total count" do
-          expect(first_line_item.field("total")).to eq(aggregation_with_few_readers.total)
-          expect(second_line_item.field("total")).to eq(aggregation_with_many_readers.total)
+          expect(first_line_item.field("total")).to eq(result_with_few_readers.total)
+          expect(second_line_item.field("total")).to eq(result_with_many_readers.total)
         end
       end
     end
 
-    describe "when there are aggregations for works for sources other sources" do
-      let!(:aggregations){ [
-        aggregation_for_another_source
+    describe "when there are results for works for sources other sources" do
+      let!(:results){ [
+        result_for_another_source
       ] }
 
-      let(:aggregation_for_another_source){
-        FactoryGirl.create(:aggregation, :with_work_published_today,
+      let(:result_for_another_source){
+        FactoryGirl.create(:result, :with_work_published_today,
           source: FactoryGirl.create(:source),
           total: 44
         )
       }
 
       it "does not include line item stats for other sources" do
-        line_item = line_items.detect{ |item| item.field("pid") == aggregation_for_another_source.work.pid }
+        line_item = line_items.detect{ |item| item.field("pid") == result_for_another_source.work.pid }
         expect(line_item).to be(nil)
       end
     end

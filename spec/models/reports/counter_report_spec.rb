@@ -15,12 +15,12 @@ describe "Running a SourceReport for Counter" do
 
   describe "#line_items" do
     describe "when there are events for works" do
-      let!(:aggregations){ [
-        aggregation_with_readers
+      let!(:results){ [
+        result_with_readers
       ] }
 
-      let(:aggregation_with_readers){
-        FactoryGirl.create(:aggregation, :with_work_published_today,
+      let(:result_with_readers){
+        FactoryGirl.create(:result, :with_work_published_today,
           source: source,
           total: 30
         )
