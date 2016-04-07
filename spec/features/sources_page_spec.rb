@@ -12,14 +12,14 @@ describe "sources", type: :feature, js: true do
 
   it "show works" do
     visit "/sources"
-    click_link "Events"
+    click_link "Results"
 
     expect(page).to have_css ".panel-heading", text: "Works with events"
   end
 
   it "show events" do
     visit "/sources"
-    click_link "Events"
+    click_link "Results"
 
     expect(page).to have_css ".panel-heading", text: "Total number of events"
   end

@@ -7,10 +7,10 @@ describe "status", type: :feature, js: true, vcr: true do
     expect(page).to have_css "#chart_works"
   end
 
-  it "show events status" do
+  it "show results status" do
     visit "/status"
 
-    expect(page).to have_css "#chart_events"
+    expect(page).to have_css "#chart_results"
   end
 
   it "show agents status" do

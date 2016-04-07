@@ -218,8 +218,8 @@ describe Work, type: :model, vcr: true do
     end
   end
 
-  it "has events" do
-    expect(Work.has_events.all? { |work| work.events_count > 0 }).to be true
+  it "has results" do
+    expect(Work.has_results.all? { |work| work.events_count > 0 }).to be true
   end
 
   context "get_url" do

@@ -7,6 +7,6 @@ describe Month, :type => :model do
 
   it { is_expected.to belong_to(:work) }
   it { is_expected.to belong_to(:source) }
-  it { is_expected.to belong_to(:relation) }
+  it { is_expected.to belong_to(:result) }
 
 end
