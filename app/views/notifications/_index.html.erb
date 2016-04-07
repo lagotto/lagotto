@@ -138,7 +138,7 @@
           for <%= @source.title %>
         <% end %>
         <% unless @level.nil? %>
-          with at least level <em><%= Notification::LEVELS[@level.first].humanize %></em>
+          with level <em><%= Notification::LEVELS[@level.first].humanize %></em>
         <% end %>
         <% unless params[:q].blank? %>
           with <em><%= params[:q] %></em> in the class name, message or PID
