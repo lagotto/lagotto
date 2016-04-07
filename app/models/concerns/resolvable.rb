@@ -146,7 +146,7 @@ module Resolvable
           end
 
           if metadata["issued"].blank?
-             metadata["issued"] = get_date_from_parts(1970, 1, 1)
+             metadata["issued"] = get_date_from_parts(0000, 1, 1)
           end
         end
 

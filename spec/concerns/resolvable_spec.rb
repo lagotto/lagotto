@@ -369,7 +369,7 @@ describe Work, type: :model, vcr: true do
         expect(response["title"]).to eq("(:unas)")
         
         # If the issued is empty, it has to be *something*. 1970-01-01 is obvious.
-        expect(response["issued"]).to eq("1970-01-01")
+        expect(response["issued"]).to eq("0000-01-01")
       end
 
       it "get_metadata but error in response should not add title" do
