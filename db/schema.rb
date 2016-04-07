@@ -361,7 +361,7 @@ ActiveRecord::Schema.define(version: 20160407141225) do
   create_table "status", force: :cascade do |t|
     t.integer  "works_count",           limit: 4,   default: 0
     t.integer  "works_new_count",       limit: 4,   default: 0
-    t.integer  "events_count",          limit: 4,   default: 0
+    t.integer  "results_count",         limit: 4,   default: 0
     t.integer  "responses_count",       limit: 4,   default: 0
     t.integer  "requests_count",        limit: 4,   default: 0
     t.integer  "requests_average",      limit: 4,   default: 0

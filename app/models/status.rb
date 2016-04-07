@@ -22,7 +22,7 @@ class Status < ActiveRecord::Base
     self.contributors_count = Contributor.count
     self.publishers_count = Publisher.active.count
     self.relations_count = Relation.count
-    self.events_count = Result.joins(:source).where("sources.active = ?", true)
+    self.results_count = Result.joins(:source).where("sources.active = ?", true)
       .where("name != ?", "relativemetric").sum(:total)
     self.responses_count = ApiResponse.total(1).count
     self.requests_count = ApiRequest.total(1).count
