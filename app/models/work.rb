@@ -173,11 +173,11 @@ class Work < ActiveRecord::Base
     @mendeley_url ||= provenance_url("mendeley")
   end
 
-  def event_counts(names)
-    names.reduce(0) { |sum, source| sum + event_count(source) }
+  def result_counts(names)
+    names.reduce(0) { |sum, source| sum + result_count(source) }
   end
 
-  def event_count(name)
+  def result_count(name)
     source = cached_source(name)
     return 0 unless source.present?
 

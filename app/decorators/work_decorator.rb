@@ -133,32 +133,32 @@ class WorkDecorator < Draper::Decorator
   end
 
   def viewed_span
-    if event_count('counter_html') > 0
-      "<span class=\"alm signpost viewed\" data-viewed=\"#{event_count('counter_html')}\">Viewed: #{event_count('counter_html')}</span>"
+    if result_count('counter_html') > 0
+      "<span class=\"alm signpost viewed\" data-viewed=\"#{result_count('counter_html')}\">Viewed: #{result_count('counter_html')}</span>"
     else
       ""
     end
   end
 
   def discussed_span
-    if event_count('twitter') > 0
-      "<span class=\"alm signpost discussed\" data-discussed=\"#{event_count('twitter')}\">Discussed: #{event_count('twitter')}</span>"
+    if result_count('twitter') > 0
+      "<span class=\"alm signpost discussed\" data-discussed=\"#{result_count('twitter')}\">Discussed: #{result_count('twitter')}</span>"
     else
       ""
     end
   end
 
   def saved_span
-    if event_count('mendeley') > 0
-      "<span class=\"alm signpost saved\" data-saved=\"#{event_count('mendeley')}\">Saved: #{event_count('mendeley')}</span>"
+    if result_count('mendeley') > 0
+      "<span class=\"alm signpost saved\" data-saved=\"#{result_count('mendeley')}\">Saved: #{result_count('mendeley')}</span>"
     else
       ""
     end
   end
 
   def cited_span
-    if event_count('crossref') > 0
-      "<span class=\"alm signpost cited\" data-cited=\"#{event_count('crossref')}\">Cited: #{event_count('crossref')}</span>"
+    if result_count('crossref') > 0
+      "<span class=\"alm signpost cited\" data-cited=\"#{result_count('crossref')}\">Cited: #{result_count('crossref')}</span>"
     else
       ""
     end

@@ -196,14 +196,14 @@ describe Work, type: :model, vcr: true do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
 
-  it 'event_count twitter' do
+  it 'result_count twitter' do
     work = FactoryGirl.create(:work_with_twitter)
-    expect(work.event_count('twitter')).to eq(25)
+    expect(work.result_count('twitter')).to eq(25)
   end
 
-  it 'event_count mendeley' do
+  it 'result_count mendeley' do
     work = FactoryGirl.create(:work_with_mendeley)
-    expect(work.event_count('mendeley')).to eq(10)
+    expect(work.result_count('mendeley')).to eq(10)
   end
 
   it 'metrics' do
@@ -213,7 +213,7 @@ describe Work, type: :model, vcr: true do
 
   it "events count" do
     Work.all.each do |work|
-      total = work.events.reduce(0) { |sum, rs| sum + rs.event_count }
+      total = work.events.reduce(0) { |sum, rs| sum + rs.result_count }
       expect(total).to eq(work.events_count)
     end
   end

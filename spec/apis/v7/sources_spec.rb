@@ -28,7 +28,7 @@ describe "/api/v7/sources", :type => :api do
         expect(item["id"]).to eq(source.name)
         expect(item["state"]).to eq("active")
         expect(item["work_count"]).to eq(10)
-        expect(item["event_count"]).to eq(250)
+        expect(item["result_count"]).to eq(250)
       end
 
       it "JSONP" do
@@ -42,7 +42,7 @@ describe "/api/v7/sources", :type => :api do
         expect(item["id"]).to eq(source.name)
         expect(item["state"]).to eq("active")
         expect(item["work_count"]).to eq(10)
-        expect(item["event_count"]).to eq(250)
+        expect(item["result_count"]).to eq(250)
       end
     end
   end
@@ -63,7 +63,7 @@ describe "/api/v7/sources", :type => :api do
         expect(data["id"]).to eq(source.name)
         expect(data["state"]).to eq("active")
         expect(data["work_count"]).to eq(5)
-        expect(data["event_count"]).to eq(125)
+        expect(data["result_count"]).to eq(125)
       end
 
       it "JSONP" do
@@ -76,7 +76,7 @@ describe "/api/v7/sources", :type => :api do
         expect(data["id"]).to eq(source.name)
         expect(data["state"]).to eq("active")
         expect(data["work_count"]).to eq(5)
-        expect(data["event_count"]).to eq(125)
+        expect(data["result_count"]).to eq(125)
       end
     end
   end

@@ -9,7 +9,7 @@ json.sources @sources do |source|
   json.cache! ['v7', source], skip_digest: true do
     json.(source, :id, :title, :group_id, :description, :state, :timestamp)
     if source.group.name != "other"
-      json.(source, :work_count, :relation_count, :event_count, :by_day, :by_month)
+      json.(source, :work_count, :relation_count, :result_count, :by_day, :by_month)
     end
   end
 end

@@ -5,7 +5,7 @@
         <div class="panel-heading">Results</div>
         <div class="panel-body panel-chart">
           <p><%= pluralize(number_with_delimiter(@source.work_count), "work") %> with results</p>
-          <p><%= pluralize(number_with_delimiter(@source.event_count), "results") %> for these works</p>
+          <p><%= pluralize(number_with_delimiter(@source.result_count), "results") %> for these works</p>
           <p><%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), notifications_path(:source_id => @source.name)) %></p>
         </div>
       </div>

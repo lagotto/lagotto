@@ -7,12 +7,12 @@ module Countable
       Status.first.works_count
     end
 
-    def event_count
-      cache_read("event_count", results.sum(:total))
+    def result_count
+      cache_read("result_count", results.sum(:total))
     end
 
-    def event_count=(time)
-      cache_write("event_count", results.sum(:total), time)
+    def result_count=(time)
+      cache_write("result_count", results.sum(:total), time)
     end
 
     def work_count
