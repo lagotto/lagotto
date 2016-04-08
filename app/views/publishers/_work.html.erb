@@ -8,9 +8,7 @@
           <li><%= link_to "Sort by Date", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: params[:source_id]) %></li>
           <% if @source.nil? %>
             <% Source.for_results_and_relations.each do |source| %>
-                <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>
-              <% end %>
-            <% end %>
+              <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>            <% end %>
           <% else %>
             <li class="divider"></li>
             <li><%= link_to "Sort by #{@source.title}", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: @source.name, sort: @source.name) %></li>
