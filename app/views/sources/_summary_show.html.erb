@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-md-4">
       <div class="panel panel-source <%= @source.works_count > 0 ? 'panel-default' : 'panel-warning' %>">
-        <div class="panel-heading">Events</div>
+        <div class="panel-heading">Results</div>
         <div class="panel-body panel-chart">
-          <p><%= pluralize(number_with_delimiter(@source.work_count), "work") %> with events</p>
-          <p><%= pluralize(number_with_delimiter(@source.event_count), "events") %> for these works</p>
+          <p><%= pluralize(number_with_delimiter(@source.work_count), "work") %> with results</p>
+          <p><%= pluralize(number_with_delimiter(@source.event_count), "results") %> for these works</p>
           <p><%= link_to_if(@source.error_count > 0 && can?(:manage, @source), pluralize(number_with_delimiter(@source.error_count), "error"), notifications_path(:source_id => @source.name)) %></p>
         </div>
       </div>
@@ -13,7 +13,7 @@
     <% if Work.first %>
       <div class="col-md-4">
         <div class="panel panel-source panel-default">
-          <div class="panel-heading">Events <small class="pull-right">last 24 hours</small></div>
+          <div class="panel-heading">Results <small class="pull-right">last 24 hours</small></div>
           <div class="panel-body panel-chart" id="chart_day">
             <div class="text-muted" id="chart_day-loading">Loading … <%= image_tag "spinner.gif" %></div>
           </div>
@@ -21,7 +21,7 @@
       </div>
       <div class="col-md-4">
         <div class="panel panel-source panel-default">
-          <div class="panel-heading">Events <small class="pull-right">last 31 days</small></div>
+          <div class="panel-heading">Results <small class="pull-right">last 31 days</small></div>
           <div class="panel-body panel-chart" id="chart_month">
             <div class="text-muted" id="chart_month-loading">Loading … <%= image_tag "spinner.gif" %></div>
           </div>

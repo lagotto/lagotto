@@ -105,7 +105,7 @@ function AlmViz(options) {
     if (!metricsFound_) {
       vizDiv.append("p")
         .attr("class", "text-muted")
-        .text("No events found.");
+        .text("No results found.");
     }
   };
 
@@ -123,8 +123,8 @@ function AlmViz(options) {
     sources_.forEach(function(source) {
       if (source.group_id !== group.id) { return; }
 
-      events = data.filter(function(d) { return d.source_id === source.id; })[0];
-      if (typeof events === "undefined" || events.total === 0) { return; }
+      results = data.filter(function(d) { return d.source_id === source.id; })[0];
+      if (typeof results === "undefined" || results.total === 0) { return; }
 
       // Only add the group row the first time
       if (!$groupRow) {
@@ -135,7 +135,7 @@ function AlmViz(options) {
       metricsFound_ = true;
 
       var label = source.title;
-      addSource_(source, label, events, events.total, group, "total", $groupRow);
+      addSource_(source, label, results, results.total, group, "total", $groupRow);
     });
   };
 
@@ -167,7 +167,7 @@ function AlmViz(options) {
    * @param {JQueryObject} $groupRow
    * @return {JQueryObject}
    */
-  var addSource_ = function(source, label, events, sourceTotalValue, group, subgroup, $groupRow) {
+  var addSource_ = function(source, label, results, sourceTotalValue, group, subgroup, $groupRow) {
     var $row, $countLabel, $count,
         total = sourceTotalValue;
 
@@ -178,13 +178,13 @@ function AlmViz(options) {
     $countLabel = $row.append("div")
       .attr("class", "alm-label " + group.id);
 
-    if (events.events_url) {
+    if (results.events_url) {
       // if there is an eventsUrl, we can link to it from the count
       $count = $countLabel.append("p")
         .attr("class", "alm-count")
         .attr("id", "alm-count-" + source.id + "-" + group.id)
         .append("a")
-        .attr("href", function() { return events.events_url; });
+        .attr("href", function() { return results.events_url; });
     } else {
       // if no eventsUrl, we just put in the count
       $count = $countLabel.append("p")
@@ -214,8 +214,8 @@ function AlmViz(options) {
       var showMonthly = false;
       var showYearly = false;
 
-      if (events.by_year) {
-        var level_data = getData_('year', events);
+      if (results.by_year) {
+        var level_data = getData_('year', results);
         var yearTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numYears = d3.time.year.utc.range(pub_date, new Date()).length;
 
@@ -226,8 +226,8 @@ function AlmViz(options) {
         }
       }
 
-      if (events.by_month) {
-        var level_data = getData_('month', events);
+      if (results.by_month) {
+        var level_data = getData_('month', results);
         var monthTotal = level_data.reduce(function(i, d) { return i + d[subgroup]; }, 0);
         var numMonths = d3.time.month.utc.range(pub_date, new Date()).length;
 
@@ -250,7 +250,7 @@ function AlmViz(options) {
         var $chartDiv = $row.append("div")
           .attr("class", "alm-chart");
 
-        var viz = getViz_($chartDiv, source, group, subgroup, events);
+        var viz = getViz_($chartDiv, source, group, subgroup, results);
         loadData_(viz, level);
 
         var update_controls = function(control) {
@@ -365,12 +365,12 @@ function AlmViz(options) {
    * @param {Object} source
    * @return {Array} Metrics
    */
-  var getData_ = function(level, events) {
+  var getData_ = function(level, results) {
     switch (level) {
       case 'year':
-        return events.by_year;
+        return results.by_year;
       case 'month':
-        return events.by_month;
+        return results.by_month;
     }
   };
 
@@ -397,7 +397,7 @@ function AlmViz(options) {
    * @param {Array} group The group for 86 chart
    * @return {Object}
    */
-  var getViz_ = function(chartDiv, source, group, subgroup, events) {
+  var getViz_ = function(chartDiv, source, group, subgroup, results) {
     var viz = {};
 
     // size parameters
@@ -412,7 +412,7 @@ function AlmViz(options) {
     viz.group = group;
     viz.subgroup = subgroup;
     viz.source = source;
-    viz.events = events;
+    viz.results = results;
 
     // just for record keeping
     viz.name = source.id + '-' + group.id + '-' + viz.subgroup;
@@ -458,7 +458,7 @@ function AlmViz(options) {
   var loadData_ = function(viz, level) {
     var group = viz.group;
     var subgroup = viz.subgroup;
-    var level_data = getData_(level, viz.events);
+    var level_data = getData_(level, viz.results);
     var timeInterval = getTimeInterval_(level);
 
     var end_date = new Date();
