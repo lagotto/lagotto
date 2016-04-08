@@ -12,7 +12,7 @@ json.recommendations @recommendations do |recommendation|
     json.(recommendation, :subj_id, :obj_id, :source_id, :publisher_id, :relation_type_id)
     json.(recommendation.work, :author, :title, :issued)
     json.set! :"container-title", recommendation.work.container_title
-    json.(recommendation.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :events)
+    json.(recommendation.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :results)
     json.(recommendation, :timestamp)
   end
 end
