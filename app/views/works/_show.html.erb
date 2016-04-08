@@ -79,7 +79,7 @@
           <dd class="doi" %><%= link_to h(@work.pid), @work.pid %></dd>
         <% end %>
         <% if @work.canonical_url.present? %>
-          <dt>Publisher URL</dt>
+          <dt>Canonical URL</dt>
           <dd><%= link_to h(@work.canonical_url), @work.canonical_url %></dd>
         <% end %>
         <% if @work.pmid.present? %>
