@@ -125,32 +125,44 @@
   </div>
 <% end %>
 
-<ul class="nav nav-pills">
-  <li class="active"><a href="#relations" data-toggle="tab" title="Relations">Relations</a></li>
-  <li><a href="#results" data-toggle="tab" title="Results">Results</a></li>
-  <li><a href="#contributions" data-toggle="tab" title="Contributions">Contributions</a></li>
-  <li><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
-  <% if can?(:read, Notification) %>
-    <li><a href="#notification" data-toggle="tab" title="Notifications">Notifications</a></li>
-  <% end %>
-</ul>
+<% if can?(:read, Notification) || @active.present? %>
+  <ul class="nav nav-pills">
+    <% @active.each_with_index do |tab, i| %>
+      <% if i > 0 %>
+        <li><a href="#<%= tab %>" data-toggle="tab" title="<%= tab.humanize %>"><%= tab.humanize %></a></li>
+      <% else %>
+        <li class="active"><a href="#<%= tab %>" data-toggle="tab" title="<%= tab.humanize %>"><%= tab.humanize %></a></li>
+      <% end %>
+    <% end %>
 
-<div class="tab-content">
-  <div class="tab-pane active" id="relations">
-    <%= render :partial => 'relations' %>
+    <% if can?(:read, Notification) %>
+      <% if @active.size > 0 %>
+        <li><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
+      <% else %>
+        <li class="active"><a href="#recommendations" data-toggle="tab" title="Recommendations">Recommendations</a></li>
+      <% end %>
+      <li><a href="#notification" data-toggle="tab" title="Notifications">Notifications</a></li>
+    <% end %>
+  </ul>
+
+  <div class="tab-content">
+    <% @active.each_with_index do |tab, i| %>
+      <div class="tab-pane <%= i > 0 ? '' : ' active' %>" id="<%= tab %>">
+        <%= render :partial => tab %>
+      </div>
+    <% end %>
+
+    <% if can?(:read, Notification) %>
+      <% if @active.size > 0 %>
+        <div class="tab-pane" id="recommendations">
+      <% else %>
+        <div class="tab-pane active" id="recommendations">
+      <% end %>
+        <%= render :partial => 'recommendations' %>
+      </div>
+      <div class="tab-pane" id="notification">
+        <%= render :partial => 'notification' %>
+      </div>
+    <% end %>
   </div>
-  <div class="tab-pane" id="results">
-    <%= render :partial => 'results' %>
-  </div>
-  <div class="tab-pane" id="contributions">
-    <%= render :partial => 'contributions' %>
-  </div>
-  <div class="tab-pane" id="recommendations">
-    <%= render :partial => 'recommendations' %>
-  </div>
-  <% if can?(:read, Notification) %>
-    <div class="tab-pane" id="notification">
-      <%= render :partial => 'notification' %>
-    </div>
-  <% end %>
-</div>
+<% end %>

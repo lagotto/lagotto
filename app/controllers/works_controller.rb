@@ -32,6 +32,10 @@ class WorksController < ApplicationController
       @contributor_role = @work.contributions.where(contributor_role_id: params[:contributor_role_id]).group(:contributor_role_id).count.map { |s| [cached_contributor_role_names[s[0]], s[1]] }.first
     end
 
+    @active = []
+    @active += ["relations", "results"] if @work.relations.size > 0
+    @active += ["contributions"] if @work.contributions.size > 0
+
     @sources = @work.results.where.not(source_id: nil).group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }
     @relation_types = @work.inverse_relations.where.not(relation_type_id: nil).group(:relation_type_id).count.map { |s| [cached_relation_type_names[s[0]], s[1]] }
     @contributor_roles = @work.contributions.where.not(contributor_role_id: nil).group(:contributor_role_id).count.map { |s| [cached_contributor_role_names[s[0]], s[1]] }
