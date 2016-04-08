@@ -550,6 +550,16 @@ dt, dd { line-height: 1.5; }
 .swagger-ui-wrap, .swagger-ui-wrap p, form.sandbox table, form.sandbox table .model-signature, .swagger-ui-wrap .container #resources .resource .heading h2, .swagger-ui-wrap .container #resources .resource .heading .options { font-family: $font-family-base; }
 .container .container { padding: 0; }
 .container #swagger-ui-container { margin: 0; }
+#swagger-ui-container .info_title {
+  display: none !important;
+  visibility: hidden !important;
+}
+#swagger-ui-container .container {
+  width: 960px;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0
+}
 #api_info .info_title { font-size: $font-size-h1; }
 #api_info .info_description { font-size: $font-size-base; line-height: $line-height-base; }
 #api_info .info_description a { color: $link-color; }
