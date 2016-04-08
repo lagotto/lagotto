@@ -71,20 +71,6 @@ function eventsViz(json, sources, relation_types) {
         .attr("class", "panel-body deposit")
         .attr("id", "panel-body-" + i);
 
-    if (typeof Object.keys(deposit.subj).length > 0) {
-      d3.select("#panel-body-" + i).append("h5")
-        .text("Subj");
-      d3.select("#panel-body-" + i).append("div")
-        .html(function() { return deposit.subj; });
-    }
-
-    if (typeof Object.keys(deposit.obj).length > 0) {
-      d3.select("#panel-body-" + i).append("h5")
-        .text("Obj");
-      d3.select("#panel-body-" + i).append("div")
-        .html(function() { return deposit.obj; });
-    }
-
     if (typeof deposit.obj_id !== "undefined") {
       d3.select("#panel-body-" + i).append("div")
         .text(relation_type.title + " ").append("a")
@@ -94,6 +80,13 @@ function eventsViz(json, sources, relation_types) {
 
     d3.select("#panel-body-" + i).append("div")
       .text("Updated at " + formattedDate(deposit.timestamp));
+
+    // for (var key in deposit.subj) {
+    //   d3.select("#panel-body-" + i).append("h5")
+    //     .text(key);
+    //   d3.select("#panel-body-" + i).append("div")
+    //     .html(function() { return deposit.subj[key]; });
+    // }
 
     if (typeof deposit.errors !== "undefined") {
       var error_key = Object.keys(deposit.errors);
