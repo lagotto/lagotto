@@ -19,7 +19,7 @@
           <li><%= link_to "Sort by Date", works_path(q: params[:q], source_id: params[:source_id]) %></li>
           <% if @source.nil? %>
             <li class="divider"></li>
-            <% Source.for_results.each do |source| %>
+            <% Source.for_results_or_relations.each do |source| %>
               <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], source_id: params[:source_id], sort: source.name) %></li>
             <% end %>
           <% else %>
