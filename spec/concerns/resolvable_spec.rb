@@ -459,6 +459,16 @@ describe Work, type: :model, vcr: true do
         expect(response["type"]).to eq("computer_program")
         expect(response["URL"]).to eq("https://github.com/lagotto/lagotto/tree/v.4.3")
       end
+
+      it "get_metadata github_release missing title and date" do
+        url = "https://github.com/brian-j-smith/Mamba.jl/tree/v0.4.8"
+        response = subject.get_metadata(url, "github_release")
+        expect(response).to eq("Lagotto 4.3")
+        expect(response["container-title"]).to eq("Github")
+        expect(response["issued"]).to eq("2015-07-19T22:43:10Z")
+        expect(response["type"]).to eq("computer_program")
+        expect(response["URL"]).to eq("https://github.com/lagotto/lagotto/tree/v.4.3")
+      end
     end
 
     context "crossref metadata" do
