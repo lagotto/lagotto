@@ -10,3 +10,5 @@ Sidekiq.configure_server do |config|
   end
   config.options[:concurrency] = ENV["CONCURRENCY"].to_i
 end
+
+Sidekiq::Logging.logger.level = Logger.const_get(ENV["LOG_LEVEL"].upcase)
