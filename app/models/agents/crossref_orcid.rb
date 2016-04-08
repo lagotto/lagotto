@@ -108,14 +108,19 @@ class CrossrefOrcid < Agent
   def get_relations(obj, items)
     prefix = obj["DOI"][/^10\.\d{4,5}/]
 
-    Array(items).map do |item|
-      { prefix: prefix,
-        message_type: "contribution",
-        relation: { "subj_id" => item.fetch('ORCID', nil),
-                    "obj_id" => obj["pid"],
-                    "source_id" => source_id,
-                    "publisher_id" => obj["publisher_id"] },
-        obj: obj }
+    Array(items).reduce([]) do |sum, item|
+      orcid = item.fetch('ORCID', nil)
+      orcid = validate_orcid(orcid)
+
+      return sum if orcid.nil?
+
+      sum << { prefix: prefix,
+               message_type: "contribution",
+               relation: { "subj_id" => orcid_as_url(orcid),
+                           "obj_id" => obj["pid"],
+                           "source_id" => source_id,
+                           "publisher_id" => obj["publisher_id"] },
+               obj: obj }
     end
   end
 

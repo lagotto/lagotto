@@ -12,7 +12,11 @@ module Identifiable
     end
 
     def orcid_from_url(url)
-      Array(/^http:\/\/orcid\.org\/(.+)/.match(url)).last
+      Array(/\Ahttp:\/\/orcid\.org\/(.+)/.match(url)).last
+    end
+
+    def validate_orcid(orcid)
+      Array(/\A(?:http:\/\/orcid\.org\/)?(\d{4}-\d{4}-\d{4}-\d{3}[0-9X]+)\z/.match(orcid)).last
     end
 
     def github_from_url(url)
@@ -58,6 +62,10 @@ module Identifiable
 
     def dataone_as_url(dataone)
       "https://cn.dataone.org/cn/v1/resolve/#{dataone}" if dataone.present?
+    end
+
+    def orcid_as_url(orcid)
+      "http://orcid.org/#{orcid}" if orcid.present?
     end
 
     def github_as_owner_url(github_hash)

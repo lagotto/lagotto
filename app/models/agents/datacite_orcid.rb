@@ -50,16 +50,19 @@ class DataciteOrcid < Agent
   def get_relations(obj, items)
     prefix = obj["DOI"][/^10\.\d{4,5}/]
 
-    Array(items).map do |item|
+    Array(items).reduce([]) do |sum, item|
       orcid = item.split(':', 2).last
+      orcid = validate_orcid(orcid)
 
-      { prefix: prefix,
-        message_type: "contribution",
-        relation: { "subj_id" => "http://orcid.org/#{orcid}",
-                    "obj_id" => obj["pid"],
-                    "source_id" => source_id,
-                    "publisher_id" => obj["publisher_id"] },
-        obj: obj }
+      return sum if orcid.nil?
+
+      sum << { prefix: prefix,
+               message_type: "contribution",
+               relation: { "subj_id" => orcid_as_url(orcid),
+                           "obj_id" => obj["pid"],
+                           "source_id" => source_id,
+                           "publisher_id" => obj["publisher_id"] },
+               obj: obj }
     end
   end
 
