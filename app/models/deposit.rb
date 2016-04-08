@@ -194,7 +194,7 @@ class Deposit < ActiveRecord::Base
 
   def update_relation
     result = Result.where(work_id: related_work_id,
-                                    source_id: source.id).first_or_create
+                          source_id: source.id).first_or_create
 
     m = Month.where(work_id: related_work_id,
                     source_id: source.id,
@@ -205,8 +205,7 @@ class Deposit < ActiveRecord::Base
     r = Relation.where(work_id: work_id,
                        related_work_id: related_work_id,
                        source_id: source.id,
-                       month_id: m.id)
-                .first_or_initialize
+                       month_id: m.id).first_or_initialize
 
     # update all attributes
     r.assign_attributes(relation_type_id: relation_type.present? ? relation_type.id : nil,
@@ -227,8 +226,7 @@ class Deposit < ActiveRecord::Base
   def update_inv_relation
     r = Relation.where(work_id: related_work_id,
                        related_work_id: work_id,
-                       source_id: source.id)
-                .first_or_initialize
+                       source_id: source.id).first_or_initialize
 
     # update all attributes, return saved inv_relation
     r.assign_attributes(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,

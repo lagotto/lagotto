@@ -27,7 +27,7 @@ class Source < ActiveRecord::Base
   scope :active, -> { where(active: true).order_by_name }
   scope :for_results, -> { active.joins(:group).where("groups.name = ?", "results") }
   scope :for_relations, -> { active.joins(:group).where("groups.name = ?", "relations") }
-  scope :for_results_or_relations, -> { active.joins(:group).where("groups.name IN (?)", ["results", "relations"]) }
+  scope :for_results_and_relations, -> { active.joins(:group).where("groups.name IN (?)", ["results", "relations"]) }
   scope :for_contributions, -> { active.joins(:group).where("groups.name = ?", "contributions") }
   scope :for_publishers, -> { active.joins(:group).where("groups.name = ?", "publishers") }
 

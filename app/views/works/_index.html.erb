@@ -19,7 +19,7 @@
           <li><%= link_to "Sort by Date", works_path(q: params[:q], source_id: params[:source_id]) %></li>
           <% if @source.nil? %>
             <li class="divider"></li>
-            <% Source.for_results_or_relations.each do |source| %>
+            <% Source.for_results_and_relations.each do |source| %>
               <li><%= link_to "Sort by #{source.title}", works_path(q: params[:q], source_id: params[:source_id], sort: source.name) %></li>
             <% end %>
           <% else %>
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class='col-md-3'>
-    <% if Source.for_results.size > 0 %>
+    <% if Source.for_results_and_relations.size > 0 %>
       <div class="panel facets">
         <div class="panel-body">
           <h4>Sources</h4>
@@ -42,7 +42,7 @@
                 <%= @source.title %>
               </li>
             <% else %>
-              <% Source.for_results.each do |source| %>
+              <% Source.for_results_and_relations.each do |source| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name, relation_type_id: params[:relation_type_id]) %>
                   <%= source.title %>
