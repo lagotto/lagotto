@@ -27,6 +27,10 @@ class Pmc < Agent
   def queue_jobs(options={})
     return 0 unless active?
 
+    unless options[:all]
+      return 0 unless stale?
+    end
+
     from_date = options[:from_date].present? ? Date.parse(options[:from_date]) : Time.zone.now.to_date
     dates = date_range(year: from_date.year, month: from_date.month)
 
@@ -48,6 +52,8 @@ class Pmc < Agent
           end
         end
       end
+
+      schedule_next_run
     end
 
     # return number of works queued

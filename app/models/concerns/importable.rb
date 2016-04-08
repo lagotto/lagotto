@@ -11,6 +11,10 @@ module Importable
     def queue_jobs(options={})
       return 0 unless active?
 
+      unless options[:all]
+        return 0 unless stale?
+      end
+
       total = get_total(options)
 
       if total > 0
@@ -21,6 +25,8 @@ module Importable
           options[:offset] = page * job_batch_size
           AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options)
         end
+
+        schedule_next_run
       end
 
       # return number of works queued

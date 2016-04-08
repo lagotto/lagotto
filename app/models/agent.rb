@@ -94,6 +94,10 @@ class Agent < ActiveRecord::Base
   def queue_jobs(options={})
     return 0 unless active?
 
+    unless options[:all]
+      return 0 unless stale?
+    end
+
     # find works that we are tracking
     works = Work.tracked
 
@@ -109,12 +113,24 @@ class Agent < ActiveRecord::Base
       total += ids.length
     end
 
+    schedule_next_run if total > 0
+
     # return number of works queued
     total
   end
 
+  # time the next batch should run
   def schedule_at
     last_response + batch_interval
+  end
+
+  # set time the agent should run again
+  def schedule_next_run
+    update_column(:run_at, CronParser.new(cron_line).next(Time.zone.now))
+  end
+
+  def stale?
+    Time.zone.now > run_at
   end
 
   # disable agent if more than max_failed_queries (default: 200) in 24 hrs

@@ -22,12 +22,18 @@ class Github < Agent
   def queue_jobs(options={})
     return 0 unless active?
 
+    unless options[:all]
+      return 0 unless stale?
+    end
+
     works = Work.tracked.where(registration_agency: 'github').pluck(:id)
     total = works.size
 
     works.each_slice(job_batch_size) do |ids|
       AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options.merge(ids: ids))
     end
+
+    schedule_next_run if total > 0
 
     # return number of works queued
     total

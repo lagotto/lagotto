@@ -17,7 +17,7 @@
               <td><%= link_to agent.title, agent_path(agent) %></td>
               <td><%= state_label(agent.human_state_name).html_safe %></td>
               <td><%= h(agent.description) %></td>
-              <td><%= agent.updating? ? CronParser.new(agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" : "" %></td>
+              <td><%= l agent.run_at, format: :medium %></td>
             </tr>
           <% end %>
         </tbody>

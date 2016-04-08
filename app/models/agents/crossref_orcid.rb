@@ -26,6 +26,10 @@ class CrossrefOrcid < Agent
   def queue_jobs(options={})
     return 0 unless active?
 
+    unless options[:all]
+      return 0 unless stale?
+    end
+
     query_url = get_query_url(options.merge(rows: 0))
     result = get_result(query_url, options)
     total = result.fetch("message", {}).fetch("total-results", 0)
@@ -40,6 +44,8 @@ class CrossrefOrcid < Agent
         options[:rows] = sample if sample && sample < (page + 1) * job_batch_size
         AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options)
       end
+
+      schedule_next_run
     end
 
     # return number of works queued

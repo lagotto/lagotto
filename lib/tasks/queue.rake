@@ -1,9 +1,32 @@
 namespace :queue do
-
-  desc "Queue stale works (depreciated)"
+  # observe next update derived from cron_line. Otherwise the same as queue:all
+  desc "Queue stale works"
   task :stale => :environment do |_, args|
-    Rake::Task["queue:all"].invoke
-    Rake::Task["queue:all"].reenable
+    if args.extras.empty?
+      agents = Agent.active
+    else
+      agents = Agent.active.where("name in (?)", args.extras)
+    end
+
+    if agents.empty?
+      puts "No active agent found."
+      exit
+    end
+
+    begin
+      from_date = ENV['FROM_DATE'] ? Date.parse(ENV['FROM_DATE']).iso8601 : (Time.zone.now.to_date - 1.day).iso8601
+      until_date = ENV['UNTIL_DATE'] ? Date.parse(ENV['UNTIL_DATE']).iso8601 : Time.zone.now.to_date.iso8601
+    rescue => e
+      # raises error if invalid date supplied
+      puts "Error: #{e.message}"
+      exit
+    end
+    puts "Queueing all works published from #{from_date} to #{until_date}."
+
+    agents.each do |agent|
+      count = agent.queue_jobs(from_date: from_date, until_date: until_date)
+      puts "#{count} works for agent #{agent.title} have been queued."
+    end
   end
 
   desc "Queue all works"
@@ -30,7 +53,7 @@ namespace :queue do
     puts "Queueing all works published from #{from_date} to #{until_date}."
 
     agents.each do |agent|
-      count = agent.queue_jobs(from_date: from_date, until_date: until_date)
+      count = agent.queue_jobs(all: true, from_date: from_date, until_date: until_date)
       puts "#{count} works for agent #{agent.title} have been queued."
     end
   end

@@ -96,7 +96,7 @@
         </tr>
         <tr>
           <th>Next update</th>
-          <td><%= CronParser.new(@agent.cron_line).next(Time.zone.now).to_s(:short) + " UTC" %></td>
+          <td><%= l @agent.run_at, format: :medium %></td>
         </tr>
         <tr>
           <th>Timeout</th>
