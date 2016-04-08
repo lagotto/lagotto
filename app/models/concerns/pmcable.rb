@@ -61,7 +61,7 @@ module Pmcable
                   "author" => get_authors(author_string.split(", "), reversed: true),
                   "title" => item.fetch("title", "").chomp("."),
                   "container-title" => item.fetch(container_title_key, nil),
-                  "issued" => get_date_parts_from_parts(item.fetch("pubYear", nil)),
+                  "issued" => item.fetch("pubYear", nil),
                   "DOI" => doi,
                   "PMID" => pmid,
                   "PMCID" => pmcid,

@@ -22,7 +22,6 @@ class DataciteRelated < Agent
     Array(items).reduce([]) do |sum, item|
       doi = item.fetch("doi", nil)
       pid = doi_as_url(doi)
-      year = item.fetch("publicationYear", nil).to_i
       type = item.fetch("resourceTypeGeneral", nil)
       type = DATACITE_TYPE_TRANSLATIONS[type] if type
       publisher_id = item.fetch("datacentre_symbol", nil)
@@ -37,7 +36,7 @@ class DataciteRelated < Agent
                "author" => get_hashed_authors(authors),
                "title" => item.fetch("title", []).first,
                "container-title" => item.fetch("publisher", nil),
-               "issued" => { "date-parts" => [[year]] },
+               "issued" => item.fetch("publicationYear", nil),
                "publisher_id" => publisher_id,
                "registration_agency" => "datacite",
                "tracked" => true,

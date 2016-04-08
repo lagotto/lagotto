@@ -100,7 +100,7 @@ describe DataciteRelated, type: :model, vcr: true do
                                           "author"=>[],
                                           "title"=>"Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research",
                                           "container-title"=>"Dryad Digital Repository",
-                                          "issued"=>{"date-parts"=>[[2012]]},
+                                          "issued"=>"2012",
                                           "publisher_id"=>"CDL.DRYAD",
                                           "registration_agency"=>"datacite",
                                           "tracked"=>true,
