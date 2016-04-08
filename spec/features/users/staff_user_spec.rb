@@ -45,7 +45,7 @@ describe "no button for staff user", type: :feature, js: true do
   it "don't show source action button" do
     source = FactoryGirl.create(:source)
     visit "/sources"
-    click_link "Events"
+    click_link "Results"
     expect(page).to_not have_css ".status", text: "Actions"
   end
 

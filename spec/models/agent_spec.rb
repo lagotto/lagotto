@@ -70,38 +70,38 @@ describe Agent, :type => :model, vcr: true do
       context "queue jobs" do
         it "queue" do
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
         end
 
         it "queue single" do
           works = FactoryGirl.create_list(:work, 1)
           ids = works.map(&:id)
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs).to eq(1)
+          expect(subject.queue_jobs(all: true)).to eq(1)
         end
 
         it "only tracked works" do
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           work = FactoryGirl.create(:work, tracked: false)
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
         end
 
         it "with rate_limiting" do
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           subject.rate_limiting = 5
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
         end
 
         it "with inactive agent" do
           subject.inactivate
           expect(subject).to be_inactive
-          expect(subject.queue_jobs).to eq(0)
+          expect(subject.queue_jobs(all: true)).to eq(0)
         end
 
         it "with waiting agent" do
           subject.wait
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
           expect(subject).to be_waiting
         end
 
@@ -110,7 +110,7 @@ describe Agent, :type => :model, vcr: true do
 
           subject.disable
           expect(subject).to be_disabled
-          expect(subject.queue_jobs).to eq(0)
+          expect(subject.queue_jobs(all: true)).to eq(0)
         end
 
         it "with too many failed queries" do
@@ -119,7 +119,7 @@ describe Agent, :type => :model, vcr: true do
           FactoryGirl.create_list(:notification, 10, source_id: subject.source_id, updated_at: Time.zone.now - 10.minutes)
           subject.max_failed_queries = 5
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
           expect(subject).not_to be_disabled
         end
 
@@ -128,7 +128,7 @@ describe Agent, :type => :model, vcr: true do
           ids = works.map(&:id)
 
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs(from_date: Date.today - 2.days, until_date: Date.today - 2.days)).to eq(0)
+          expect(subject.queue_jobs(all: true, from_date: Date.today - 2.days, until_date: Date.today - 2.days)).to eq(0)
         end
       end
 
@@ -136,13 +136,13 @@ describe Agent, :type => :model, vcr: true do
         it "perform callback" do
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           allow(job).to receive(:perform).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
         end
 
         it "after callback" do
           allow(job).to receive(:enqueue).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
           allow(job).to receive(:after).with(AgentJob.new(subject, ids: ids), queue: subject.queue, wait_until: Time.zone.now)
-          expect(subject.queue_jobs).to eq(10)
+          expect(subject.queue_jobs(all: true)).to eq(10)
         end
       end
 

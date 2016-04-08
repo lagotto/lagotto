@@ -14,13 +14,13 @@ describe "sources", type: :feature, js: true do
     visit "/sources"
     click_link "Results"
 
-    expect(page).to have_css ".panel-heading", text: "Works with events"
+    expect(page).to have_css ".panel-heading", text: "Works with results"
   end
 
-  it "show events" do
+  it "show results" do
     visit "/sources"
     click_link "Results"
 
-    expect(page).to have_css ".panel-heading", text: "Total number of events"
+    expect(page).to have_css ".panel-heading", text: "Total number of results"
   end
 end
