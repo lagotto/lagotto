@@ -67,13 +67,13 @@ class Contributor < ActiveRecord::Base
     if ActionController::Base.perform_caching
       Rails.cache.read("contributor/#{pid}/#{source_id}/work_count/#{timestamp}").to_i
     else
-      works.has_events.by_source(source_id).size
+      works.has_results.by_source(source_id).size
     end
   end
 
   def work_count_by_source=(source_id, time)
     Rails.cache.write("contributor/#{pid}/#{source_id}/work_count/#{time}",
-                      works.has_events.by_source(source_id).size)
+                      works.has_results.by_source(source_id).size)
   end
 
   def cache_key
