@@ -98,6 +98,10 @@ records:
     inverse_name: is_bookmarked_by
     title: Bookmarks
     inverse_title: Is bookmarked by
+  - name: is_bookmarked_by
+    inverse_name: bookmarks
+    title: Is Bookmarked by
+    inverse_title: Bookmarks
   - name: recommends
     inverse_name: is_recommended_by
     title: Recommends
