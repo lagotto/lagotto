@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 
   belongs_to :publisher
   has_and_belongs_to_many :reports
+  has_one :contributor, primary_key: "uid", foreign_key: "orcid"
 
   devise :omniauthable, :omniauth_providers => [:cas, :github, :orcid, :jwt]
 

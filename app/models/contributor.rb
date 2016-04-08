@@ -21,6 +21,7 @@ class Contributor < ActiveRecord::Base
   has_many :works, :through => :contributions
   has_many :contributor_roles, :through => :contributions
   has_many :deposits, inverse_of: :contributor
+  belongs_to :user, primary_key: "orcid", foreign_key: "uid"
 
   validates :pid, presence: true, uniqueness: true
   validates :orcid, uniqueness: true, format: { with: ORCID_FORMAT }, allow_blank: true

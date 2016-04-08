@@ -22,6 +22,12 @@
                 <ul class="dropdown-menu" role="menu">
                   <% if ENV['JWT_HOST'].present? %>
                     <li><%= link_to "#{icon('user')} Settings".html_safe, "#{ENV['JWT_HOST']}/users/me" %></li>
+                    <% if current_user.contributor %>
+                      <li class="divider"></li>
+                      <li><%= link_to "#{icon('link')} My Event Data".html_safe, "/contributors/orcid.org/#{current_user.uid}" %></li>
+                    <% end %>
+                    <li class="divider"></li>
+                    <li><%= link_to "#{icon('external-link')} ORCID Record".html_safe, "http://orcid.org/#{current_user.uid}" %></li>
                   <% else %>
                     <li><%= link_to "#{icon('user')} Settings".html_safe, user_path("me") %></li>
                   <% end %>
