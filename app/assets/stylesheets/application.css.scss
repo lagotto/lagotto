@@ -539,8 +539,13 @@ h5, h4.work { margin-top: 0; margin-bottom: 0; }
 .panel-footer .btn-default {
   background-color: white;
   border-color: white;
-  padding: 0;
+  padding: 0 3px;
+
+  i {
+    font-size: 0.85em;
+  }
 }
+.panel-default .table { margin: 0 5px; }
 h4.results { font-weight: normal; font-size: 1.25em; margin: 0 0 .5em .75em; }
 .loading {margin: 1em; color: $gray-darker; }
 td h4 { margin-top: 0; }
@@ -707,7 +712,7 @@ html {
     font-size: 16px;
   }
 }
-.col-md-9#content, .col-md-9#content-contributions, .col-md-9#content-recommendations, .col-md-9#content-notifications {
+.col-md-9#content, .col-md-9#content-contributions, .col-md-9#content-results, .col-md-9#content-recommendations, .col-md-9#content-notifications {
   padding-bottom: .75em;
 }
 .col-md-9 .panel {

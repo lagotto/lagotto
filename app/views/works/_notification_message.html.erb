@@ -1,11 +1,10 @@
 <% unless @work.notifications.empty? %>
   <div class="panel panel-warning">
     <div class="panel-heading">Notifications</div>
-      <div class="panel-body">
-        <% @work.notifications.limit(20).each do |notification| %>
-          <%= notification.message %><%= notification.source.nil? ? "" : " (#{notification.source.title})" %></br>
-        <% end %>
-      </div>
+    <div class="panel-body">
+      <% @work.notifications.limit(20).each do |notification| %>
+        <%= notification.message %><%= notification.source.nil? ? "" : " (#{notification.source.title})" %></br>
+      <% end %>
     </div>
   </div>
 <% end %>
