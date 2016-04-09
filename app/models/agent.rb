@@ -108,7 +108,7 @@ class Agent < ActiveRecord::Base
 
     total = 0
     # pluck_in_batches is a custom method in config/initializers/active_record_extensions.rb
-    works.pluck_in_batches(:id, job_batch_size) do |ids|
+    works.pluck_in_batches(:id, batch_size: job_batch_size) do |ids|
       AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options.merge(ids: ids))
       total += ids.length
     end
