@@ -4,24 +4,22 @@
       <div class="panel-body">
         <h4 class="work"><%= @contributor.credit_name.presence || @contributor.pid %></h4>
       </div>
-      <div class="panel-body work">
-        <table class="table">
-          <tbody>
-            <% if @contributor.orcid.present? %>
-              <tr>
-                <th>ORCID</th>
-                <td class="orcid" %><%= link_to "http://orcid.org/#{@contributor.orcid}", "http://orcid.org/#{@contributor.orcid}" %></td>
-              </tr>
-            <% end %>
-            <% if @contributor.github.present? %>
-              <tr>
-                <th>Github</th>
-                <td class="github" %><%= link_to "https://github.com/#{@contributor.github}", "https://github.com/#{@contributor.github}" %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+      <table class="table">
+        <tbody>
+          <% if @contributor.orcid.present? %>
+            <tr>
+              <th>ORCID</th>
+              <td class="orcid" %><%= link_to "http://orcid.org/#{@contributor.orcid}", "http://orcid.org/#{@contributor.orcid}" %></td>
+            </tr>
+          <% end %>
+          <% if @contributor.github.present? %>
+            <tr>
+              <th>Github</th>
+              <td class="github" %><%= link_to "https://github.com/#{@contributor.github}", "https://github.com/#{@contributor.github}" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
       <div class="panel-footer">
         <%= link_to h(icon("external-link") + " " + @contributor.pid).html_safe, @contributor.pid %>
         <% if can?(:manage, @contributor) %>

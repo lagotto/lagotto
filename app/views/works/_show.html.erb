@@ -36,72 +36,70 @@
           <% end %>
           <div class="metadata"><%= metadata_format(@work).html_safe %></div>
         </div>
-        <div class="panel-body work">
-          <table class="table">
-            <tbody>
-              <% if @work.doi.present? %>
-                <tr>
-                  <th>DOI</th>
-                  <td class="doi" %><%= link_to h(@work.pid), @work.pid %></td>
-                </tr>
-              <% end %>
-              <% if @work.canonical_url.present? %>
-                <tr>
-                  <th>Canonical URL</th>
-                  <td><%= link_to h(@work.canonical_url), @work.canonical_url %></td>
-                </tr>
-              <% end %>
-              <% if @work.pmid.present? %>
-                <tr>
-                  <th>PubMed</th>
-                  <td id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url(@work.pmid), @work.pmid_as_url(@work.pmid) %></td>
-                </tr>
-              <% end %>
-              <% if @work.pmcid.present? %>
-                <tr>
-                  <th>PubMed Central</th>
-                  <td id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url(@work.pmcid), @work.pmcid_as_url(@work.pmcid) %></td>
-                </tr>
-              <% end %>
-              <% if @work.pmid.present? %>
-                <tr>
-                  <th>Europe PMC</th>
-                  <td><%= link_to h(@work.pmid_as_europepmc_url), @work.pmid_as_europepmc_url %></td>
-                </tr>
-              <% end %>
-              <% if @work.wos.present? && @work.wos_url.present? %>
-                <tr>
-                  <th>Web of Science</th>
-                  <td><%= link_to @work.wos, @work.wos_url %></td>
-                </tr>
-              <% end %>
-              <% if @work.scp.present? && @work.scopus_url.present? %>
-                <tr>
-                  <th>Scopus</th>
-                  <td><%= link_to @work.scp, @work.scopus_url %></td>
-                </tr>
-              <% end %>
-              <% if @work.ark.present? %>
-                <tr>
-                  <th>Ark</th>
-                  <td><%= link_to @work.ark, @work.ark_as_url(@work.ark) %></td>
-                </tr>
-              <% end %>
-              <% if @work.dataone.present? %>
-                <tr>
-                  <th>DataONE</th>
-                  <td><%= link_to @work.dataone, @work.dataone_as_url(@work.dataone) %></td>
-                </tr>
-              <% end %>
-              <% if @work.mendeley_url.present? %>
-                <tr>
-                  <th>Mendeley</th>
-                  <td><%= link_to @work.mendeley_url, @work.mendeley_url %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <table class="table">
+          <tbody>
+            <% if @work.doi.present? %>
+              <tr>
+                <th>DOI</th>
+                <td class="doi" %><%= link_to h(@work.pid), @work.pid %></td>
+              </tr>
+            <% end %>
+            <% if @work.canonical_url.present? %>
+              <tr>
+                <th>Canonical URL</th>
+                <td><%= link_to h(@work.canonical_url), @work.canonical_url %></td>
+              </tr>
+            <% end %>
+            <% if @work.pmid.present? %>
+              <tr>
+                <th>PubMed</th>
+                <td id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url(@work.pmid), @work.pmid_as_url(@work.pmid) %></td>
+              </tr>
+            <% end %>
+            <% if @work.pmcid.present? %>
+              <tr>
+                <th>PubMed Central</th>
+                <td id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url(@work.pmcid), @work.pmcid_as_url(@work.pmcid) %></td>
+              </tr>
+            <% end %>
+            <% if @work.pmid.present? %>
+              <tr>
+                <th>Europe PMC</th>
+                <td><%= link_to h(@work.pmid_as_europepmc_url), @work.pmid_as_europepmc_url %></td>
+              </tr>
+            <% end %>
+            <% if @work.wos.present? && @work.wos_url.present? %>
+              <tr>
+                <th>Web of Science</th>
+                <td><%= link_to @work.wos, @work.wos_url %></td>
+              </tr>
+            <% end %>
+            <% if @work.scp.present? && @work.scopus_url.present? %>
+              <tr>
+                <th>Scopus</th>
+                <td><%= link_to @work.scp, @work.scopus_url %></td>
+              </tr>
+            <% end %>
+            <% if @work.ark.present? %>
+              <tr>
+                <th>Ark</th>
+                <td><%= link_to @work.ark, @work.ark_as_url(@work.ark) %></td>
+              </tr>
+            <% end %>
+            <% if @work.dataone.present? %>
+              <tr>
+                <th>DataONE</th>
+                <td><%= link_to @work.dataone, @work.dataone_as_url(@work.dataone) %></td>
+              </tr>
+            <% end %>
+            <% if @work.mendeley_url.present? %>
+              <tr>
+                <th>Mendeley</th>
+                <td><%= link_to @work.mendeley_url, @work.mendeley_url %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       <% end %>
       <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
         <div class="panel-footer">
