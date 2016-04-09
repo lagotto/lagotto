@@ -20,9 +20,6 @@
           <div class="panel panel-default">
             <div class="panel-heading"><%= publisher.title %></div>
             <div class="panel-body">
-              <% if publisher.other_names.present? && publisher.other_names.size > 1 %>
-                <p><%= publisher.other_names.reject { |name| name == publisher.title }.join("</br>").html_safe %></p>
-              <% end %>
               <% if publisher.prefixes %>
                 <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
               <% end %>
