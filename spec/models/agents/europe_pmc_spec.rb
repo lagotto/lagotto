@@ -74,7 +74,7 @@ describe EuropePmc, type: :model, vcr: true do
                                                      {"family"=>"Nucci", "given"=>"TB"}],
                                           "title"=>"The transient receptor potential vanilloid-1 channel in thermoregulation: a thermosensor it is not",
                                           "container-title"=>"Pharmacol. Rev.",
-                                          "issued"=>"2009",
+                                          "issued"=>2009,
                                           "DOI"=>"10.1124/pr.109.001263",
                                           "PMID"=>"19749171",
                                           "PMCID"=>"2763780",
