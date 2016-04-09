@@ -53,7 +53,7 @@ function worksViz(json, sources) {
       .attr("class", "results")
       .text(numberWithDelimiter(json.meta.total) + " Results");
 
-    d3.select("#publisher-sort").classed("hidden", false);
+    d3.select("#work-sort").classed("hidden", false);
   }
 
   for (var i=0; i<data.length; i++) {
