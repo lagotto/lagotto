@@ -13,8 +13,6 @@ class DepositReprocessJob < ActiveJob::Base
   end
 
   def perform(ids)
-    ActiveRecord::Base.connection_pool.with_connection do
-      Deposit.where(id: ids).find_each { |deposit| deposit.reset }
-    end
+    Deposit.where(id: ids).find_each { |deposit| deposit.reset }
   end
 end
