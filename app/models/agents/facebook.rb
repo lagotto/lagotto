@@ -166,6 +166,6 @@ class Facebook < Agent
   end
 
   def cron_line
-    config.cron_line || "* 6,18 * * *"
+    config.cron_line || "24 6 * * *"
   end
 end

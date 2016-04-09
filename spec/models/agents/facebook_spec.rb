@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Facebook, type: :model do
+describe Facebook, type: :model, vcr: true do
   subject { FactoryGirl.create(:facebook) }
   let(:headers) do
     { 'Accept'=>'application/json',
@@ -10,10 +10,8 @@ describe Facebook, type: :model do
   context "lookup access token" do
     it "should make the right API call" do
       subject.access_token = nil
-      stub = stub_request(:get, subject.get_authentication_url).to_return(:body => File.read(fixture_path + 'facebook_auth.txt'))
       expect(subject.get_access_token).not_to be false
-      expect(stub).to have_been_requested
-      expect(subject.access_token).to eq("778123482473896|xQ0RGAHG6k8VUZrliyHgIIkwZYM")
+      expect(subject.access_token).to be_present
     end
 
     it "should look up access token if blank" do
@@ -58,22 +56,29 @@ describe Facebook, type: :model do
 
     it "should report if there are no events returned by the Facebook API" do
       work = FactoryGirl.create(:work, :canonical_url => "http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
-      body = File.read(fixture_path + 'facebook_nil.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id))
-             .with(:headers => headers).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response['og_object']).to eq("id"=>"318336314932679",
+                                          "description"=>"PLOS ONE: an inclusive, peer-reviewed, open-access resource from the PUBLIC LIBRARY OF SCIENCE. Reports of well-performed scientific studies from all disciplines freely available to the whole world.",
+                                          "title"=>"PLOS ONE: Neural Substrate of Cold-Seeking Behavior in Endotoxin Shock",
+                                          "type"=>"website",
+                                          "updated_time"=>"2013-01-11T22:07:49+0000",
+                                          "url"=>"http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0000001")
+      expect(response['share']).to eq("comment_count"=>0, "share_count"=>0)
+      expect(response['id']).to eq("http://www.plosone.org/article/info:doi/10.1371/journal.pone.0000001")
+
     end
 
     it "should report if there are events returned by the Facebook API" do
       work = FactoryGirl.create(:work, :canonical_url => "http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
-      body = File.read(fixture_path + 'facebook.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id))
-             .with(:headers => headers).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
+      expect(response['og_object']).to eq("id"=>"947360915280805",
+                                          "description"=>"Published research findings are sometimes refuted by subsequent evidence, says Ioannidis, with ensuing confusion and disappointment.",
+                                          "title"=>"Why Most Published Research Findings Are False",
+                                          "type"=>"article",
+                                          "updated_time"=>"2016-04-03T10:55:53+0000",
+                                          "url"=>"http://journals.plos.org/plosmedicine/article?id=10.1371%2Fjournal.pmed.0020124")
+      expect(response['share']).to eq("comment_count"=>0, "share_count"=>5301)
+      expect(response['id']).to eq("http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124")
     end
 
     it "should catch authorization errors with the Facebook API" do

@@ -1,0 +1,104 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com/oauth/access_token?client_id=<FACEBOOK_CLIENT_ID>&client_secret=<FACEBOOK_CLIENT_SECRET>&grant_type=client_credentials
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Facebook-Api-Version:
+      - v2.0
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Content-Type:
+      - text/plain; charset=UTF-8
+      X-Fb-Trace-Id:
+      - D5XVwg3+mOT
+      X-Fb-Rev:
+      - '2276891'
+      Vary:
+      - Accept-Encoding
+      X-Fb-Debug:
+      - qf/8ERgyFmwYzy7qFbQ6sSPCQ1eyH8HiJlqa/eCmxMYcXs0vQRGTSEJlKjfxP5OyF3VLqsPwumXeTlsJVN+08A==
+      Date:
+      - Sat, 09 Apr 2016 13:49:32 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '57'
+    body:
+      encoding: UTF-8
+      string: access_token=<FACEBOOK_CLIENT_ID>|ujiT_Cb58T4QUkneUYJu0L3zmwM
+    http_version: 
+  recorded_at: Sat, 09 Apr 2016 13:49:32 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/v2.1/?access_token=<FACEBOOK_CLIENT_ID>%7CujiT_Cb58T4QUkneUYJu0L3zmwM&id=http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <FACEBOOK_CLIENT_ID>|ujiT_Cb58T4QUkneUYJu0L3zmwM
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Etag:
+      - '"7a965e00361db048150aff8ae41d6e99bf845745"'
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Facebook-Api-Version:
+      - v2.2
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      Content-Type:
+      - application/json
+      X-Fb-Trace-Id:
+      - Baxt4Fv7gY7
+      X-Fb-Rev:
+      - '2276891'
+      Vary:
+      - Accept-Encoding
+      X-Fb-Debug:
+      - g906NJSpQVVEo3FPP0QwbmQSRPo4deYoO06VfdPXBV1NilUS2/nFcYMNdrU1HRlewHabyIYKdYuS6sJlXiDmIw==
+      Date:
+      - Sat, 09 Apr 2016 13:49:33 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '534'
+    body:
+      encoding: UTF-8
+      string: '{"og_object":{"id":"947360915280805","description":"Published research
+        findings are sometimes refuted by subsequent evidence, says Ioannidis, with
+        ensuing confusion and disappointment.","title":"Why Most Published Research
+        Findings Are False","type":"article","updated_time":"2016-04-03T10:55:53+0000","url":"http:\/\/journals.plos.org\/plosmedicine\/article?id=10.1371\u00252Fjournal.pmed.0020124"},"share":{"comment_count":0,"share_count":5301},"id":"http:\/\/www.plosmedicine.org\/article\/info:doi\/10.1371\/journal.pmed.0020124"}'
+    http_version: 
+  recorded_at: Sat, 09 Apr 2016 13:49:33 GMT
+recorded_with: VCR 2.9.3

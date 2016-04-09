@@ -352,9 +352,8 @@ FactoryGirl.define do
     name "mendeley"
     title "Mendeley"
     state_event "activate"
-    client_id "EXAMPLE"
-    client_secret "EXAMPLE"
-    access_token "EXAMPLE"
+    client_id ENV['MENDELEY_CLIENT_ID']
+    client_secret ENV['MENDELEY_CLIENT_SECRET']
     expires_at { Time.zone.now + 1.hour }
 
     group
@@ -366,9 +365,8 @@ FactoryGirl.define do
     type "Facebook"
     name "facebook"
     title "Facebook"
-    client_id "EXAMPLE"
-    client_secret "EXAMPLE"
-    access_token "EXAMPLE"
+    client_id ENV['FACEBOOK_CLIENT_ID']
+    client_secret ENV['FACEBOOK_CLIENT_SECRET']
 
     group
 

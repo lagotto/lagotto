@@ -66,6 +66,8 @@ VCR.configure do |c|
   c.ignore_hosts "codeclimate.com"
   c.filter_sensitive_data("<API_KEY>") { ENV["API_KEY"] }
   c.filter_sensitive_data("<GITHUB_PERSONAL_ACCESS_TOKEN>") { ENV["GITHUB_PERSONAL_ACCESS_TOKEN"] }
+  c.filter_sensitive_data("<FACEBOOK_CLIENT_ID>") { ENV["FACEBOOK_CLIENT_ID"] }
+  c.filter_sensitive_data("<FACEBOOK_CLIENT_SECRET>") { ENV["FACEBOOK_CLIENT_SECRET"] }
   c.configure_rspec_metadata!
 end
 
