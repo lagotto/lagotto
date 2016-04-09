@@ -42,6 +42,9 @@ class PublishersController < ApplicationController
   def load_publisher
     @publisher = Publisher.active.where(name: params[:id]).first
     fail ActiveRecord::RecordNotFound unless @publisher.present?
+
+    @groups = Group.order("id")
+    @page = params[:page] || 1
   end
 
   def load_index

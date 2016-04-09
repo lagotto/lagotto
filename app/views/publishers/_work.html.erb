@@ -5,13 +5,15 @@
       <div class="btn-group btn-group-sm">
         <a class="btn btn-default dropdown-toggle hidden" id="work-sort" data-toggle="dropdown" href="#"><%= icon("sort") %> <%= @sort.nil? ? "Sort by Date" : "Sort by #{@sort.title}" %> <span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
-          <li><%= link_to "Sort by Date", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: params[:source_id]) %></li>
+          <li><%= link_to "Sort by Date", publisher_path(@publisher.name, q: params[:q], source_id: params[:source_id]) %></li>
           <% if @source.nil? %>
+            <li class="divider"></li>
             <% Source.for_results_and_relations.each do |source| %>
-              <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: params[:source_id], sort: source.name) %></li>            <% end %>
+              <li><%= link_to "Sort by #{source.title}", publisher_path(@publisher.name, q: params[:q], source_id: params[:source_id], sort: source.name) %></li>
+            <% end %>
           <% else %>
             <li class="divider"></li>
-            <li><%= link_to "Sort by #{@source.title}", publisher_path(@publisher.name, q: params[:q], class_name: params[:class_name], source_id: @source.name, sort: @source.name) %></li>
+            <li><%= link_to "Sort by #{@source.title}", publisher_path(@publisher.name, q: params[:q], source_id: @source.name, sort: @source.name) %></li>
           <% end %>
         </ul>
       </div>
