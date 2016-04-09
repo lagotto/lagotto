@@ -1,12 +1,12 @@
-<% if @work.results.sum(:total) > 0 %>
-  <div class="panel panel-default">
-    <div class="panel-heading panel-title">Results <small class="pull-right" id="control-results"></small></div>
-    <div class="panel-body" id="panel-results">
-      <div class="text-muted" id="loading">Loading … <%= image_tag "spinner.gif" %></div>
+<div class="row">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading panel-title">Results <small class="pull-right" id="control-results"></small></div>
+      <div class="panel-body" id="panel-results">
+        <div class="text-muted" id="loading">Loading … <%= image_tag "spinner.gif" %></div>
 
-      <%= javascript_include_tag 'works/results' %>
+        <%= javascript_include_tag 'works/results' %>
+      </div>
     </div>
   </div>
-<% else %>
-  <div class="alert alert-info">There are currently no results</div>
-<% end %>
+</div>

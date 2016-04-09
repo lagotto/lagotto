@@ -125,6 +125,14 @@ module ApplicationHelper
     fa.html_safe
   end
 
+  def metadata_format(work)
+    work_type = work.work_type.present? ? work.work_type.title : "Work"
+    publication_date = "published " + l(work.published_on, format: date_format(work))
+    container_title = work.container_title.present? ? "via " + work.container_title : ""
+
+    [work_type, publication_date, container_title].join(" ")
+  end
+
   def date_format(work)
     if work.day
       :long
@@ -173,6 +181,7 @@ module ApplicationHelper
     data[:publisher_id] = @publisher.name if @publisher.present?
     data[:source_id] = @source.name if @source.present?
     data[:relation_type_id] = @relation_type.name if @relation_type.present?
+    data[:work_type_id] = @work_type.name if @work_type.present?
     data[:contributor_role_id] = @contributor_role.name if @contributor_role.present?
     data[:contributor_id] = @contributor.pid if @contributor.present?
     data[:sort] = @sort.name if @sort.present?

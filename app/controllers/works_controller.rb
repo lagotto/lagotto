@@ -15,31 +15,6 @@ class WorksController < ApplicationController
   end
 
   def show
-    format_options = params.slice :events, :source
-
-    @groups = Group.order("id")
-    @page = params[:page] || 1
-
-    if params[:source_id] && @source = cached_source(params[:source_id])
-      @source_group = @work.results.where(source_id: @source.id).group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }.first
-    end
-
-    if params[:relation_type_id] && @relation_type = cached_relation_type(params[:relation_type_id])
-      @relation_type_group = @work.inverse_relations.where(relation_type_id: @relation_type.id).group(:relation_type_id).count.map { |s| [cached_relation_type_names[s[0]], s[1]] }.first
-    end
-
-    if params[:contributor_role_id].present?
-      @contributor_role = @work.contributions.where(contributor_role_id: params[:contributor_role_id]).group(:contributor_role_id).count.map { |s| [cached_contributor_role_names[s[0]], s[1]] }.first
-    end
-
-    @active = []
-    @active += ["relations", "results"] if @work.relations.size > 0
-    @active += ["contributions"] if @work.contributions.size > 0
-
-    @sources = @work.results.where.not(source_id: nil).group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }
-    @relation_types = @work.inverse_relations.where.not(relation_type_id: nil).group(:relation_type_id).count.map { |s| [cached_relation_type_names[s[0]], s[1]] }
-    @contributor_roles = @work.contributions.where.not(contributor_role_id: nil).group(:contributor_role_id).count.map { |s| [cached_contributor_role_names[s[0]], s[1]] }
-
     render :show
   end
 
@@ -66,6 +41,29 @@ class WorksController < ApplicationController
     if id_hash.respond_to?("key")
       key, value = id_hash.first
       @work = Work.where(key => value).first
+
+      @groups = Group.order("id")
+      @page = params[:page] || 1
+
+      if params[:source_id] && @source = cached_source(params[:source_id])
+        @source_group = @work.results.where(source_id: @source.id).group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }.first
+      end
+
+      if params[:relation_type_id] && @relation_type = cached_relation_type(params[:relation_type_id])
+        @relation_type_group = @work.inverse_relations.where(relation_type_id: @relation_type.id).group(:relation_type_id).count.map { |s| [cached_relation_type_names[s[0]], s[1]] }.first
+      end
+
+      if params[:contributor_role_id].present?
+        @contributor_role = @work.contributions.where(contributor_role_id: params[:contributor_role_id]).group(:contributor_role_id).count.map { |s| [cached_contributor_role_names[s[0]], s[1]] }.first
+      end
+
+      @active = []
+      @active += ["relations", "results"] if @work.relations.size > 0
+      @active += ["contributions"] if @work.contributions.size > 0
+
+      @sources = @work.results.where.not(source_id: nil).group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }
+      @relation_types = @work.inverse_relations.where.not(relation_type_id: nil).group(:relation_type_id).count.map { |s| [cached_relation_type_names[s[0]], s[1]] }
+      @contributor_roles = @work.contributions.where.not(contributor_role_id: nil).group(:contributor_role_id).count.map { |s| [cached_contributor_role_names[s[0]], s[1]] }
     else
       @work = nil
     end

@@ -10,11 +10,13 @@ if (!params.empty()) {
   var per_page = params.attr('data-per-page');
   var source_id = params.attr('data-source-id');
   var relation_type_id = params.attr('data-relation-type-id');
+  var work_type_id = params.attr('data-work-type-id');
 
   var query = encodeURI("/api/works/" + pathForWork(subj_id) + "/relations?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
   if (relation_type_id !== null) { query += "&relation_type_id=" + relation_type_id; }
+  if (work_type_id !== null) { query += "&work_type_id=" + work_type_id; }
 }
 
 // asynchronously load data from the Lagotto API
@@ -38,6 +40,7 @@ function eventsViz(json, sources, relation_types, work_types) {
 
   json.href = "?page={{number}}";
   if (relation_type_id !== "") { json.href += "&relation_type_id=" + relation_type_id; }
+  if (work_type_id !== "") { json.href += "&work_type_id=" + work_type_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
 
   d3.select("#loading-results").remove();
@@ -82,6 +85,7 @@ function eventsViz(json, sources, relation_types, work_types) {
       for (var j=0; j<data[subj_id].length; j++) {
         var relation = data[subj_id][j];
         var relation_type = relation_types.filter(function(d) { return d.id === relation.relation_type_id; })[0];
+        var work_type = work_types.filter(function(d) { return d.id === relation.work_type_id; })[0];
         var source = sources.filter(function(d) { return d.id === relation.source_id; })[0];
 
         d3.select("#panel-" + i).insert("div")

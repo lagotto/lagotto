@@ -1,129 +1,109 @@
-<div class="panel panel-default">
-  <div class="panel-heading panel-title">
-    <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group btn-group-sm">
-          <%= link_to icon("pencil").html_safe, edit_work_path(@work), { :remote => true, :class => 'btn btn-default' } %>
-        </div>
-        <div class="btn-group btn-group-sm">
-          <%= link_to icon("trash").html_safe, work_path(@work), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
-        </div>
-        </div>
-    <% end %>
-    <%= @work.title.html_safe %>
-  </div>
-  <div class="panel-body">
-    <% if can?(:manage, Work) && (controller.action_name == "edit" || (controller.action_name == "update" && !@work.errors.empty?)) %>
-      <%= simple_form_for @work, :url => work_path(@work), :html => { :role => "form", :remote => true } do |f| %>
-        <%= f.input :title, :input_html => { :rows => 2 } %>
-        <%= f.input :doi, :label => 'DOI' %>
-        <%= f.input :canonical_url, :label => 'Canonical URL' %>
-        <%= f.input :pmid, :label => 'PubMed' %>
-        <%= f.input :pmcid, :label => 'PubMed Central' %>
-        <%= f.input :wos, :label => 'ArXiV' %>
-        <%= f.input :wos, :label => 'Web of Science' %>
-        <%= f.input :scp, :label => 'Scopus' %>
-        <%= f.input :ark, :label => 'Ark' %>
-        <%= f.input :dataone, :label => 'DataONE' %>
-        <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
-        <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
-        <%= f.input :published_on, label: "Publication Date" do %>
-          <%= f.input_field :day, as: :day %>
-          <%= f.input_field :month, as: :month %>
-          <%= f.input_field :year, as: :year %>
-        <% end %>
+<div class="row work-page">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <% if can?(:manage, Work) && (controller.action_name == "edit" || (controller.action_name == "update" && !@work.errors.empty?)) %>
+          <%= simple_form_for @work, :url => work_path(@work), :html => { :role => "form", :remote => true } do |f| %>
+            <%= f.input :title, :input_html => { :rows => 2 } %>
+            <%= f.input :doi, :label => 'DOI' %>
+            <%= f.input :canonical_url, :label => 'Canonical URL' %>
+            <%= f.input :pmid, :label => 'PubMed' %>
+            <%= f.input :pmcid, :label => 'PubMed Central' %>
+            <%= f.input :wos, :label => 'ArXiV' %>
+            <%= f.input :wos, :label => 'Web of Science' %>
+            <%= f.input :scp, :label => 'Scopus' %>
+            <%= f.input :ark, :label => 'Ark' %>
+            <%= f.input :dataone, :label => 'DataONE' %>
+            <%= f.input :tracked, :as => :boolean, hint: "Collect metrics for this work" %>
+            <%= f.association :work_type, collection: WorkType.order("title").map { |work_type| [work_type.title, work_type.id] }, :include_blank => false %>
+            <%= f.input :published_on, label: "Publication Date" do %>
+              <%= f.input_field :day, as: :day %>
+              <%= f.input_field :month, as: :month %>
+              <%= f.input_field :year, as: :year %>
+            <% end %>
 
-        <div class="form-group">
-          <%= f.submit "Save ", class: "btn btn-default" %>
-          <%= link_to 'Cancel', work_path(@work), { :remote => true, :class => 'btn' } %>
+            <div class="form-group pull-right">
+              <%= f.submit "Save ", class: "btn btn-default" %>
+              <%= link_to 'Cancel', work_path(@work), { :remote => true, :class => 'btn' } %>
+            </div>
+          <% end %>
+        <% else %>
+          <h4 class="work"><%= @work.title.html_safe %></h4>
+          <% if @work.author.present? %>
+            <div class="author"><%= author_format(@work.author).html_safe %></div>
+          <% end %>
+          <div class="metadata"><%= metadata_format(@work).html_safe %></div>
+        <% end %>
+      </div>
+      <% if can?(:manage, Work) && controller.action_name != "edit" && !(controller.action_name == "update" && !@work.errors.empty?) %>
+        <div class="panel-footer">
+          <%= icon("external-link") %>
+          <%= link_to @work.pid, @work.pid %>
+          <div class="btn-group btn-group-sm pull-right" role="group">
+            <%= link_to icon("pencil").html_safe, edit_work_path(@work), { :remote => true, :class => 'btn btn-default' } %>
+            <%= link_to icon("trash").html_safe, work_path(@work), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'btn btn-default' %>
+          </div>
         </div>
       <% end %>
-    <% else %>
-      <dl class="dl-horizontal">
-        <dt>Publication Date</dt>
-        <dd><%= l @work.published_on, format: date_format(@work) %></dd>
-        <% if @work.work_type && @work.work_type.name != "article-journal" %>
-          <dt>Type</dt>
-          <dd><%= @work.work_type.title %></dd>
-        <% end %>
-        <% if @work.container_title.present? %>
-          <% if @work.work_type && @work.work_type.container %>
-            <dt><%= h(@work.work_type.container) %></dt>
-          <% else %>
-            <dt>Container Title</dt>
-          <% end %>
-          <dd><%= h(@work.container_title) %></dd>
-        <% end %>
-        <% if publishers.length > 1 && @work.publisher_id %>
-          <dt>Publisher</dt>
-          <dd><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.name) %></dd>
-        <% end %>
-        <% if @work.author.present? %>
-          <dt><%= "Author".pluralize(@work.author.length) %></dt>
-          <dd><%= author_format(@work.author).html_safe %></dd>
-        <% end %>
-        <% if @work.volume.present? %>
-          <dt>Volume</dt>
-          <dd><%= h(@work.volume) %></dd>
-        <% end %>
-        <% if @work.issue.present? %>
-          <dt>Issue</dt>
-          <dd><%= h(@work.issue) %></dd>
-        <% end %>
-        <% if @work.page.present? %>
-          <dt>Pages</dt>
-          <dd><%= h(@work.page) %></dd>
-        <% end %>
-        <% if @work.doi.present? %>
-          <dt>DOI</dt>
-          <dd class="doi" %><%= link_to h(@work.pid), @work.pid %></dd>
-        <% end %>
-        <% if @work.canonical_url.present? %>
-          <dt>Canonical URL</dt>
-          <dd><%= link_to h(@work.canonical_url), @work.canonical_url %></dd>
-        <% end %>
-        <% if @work.pmid.present? %>
-          <dt>PubMed</dt>
-          <dd id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url(@work.pmid), @work.pmid_as_url(@work.pmid) %></dd>
-        <% end %>
-        <% if @work.pmcid.present? %>
-          <dt>PubMed Central</dt>
-          <dd id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url(@work.pmcid), @work.pmcid_as_url(@work.pmcid) %></dd>
-        <% end %>
-        <% if @work.pmid.present? %>
-          <dt>Europe PMC</dt>
-          <dd><%= link_to h(@work.pmid_as_europepmc_url), @work.pmid_as_europepmc_url %></dd>
-        <% end %>
-        <% if @work.wos.present? && @work.wos_url.present? %>
-          <dt>Web of Science</dt>
-          <dd><%= link_to @work.wos, @work.wos_url %></dd>
-        <% end %>
-        <% if @work.scp.present? && @work.scopus_url.present? %>
-          <dt>Scopus</dt>
-          <dd><%= link_to @work.scp, @work.scopus_url %></dd>
-        <% end %>
-        <% if @work.ark.present? %>
-          <dt>Ark</dt>
-          <dd><%= link_to @work.ark, @work.ark_as_url(@work.ark) %></dd>
-        <% end %>
-        <% if @work.dataone.present? %>
-          <dt>DataONE</dt>
-          <dd><%= link_to @work.dataone, @work.dataone_as_url(@work.dataone) %></dd>
-        <% end %>
-        <% if @work.mendeley_url.present? %>
-          <dt>Mendeley</dt>
-          <dd><%= link_to @work.mendeley_url, @work.mendeley_url %></dd>
-        <% end %>
-      </dl>
+    </div>
+
+    <% if can?(:read, Notification) %>
+      <div id="notification-error-message">
+        <%= render :partial => 'notification_message' %>
+      </div>
     <% end %>
   </div>
-</div>
-
-<% if can?(:read, Notification) %>
-  <div id="notification-error-message">
-    <%= render :partial => 'notification_message' %>
+  <div class="col-md-3">
+    <div class="panel facets">
+      <div class="panel-body metadata">
+        <% if publishers.length > 1 && @work.publisher_id %>
+          <h5>Publisher</h5>
+          <div class="publisher"><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.name) %></div>
+        <% end %>
+        <% if @work.doi.present? %>
+          <h5>DOI</h5>
+          <dd class="doi" %><%= link_to h(@work.pid), @work.pid %></div>
+        <% end %>
+        <% if @work.canonical_url.present? %>
+          <h5>Canonical URL</h5>
+          <dd><%= link_to h(@work.canonical_url), @work.canonical_url %></div>
+        <% end %>
+        <% if @work.pmid.present? %>
+          <h5>PubMed</h5>
+          <div id="pmid" data-pmid="<%= @work.pmid %>"><%= link_to @work.pmid_as_url(@work.pmid), @work.pmid_as_url(@work.pmid) %></div>
+        <% end %>
+        <% if @work.pmcid.present? %>
+          <h5>PubMed Central</h5>
+          <div id="pmcid" data-pmcid="<%= @work.pmcid %>"><%= link_to @work.pmcid_as_url(@work.pmcid), @work.pmcid_as_url(@work.pmcid) %></div>
+        <% end %>
+        <% if @work.pmid.present? %>
+          <h5>Europe PMC</h5>
+          <div><%= link_to h(@work.pmid_as_europepmc_url), @work.pmid_as_europepmc_url %></div>
+        <% end %>
+        <% if @work.wos.present? && @work.wos_url.present? %>
+          <h5>Web of Science</h5>
+          <div><%= link_to @work.wos, @work.wos_url %></div>
+        <% end %>
+        <% if @work.scp.present? && @work.scopus_url.present? %>
+          <h5>Scopus</h5>
+          <div><%= link_to @work.scp, @work.scopus_url %></div>
+        <% end %>
+        <% if @work.ark.present? %>
+          <h5>Ark</h5>
+          <div><%= link_to @work.ark, @work.ark_as_url(@work.ark) %></div>
+        <% end %>
+        <% if @work.dataone.present? %>
+          <h5>DataONE</h5>
+          <div><%= link_to @work.dataone, @work.dataone_as_url(@work.dataone) %></div>
+        <% end %>
+        <% if @work.mendeley_url.present? %>
+          <h5>Mendeley</h5>
+          <div><%= link_to @work.mendeley_url, @work.mendeley_url %></div>
+        <% end %>
+      </div>
+    </div>
   </div>
-<% end %>
+</div>
 
 <% if can?(:read, Notification) || @active.present? %>
   <ul class="nav nav-pills">
