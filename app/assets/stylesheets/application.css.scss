@@ -539,7 +539,15 @@ h5, h4.work { margin-top: 0; margin-bottom: 0; }
 .panel-footer .btn-default {
   background-color: white;
   border-color: white;
-  padding: 0 5px;
+  padding: 0;
+}
+.panel-body.work {
+  padding: 0;
+  margin: 0;
+
+  .table {
+    margin: 0 5px;
+  }
 }
 h4.results { font-weight: normal; font-size: 1.25em; margin: 0 0 .5em .75em; }
 .loading {margin: 1em; color: $gray-darker; }
