@@ -5,12 +5,8 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Status", status_index_path %></li>
         <li><%= link_to "Works", works_path %></li>
-        <% if contributors.length > 0 %>
-          <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
-        <% end %>
-        <% if can?(:read, Notification) || publishers.length > 1 %>
-          <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
-        <% end %>
+        <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
+        <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
         <li><%= link_to "Sources", sources_path %></li>
         <% if can?(:read, Notification) %>
           <%= %w(status agents notifications users api_requests filters).include?(controller.controller_name) ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
