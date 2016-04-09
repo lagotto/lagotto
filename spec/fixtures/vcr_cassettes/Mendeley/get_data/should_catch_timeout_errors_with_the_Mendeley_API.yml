@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.mendeley.com/oauth/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=all
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic MjkzNjpiVkJtMGZmZUtxaWU0emZL
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 09 Apr 2016 16:43:32 GMT
+      Vary:
+      - Accept-Encoding, Accept-Encoding
+      X-Mendeley-Trace-Id:
+      - t5qdxnHydfc
+      Content-Length:
+      - '178'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"MSwxNDYwMjIzODEyNzUwLCwyOTM2LGFsbCwsOFlVVExpd2tRQ1Q4RGJLZXFHLVZVQzFRc0NR","token_type":"bearer","expires_in":3599,"refresh_token":null,"msso":null,"scope":"all"}'
+    http_version: 
+  recorded_at: Sat, 09 Apr 2016 16:43:32 GMT
+- request:
+    method: get
+    uri: https://api.mendeley.com/catalog?doi=10.1371/journal.pone.0000001&view=stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer MSwxNDYwMjIzODEyNzUwLCwyOTM2LGFsbCwsOFlVVExpd2tRQ1Q4RGJLZXFHLVZVQzFRc0NR
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/vnd.mendeley-document.1+json
+      Date:
+      - Sat, 09 Apr 2016 16:43:32 GMT
+      Vary:
+      - Accept-Encoding, Accept-Encoding
+      X-Mendeley-Trace-Id:
+      - Y1JP1X5SMyo
+      Content-Length:
+      - '3065'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"title":"Neural substrate of cold-seeking behavior in endotoxin shock","type":"journal","authors":[{"first_name":"Maria
+        C.","last_name":"Almeida"},{"first_name":"Alexandre A.","last_name":"Steiner"},{"first_name":"Luiz
+        G S","last_name":"Branco"},{"first_name":"Andrej A.","last_name":"Romanovsky"}],"year":2006,"source":"PLoS
+        ONE","identifiers":{"pmid":"17183631","doi":"10.1371/journal.pone.0000001","scopus":"2-s2.0-54949114304","issn":"19326203"},"id":"1d813d97-a3c8-37ab-a526-4d31bf761e19","abstract":"Systemic
+        inflammation is a leading cause of hospital death. Mild systemic inflammation
+        is accompanied by warmth-seeking behavior (and fever), whereas severe inflammation
+        is associated with cold-seeking behavior (and hypothermia). Both behaviors
+        are adaptive. Which brain structures mediate which behavior is unknown. The
+        involvement of hypothalamic structures, namely, the preoptic area (POA), paraventricular
+        nucleus (PVH), or dorsomedial nucleus (DMH), in thermoregulatory behaviors
+        associated with endotoxin (lipopolysaccharide [LPS])-induced systemic inflammation
+        was studied in rats. The rats were allowed to select their thermal environment
+        by freely moving in a thermogradient apparatus. A low intravenous dose of
+        Escherichia coli LPS (10 microg/kg) caused warmth-seeking behavior, whereas
+        a high, shock-inducing dose (5,000 microg/kg) caused cold-seeking behavior.
+        Bilateral electrocoagulation of the PVH or DMH, but not of the POA, prevented
+        this cold-seeking response. Lesioning the DMH with ibotenic acid, an excitotoxin
+        that destroys neuronal bodies but spares fibers of passage, also prevented
+        LPS-induced cold-seeking behavior; lesioning the PVH with ibotenate did not
+        affect it. Lesion of no structure affected cold-seeking behavior induced by
+        heat exposure or by pharmacological stimulation of the transient receptor
+        potential (TRP) vanilloid-1 channel (\"warmth receptor\"). Nor did any lesion
+        affect warmth-seeking behavior induced by a low dose of LPS, cold exposure,
+        or pharmacological stimulation of the TRP melastatin-8 (\"cold receptor\").
+        We conclude that LPS-induced cold-seeking response is mediated by neuronal
+        bodies located in the DMH and neural fibers passing through the PVH. These
+        are the first two landmarks on the map of the circuitry of cold-seeking behavior
+        associated with endotoxin shock.","link":"http://www.mendeley.com/research/neural-substrate-coldseeking-behavior-endotoxin-shock","reader_count":26,"reader_count_by_academic_status":{"Professor":1,"Associate
+        Professor":3,"Assistant Professor":1,"Post Doc":4,"Ph.D. Student":6,"Other
+        Professional":1,"Student (Postgraduate)":3,"Student (Master)":2,"Student (Bachelor)":1,"Senior
+        Lecturer":1},"reader_count_by_subdiscipline":{"Medicine":{"Anesthesiology":1,"Physiology":2,"Neuroscience":1,"Miscellaneous":4},"Biological
+        Sciences":{"Neurobiology":2,"Animal Physiology":2,"Miscellaneous":9},"Computer
+        and Information Science":{"Neural Networks":1},"Environmental Sciences":{"Miscellaneous":1}},"reader_count_by_country":{"United
+        States":1,"India":1},"group_count":0}]'
+    http_version: 
+  recorded_at: Sat, 09 Apr 2016 16:43:32 GMT
+recorded_with: VCR 2.9.3

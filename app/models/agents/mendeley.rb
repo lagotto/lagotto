@@ -1,4 +1,8 @@
 class Mendeley < Agent
+  def request_options
+    { bearer: access_token }
+  end
+
   def parse_data(result, options={})
     return [result] if result[:error].is_a?(String)
 
@@ -69,9 +73,9 @@ class Mendeley < Agent
     result = get_result(authentication_url, options.merge(
       username: client_id,
       password: client_secret,
-      data: "grant_type=client_credentials",
+      data: "grant_type=client_credentials&scope=all",
       source_id: source_id,
-      headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
+      headers: { "Content-Type" => "application/x-www-form-urlencoded" }))
 
     if result.present? && result["access_token"] && result["expires_in"]
       config.expires_at = Time.zone.now + result["expires_in"].seconds
@@ -80,10 +84,6 @@ class Mendeley < Agent
     else
       false
     end
-  end
-
-  def request_options
-    { bearer: access_token }
   end
 
   # Format Mendeley events for all works as csv

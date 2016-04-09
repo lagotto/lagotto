@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Mendeley, :type => :model do
+describe Mendeley, :type => :model, vcr: true do
   subject { FactoryGirl.create(:mendeley) }
 
   context "lookup access token" do
@@ -10,7 +10,7 @@ describe Mendeley, :type => :model do
       allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
       subject.access_token = nil
       subject.expires_at = Time.now
-      stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
+      stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials&scope=all", :headers => { :authorization => auth })
              .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       expect(subject.get_access_token).not_to be false
       expect(stub).to have_been_requested
@@ -21,7 +21,7 @@ describe Mendeley, :type => :model do
     it "should look up access token if blank" do
       subject.access_token = nil
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials&scope=all")
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
 
@@ -34,7 +34,7 @@ describe Mendeley, :type => :model do
     it "should look up access token if expired" do
       subject.expires_at = Time.zone.now
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials&scope=all")
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work_id: work)).to_return(:status => [408])
 
@@ -47,7 +47,7 @@ describe Mendeley, :type => :model do
     it "should report that there are no events if access token can't be retrieved" do
       subject.access_token = nil
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+      stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials&scope=all")
              .to_return(:body => "Credentials are required to access this resource.", :status => 401)
       expect { subject.get_data(work_id: work.id, source_id: subject.source_id) }.to raise_error(ArgumentError, "No Mendeley access token.")
       expect(stub).to have_been_requested
@@ -68,21 +68,11 @@ describe Mendeley, :type => :model do
   context "get_data" do
     it "should report if there are events returned by the Mendeley API" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776", :mendeley_uuid => "46cb51a0-6d08-11df-afb8-0026b95d30b2")
-      body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq("data" => JSON.parse(body))
-      expect(stub).to have_been_requested
-    end
-
-    it "should report no events if the Mendeley API returns incomplete response" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0044294")
-      body = File.read(fixture_path + 'mendeley_incomplete.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
-      response = subject.get_data(work_id: work.id)
-      expect(response).to eq(JSON.parse(body))
-      expect(stub).to have_been_requested
-      expect(Notification.count).to eq(0)
+      data = response["data"].first
+      expect(data["reader_count"]).to eq(46)
+      expect(data["group_count"]).to eq(1)
+      expect(data["link"]).to eq("http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence")
     end
 
     it "should report no events if the Mendeley API returns malformed response" do
@@ -96,11 +86,8 @@ describe Mendeley, :type => :model do
 
     it "should report no events if the Mendeley API returns not found error" do
       work = FactoryGirl.create(:work)
-      body = File.read(fixture_path + 'mendeley_error.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body, :status => 404)
       response = subject.get_data(work_id: work.id)
-      expect(response).to eq(error: JSON.parse(body)['error'], status: 404)
-      expect(stub).to have_been_requested
+      expect(response).to eq("data"=>[])
       expect(Notification.count).to eq(0)
     end
 
