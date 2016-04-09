@@ -1,8 +1,12 @@
-<div class="content markdown">
-  <div class="panel panel-default">
-    <div id="api_key" data-id="<%= @doc.id %>" class="panel-heading panel-title"><%= @doc.title %></div>
-    <div class="panel-body">
-      <%= markdown @doc.content %>
+<div class="row">
+  <div class="col-md-9">
+    <div class="content markdown">
+      <div class="panel panel-default">
+        <div id="api_key" data-id="<%= @doc.id %>" class="panel-heading panel-title"><%= @doc.title %></div>
+        <div class="panel-body">
+          <%= markdown @doc.content %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
