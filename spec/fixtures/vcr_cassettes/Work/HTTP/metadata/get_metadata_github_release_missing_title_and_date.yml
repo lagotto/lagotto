@@ -1,0 +1,127 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.github.com/repos/brian-j-smith/Mamba.jl/releases/tags/v0.4.8
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
+  response:
+    status:
+      code: 403
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sat, 09 Apr 2016 20:08:03 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '119'
+      Status:
+      - 403 Forbidden
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '0'
+      X-Ratelimit-Reset:
+      - '1460234923'
+      X-Oauth-Scopes:
+      - gist, repo, user
+      X-Accepted-Oauth-Scopes:
+      - repo
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 3EE06D6F:174B5:7CED5A4:57096123
+    body:
+      encoding: UTF-8
+      string: '{"message":"API rate limit exceeded for mfenner.","documentation_url":"https://developer.github.com/v3/#rate-limiting"}'
+    http_version: 
+  recorded_at: Sat, 09 Apr 2016 20:08:03 GMT
+- request:
+    method: get
+    uri: https://api.github.com/users/brian-j-smith
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
+  response:
+    status:
+      code: 403
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sat, 09 Apr 2016 20:08:04 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '119'
+      Status:
+      - 403 Forbidden
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '0'
+      X-Ratelimit-Reset:
+      - '1460234923'
+      X-Oauth-Scopes:
+      - gist, repo, user
+      X-Accepted-Oauth-Scopes:
+      - repo
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Github-Request-Id:
+      - 3EE06D6F:174B5:7CED667:57096123
+    body:
+      encoding: UTF-8
+      string: '{"message":"API rate limit exceeded for mfenner.","documentation_url":"https://developer.github.com/v3/#rate-limiting"}'
+    http_version: 
+  recorded_at: Sat, 09 Apr 2016 20:08:04 GMT
+recorded_with: VCR 2.9.3

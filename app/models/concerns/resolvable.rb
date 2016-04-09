@@ -275,7 +275,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => response.fetch('description', nil).presence || github_hash[:repo],
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil),
+        "issued" => response.fetch('created_at', nil).presence || "0000",
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -297,7 +297,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => title,
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil),
+        "issued" => response.fetch('created_at', nil).presence || "0000",
         "URL" => url,
         "type" => 'entry' }
     rescue *NETWORKABLE_EXCEPTIONS => e
@@ -318,7 +318,7 @@ module Resolvable
       { "author" => [get_one_author(author)],
         "title" => response.fetch('name', nil),
         "container-title" => "Github",
-        "issued" => response.fetch('created_at', nil),
+        "issued" => response.fetch('created_at', nil).presence || "0000",
         "URL" => url,
         "type" => 'computer_program' }
     rescue *NETWORKABLE_EXCEPTIONS => e
