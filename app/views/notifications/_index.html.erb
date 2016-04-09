@@ -133,7 +133,7 @@
         <%= will_paginate @notifications, :params => { :controller => notifications_path }, :renderer => BootstrapPagination::Rails %>
       </div>
     <% else %>
-      <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name) %> <% end %>notifications
+      <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name.first) %> <% end %>notifications
         <% unless @source.nil? %>
           for <%= @source.title %>
         <% end %>
