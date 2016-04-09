@@ -75,7 +75,7 @@ Lagotto::Application.routes.draw do
       resources :relation_types, only: [:index, :show]
       resources :results
       resources :sources, concerns: [:workable] do
-        resources :results
+        resources :months
       end
       resources :status, only: [:index]
       resources :work_types, only: [:index, :show]

@@ -1,18 +1,15 @@
-<div class="panel panel-default">
-  <div class="panel-heading panel-title">
-    <%= @source.title %> <small class="pull-right" id="timestamp"><%= date_from_iso8601(@source.timestamp) + ' UTC' %> <%= state_label(@source.human_state_name).html_safe %></small>
-  </div>
-  <div class="panel-body">
-    <dl class="dl-horizontal">
-      <% unless @source.group.blank? %>
-        <dt>Group</dt>
-        <dd><%= h(@source.group.title) %></dd>
-      <% end %>
-      <% unless @source.description.blank? %>
-        <dt>Description</dt>
-        <dd><%= h(@source.description) %></dd>
-      <% end %>
-    </dl>
+<div class="row work-page">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4 class="work"><%= @source.title %></h4>
+        <div class="description"><%= h(@source.description) %></div>
+      </div>
+      <div class="panel-footer">
+        <%= l @source.cached_at, format: :medium %> <%= state_label(@source.human_state_name).html_safe %>
+        <span class="pull-right"><%= h(@source.group.title) %></span>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -100,21 +100,6 @@ class Source < ActiveRecord::Base
     end
   end
 
-  def queue_import_jobs(ids, options = {})
-    return 0 unless active?
-
-    if ids.length == 0
-      wait
-      return 0
-    end
-
-    ids.each_slice(job_batch_size) do |_ids|
-      CouchdbImportJob.perform_later(_ids)
-    end
-
-    ids.length
-  end
-
   def timestamp
     cached_at.utc.iso8601
   end

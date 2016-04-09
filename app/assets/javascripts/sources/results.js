@@ -26,7 +26,7 @@ var options = {
 
 if (!params.empty()) {
   var source_id = params.attr('data-source-id');
-  var query = encodeURI("/api/sources/" + source_id + "/results");
+  var query = encodeURI("/api/sources/" + source_id + "/months");
 }
 
 // asynchronously load data from the Lagotto API
@@ -38,7 +38,7 @@ queue()
     if (error) { return console.warn(error); }
     options.source = s.source;
     options.groups = g.groups;
-    options.almStatsJson = r.results;
+    options.almStatsJson = r.months;
     var almviz = new AlmViz(options);
     almviz.initViz();
 });
