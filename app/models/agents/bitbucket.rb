@@ -25,7 +25,7 @@ class Bitbucket < Agent
     works = Work.tracked.where(registration_agency: 'bitbucket').pluck(:id)
     total = works.size
 
-    works.each_slice(job_batch_size) do |ids|
+    works.pluck_in_batches(:id, batch_size: job_batch_size) do |ids|
       AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options.merge(ids: ids))
     end
 
