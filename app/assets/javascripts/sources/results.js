@@ -125,7 +125,7 @@ function AlmViz(options) {
     metricsFound_ = true;
 
     var total = d3.sum(data, function(g) { return g.total; });
-    if (total > 0) { addSource_(source, "Total", total, group, "total", $groupRow); }
+    if (total > 0) { addSource_(source, source.title, total, group, "total", $groupRow); }
   };
 
 

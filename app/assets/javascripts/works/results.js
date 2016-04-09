@@ -37,12 +37,12 @@ queue()
   .defer(d3.json, encodeURI("/api/sources"))
   .defer(d3.json, encodeURI("/api/groups"))
   .defer(d3.json, query)
-  .await(function(error, w, s, g, e) {
+  .await(function(error, w, s, g, r) {
     if (error) { return console.warn(error); }
     options.work = w.work;
     options.sources = s.sources;
     options.groups = g.groups;
-    options.almStatsJson = e.results;
+    options.almStatsJson = r.results;
     var almviz = new AlmViz(options);
     almviz.initViz();
 });
@@ -177,21 +177,9 @@ function AlmViz(options) {
       .attr("id", "source-" + source.id + "-" + subgroup);
     $countLabel = $row.append("div")
       .attr("class", "alm-label " + group.id);
-
-    if (results.events_url) {
-      // if there is an eventsUrl, we can link to it from the count
-      $count = $countLabel.append("p")
-        .attr("class", "alm-count")
-        .attr("id", "alm-count-" + source.id + "-" + group.id)
-        .append("a")
-        .attr("href", function() { return results.events_url; });
-    } else {
-      // if no eventsUrl, we just put in the count
-      $count = $countLabel.append("p")
-        .attr("class", "alm-count")
-        .attr("id", "alm-count-" + source.id + "-" + group.id);
-    }
-
+    $count = $countLabel.append("p")
+      .attr("class", "alm-count")
+      .attr("id", "alm-count-" + source.id + "-" + group.id);
     $count
       .text(formatNumber_(total));
 

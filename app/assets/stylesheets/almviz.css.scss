@@ -76,40 +76,40 @@
   color: $peter-river;
 }
 
-.events {
-  border: 2px solid $emerald;
-}
-
-.bar.events {
-  fill: $emerald;
-}
-
-.bar.events-alt {
-  fill: darken($emerald, 15%);
-}
-
-.alm-label.events p, .alm-label.events a {
-  color: $emerald;
-}
-
-.contributions {
+.results {
   border: 2px solid $turquoise;
 }
 
-.bar.contributions {
+.bar.results {
   fill: $turquoise;
 }
 
-.contributions_event {
-  color: $turquoise;
-}
-
-.bar.contributions-alt {
+.bar.results-alt {
   fill: darken($turquoise, 15%);
 }
 
-.alm-label.contributions p, .alm-label.contributions a {
+.alm-label.results p, .alm-label.results a {
   color: $turquoise;
+}
+
+.contributions {
+  border: 2px solid $amethyst;
+}
+
+.bar.contributions {
+  fill: $amethyst;
+}
+
+.contributions_event {
+  color: $amethyst;
+}
+
+.bar.contributions-alt {
+  fill: darken($amethyst, 15%);
+}
+
+.alm-label.contributions p, .alm-label.contributions a {
+  color: $amethyst;
 }
 
 .alm-label p, .alm-label a {
@@ -139,11 +139,12 @@
 .alm-control-label {
   text-align: right;
   margin-top: -10px;
+  padding-right: 10px;
 }
 
 .alm-control {
 	color: $link-color;
-  font-size: 16px;;
+  font-size: 16px;
 }
 
 .alm-control.active {
