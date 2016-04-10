@@ -545,7 +545,12 @@ h5, h4.work { margin-top: 0; margin-bottom: 0; }
     font-size: 0.85em;
   }
 }
-.panel-default .table { margin: 0 5px; }
+.panel-default .table {
+  margin: 0;
+  th, td {
+    padding: 10px 15px;
+  }
+}
 h4.results { font-weight: normal; font-size: 1.25em; margin: 0 0 .5em .75em; }
 .loading {margin: 1em; color: $gray-darker; }
 td h4 { margin-top: 0; }
@@ -655,7 +660,7 @@ html {
   padding:0;
   table-layout:fixed
 }
-.markdown td,th {
+.markdown td, .markdown th {
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 13px;
