@@ -11,14 +11,14 @@ Configuring Lagotto consists of three steps:
 * [Deployment](/docs/deployment) if you are using Lagotto in a production system
 * [Setup](/docs/setup)
 
-Lagotto is a typical Ruby on Rails web application, using MySQL (or PostgreSQL, see below), Memcached, Redis, Nginx, and Passenger.CouchDB is used to store the data from some external sources, but is not reqquired. Lagotto uses Ruby 2.x and Ruby on Rails 4.x. The application has extensive test coverage using [Rspec].
+Lagotto is a typical Ruby on Rails web application, using MySQL (or PostgreSQL, see below), Memcached, Redis, Nginx, and Passenger. Lagotto uses Ruby version 2.2 or higher, and Ruby on Rails 4.x. The application has extensive test coverage using [Rspec].
 
 [Rspec]: http://rspec.info/
 
 Lagotto is Open Source software licensed with a [MIT License](https://github.com/lagotto/lagotto/blob/master/LICENSE.md), all dependencies (software and libraries) are also Open Source. Because of the background workers that talk to external APIs we recommend at least 1 Gb of RAM, and more if you have a large number of works.
 
 #### Ruby
-Lagotto requires Ruby 2.x. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby, unfortunately they also introduce additional dependencies, making them not the best choices in a production environment. The Chef script below installs Ruby 2.2 using a PPA for Ubuntu, this PPA is also recommended for manual installations on Ubuntu.
+Lagotto requires Ruby 2.2 or higher. [RVM] and [Rbenv] are Ruby version management tools for installing Ruby, unfortunately they also introduce additional dependencies, making them not the best choices in a production environment. The Chef script below installs Ruby 2.2 using a PPA for Ubuntu, this PPA is also recommended for manual installations on Ubuntu.
 
 [RVM]: http://rvm.io/
 [Rbenv]: https://github.com/sstephenson/rbenv
@@ -40,14 +40,29 @@ More information regarding ENV variables and `.env` is available [here](https://
 # Example configuration settings for this application
 
 APPLICATION=lagotto
-
 RAILS_ENV=development
+
+# custom settings, e.g header and footer
+MODE=default
+
+# Human friendly name of the organization running this software. For use
+# in report generation to attribute ownership of the produced reports.
+CREATOR=Public Library of Science
 
 # database settings
 DB_NAME=lagotto
 DB_USERNAME=vagrant
 DB_PASSWORD=
-DB_HOST=localhost
+DB_HOST=127.0.0.1
+DB_SLAVE_HOST=127.0.0.1
+DB_PORT=3306
+DB_POOL=100
+
+# mysql server root password for chef
+DB_ROOT_PASSWORD=EZ$zspyxF2
+
+# redis server
+REDIS_URL=redis://127.0.0.1:6379/4
 
 # internal name of server
 HOSTNAME=lagotto.local
@@ -55,28 +70,41 @@ HOSTNAME=lagotto.local
 # public name of server
 # can be HOSTNAME, or different if load balancer is used
 SERVERNAME=lagotto.local
+SERVER_URL=http://127.0.0.1
 
 # all instances of server used behind load balancer
 # can be HOSTNAME, or comma-delimited string of HOSTNAME
 SERVERS=lagotto.local
 
+# memcached servers
+# can be HOSTNAME, or comma-delimited string of HOSTNAME
+# MEMCACHE_SERVERS=
+
+# consul server cluster, defaults to HOSTNAME if left empty
+# CONSUL_SERVERS=
+
 # name used on navigation bar and in email subject line
-SITENAME=Lagotto
+SITENAME=ALM Dev
+
+# Longer, more descriptive name of the installation site
+SITENAMELONG="PLOS ALM"
 
 # email address for sending emails
-ADMIN_EMAIL=admin@example.com
+ADMIN_EMAIL=info@example.org
 
-# number of background processes
+# number of threads Sidekiq uses
 CONCURRENCY=25
-
-# automatic import via CrossRef API.
-# Use 'crossref', 'member', 'sample', 'member_sample', 'datacite', 'dataone', 'plos', or comment out
-# IMPORT=
 
 # keys
 # run `rake secret` to generate these keys
 API_KEY=8897f9349100728d66d64d56bc21254bb346a9ed21954933
 SECRET_KEY_BASE=c436de247c988eb5d0908407e700098fc3992040629bb8f98223cd221e94ee4d15626aae5d815f153f3dbbce2724ccb8569c4e26a0f6f663375f6f2697f1f3cf
+
+# token for Github metadata lookup
+GITHUB_PERSONAL_ACCESS_TOKEN=
+
+# uncomment to always use SSL
+# FORCE_SSL=1
 
 # mail settings
 MAIL_ADDRESS=localhost
@@ -85,11 +113,16 @@ MAIL_DOMAIN=localhost
 
 # vagrant settings
 PRIVATE_IP=10.2.2.4
+TRUSTED_IP=10.2.2.1
 
 AWS_KEY=
 AWS_SECRET=
 AWS_KEYNAME=
 AWS_KEYPATH=
+
+ZENODO_KEY=
+#ZENODO_URL=https://zenodo.org/api/
+ZENODO_URL=https://sandbox.zenodo.org/api/
 
 DO_PROVIDER_TOKEN=
 DO_SIZE=1GB
@@ -99,14 +132,12 @@ SSH_PRIVATE_KEY='~/.ssh/id_rsa'
 DEPLOY_USER=vagrant
 DEPLOY_GROUP=vagrant
 
-# mysql server root password for chef
-DB_SERVER_ROOT_PASSWORD=EZ$zspyxF2
-
 LOG_LEVEL=info
 
 # authentication via orcid, github, cas or jwt
 OMNIAUTH=orcid
 
+GITHUB_URL=https://github.com/lagotto/lagotto
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 
@@ -116,6 +147,30 @@ ORCID_CLIENT_SECRET=
 CAS_URL=
 CAS_INFO_URL=
 CAS_PREFIX=
+
+JWT_HOST=
+JWT_NAME=
+JWT_SECRET_KEY=
+
+# enable logging of external API responses
+# LOGSTASH_PATH=log/agent.log
+
+# customize signposts, defaults are shown
+# VIEWED=pmc,counter
+# SAVED=mendeley,citeulike
+# DISCUSSED=twitter,twitter_search,facebook
+# CITED=crossref
+
+# don't run rake task from ember-cli-rails gem
+SKIP_EMBER = 1
+
+# optionally use Bugsnag, provide API keys here
+# BUGSNAG_KEY=
+# BUGSNAG_JS_KEY=
+
+# use Atlas for monitoring
+# ATLAS_NAME=
+# ATLAS_TOKEN=
 ```
 
 ## Automated Installation
@@ -123,20 +178,13 @@ This is the recommended way to install Lagotto. The required applications and li
 
 The first step is to copy `.env.example` to `.env` and to set all variables - reasonable defaults are provided for many of them.
 
-Then download and install [Vagrant], and the librarian gem (used to manage Chef cookbooks):
+Then download and install [Vagrant].
 
-```sh
-gem install librarian
-```
-
-Vagrant needs three additional plugins and will complain if they are missing. The `vagrant-omnibus` plugin installs Chef on the VM, the `vagrant-librarian-chef` plugin manages cookbooks, and the `vagrant-bindfs` plugin improves the performance of shared folders when using Virtualbox.
+Vagrant needs two additional plugins and will complain if they are missing. The `vagrant-omnibus` plugin installs Chef on the VM, and the `dotenv` gem is used to manage `.env` files.
 
 ```sh
 vagrant plugin install vagrant-omnibus
-vagrant plugin install vagrant-librarian-chef
-vagrant plugin install vagrant-bindfs
 vagrant plugin install dotenv
-vagrant plugin install vagrant-capistrano-push
 ```
 
 The following providers have been tested with Lagotto:
@@ -209,11 +257,11 @@ All user-specific settings are controlled via ENV variables and the `.env` file.
 
 ### Cookbooks
 
-The [Chef cookbooks](https://supermarket.getchef.com/) needed by the Lagotto cookbook are managed by [librarian-chef](https://github.com/applicationsonline/librarian-chef), which was installed in a previous step. The required cookbooks are listed in the `Cheffile`, and are automatically installed into `vendor/cookbooks`.
+The [Chef cookbooks](https://supermarket.getchef.com/) needed by the Lagotto cookbook are managed by [Berkshelf](http://berkshelf.com/), which was installed in a previous step. The required cookbooks are listed in the `Cheffile`, and are automatically installed into `vendor/cookbooks`.
 
 ### Installation
 
-Then install all the required software for Lagotto with:
+Then install the required software for Lagotto with:
 
 ```sh
 git clone git://github.com/lagotto/lagotto.git
@@ -233,13 +281,15 @@ vagrant ssh
 cd /var/www/lagotto/current
 ```
 
-This uses the private SSH key provided by you in the `Vagrantfile` (the default insecure key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored as `DB_PASSWORD` in the `.env` file. The database servers can be reached from the virtual machine or via port forwarding. Vagrant syncs the folder on the host containing the checked out Lagotto git repo with the folder `/var/www/lagotto/current` on the guest.
+This uses the private SSH key provided by you in the `Vagrantfile` (the default insecure key for local installations using Virtualbox is `~/.vagrant.d/insecure_private_key`). The `vagrant` user has sudo privileges. The MySQL password is stored as `DB_PASSWORD` in the `.env` file. The database servers can be reached from the virtual machine or via port forwarding. Vagrant syncs the folder on the host containing the checked out Lagotto git repo with the folder `/var/www/lagotto` on the guest.
+
+The databases `MySQL` and `Redis` are not installed with the Chef cookbooks, as they typically contain persistent data that should not stored in a temporary virual machine.
 
 ## Manual installation
 These instructions assume a fresh installation of Ubuntu 14.04 and a user with sudo privileges. Installation on other Unix/Linux platforms should be similar, and Lagotto runs on several production systems with RHEL and CentOS.
 
-#### Add PPAs/repositories to install more recent versions of Ruby and CouchDB, and Nginx/Passenger
-We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`. We optionally want to install the latest CouchDB version from the official PPA (needed for the twitter_search, pmc and f1000 sources), and we want to install Nginx precompiled with Passenger.
+#### Add PPAs/repositories to install more recent versions of Ruby and Nginx/Passenger
+We only need one Ruby version and manage gems with bundler, so there is no need to install `rvm` or `rbenv`. And we want to install Nginx precompiled with Passenger.
 
 ```sh
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
@@ -247,7 +297,6 @@ sudo apt-get install apt-transport-https ca-certificates -y
 sudo apt-get install python-software-properties -y
 
 sudo apt-add-repository ppa:brightbox/ruby-ng
-sudo add-apt-repository ppa:couchdb/stable
 
 echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' | sudo tee --append /etc/apt/sources.list > /dev/null
 ```
@@ -268,7 +317,7 @@ sudo apt-get install ruby2.2 ruby2.2-dev make curl git libmysqlclient-dev nodejs
 #### Install databases
 
 ```sh
-sudo apt-get install couchdb mysql-server redis-server -y
+sudo apt-get install mysql-server redis-server -y
 ```
 
 #### Install Memcached
@@ -336,9 +385,9 @@ npm install
 ```
 
 #### Install Lagotto databases
-We just setup an empty database for CouchDB (optional). With MySQL we also include all data to get started, including a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
+With MySQL we also include all data to get started, including a default user account (`DB_USERNAME` from your `.env` file). Use `RAILS_ENV=production` in your `.env` file if you set up Passenger to run in the production environment.
 
-It is possible to connect Lagotto to MySQL unning on a different server, please change `DB_HOST` in your `.env` file accordingly. We are using the default installation for redis.
+It is possible to connect Lagotto to MySQL running on a different server, please change `DB_HOST` in your `.env` file accordingly. We are using the default installation for redis.
 
 ```sh
 cd /var/www/lagotto

@@ -3,6 +3,51 @@ layout: card_list
 title: "Releases"
 ---
 
+## Lagotto 5.0 (April 11, 2016)
+
+[Lagotto 5.0](https://github.com/lagotto/lagotto/releases/tag/v.5.0) was released on April 11, 2016 with the following changes:
+
+### Publishers
+add publisher import from CrossRef REST API ([#433](https://github.com/lagotto/lagotto/issues/433))
+* make publisher model more generic instead of working only with Crossref ([#430](https://github.com/lagotto/lagotto/issues/430))
+
+### Contributors
+* add contributor model ([#429](https://github.com/lagotto/lagotto/issues/429))
+add contributor role ([#504](https://github.com/lagotto/lagotto/issues/504))
+
+### API
+* removed obsolete v3 API ([#469](https://github.com/lagotto/lagotto/issues/469))
+* remove depreciated v5 API ([#496](https://github.com/lagotto/lagotto/issues/496))
+* start v7 API ([#497](https://github.com/lagotto/lagotto/issues/497))
+
+### Other changes
+
+* use berkshelf instead of librarian to manage cookbooks ([#408](https://github.com/lagotto/lagotto/issues/408))
+* added packer support ([#409](https://github.com/lagotto/lagotto/issues/409))
+* upload .env file before starting capistrano ([#410](https://github.com/lagotto/lagotto/issues/410))
+* import DataCite DOIs that include relatedIdentifiers ([#414](https://github.com/lagotto/lagotto/issues/414))
+* added agent to extract ORCID identifiers from DataCite metadata ([#416](https://github.com/lagotto/lagotto/issues/416))
+* fetch DOI and ORCID metadata right before validation ([#418](https://github.com/lagotto/lagotto/issues/418))
+* added namae gem for more consistent name parsing ([#419](https://github.com/lagotto/lagotto/issues/419))
+* created datacite_github agent ([#424](https://github.com/lagotto/lagotto/issues/424))
+* created crossref_orcid agent ([#425](https://github.com/lagotto/lagotto/issues/425))
+* removed CouchDB code ([#429](https://github.com/lagotto/lagotto/issues/429))
+* added jwt authentication ([#436](https://github.com/lagotto/lagotto/issues/436))
+* use sidekiq with connection_pool ([#446](https://github.com/lagotto/lagotto/issues/446))
+* added support for master-slave db configuration ([#447](https://github.com/lagotto/lagotto/issues/447))
+* upgraded to sidekiq 4 ([#449](https://github.com/lagotto/lagotto/issues/449))
+* removed persona authentication support ([#457](https://github.com/lagotto/lagotto/issues/457))
+* add templates for crossref, allowing organization-specific headers, footers and CSS ([#463](https://github.com/lagotto/lagotto/issues/463))
+* added httplog for http request logging ([#464](https://github.com/lagotto/lagotto/issues/464))
+* use only one standard filename for .env file ([#466](https://github.com/lagotto/lagotto/issues/466))
+* removed events by day ([#468](https://github.com/lagotto/lagotto/issues/468))
+* use cookieStore to store sessions ([#489](https://github.com/lagotto/lagotto/issues/489))
+* use iso8601 instead of date-parts for publication date ([#490](https://github.com/lagotto/lagotto/issues/490))
+* normalize all DOI forms when processing deposit ([#491](https://github.com/lagotto/lagotto/issues/491))
+* added separate sources for html views and pdf downloads ([#495](https://github.com/lagotto/lagotto/issues/495))
+* redefined groups for sources ([#500](https://github.com/lagotto/lagotto/issues/500))
+* set sidekiq log level via ENV variable ([#520](https://github.com/lagotto/lagotto/issues/520))
+
 ## Lagotto 4.3 (July 20, 2015)
 
 [Lagotto 4.3](https://github.com/lagotto/lagotto/releases/tag/v.4.3) was released on July 20, 2015 with the following changes:

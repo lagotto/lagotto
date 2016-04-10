@@ -19,7 +19,7 @@ The default media type is JSON. The media type is set in the header, e.g. "Accep
 ### API Key
 Almost all information regarding works (with the exception of sources that don't allow redistribution of data) is available without API keys since the Lagotto 3.12.7 release (January 9, 2015). An API key is required to add/update works, and to access some of the internal data of the application. A key can be obtained by registering as API user with the ALM application and this shouldn't take more than a few minutes. Lagotto supports OAuth authentication via Github and ORCID, as well as CAS and JWT. Authentication via username/password is not supported.
 
-The v7 API requires the API key in the header in the format `Authorization: Token token=API_KEY`. Versions of the API up to v5 expected the API key as part of the URL in the format `?api_key=API_KEY`.
+The v7 API requires the API key in the header in the format `Authorization: Token token=API_KEY`.
 
 ### API endpoints
 
