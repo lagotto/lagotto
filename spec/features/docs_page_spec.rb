@@ -25,10 +25,10 @@ describe "docs", type: :feature, js: true do
     expect(page).to have_css ".panel-heading a", text: "Adding Users"
   end
 
-  it "show sources" do
-    visit "/docs/sources"
+  it "show agents" do
+    visit "/docs/agents"
 
-    expect(page).to have_css ".panel-heading", text: "Sources"
+    expect(page).to have_css ".panel-heading", text: "Agents"
   end
 
   it "show API" do
@@ -63,7 +63,7 @@ describe "docs", type: :feature, js: true do
 
   it "show roadmap" do
     visit "/docs/roadmap"
-    expect(page).to have_css ".panel-heading a", text: /\d+\.\d+ Data-Push Model/
+    expect(page).to have_css ".panel-heading a", text: /\d+\.\d+ Bug fixes May 2016/
   end
 
   it "show contributors" do

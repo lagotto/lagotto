@@ -48,9 +48,6 @@ describe "notifications", type: :feature, js: true do
       click_link "Warn"
     end
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
-
-    click_link "Error"
-    expect(page).to have_css ".alert-info", text: "There are currently no notifications"
   end
 
   it "show notifications by class name" do
@@ -62,7 +59,5 @@ describe "notifications", type: :feature, js: true do
     end
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
-    click_link "Net::HTTPUnauthorized"
-    expect(page).to have_css ".alert-info", text: "There are currently no Net::HTTPUnauthorized notifications"
   end
 end
