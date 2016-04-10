@@ -5,11 +5,29 @@ title: "Releases"
 
 ## Lagotto 5.0 (April 11, 2016)
 
-[Lagotto 5.0](https://github.com/lagotto/lagotto/releases/tag/v.5.0) was released on April 11, 2016 with the following changes:
+[Lagotto 5.0](https://github.com/lagotto/lagotto/releases/tag/v.5.0) was released on April 11, 2016. This release includes breaking changes, users of Lagotto 4.x should wait for Lagotto 5.2, which will provide an upgrade path for 4.x users.
+
+The following changes were made:
+
+### Agents/Sources
+
+In Lagotto 5.0 the functionality of sources is broken into two different models:
+
+* **agents** collect information from external APIs
+* **sources** provide this information via the Lagotto API
+
+One consequence of this split of functionality is that agents can now be external to the Lagotto application.
+
+Another consequence is that agents no longer need to do API calls for every single work, but can import data in bulk. This dramatically improves performance.
+
+### Deposits
+
+The new deposits API provides a common way to import data into Lagotto from external APIs. Import of data via rake task, as in previous Lagotto versions, is no longer supported in Lagotto 5.0. The deposits API is also used by the built-in Lagotto agents.
+
+The deposits API is generic enough to allow not only the import of works, but also publishers and contrbutors.
 
 ### Publishers
-add publisher import from CrossRef REST API ([#433](https://github.com/lagotto/lagotto/issues/433))
-* make publisher model more generic instead of working only with Crossref ([#430](https://github.com/lagotto/lagotto/issues/430))
+Added automatic import of publisher information from Crossref and DataCite ([#430](https://github.com/lagotto/lagotto/issues/430)).
 
 ### Contributors
 * add contributor model ([#429](https://github.com/lagotto/lagotto/issues/429))
