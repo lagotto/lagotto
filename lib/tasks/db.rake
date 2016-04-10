@@ -31,35 +31,6 @@ namespace :db do
       puts "Started deleting all canonical urls in the background..."
     end
 
-    desc "Add missing sources"
-    task :add_sources, [:date] => :environment do |_, args|
-      if args.date.nil?
-        puts "Date in format YYYY-MM-DD required"
-        exit
-      end
-
-      works = Work.where("published_on >= ?", args.date)
-
-      if args.extras.empty?
-        sources = Source.all
-      else
-        sources = Source.where("name in (?)", args.extras)
-      end
-
-      events = []
-      works.each do |work|
-        sources.each do |source|
-          event = Event.where(work_id: work.id, source_id: source.id).find_or_initialize
-          if event.new_record?
-            event.save!
-            events << event
-          end
-        end
-      end
-
-      puts "#{events.count} event(s) added for #{sources.count} source(s) and #{works.count} works"
-    end
-
     desc "Remove all HTML and XML tags from work titles"
     task :sanitize_title => :environment do
       Work.all.each { |work| work.save }
@@ -105,21 +76,6 @@ namespace :db do
         work.save
       end
       puts "Date parts for #{works.count} works added"
-    end
-  end
-
-  namespace :events do
-    desc "Delete events"
-    task :delete => :environment do
-      source = Source.active.where("name = ?", ENV['SOURCE']).first
-      unless source.present?
-        puts "Please use SOURCE environment variable with name of available source. No event deleted."
-        exit
-      end
-
-      DeleteEventJob.perform_later(source)
-
-      puts "Started deleting all events for source #{ENV['SOURCE']} in the background..."
     end
   end
 
@@ -183,26 +139,6 @@ namespace :db do
     task :delete => :environment do
       count = Deposit.where("state = ?", 3).where("created_at < ?", Time.zone.now - 7.days).delete_all
       puts "Deleted #{count} completed deposits"
-    end
-  end
-
-  namespace :publishers do
-
-    desc "Create publisher"
-    task :create => :environment do
-      begin
-        fail ArgumentError, "Please provide publisher name via ENV['NAME']" if ENV['NAME'].blank?
-        fail ArgumentError, "Please provide publisher title via ENV['TITLE']" if ENV['TITLE'].blank?
-
-        publisher = Publisher.create!(name: ENV['NAME'],
-                                      title: ENV['TITLE'],
-                                      prefixes: [],
-                                      other_names: [])
-        puts "Publisher #{publisher.title} created"
-      rescue ArgumentError => e
-        puts e.message
-        exit
-      end
     end
   end
 
