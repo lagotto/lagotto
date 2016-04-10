@@ -122,7 +122,7 @@
   <div class="col-md-3">
     <div class="panel facets">
       <div class="panel-body metadata">
-        <% if publishers.length > 1 && @work.publisher_id %>
+        <% if @work.publisher %>
           <h5>Publisher</h5>
           <div class="publisher"><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.name) %></div>
         <% end %>
