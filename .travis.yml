@@ -8,7 +8,6 @@ env:
   - DB=mysql
 
 services:
-  - couchdb
   - redis-server
 
 before_script:
