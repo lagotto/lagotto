@@ -34,7 +34,7 @@ ActiveSupport::Notifications.subscribe "change.get" do |name, start, finish, id,
   Change.create! do |change|
     change.work_id = payload.fetch(:work_id, nil)
     change.source_id = payload.fetch(:source_id, nil)
-    change.event_id = ppayload.fetch(:event_id, nil)
+    change.result_id = payload.fetch(:result_id, nil)
     change.skipped = payload.fetch(:skipped, false)
     change.total = payload.fetch(:total, 0)
     change.previous_total = payload.fetch(:previous_total, 0)
