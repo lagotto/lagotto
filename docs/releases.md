@@ -3,9 +3,9 @@ layout: card_list
 title: "Releases"
 ---
 
-## Lagotto 5.0 (April 11, 2016)
+## Lagotto 5.0 (April 12, 2016)
 
-[Lagotto 5.0](https://github.com/lagotto/lagotto/releases/tag/v.5.0) was released on April 11, 2016. This release includes breaking changes, users of Lagotto 4.x should wait for Lagotto 5.2, which will provide an upgrade path for 4.x users.
+[Lagotto 5.0](https://github.com/lagotto/lagotto/releases/tag/v.5.0) was released on April 12, 2016. This release includes breaking changes, users of Lagotto 4.x should wait for Lagotto 5.2, which will provide an upgrade path for 4.x users.
 
 The following changes were made:
 
