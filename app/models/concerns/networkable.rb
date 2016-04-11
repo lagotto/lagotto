@@ -65,7 +65,8 @@ module Networkable
       Faraday.new do |c|
         c.headers['Accept'] = options[:headers]['Accept']
         c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
-        c.use      FaradayMiddleware::FollowRedirects, limit: options[:limit], cookie: :all
+        c.use      FaradayMiddleware::FollowRedirects, limit: options[:limit]
+        c.use      :cookie_jar
         c.request  :multipart
         c.request  :json if options[:headers]['Accept'] == 'application/json'
         c.use      Faraday::Response::RaiseError
