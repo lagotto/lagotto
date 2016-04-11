@@ -62,7 +62,8 @@ class WorksController < ApplicationController
     end
 
     @active = []
-    @active += ["relations", "results"] if @work.relations.size > 0
+    @active += ["relations"] if @work.relations.size > 0
+    @active += ["results"] if @work.results.size > 0
     @active += ["contributions"] if @work.contributions.size > 0
 
     @sources = @work.results.where.not(source_id: nil).group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }

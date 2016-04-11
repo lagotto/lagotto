@@ -62,7 +62,14 @@ function AlmViz(options) {
   // Abort if data are missing
   if (!data || !data[0]) {
     console.log('Error: missing data');
-    return null;
+
+    d3.select("#loading-results").remove();
+
+    d3.select("#content-results").text("")
+      .insert("div")
+      .attr("class", "alert alert-info")
+      .text("There are currently no results");
+    return;
   }
 
   // Init basic options
@@ -95,7 +102,7 @@ function AlmViz(options) {
    * NB: needs to be accessible from the outside for initialization
    */
   this.initViz = function() {
-    vizDiv.select("#loading").remove();
+    vizDiv.select("#loading-results").remove();
 
     // loop through groups
     groups_.forEach(function(group) {

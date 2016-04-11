@@ -35,7 +35,7 @@ function contributionsViz(json, sources, contributor_roles) {
   json.href = "?page={{number}}";
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
 
-  d3.select("#loading-results-contributions").remove();
+  d3.select("#loading-contributions").remove();
 
   if (typeof data === "undefined" || data.length === 0) {
     d3.select("#content-contributions").text("")

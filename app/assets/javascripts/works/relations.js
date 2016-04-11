@@ -43,7 +43,7 @@ function eventsViz(json, sources, relation_types, work_types) {
   if (work_type_id !== "") { json.href += "&work_type_id=" + work_type_id; }
   if (source_id !== "") { json.href += "&source_id=" + source_id; }
 
-  d3.select("#loading-results").remove();
+  d3.select("#loading-relations").remove();
 
   if (typeof data === "undefined" || data.length === 0) {
     d3.select("#content").text("")
