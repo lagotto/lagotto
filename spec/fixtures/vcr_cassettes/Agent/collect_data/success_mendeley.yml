@@ -1,0 +1,105 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.mendeley.com/oauth/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=all
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Authorization:
+      - Basic MjkzNjpiVkJtMGZmZUtxaWU0emZL
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 11 Apr 2016 16:54:36 GMT
+      Vary:
+      - Accept-Encoding, Accept-Encoding
+      X-Mendeley-Trace-Id:
+      - VdBngekdJmM
+      Content-Length:
+      - '178'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"access_token":"MSwxNDYwMzk3Mjc2MzYzLCwyOTM2LGFsbCwsQXljS2lHd0FERjVHb0dodGRHOGRnMVJYdjJR","token_type":"bearer","expires_in":3600,"refresh_token":null,"msso":null,"scope":"all"}'
+    http_version: 
+  recorded_at: Mon, 11 Apr 2016 16:54:36 GMT
+- request:
+    method: get
+    uri: https://api.mendeley.com/catalog?doi=10.1371/journal.pone.0008776&view=stats
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+      Authorization:
+      - Bearer MSwxNDYwMzk3Mjc2MzYzLCwyOTM2LGFsbCwsQXljS2lHd0FERjVHb0dodGRHOGRnMVJYdjJR
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/vnd.mendeley-document.1+json
+      Date:
+      - Mon, 11 Apr 2016 16:54:36 GMT
+      Vary:
+      - Accept-Encoding, Accept-Encoding
+      X-Mendeley-Trace-Id:
+      - hlPOUTAUjUU
+      Content-Length:
+      - '2813'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"title":"The \"island rule\" and deep-sea gastropods: Re-examining
+        the evidence","type":"journal","authors":[{"first_name":"John J.","last_name":"Welch"}],"year":2010,"source":"PLoS
+        ONE","identifiers":{"isbn":"1932-6203","doi":"10.1371/journal.pone.0008776","pmid":"20098740","scopus":"2-s2.0-77649287097","issn":"19326203"},"id":"0f9144ee-87c1-3295-b317-dd32957ebaed","abstract":"BACKGROUND:
+        One of the most intriguing patterns in mammalian biogeography is the \"island
+        rule\", which states that colonising species have a tendency to converge in
+        body size, with larger species evolving decreased sizes and smaller species
+        increased sizes. It has recently been suggested that an analogous pattern
+        holds for the colonisation of the deep-sea benthos by marine Gastropoda. In
+        particular, a pioneering study showed that gastropods from the Western Atlantic
+        showed the same graded trend from dwarfism to gigantism that is evident in
+        island endemic mammals. However, subsequent to the publication of the gastropod
+        study, the standard tests of the island rule have been shown to yield false
+        positives at a very high rate, leaving the result open to doubt. METHODOLOGY/PRINCIPAL
+        FINDINGS: The evolution of gastropod body size in the deep sea is reexamined.
+        Using an extended and updated data set, and improved statistical methods,
+        it is shown that some results of the previous study may have been artifactual,
+        but that its central conclusion is robust. It is further shown that the effect
+        is not restricted to a single gastropod clade, that its strength increases
+        markedly with depth, but that it applies even in the mesopelagic zone. CONCLUSIONS/SIGNIFICANCE:
+        The replication of the island rule in a distant taxonomic group and a partially
+        analogous ecological situation could help to uncover the causes of the patterns
+        observed--which are currently much disputed. The gastropod pattern is evident
+        at intermediate depths, and so cannot be attributed to the unique features
+        of abyssal ecology.","link":"http://www.mendeley.com/research/island-rule-deepsea-gastropods-reexamining-evidence","reader_count":46,"reader_count_by_academic_status":{"Professor":2,"Associate
+        Professor":1,"Post Doc":3,"Ph.D. Student":11,"Researcher (at an Academic Institution)":5,"Researcher
+        (at a non-Academic Institution)":3,"Librarian":1,"Student (Postgraduate)":4,"Student
+        (Master)":6,"Student (Bachelor)":7,"Doctoral Student":3},"reader_count_by_subdiscipline":{"Biological
+        Sciences":{"Zoology and Animal Science":2,"Miscellaneous":30,"Marine Biology":3,"Ornithology":1},"Earth
+        Sciences":{"Miscellaneous":3,"Paleontology":1},"Social Sciences":{"Miscellaneous":1},"Environmental
+        Sciences":{"Ecology":3,"Miscellaneous":2}},"reader_count_by_country":{"Portugal":1,"United
+        States":4,"Mexico":1,"Brazil":2,"United Kingdom":1},"group_count":1}]'
+    http_version: 
+  recorded_at: Mon, 11 Apr 2016 16:54:36 GMT
+recorded_with: VCR 2.9.3

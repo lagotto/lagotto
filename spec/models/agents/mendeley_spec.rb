@@ -85,7 +85,7 @@ describe Mendeley, :type => :model, vcr: true do
     end
 
     it "should report no events if the Mendeley API returns not found error" do
-      work = FactoryGirl.create(:work)
+      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.004429x")
       response = subject.get_data(work_id: work.id)
       expect(response).to eq("data"=>[])
       expect(Notification.count).to eq(0)

@@ -197,11 +197,8 @@ describe Agent, :type => :model, vcr: true do
     it "success mendeley" do
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0008776")
       subject = FactoryGirl.create(:mendeley)
-      body = File.read(fixture_path + 'mendeley.json')
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => body)
-
       response = subject.collect_data(work_id: work.id)
-      expect(response).to eq(total: 1)
+      expect(response).to eq(total: 2)
 
       deposit = Deposit.first
       expect(deposit.uuid).to be_present
