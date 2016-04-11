@@ -24,7 +24,7 @@ describe Status, type: :model, vcr: true do
   end
 
   it "responses_count" do
-    FactoryGirl.create_list(:change, 5, created_at: Time.zone.now - 1.hour)
+    FactoryGirl.create_list(:api_response, 5)
     expect(subject.responses_count).to eq(5)
   end
 
