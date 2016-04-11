@@ -48,7 +48,7 @@ class Contributor < ActiveRecord::Base
   def credit_name
     if literal.present?
       literal
-    elsif given_names.present? || family_name.present?
+    elsif given_names.present? || family_name.present?
       [given_names, family_name].compact.join(' ')
     elsif orcid.present?
       orcid
