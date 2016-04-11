@@ -46,9 +46,17 @@ class Contributor < ActiveRecord::Base
   end
 
   def credit_name
-    return literal if literal.present?
-
-    [given_names, family_name].compact.join(' ')
+    if literal.present?
+      literal
+    elsif given_names.present? || family_name.present?
+      [given_names, family_name].compact.join(' ')
+    elsif orcid.present?
+      orcid
+    elsif github.present?
+      github
+    else
+      "(:unas)"
+    end
   end
 
   def work_count
