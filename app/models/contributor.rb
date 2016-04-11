@@ -116,9 +116,14 @@ class Contributor < ActiveRecord::Base
 
     return if metadata[:error].present?
 
-    author = metadata.fetch('author', [{}]).first
-    self.family_name = author.fetch('family', nil)
-    self.given_names = author.fetch('given', nil)
-    self.literal = author.fetch('literal', nil)
+    author = metadata.fetch('author', []).first
+
+    if author.is_a?(Hash)
+      self.family_name = author.fetch('family', nil)
+      self.given_names = author.fetch('given', nil)
+      self.literal = author.fetch('literal', nil)
+    elsif author.is_a?(String)
+      self.literal = author
+    end
   end
 end
