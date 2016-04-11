@@ -164,7 +164,7 @@ class Deposit < ActiveRecord::Base
     self.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-      self.work = Work.where(pid: pid).first
+      self.work = Work.using(:master).where(pid: pid).first
     else
       handle_exception(exception, class_name: "work", id: pid, target_url: pid)
     end
@@ -186,7 +186,7 @@ class Deposit < ActiveRecord::Base
     self.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-      self.related_work = Work.where(pid: pid).first
+      self.related_work = Work.using(:master).where(pid: pid).first
     else
       handle_exception(exception, class_name: "related_work", id: pid, target_url: pid)
     end
@@ -215,9 +215,9 @@ class Deposit < ActiveRecord::Base
     r.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique
-      Relation.where(work_id: work_id,
-                     related_work_id: related_work_id,
-                     source_id: source.id).first
+      Relation.using(:master).where(work_id: work_id,
+                                    related_work_id: related_work_id,
+                                    source_id: source.id).first
     else
       handle_exception(exception, class_name: "relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
     end
@@ -237,9 +237,9 @@ class Deposit < ActiveRecord::Base
     r.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique
-      Relation.where(work_id: related_work_id,
-                     related_work_id: work_id,
-                     source_id: source.id).first
+      Relation.using(:master).where(work_id: related_work_id,
+                                    related_work_id: work_id,
+                                    source_id: source.id).first
     else
       handle_exception(exception, class_name: "inv_relation", id: "#{subj_id}/#{obj_id}/#{source_id}")
     end
@@ -252,7 +252,7 @@ class Deposit < ActiveRecord::Base
     self.contributor.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-      self.contributor = Contributor.where(pid: subj_id).first
+      self.contributor = Contributor.using(:master).where(pid: subj_id).first
     else
       handle_exception(exception, class_name: "contributor", id: subj_id, target_url: subj_id)
     end
@@ -276,7 +276,7 @@ class Deposit < ActiveRecord::Base
     p.save!
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
     if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-       Publisher.where(name: subj_id).first
+       Publisher.using(:master).where(name: subj_id).first
     else
       handle_exception(exception, class_name: "publisher", id: subj_id)
     end
