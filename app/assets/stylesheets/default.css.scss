@@ -1,10 +1,21 @@
+$brand-logo:                 #1a8cd2;
 $gray:                       lighten(#bfc5c9, 15%);
 
 body {
   margin-bottom: 20px !important;
 }
-.navbar-default .container-fluid {
-  margin-left: .75em;
+.navbar-default .navbar-brand {
+  padding: 15px 15px 17.5px 25px;
+
+  img {
+    display: inline;
+  }
+  span {
+    vertical-align: middle;
+  }
+  span.sitename {
+    margin: 10px 10px 0 0;
+  }
 }
 #sign-in {
   border: 1px solid $gray;
