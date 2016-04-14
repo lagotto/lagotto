@@ -1,6 +1,10 @@
 $gray:                       lighten(#bfc5c9, 15%);
-$cr_yellow: #ffC72c;
-$cr_grey: #4f5858;
+
+$cr_red: #ef3340;
+$cr_turquoise: #3eb1c8;
+$cr_light_grey: #d8d2c4;
+$cr_yellow: #ffc72c;
+$cr_dark_grey: #4f5858;
 
 @import url("http://fast.fonts.net/lt/1.css?apiType=css&c=e98f5793-4cb3-43cf-9c5a-90c30937c6bd&fontids=903184,903187,903190,903193,903196,903199,903202,903205");
 @font-face{
@@ -21,8 +25,27 @@ h1, h2, h3, h4 {
   color: black;
 }
 
-.navbar-inner {
-  background-color: $cr_yellow;
+.navbar-inner,
+.navbar-inner li,
+.navbar-inner ul {
+  background-color: $cr_dark_grey;
+  color: white;
+}
+
+.navbar-text {
+  color: white;
+}
+
+.subnav .navbar-nav a {
+  color: white !important;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus,
+.subnav .navbar-nav a:hover {
+  color: white; 
+  background-color: $cr_turquoise !important;
 }
 
 .navbar-brand {
