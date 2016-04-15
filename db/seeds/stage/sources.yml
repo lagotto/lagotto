@@ -67,10 +67,15 @@ records:
     title: OpenEdition
     description: OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.
     group_id: <%= sprig_record(Group, "relations").id %>
-  - sprig_id: crossref_related
-    name: crossref_related
+  - sprig_id: crossref_datacite
+    name: crossref_datacite
     title: CrossRef (DataCite)
     description: Import works linked to a DataCite DOI from CrossRef.
+    group_id: <%= sprig_record(Group, "relations").id %>
+  - sprig_id: datacite_crossref
+    name: datacite_crossref
+    title: DataCite (Crossref)
+    description: Import works with Crossref DOIs as relatedIdentifier via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_related
     name: datacite_related

@@ -1,0 +1,159 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.47SD5/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Fri, 15 Apr 2016 13:13:11 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.47SD5/1",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 13:13:12 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1111/MEC.12069
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '55'
+      Date:
+      - Fri, 15 Apr 2016 13:13:11 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1111/MEC.12069",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 13:13:12 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/ECE3.563
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '54'
+      Date:
+      - Fri, 15 Apr 2016 13:13:13 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/ECE3.563",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 13:13:13 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1371/JOURNAL.PONE.0111985
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Fri, 15 Apr 2016 13:13:13 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1371/JOURNAL.PONE.0111985",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Fri, 15 Apr 2016 13:13:14 GMT
+recorded_with: VCR 2.9.3
