@@ -37,7 +37,10 @@ module Networkable
 
     def set_request_headers(url, options)
       options[:headers] ||= {}
-      options[:headers]['Host'] = URI.parse(url).host
+
+      if options[:host]
+        options[:headers]['Host'] = URI.parse(url).host
+      end
 
       if options[:content_type].present?
         accept_headers = { "html" => 'text/html; charset=UTF-8',

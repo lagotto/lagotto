@@ -155,7 +155,7 @@ module Resolvable
       return {} if doi.blank?
 
       url = "https://api.crossref.org/works/" + PostRank::URI.escape(doi)
-      response = get_result(url, options)
+      response = get_result(url, options.merge(host: true))
 
       metadata = response.fetch("message", {})
       return { error: 'Resource not found.', status: 404 } if metadata.blank?
@@ -373,7 +373,7 @@ module Resolvable
       return prefix.registration_agency if prefix.present?
 
       url = "http://doi.crossref.org/doiRA/#{doi}"
-      response = get_result(url, options)
+      response = get_result(url, options.merge(host: true))
 
       ra = response.first.fetch("RA", nil)
       if ra.present?
