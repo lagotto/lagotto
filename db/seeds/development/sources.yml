@@ -69,8 +69,8 @@ records:
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: crossref_datacite
     name: crossref_datacite
-    title: CrossRef (DataCite)
-    description: Import works linked to a DataCite DOI from CrossRef.
+    title: Crossref (DataCite)
+    description: Import works linked to a DataCite DOI from Crossref.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_crossref
     name: datacite_crossref
@@ -99,8 +99,8 @@ records:
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: crossref_orcid
     name: crossref_orcid
-    title: CrossRef (ORCID)
-    description: Import works with ORCID identifiers via the CrossRef REST API.
+    title: Crossref (ORCID)
+    description: Import works with ORCID identifiers via the Crossref REST API.
     group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: github_contributor
     name: github_contributor
@@ -109,8 +109,8 @@ records:
     group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: crossref
     name: crossref
-    title: CrossRef (Citations)
-    description: CrossRef is a non-profit organization that enables cross-publisher citation linking.
+    title: Crossref (Citations)
+    description: Crossref is a non-profit organization that enables cross-publisher citation linking.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: scopus
     name: scopus
@@ -239,8 +239,8 @@ records:
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: crossref_import
     name: crossref_import
-    title: CrossRef (Import)
-    description: Import works via the CrossRef REST API.
+    title: Crossref (Import)
+    description: Import works via the Crossref REST API.
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: dataone_import
     name: dataone_import
@@ -254,6 +254,6 @@ records:
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: crossref_publisher
     name: crossref_publisher
-    title: CrossRef (Publisher)
+    title: Crossref (Publisher)
     description: Import publishers via the Crossref REST API.
     group_id: <%= sprig_record(Group, "publishers").id %>
