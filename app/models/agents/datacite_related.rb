@@ -52,7 +52,10 @@ class DataciteRelated < Agent
 
     Array(items).map do |item|
       raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
-      pid = doi_as_url(related_identifier.strip.upcase)
+      doi = related_identifier.strip.upcase
+      registration_agency = get_doi_ra(doi)
+      _source_id = registration_agency == "crossref" ? "datacite_crossref" : "datacite_related"
+      pid = doi_as_url(doi)
 
       # find relation_type, default to "is_referenced_by" otherwise
       relation_type = cached_relation_type(raw_relation_type.underscore)
@@ -62,7 +65,7 @@ class DataciteRelated < Agent
         relation: { "subj_id" => subj["pid"],
                     "obj_id" => pid,
                     "relation_type_id" => relation_type_id,
-                    "source_id" => source_id,
+                    "source_id" => _source_id,
                     "publisher_id" => subj["publisher_id"] },
         subj: subj }
     end

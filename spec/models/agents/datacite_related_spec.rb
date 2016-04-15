@@ -105,6 +105,13 @@ describe DataciteRelated, type: :model, vcr: true do
                                           "registration_agency"=>"datacite",
                                           "tracked"=>true,
                                           "type"=>"dataset")
+
+      expect(response[1][:prefix]).to eq("10.5061")
+      expect(response[1][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.47SD5",
+                                           "obj_id"=>"http://doi.org/10.1111/MEC.12069",
+                                           "relation_type_id"=>"is_referenced_by",
+                                           "source_id"=>"datacite_crossref",
+                                           "publisher_id"=>"CDL.DRYAD")
     end
 
     it "should catch timeout errors with the Datacite Metadata Search API" do
