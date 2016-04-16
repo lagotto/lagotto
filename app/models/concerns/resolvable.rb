@@ -14,57 +14,34 @@ module Resolvable
 
       response = conn.get url, {}, options[:headers]
 
-      # Priority to find URL:
-      # 1. <link rel=canonical />
-      # 2. <meta property="og:url" />
-      # 3. URL from header
-
-      body = Nokogiri::HTML(response.body, nil, 'utf-8')
-      body_url = body.at('link[rel="canonical"]')['href'] if body.at('link[rel="canonical"]')
-      if !body_url && body.at('meta[property="og:url"]')
-        body_url = body.at('meta[property="og:url"]')['content']
+      if options[:no_redirect]
+        url = response.headers[:location].to_s
+      else
+        url = response.env[:url].to_s
       end
 
-      if body_url
-        # normalize URL, e.g. remove percent encoding and make URL lowercase
-        body_url = PostRank::URI.clean(body_url)
+      return nil unless url.present?
 
-        # remove parameter used by IEEE
-        body_url = body_url.sub("reload=true&", "")
-      end
+      # remove jsessionid used by J2EE servers
+      url = url.gsub(/(.*);jsessionid=.*/, '\1')
 
-      url = response.env[:url].to_s
-      if url
-        # remove jsessionid used by J2EE servers
-        url = url.gsub(/(.*);jsessionid=.*/, '\1')
+      # normalize URL, e.g. remove percent encoding and make host lowercase
+      url = PostRank::URI.clean(url)
 
-        # normalize URL, e.g. remove percent encoding and make host lowercase
-        url = PostRank::URI.clean(url)
+      # remove parameter used by IEEE
+      url = url.sub("reload=true&", "")
 
-        # remove parameter used by IEEE
-        url = url.sub("reload=true&", "")
-
-        # remove parameter used by ScienceDirect
-        url = url.sub("?via=ihub", "")
-      end
-
-      # get relative URL
-      path = URI.split(url)[5]
-
-      # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
-      if body_url.present? && ![url, path].include?(body_url)
-        options[:doi_mismatch] = true
-        response.env[:message] = "Canonical URL mismatch: #{body_url} for #{url}"
-        fail Faraday::ResourceNotFound, response.env
-      end
-
-      # URL must be a string that contains at least one number
-      # we don't want to store publisher landing or error pages
-      fail Faraday::ResourceNotFound, response.env unless url =~ /\d/
+      # remove parameter used by ScienceDirect
+      url = url.sub("?via=ihub", "")
 
       url
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options.merge(doi_lookup: true))
+    end
+
+    # url returned by handle server, redirects are not followed
+    def get_handle_url(url, options={})
+      get_canonical_url(url, options.merge(no_redirect: true))
     end
 
     def get_normalized_url(url)

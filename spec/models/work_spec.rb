@@ -218,9 +218,11 @@ describe Work, type: :model, vcr: true do
   context "get_url" do
     it 'should get_url' do
       work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030", canonical_url: nil)
-      url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+      canonical_url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+      handle_url = "http://dx.plos.org/10.1371/journal.pone.0000030"
       expect(work.get_url).not_to be_nil
-      expect(work.canonical_url).to eq(url)
+      expect(work.canonical_url).to eq(canonical_url)
+      expect(work.handle_url).to eq(handle_url)
     end
 
     it "with canonical_url" do

@@ -100,10 +100,12 @@ class Work < ActiveRecord::Base
     return true if canonical_url.present?
     return false unless doi.present?
 
-    url = get_canonical_url(doi_as_url(doi), work_id: id)
+    _handle_url = get_handle_url(doi_as_url(doi), work_id: id)
+    _canonical_url = get_canonical_url(doi_as_url(doi), work_id: id)
 
-    if url.present? && url.is_a?(String)
-      update_attributes(:canonical_url => url)
+    if _canonical_url.is_a?(String) && _handle_url.is_a?(String)
+      update_attributes(canonical_url: _canonical_url,
+                        handle_url: _handle_url)
     else
       false
     end
