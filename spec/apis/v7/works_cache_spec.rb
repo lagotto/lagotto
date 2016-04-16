@@ -27,7 +27,7 @@ describe "/api/v7/works", :type => :api do
         response = Rails.cache.read("jbuilder/v6/#{key}")
         expect(response["id"]).to eq(work.pid)
         expect(response["DOI"]).to eq(work.doi)
-        expect(response["issued"]).to eq("2015-04-04")
+        expect(response["published"]).to eq("2015-04-04")
         expect(response["results"]).to eq("crossref"=>25)
       end
     end

@@ -22,7 +22,7 @@ describe "/api/v7/works", :type => :api do
         expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["doi"] == works[0].doi
-          expect(work["issued"]).to eq("2015-04-04")
+          expect(work["published"]).to eq("2015-04-04")
         end).to be true
       end
     end
@@ -42,7 +42,7 @@ describe "/api/v7/works", :type => :api do
         expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["DOI"] == works[0].doi
-          expect(work["issued"]).to eq("2015-04-04")
+          expect(work["published"]).to eq("2015-04-04")
         end).to be true
       end
     end
@@ -157,7 +157,7 @@ describe "/api/v7/works", :type => :api do
         expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["DOI"] == works[0].doi
-          expect(work["issued"]).to eq("2015-04-04")
+          expect(work["published"]).to eq("2015-04-04")
         end).to be true
       end
 
@@ -187,7 +187,7 @@ describe "/api/v7/works", :type => :api do
         expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["DOI"] == works[0].doi
-          expect(work["issued"]).to eq("2015-04-04")
+          expect(work["published"]).to eq("2015-04-04")
         end).to be true
       end
 
@@ -202,7 +202,7 @@ describe "/api/v7/works", :type => :api do
         expect(data.length).to eq(10)
         expect(data.any? do |work|
           work["DOI"] == works[0].doi
-          expect(work["issued"]).to eq("2015-04-04")
+          expect(work["published"]).to eq("2015-04-04")
         end).to be true
       end
     end
