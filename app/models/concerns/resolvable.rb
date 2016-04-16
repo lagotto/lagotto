@@ -160,8 +160,8 @@ module Resolvable
       metadata = response.fetch("message", {})
       return { error: 'Resource not found.', status: 404 } if metadata.blank?
 
-      # don't use these metadata, we need the URL from the publisher
-      metadata = metadata.except("URL")
+      # don't use these metadata
+      metadata = metadata.except("URL", "indexed", "created", "deposited", "update-policy")
 
       date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
 
@@ -169,12 +169,13 @@ module Resolvable
       if !date_parts.nil?
         year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
-        # use date indexed if date issued is in the future
+        # set date published if date issued is in the future
         if year.nil? || Date.new(*date_parts) > Time.zone.now.to_date
-          date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
-          year, month, day = date_parts[0], date_parts[1], date_parts[2]
+          metadata["issued"] = metadata.fetch("indexed", {}).fetch("date-time", nil)
+          metadata["published"] = get_date_from_parts(year, month, day)
+        else
+          metadata["issued"] = get_date_from_parts(year, month, day)
         end
-        metadata["issued"] = get_date_from_parts(year, month, day)
       end
 
       metadata["title"] = case metadata["title"].length
@@ -202,7 +203,7 @@ module Resolvable
 
       params = { q: "doi:" + doi,
                  rows: 1,
-                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated",
+                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated",
                  wt: "json" }
       url = "http://search.datacite.org/api?" + URI.encode_www_form(params)
 
@@ -227,7 +228,8 @@ module Resolvable
       { "author" => get_hashed_authors(authors),
         "title" => title,
         "container-title" => metadata.fetch("publisher", nil),
-        "issued" => metadata.fetch("publicationYear", nil),
+        "published" => metadata.fetch("publicationYear", nil),
+        "issued" => metadata.fetch("minted", nil),
         "DOI" => doi,
         "type" => type,
         "publisher_id" => metadata.fetch("datacentre_symbol", nil) }
@@ -272,12 +274,15 @@ module Resolvable
 
       author = get_github_owner(github_hash[:owner])
 
+      language = response.fetch('language', nil)
+      type = language.present? && language != "HTML" ? 'computer_program' : 'webpage'
+
       { "author" => [get_one_author(author)],
         "title" => response.fetch('description', nil).presence || github_hash[:repo],
         "container-title" => "Github",
         "issued" => response.fetch('created_at', nil).presence || "0000",
         "URL" => url,
-        "type" => 'computer_program' }
+        "type" => type }
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     end

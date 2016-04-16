@@ -128,8 +128,8 @@ describe Work, type: :model, vcr: true do
       expect(work).to be_valid
     end
 
-    it 'look up date for missing year, month and day' do
-      work = FactoryGirl.build(:work, year: nil, month: nil, day: nil, pid: "http://doi.org/10.1371/journal.pone.0067729")
+    it 'look up date for missing issued_at' do
+      work = FactoryGirl.build(:work, issued_at: nil, pid: "http://doi.org/10.1371/journal.pone.0067729", doi: "10.1371/journal.pone.0067729")
       expect(work).to be_valid
     end
 
@@ -139,23 +139,16 @@ describe Work, type: :model, vcr: true do
       expect(work.errors.messages).to eq(published_on: ["is not a valid date"])
     end
 
-    it 'don\'t validate date in the future' do
-      date = Time.zone.now.to_date + 1.day
-      work = FactoryGirl.build(:work, year: date.year, month: date.month, day: date.day)
+    it 'don\'t validate issued date in the future' do
+      work = FactoryGirl.build(:work, issued_at: Time.zone.now + 1.day)
       expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(published_on: ["is a date in the future"])
+      expect(work.errors.messages).to eq(issued_at: ["is a datetime in the future"])
     end
 
     it 'published_on' do
       work = FactoryGirl.create(:work)
       date = Date.new(work.year, work.month, work.day)
       expect(work.published_on).to eq(date)
-    end
-
-    it 'issued' do
-      work = FactoryGirl.create(:work)
-      date = Date.new(work.year, work.month, work.day)
-      expect(work.issued).to eq(date.iso8601)
     end
 
     it 'issued_date year month day' do

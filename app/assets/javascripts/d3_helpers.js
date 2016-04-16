@@ -154,7 +154,7 @@ function metadataToString(work, work_types) {;
   var work_type = work_types.filter(function(d) { return d.id === work.work_type_id; })[0];
   if (typeof work_type == "undefined" || work_type === "") { work_type = { "title": "Work" }; }
 
-  return work_type.title + " published " + formattedDate(work.issued) + containerTitleString;
+  return work_type.title + " published " + formattedDate(work.published) + containerTitleString;
 }
 
 // construct author list from author object
