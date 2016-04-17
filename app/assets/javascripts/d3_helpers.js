@@ -132,9 +132,8 @@ function signpostsFromWork(work, sources, source_id, sort) {
 }
 
 function formattedSignpost(title, count, name) {
-  var results = (count > 1) ? " Results" : " Result";
   return { "title": title,
-           "count": formatFixed(count),
+           "count": count,
            "name": name };
 }
 

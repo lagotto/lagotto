@@ -96,9 +96,11 @@ function worksViz(json, sources, work_types) {
           .attr("id", "panel-signpost-" + i + j).append("a")
           .attr("href", function() { return "/works?source_id=" + signposts[j].name; })
           .text(signposts[j].title);
-        d3.select("#panel-signpost-" + i + j).append("span")
-          .attr("class", "badge")
-          .html(signposts[j].count);
+        if (signposts[j].count > 1) {
+          d3.select("#panel-signpost-" + i + j).append("span")
+            .attr("class", "badge")
+            .html(formatFixed(signposts[j].count));
+        }
       }
     }
 
