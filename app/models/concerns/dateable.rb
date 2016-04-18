@@ -56,5 +56,14 @@ module Dateable
     def get_date_from_parts(year, month = nil, day = nil)
       [year.to_s.rjust(4, '0'), month.to_s.rjust(2, '0'), day.to_s.rjust(2, '0')].reject { |part| part == "00" }.join("-")
     end
+
+    # parsing of incomplete iso8601 timestamps such as 2015-04 is broken
+    # in standard library
+    # return nil if invalid iso8601 timestamp
+    def get_datetime_from_iso8601(iso8601_time)
+      ISO8601::DateTime.new(iso8601_time).to_time.utc
+    rescue
+      nil
+    end
   end
 end

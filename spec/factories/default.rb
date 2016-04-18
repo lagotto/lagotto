@@ -10,6 +10,7 @@ FactoryGirl.define do
     year { Time.zone.now.to_date.year - 1 }
     month { Time.zone.now.to_date.month }
     day { Time.zone.now.to_date.day }
+    issued_at { Time.zone.now }
     tracked true
     csl {{}}
 

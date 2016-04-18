@@ -97,7 +97,8 @@ function eventsViz(json, sources, relation_types, work_types) {
 
         if (relation.total > 1) {
           d3.select("#panel-relation-" + i + "-" + j).append("span")
-            .text("(" + relation.total + " Events)");
+            .attr("class", "badge")
+            .html(formatFixed(relation.total));
         }
 
         d3.select("#panel-relation-" + i + "-" + j).append("a")

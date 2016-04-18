@@ -84,7 +84,7 @@ function worksViz(json, sources) {
           .attr("class", "panel-footer")
           .attr("id", "panel-signpost-" + i + j).append("a")
           .attr("href", function() { return "/works/" + pathForWork(work.id); })
-          .text(signposts[j].count);
+          .text(formatFixed(signposts[j].count));
         d3.select("#panel-signpost-" + i + j).append("a")
           .attr("class", "pull-right")
           .attr("href", function() { return "/works?source_id=" + signposts[j].name; })

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.8515x&rows=1&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.5061/DRYAD.8515x&rows=1&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 21 Mar 2016 23:41:06 GMT
+      - Sat, 16 Apr 2016 14:53:50 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -33,5 +33,5 @@ http_interactions:
       string: |
         {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 23:39:53 GMT
+  recorded_at: Sat, 16 Apr 2016 14:52:02 GMT
 recorded_with: VCR 2.9.3

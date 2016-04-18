@@ -56,7 +56,6 @@ function contributionsViz(json, sources, contributor_roles) {
     var contributor_role = contributor_roles.filter(function(d) { return d.id === contribution.contributor_role_id; })[0];
     if (typeof contributor_role === "undefined") { contributor_role = { "title": "Contribution" }};
     var source = sources.filter(function(d) { return d.id === contribution.source_id; })[0];
-    var author = [contribution.given, contribution.family].join(" ");
 
     d3.select("#content-contributions").insert("div")
       .attr("class", "panel panel-default")
@@ -68,7 +67,7 @@ function contributionsViz(json, sources, contributor_roles) {
       .attr("class", "work")
       .append("a")
       .attr("href", function() { return "/contributors/" + pathForWork(contribution.subj_id); })
-      .html(author);
+      .html(contribution.credit_name);
     d3.select("#panel-body-contribution-" + i).append("div")
       .attr("class", "contribution")
       .text(contributor_role.title);
