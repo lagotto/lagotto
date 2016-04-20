@@ -39,12 +39,22 @@ module Networkable
       rescue_faraday_error(url, e, options)
     end
 
-    def save_to_file(url, filename = "tmpdata", options = { content_type: 'xml' })
+    def save_to_file(url, filename = "tmpdata", options = { content_type: 'xml' }, method='get')
       conn = faraday_conn(options[:content_type], options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
-      response = conn.get url
-
+      if method == 'post'
+        urlbase, query = url.split("?")
+        parts = query.split('&')
+        params = {}
+        parts.each do |e|
+          key_value = e.split('=')
+          params[key_value[0]] = key_value[1]
+        end
+        response = conn.post urlbase, params
+      else
+        response = conn.get urlbase
+      end
       File.open("#{Rails.root}/tmp/files/#{filename}", 'w') { |file| file.write(response.body) }
       filename
     rescue *NETWORKABLE_EXCEPTIONS => e

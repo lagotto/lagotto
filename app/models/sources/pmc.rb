@@ -62,7 +62,7 @@ class Pmc < Source
   def get_feed(publisher_id, month, year, journal, options={})
     feed_url = get_feed_url(publisher_id, month, year, journal)
     filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-    save_to_file(feed_url, filename, options)
+    save_to_file(feed_url, filename, options,'post')
   end
 
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
