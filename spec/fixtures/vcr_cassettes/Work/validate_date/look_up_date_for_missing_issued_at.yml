@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 22 Mar 2016 00:46:42 GMT
+      - Sat, 16 Apr 2016 11:38:12 GMT
       Connection:
       - close
     body:
@@ -38,7 +38,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 00:46:42 GMT
+  recorded_at: Sat, 16 Apr 2016 11:38:12 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PONE.0067729
@@ -68,7 +68,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Tue, 22 Mar 2016 00:46:44 GMT
+      - Sat, 16 Apr 2016 11:38:13 GMT
       Connection:
       - close
     body:
@@ -80,5 +80,5 @@ http_interactions:
         ONE"],"deposited":{"date-parts":[[2014,3,6]],"date-time":"2014-03-06T03:16:27Z","timestamp":1394075787000},"score":1.0,"subtitle":[],"editor":[{"affiliation":[],"family":"Michalak","given":"Pawel"}],"issued":{"date-parts":[[2013,7,8]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0067729","ISSN":["1932-6203"],"subject":["Biochemistry,
         Genetics and Molecular Biology(all)","Agricultural and Biological Sciences(all)","Medicine(all)"]}}'
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 00:46:44 GMT
+  recorded_at: Sat, 16 Apr 2016 11:38:13 GMT
 recorded_with: VCR 2.9.3

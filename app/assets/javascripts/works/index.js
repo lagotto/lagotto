@@ -94,12 +94,13 @@ function worksViz(json, sources, work_types) {
         d3.select("#panel-" + i).insert("div")
           .attr("class", "panel-footer")
           .attr("id", "panel-signpost-" + i + j).append("a")
-          .attr("href", function() { return "/works/" + pathForWork(work.id); })
-          .text(signposts[j].count);
-        d3.select("#panel-signpost-" + i + j).append("a")
-          .attr("class", "pull-right")
           .attr("href", function() { return "/works?source_id=" + signposts[j].name; })
           .text(signposts[j].title);
+        if (signposts[j].count > 1) {
+          d3.select("#panel-signpost-" + i + j).append("span")
+            .attr("class", "badge")
+            .html(formatFixed(signposts[j].count));
+        }
       }
     }
 

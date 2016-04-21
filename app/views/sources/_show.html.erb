@@ -13,29 +13,28 @@
   </div>
 </div>
 
-<% if @source.group.name != "other" %>
+<% if ["relations", "results"].include?(@source.group.name) %>
   <ul class="nav nav-pills">
-      <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
-      <li><a href="#works" data-toggle="tab">Works</a></li>
-      <li><a href="#results" data-toggle="tab">Results</a></li>
-      <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
-    </ul>
+    <li class="active"><a href="#summary" data-toggle="tab" title="Summary">Summary</a></li>
+    <li><a href="#works" data-toggle="tab">Works</a></li>
+    <li><a href="#results" data-toggle="tab">Results</a></li>
+    <li><a href="#documentation" data-toggle="tab" title="Documentation">Documentation</a></li>
+  </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="summary">
-        <div id="summary-show">
-          <%= render :partial => 'summary_show', :locals => { :name => @source.name } %>
-        </div>
+  <div class="tab-content">
+    <div class="tab-pane active" id="summary">
+      <div id="summary-show">
+        <%= render :partial => 'summary_show', :locals => { :name => @source.name } %>
       </div>
-      <div class="tab-pane" id="works">
-        <%= render :partial => 'works' %>
-      </div>
-      <div class="tab-pane" id="results">
-        <%= render :partial => 'results_show' %>
-      </div>
-      <div class="tab-pane" id="documentation">
-        <%= render :partial => 'docs/show' %>
-      </div>
+    </div>
+    <div class="tab-pane" id="works">
+      <%= render :partial => 'works' %>
+    </div>
+    <div class="tab-pane" id="results">
+      <%= render :partial => 'results_show' %>
+    </div>
+    <div class="tab-pane" id="documentation">
+      <%= render :partial => 'docs/show' %>
     </div>
   </div>
 

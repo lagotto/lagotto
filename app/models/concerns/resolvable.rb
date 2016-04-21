@@ -14,57 +14,34 @@ module Resolvable
 
       response = conn.get url, {}, options[:headers]
 
-      # Priority to find URL:
-      # 1. <link rel=canonical />
-      # 2. <meta property="og:url" />
-      # 3. URL from header
-
-      body = Nokogiri::HTML(response.body, nil, 'utf-8')
-      body_url = body.at('link[rel="canonical"]')['href'] if body.at('link[rel="canonical"]')
-      if !body_url && body.at('meta[property="og:url"]')
-        body_url = body.at('meta[property="og:url"]')['content']
+      if options[:no_redirect]
+        url = response.headers[:location].to_s
+      else
+        url = response.env[:url].to_s
       end
 
-      if body_url
-        # normalize URL, e.g. remove percent encoding and make URL lowercase
-        body_url = PostRank::URI.clean(body_url)
+      return nil unless url.present?
 
-        # remove parameter used by IEEE
-        body_url = body_url.sub("reload=true&", "")
-      end
+      # remove jsessionid used by J2EE servers
+      url = url.gsub(/(.*);jsessionid=.*/, '\1')
 
-      url = response.env[:url].to_s
-      if url
-        # remove jsessionid used by J2EE servers
-        url = url.gsub(/(.*);jsessionid=.*/, '\1')
+      # normalize URL, e.g. remove percent encoding and make host lowercase
+      url = PostRank::URI.clean(url)
 
-        # normalize URL, e.g. remove percent encoding and make host lowercase
-        url = PostRank::URI.clean(url)
+      # remove parameter used by IEEE
+      url = url.sub("reload=true&", "")
 
-        # remove parameter used by IEEE
-        url = url.sub("reload=true&", "")
-
-        # remove parameter used by ScienceDirect
-        url = url.sub("?via=ihub", "")
-      end
-
-      # get relative URL
-      path = URI.split(url)[5]
-
-      # we will raise an error if 1. or 2. doesn't match with 3. as this confuses Facebook
-      if body_url.present? && ![url, path].include?(body_url)
-        options[:doi_mismatch] = true
-        response.env[:message] = "Canonical URL mismatch: #{body_url} for #{url}"
-        fail Faraday::ResourceNotFound, response.env
-      end
-
-      # URL must be a string that contains at least one number
-      # we don't want to store publisher landing or error pages
-      fail Faraday::ResourceNotFound, response.env unless url =~ /\d/
+      # remove parameter used by ScienceDirect
+      url = url.sub("?via=ihub", "")
 
       url
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options.merge(doi_lookup: true))
+    end
+
+    # url returned by handle server, redirects are not followed
+    def get_handle_url(url, options={})
+      get_canonical_url(url, options.merge(no_redirect: true))
     end
 
     def get_normalized_url(url)
@@ -160,8 +137,8 @@ module Resolvable
       metadata = response.fetch("message", {})
       return { error: 'Resource not found.', status: 404 } if metadata.blank?
 
-      # don't use these metadata, we need the URL from the publisher
-      metadata = metadata.except("URL")
+      # don't use these metadata
+      metadata = metadata.except("URL", "indexed", "created", "deposited", "update-policy")
 
       date_parts = metadata.fetch("issued", {}).fetch("date-parts", []).first
 
@@ -169,12 +146,13 @@ module Resolvable
       if !date_parts.nil?
         year, month, day = date_parts[0], date_parts[1], date_parts[2]
 
-        # use date indexed if date issued is in the future
+        # set date published if date issued is in the future
         if year.nil? || Date.new(*date_parts) > Time.zone.now.to_date
-          date_parts = metadata.fetch("indexed", {}).fetch("date-parts", []).first
-          year, month, day = date_parts[0], date_parts[1], date_parts[2]
+          metadata["issued"] = metadata.fetch("indexed", {}).fetch("date-time", nil)
+          metadata["published"] = get_date_from_parts(year, month, day)
+        else
+          metadata["issued"] = get_date_from_parts(year, month, day)
         end
-        metadata["issued"] = get_date_from_parts(year, month, day)
       end
 
       metadata["title"] = case metadata["title"].length
@@ -202,7 +180,7 @@ module Resolvable
 
       params = { q: "doi:" + doi,
                  rows: 1,
-                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated",
+                 fl: "doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated",
                  wt: "json" }
       url = "http://search.datacite.org/api?" + URI.encode_www_form(params)
 
@@ -227,7 +205,8 @@ module Resolvable
       { "author" => get_hashed_authors(authors),
         "title" => title,
         "container-title" => metadata.fetch("publisher", nil),
-        "issued" => metadata.fetch("publicationYear", nil),
+        "published" => metadata.fetch("publicationYear", nil),
+        "issued" => metadata.fetch("minted", nil),
         "DOI" => doi,
         "type" => type,
         "publisher_id" => metadata.fetch("datacentre_symbol", nil) }
@@ -272,12 +251,15 @@ module Resolvable
 
       author = get_github_owner(github_hash[:owner])
 
+      language = response.fetch('language', nil)
+      type = language.present? && language != "HTML" ? 'computer_program' : 'webpage'
+
       { "author" => [get_one_author(author)],
         "title" => response.fetch('description', nil).presence || github_hash[:repo],
         "container-title" => "Github",
         "issued" => response.fetch('created_at', nil).presence || "0000",
         "URL" => url,
-        "type" => 'computer_program' }
+        "type" => type }
     rescue *NETWORKABLE_EXCEPTIONS => e
       rescue_faraday_error(url, e, options)
     end

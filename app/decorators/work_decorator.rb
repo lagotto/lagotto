@@ -46,6 +46,10 @@ class WorkDecorator < Draper::Decorator
     model.pmcid
   end
 
+  def issued
+    model.issued_at.utc.iso8601
+  end
+
   def cache_key
     "work/#{pid}/#{timestamp}"
   end

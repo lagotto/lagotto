@@ -44,6 +44,12 @@
                 <td class="doi" %><%= link_to h(@work.pid), @work.pid %></td>
               </tr>
             <% end %>
+            <% if @work.handle_url.present? %>
+              <tr>
+                <th>Handle URL</th>
+                <td><%= link_to h(@work.handle_url), @work.handle_url %></td>
+              </tr>
+            <% end %>
             <% if @work.canonical_url.present? %>
               <tr>
                 <th>Canonical URL</th>
