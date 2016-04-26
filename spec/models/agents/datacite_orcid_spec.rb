@@ -86,7 +86,7 @@ describe DataciteOrcid, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response.length).to eq(111)
+      expect(response.length).to eq(56)
       expect(response.first[:prefix]).to eq("10.6084")
       expect(response.first[:message_type]).to eq("contribution")
       expect(response.first[:relation]).to eq("subj_id"=>"http://orcid.org/0000-0001-8478-7549",
