@@ -11,3 +11,12 @@ records:
   - sprig_id: github
     name: github
     title: GitHub
+  - sprig_id: orcid
+    name: orcid
+    title: ORCID
+  - sprig_id: twitter
+    name: twitter
+    title: Twitter
+  - sprig_id: wikipedia
+    name: wikipedia
+    title: Wikipedia
