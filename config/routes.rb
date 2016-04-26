@@ -70,6 +70,7 @@ Lagotto::Application.routes.draw do
       resources :docs, only: [:index, :show]
       resources :groups, only: [:index, :show]
       resources :notifications
+      resources :prefixes, constraints: { :id => /.+/ }
       resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable]
       resources :relations
       resources :relation_types, only: [:index, :show]

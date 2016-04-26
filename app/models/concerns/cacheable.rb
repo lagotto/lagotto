@@ -32,6 +32,18 @@ module Cacheable
       end
     end
 
+    def cached_registration_agency_id(id)
+      Rails.cache.fetch("registration_agency/#{id}", expires_in: 1.month) do
+        RegistrationAgency.where(id: id).first
+      end
+    end
+
+    def cached_registration_agency_names
+      Rails.cache.fetch("registration_agency/names", expires_in: 1.month) do
+        RegistrationAgency.order_by_name.pluck(:id, :name).to_h
+      end
+    end
+
     def cached_relation_type(name)
       Rails.cache.fetch("relation_type/#{name}", expires_in: 1.month) do
         RelationType.where(name: name).first

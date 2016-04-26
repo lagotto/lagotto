@@ -6,6 +6,8 @@ class RegistrationAgency < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true
 
+  scope :order_by_name, -> { order("registration_agencies.title") }
+
   def to_param  # overridden, use name instead of id
     name
   end

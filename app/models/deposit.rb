@@ -106,7 +106,7 @@ class Deposit < ActiveRecord::Base
   def collect_data
     case
     when message_type == "publisher" && message_action == "delete" then delete_publisher
-    when message_type == "publisher" then update_publisher
+    when message_type == "publisher" then update_publishers
     when message_type == "contribution" && message_action == "delete" then delete_contributor
     when message_type == "contribution" then update_contributions
     when message_type == "relation" && message_action == "delete" then delete_relation
@@ -148,6 +148,10 @@ class Deposit < ActiveRecord::Base
 
   def update_contributions
     update_contributor && update_related_work && update_contribution
+  end
+
+  def update_publishers
+    update_publisher && update_prefix
   end
 
   def update_work
@@ -282,6 +286,18 @@ class Deposit < ActiveRecord::Base
     end
   end
 
+  def update_prefix
+    items = from_prefix_csl(subj)
+    Array(items).each do |item|
+      p = Prefix.where(prefix: item[:prefix]).first_or_initialize
+      p.assign_attributes(item)
+      p.save!
+    end
+    true
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
+    handle_exception(exception, class_name: "prefix", id: subj_id)
+  end
+
   def delete_relation
     work = Work.where(pid: subj_id).first
     related_work = Work.where(pid: obj_id).first
@@ -334,17 +350,29 @@ class Deposit < ActiveRecord::Base
       csl: csl }.compact
   end
 
-# convert publisher CSL into format that the database understands
+  # convert publisher CSL into format that the database understands
   # don't update nil values
   def from_publisher_csl(item)
     ra = cached_registration_agency(item.fetch("registration_agency_id", nil))
 
     { title: item.fetch("title", nil),
-      prefixes: item.fetch("prefixes", nil),
       other_names: item.fetch("other_names", nil),
       registration_agency_id: ra.present? ? ra.id : nil,
       checked_at: item.fetch("issued", Time.now.utc.iso8601),
       active: item.fetch("active", nil) }.compact
+  end
+
+  # convert prefix CSL into format that the database understands
+  # don't update nil values
+  def from_prefix_csl(item)
+    ra = cached_registration_agency(item.fetch("registration_agency_id", nil))
+    publisher = cached_publisher(subj_id)
+
+    Array(item.fetch("prefixes", nil)).map do |prefix|
+      { prefix: prefix,
+        publisher_id: publisher.present? ? publisher.id : nil,
+        registration_agency_id: ra.present? ? ra.id : nil }.compact
+    end
   end
 
   def send_callback

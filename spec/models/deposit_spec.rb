@@ -176,10 +176,10 @@ describe Deposit, :type => :model, vcr: true do
     end
   end
 
-  describe "update_publisher" do
+  describe "update_publishers" do
     it "update" do
       subject = FactoryGirl.create(:deposit_for_publisher)
-      expect(subject.update_publisher).to be true
+      expect(subject.update_publishers).to be true
       expect(subject.error_messages).to be_nil
 
       expect(Publisher.count).to eq(1)
@@ -192,7 +192,7 @@ describe Deposit, :type => :model, vcr: true do
 
     it "update missing title" do
       subject = FactoryGirl.create(:deposit_for_publisher, :no_publisher_title)
-      expect(subject.update_publisher).to be false
+      expect(subject.update_publishers).to be false
       expect(subject.error_messages).to eq("publisher"=>"Validation failed: Title can't be blank")
 
       expect(Publisher.count).to eq(0)

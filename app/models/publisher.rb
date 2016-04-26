@@ -14,7 +14,6 @@ class Publisher < ActiveRecord::Base
   has_many :contributions
   belongs_to :registration_agency
 
-  serialize :prefixes
   serialize :other_names
 
   validates :title, :presence => true

@@ -153,8 +153,8 @@ class Api::V7::WorksController < Api::BaseController
                    .where("relations.relation_type_id = ?", relation_type.id)
     end
 
-    if params[:registration_agency_id].present?
-      collection = collection.where(registration_agency: params[:registration_agency_id])
+    if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
+      collection = collection.where(registration_agency_id: registration_agency.id)
     end
 
     collection
