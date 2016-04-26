@@ -100,7 +100,7 @@ module Datacitable
         name_identifiers = item.fetch('nameIdentifier', []).select { |id| id =~ /^ORCID:.+/ }
         sum += get_contributions(subj, name_identifiers)
 
-        if related_doi_identifiers.blank? && related_github_identifiers.blank?
+        if source_id == "datacite_import"
           sum += [{ prefix: prefix,
                     relation: { "subj_id" => subj["pid"],
                                 "source_id" => source_id,
@@ -158,25 +158,30 @@ module Datacitable
     def get_doi_relations(subj, items)
       prefix = subj["DOI"][/^10\.\d{4,5}/]
 
-      Array(items).map do |item|
+      Array(items).reduce([]) do |sum, item|
         raw_relation_type, _related_identifier_type, related_identifier = item.split(':', 3)
         doi = related_identifier.strip.upcase
         registration_agency = get_doi_ra(doi)
-        _source_id = registration_agency[:name] == "crossref" ? "datacite_crossref" : "datacite_related"
-        pid = doi_as_url(doi)
 
-        # find relation_type, default to "is_referenced_by" otherwise
-        relation_type = cached_relation_type(raw_relation_type.underscore)
-        relation_type_id = relation_type.present? ? relation_type.name : 'is_referenced_by'
+        if source_id == "datacite_crossref" && registration_agency[:name] == "datacite"
+          sum
+        else
+          _source_id = registration_agency[:name] == "crossref" ? "datacite_crossref" : "datacite_related"
+          pid = doi_as_url(doi)
 
-        { prefix: prefix,
-          relation: { "subj_id" => subj["pid"],
-                      "obj_id" => pid,
-                      "relation_type_id" => relation_type_id,
-                      "source_id" => _source_id,
-                      "publisher_id" => subj["publisher_id"],
-                      "occurred_at" => subj["issued"] },
-          subj: subj }
+          # find relation_type, default to "is_referenced_by" otherwise
+          relation_type = cached_relation_type(raw_relation_type.underscore)
+          relation_type_id = relation_type.present? ? relation_type.name : 'is_referenced_by'
+
+          sum << { prefix: prefix,
+                   relation: { "subj_id" => subj["pid"],
+                               "obj_id" => pid,
+                               "relation_type_id" => relation_type_id,
+                               "source_id" => _source_id,
+                               "publisher_id" => subj["publisher_id"],
+                               "occurred_at" => subj["issued"] },
+                   subj: subj }
+        end
       end
     end
 

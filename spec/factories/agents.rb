@@ -277,17 +277,6 @@ FactoryGirl.define do
     initialize_with { ScienceSeeker.where(name: name).first_or_initialize }
   end
 
-  factory :datacite, class: Datacite do
-    type "Datacite"
-    name "datacite"
-    title "DataCite"
-    state_event "activate"
-
-    group
-
-    initialize_with { Datacite.where(name: name).first_or_initialize }
-  end
-
   factory :wordpress, class: Wordpress do
     type "Wordpress"
     name "wordpress"
@@ -609,7 +598,7 @@ FactoryGirl.define do
   factory :datacite_import, class: DataciteImport do
     type "DataciteImport"
     name "datacite_import"
-    title "Datacite Import"
+    title "Datacite (Import)"
     state_event "activate"
     only_publishers true
 
@@ -621,12 +610,23 @@ FactoryGirl.define do
   factory :datacite_related, class: DataciteRelated do
     type "DataciteRelated"
     name "datacite_related"
-    title "Datacite Related"
+    title "Datacite (RelatedIdentifier)"
     state_event "activate"
 
     group
 
     initialize_with { DataciteRelated.where(name: name).first_or_initialize }
+  end
+
+  factory :datacite_crossref, class: DataciteCrossref do
+    type "DataciteCrossref"
+    name "datacite_crossref"
+    title "Datacite (Crossref)"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataciteCrossref.where(name: name).first_or_initialize }
   end
 
   factory :datacite_orcid, class: DataciteOrcid do

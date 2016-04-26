@@ -1,0 +1,2109 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.56M2G
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:29 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.56M2G",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:29 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.HT0HS/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 11:37:30 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.HT0HS/1",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:30 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1186/S12864-015-1469-5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 11:37:30 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1186/S12864-015-1469-5",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:31 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.HT0HS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:30 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.HT0HS",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:31 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.6068/DP14C8FF0666031
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:32 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.6068/DP14C8FF0666031",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:32 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 11:37:32 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.8239H/1",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:32 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H/2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 11:37:32 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.8239H/2",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:33 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.3897/MYCOKEYS.9.4700
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '61'
+      Date:
+      - Tue, 26 Apr 2016 11:37:33 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.3897/MYCOKEYS.9.4700",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:33 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:33 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.8239H",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:34 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:34 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.8239H",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:34 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.KQ0N5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:34 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.KQ0N5",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:34 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.KQ0N5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:35 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.KQ0N5",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:35 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.KQ0N5
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:35 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.KQ0N5",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:35 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1128/JVI.75.10.4721-4733.2001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '70'
+      Date:
+      - Tue, 26 Apr 2016 11:37:35 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1128/JVI.75.10.4721-4733.2001",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:36 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1038/NCHEMBIO764
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '57'
+      Date:
+      - Tue, 26 Apr 2016 11:37:37 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1038/NCHEMBIO764",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:37 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.70C34
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:37 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.70C34",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:37 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1371/JOURNAL.PONE.0035499
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:37 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1371/JOURNAL.PONE.0035499",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:38 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.6068/DP14C952C7D6259
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:38 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.6068/DP14C952C7D6259",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:39 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.TC3V2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:38 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.TC3V2",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:39 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8R6M4/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 11:37:38 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.8R6M4/1",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:39 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1111/OIK.02399
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '55'
+      Date:
+      - Tue, 26 Apr 2016 11:37:40 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1111/OIK.02399",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:40 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:40 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:40 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:41 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:41 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:41 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:42 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:42 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:42 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:42 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:42 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:43 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:43 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:43 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:44 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:45 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:45 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:46 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.BJ001",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:46 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.DT7MH
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:46 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.DT7MH",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:46 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.DT7MH
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:46 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.DT7MH",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:46 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.DT7MH
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:47 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.DT7MH",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:47 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.040MT
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '58'
+      Date:
+      - Tue, 26 Apr 2016 11:37:47 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.5061/DRYAD.040MT",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:47 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3.830
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:48 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.3.830",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:48 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3.846
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:48 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.3.846",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:49 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3.847
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:49 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.3.847",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:49 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4.848
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:49 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.4.848",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:49 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4.849
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:50 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.4.849",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:50 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4.850
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 11:37:50 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.4.850",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:51 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:50 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.3",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:51 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:52 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.3",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:52 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:52 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.3",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:52 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:52 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.4",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:53 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:53 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.4",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:54 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '62'
+      Date:
+      - Tue, 26 Apr 2016 11:37:53 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.7480/KNOB.113.2014.4",
+         "RA": "Data Cite"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:54 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2014.11.015
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '70'
+      Date:
+      - Tue, 26 Apr 2016 11:37:54 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.JORGANCHEM.2014.11.015",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:54 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1039/C4GC02471K
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '56'
+      Date:
+      - Tue, 26 Apr 2016 11:37:54 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1039/C4GC02471K",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:55 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1021/IC502367D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '55'
+      Date:
+      - Tue, 26 Apr 2016 11:37:56 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1021/IC502367D",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:56 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405220
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 11:37:56 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/CHEM.201405220",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:56 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1080/00958972.2015.1011147
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '67'
+      Date:
+      - Tue, 26 Apr 2016 11:37:57 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1080/00958972.2015.1011147",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:57 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1134/S1070363215010235
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 11:37:57 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1134/S1070363215010235",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:58 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.3184/174751914X14108743633272
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '70'
+      Date:
+      - Tue, 26 Apr 2016 11:37:59 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.3184/174751914X14108743633272",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:59 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1007/S10593-014-1497-0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 11:37:59 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1007/S10593-014-1497-0",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 11:37:59 GMT
+recorded_with: VCR 2.9.3
