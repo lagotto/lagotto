@@ -31,7 +31,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def registration_agency_id
-    model.registration_agency
+    cached_registration_agency_names[model.registration_agency_id] if model.registration_agency.present?
   end
 
   def DOI

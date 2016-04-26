@@ -6,6 +6,6 @@ end
 
 json.publisher do
   json.cache! ['v7', @publisher], skip_digest: true do
-    json.(@publisher, :id, :title, :other_names, :prefixes, :timestamp)
+    json.(@publisher, :id, :title, :other_names, :prefixes, :registration_agency_id, :timestamp)
   end
 end
