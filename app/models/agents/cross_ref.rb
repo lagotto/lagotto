@@ -81,7 +81,7 @@ class CrossRef < Agent
                    "type" => metadata.fetch("type", nil),
                    "tracked" => tracked,
                    "publisher_id" => metadata.fetch("publisher_id", nil),
-                   "registration_agency" => "crossref" }
+                   "registration_agency_id" => "crossref" }
 
           { prefix: work.prefix,
             relation: { "subj_id" => subj["pid"],

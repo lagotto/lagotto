@@ -15,29 +15,37 @@ http_interactions:
       - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
   response:
     status:
-      code: 403
+      code: 200
       message: ''
     headers:
       Server:
       - GitHub.com
       Date:
-      - Sat, 09 Apr 2016 20:08:03 GMT
+      - Tue, 26 Apr 2016 13:47:53 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '119'
+      - '1671'
       Status:
-      - 403 Forbidden
+      - 200 OK
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '0'
+      - '4937'
       X-Ratelimit-Reset:
-      - '1460234923'
+      - '1461679875'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
+      Etag:
+      - '"7fc53098ce212f8e94e4fee36db88960"'
+      Last-Modified:
+      - Thu, 21 May 2015 02:27:36 GMT
       X-Oauth-Scopes:
       - gist, repo, user
       X-Accepted-Oauth-Scopes:
-      - repo
+      - ''
       X-Github-Media-Type:
       - github.v3
       Access-Control-Expose-Headers:
@@ -55,13 +63,16 @@ http_interactions:
       - deny
       X-Xss-Protection:
       - 1; mode=block
+      X-Served-By:
+      - 065b43cd9674091fec48a221b420fbb3
       X-Github-Request-Id:
-      - 3EE06D6F:174B5:7CED5A4:57096123
+      - 3EE067F6:174B5:21BACC74:571F7189
     body:
       encoding: UTF-8
-      string: '{"message":"API rate limit exceeded for mfenner.","documentation_url":"https://developer.github.com/v3/#rate-limiting"}'
+      string: '{"url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/releases/1320710","assets_url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/releases/1320710/assets","upload_url":"https://uploads.github.com/repos/brian-j-smith/Mamba.jl/releases/1320710/assets{?name,label}","html_url":"https://github.com/brian-j-smith/Mamba.jl/releases/tag/v0.4.8","id":1320710,"tag_name":"v0.4.8","target_commitish":"master","name":"Mamba
+        0.4.8","draft":false,"author":{"login":"brian-j-smith","id":7605459,"avatar_url":"https://avatars.githubusercontent.com/u/7605459?v=3","gravatar_id":"","url":"https://api.github.com/users/brian-j-smith","html_url":"https://github.com/brian-j-smith","followers_url":"https://api.github.com/users/brian-j-smith/followers","following_url":"https://api.github.com/users/brian-j-smith/following{/other_user}","gists_url":"https://api.github.com/users/brian-j-smith/gists{/gist_id}","starred_url":"https://api.github.com/users/brian-j-smith/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/brian-j-smith/subscriptions","organizations_url":"https://api.github.com/users/brian-j-smith/orgs","repos_url":"https://api.github.com/users/brian-j-smith/repos","events_url":"https://api.github.com/users/brian-j-smith/events{/privacy}","received_events_url":"https://api.github.com/users/brian-j-smith/received_events","type":"User","site_admin":false},"prerelease":false,"created_at":"2015-05-21T01:52:37Z","published_at":"2015-05-21T02:27:36Z","assets":[],"tarball_url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/tarball/v0.4.8","zipball_url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/zipball/v0.4.8","body":""}'
     http_version: 
-  recorded_at: Sat, 09 Apr 2016 20:08:03 GMT
+  recorded_at: Tue, 26 Apr 2016 13:47:54 GMT
 - request:
     method: get
     uri: https://api.github.com/users/brian-j-smith
@@ -77,29 +88,37 @@ http_interactions:
       - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
   response:
     status:
-      code: 403
+      code: 200
       message: ''
     headers:
       Server:
       - GitHub.com
       Date:
-      - Sat, 09 Apr 2016 20:08:04 GMT
+      - Tue, 26 Apr 2016 13:47:54 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
-      - '119'
+      - '1248'
       Status:
-      - 403 Forbidden
+      - 200 OK
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '0'
+      - '4936'
       X-Ratelimit-Reset:
-      - '1460234923'
+      - '1461679875'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
+      Etag:
+      - '"faf7acbebe4c4d70b5bdc3394b690228"'
+      Last-Modified:
+      - Tue, 05 Jan 2016 14:26:45 GMT
       X-Oauth-Scopes:
       - gist, repo, user
       X-Accepted-Oauth-Scopes:
-      - repo
+      - user
       X-Github-Media-Type:
       - github.v3
       Access-Control-Expose-Headers:
@@ -117,11 +136,15 @@ http_interactions:
       - deny
       X-Xss-Protection:
       - 1; mode=block
+      X-Served-By:
+      - 76d9828c7e4f1d910f7ba069e90ce976
       X-Github-Request-Id:
-      - 3EE06D6F:174B5:7CED667:57096123
+      - 3EE067F6:174AE:5B96F58:571F718A
     body:
       encoding: UTF-8
-      string: '{"message":"API rate limit exceeded for mfenner.","documentation_url":"https://developer.github.com/v3/#rate-limiting"}'
+      string: '{"login":"brian-j-smith","id":7605459,"avatar_url":"https://avatars.githubusercontent.com/u/7605459?v=3","gravatar_id":"","url":"https://api.github.com/users/brian-j-smith","html_url":"https://github.com/brian-j-smith","followers_url":"https://api.github.com/users/brian-j-smith/followers","following_url":"https://api.github.com/users/brian-j-smith/following{/other_user}","gists_url":"https://api.github.com/users/brian-j-smith/gists{/gist_id}","starred_url":"https://api.github.com/users/brian-j-smith/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/brian-j-smith/subscriptions","organizations_url":"https://api.github.com/users/brian-j-smith/orgs","repos_url":"https://api.github.com/users/brian-j-smith/repos","events_url":"https://api.github.com/users/brian-j-smith/events{/privacy}","received_events_url":"https://api.github.com/users/brian-j-smith/received_events","type":"User","site_admin":false,"name":"Brian
+        J Smith","company":"The University of Iowa","blog":"www.linkedin.com/pub/brian-j-smith/98/166/711/","location":"Iowa
+        City, IA","email":null,"hireable":null,"bio":null,"public_repos":7,"public_gists":1,"followers":11,"following":0,"created_at":"2014-05-16T18:04:10Z","updated_at":"2016-01-05T14:26:45Z"}'
     http_version: 
-  recorded_at: Sat, 09 Apr 2016 20:08:04 GMT
+  recorded_at: Tue, 26 Apr 2016 13:47:54 GMT
 recorded_with: VCR 2.9.3

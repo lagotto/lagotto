@@ -30,6 +30,10 @@ class WorkDecorator < Draper::Decorator
     cached_work_type_names[model.work_type_id] if model.work_type.present?
   end
 
+  def registration_agency_id
+    model.registration_agency
+  end
+
   def DOI
     model.doi
   end

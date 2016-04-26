@@ -4,7 +4,6 @@ FactoryGirl.define do
     sequence(:pid) { |n| "http://doi.org/10.1371/journal.pone.00000#{n}" }
     sequence(:doi) { |n| "10.1371/journal.pone.00000#{n}" }
     sequence(:pmid) { |n| "1897483#{n}" }
-    registration_agency "crossref"
     sequence(:canonical_url) { |n| "http://journals.plos.org/plosone/article?id=10.1371/journal.pone.00000#{n}" }
     title 'Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web'
     year { Time.zone.now.to_date.year - 1 }
@@ -13,6 +12,8 @@ FactoryGirl.define do
     issued_at { Time.zone.now }
     tracked true
     csl {{}}
+
+    registration_agency
 
     trait(:cited) { doi '10.1371/journal.pone.0000001' }
     trait(:uncited) { doi '10.1371/journal.pone.0000002' }
@@ -330,9 +331,19 @@ FactoryGirl.define do
     name "340"
     title 'Public Library of Science (PLoS)'
     other_names ["Public Library of Science", "Public Library of Science (PLoS)"]
-    prefixes ["10.1371"]
-    registration_agency "crossref"
     active true
+
+    registration_agency
+
+    trait(:with_datacite) do
+      association :registration_agency, name: "datacite"
+    end
+
+    after :create do |publisher|
+      FactoryGirl.create(:prefix, prefix: "10.1371",
+                                  publisher_id: publisher.id,
+                                  registration_agency_id: publisher.registration_agency.id)
+    end
 
     initialize_with { Publisher.where(name: name).first_or_initialize }
   end
@@ -622,8 +633,17 @@ FactoryGirl.define do
 
   factory :prefix do
     prefix "10.1371"
-    registration_agency "datacite"
+
+    registration_agency
+    publisher
 
     initialize_with { Prefix.where(prefix: prefix).first_or_initialize }
+  end
+
+  factory :registration_agency do
+    name 'crossref'
+    title 'Crossref'
+
+    initialize_with { RegistrationAgency.where(name: name).first_or_initialize }
   end
 end

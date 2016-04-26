@@ -108,6 +108,7 @@ class CrossrefImport < Agent
                "issue" => item.fetch("issue", nil),
                "page" => item.fetch("page", nil),
                "type" => type,
+               "registration_agency_id" => "crossref",
                "tracked" => tracked  }
 
       { prefix: doi[/^10\.\d{4,5}/],

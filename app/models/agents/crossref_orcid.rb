@@ -88,17 +88,18 @@ class CrossrefOrcid < Agent
       doi = item.fetch("DOI", nil)
 
       obj = { "pid" => doi_as_url(doi),
-               "author" => item.fetch("author", []),
-               "title" => title,
-               "container-title" => item.fetch("container-title", []).first,
-               "issued" => { "date-parts" => [date_parts] },
-               "DOI" => doi,
-               "publisher_id" => publisher_id,
-               "volume" => item.fetch("volume", nil),
-               "issue" => item.fetch("issue", nil),
-               "page" => item.fetch("page", nil),
-               "type" => type,
-               "tracked" => tracked }
+              "author" => item.fetch("author", []),
+              "title" => title,
+              "container-title" => item.fetch("container-title", []).first,
+              "issued" => { "date-parts" => [date_parts] },
+              "DOI" => doi,
+              "publisher_id" => publisher_id,
+              "volume" => item.fetch("volume", nil),
+              "issue" => item.fetch("issue", nil),
+              "page" => item.fetch("page", nil),
+              "type" => type,
+              "tracked" => tracked,
+              "registration_agency_id" => "crossref" }
 
       authors_with_orcid = item.fetch('author', []).select { |author| author["ORCID"].present? }
       sum += get_relations(obj, authors_with_orcid)

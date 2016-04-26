@@ -4,10 +4,12 @@ class Publisher < ActiveRecord::Base
 
   has_many :users
   has_many :works
+  has_many :prefixes
   has_many :publisher_options
   has_many :sources, :through => :publisher_options
   has_many :relations
   has_many :contributions
+  belongs_to :registration_agency
 
   serialize :prefixes
   serialize :other_names

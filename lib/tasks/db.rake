@@ -149,6 +149,23 @@ namespace :db do
     end
   end
 
+  namespace :registration_agencies do
+
+    desc "Migrate works, prefixes and publishers to registration agency model"
+    task :migrate => :environment do
+      RegistrationAgency.find_each do |ra|
+        count = Work.where(registration_agency_id: 0).where("registration_agency = ?", ra.name).update_all(registration_agency_id: ra.id)
+        puts "Updated #{count} works for registration agency #{ra.title}"
+
+        count = Prefix.where(registration_agency_id: 0).where("registration_agency = ?", ra.name).update_all(registration_agency_id: ra.id)
+        puts "Updated #{count} prefixes for registration agency #{ra.title}"
+
+        count = Publisher.where(registration_agency_id: 0).where("registration_agency = ?", ra.name).update_all(registration_agency_id: ra.id)
+        puts "Updated #{count} publishers for registration agency #{ra.title}"
+      end
+    end
+  end
+
   namespace :agents do
 
     desc "Activate agents"
