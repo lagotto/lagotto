@@ -9,9 +9,11 @@ class Api::V7::DepositsController < Api::BaseController
   swagger_api :index do
     summary 'Returns all deposits, sorted by date'
     param :query, :message_type, :string, :optional, "Filter by message_type"
-    param :query, :state, :prefix, :optional, "Filter by DOI prefix"
     param :query, :source_token, :string, :optional, "Filter by source_token"
+    param :query, :source_id, :string, :optional, "Filter by source_id"
     param :query, :state, :string, :optional, "Filter by state"
+    param :query, :prefix, :string, :optional, "Filter by DOI prefix"
+    param :query, :q, :string, :optional, "Query for deposit UUID"
     response :ok
     response :unprocessable_entity
     response :not_found
