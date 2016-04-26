@@ -10,9 +10,9 @@ end
 json.contributions @contributions do |contribution|
   json.cache! ['v7', "contribution", contribution, params[:contributor_id], params[:source_id], params[:contributor_role_id]], skip_digest: true do
     json.(contribution, :subj_id)
-    json.(contribution.contributor, :family, :given)
+    json.(contribution.contributor, :credit_name)
     json.(contribution, :obj_id)
-    json.(contribution.work, :publisher_id, :author, :title, :issued)
+    json.(contribution.work, :publisher_id, :author, :title, :published, :issued)
     json.set! :"container-title", contribution.work.container_title
     json.(contribution.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :publisher_id, :work_type_id, :results)
     json.(contribution, :source_id, :contributor_role_id, :timestamp)

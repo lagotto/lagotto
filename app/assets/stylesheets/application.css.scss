@@ -551,6 +551,13 @@ h5, h4.work { margin-top: 0; margin-bottom: 0; }
     padding: 10px 15px;
   }
 }
+.panel-footer .badge {
+  color: $gray-darker;
+  font-weight: normal;
+  background-color: white;
+  border: 1px solid $gray-darker;
+  margin: -3px 0 0 5px;
+}
 h4.results { font-weight: normal; font-size: 1.25em; margin: 0 0 .5em .75em; }
 .loading {margin: 1em; color: $gray-darker; }
 td h4 { margin-top: 0; }

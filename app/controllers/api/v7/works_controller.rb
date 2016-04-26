@@ -170,7 +170,7 @@ class Api::V7::WorksController < Api::BaseController
     elsif params[:sort] == "created_at"
       collection.order("works.created_at ASC")
     else
-      collection.order("works.published_on DESC")
+      collection.order("works.issued_at DESC")
     end
   end
 

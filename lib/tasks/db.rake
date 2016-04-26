@@ -77,6 +77,13 @@ namespace :db do
       end
       puts "Date parts for #{works.count} works added"
     end
+
+    desc "Update issued_at dateime"
+    task :issued_at => :environment do
+      collection = Work.where("issued_at < '1970-01-02'")
+      collection.update_all("issued_at = published_on")
+      puts "#{collection.count} works changed"
+    end
   end
 
   namespace :notifications do

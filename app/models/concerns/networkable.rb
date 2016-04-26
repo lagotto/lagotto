@@ -63,12 +63,12 @@ module Networkable
     end
 
     def faraday_conn(options = {})
-      options[:limit] ||= 10
+      options[:limit] ||= 20
 
       Faraday.new do |c|
         c.headers['Accept'] = options[:headers]['Accept']
         c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
-        c.use      FaradayMiddleware::FollowRedirects, limit: options[:limit]
+        c.use      FaradayMiddleware::FollowRedirects, limit: 20 unless options[:no_redirect]
         c.use      :cookie_jar
         c.request  :multipart
         c.request  :json if options[:headers]['Accept'] == 'application/json'

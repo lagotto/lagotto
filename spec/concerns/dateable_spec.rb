@@ -75,6 +75,28 @@ describe Counter do
       expect(result).to eq("0000")
     end
   end
+
+  describe "get_datetime_from_iso8601" do
+    it 'should return the year, month and day' do
+      result = subject.get_datetime_from_iso8601("2013-09-05")
+      expect(result.to_s).to eq("2013-09-05 00:00:00 UTC")
+    end
+
+    it 'should return the year and month' do
+      result = subject.get_datetime_from_iso8601("2013-09")
+      expect(result.to_s).to eq("2013-09-01 00:00:00 UTC")
+    end
+
+    it 'should return the year' do
+      result = subject.get_datetime_from_iso8601("2013")
+      expect(result.to_s).to eq("2013-01-01 00:00:00 UTC")
+    end
+
+    it 'should return nil' do
+      result = subject.get_datetime_from_iso8601(nil)
+      expect(result).to be_nil
+    end
+  end
 end
 
 # the concern behaves differently for Pmc, returning dates until the last and not the current month
