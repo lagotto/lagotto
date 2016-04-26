@@ -266,12 +266,6 @@ records:
     title: DataoneImport
     description: Import works via the DataONE Solr API.
     group_id: <%= sprig_record(Group, "works").id %>
-  - sprig_id: datacite_data
-    type: DataciteData
-    name: datacite_data
-    title: DataCite (Data)
-    description: Helping you to find, access, and reuse research data.
-    group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_datacentre
     type: DataciteDatacentre
     name: datacite_datacentre
