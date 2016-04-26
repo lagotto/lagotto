@@ -97,26 +97,6 @@ describe DataciteCrossref, type: :model, vcr: true do
                                               "source_id"=>"datacite_crossref",
                                               "publisher_id"=>"CDL.DRYAD",
                                               "occurred_at"=>"2015-04-08T14:37:53Z")
-
-      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.56M2G/1",
-                                          "DOI"=>"10.5061/DRYAD.56M2G/1",
-                                          "author"=>[{"family"=>"Bataillon", "given"=>"Thomas"}, {"family"=>"Duan", "given"=>"Jinjie"}],
-                                          "title"=>"Zip archive VCF files",
-                                          "container-title"=>"Dryad Digital Repository",
-                                          "published"=>"2015",
-                                          "issued"=>"2015-04-08T13:54:45Z",
-                                          "publisher_id"=>"CDL.DRYAD",
-                                          "registration_agency_id"=>"datacite",
-                                          "tracked"=>true,
-                                          "type"=>"dataset")
-
-      expect(response[2][:prefix]).to eq("10.5061")
-      expect(response[2][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.HT0HS",
-                                           "obj_id"=>"http://doi.org/10.1186/S12864-015-1469-5",
-                                           "relation_type_id"=>"is_referenced_by",
-                                           "source_id"=>"datacite_crossref",
-                                           "publisher_id"=>"CDL.DRYAD",
-                                           "occurred_at"=>"2015-04-08T14:37:53Z")
     end
 
     it "should catch timeout errors with the Datacite Metadata Search API" do
