@@ -47,7 +47,7 @@ class Reddit < Agent
                 "URL" => url,
                 "type" => "personal_communication",
                 "tracked" => tracked,
-                "registration_agency" => "reddit" }}
+                "registration_agency_id" => "reddit" }}
     end
   end
 

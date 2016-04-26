@@ -17,7 +17,7 @@ describe "/api/v7/api_requests", :type => :api do
 
       response = JSON.parse(last_response.body)
       data = response["api_requests"]
-      expect(data.length).to eq(10)
+      expect(data.length).to eq(11)
 
       item = data.first
       expect(item["db_duration"]).to eq(100.0)

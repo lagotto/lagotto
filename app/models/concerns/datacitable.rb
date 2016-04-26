@@ -225,7 +225,7 @@ module Datacitable
 
     def datacentre_symbol
       if only_publishers
-        member = Publisher.active.where(registration_agency: "datacite").pluck(:name)
+        member = Publisher.active.joins(:registration_agency).where("registration_agencies.name = ?", "datacite").pluck(:name)
         member.blank? ? nil : "datacentre_symbol:" + member.join("+OR+")
       end
     end

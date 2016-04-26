@@ -66,7 +66,7 @@ describe F1000, type: :model, vcr: true do
                                        "issued"=>"2015-04-08T00:00:00Z",
                                        "type"=>"entry",
                                        "tracked"=>false,
-                                       "registration_agency"=>"f1000")
+                                       "registration_agency_id"=>"f1000")
     end
   end
 end

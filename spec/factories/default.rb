@@ -127,6 +127,14 @@ FactoryGirl.define do
         FactoryGirl.create(:result, :with_twitter, work: work)
       end
     end
+
+    trait(:with_datacite) do
+      association :registration_agency, name: "datacite"
+    end
+
+    trait(:with_github) do
+      association :registration_agency, name: "github"
+    end
   end
 
   factory :result do

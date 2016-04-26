@@ -29,12 +29,12 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Mon, 21 Mar 2016 13:18:04 GMT
+      - Tue, 26 Apr 2016 18:53:48 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":819,"facets":{}}}'
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":795,"facets":{}}}'
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 13:18:04 GMT
+  recorded_at: Tue, 26 Apr 2016 18:53:48 GMT
 recorded_with: VCR 2.9.3

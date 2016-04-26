@@ -73,7 +73,7 @@ describe Orcid, type: :model, vcr: true do
                                           "URL"=>"http://orcid.org/0000-0002-0159-2197",
                                           "type"=>"entry",
                                           "tracked"=>false,
-                                          "registration_agency"=>"orcid")
+                                          "registration_agency_id"=>"orcid")
     end
 
     it "should catch timeout errors with the ORCID API" do

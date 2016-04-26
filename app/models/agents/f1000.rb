@@ -66,7 +66,7 @@ class F1000 < Agent
                  "issued" => Time.zone.now.utc.iso8601,
                  "type" => "entry",
                  "tracked" => tracked,
-                 "registration_agency" => "f1000" }
+                 "registration_agency_id" => "f1000" }
 
         { prefix: doi[/^10\.\d{4,5}/],
           relation: { "subj_id" => subj["pid"],
