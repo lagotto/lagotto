@@ -43,6 +43,8 @@ class Agent < ActiveRecord::Base
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken],
                    "crossref_import" => [:sample, :only_publishers],
+                   "crossref_orcid" => [:sample, :only_publishers],
+                   "crossref_publisher" => [:sample, :only_publishers],
                    "datacite_crossref" => [:only_publishers, :personal_access_token],
                    "datacite_datacentre" => [:only_publishers, :personal_access_token],
                    "datacite_import" => [:only_publishers, :personal_access_token],
