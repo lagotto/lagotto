@@ -1,6 +1,6 @@
 class DataciteDatacentre < Agent
-  # include common methods for Import
-  include Importable
+  # include common methods for DataCite
+  include Datacitable
 
   def get_total(options={})
     query_url = get_query_url
@@ -34,24 +34,12 @@ class DataciteDatacentre < Agent
                     "source_id" => name },
         subj: { "name" => datacentre_name,
                 "title" => datacentre_title,
-                "registration_agency" => "datacite",
+                "registration_agency_id" => "datacite",
                 "active" => true } }
     end
   end
 
-  def config_fields
-    [:url]
-  end
-
-  def url
-    "http://search.datacite.org/api?"
-  end
-
   def cron_line
     config.cron_line || "40 1 * * 1"
-  end
-
-  def job_batch_size
-    config.job_batch_size || 1000
   end
 end
