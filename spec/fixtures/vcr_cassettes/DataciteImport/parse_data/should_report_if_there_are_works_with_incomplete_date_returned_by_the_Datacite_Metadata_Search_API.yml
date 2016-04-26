@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:12 GMT
+      - Tue, 26 Apr 2016 08:37:52 GMT
       Connection:
       - close
     body:
@@ -38,7 +38,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:12 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:52 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.HT0HS/1
@@ -64,7 +64,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:12 GMT
+      - Tue, 26 Apr 2016 08:37:53 GMT
       Connection:
       - close
     body:
@@ -77,7 +77,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:12 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:53 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1186/S12864-015-1469-5
@@ -103,7 +103,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:02:13 GMT
+      - Tue, 26 Apr 2016 08:37:53 GMT
       Connection:
       - close
     body:
@@ -116,7 +116,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:14 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:54 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.HT0HS
@@ -142,7 +142,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:14 GMT
+      - Tue, 26 Apr 2016 08:37:55 GMT
       Connection:
       - close
     body:
@@ -155,7 +155,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:14 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.6068/DP14C8FF0666031
@@ -181,7 +181,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:14 GMT
+      - Tue, 26 Apr 2016 08:37:55 GMT
       Connection:
       - close
     body:
@@ -194,7 +194,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:15 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H/1
@@ -220,7 +220,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:15 GMT
+      - Tue, 26 Apr 2016 08:37:56 GMT
       Connection:
       - close
     body:
@@ -233,7 +233,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:15 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H/2
@@ -259,7 +259,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:15 GMT
+      - Tue, 26 Apr 2016 08:37:56 GMT
       Connection:
       - close
     body:
@@ -272,7 +272,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:16 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.3897/MYCOKEYS.9.4700
@@ -298,7 +298,7 @@ http_interactions:
       Content-Length:
       - '61'
       Date:
-      - Tue, 26 Apr 2016 08:02:16 GMT
+      - Tue, 26 Apr 2016 08:37:58 GMT
       Connection:
       - close
     body:
@@ -311,7 +311,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:16 GMT
+  recorded_at: Tue, 26 Apr 2016 08:37:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H
@@ -337,7 +337,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:16 GMT
+      - Tue, 26 Apr 2016 08:38:00 GMT
       Connection:
       - close
     body:
@@ -350,7 +350,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:17 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8239H
@@ -376,7 +376,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:17 GMT
+      - Tue, 26 Apr 2016 08:38:01 GMT
       Connection:
       - close
     body:
@@ -389,7 +389,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:17 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.KQ0N5
@@ -415,7 +415,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:17 GMT
+      - Tue, 26 Apr 2016 08:38:01 GMT
       Connection:
       - close
     body:
@@ -428,7 +428,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:18 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.KQ0N5
@@ -454,7 +454,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:18 GMT
+      - Tue, 26 Apr 2016 08:38:03 GMT
       Connection:
       - close
     body:
@@ -467,7 +467,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:18 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.KQ0N5
@@ -493,7 +493,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:18 GMT
+      - Tue, 26 Apr 2016 08:38:03 GMT
       Connection:
       - close
     body:
@@ -506,7 +506,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:19 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1128/JVI.75.10.4721-4733.2001
@@ -532,7 +532,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:19 GMT
+      - Tue, 26 Apr 2016 08:38:04 GMT
       Connection:
       - close
     body:
@@ -545,7 +545,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:19 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1038/NCHEMBIO764
@@ -571,7 +571,7 @@ http_interactions:
       Content-Length:
       - '57'
       Date:
-      - Tue, 26 Apr 2016 08:02:19 GMT
+      - Tue, 26 Apr 2016 08:38:04 GMT
       Connection:
       - close
     body:
@@ -584,7 +584,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:20 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1128/JB.02273-12
@@ -610,7 +610,7 @@ http_interactions:
       Content-Length:
       - '57'
       Date:
-      - Tue, 26 Apr 2016 08:02:19 GMT
+      - Tue, 26 Apr 2016 08:38:05 GMT
       Connection:
       - close
     body:
@@ -623,7 +623,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:20 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.70C34
@@ -649,7 +649,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:20 GMT
+      - Tue, 26 Apr 2016 08:38:05 GMT
       Connection:
       - close
     body:
@@ -662,7 +662,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:21 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:06 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1371/JOURNAL.PONE.0035499
@@ -688,7 +688,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:20 GMT
+      - Tue, 26 Apr 2016 08:38:07 GMT
       Connection:
       - close
     body:
@@ -701,7 +701,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:21 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.6068/DP14C952C7D6259
@@ -727,7 +727,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:22 GMT
+      - Tue, 26 Apr 2016 08:38:08 GMT
       Connection:
       - close
     body:
@@ -740,7 +740,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:22 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:08 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.TC3V2
@@ -766,7 +766,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:22 GMT
+      - Tue, 26 Apr 2016 08:38:08 GMT
       Connection:
       - close
     body:
@@ -779,7 +779,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:23 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:09 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.8R6M4/1
@@ -805,7 +805,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:23 GMT
+      - Tue, 26 Apr 2016 08:38:10 GMT
       Connection:
       - close
     body:
@@ -818,7 +818,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:23 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:10 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1111/OIK.02399
@@ -844,7 +844,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Tue, 26 Apr 2016 08:02:23 GMT
+      - Tue, 26 Apr 2016 08:38:10 GMT
       Connection:
       - close
     body:
@@ -857,7 +857,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:23 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:10 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -883,7 +883,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:24 GMT
+      - Tue, 26 Apr 2016 08:38:11 GMT
       Connection:
       - close
     body:
@@ -896,7 +896,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:24 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:11 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -922,7 +922,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:24 GMT
+      - Tue, 26 Apr 2016 08:38:11 GMT
       Connection:
       - close
     body:
@@ -935,7 +935,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:25 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:12 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -961,7 +961,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:24 GMT
+      - Tue, 26 Apr 2016 08:38:13 GMT
       Connection:
       - close
     body:
@@ -974,7 +974,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:25 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:13 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -1000,7 +1000,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:25 GMT
+      - Tue, 26 Apr 2016 08:38:13 GMT
       Connection:
       - close
     body:
@@ -1013,7 +1013,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:26 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:13 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -1039,7 +1039,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:25 GMT
+      - Tue, 26 Apr 2016 08:38:14 GMT
       Connection:
       - close
     body:
@@ -1052,7 +1052,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:26 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:14 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -1078,7 +1078,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:26 GMT
+      - Tue, 26 Apr 2016 08:38:15 GMT
       Connection:
       - close
     body:
@@ -1091,7 +1091,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:26 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:15 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -1117,7 +1117,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:27 GMT
+      - Tue, 26 Apr 2016 08:38:15 GMT
       Connection:
       - close
     body:
@@ -1130,7 +1130,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:27 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:16 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -1156,7 +1156,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:27 GMT
+      - Tue, 26 Apr 2016 08:38:15 GMT
       Connection:
       - close
     body:
@@ -1169,7 +1169,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:28 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:16 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.BJ001
@@ -1195,7 +1195,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:27 GMT
+      - Tue, 26 Apr 2016 08:38:17 GMT
       Connection:
       - close
     body:
@@ -1208,7 +1208,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:28 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:17 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.DT7MH
@@ -1234,7 +1234,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:28 GMT
+      - Tue, 26 Apr 2016 08:38:17 GMT
       Connection:
       - close
     body:
@@ -1247,7 +1247,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:28 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:17 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.DT7MH
@@ -1273,7 +1273,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:28 GMT
+      - Tue, 26 Apr 2016 08:38:17 GMT
       Connection:
       - close
     body:
@@ -1286,7 +1286,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:29 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:18 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.DT7MH
@@ -1312,7 +1312,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:29 GMT
+      - Tue, 26 Apr 2016 08:38:19 GMT
       Connection:
       - close
     body:
@@ -1325,7 +1325,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:29 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:19 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.5061/DRYAD.040MT
@@ -1351,7 +1351,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Tue, 26 Apr 2016 08:02:29 GMT
+      - Tue, 26 Apr 2016 08:38:19 GMT
       Connection:
       - close
     body:
@@ -1364,7 +1364,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:30 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:19 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3.830
@@ -1390,7 +1390,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:30 GMT
+      - Tue, 26 Apr 2016 08:38:21 GMT
       Connection:
       - close
     body:
@@ -1403,7 +1403,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:31 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:21 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3.846
@@ -1429,7 +1429,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:30 GMT
+      - Tue, 26 Apr 2016 08:38:21 GMT
       Connection:
       - close
     body:
@@ -1442,7 +1442,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:31 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:22 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3.847
@@ -1468,7 +1468,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:31 GMT
+      - Tue, 26 Apr 2016 08:38:22 GMT
       Connection:
       - close
     body:
@@ -1481,7 +1481,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:31 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:23 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4.848
@@ -1507,7 +1507,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:31 GMT
+      - Tue, 26 Apr 2016 08:38:22 GMT
       Connection:
       - close
     body:
@@ -1520,7 +1520,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:32 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:24 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4.849
@@ -1546,7 +1546,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:33 GMT
+      - Tue, 26 Apr 2016 08:38:24 GMT
       Connection:
       - close
     body:
@@ -1559,7 +1559,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:33 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:24 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4.850
@@ -1585,7 +1585,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:33 GMT
+      - Tue, 26 Apr 2016 08:38:25 GMT
       Connection:
       - close
     body:
@@ -1598,7 +1598,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:33 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:25 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3
@@ -1624,7 +1624,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:34 GMT
+      - Tue, 26 Apr 2016 08:38:25 GMT
       Connection:
       - close
     body:
@@ -1637,7 +1637,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:34 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:26 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3
@@ -1663,7 +1663,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:34 GMT
+      - Tue, 26 Apr 2016 08:38:26 GMT
       Connection:
       - close
     body:
@@ -1676,7 +1676,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:34 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:27 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.3
@@ -1702,7 +1702,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:35 GMT
+      - Tue, 26 Apr 2016 08:38:26 GMT
       Connection:
       - close
     body:
@@ -1715,7 +1715,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:35 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:27 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4
@@ -1741,7 +1741,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:35 GMT
+      - Tue, 26 Apr 2016 08:38:28 GMT
       Connection:
       - close
     body:
@@ -1754,7 +1754,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:36 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:28 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4
@@ -1780,7 +1780,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:36 GMT
+      - Tue, 26 Apr 2016 08:38:29 GMT
       Connection:
       - close
     body:
@@ -1793,7 +1793,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:36 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:29 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.7480/KNOB.113.2014.4
@@ -1819,7 +1819,7 @@ http_interactions:
       Content-Length:
       - '62'
       Date:
-      - Tue, 26 Apr 2016 08:02:36 GMT
+      - Tue, 26 Apr 2016 08:38:29 GMT
       Connection:
       - close
     body:
@@ -1832,7 +1832,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:36 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:29 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2014.11.015
@@ -1858,7 +1858,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:37 GMT
+      - Tue, 26 Apr 2016 08:38:30 GMT
       Connection:
       - close
     body:
@@ -1871,7 +1871,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:37 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:30 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TET.2014.12.069
@@ -1897,7 +1897,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:02:37 GMT
+      - Tue, 26 Apr 2016 08:38:30 GMT
       Connection:
       - close
     body:
@@ -1910,7 +1910,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:38 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:31 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2014.12.034
@@ -1936,7 +1936,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:39 GMT
+      - Tue, 26 Apr 2016 08:38:31 GMT
       Connection:
       - close
     body:
@@ -1949,7 +1949,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:39 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:32 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4GC02471K
@@ -1975,7 +1975,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:02:39 GMT
+      - Tue, 26 Apr 2016 08:38:31 GMT
       Connection:
       - close
     body:
@@ -1988,7 +1988,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:39 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:32 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.032
@@ -2014,7 +2014,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:39 GMT
+      - Tue, 26 Apr 2016 08:38:33 GMT
       Connection:
       - close
     body:
@@ -2027,7 +2027,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:40 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:33 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2015.01.008
@@ -2053,7 +2053,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:40 GMT
+      - Tue, 26 Apr 2016 08:38:33 GMT
       Connection:
       - close
     body:
@@ -2066,7 +2066,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:40 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:34 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2015.01.008
@@ -2092,7 +2092,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:40 GMT
+      - Tue, 26 Apr 2016 08:38:33 GMT
       Connection:
       - close
     body:
@@ -2105,7 +2105,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:41 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:34 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.003
@@ -2131,7 +2131,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:41 GMT
+      - Tue, 26 Apr 2016 08:38:35 GMT
       Connection:
       - close
     body:
@@ -2144,7 +2144,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:41 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:35 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4TC02826K
@@ -2170,7 +2170,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:02:41 GMT
+      - Tue, 26 Apr 2016 08:38:35 GMT
       Connection:
       - close
     body:
@@ -2183,7 +2183,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:42 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:36 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4TC02826K
@@ -2209,7 +2209,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:02:42 GMT
+      - Tue, 26 Apr 2016 08:38:37 GMT
       Connection:
       - close
     body:
@@ -2222,7 +2222,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:43 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:37 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4TC02826K
@@ -2248,7 +2248,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:02:42 GMT
+      - Tue, 26 Apr 2016 08:38:37 GMT
       Connection:
       - close
     body:
@@ -2261,7 +2261,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:43 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:37 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4TC02611J
@@ -2287,7 +2287,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:02:44 GMT
+      - Tue, 26 Apr 2016 08:38:37 GMT
       Connection:
       - close
     body:
@@ -2300,7 +2300,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:44 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:38 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2015.03.008
@@ -2326,7 +2326,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:44 GMT
+      - Tue, 26 Apr 2016 08:38:38 GMT
       Connection:
       - close
     body:
@@ -2339,7 +2339,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:44 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:39 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2015.03.008
@@ -2365,7 +2365,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:44 GMT
+      - Tue, 26 Apr 2016 08:38:38 GMT
       Connection:
       - close
     body:
@@ -2378,7 +2378,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:44 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:39 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETASY.2015.03.004
@@ -2404,7 +2404,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:45 GMT
+      - Tue, 26 Apr 2016 08:38:39 GMT
       Connection:
       - close
     body:
@@ -2417,7 +2417,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:45 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:40 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETASY.2015.03.004
@@ -2443,7 +2443,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:45 GMT
+      - Tue, 26 Apr 2016 08:38:40 GMT
       Connection:
       - close
     body:
@@ -2456,7 +2456,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:46 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:41 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.02.013
@@ -2482,7 +2482,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:02:46 GMT
+      - Tue, 26 Apr 2016 08:38:40 GMT
       Connection:
       - close
     body:
@@ -2495,7 +2495,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:46 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:41 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.02.013
@@ -2521,7 +2521,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:02:46 GMT
+      - Tue, 26 Apr 2016 08:38:42 GMT
       Connection:
       - close
     body:
@@ -2534,7 +2534,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:47 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:42 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JORGANCHEM.2015.03.002
@@ -2560,7 +2560,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:02:47 GMT
+      - Tue, 26 Apr 2016 08:38:42 GMT
       Connection:
       - close
     body:
@@ -2573,7 +2573,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:47 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:43 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/IC502367D
@@ -2599,7 +2599,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Tue, 26 Apr 2016 08:02:47 GMT
+      - Tue, 26 Apr 2016 08:38:43 GMT
       Connection:
       - close
     body:
@@ -2612,7 +2612,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:48 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:44 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405220
@@ -2638,7 +2638,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:49 GMT
+      - Tue, 26 Apr 2016 08:38:43 GMT
       Connection:
       - close
     body:
@@ -2651,7 +2651,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:50 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:44 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405220
@@ -2677,7 +2677,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:49 GMT
+      - Tue, 26 Apr 2016 08:38:45 GMT
       Connection:
       - close
     body:
@@ -2690,7 +2690,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:50 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:45 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201404780
@@ -2716,7 +2716,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:51 GMT
+      - Tue, 26 Apr 2016 08:38:45 GMT
       Connection:
       - close
     body:
@@ -2729,7 +2729,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:51 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:45 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201404693
@@ -2755,7 +2755,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:52 GMT
+      - Tue, 26 Apr 2016 08:38:45 GMT
       Connection:
       - close
     body:
@@ -2768,7 +2768,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:52 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:46 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1080/00958972.2015.1011147
@@ -2794,7 +2794,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Tue, 26 Apr 2016 08:02:53 GMT
+      - Tue, 26 Apr 2016 08:38:47 GMT
       Connection:
       - close
     body:
@@ -2807,7 +2807,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:53 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:47 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1080/00958972.2015.1011147
@@ -2833,7 +2833,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Tue, 26 Apr 2016 08:02:53 GMT
+      - Tue, 26 Apr 2016 08:38:47 GMT
       Connection:
       - close
     body:
@@ -2846,7 +2846,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:53 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:48 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1080/00958972.2015.1011147
@@ -2872,7 +2872,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Tue, 26 Apr 2016 08:02:53 GMT
+      - Tue, 26 Apr 2016 08:38:48 GMT
       Connection:
       - close
     body:
@@ -2885,7 +2885,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:54 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:48 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/IC502278D
@@ -2911,7 +2911,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Tue, 26 Apr 2016 08:02:54 GMT
+      - Tue, 26 Apr 2016 08:38:48 GMT
       Connection:
       - close
     body:
@@ -2924,7 +2924,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:54 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:49 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405478
@@ -2950,7 +2950,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:54 GMT
+      - Tue, 26 Apr 2016 08:38:49 GMT
       Connection:
       - close
     body:
@@ -2963,7 +2963,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:55 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:49 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405478
@@ -2989,7 +2989,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:55 GMT
+      - Tue, 26 Apr 2016 08:38:51 GMT
       Connection:
       - close
     body:
@@ -3002,7 +3002,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:55 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:51 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405478
@@ -3028,7 +3028,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:56 GMT
+      - Tue, 26 Apr 2016 08:38:52 GMT
       Connection:
       - close
     body:
@@ -3041,7 +3041,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:56 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:52 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.10.088
@@ -3067,7 +3067,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:02:56 GMT
+      - Tue, 26 Apr 2016 08:38:52 GMT
       Connection:
       - close
     body:
@@ -3080,7 +3080,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:56 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:52 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03706E
@@ -3106,7 +3106,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:02:56 GMT
+      - Tue, 26 Apr 2016 08:38:52 GMT
       Connection:
       - close
     body:
@@ -3119,7 +3119,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:57 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:53 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TET.2014.12.042
@@ -3145,7 +3145,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:02:57 GMT
+      - Tue, 26 Apr 2016 08:38:54 GMT
       Connection:
       - close
     body:
@@ -3158,7 +3158,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:58 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:54 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405356
@@ -3184,7 +3184,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:02:59 GMT
+      - Tue, 26 Apr 2016 08:38:54 GMT
       Connection:
       - close
     body:
@@ -3197,7 +3197,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:02:59 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:54 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405356
@@ -3223,7 +3223,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:03:00 GMT
+      - Tue, 26 Apr 2016 08:38:55 GMT
       Connection:
       - close
     body:
@@ -3236,7 +3236,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:00 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1134/S1070363215010235
@@ -3262,7 +3262,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:05 GMT
+      - Tue, 26 Apr 2016 08:38:55 GMT
       Connection:
       - close
     body:
@@ -3275,7 +3275,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:06 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:56 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE01422G
@@ -3301,7 +3301,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:07 GMT
+      - Tue, 26 Apr 2016 08:38:55 GMT
       Connection:
       - close
     body:
@@ -3314,7 +3314,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:07 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE01422G
@@ -3340,7 +3340,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:07 GMT
+      - Tue, 26 Apr 2016 08:38:57 GMT
       Connection:
       - close
     body:
@@ -3353,7 +3353,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:07 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03706E
@@ -3379,7 +3379,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:08 GMT
+      - Tue, 26 Apr 2016 08:38:57 GMT
       Connection:
       - close
     body:
@@ -3392,7 +3392,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:08 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03706E
@@ -3418,7 +3418,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:08 GMT
+      - Tue, 26 Apr 2016 08:38:57 GMT
       Connection:
       - close
     body:
@@ -3431,7 +3431,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:08 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TET.2014.10.044
@@ -3457,7 +3457,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:08 GMT
+      - Tue, 26 Apr 2016 08:38:59 GMT
       Connection:
       - close
     body:
@@ -3470,7 +3470,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:09 GMT
+  recorded_at: Tue, 26 Apr 2016 08:38:59 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.09.086
@@ -3496,7 +3496,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:08 GMT
+      - Tue, 26 Apr 2016 08:38:59 GMT
       Connection:
       - close
     body:
@@ -3509,7 +3509,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:09 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.09.086
@@ -3535,7 +3535,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:09 GMT
+      - Tue, 26 Apr 2016 08:38:59 GMT
       Connection:
       - close
     body:
@@ -3548,7 +3548,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:10 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.09.086
@@ -3574,7 +3574,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:09 GMT
+      - Tue, 26 Apr 2016 08:39:01 GMT
       Connection:
       - close
     body:
@@ -3587,7 +3587,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:10 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.SAA.2015.02.104
@@ -3613,7 +3613,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:10 GMT
+      - Tue, 26 Apr 2016 08:39:02 GMT
       Connection:
       - close
     body:
@@ -3626,7 +3626,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:11 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2014.11.041
@@ -3652,7 +3652,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:10 GMT
+      - Tue, 26 Apr 2016 08:39:02 GMT
       Connection:
       - close
     body:
@@ -3665,7 +3665,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:11 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2014.11.041
@@ -3691,7 +3691,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:12 GMT
+      - Tue, 26 Apr 2016 08:39:03 GMT
       Connection:
       - close
     body:
@@ -3704,7 +3704,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:12 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2014.11.041
@@ -3730,7 +3730,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:12 GMT
+      - Tue, 26 Apr 2016 08:39:03 GMT
       Connection:
       - close
     body:
@@ -3743,7 +3743,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:12 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2014.11.041
@@ -3769,7 +3769,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:13 GMT
+      - Tue, 26 Apr 2016 08:39:04 GMT
       Connection:
       - close
     body:
@@ -3782,7 +3782,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:13 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2014.11.041
@@ -3808,7 +3808,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:13 GMT
+      - Tue, 26 Apr 2016 08:39:04 GMT
       Connection:
       - close
     body:
@@ -3821,7 +3821,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:13 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2014.11.041
@@ -3847,7 +3847,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:13 GMT
+      - Tue, 26 Apr 2016 08:39:04 GMT
       Connection:
       - close
     body:
@@ -3860,7 +3860,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:14 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/JO502206G
@@ -3886,7 +3886,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Tue, 26 Apr 2016 08:03:13 GMT
+      - Tue, 26 Apr 2016 08:39:06 GMT
       Connection:
       - close
     body:
@@ -3899,7 +3899,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:14 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:06 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.3184/174751914X14108743633272
@@ -3925,7 +3925,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:03:15 GMT
+      - Tue, 26 Apr 2016 08:39:06 GMT
       Connection:
       - close
     body:
@@ -3938,7 +3938,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:15 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:06 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.3184/174751914X14108743633272
@@ -3964,7 +3964,7 @@ http_interactions:
       Content-Length:
       - '70'
       Date:
-      - Tue, 26 Apr 2016 08:03:15 GMT
+      - Tue, 26 Apr 2016 08:39:06 GMT
       Connection:
       - close
     body:
@@ -3977,7 +3977,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:15 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.11.043
@@ -4003,7 +4003,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:15 GMT
+      - Tue, 26 Apr 2016 08:39:07 GMT
       Connection:
       - close
     body:
@@ -4016,7 +4016,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:16 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.09.037
@@ -4042,7 +4042,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:16 GMT
+      - Tue, 26 Apr 2016 08:39:09 GMT
       Connection:
       - close
     body:
@@ -4055,7 +4055,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:16 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:09 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/JO502206G
@@ -4081,7 +4081,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Tue, 26 Apr 2016 08:03:16 GMT
+      - Tue, 26 Apr 2016 08:39:09 GMT
       Connection:
       - close
     body:
@@ -4094,7 +4094,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:17 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:10 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5OB00174A
@@ -4120,7 +4120,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:17 GMT
+      - Tue, 26 Apr 2016 08:39:10 GMT
       Connection:
       - close
     body:
@@ -4133,7 +4133,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:17 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:10 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1021/IC502805H
@@ -4159,7 +4159,7 @@ http_interactions:
       Content-Length:
       - '55'
       Date:
-      - Tue, 26 Apr 2016 08:03:17 GMT
+      - Tue, 26 Apr 2016 08:39:10 GMT
       Connection:
       - close
     body:
@@ -4172,7 +4172,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:18 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:11 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/S10593-014-1497-0
@@ -4198,7 +4198,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:18 GMT
+      - Tue, 26 Apr 2016 08:39:11 GMT
       Connection:
       - close
     body:
@@ -4211,7 +4211,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:18 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:12 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405239
@@ -4237,7 +4237,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:03:18 GMT
+      - Tue, 26 Apr 2016 08:39:11 GMT
       Connection:
       - close
     body:
@@ -4250,7 +4250,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:19 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:12 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.03.028
@@ -4276,7 +4276,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:19 GMT
+      - Tue, 26 Apr 2016 08:39:12 GMT
       Connection:
       - close
     body:
@@ -4289,7 +4289,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:20 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:12 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.09.122
@@ -4315,7 +4315,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:19 GMT
+      - Tue, 26 Apr 2016 08:39:12 GMT
       Connection:
       - close
     body:
@@ -4328,7 +4328,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:20 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:13 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2014.11.047
@@ -4354,7 +4354,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:19 GMT
+      - Tue, 26 Apr 2016 08:39:13 GMT
       Connection:
       - close
     body:
@@ -4367,7 +4367,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:20 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:13 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1080/00958972.2015.1011145
@@ -4393,7 +4393,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Tue, 26 Apr 2016 08:03:21 GMT
+      - Tue, 26 Apr 2016 08:39:13 GMT
       Connection:
       - close
     body:
@@ -4406,7 +4406,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:21 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:14 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1080/00958972.2015.1011145
@@ -4432,7 +4432,7 @@ http_interactions:
       Content-Length:
       - '67'
       Date:
-      - Tue, 26 Apr 2016 08:03:21 GMT
+      - Tue, 26 Apr 2016 08:39:15 GMT
       Connection:
       - close
     body:
@@ -4445,7 +4445,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:21 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:15 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.003
@@ -4471,7 +4471,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:21 GMT
+      - Tue, 26 Apr 2016 08:39:15 GMT
       Connection:
       - close
     body:
@@ -4484,7 +4484,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:22 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:15 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.003
@@ -4510,7 +4510,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:23 GMT
+      - Tue, 26 Apr 2016 08:39:16 GMT
       Connection:
       - close
     body:
@@ -4523,7 +4523,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:23 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:16 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.003
@@ -4549,7 +4549,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:24 GMT
+      - Tue, 26 Apr 2016 08:39:16 GMT
       Connection:
       - close
     body:
@@ -4562,7 +4562,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:24 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:17 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.003
@@ -4588,7 +4588,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:03:24 GMT
+      - Tue, 26 Apr 2016 08:39:17 GMT
       Connection:
       - close
     body:
@@ -4601,7 +4601,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:25 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:17 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201405765
@@ -4627,7 +4627,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:03:25 GMT
+      - Tue, 26 Apr 2016 08:39:17 GMT
       Connection:
       - close
     body:
@@ -4640,7 +4640,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:25 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:17 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/S12039-014-0708-7
@@ -4666,7 +4666,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:25 GMT
+      - Tue, 26 Apr 2016 08:39:18 GMT
       Connection:
       - close
     body:
@@ -4679,7 +4679,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:25 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:18 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/S12039-014-0708-7
@@ -4705,7 +4705,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:28 GMT
+      - Tue, 26 Apr 2016 08:39:18 GMT
       Connection:
       - close
     body:
@@ -4718,7 +4718,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:28 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:19 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1007/S12039-014-0708-7
@@ -4744,7 +4744,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:03:29 GMT
+      - Tue, 26 Apr 2016 08:39:18 GMT
       Connection:
       - close
     body:
@@ -4757,7 +4757,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:29 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:19 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03785E
@@ -4783,7 +4783,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:29 GMT
+      - Tue, 26 Apr 2016 08:39:20 GMT
       Connection:
       - close
     body:
@@ -4796,7 +4796,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:29 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:20 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03785E
@@ -4822,7 +4822,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:30 GMT
+      - Tue, 26 Apr 2016 08:39:20 GMT
       Connection:
       - close
     body:
@@ -4835,7 +4835,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:30 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:20 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03785E
@@ -4861,7 +4861,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:30 GMT
+      - Tue, 26 Apr 2016 08:39:20 GMT
       Connection:
       - close
     body:
@@ -4874,7 +4874,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:31 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:21 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03870C
@@ -4900,7 +4900,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:31 GMT
+      - Tue, 26 Apr 2016 08:39:21 GMT
       Connection:
       - close
     body:
@@ -4913,7 +4913,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:32 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:21 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03870C
@@ -4939,7 +4939,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:33 GMT
+      - Tue, 26 Apr 2016 08:39:21 GMT
       Connection:
       - close
     body:
@@ -4952,7 +4952,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:33 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:22 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -4978,7 +4978,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:33 GMT
+      - Tue, 26 Apr 2016 08:39:22 GMT
       Connection:
       - close
     body:
@@ -4991,7 +4991,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:33 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:22 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5017,7 +5017,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:33 GMT
+      - Tue, 26 Apr 2016 08:39:22 GMT
       Connection:
       - close
     body:
@@ -5030,7 +5030,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:33 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:23 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5056,7 +5056,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:34 GMT
+      - Tue, 26 Apr 2016 08:39:23 GMT
       Connection:
       - close
     body:
@@ -5069,7 +5069,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:34 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:25 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5095,7 +5095,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:34 GMT
+      - Tue, 26 Apr 2016 08:39:25 GMT
       Connection:
       - close
     body:
@@ -5108,7 +5108,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:35 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:25 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5134,7 +5134,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:34 GMT
+      - Tue, 26 Apr 2016 08:39:25 GMT
       Connection:
       - close
     body:
@@ -5147,7 +5147,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:35 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:26 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5173,7 +5173,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:36 GMT
+      - Tue, 26 Apr 2016 08:39:25 GMT
       Connection:
       - close
     body:
@@ -5186,7 +5186,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:36 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:26 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5212,7 +5212,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:36 GMT
+      - Tue, 26 Apr 2016 08:39:27 GMT
       Connection:
       - close
     body:
@@ -5225,7 +5225,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:36 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:27 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00062A
@@ -5251,7 +5251,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:36 GMT
+      - Tue, 26 Apr 2016 08:39:27 GMT
       Connection:
       - close
     body:
@@ -5264,7 +5264,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:36 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:28 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5290,7 +5290,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:37 GMT
+      - Tue, 26 Apr 2016 08:39:28 GMT
       Connection:
       - close
     body:
@@ -5303,7 +5303,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:37 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:28 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5329,7 +5329,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:37 GMT
+      - Tue, 26 Apr 2016 08:39:28 GMT
       Connection:
       - close
     body:
@@ -5342,7 +5342,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:38 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:29 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5368,7 +5368,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:37 GMT
+      - Tue, 26 Apr 2016 08:39:29 GMT
       Connection:
       - close
     body:
@@ -5381,7 +5381,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:38 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:29 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5407,7 +5407,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:39 GMT
+      - Tue, 26 Apr 2016 08:39:29 GMT
       Connection:
       - close
     body:
@@ -5420,7 +5420,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:39 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:30 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5446,7 +5446,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:39 GMT
+      - Tue, 26 Apr 2016 08:39:30 GMT
       Connection:
       - close
     body:
@@ -5459,7 +5459,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:39 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:31 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5485,7 +5485,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:39 GMT
+      - Tue, 26 Apr 2016 08:39:30 GMT
       Connection:
       - close
     body:
@@ -5498,7 +5498,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:40 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:31 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5524,7 +5524,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:40 GMT
+      - Tue, 26 Apr 2016 08:39:30 GMT
       Connection:
       - close
     body:
@@ -5537,7 +5537,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:40 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:31 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5563,7 +5563,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:40 GMT
+      - Tue, 26 Apr 2016 08:39:32 GMT
       Connection:
       - close
     body:
@@ -5576,7 +5576,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:41 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:32 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00146C
@@ -5602,7 +5602,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:40 GMT
+      - Tue, 26 Apr 2016 08:39:32 GMT
       Connection:
       - close
     body:
@@ -5615,7 +5615,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:41 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:33 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5641,7 +5641,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:41 GMT
+      - Tue, 26 Apr 2016 08:39:33 GMT
       Connection:
       - close
     body:
@@ -5654,7 +5654,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:41 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:33 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5680,7 +5680,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:41 GMT
+      - Tue, 26 Apr 2016 08:39:33 GMT
       Connection:
       - close
     body:
@@ -5693,7 +5693,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:42 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:34 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5719,7 +5719,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:42 GMT
+      - Tue, 26 Apr 2016 08:39:34 GMT
       Connection:
       - close
     body:
@@ -5732,7 +5732,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:43 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:34 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5758,7 +5758,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:42 GMT
+      - Tue, 26 Apr 2016 08:39:34 GMT
       Connection:
       - close
     body:
@@ -5771,7 +5771,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:43 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:35 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5797,7 +5797,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:44 GMT
+      - Tue, 26 Apr 2016 08:39:36 GMT
       Connection:
       - close
     body:
@@ -5810,7 +5810,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:44 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:36 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5836,7 +5836,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:44 GMT
+      - Tue, 26 Apr 2016 08:39:36 GMT
       Connection:
       - close
     body:
@@ -5849,7 +5849,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:44 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:36 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5875,7 +5875,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:44 GMT
+      - Tue, 26 Apr 2016 08:39:37 GMT
       Connection:
       - close
     body:
@@ -5888,7 +5888,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:44 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:37 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5914,7 +5914,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:44 GMT
+      - Tue, 26 Apr 2016 08:39:37 GMT
       Connection:
       - close
     body:
@@ -5927,7 +5927,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:45 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:38 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -5953,7 +5953,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:45 GMT
+      - Tue, 26 Apr 2016 08:39:37 GMT
       Connection:
       - close
     body:
@@ -5966,7 +5966,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:45 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:38 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CC10322J
@@ -5992,7 +5992,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:45 GMT
+      - Tue, 26 Apr 2016 08:39:39 GMT
       Connection:
       - close
     body:
@@ -6005,7 +6005,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:46 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:39 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -6031,7 +6031,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:46 GMT
+      - Tue, 26 Apr 2016 08:39:39 GMT
       Connection:
       - close
     body:
@@ -6044,7 +6044,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:46 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:39 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -6070,7 +6070,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:46 GMT
+      - Tue, 26 Apr 2016 08:39:39 GMT
       Connection:
       - close
     body:
@@ -6083,7 +6083,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:47 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:40 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -6109,7 +6109,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:47 GMT
+      - Tue, 26 Apr 2016 08:39:41 GMT
       Connection:
       - close
     body:
@@ -6122,7 +6122,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:47 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:41 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5CC00724K
@@ -6148,7 +6148,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:47 GMT
+      - Tue, 26 Apr 2016 08:39:41 GMT
       Connection:
       - close
     body:
@@ -6161,7 +6161,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:48 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:41 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6187,7 +6187,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:49 GMT
+      - Tue, 26 Apr 2016 08:39:41 GMT
       Connection:
       - close
     body:
@@ -6200,7 +6200,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:49 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:41 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6226,7 +6226,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:49 GMT
+      - Tue, 26 Apr 2016 08:39:42 GMT
       Connection:
       - close
     body:
@@ -6239,7 +6239,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:49 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:42 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6265,7 +6265,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:49 GMT
+      - Tue, 26 Apr 2016 08:39:42 GMT
       Connection:
       - close
     body:
@@ -6278,7 +6278,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:49 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:43 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6304,7 +6304,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:49 GMT
+      - Tue, 26 Apr 2016 08:39:42 GMT
       Connection:
       - close
     body:
@@ -6317,7 +6317,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:50 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:43 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6343,7 +6343,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:50 GMT
+      - Tue, 26 Apr 2016 08:39:44 GMT
       Connection:
       - close
     body:
@@ -6356,7 +6356,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:50 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:44 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6382,7 +6382,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:50 GMT
+      - Tue, 26 Apr 2016 08:39:44 GMT
       Connection:
       - close
     body:
@@ -6395,7 +6395,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:51 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:44 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03648D
@@ -6421,7 +6421,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:51 GMT
+      - Tue, 26 Apr 2016 08:39:44 GMT
       Connection:
       - close
     body:
@@ -6434,7 +6434,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:51 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:45 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00222B
@@ -6460,7 +6460,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:51 GMT
+      - Tue, 26 Apr 2016 08:39:46 GMT
       Connection:
       - close
     body:
@@ -6473,7 +6473,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:52 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:46 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00222B
@@ -6499,7 +6499,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:52 GMT
+      - Tue, 26 Apr 2016 08:39:46 GMT
       Connection:
       - close
     body:
@@ -6512,7 +6512,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:52 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:46 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00222B
@@ -6538,7 +6538,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:52 GMT
+      - Tue, 26 Apr 2016 08:39:46 GMT
       Connection:
       - close
     body:
@@ -6551,7 +6551,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:53 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:46 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C5DT00222B
@@ -6577,7 +6577,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:52 GMT
+      - Tue, 26 Apr 2016 08:39:47 GMT
       Connection:
       - close
     body:
@@ -6590,7 +6590,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:53 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:47 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03224A
@@ -6616,7 +6616,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:54 GMT
+      - Tue, 26 Apr 2016 08:39:48 GMT
       Connection:
       - close
     body:
@@ -6629,7 +6629,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:54 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:48 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03224A
@@ -6655,7 +6655,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:54 GMT
+      - Tue, 26 Apr 2016 08:39:48 GMT
       Connection:
       - close
     body:
@@ -6668,7 +6668,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:54 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:48 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03941F
@@ -6694,7 +6694,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:54 GMT
+      - Tue, 26 Apr 2016 08:39:49 GMT
       Connection:
       - close
     body:
@@ -6707,7 +6707,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:54 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:49 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03941F
@@ -6733,7 +6733,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:55 GMT
+      - Tue, 26 Apr 2016 08:39:49 GMT
       Connection:
       - close
     body:
@@ -6746,7 +6746,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:55 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:49 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03941F
@@ -6772,7 +6772,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:55 GMT
+      - Tue, 26 Apr 2016 08:39:49 GMT
       Connection:
       - close
     body:
@@ -6785,7 +6785,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:56 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:50 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4DT03941F
@@ -6811,7 +6811,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:03:55 GMT
+      - Tue, 26 Apr 2016 08:39:51 GMT
       Connection:
       - close
     body:
@@ -6824,7 +6824,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:56 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:51 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.016
@@ -6850,7 +6850,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:56 GMT
+      - Tue, 26 Apr 2016 08:39:51 GMT
       Connection:
       - close
     body:
@@ -6863,7 +6863,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:56 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:51 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.016
@@ -6889,7 +6889,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 08:03:58 GMT
+      - Tue, 26 Apr 2016 08:39:51 GMT
       Connection:
       - close
     body:
@@ -6902,7 +6902,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:03:58 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:52 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.BMC.2015.02.001
@@ -6928,7 +6928,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:04:00 GMT
+      - Tue, 26 Apr 2016 08:39:52 GMT
       Connection:
       - close
     body:
@@ -6941,7 +6941,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:00 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:52 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.BMC.2015.02.001
@@ -6967,7 +6967,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:04:01 GMT
+      - Tue, 26 Apr 2016 08:39:52 GMT
       Connection:
       - close
     body:
@@ -6980,7 +6980,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:01 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:53 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.BMC.2015.02.001
@@ -7006,7 +7006,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:04:01 GMT
+      - Tue, 26 Apr 2016 08:39:52 GMT
       Connection:
       - close
     body:
@@ -7019,7 +7019,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:01 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:53 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.TET.2015.02.028
@@ -7045,7 +7045,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:04:01 GMT
+      - Tue, 26 Apr 2016 08:39:54 GMT
       Connection:
       - close
     body:
@@ -7058,7 +7058,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:02 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:54 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CC07392D
@@ -7084,7 +7084,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:03 GMT
+      - Tue, 26 Apr 2016 08:39:54 GMT
       Connection:
       - close
     body:
@@ -7097,7 +7097,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:03 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CC07392D
@@ -7123,7 +7123,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:03 GMT
+      - Tue, 26 Apr 2016 08:39:55 GMT
       Connection:
       - close
     body:
@@ -7136,7 +7136,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:03 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:55 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JSSC.2015.03.012
@@ -7162,7 +7162,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:03 GMT
+      - Tue, 26 Apr 2016 08:39:55 GMT
       Connection:
       - close
     body:
@@ -7175,7 +7175,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:03 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:56 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/ZAAC.201400399
@@ -7201,7 +7201,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:04:04 GMT
+      - Tue, 26 Apr 2016 08:39:56 GMT
       Connection:
       - close
     body:
@@ -7214,7 +7214,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:04 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:56 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/ZAAC.201400399
@@ -7240,7 +7240,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:04:04 GMT
+      - Tue, 26 Apr 2016 08:39:56 GMT
       Connection:
       - close
     body:
@@ -7253,7 +7253,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:04 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:57 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/ZAAC.201400399
@@ -7279,7 +7279,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:04:05 GMT
+      - Tue, 26 Apr 2016 08:39:58 GMT
       Connection:
       - close
     body:
@@ -7292,7 +7292,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:05 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/ZAAC.201400399
@@ -7318,7 +7318,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:04:05 GMT
+      - Tue, 26 Apr 2016 08:39:58 GMT
       Connection:
       - close
     body:
@@ -7331,7 +7331,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:06 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:58 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE00587B
@@ -7357,7 +7357,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:06 GMT
+      - Tue, 26 Apr 2016 08:39:58 GMT
       Connection:
       - close
     body:
@@ -7370,7 +7370,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:06 GMT
+  recorded_at: Tue, 26 Apr 2016 08:39:59 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE00587B
@@ -7396,7 +7396,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:06 GMT
+      - Tue, 26 Apr 2016 08:39:59 GMT
       Connection:
       - close
     body:
@@ -7409,7 +7409,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:06 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE00587B
@@ -7435,7 +7435,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:07 GMT
+      - Tue, 26 Apr 2016 08:39:59 GMT
       Connection:
       - close
     body:
@@ -7448,7 +7448,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:07 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE00587B
@@ -7474,7 +7474,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:07 GMT
+      - Tue, 26 Apr 2016 08:39:59 GMT
       Connection:
       - close
     body:
@@ -7487,7 +7487,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:07 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:00 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1039/C4CE00587B
@@ -7513,7 +7513,7 @@ http_interactions:
       Content-Length:
       - '56'
       Date:
-      - Tue, 26 Apr 2016 08:04:07 GMT
+      - Tue, 26 Apr 2016 08:40:01 GMT
       Connection:
       - close
     body:
@@ -7526,7 +7526,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:08 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:01 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1002/CHEM.201403623
@@ -7552,7 +7552,7 @@ http_interactions:
       Content-Length:
       - '60'
       Date:
-      - Tue, 26 Apr 2016 08:04:08 GMT
+      - Tue, 26 Apr 2016 08:40:01 GMT
       Connection:
       - close
     body:
@@ -7565,7 +7565,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:08 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.JCIS.2015.03.028
@@ -7591,7 +7591,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:08 GMT
+      - Tue, 26 Apr 2016 08:40:02 GMT
       Connection:
       - close
     body:
@@ -7604,7 +7604,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:09 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:02 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.ICA.2015.03.008
@@ -7630,7 +7630,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:04:09 GMT
+      - Tue, 26 Apr 2016 08:40:02 GMT
       Connection:
       - close
     body:
@@ -7643,7 +7643,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:09 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:03 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.02.023
@@ -7669,7 +7669,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:09 GMT
+      - Tue, 26 Apr 2016 08:40:03 GMT
       Connection:
       - close
     body:
@@ -7682,7 +7682,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:10 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.02.023
@@ -7708,7 +7708,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:11 GMT
+      - Tue, 26 Apr 2016 08:40:03 GMT
       Connection:
       - close
     body:
@@ -7721,7 +7721,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:11 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:04 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.019
@@ -7747,7 +7747,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Tue, 26 Apr 2016 08:04:11 GMT
+      - Tue, 26 Apr 2016 08:40:05 GMT
       Connection:
       - close
     body:
@@ -7760,7 +7760,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:11 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.019
@@ -7786,7 +7786,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Tue, 26 Apr 2016 08:04:12 GMT
+      - Tue, 26 Apr 2016 08:40:05 GMT
       Connection:
       - close
     body:
@@ -7799,7 +7799,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:12 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:05 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.010
@@ -7825,7 +7825,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:12 GMT
+      - Tue, 26 Apr 2016 08:40:06 GMT
       Connection:
       - close
     body:
@@ -7838,7 +7838,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:13 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:06 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.010
@@ -7864,7 +7864,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:12 GMT
+      - Tue, 26 Apr 2016 08:40:06 GMT
       Connection:
       - close
     body:
@@ -7877,7 +7877,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:13 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.010
@@ -7903,7 +7903,7 @@ http_interactions:
       Content-Length:
       - '64'
       Date:
-      - Tue, 26 Apr 2016 08:04:14 GMT
+      - Tue, 26 Apr 2016 08:40:07 GMT
       Connection:
       - close
     body:
@@ -7916,7 +7916,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:14 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.037
@@ -7942,7 +7942,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Tue, 26 Apr 2016 08:04:14 GMT
+      - Tue, 26 Apr 2016 08:40:07 GMT
       Connection:
       - close
     body:
@@ -7955,7 +7955,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:14 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:07 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.SAA.2015.02.082
@@ -7981,7 +7981,7 @@ http_interactions:
       Content-Length:
       - '63'
       Date:
-      - Tue, 26 Apr 2016 08:04:14 GMT
+      - Tue, 26 Apr 2016 08:40:08 GMT
       Connection:
       - close
     body:
@@ -7994,7 +7994,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:15 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:08 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
@@ -8020,7 +8020,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Tue, 26 Apr 2016 08:04:15 GMT
+      - Tue, 26 Apr 2016 08:40:08 GMT
       Connection:
       - close
     body:
@@ -8033,7 +8033,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:15 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:09 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
@@ -8059,7 +8059,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Tue, 26 Apr 2016 08:04:15 GMT
+      - Tue, 26 Apr 2016 08:40:08 GMT
       Connection:
       - close
     body:
@@ -8072,7 +8072,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:16 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:09 GMT
 - request:
     method: get
     uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
@@ -8098,7 +8098,7 @@ http_interactions:
       Content-Length:
       - '68'
       Date:
-      - Tue, 26 Apr 2016 08:04:15 GMT
+      - Tue, 26 Apr 2016 08:40:10 GMT
       Connection:
       - close
     body:
@@ -8111,5 +8111,2930 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 08:04:16 GMT
+  recorded_at: Tue, 26 Apr 2016 08:40:10 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '68'
+      Date:
+      - Tue, 26 Apr 2016 08:40:10 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.MOLSTRUC.2015.03.029",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:11 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '68'
+      Date:
+      - Tue, 26 Apr 2016 08:40:11 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.MOLSTRUC.2015.03.029",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:12 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '68'
+      Date:
+      - Tue, 26 Apr 2016 08:40:11 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.MOLSTRUC.2015.03.029",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:12 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.MOLSTRUC.2015.03.029
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '68'
+      Date:
+      - Tue, 26 Apr 2016 08:40:12 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.MOLSTRUC.2015.03.029",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:12 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.ICA.2015.03.010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:12 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.ICA.2015.03.010",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:13 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.ICA.2015.03.010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:14 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.ICA.2015.03.010",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:14 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.POLY.2015.03.009
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '64'
+      Date:
+      - Tue, 26 Apr 2016 08:40:14 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.POLY.2015.03.009",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:14 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.ICA.2015.03.014
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:15 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.ICA.2015.03.014",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:15 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.ICA.2015.03.014
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:15 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.ICA.2015.03.014",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:16 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.ICA.2015.03.014
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:15 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.ICA.2015.03.014",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:16 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.011
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:16 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.011",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:17 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.030
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:17 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.030",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:17 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.003
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:17 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.003",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:18 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.003
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:19 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.003",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:19 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.003
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:19 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.003",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:19 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:19 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.010",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:19 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.008
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:20 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.008",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:20 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.007
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:20 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.007",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:21 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.006
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:20 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.02.006",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:21 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:22 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.010",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:22 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.024
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:22 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.01.024",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:23 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.024
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:22 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.01.024",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:23 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:24 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.01.002",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:24 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.019
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:24 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.02.019",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:24 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.014
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:24 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.01.014",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:25 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.017
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:26 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.02.017",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:26 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.015
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:26 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.02.015",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:26 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.TETLET.2015.02.053
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:26 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.TETLET.2015.02.053",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:27 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1039/C5RA04722F
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '56'
+      Date:
+      - Tue, 26 Apr 2016 08:40:27 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1039/C5RA04722F",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:27 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1039/C5RA04722F
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '56'
+      Date:
+      - Tue, 26 Apr 2016 08:40:27 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1039/C5RA04722F",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:28 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1107/S2056989015005630
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:27 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1107/S2056989015005630",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:28 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1107/S2056989015005757
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:29 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1107/S2056989015005757",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:29 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1107/S2056989015005770
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:29 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1107/S2056989015005770",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:30 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1107/S2056989015005794
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:29 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1107/S2056989015005794",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:30 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1107/S2056989015006015
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '63'
+      Date:
+      - Tue, 26 Apr 2016 08:40:31 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1107/S2056989015006015",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:31 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.019
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:31 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.019",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:31 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.019
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:32 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.019",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:32 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:32 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.001",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:33 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:32 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.002",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:33 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:34 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.002",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:34 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:34 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.002",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:34 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:35 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.002",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:35 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.014
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:35 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.014",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:35 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.11.007
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:36 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.11.007",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:36 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/ANIE.201409513
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 08:40:36 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/ANIE.201409513",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:36 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/ANIE.201409513
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 08:40:37 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/ANIE.201409513",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:37 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/ANIE.201409513
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 08:40:37 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/ANIE.201409513",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:38 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/ANIE.201409513
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 08:40:38 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/ANIE.201409513",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:38 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:38 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.013",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:39 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.11.012
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:39 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.11.012",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:39 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.11.012
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:39 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.11.012",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:40 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1039/C5RA04028K
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '56'
+      Date:
+      - Tue, 26 Apr 2016 08:40:41 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1039/C5RA04028K",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:41 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.02.005
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:41 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.02.005",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:41 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:41 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.01.001",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:41 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.001
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:42 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.001",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:42 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.006
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:42 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.006",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:43 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2015.01.021
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:42 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2015.01.021",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:43 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.012
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:44 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.012",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:44 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.12.012
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:44 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.12.012",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:44 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.025
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:44 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.025",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:45 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.025
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:46 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.025",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:46 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.017
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:46 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.017",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:46 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.007
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:47 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.007",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:47 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.11.010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:47 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.11.010",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:48 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.10.032
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:47 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.10.032",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:48 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.019
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:48 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.019",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:49 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.031
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:49 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.031",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:49 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.031
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:49 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.031",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:50 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.031
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:51 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.031",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:51 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.09.031
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:51 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.09.031",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:51 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1002/ANIE.201407013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '60'
+      Date:
+      - Tue, 26 Apr 2016 08:40:51 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1002/ANIE.201407013",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:51 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.08.005
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:52 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.08.005",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:52 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.08.005
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:52 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.08.005",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:53 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.08.005
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:53 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.08.005",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:53 GMT
+- request:
+    method: get
+    uri: http://doi.crossref.org/doiRA/10.1016/J.INOCHE.2014.08.005
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Content-Language:
+      - en-US
+      Content-Length:
+      - '66'
+      Date:
+      - Tue, 26 Apr 2016 08:40:53 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |-
+        [
+         {
+         "DOI": "10.1016/J.INOCHE.2014.08.005",
+         "RA": "CrossRef"
+        }
+        ]
+    http_version: 
+  recorded_at: Tue, 26 Apr 2016 08:40:54 GMT
 recorded_with: VCR 2.9.3
