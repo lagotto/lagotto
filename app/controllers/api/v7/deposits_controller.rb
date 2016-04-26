@@ -9,9 +9,11 @@ class Api::V7::DepositsController < Api::BaseController
   swagger_api :index do
     summary 'Returns all deposits, sorted by date'
     param :query, :message_type, :string, :optional, "Filter by message_type"
-    param :query, :state, :prefix, :optional, "Filter by DOI prefix"
     param :query, :source_token, :string, :optional, "Filter by source_token"
+    param :query, :source_id, :string, :optional, "Filter by source_id"
     param :query, :state, :string, :optional, "Filter by state"
+    param :query, :prefix, :string, :optional, "Filter by DOI prefix"
+    param :query, :q, :string, :optional, "Query for deposit UUID"
     response :ok
     response :unprocessable_entity
     response :not_found
@@ -83,7 +85,7 @@ class Api::V7::DepositsController < Api::BaseController
   private
 
   def safe_params
-    nested_params = [:pid, :name, { author: [:given, :family, :literal, :"ORCID"] }, :title, :"container-title", :issued, :"URL", :"DOI", :registration_agency, :publisher_id, :type, :tracked, :active]
+    nested_params = [:pid, :name, { author: [:given, :family, :literal, :"ORCID"] }, :title, :"container-title", :issued, :published, :"URL", :"DOI", :registration_agency, :publisher_id, :type, :tracked, :active]
     params.require(:deposit).permit(:uuid, :message_type, :message_action, :source_token, :callback, :prefix, :subj_id, :obj_id, :relation_type_id, :source_id, :publisher_id, :total, :occurred_at, :provenance_url, :timestamp, subj: nested_params, obj: nested_params)
   end
 end
