@@ -154,7 +154,7 @@ namespace :db do
     desc "Migrate works, prefixes and publishers to registration agency model"
     task :migrate => :environment do
       RegistrationAgency.find_each do |ra|
-        count = Work.where(registration_agency_id: 0).where("registration_agency = ?", ra.name).update_all(registration_agency_id: ra.id)
+        count = Work.where(registration_agency_id: nil).where("registration_agency = ?", ra.name).update_all(registration_agency_id: ra.id)
         puts "Updated #{count} works for registration agency #{ra.title}"
 
         count = Prefix.where(registration_agency_id: 0).where("registration_agency = ?", ra.name).update_all(registration_agency_id: ra.id)
