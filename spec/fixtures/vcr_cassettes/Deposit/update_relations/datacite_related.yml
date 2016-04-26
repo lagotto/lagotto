@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '58'
       Date:
-      - Sun, 20 Mar 2016 17:46:02 GMT
+      - Tue, 26 Apr 2016 16:05:25 GMT
       Connection:
       - close
     body:
@@ -38,10 +38,10 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
+  recorded_at: Tue, 26 Apr 2016 16:05:25 GMT
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -58,7 +58,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sun, 20 Mar 2016 17:47:13 GMT
+      - Tue, 26 Apr 2016 16:07:27 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -70,12 +70,12 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5DcmF3Zm9yZCwgTGluZHNheSBBLjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktvc2NpbnNraSwgRGFyaWE8L2NyZWF0b3JOYW1lPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5LZXlnaG9iYWRpLCBOdXNoYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPkRhdGEgZnJvbTogQSBjYWxsIGZvciBtb3JlIHRyYW5zcGFyZW50IHJlcG9ydGluZyBvZiBlcnJvciByYXRlczogdGhlIHF1YWxpdHkgb2YgQUZMUCBkYXRhIGluIGVjb2xvZ2ljYWwgYW5kIGV2b2x1dGlvbmFyeSByZXNlYXJjaDwvdGl0bGU+CiAgPC90aXRsZXM+CiAgPHB1Ymxpc2hlcj5EcnlhZCBEaWdpdGFsIFJlcG9zaXRvcnk8L3B1Ymxpc2hlcj4KICA8cHVibGljYXRpb25ZZWFyPjIwMTI8L3B1YmxpY2F0aW9uWWVhcj4KICA8c3ViamVjdHM+CiAgICA8c3ViamVjdD5hbXBsaWZpZWQgZnJhZ21lbnQgbGVuZ3RoIHBvbHltb3JwaHNpbSAoQUZMUCk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5nZW5vdHlwaW5nIGVycm9yIHJhdGU8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wb3B1bGF0aW9uIGdlbmV0aWNzPC9zdWJqZWN0PgogICAgPHN1YmplY3Q+cHVibGlzaGluZyBzdGFuZGFyZHM8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXByb2R1Y2liaWxpdHk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXBsaWNhdGUgc2FtcGxlczwvc3ViamVjdD4KICA8L3N1YmplY3RzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YVBhY2thZ2U8L3Jlc291cmNlVHlwZT4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iY2l0YXRpb24iPkNyYXdmb3JkIExBLCBLb3NjaW5za2kgRCwgS2V5Z2hvYmFkaSBOICgyMDEyKSBBIGNhbGwgZm9yIG1vcmUgdHJhbnNwYXJlbnQgcmVwb3J0aW5nIG9mIGVycm9yIHJhdGVzOiB0aGUgcXVhbGl0eSBvZiBBRkxQIGRhdGEgaW4gZWNvbG9naWNhbCBhbmQgZXZvbHV0aW9uYXJ5IHJlc2VhcmNoLiBNb2xlY3VsYXIgRWNvbG9neSAyMSgyNCk6IDU5MTHigJM1OTE3LjwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJIYXNQYXJ0IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTA2MS9EUllBRC40N1NENS8xPC9yZWxhdGVkSWRlbnRpZmllcj4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGlvblR5cGU9IklzUmVmZXJlbmNlZEJ5IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuMTExMS9NRUMuMTIwNjk8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNSZWZlcmVuY2VkQnkiIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iRE9JIi8+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":7},"response":{"numFound":1,"start":0,"docs":[{"minted":"2012-09-18T13:38:46Z","datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5DcmF3Zm9yZCwgTGluZHNheSBBLjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktvc2NpbnNraSwgRGFyaWE8L2NyZWF0b3JOYW1lPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5LZXlnaG9iYWRpLCBOdXNoYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPkRhdGEgZnJvbTogQSBjYWxsIGZvciBtb3JlIHRyYW5zcGFyZW50IHJlcG9ydGluZyBvZiBlcnJvciByYXRlczogdGhlIHF1YWxpdHkgb2YgQUZMUCBkYXRhIGluIGVjb2xvZ2ljYWwgYW5kIGV2b2x1dGlvbmFyeSByZXNlYXJjaDwvdGl0bGU+CiAgPC90aXRsZXM+CiAgPHB1Ymxpc2hlcj5EcnlhZCBEaWdpdGFsIFJlcG9zaXRvcnk8L3B1Ymxpc2hlcj4KICA8cHVibGljYXRpb25ZZWFyPjIwMTI8L3B1YmxpY2F0aW9uWWVhcj4KICA8c3ViamVjdHM+CiAgICA8c3ViamVjdD5hbXBsaWZpZWQgZnJhZ21lbnQgbGVuZ3RoIHBvbHltb3JwaHNpbSAoQUZMUCk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5nZW5vdHlwaW5nIGVycm9yIHJhdGU8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wb3B1bGF0aW9uIGdlbmV0aWNzPC9zdWJqZWN0PgogICAgPHN1YmplY3Q+cHVibGlzaGluZyBzdGFuZGFyZHM8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXByb2R1Y2liaWxpdHk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXBsaWNhdGUgc2FtcGxlczwvc3ViamVjdD4KICA8L3N1YmplY3RzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YVBhY2thZ2U8L3Jlc291cmNlVHlwZT4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iY2l0YXRpb24iPkNyYXdmb3JkIExBLCBLb3NjaW5za2kgRCwgS2V5Z2hvYmFkaSBOICgyMDEyKSBBIGNhbGwgZm9yIG1vcmUgdHJhbnNwYXJlbnQgcmVwb3J0aW5nIG9mIGVycm9yIHJhdGVzOiB0aGUgcXVhbGl0eSBvZiBBRkxQIGRhdGEgaW4gZWNvbG9naWNhbCBhbmQgZXZvbHV0aW9uYXJ5IHJlc2VhcmNoLiBNb2xlY3VsYXIgRWNvbG9neSAyMSgyNCk6IDU5MTHigJM1OTE3LjwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJIYXNQYXJ0IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTA2MS9EUllBRC40N1NENS8xPC9yZWxhdGVkSWRlbnRpZmllcj4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGlvblR5cGU9IklzUmVmZXJlbmNlZEJ5IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuMTExMS9NRUMuMTIwNjk8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNSZWZlcmVuY2VkQnkiIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iRE9JIi8+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
+  recorded_at: Tue, 26 Apr 2016 16:05:25 GMT
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -92,7 +92,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sun, 20 Mar 2016 17:47:13 GMT
+      - Tue, 26 Apr 2016 16:07:28 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -104,211 +104,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5DcmF3Zm9yZCwgTGluZHNheSBBLjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktvc2NpbnNraSwgRGFyaWE8L2NyZWF0b3JOYW1lPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5LZXlnaG9iYWRpLCBOdXNoYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPkRhdGEgZnJvbTogQSBjYWxsIGZvciBtb3JlIHRyYW5zcGFyZW50IHJlcG9ydGluZyBvZiBlcnJvciByYXRlczogdGhlIHF1YWxpdHkgb2YgQUZMUCBkYXRhIGluIGVjb2xvZ2ljYWwgYW5kIGV2b2x1dGlvbmFyeSByZXNlYXJjaDwvdGl0bGU+CiAgPC90aXRsZXM+CiAgPHB1Ymxpc2hlcj5EcnlhZCBEaWdpdGFsIFJlcG9zaXRvcnk8L3B1Ymxpc2hlcj4KICA8cHVibGljYXRpb25ZZWFyPjIwMTI8L3B1YmxpY2F0aW9uWWVhcj4KICA8c3ViamVjdHM+CiAgICA8c3ViamVjdD5hbXBsaWZpZWQgZnJhZ21lbnQgbGVuZ3RoIHBvbHltb3JwaHNpbSAoQUZMUCk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5nZW5vdHlwaW5nIGVycm9yIHJhdGU8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wb3B1bGF0aW9uIGdlbmV0aWNzPC9zdWJqZWN0PgogICAgPHN1YmplY3Q+cHVibGlzaGluZyBzdGFuZGFyZHM8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXByb2R1Y2liaWxpdHk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXBsaWNhdGUgc2FtcGxlczwvc3ViamVjdD4KICA8L3N1YmplY3RzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YVBhY2thZ2U8L3Jlc291cmNlVHlwZT4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iY2l0YXRpb24iPkNyYXdmb3JkIExBLCBLb3NjaW5za2kgRCwgS2V5Z2hvYmFkaSBOICgyMDEyKSBBIGNhbGwgZm9yIG1vcmUgdHJhbnNwYXJlbnQgcmVwb3J0aW5nIG9mIGVycm9yIHJhdGVzOiB0aGUgcXVhbGl0eSBvZiBBRkxQIGRhdGEgaW4gZWNvbG9naWNhbCBhbmQgZXZvbHV0aW9uYXJ5IHJlc2VhcmNoLiBNb2xlY3VsYXIgRWNvbG9neSAyMSgyNCk6IDU5MTHigJM1OTE3LjwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJIYXNQYXJ0IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTA2MS9EUllBRC40N1NENS8xPC9yZWxhdGVkSWRlbnRpZmllcj4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGlvblR5cGU9IklzUmVmZXJlbmNlZEJ5IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuMTExMS9NRUMuMTIwNjk8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNSZWZlcmVuY2VkQnkiIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iRE9JIi8+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
+        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"minted":"2012-09-18T13:38:52Z","datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDUvMTwvaWRlbnRpZmllcj4KICA8Y3JlYXRvcnM+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkNyYXdmb3JkLCBMaW5kc2F5IEEuPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+S29zY2luc2tpLCBEYXJpYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktleWdob2JhZGksIE51c2hhPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+RXh0cmFjdGVkIGluZm9ybWF0aW9uIGZyb20gQUZMUCBzdHVkaWVzPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeTwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAxMjwvcHVibGljYXRpb25ZZWFyPgogIDxzdWJqZWN0cz4KICAgIDxzdWJqZWN0PmFtcGxpZmllZCBmcmFnbWVudCBsZW5ndGggcG9seW1vcnBoc2ltIChBRkxQKTwvc3ViamVjdD4KICAgIDxzdWJqZWN0Pmdlbm90eXBpbmcgZXJyb3IgcmF0ZTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnBvcHVsYXRpb24gZ2VuZXRpY3M8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wdWJsaXNoaW5nIHN0YW5kYXJkczwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcHJvZHVjaWJpbGl0eTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcGxpY2F0ZSBzYW1wbGVzPC9zdWJqZWN0PgogIDwvc3ViamVjdHM+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9IkFjY2VwdGVkIj4yMDEyLTExLTA1PC9kYXRlPgogIDwvZGF0ZXM+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhRmlsZTwvcmVzb3VyY2VUeXBlPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJJc1BhcnRPZiIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcz4KICAgIDxzaXplPjM4Njg1OSBieXRlczwvc2l6ZT4KICAgIDxzaXplPjYxODYzIGJ5dGVzPC9zaXplPgogIDwvc2l6ZXM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9Ik90aGVyIj5NYWRlIGF2YWlsYWJsZSBpbiBEU3BhY2Ugb24gMjAxMi0wOS0xOFQxMzozODo1MFogKEdNVCkuIE5vLiBvZiBiaXRzdHJlYW1zOiAyJiMxMzsKUkVBRE1FLnBkZjogMzg2ODU5IGJ5dGVzLCBjaGVja3N1bTogMWQ2ZTYwN2M1ZmU5YzY0ZWQ5OWFlNjBiZDUxOWJmYjEgKE1ENSkmIzEzOwpjdl9FeHRyYWN0ZWRfQUZMUF9EYXRhLmNzdjogNjE4NjMgYnl0ZXMsIGNoZWNrc3VtOiAxMTlhYTg2MmUzYjJjYWZjMWM2MmZiYmU2OGRjYTk5MiAoTUQ1KTwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
     http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:47:13 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDUvMTwvaWRlbnRpZmllcj4KICA8Y3JlYXRvcnM+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkNyYXdmb3JkLCBMaW5kc2F5IEEuPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+S29zY2luc2tpLCBEYXJpYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktleWdob2JhZGksIE51c2hhPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+RXh0cmFjdGVkIGluZm9ybWF0aW9uIGZyb20gQUZMUCBzdHVkaWVzPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeTwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAxMjwvcHVibGljYXRpb25ZZWFyPgogIDxzdWJqZWN0cz4KICAgIDxzdWJqZWN0PmFtcGxpZmllZCBmcmFnbWVudCBsZW5ndGggcG9seW1vcnBoc2ltIChBRkxQKTwvc3ViamVjdD4KICAgIDxzdWJqZWN0Pmdlbm90eXBpbmcgZXJyb3IgcmF0ZTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnBvcHVsYXRpb24gZ2VuZXRpY3M8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wdWJsaXNoaW5nIHN0YW5kYXJkczwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcHJvZHVjaWJpbGl0eTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcGxpY2F0ZSBzYW1wbGVzPC9zdWJqZWN0PgogIDwvc3ViamVjdHM+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9IkFjY2VwdGVkIj4yMDEyLTExLTA1PC9kYXRlPgogIDwvZGF0ZXM+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhRmlsZTwvcmVzb3VyY2VUeXBlPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJJc1BhcnRPZiIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcz4KICAgIDxzaXplPjM4Njg1OSBieXRlczwvc2l6ZT4KICAgIDxzaXplPjYxODYzIGJ5dGVzPC9zaXplPgogIDwvc2l6ZXM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9Ik90aGVyIj5NYWRlIGF2YWlsYWJsZSBpbiBEU3BhY2Ugb24gMjAxMi0wOS0xOFQxMzozODo1MFogKEdNVCkuIE5vLiBvZiBiaXRzdHJlYW1zOiAyJiMxMzsKUkVBRE1FLnBkZjogMzg2ODU5IGJ5dGVzLCBjaGVja3N1bTogMWQ2ZTYwN2M1ZmU5YzY0ZWQ5OWFlNjBiZDUxOWJmYjEgKE1ENSkmIzEzOwpjdl9FeHRyYWN0ZWRfQUZMUF9EYXRhLmNzdjogNjE4NjMgYnl0ZXMsIGNoZWNrc3VtOiAxMTlhYTg2MmUzYjJjYWZjMWM2MmZiYmU2OGRjYTk5MiAoTUQ1KTwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:47:13 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDUvMTwvaWRlbnRpZmllcj4KICA8Y3JlYXRvcnM+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkNyYXdmb3JkLCBMaW5kc2F5IEEuPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+S29zY2luc2tpLCBEYXJpYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktleWdob2JhZGksIE51c2hhPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+RXh0cmFjdGVkIGluZm9ybWF0aW9uIGZyb20gQUZMUCBzdHVkaWVzPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeTwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAxMjwvcHVibGljYXRpb25ZZWFyPgogIDxzdWJqZWN0cz4KICAgIDxzdWJqZWN0PmFtcGxpZmllZCBmcmFnbWVudCBsZW5ndGggcG9seW1vcnBoc2ltIChBRkxQKTwvc3ViamVjdD4KICAgIDxzdWJqZWN0Pmdlbm90eXBpbmcgZXJyb3IgcmF0ZTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnBvcHVsYXRpb24gZ2VuZXRpY3M8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wdWJsaXNoaW5nIHN0YW5kYXJkczwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcHJvZHVjaWJpbGl0eTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcGxpY2F0ZSBzYW1wbGVzPC9zdWJqZWN0PgogIDwvc3ViamVjdHM+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9IkFjY2VwdGVkIj4yMDEyLTExLTA1PC9kYXRlPgogIDwvZGF0ZXM+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhRmlsZTwvcmVzb3VyY2VUeXBlPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJJc1BhcnRPZiIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcz4KICAgIDxzaXplPjM4Njg1OSBieXRlczwvc2l6ZT4KICAgIDxzaXplPjYxODYzIGJ5dGVzPC9zaXplPgogIDwvc2l6ZXM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9Ik90aGVyIj5NYWRlIGF2YWlsYWJsZSBpbiBEU3BhY2Ugb24gMjAxMi0wOS0xOFQxMzozODo1MFogKEdNVCkuIE5vLiBvZiBiaXRzdHJlYW1zOiAyJiMxMzsKUkVBRE1FLnBkZjogMzg2ODU5IGJ5dGVzLCBjaGVja3N1bTogMWQ2ZTYwN2M1ZmU5YzY0ZWQ5OWFlNjBiZDUxOWJmYjEgKE1ENSkmIzEzOwpjdl9FeHRyYWN0ZWRfQUZMUF9EYXRhLmNzdjogNjE4NjMgYnl0ZXMsIGNoZWNrc3VtOiAxMTlhYTg2MmUzYjJjYWZjMWM2MmZiYmU2OGRjYTk5MiAoTUQ1KTwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:47:14 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5DcmF3Zm9yZCwgTGluZHNheSBBLjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktvc2NpbnNraSwgRGFyaWE8L2NyZWF0b3JOYW1lPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5LZXlnaG9iYWRpLCBOdXNoYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPkRhdGEgZnJvbTogQSBjYWxsIGZvciBtb3JlIHRyYW5zcGFyZW50IHJlcG9ydGluZyBvZiBlcnJvciByYXRlczogdGhlIHF1YWxpdHkgb2YgQUZMUCBkYXRhIGluIGVjb2xvZ2ljYWwgYW5kIGV2b2x1dGlvbmFyeSByZXNlYXJjaDwvdGl0bGU+CiAgPC90aXRsZXM+CiAgPHB1Ymxpc2hlcj5EcnlhZCBEaWdpdGFsIFJlcG9zaXRvcnk8L3B1Ymxpc2hlcj4KICA8cHVibGljYXRpb25ZZWFyPjIwMTI8L3B1YmxpY2F0aW9uWWVhcj4KICA8c3ViamVjdHM+CiAgICA8c3ViamVjdD5hbXBsaWZpZWQgZnJhZ21lbnQgbGVuZ3RoIHBvbHltb3JwaHNpbSAoQUZMUCk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5nZW5vdHlwaW5nIGVycm9yIHJhdGU8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wb3B1bGF0aW9uIGdlbmV0aWNzPC9zdWJqZWN0PgogICAgPHN1YmplY3Q+cHVibGlzaGluZyBzdGFuZGFyZHM8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXByb2R1Y2liaWxpdHk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXBsaWNhdGUgc2FtcGxlczwvc3ViamVjdD4KICA8L3N1YmplY3RzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YVBhY2thZ2U8L3Jlc291cmNlVHlwZT4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iY2l0YXRpb24iPkNyYXdmb3JkIExBLCBLb3NjaW5za2kgRCwgS2V5Z2hvYmFkaSBOICgyMDEyKSBBIGNhbGwgZm9yIG1vcmUgdHJhbnNwYXJlbnQgcmVwb3J0aW5nIG9mIGVycm9yIHJhdGVzOiB0aGUgcXVhbGl0eSBvZiBBRkxQIGRhdGEgaW4gZWNvbG9naWNhbCBhbmQgZXZvbHV0aW9uYXJ5IHJlc2VhcmNoLiBNb2xlY3VsYXIgRWNvbG9neSAyMSgyNCk6IDU5MTHigJM1OTE3LjwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJIYXNQYXJ0IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTA2MS9EUllBRC40N1NENS8xPC9yZWxhdGVkSWRlbnRpZmllcj4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGlvblR5cGU9IklzUmVmZXJlbmNlZEJ5IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuMTExMS9NRUMuMTIwNjk8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNSZWZlcmVuY2VkQnkiIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iRE9JIi8+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:47:14 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDUvMTwvaWRlbnRpZmllcj4KICA8Y3JlYXRvcnM+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkNyYXdmb3JkLCBMaW5kc2F5IEEuPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+S29zY2luc2tpLCBEYXJpYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktleWdob2JhZGksIE51c2hhPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+RXh0cmFjdGVkIGluZm9ybWF0aW9uIGZyb20gQUZMUCBzdHVkaWVzPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeTwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAxMjwvcHVibGljYXRpb25ZZWFyPgogIDxzdWJqZWN0cz4KICAgIDxzdWJqZWN0PmFtcGxpZmllZCBmcmFnbWVudCBsZW5ndGggcG9seW1vcnBoc2ltIChBRkxQKTwvc3ViamVjdD4KICAgIDxzdWJqZWN0Pmdlbm90eXBpbmcgZXJyb3IgcmF0ZTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnBvcHVsYXRpb24gZ2VuZXRpY3M8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wdWJsaXNoaW5nIHN0YW5kYXJkczwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcHJvZHVjaWJpbGl0eTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcGxpY2F0ZSBzYW1wbGVzPC9zdWJqZWN0PgogIDwvc3ViamVjdHM+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9IkFjY2VwdGVkIj4yMDEyLTExLTA1PC9kYXRlPgogIDwvZGF0ZXM+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhRmlsZTwvcmVzb3VyY2VUeXBlPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJJc1BhcnRPZiIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcz4KICAgIDxzaXplPjM4Njg1OSBieXRlczwvc2l6ZT4KICAgIDxzaXplPjYxODYzIGJ5dGVzPC9zaXplPgogIDwvc2l6ZXM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9Ik90aGVyIj5NYWRlIGF2YWlsYWJsZSBpbiBEU3BhY2Ugb24gMjAxMi0wOS0xOFQxMzozODo1MFogKEdNVCkuIE5vLiBvZiBiaXRzdHJlYW1zOiAyJiMxMzsKUkVBRE1FLnBkZjogMzg2ODU5IGJ5dGVzLCBjaGVja3N1bTogMWQ2ZTYwN2M1ZmU5YzY0ZWQ5OWFlNjBiZDUxOWJmYjEgKE1ENSkmIzEzOwpjdl9FeHRyYWN0ZWRfQUZMUF9EYXRhLmNzdjogNjE4NjMgYnl0ZXMsIGNoZWNrc3VtOiAxMTlhYTg2MmUzYjJjYWZjMWM2MmZiYmU2OGRjYTk5MiAoTUQ1KTwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5/1&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:47:14 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDUvMTwvaWRlbnRpZmllcj4KICA8Y3JlYXRvcnM+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPkNyYXdmb3JkLCBMaW5kc2F5IEEuPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+S29zY2luc2tpLCBEYXJpYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktleWdob2JhZGksIE51c2hhPC9jcmVhdG9yTmFtZT4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+RXh0cmFjdGVkIGluZm9ybWF0aW9uIGZyb20gQUZMUCBzdHVkaWVzPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPkRyeWFkIERpZ2l0YWwgUmVwb3NpdG9yeTwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAxMjwvcHVibGljYXRpb25ZZWFyPgogIDxzdWJqZWN0cz4KICAgIDxzdWJqZWN0PmFtcGxpZmllZCBmcmFnbWVudCBsZW5ndGggcG9seW1vcnBoc2ltIChBRkxQKTwvc3ViamVjdD4KICAgIDxzdWJqZWN0Pmdlbm90eXBpbmcgZXJyb3IgcmF0ZTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnBvcHVsYXRpb24gZ2VuZXRpY3M8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wdWJsaXNoaW5nIHN0YW5kYXJkczwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcHJvZHVjaWJpbGl0eTwvc3ViamVjdD4KICAgIDxzdWJqZWN0PnJlcGxpY2F0ZSBzYW1wbGVzPC9zdWJqZWN0PgogIDwvc3ViamVjdHM+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9IkFjY2VwdGVkIj4yMDEyLTExLTA1PC9kYXRlPgogIDwvZGF0ZXM+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhRmlsZTwvcmVzb3VyY2VUeXBlPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJJc1BhcnRPZiIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcz4KICAgIDxzaXplPjM4Njg1OSBieXRlczwvc2l6ZT4KICAgIDxzaXplPjYxODYzIGJ5dGVzPC9zaXplPgogIDwvc2l6ZXM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9Ik90aGVyIj5NYWRlIGF2YWlsYWJsZSBpbiBEU3BhY2Ugb24gMjAxMi0wOS0xOFQxMzozODo1MFogKEdNVCkuIE5vLiBvZiBiaXRzdHJlYW1zOiAyJiMxMzsKUkVBRE1FLnBkZjogMzg2ODU5IGJ5dGVzLCBjaGVja3N1bTogMWQ2ZTYwN2M1ZmU5YzY0ZWQ5OWFlNjBiZDUxOWJmYjEgKE1ENSkmIzEzOwpjdl9FeHRyYWN0ZWRfQUZMUF9EYXRhLmNzdjogNjE4NjMgYnl0ZXMsIGNoZWNrc3VtOiAxMTlhYTg2MmUzYjJjYWZjMWM2MmZiYmU2OGRjYTk5MiAoTUQ1KTwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:09Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5/1","relatedIdentifier":["IsPartOf:DOI:10.5061/DRYAD.47SD5"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Extracted information from AFLP studies"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:02 GMT
-- request:
-    method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,updated&q=doi:10.5061/DRYAD.47SD5&rows=1&wt=json
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://lagotto.local
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.1.19
-      Date:
-      - Sun, 20 Mar 2016 17:47:14 GMT
-      Content-Type:
-      - application/json;charset=UTF-8
-      Connection:
-      - keep-alive
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-    body:
-      encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":1,"start":0,"docs":[{"datacentre_symbol":"CDL.DRYAD","xml":"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIiB4bWxuczpkcnlhZD0iaHR0cDovL3B1cmwub3JnL2RyeWFkL3Rlcm1zLyIgeG1sbnM6ZGltPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6ZHNwYWNlPSJodHRwOi8vd3d3LmRzcGFjZS5vcmcveG1sbnMvZHNwYWNlL2RpbSIgeG1sbnM6bWV0cz0iaHR0cDovL3d3dy5sb2MuZ292L01FVFMvIiB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiBtZXRhZGF0YVZlcnNpb25OdW1iZXI9IjEiIGxhc3RNZXRhZGF0YVVwZGF0ZT0iMjAwNi0wNS0wNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMi4yIGh0dHA6Ly9zY2hlbWEuZGF0YWNpdGUub3JnL21ldGEva2VybmVsLTIuMi9tZXRhZGF0YS54c2QiPgogIDxpZGVudGlmaWVyIGlkZW50aWZpZXJUeXBlPSJET0kiPjEwLjUwNjEvRFJZQUQuNDdTRDU8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5DcmF3Zm9yZCwgTGluZHNheSBBLjwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lPktvc2NpbnNraSwgRGFyaWE8L2NyZWF0b3JOYW1lPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZT5LZXlnaG9iYWRpLCBOdXNoYTwvY3JlYXRvck5hbWU+CiAgICA8L2NyZWF0b3I+CiAgPC9jcmVhdG9ycz4KICA8dGl0bGVzPgogICAgPHRpdGxlPkRhdGEgZnJvbTogQSBjYWxsIGZvciBtb3JlIHRyYW5zcGFyZW50IHJlcG9ydGluZyBvZiBlcnJvciByYXRlczogdGhlIHF1YWxpdHkgb2YgQUZMUCBkYXRhIGluIGVjb2xvZ2ljYWwgYW5kIGV2b2x1dGlvbmFyeSByZXNlYXJjaDwvdGl0bGU+CiAgPC90aXRsZXM+CiAgPHB1Ymxpc2hlcj5EcnlhZCBEaWdpdGFsIFJlcG9zaXRvcnk8L3B1Ymxpc2hlcj4KICA8cHVibGljYXRpb25ZZWFyPjIwMTI8L3B1YmxpY2F0aW9uWWVhcj4KICA8c3ViamVjdHM+CiAgICA8c3ViamVjdD5hbXBsaWZpZWQgZnJhZ21lbnQgbGVuZ3RoIHBvbHltb3JwaHNpbSAoQUZMUCk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5nZW5vdHlwaW5nIGVycm9yIHJhdGU8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5wb3B1bGF0aW9uIGdlbmV0aWNzPC9zdWJqZWN0PgogICAgPHN1YmplY3Q+cHVibGlzaGluZyBzdGFuZGFyZHM8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXByb2R1Y2liaWxpdHk8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5yZXBsaWNhdGUgc2FtcGxlczwvc3ViamVjdD4KICA8L3N1YmplY3RzPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YVBhY2thZ2U8L3Jlc291cmNlVHlwZT4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0iY2l0YXRpb24iPkNyYXdmb3JkIExBLCBLb3NjaW5za2kgRCwgS2V5Z2hvYmFkaSBOICgyMDEyKSBBIGNhbGwgZm9yIG1vcmUgdHJhbnNwYXJlbnQgcmVwb3J0aW5nIG9mIGVycm9yIHJhdGVzOiB0aGUgcXVhbGl0eSBvZiBBRkxQIGRhdGEgaW4gZWNvbG9naWNhbCBhbmQgZXZvbHV0aW9uYXJ5IHJlc2VhcmNoLiBNb2xlY3VsYXIgRWNvbG9neSAyMSgyNCk6IDU5MTHigJM1OTE3LjwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRpb25UeXBlPSJIYXNQYXJ0IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTA2MS9EUllBRC40N1NENS8xPC9yZWxhdGVkSWRlbnRpZmllcj4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGlvblR5cGU9IklzUmVmZXJlbmNlZEJ5IiByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSI+MTAuMTExMS9NRUMuMTIwNjk8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0aW9uVHlwZT0iSXNSZWZlcmVuY2VkQnkiIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iRE9JIi8+CiAgPC9yZWxhdGVkSWRlbnRpZmllcnM+CiAgPHJpZ2h0cz5odHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9wdWJsaWNkb21haW4vemVyby8xLjAvPC9yaWdodHM+CjwvcmVzb3VyY2U+","datacentre":"CDL.DRYAD - Dryad","updated":"2014-11-05T07:33:11Z","prefix":"10.5061","doi":"10.5061/DRYAD.47SD5","relatedIdentifier":["HasPart:DOI:10.5061/DRYAD.47SD5/1","IsReferencedBy:DOI:10.1111/MEC.12069","IsReferencedBy:DOI:"],"creator":["Crawford, Lindsay A.","Koscinski, Daria","Keyghobadi, Nusha"],"publisher":"Dryad Digital Repository","title":["Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research"],"publicationYear":"2012","resourceTypeGeneral":"Dataset"}]}}
-    http_version: 
-  recorded_at: Sun, 20 Mar 2016 17:46:03 GMT
+  recorded_at: Tue, 26 Apr 2016 16:05:26 GMT
 recorded_with: VCR 2.9.3

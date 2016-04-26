@@ -270,7 +270,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_publisher
-    item = Publisher.from_csl(subj)
+    item = from_publisher_csl(subj)
     p = Publisher.where(name: subj_id).first_or_initialize
     p.assign_attributes(item)
     p.save!
@@ -330,8 +330,21 @@ class Deposit < ActiveRecord::Base
       issued_at: get_datetime_from_iso8601(issued_at),
       work_type_id: work_type,
       tracked: item.fetch("tracked", nil),
-      registration_agency: item.fetch("registration_agency", nil),
+      registration_agency_id: item.fetch("registration_agency_id", nil),
       csl: csl }.compact
+  end
+
+# convert publisher CSL into format that the database understands
+  # don't update nil values
+  def from_publisher_csl(item)
+    ra = cached_registration_agency(item.fetch("registration_agency_id", nil))
+
+    { title: item.fetch("title", nil),
+      prefixes: item.fetch("prefixes", nil),
+      other_names: item.fetch("other_names", nil),
+      registration_agency_id: ra.present? ? ra.id : nil,
+      checked_at: item.fetch("issued", Time.now.utc.iso8601),
+      active: item.fetch("active", nil) }.compact
   end
 
   def send_callback

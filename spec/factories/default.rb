@@ -582,13 +582,13 @@ FactoryGirl.define do
       subj {{ "name"=>"ANDS.CENTRE-1",
               "title"=>"Griffith University",
               "issued"=>"2006-06-13T16:14:19Z",
-              "registration_agency"=>"datacite",
+              "registration_agency_id"=>"datacite",
               "active"=>true }}
 
       trait :no_publisher_title do
         subj {{ "name"=>"ANDS.CENTRE-1",
                 "issued"=>"2006-06-13T16:14:19Z",
-                "registration_agency"=>"datacite",
+                "registration_agency_id"=>"datacite",
                 "active"=>true }}
       end
     end

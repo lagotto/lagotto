@@ -5,6 +5,9 @@ describe Deposit, :type => :model, vcr: true do
 
   subject { FactoryGirl.create(:deposit) }
 
+  let!(:registration_agency) { FactoryGirl.create(:registration_agency) }
+  let!(:registration_agency_datacite) { FactoryGirl.create(:registration_agency, name: "datacite", title: "DataCite") }
+
   it { is_expected.to validate_presence_of(:source_token) }
   it { is_expected.to validate_presence_of(:subj_id) }
   it { is_expected.to validate_presence_of(:source_id) }
@@ -26,6 +29,7 @@ describe Deposit, :type => :model, vcr: true do
                                                    year: 2006,
                                                    month: 6,
                                                    day: 13,
+                                                   issued_at: "2006-06-13 16:14:19 UTC",
                                                    tracked: false,
                                                    csl: { "author"=>[{"given"=>"dbogartoit"}],
                                                           "container-title"=>"CiteULike"})
