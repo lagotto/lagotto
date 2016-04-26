@@ -57,7 +57,7 @@ describe DataoneImport, type: :model, vcr: true do
       response = subject.get_data
       expect(response["response"]["numFound"]).to eq(140)
       doc = response["response"]["docs"].first
-      expect(doc["id"]).to eq("http://dx.doi.org/10.5061/dryad.5rg54?ver=2015-04-07T11:30:54.986-04:00")
+      expect(doc["id"]).to eq("https://pasta.lternet.edu/package/metadata/eml/knb-lter-luq/21/7362468")
     end
 
     it "should catch errors with the DataONE Search API" do

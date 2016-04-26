@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto-4-4-unstable.local
+      - Lagotto - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -17,17 +17,23 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 23 Aug 2015 19:11:15 GMT
+      - Tue, 26 Apr 2016 15:38:31 GMT
       Content-Type:
-      - text/plain;charset=UTF-8
+      - application/json; charset=UTF-8
       Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept-Encoding
+      - ''
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Authorization, Content-Type, Location, Content-Length, x-annotator-auth-token
+      Access-Control-Expose-Headers:
+      - Content-Length, Content-Type, Location
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS, PUT, DELETE
     body:
       encoding: UTF-8
-      string: '{"responseHeader":{"status":0,"QTime":1,"params":{"fl":"id,title,author,datePublished,authoritativeMN,dateModified","start":"0","q":"dateModified:[2015-04-05T00:00:00Z
-        TO 2015-04-05T23:59:59Z]+formatType:METADATA","wt":"json","rows":"1000"}},"response":{"numFound":0,"start":0,"docs":[]}}'
+      string: |
+        {"responseHeader":{"status":0,"QTime":8,"params":{"fl":"id,title,author,datePublished,authoritativeMN,dateModified","start":"0","q":"dateModified:[2015-04-05T00:00:00Z TO 2015-04-05T23:59:59Z]+formatType:METADATA","wt":"json","rows":"1000"}},"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Sun, 23 Aug 2015 19:11:18 GMT
+  recorded_at: Tue, 26 Apr 2016 15:38:32 GMT
 recorded_with: VCR 2.9.3
