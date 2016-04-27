@@ -46,7 +46,6 @@
   <div class="search-wide">
     <%= form_tag(publishers_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
       <div class="input-group">
-        <%= hidden_field_tag :registration_agency, params[:registration_agency] %>
         <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
         <div class="input-group-btn">
           <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
@@ -71,7 +70,9 @@
             </div>
             <div class="panel-footer">
               <%= icon("info-circle") %> <%= publisher.name %>
-              <span class="pull-right"> <%= publisher.registration_agency %></span>
+              <% if publisher.registration_agency_id.present? %>
+                <span class="pull-right"> <%= publisher.registration_agency.title %></span>
+              <% end %>
             </div>
           </div>
         <% end %>
@@ -93,18 +94,19 @@
           <div class="panel-body">
             <h4>Registration agencies</h4>
             <ul>
-              <% if @registration_agency %>
+              <% if @registration_agency_group %>
                 <li class="active">
                   <%= link_to icon('check-square-o').html_safe, publishers_path(q: params[:q]) %>
-                  <%= @registration_agency.first.humanize %>
-                  <span class="number pull-right"><%= number_with_delimiter(@registration_agency.last) %></span>
+                  <%= @registration_agency_group.first.humanize %>
+                  <span class="number pull-right"><%= number_with_delimiter(@registration_agency_group.last) %></span>
                 </li>
               <% else %>
-                <% @registration_agencies.each do |registration_agency| %>
+                <% @registration_agencies.each do |ra| %>
+                  <% registration_agency = RegistrationAgency.where(id: ra.first).first %>
                   <li>
-                    <%= link_to icon('square-o').html_safe, publishers_path(q: params[:q], registration_agency: registration_agency.first) %>
-                    <%= registration_agency.first.humanize %>
-                    <span class="number pull-right"><%= number_with_delimiter(registration_agency.last) %></span>
+                    <%= link_to icon('square-o').html_safe, publishers_path(q: params[:q], registration_agency_id: registration_agency.name) %>
+                    <%= registration_agency.title %>
+                    <span class="number pull-right"><%= number_with_delimiter(ra.last) %></span>
                   </li>
                 <% end %>
               <% end %>
