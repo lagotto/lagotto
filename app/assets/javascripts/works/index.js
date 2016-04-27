@@ -115,8 +115,11 @@ function worksViz(json, sources, work_types, registration_agencies) {
       .attr("href", function() { return work.id; })
       .html('<i class="fa fa-external-link"/>').append('span')
       .text(work.id);
-    d3.select("#panel-footer-" + i).append("a")
-      .attr("class", "pull-right")
-      .text(registration_agency.title);
+
+    if (typeof registration_agency !== "undefined") {
+      d3.select("#panel-footer-" + i).append("a")
+        .attr("class", "pull-right")
+        .text(registration_agency.title);
+      }
     }
 }
