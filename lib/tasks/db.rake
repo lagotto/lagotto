@@ -147,6 +147,27 @@ namespace :db do
       count = Deposit.where("state = ?", 3).where("created_at < ?", Time.zone.now - 7.days).delete_all
       puts "Deleted #{count} completed deposits"
     end
+
+    desc "Migrate deposits to registration agency model"
+    task :migrate => :environment do
+      count = Deposit.where(registration_agency_id: nil).where(source_id: "crossref_datacite").update_all(registration_agency_id: "datacite")
+      puts "Updated #{count} deposits for source Crossref (DataCite)"
+
+      count = Deposit.where(registration_agency_id: nil).where(source_id: "datacite_crossref").update_all(registration_agency_id: "crossref")
+      puts "Updated #{count} deposits for source DataCite (Crossref)"
+
+      count = Deposit.where(registration_agency_id: nil).where(source_id: "datacite_related").update_all(registration_agency_id: "datacite")
+      puts "Updated #{count} deposits for source DataCite (RelatedIdentifier)"
+
+      count = Deposit.where(registration_agency_id: nil).where(source_id: "datacite_orcid").update_all(registration_agency_id: "datacite")
+      puts "Updated #{count} deposits for source DataCite (ORCID)"
+
+      count = Deposit.where(registration_agency_id: nil).where(source_id: "datacite_github").update_all(registration_agency_id: "github")
+      puts "Updated #{count} deposits for source DataCite (GitHub)"
+
+      count = Deposit.where(registration_agency_id: nil).where(source_id: "github").update_all(registration_agency_id: "github")
+      puts "Updated #{count} deposits for source GitHub"
+    end
   end
 
   namespace :registration_agencies do

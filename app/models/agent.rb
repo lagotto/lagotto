@@ -226,6 +226,7 @@ class Agent < ActiveRecord::Base
                         relation_type_id: relation.fetch('relation_type_id', nil),
                         source_id: relation.fetch('source_id', nil),
                         publisher_id: relation.fetch('publisher_id', nil),
+                        registration_agency_id: relation.fetch('registration_agency_id', nil),
                         total: relation.fetch('total', nil),
                         occurred_at: relation.fetch('occurred_at', nil))
         sum << deposit

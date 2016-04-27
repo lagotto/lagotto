@@ -9,6 +9,6 @@ end
 
 json.deposits @deposits do |deposit|
   json.cache! ['v7', deposit], skip_digest: true do
-    json.(deposit, :id, :state, :message_type, :message_action, :source_token, :callback, :prefix, :subj_id, :obj_id, :relation_type_id, :source_id, :publisher_id, :total, :occurred_at, :timestamp, :subj, :obj, :errors)
+    json.(deposit, :id, :state, :message_type, :message_action, :source_token, :callback, :prefix, :subj_id, :obj_id, :relation_type_id, :source_id, :publisher_id, :registration_agency_id, :total, :occurred_at, :timestamp, :subj, :obj, :errors)
   end
 end

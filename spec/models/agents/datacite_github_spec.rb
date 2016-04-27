@@ -94,6 +94,7 @@ describe DataciteGithub, type: :model, vcr: true do
                                            "relation_type_id"=>"is_supplement_to",
                                            "source_id"=>"datacite_github",
                                            "publisher_id"=>"CERN.ZENODO",
+                                           "registration_agency_id" => "github",
                                            "occurred_at"=>"2015-03-26T20:45:10Z")
 
       expect(response[2][:subj]).to eq("pid"=>"http://doi.org/10.5281/ZENODO.16396",
@@ -111,7 +112,8 @@ describe DataciteGithub, type: :model, vcr: true do
       expect(response[3][:message_type]).to eq("contribution")
       expect(response[3][:relation]).to eq("subj_id"=>"https://github.com/SlicerProstate",
                                            "obj_id"=>"https://github.com/SlicerProstate/SlicerProstate",
-                                           "source_id"=>"github_contributor")
+                                           "source_id"=>"github_contributor",
+                                           "registration_agency_id" => "github")
     end
 
     it "should catch timeout errors with the Datacite Metadata Search API" do

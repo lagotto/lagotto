@@ -131,6 +131,7 @@ describe DataciteImport, type: :model, vcr: true do
                                            "relation_type_id"=>"is_part_of",
                                            "source_id"=>"datacite_related",
                                            "publisher_id"=>"CDL.DRYAD",
+                                           "registration_agency_id" => "datacite",
                                            "occurred_at"=>"2015-04-08T13:54:45Z")
 
       expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.56M2G/1",
@@ -161,6 +162,7 @@ describe DataciteImport, type: :model, vcr: true do
                                            "relation_type_id"=>"is_part_of",
                                            "source_id"=>"datacite_related",
                                            "publisher_id"=>"CDL.DRYAD",
+                                           "registration_agency_id" => "datacite",
                                            "occurred_at"=>"2015-04-08T13:54:45Z")
 
       expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.56M2G/1",

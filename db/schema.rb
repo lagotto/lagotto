@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160423131130) do
+ActiveRecord::Schema.define(version: 20160427092050) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -129,32 +129,34 @@ ActiveRecord::Schema.define(version: 20160423131130) do
   end
 
   create_table "deposits", force: :cascade do |t|
-    t.text     "uuid",             limit: 65535,                      null: false
-    t.string   "message_type",     limit: 191,   default: "relation", null: false
-    t.string   "source_token",     limit: 255
-    t.text     "callback",         limit: 65535
-    t.integer  "state",            limit: 4,     default: 0
-    t.string   "state_event",      limit: 255
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.string   "message_action",   limit: 255,   default: "create",   null: false
-    t.string   "prefix",           limit: 191
-    t.string   "subj_id",          limit: 191
-    t.string   "obj_id",           limit: 191
-    t.string   "relation_type_id", limit: 191
-    t.string   "source_id",        limit: 191
-    t.string   "publisher_id",     limit: 191
-    t.text     "subj",             limit: 65535
-    t.text     "obj",              limit: 65535
-    t.integer  "total",            limit: 4,     default: 1
+    t.text     "uuid",                   limit: 65535,                      null: false
+    t.string   "message_type",           limit: 191,   default: "relation", null: false
+    t.string   "source_token",           limit: 255
+    t.text     "callback",               limit: 65535
+    t.integer  "state",                  limit: 4,     default: 0
+    t.string   "state_event",            limit: 255
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+    t.string   "message_action",         limit: 255,   default: "create",   null: false
+    t.string   "prefix",                 limit: 191
+    t.string   "subj_id",                limit: 191
+    t.string   "obj_id",                 limit: 191
+    t.string   "relation_type_id",       limit: 191
+    t.string   "source_id",              limit: 191
+    t.string   "publisher_id",           limit: 191
+    t.text     "subj",                   limit: 65535
+    t.text     "obj",                    limit: 65535
+    t.integer  "total",                  limit: 4,     default: 1
     t.datetime "occurred_at"
-    t.text     "error_messages",   limit: 65535
-    t.integer  "work_id",          limit: 4
-    t.integer  "related_work_id",  limit: 4
-    t.integer  "contributor_id",   limit: 4
+    t.text     "error_messages",         limit: 65535
+    t.integer  "work_id",                limit: 4
+    t.integer  "related_work_id",        limit: 4
+    t.integer  "contributor_id",         limit: 4
+    t.string   "registration_agency_id", limit: 191
   end
 
   add_index "deposits", ["prefix", "created_at"], name: "index_deposits_on_prefix_created_at", using: :btree
+  add_index "deposits", ["registration_agency_id"], name: "index_deposits_on_registration_agency_id", using: :btree
   add_index "deposits", ["source_id", "created_at"], name: "index_deposits_on_source_id_created_at", using: :btree
   add_index "deposits", ["updated_at"], name: "index_deposits_on_updated_at", using: :btree
 

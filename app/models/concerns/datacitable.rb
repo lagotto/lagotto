@@ -136,6 +136,7 @@ module Datacitable
                              "relation_type_id" => relation_type_id,
                              "source_id" => source_id,
                              "publisher_id" => subj["publisher_id"],
+                             "registration_agency_id" => "github",
                              "occurred_at" => subj["issued"] },
                  subj: subj }
 
@@ -145,13 +146,15 @@ module Datacitable
                                "obj_id" => repo_url,
                                "relation_type_id" => "is_part_of",
                                "source_id" => source_id,
-                               "publisher_id" => "github" } }
+                               "publisher_id" => "github",
+                               "registration_agency_id" => "github" } }
         end
 
         sum << {  message_type: "contribution",
                   relation: { "subj_id" => owner_url,
                               "obj_id" => repo_url,
-                              "source_id" => "github_contributor" }}
+                              "source_id" => "github_contributor",
+                              "registration_agency_id" => "github" }}
       end
     end
 
@@ -179,6 +182,7 @@ module Datacitable
                                "relation_type_id" => relation_type_id,
                                "source_id" => _source_id,
                                "publisher_id" => subj["publisher_id"],
+                               "registration_agency_id" => registration_agency[:name],
                                "occurred_at" => subj["issued"] },
                    subj: subj }
         end
@@ -201,6 +205,7 @@ module Datacitable
                              "obj_id" => obj["pid"],
                              "source_id" => source_id,
                              "publisher_id" => obj["publisher_id"],
+                             "registration_agency_id" => "datacite",
                              "occurred_at" => obj["issued"] },
                  obj: obj }
       end
