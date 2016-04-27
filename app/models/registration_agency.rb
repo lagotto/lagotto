@@ -7,6 +7,7 @@ class RegistrationAgency < ActiveRecord::Base
   validates :title, :presence => true
 
   scope :order_by_name, -> { order("registration_agencies.title") }
+  scope :is_doi_ra, -> { where(name: ["crossref", "datacite"]).order_by_name }
 
   def to_param  # overridden, use name instead of id
     name
