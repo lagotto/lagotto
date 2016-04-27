@@ -262,10 +262,16 @@ records:
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: dataone_import
     type: DataoneImport
-    name: DataONE (Import)
-    title: DataoneImport
+    name: dataone_import
+    title: Dataone (Import)
     description: Import works via the DataONE Solr API.
     group_id: <%= sprig_record(Group, "works").id %>
+  - sprig_id: lagotto_registration_agency
+    type: LagottoRegistrationAgency
+    name: lagotto_registration_agency
+    title: Lagotto (Registration Agency)
+    description: Import deposits from other Lagotto instances filtered by registration agency.
+    group_id: <%= sprig_record(Group, "deposits").id %>
   - sprig_id: datacite_datacentre
     type: DataciteDatacentre
     name: datacite_datacentre

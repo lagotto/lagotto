@@ -55,6 +55,16 @@ class Api::V7::DepositsController < Api::BaseController
     collection = collection.where(registration_agency_id: params[:registration_agency_id]) if params[:registration_agency_id].present?
     collection = collection.query(params[:q]) if params[:q].present?
 
+    begin
+      from_date = params[:from_date].present? ? Date.parse(params[:from_date]).iso8601 : (Time.zone.now.to_date - 1.day).iso8601
+      until_date = params[:until_date].present? ? Date.parse(params[:until_date]).iso8601 : Time.zone.now.to_date.iso8601
+    rescue => e
+      # if invalid date supplied
+      from_date = (Time.zone.now.to_date - 1.day).iso8601
+      until_date = Time.zone.now.to_date.iso8601
+    end
+    collection = collection.where(created_at: from_date..until_date)
+
     if params[:state]
       # NB this is coupled to deposit.rb's state machine.
       states = { "waiting" => 0, "working" => 1, "failed" => 2, "done" => 3 }

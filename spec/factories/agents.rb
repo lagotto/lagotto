@@ -673,4 +673,17 @@ FactoryGirl.define do
 
     initialize_with { DataoneImport.where(name: name).first_or_initialize }
   end
+
+  factory :lagotto_registration_agency, class: LagottoRegistrationAgency do
+    type "LagottoRegistrationAgency"
+    name "lagotto_registration_agency"
+    title "Lagotto (Registration Agency)"
+    url_private "http://10.2.2.6/api/deposits?"
+    registration_agency_id "crossref"
+    state_event "activate"
+
+    group
+
+    initialize_with { LagottoRegistrationAgency.where(name: name).first_or_initialize }
+  end
 end
