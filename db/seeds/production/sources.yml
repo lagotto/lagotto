@@ -79,7 +79,7 @@ records:
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_orcid
     name: datacite_orcid
-    title: DataCite (ORCID Auto-Update)
+    title: DataCite (ORCID)
     description: Import works with ORCID nameIdentifier via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: datacite_search_link
