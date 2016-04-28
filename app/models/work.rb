@@ -287,8 +287,10 @@ class Work < ActiveRecord::Base
         self.registration_agency_id = ra[:id]
       end
 
+      return nil unless registration_agency.present?
+
       tracked = true
-      metadata = get_metadata(id_hash[:doi], registration_agency.name)
+      metadata = get_metadata(id_hash[:doi], registration_agency[:name])
     elsif id_hash[:canonical_url].present? && github_release_from_url(id_hash[:canonical_url]).present?
       tracked = false
       metadata = get_metadata(id_hash[:canonical_url], "github_release")
