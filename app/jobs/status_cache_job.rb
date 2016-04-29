@@ -6,6 +6,10 @@ class StatusCacheJob < ActiveJob::Base
 
   end
 
+  rescue_from(ActiveJob::DeserializationError) do
+    retry_job wait: 5.minutes, queue: :default
+  end
+
   def perform
     ActiveRecord::Base.connection_pool.with_connection do
       Status.create

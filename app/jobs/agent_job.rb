@@ -14,6 +14,14 @@ class AgentJob < ActiveJob::Base
 
   end
 
+  rescue_from(ActiveJob::DeserializationError) do
+    retry_job wait: 5.minutes, queue: :default
+  end
+
+  rescue_from(CustomError::AgentInactiveError) do
+    retry_job wait: 60.minutes, queue: :default
+  end
+
   def perform(agent, options={})
     ActiveRecord::Base.connection_pool.with_connection do
       if options[:ids].present?
