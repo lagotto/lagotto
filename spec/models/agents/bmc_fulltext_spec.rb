@@ -95,7 +95,7 @@ describe BmcFulltext, type: :model, vcr: true do
                                           "DOI" => "10.1186/s13007-014-0041-7",
                                           "type" => "article-journal",
                                           "tracked" => true,
-                                          "registration_agency" => "crossref")
+                                          "registration_agency_id" => "crossref")
     end
 
     it "should catch timeout errors with the BMC Search API" do

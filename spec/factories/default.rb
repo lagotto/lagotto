@@ -348,7 +348,7 @@ FactoryGirl.define do
     end
 
     after :create do |publisher|
-      FactoryGirl.create(:prefix, prefix: "10.1371",
+      FactoryGirl.create(:prefix, name: "10.1371",
                                   publisher_id: publisher.id,
                                   registration_agency_id: publisher.registration_agency.id)
     end
@@ -640,12 +640,12 @@ FactoryGirl.define do
   end
 
   factory :prefix do
-    prefix "10.1371"
+    name "10.1371"
 
     registration_agency
     publisher
 
-    initialize_with { Prefix.where(prefix: prefix).first_or_initialize }
+    initialize_with { Prefix.where(name: name).first_or_initialize }
   end
 
   factory :registration_agency do

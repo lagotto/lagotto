@@ -76,7 +76,7 @@ module Cacheable
 
     def cached_prefix(name)
       Rails.cache.fetch("prefix/#{name}", expires_in: 1.month) do
-        Prefix.where(prefix: name).first
+        Prefix.where(name: name).first
       end
     end
 
