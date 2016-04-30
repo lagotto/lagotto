@@ -38,11 +38,18 @@ module Poise
     module DefinedIn
       # Path to the root of Poise's code.
       # @see #poise_defined!
+      # @api private
       POISE_LIB_ROOT = ::File.expand_path('../..', __FILE__)
 
       # Path to the root of Chef's code.
       # @see #poise_defined!
-      CHEF_LIB_ROOT = ::Gem::Specification.find_by_name('chef').gem_dir
+      # @api private
+      CHEF_LIB_ROOT = ::File.join(::Gem::Specification.find_by_name('chef').gem_dir, 'lib')
+
+      # A regex used to parse Ruby's `caller` string syntax.
+      # @see #poise_defined!
+      # @api private
+      CALLER_REGEXP = /^(.+):\d+:in `.+'/
 
       # Wrapper for {.poise_defined_in_cookbook} to pass the run context for you.
       #
@@ -88,11 +95,15 @@ module Poise
           # Only try to set this once.
           return if @poise_defined_in
           # Parse out just the filenames.
-          caller_array = caller_array.map {|line| line.split(/:/, 2).first }
+          caller_paths = caller_array.map {|line| line[CALLER_REGEXP, 1] }
           # Find the first non-poise, non-chef line. This assumes Halite
           # transformation which I'm not thrilled about.
-          caller_path = caller_array.find do |line|
-            !line.start_with?(POISE_LIB_ROOT) && !line.start_with?(CHEF_LIB_ROOT)
+          caller_path = caller_paths.find do |line|
+            line && !line.start_with?(POISE_LIB_ROOT) && !line.start_with?(CHEF_LIB_ROOT)
+          end
+          raise Poise::Error.new("Unable to find a caller path for: #{caller_array.inspect}") unless caller_path
+          if ::File::ALT_SEPARATOR
+            caller_path.gsub!(::File::ALT_SEPARATOR, ::File::SEPARATOR)
           end
           Chef::Log.debug("[#{self.name}] Recording poise_defined_in as #{caller_path}")
           @poise_defined_in = caller_path

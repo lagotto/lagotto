@@ -6,7 +6,7 @@
   "maintainer_email": "helpdesk@heavywater.io",
   "license": "Apache 2.0",
   "platforms": {
-    "ubuntu": "<= 15.10",
+    "ubuntu": "<= 16.04",
     "debian": ">= 0.0.0",
     "fedora": ">= 0.0.0",
     "suse": ">= 0.0.0",
@@ -51,7 +51,7 @@
     "postgresql::server_redhat": "Installs postgresql server packages, redhat family style",
     "postgresql::server_debian": "Installs postgresql server packages, debian family style"
   },
-  "version": "4.0.4",
+  "version": "4.0.6",
   "source_url": "https://github.com/hw-cookbooks/postgresql",
   "issues_url": "https://github.com/hw-cookbooks/postgresql/issues"
 }

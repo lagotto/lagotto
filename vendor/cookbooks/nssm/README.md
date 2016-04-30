@@ -2,11 +2,9 @@
 
 [![Cookbook Version](http://img.shields.io/cookbook/v/nssm.svg?style=flat-square)][cookbook]
 [![Build Status](http://img.shields.io/travis/dhoer/chef-nssm.svg?style=flat-square)][travis]
-[![GitHub Issues](http://img.shields.io/github/issues/dhoer/chef-nssm.svg?style=flat-square)][github]
 
 [cookbook]: https://supermarket.chef.io/cookbooks/nssm
 [travis]: https://travis-ci.org/dhoer/chef-nssm
-[github]: https://github.com/dhoer/chef-nssm/issues
 
 This cookbook installs the Non-Sucking Service Manager (http://nssm.cc), and exposes resources to `install`
 and `remove` Windows services.

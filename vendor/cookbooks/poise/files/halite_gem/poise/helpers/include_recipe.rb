@@ -30,7 +30,7 @@ module Poise
       def include_recipe(*recipes)
         loaded_recipes = []
         subcontext = subcontext_block do
-          recipes.each do |recipe|
+          recipes.flatten.each do |recipe|
             case recipe
             when String
               # Process normally

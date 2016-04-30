@@ -69,6 +69,11 @@ module Poise
         end
         # Set the default group on Unix.
         options[:group] ||= ent.gid if ent
+        # Mixlib-ShellOut doesn't support array commands on Windows and has
+        # super wonky escaping for cmd.exe.
+        if respond_to?(:node) && node.platform_family?('windows')
+          command_args = [Poise::Utils::Win32.reparse_command(*command_args)]
+        end
         # Call Chef's shell_out wrapper.
         shell_out(*command_args, **options)
       end

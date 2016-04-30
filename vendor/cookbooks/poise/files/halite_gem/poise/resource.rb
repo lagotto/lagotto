@@ -42,6 +42,7 @@ module Poise
     include Poise::Helpers::ResourceName
     include Poise::Helpers::ResourceSubclass
     include Poise::Helpers::TemplateContent
+    include Poise::Helpers::Win32User # Must be after LazyDefault.
     include Poise::Utils::ShellOut
 
     # @!classmethods
