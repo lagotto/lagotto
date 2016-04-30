@@ -109,8 +109,9 @@ ActiveRecord::Schema.define(version: 20160430125116) do
     t.string   "literal",     limit: 191
   end
 
-  add_index "contributors", ["orcid"], name: "index_contributors_on_orcid", using: :btree
-  add_index "contributors", ["pid"], name: "index_contributors_on_pid", using: :btree
+  add_index "contributors", ["github"], name: "index_contributors_on_github", unique: true, using: :btree
+  add_index "contributors", ["orcid"], name: "index_contributors_on_orcid", unique: true, using: :btree
+  add_index "contributors", ["pid"], name: "index_contributors_on_pid", unique: true, using: :btree
 
   create_table "data_exports", force: :cascade do |t|
     t.string   "url",                   limit: 255
@@ -442,8 +443,8 @@ ActiveRecord::Schema.define(version: 20160430125116) do
     t.string   "registration_agency",    limit: 255
     t.string   "dataone",                limit: 191
     t.integer  "lock_version",           limit: 4,        default: 0,                     null: false
-    t.text     "handle_url",             limit: 65535
     t.datetime "issued_at",                               default: '1970-01-01 00:00:00', null: false
+    t.text     "handle_url",             limit: 65535
     t.integer  "registration_agency_id", limit: 4
   end
 
