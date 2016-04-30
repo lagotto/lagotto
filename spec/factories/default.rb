@@ -348,8 +348,7 @@ FactoryGirl.define do
     end
 
     after :create do |publisher|
-      FactoryGirl.create(:prefix, name: "10.1371",
-                                  publisher_id: publisher.id,
+      FactoryGirl.create(:prefix, publisher_id: publisher.id,
                                   registration_agency_id: publisher.registration_agency.id)
     end
 
