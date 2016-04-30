@@ -289,7 +289,7 @@ class Deposit < ActiveRecord::Base
   def update_prefix
     items = from_prefix_csl(subj)
     Array(items).each do |item|
-      p = Prefix.where(prefix: item[:prefix]).first_or_initialize
+      p = Prefix.where(name: item[:prefix]).first_or_initialize
       p.assign_attributes(item)
       p.save!
     end
@@ -369,7 +369,7 @@ class Deposit < ActiveRecord::Base
     publisher = cached_publisher(subj_id)
 
     Array(item.fetch("prefixes", nil)).map do |prefix|
-      { prefix: prefix,
+      { name: prefix,
         publisher_id: publisher.present? ? publisher.id : nil,
         registration_agency_id: ra.present? ? ra.id : nil }.compact
     end

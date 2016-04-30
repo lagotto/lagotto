@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427092050) do
+ActiveRecord::Schema.define(version: 20160430125116) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -233,7 +233,7 @@ ActiveRecord::Schema.define(version: 20160427092050) do
   add_index "notifications", ["work_id", "created_at"], name: "index_notifications_on_work_id_and_created_at", using: :btree
 
   create_table "prefixes", force: :cascade do |t|
-    t.string   "prefix",                 limit: 191
+    t.string   "name",                   limit: 191
     t.string   "registration_agency",    limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -241,7 +241,7 @@ ActiveRecord::Schema.define(version: 20160427092050) do
     t.integer  "publisher_id",           limit: 4
   end
 
-  add_index "prefixes", ["prefix"], name: "index_prefixes_on_prefix", using: :btree
+  add_index "prefixes", ["name"], name: "index_prefixes_on_name", unique: true, using: :btree
 
   create_table "publisher_options", force: :cascade do |t|
     t.integer  "publisher_id", limit: 4

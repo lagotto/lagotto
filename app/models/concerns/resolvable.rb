@@ -365,7 +365,7 @@ module Resolvable
       ra = response.first.fetch("RA", nil)
       if ra.present?
         registration_agency = cached_registration_agency(ra.delete(' ').downcase)
-        registration_agency.prefixes.where(prefix: prefix_string).first_or_create
+        registration_agency.prefixes.where(name: prefix_string).first_or_create
         { id: registration_agency.id,
           name: registration_agency.name,
           title: registration_agency.title }

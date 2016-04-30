@@ -17,14 +17,14 @@ class Api::V7::PrefixesController < Api::BaseController
   end
 
   def show
-    prefix = Prefix.where(prefix: params[:id]).first
+    prefix = Prefix.where(name: params[:id]).first
     fail ActiveRecord::RecordNotFound unless prefix.present?
 
     @prefix = prefix.decorate
   end
 
   def index
-    collection = Prefix.order(:prefix)
+    collection = Prefix.order(:name)
     @prefixes = collection.decorate
   end
 end
