@@ -40,7 +40,7 @@ class AgentJob < ActiveJob::Base
           fail ActiveRecord::RecordNotFound if work.nil?
 
           # store API response result and duration in api_responses table
-          response = { work_id: id, agent_id: agent.id }
+          response = { work_id: id, source_id: agent.source_id }
           ActiveSupport::Notifications.instrument("api_response.get") do |payload|
             response.merge!(agent.collect_data(options.merge(work_id: id)))
             payload.merge!(response)
@@ -58,7 +58,7 @@ class AgentJob < ActiveJob::Base
         sleep wait_time
 
         # store API response result and duration in api_responses table
-        response = { agent_id: agent.id }
+        response = { source_id: agent.source_id }
         ActiveSupport::Notifications.instrument("api_response.get") do |payload|
           response.merge!(agent.collect_data(options))
           payload.merge!(response)
