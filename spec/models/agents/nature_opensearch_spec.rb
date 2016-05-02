@@ -7,7 +7,7 @@ describe NatureOpensearch, type: :model, vcr: true do
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
-      work = FactoryGirl.create(:work, :doi => "10.1594/PANGAEA.815864", :canonical_url => nil, registration_agency: "datacite")
+      work = FactoryGirl.create(:work, :with_datacite, :doi => "10.1594/PANGAEA.815864", :canonical_url => nil)
       lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => 404)
       response = subject.get_data(work_id: work.id)
       expect(lookup_stub).to have_been_requested
@@ -92,7 +92,7 @@ describe NatureOpensearch, type: :model, vcr: true do
                                           "DOI"=>"10.1038/ismej.2014.200",
                                           "type"=>"article-journal",
                                           "tracked"=>true,
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should catch timeout errors with the Nature OpenSearch API" do
