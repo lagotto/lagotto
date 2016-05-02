@@ -2,7 +2,7 @@ class PrefixDecorator < Draper::Decorator
   delegate_all
 
   def id
-    model.prefix
+    model.name
   end
 
   def publisher_id
