@@ -96,6 +96,7 @@ describe DataciteCrossref, type: :model, vcr: true do
                                               "relation_type_id"=>"is_referenced_by",
                                               "source_id"=>"datacite_crossref",
                                               "publisher_id"=>"CDL.DRYAD",
+                                              "registration_agency_id" => "crossref",
                                               "occurred_at"=>"2015-04-08T14:37:53Z")
     end
 
