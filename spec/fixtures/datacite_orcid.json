@@ -1,1094 +1,1015 @@
 {
   "responseHeader": {
     "status": 0,
-    "QTime": 36
+    "QTime": 1
   },
   "response": {
-    "numFound": 62,
+    "numFound": 55,
     "start": 0,
-    "docs": [
-      {
-        "datacentre_symbol": "TIB.PANGAEA",
-        "updated": "2015-04-08T03:01:59Z",
-        "doi": "10.1594/PANGAEA.733793",
-        "creator": [
-          "Grobe, Hannes",
-          "Spieß, Volkhard"
-        ],
-        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
-        "title": [
-          "Paleomagnetic measurements of 10 sediment profiles from the Antarctic continental slope"
-        ],
-        "resourceTypeGeneral": "Collection",
-        "nameIdentifier": [
-          "ORCID:0000-0002-4133-2218"
-        ],
-        "publicationYear": "1989"
-      },
-      {
-        "datacentre_symbol": "TIB.PANGAEA",
-        "updated": "2015-04-08T03:02:00Z",
-        "doi": "10.1594/PANGAEA.733883",
-        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
-        "creator": [
-          "Spieß, Volkhard",
-          "Grobe, Hannes"
-        ],
-        "title": [
-          "Metadata and number of samples per gravity corer sediment profile"
-        ],
-        "resourceTypeGeneral": "Dataset",
-        "nameIdentifier": [
-          "ORCID:0000-0002-4133-2218"
-        ],
-        "publicationYear": "2010"
-      },
-      {
-        "datacentre_symbol": "TIB.PANGAEA",
-        "updated": "2015-04-08T03:02:02Z",
-        "doi": "10.1594/PANGAEA.771774",
-        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
-        "creator": [
-          "Hillenbrand, Claus-Dieter",
-          "Melles, Martin",
-          "Kuhn, Gerhard",
-          "Larter, Robert D"
-        ],
-        "title": [
-          "Last glacial maximum sediment record of the southern Weddell Sea shelf, supplement to: Hillenbrand, Claus-Dieter; Melles, Martin; Kuhn, Gerhard; Larter, Robert D (2012): Marine geological constraints for the grounding-line position of the Antarctic Ice Sheet on the southern Weddell Sea shelf at the Last Glacial Maximum. Quaternary Science Reviews, 32, 25-47"
-        ],
-        "resourceTypeGeneral": "Collection",
-        "nameIdentifier": [
-          "ORCID:0000-0002-8414-7389"
-        ],
-        "publicationYear": "2011"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:29Z",
-        "doi": "10.6084/M9.FIGSHARE.735810",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Ant Species Presence Data for Summer 2012 at the Fort Worth Nature Center, Texas"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:29Z",
-        "doi": "10.6084/M9.FIGSHARE.735811",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Pitfall Trap Locations in the Fort Worth Nature Center"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:40Z",
-        "doi": "10.6084/M9.FIGSHARE.1041547",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Jills of All Trades: Ant Diversity and Versatility in the Cross Timbers Ecoregion"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "BL.ADS",
-        "updated": "2015-04-08T08:54:57Z",
-        "doi": "10.5284/1030449",
-        "publisher": "Archaeology Data Service",
-        "creator": [
-          "Allen, Martyn",
-          "Brindle, Tom",
-          "Smith, Alex",
-          "Richards, Julian D",
-          "Evans, Tim",
-          "Holbrook, Neil",
-          "Fulford, Michael",
-          "Blick, Nathan"
-        ],
-        "title": [
-          "The Rural Settlement of Roman Britain: an online resource"
-        ],
-        "resourceTypeGeneral": "Dataset",
-        "nameIdentifier": [
-          "ORCID:0000-0003-3938-899X",
-          "ORCID:0000-0002-2725-6730"
-        ],
-        "publicationYear": "2015"
-      },
-      {
-        "datacentre_symbol": "TIB.PANGAEA",
-        "updated": "2015-04-07T03:02:46Z",
-        "doi": "10.1594/PANGAEA.843846",
-        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
-        "creator": [
-          "Fietzke, Jan",
-          "Ragazzola, Federica",
-          "Halfar, Jochen",
-          "Dietze, Heiner",
-          "Foster, Laura C",
-          "Hansteen, Thor H",
-          "Eisenhauer, Anton",
-          "Steneck, Robert S"
-        ],
-        "title": [
-          "Seasonality in pH and temperature for shallow zones of the Bering Sea from measurements of coral Clathromorphum nereostratum, supplement to: Fietzke, Jan; Ragazzola, Federica; Halfar, Jochen; Dietze, Heiner; Foster, Laura C; Hansteen, Thor H; Eisenhauer, Anton; Steneck, Robert S (2015): Century-scale trends and seasonality in pH and temperature for shallow zones of the Bering Sea. Proceedings of the National Academy of Sciences, 201419216"
-        ],
-        "resourceTypeGeneral": "Collection",
-        "nameIdentifier": [
-          "ORCID:0000-0002-0931-8707"
-        ],
-        "publicationYear": "2015"
-      },
-      {
-        "datacentre_symbol": "TIB.PANGAEA",
-        "updated": "2015-04-07T03:02:46Z",
-        "doi": "10.1594/PANGAEA.843860",
-        "creator": [
-          "Fütterer, Dieter K",
-          "Grobe, Hannes"
-        ],
-        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
-        "title": [
-          "Documentation of sediment core PS1619-2"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-4133-2218"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "TIB.PANGAEA",
-        "updated": "2015-04-07T03:02:47Z",
-        "doi": "10.1594/PANGAEA.843865",
-        "creator": [
-          "Fütterer, Dieter K",
-          "Grobe, Hannes"
-        ],
-        "publisher": "PANGAEA - Data Publisher for Earth & Environmental Science",
-        "title": [
-          "Documentation of sediment core PS1637-3"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-4133-2218"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T11:44:34Z",
-        "doi": "10.6084/M9.FIGSHARE.707350",
-        "creator": [
-          "Manuel Sebastin"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Working memory for visual and haptic targets: A study using the interference paradigm"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-9964-6984"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T11:44:34Z",
-        "doi": "10.6084/M9.FIGSHARE.707351",
-        "creator": [
-          "Manuel Sebastin"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Theta power modulations during the explicit recognition of unfamiliar 3-D objects explored haptically"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-9964-6984"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:35Z",
-        "doi": "10.6084/M9.FIGSHARE.778701",
-        "creator": [
-          "Ann Mayo",
-          "Jody Kocsis",
-          "Benjamin J. Swartz",
-          "Graeme Taylor"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Pedillus terminalis and mimic species"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:35Z",
-        "doi": "10.6084/M9.FIGSHARE.779705",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Ants in the Grassland:their imortance and potential as indicators of ecosystem health"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:30Z",
-        "doi": "10.6084/M9.FIGSHARE.745301",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Behavioral Model for Comanche harvester ant interactions"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:30Z",
-        "doi": "10.6084/M9.FIGSHARE.745313",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "The courtship behavior of two Zygoballus sp. (Araneae: Salticidae): Final Summer Project Report (1983)"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:32Z",
-        "doi": "10.6084/M9.FIGSHARE.746960",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Ant Sampling Sites in the Fort Worth Nature Center"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:32Z",
-        "doi": "10.6084/M9.FIGSHARE.760716",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Door Construction Behavior in the Mygalomorph Spider Family Antrodiaetidae and One Member of the Family Ctenizidae (Araneae: Mygalomorphae)"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:35Z",
-        "doi": "10.6084/M9.FIGSHARE.769272",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Testing central place foraging theory in the ant genus Pogonmyrmex: a review of the literature from 1997 - 2008"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:32Z",
-        "doi": "10.6084/M9.FIGSHARE.769271",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Determination of sex ratios in ants"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:32Z",
-        "doi": "10.6084/M9.FIGSHARE.769270",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Preliminary Assessment  of the Arthropod and Ant Assemblages of Todd Island, March 14 and 28, 2010 (Fort Worth Nature Center, Fort Worth, Texas)"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2013",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T03:09:59Z",
-        "doi": "10.6084/M9.FIGSHARE.1368269",
-        "creator": [
-          "Peter Arend"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "ABO phenotype and innate isoagglutinin specificities as they arise from glycosidic exclusion and relate to human reproduction.  A hypothesis*"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-4000-4167"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T03:22:11Z",
-        "doi": "10.6084/M9.FIGSHARE.1368484",
-        "creator": [
-          "Jorge H Ramirez"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Database - Medical Education - Part I - The Double Standard Test. (version 1.0)"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-6176-2816"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T04:17:39Z",
-        "doi": "10.6084/M9.FIGSHARE.1368488",
-        "creator": [
-          "Ijcsis Editor"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "A Novel Approach to Malware Detection using Static Classification"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0003-3796-827X"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T10:04:57Z",
-        "doi": "10.6084/M9.FIGSHARE.1368581",
-        "creator": [
-          "smund Ervik"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Domain decomposition without the agonizing pain"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0003-1073-887X"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T13:40:59Z",
-        "doi": "10.6084/M9.FIGSHARE.1368663",
-        "creator": [
-          "Fredy RS Gutierrez"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Science Metrics In Colombia"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-9873-8342"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Collection"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T15:36:38Z",
-        "doi": "10.6084/M9.FIGSHARE.1368671",
-        "creator": [
-          "Michel Crucifix",
-          "nabila bounceur",
-          "Richard Wilkinson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Global sensitivity analysis of the climatevegetation system to astronomical forcing: an emulator-based approach"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3437-4911"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T17:49:57Z",
-        "doi": "10.6084/M9.FIGSHARE.1368728",
-        "creator": [
-          "Fredy RS Gutierrez"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Factors associated with Human T. cruzi infection"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-9873-8342"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T19:15:46Z",
-        "doi": "10.6084/M9.FIGSHARE.1368744",
-        "creator": [
-          "Juergen Wastl"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Circle-based construction Rosette Map f86v"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-7757-8001"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T19:18:10Z",
-        "doi": "10.6084/M9.FIGSHARE.1368745",
-        "creator": [
-          "Juergen Wastl"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Square based construction Rosette Map"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-7757-8001"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T19:35:40Z",
-        "doi": "10.6084/M9.FIGSHARE.1368746",
-        "creator": [
-          "Juergen Wastl"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Circling a square: The geometry of Beinecke MS408 folio 86v and how to construct the scaffold of the Rosette map with compass and straightedge"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-7757-8001"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-07T23:28:15Z",
-        "doi": "10.6084/M9.FIGSHARE.1368761",
-        "creator": [
-          "Jorge H Ramirez"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Acta 01 de 2015  Departamento de Ciencias Fisiolgicas (ECB)  Facultad de Salud - Universidad del Valle"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-6176-2816"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T01:46:24Z",
-        "doi": "10.6084/M9.FIGSHARE.1368774",
-        "creator": [
-          "Rob Davidson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Tools for reproducible and accessible science: KnitR, VMs and OMERO"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-0311-9774"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T07:37:07Z",
-        "doi": "10.6084/M9.FIGSHARE.1370882",
-        "creator": [
-          "Michael Hoy"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Robot Navigation for Monitoring Unsteady Environmental Boundaries without Field Gradient Estimation"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-6921-5307"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Collection"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T07:39:11Z",
-        "doi": "10.6084/M9.FIGSHARE.1370854",
-        "creator": [
-          "Peter Arend"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "ABO phenotype and innate isoagglutinin specificities as they arise from glycosidic exclusion and relate to human reproduction.  A hypothesis*"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-4000-4167"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T10:13:29Z",
-        "doi": "10.6084/M9.FIGSHARE.1226424",
-        "creator": [
-          "Carlos Cotta",
-          "Rafael Nogueras"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Color mememaps of self-balancing strategies"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-8478-7549"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T14:05:30Z",
-        "doi": "10.6084/M9.FIGSHARE.1371006",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Comanche harvester ant colonies in GL site of FWNC"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T14:12:36Z",
-        "doi": "10.6084/M9.FIGSHARE.1371005",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Comanche harvester ant colonies at EP in the FWNC"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:22:41Z",
-        "doi": "10.6084/M9.FIGSHARE.1371077",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Survey of 3'GG gRNA sites in 6 genomes"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Collection"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:30Z",
-        "doi": "10.6084/M9.FIGSHARE.1371009",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Caenorhabditis elegans annotated 3 prime GG motif gRNAs"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:30Z",
-        "doi": "10.6084/M9.FIGSHARE.1371008",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Caenorhabditis elegans 3 prime GG gRNAs per Gene"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:30Z",
-        "doi": "10.6084/M9.FIGSHARE.1371010",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Danio rerio 3 prime GG gRNAs per Gene"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:31Z",
-        "doi": "10.6084/M9.FIGSHARE.1371011",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Drosophila melanogaster 3 prime GG gRNAs per Gene"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:33Z",
-        "doi": "10.6084/M9.FIGSHARE.1371013",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Homo sapiens 3 prime GG gRNAs per Gene"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:33Z",
-        "doi": "10.6084/M9.FIGSHARE.1371014",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Mus musculus 3 prime GG gRNAs per Gene"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:34Z",
-        "doi": "10.6084/M9.FIGSHARE.1371012",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Drosophila melanogaster annotated 3 prime GG motif gRNAs"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:34Z",
-        "doi": "10.6084/M9.FIGSHARE.1371015",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Saccharomyces cerevisiae 3 prime GG gRNAs per Gene"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:36Z",
-        "doi": "10.6084/M9.FIGSHARE.1371017",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Danio rerio annotated 3 prime GG motif gRNAs"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:38Z",
-        "doi": "10.6084/M9.FIGSHARE.1371018",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Mus musculus annotated 3 prime GG motif gRNAs"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:37Z",
-        "doi": "10.6084/M9.FIGSHARE.1371016",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Saccharomyces cerevisiae annotated 3 prime GG motif gRNAs"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T17:35:37Z",
-        "doi": "10.6084/M9.FIGSHARE.1371019",
-        "creator": [
-          "Elisha Roberson"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Homo sapiens annotated 3 prime GG motif gRNAs"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5921-2399"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T20:30:18Z",
-        "doi": "10.6084/M9.FIGSHARE.1371114",
-        "creator": [
-          "Andy Mabbett"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "2015-04-03 WikiArabia GLAM-wiki"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5882-6823"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T20:32:25Z",
-        "doi": "10.6084/M9.FIGSHARE.1337953",
-        "creator": [
-          "Andy Mabbett"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "ORCID in Wikipedia"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0001-5882-6823"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T23:41:41Z",
-        "doi": "10.6084/M9.FIGSHARE.1371137",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Comanche  harvester ant in the Southwest Nature Preserve, Arlington, Texas"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T23:48:49Z",
-        "doi": "10.6084/M9.FIGSHARE.1371138",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Comanche harvester ant in Todd Island (1)in the Fort Worth Nature Center"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T23:55:26Z",
-        "doi": "10.6084/M9.FIGSHARE.1371139",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Comanche harvester ant on Todd Island (2) in the Fort Worth Nature Center"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2015",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:38Z",
-        "doi": "10.6084/M9.FIGSHARE.1014351",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "RDA Triplot of  Ant Species Presence and Soil Type"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:38Z",
-        "doi": "10.6084/M9.FIGSHARE.1014348",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "RDA Triplot of Species Presence"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:40Z",
-        "doi": "10.6084/M9.FIGSHARE.1014352",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "RDA Triplot of Ant Species Abundance at th Fort Worth Nature Center, Texas"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Image"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:38Z",
-        "doi": "10.6084/M9.FIGSHARE.1008321",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Tracking the Comanche Harvester Ant in the Fort Worth Nature Center"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:37Z",
-        "doi": "10.6084/M9.FIGSHARE.1008320",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Nest Distribution of the Comanche Harvester Ant"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Dataset"
-      },
-      {
-        "datacentre_symbol": "CDL.DIGSCI",
-        "updated": "2015-04-08T13:56:35Z",
-        "doi": "10.6084/M9.FIGSHARE.999239",
-        "creator": [
-          "Ann Mayo"
-        ],
-        "publisher": "Figshare",
-        "title": [
-          "Nest Structure of the Comanche Harvester Ant"
-        ],
-        "nameIdentifier": [
-          "ORCID:0000-0002-3546-1048"
-        ],
-        "publicationYear": "2014",
-        "resourceTypeGeneral": "Dataset"
-      }
-    ]
+    "docs": [{
+      "minted": "2015-04-08T10:13:29Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMjI2NDI0PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNvbG9yIG1lbWVtYXBzIG9mIHNlbGYtYmFsYW5jaW5nIHN0cmF0ZWdpZXM8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5DYXJsb3MgQ290dGE8L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS04NDc4LTc1NDk8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+UmFmYWVsIE5vZ3VlcmFzPC9jcmVhdG9yTmFtZT48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T10:13:29Z",
+      "doi": "10.6084/M9.FIGSHARE.1226424",
+      "creator": [
+        "Carlos Cotta",
+        "Rafael Nogueras"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Color mememaps of self-balancing strategies"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-8478-7549"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-08T14:05:30Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDA2PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNvbWFuY2hlIGhhcnZlc3RlciBhbnQgY29sb25pZXMgaW4gR0wgc2l0ZSBvZiBGV05DPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJJbWFnZSI+RmlndXJlPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T14:05:30Z",
+      "doi": "10.6084/M9.FIGSHARE.1371006",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Comanche harvester ant colonies in GL site of FWNC"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-08T14:12:36Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDA1PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNvbWFuY2hlIGhhcnZlc3RlciBhbnQgY29sb25pZXMgYXQgRVAgaW4gdGhlIEZXTkM8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T14:12:36Z",
+      "doi": "10.6084/M9.FIGSHARE.1371005",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Comanche harvester ant colonies at EP in the FWNC"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-07T03:09:59Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4MjY5PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkFCTyBwaGVub3R5cGUgYW5kIGlubmF0ZSBpc29hZ2dsdXRpbmluIHNwZWNpZmljaXRpZXMgYXMgdGhleSBhcmlzZSBmcm9tIGdseWNvc2lkaWMgZXhjbHVzaW9uIGFuZCByZWxhdGUgdG8gaHVtYW4gcmVwcm9kdWN0aW9uLiAgQSBoeXBvdGhlc2lzKjwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+UGFwZXI8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5QZXRlciBBcmVuZDwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTQwMDAtNDE2NzwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-07T03:09:59Z",
+      "doi": "10.6084/M9.FIGSHARE.1368269",
+      "creator": [
+        "Peter Arend"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "ABO phenotype and innate isoagglutinin specificities as they arise from glycosidic exclusion and relate to human reproduction.  A hypothesis*"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-4000-4167"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T03:22:11Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NDg0PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkRhdGFiYXNlIC0gTWVkaWNhbCBFZHVjYXRpb24gLSBQYXJ0IEkgLSBUaGUgRG91YmxlIFN0YW5kYXJkIFRlc3QuICh2ZXJzaW9uIDEuMCk8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Kb3JnZSBIIFJhbWlyZXo8L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS02MTc2LTI4MTY8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-07T03:22:11Z",
+      "doi": "10.6084/M9.FIGSHARE.1368484",
+      "creator": [
+        "Jorge H Ramirez"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Database - Medical Education - Part I - The Double Standard Test. (version 1.0)"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-6176-2816"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-07T04:17:39Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NDg4PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkEgTm92ZWwgQXBwcm9hY2ggdG8gTWFsd2FyZSBEZXRlY3Rpb24gdXNpbmcgU3RhdGljIENsYXNzaWZpY2F0aW9uPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5QYXBlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPklqY3NpcyBFZGl0b3I8L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMy0zNzk2LTgyN1g8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-07T04:17:39Z",
+      "doi": "10.6084/M9.FIGSHARE.1368488",
+      "creator": [
+        "Ijcsis Editor"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "A Novel Approach to Malware Detection using Static Classification"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0003-3796-827X"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T10:04:56Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NTgxPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkRvbWFpbiBkZWNvbXBvc2l0aW9uIHdpdGhvdXQgdGhlIGFnb25pemluZyBwYWluPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+c211bmQgRXJ2aWs8L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMy0xMDczLTg4N1g8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-07T10:04:57Z",
+      "doi": "10.6084/M9.FIGSHARE.1368581",
+      "creator": [
+        "smund Ervik"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Domain decomposition without the agonizing pain"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0003-1073-887X"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T13:40:59Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NjYzPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlNjaWVuY2UgTWV0cmljcyBJbiBDb2xvbWJpYTwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iQ29sbGVjdGlvbiI+RmlsZXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkZyZWR5IFJTIEd1dGllcnJlejwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTk4NzMtODM0MjwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-07T13:40:59Z",
+      "doi": "10.6084/M9.FIGSHARE.1368663",
+      "creator": [
+        "Fredy RS Gutierrez"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Science Metrics In Colombia"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-9873-8342"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Collection"
+    }, {
+      "minted": "2015-04-07T15:36:38Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NjcxPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkdsb2JhbCBzZW5zaXRpdml0eSBhbmFseXNpcyBvZiB0aGUgY2xpbWF0ZXZlZ2V0YXRpb24gc3lzdGVtIHRvIGFzdHJvbm9taWNhbCBmb3JjaW5nOiBhbiBlbXVsYXRvci1iYXNlZCBhcHByb2FjaDwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPk1pY2hlbCBDcnVjaWZpeDwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM0MzctNDkxMTwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5uYWJpbGEgYm91bmNldXI8L2NyZWF0b3JOYW1lPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+UmljaGFyZCBXaWxraW5zb248L2NyZWF0b3JOYW1lPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-07T15:36:38Z",
+      "doi": "10.6084/M9.FIGSHARE.1368671",
+      "creator": [
+        "Michel Crucifix",
+        "nabila bounceur",
+        "Richard Wilkinson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Global sensitivity analysis of the climatevegetation system to astronomical forcing: an emulator-based approach"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3437-4911"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T17:49:57Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NzI4PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkZhY3RvcnMgYXNzb2NpYXRlZCB3aXRoIEh1bWFuIFQuIGNydXppIGluZmVjdGlvbjwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iSW1hZ2UiPkZpZ3VyZTwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkZyZWR5IFJTIEd1dGllcnJlejwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTk4NzMtODM0MjwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-07T17:49:57Z",
+      "doi": "10.6084/M9.FIGSHARE.1368728",
+      "creator": [
+        "Fredy RS Gutierrez"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Factors associated with Human T. cruzi infection"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-9873-8342"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-07T19:15:46Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NzQ0PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNpcmNsZS1iYXNlZCBjb25zdHJ1Y3Rpb24gUm9zZXR0ZSBNYXAgZjg2djwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkp1ZXJnZW4gV2FzdGw8L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS03NzU3LTgwMDE8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-07T19:15:46Z",
+      "doi": "10.6084/M9.FIGSHARE.1368744",
+      "creator": [
+        "Juergen Wastl"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Circle-based construction Rosette Map f86v"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-7757-8001"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T19:18:10Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NzQ1PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlNxdWFyZSBiYXNlZCBjb25zdHJ1Y3Rpb24gUm9zZXR0ZSBNYXA8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPkRhdGFzZXQ8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5KdWVyZ2VuIFdhc3RsPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNzc1Ny04MDAxPC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-07T19:18:10Z",
+      "doi": "10.6084/M9.FIGSHARE.1368745",
+      "creator": [
+        "Juergen Wastl"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Square based construction Rosette Map"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-7757-8001"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T19:35:40Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NzQ2PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNpcmNsaW5nIGEgc3F1YXJlOiBUaGUgZ2VvbWV0cnkgb2YgQmVpbmVja2UgTVM0MDggZm9saW8gODZ2IGFuZCBob3cgdG8gY29uc3RydWN0IHRoZSBzY2FmZm9sZCBvZiB0aGUgUm9zZXR0ZSBtYXAgd2l0aCBjb21wYXNzIGFuZCBzdHJhaWdodGVkZ2U8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlBhcGVyPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+SnVlcmdlbiBXYXN0bDwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTc3NTctODAwMTwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-07T19:35:40Z",
+      "doi": "10.6084/M9.FIGSHARE.1368746",
+      "creator": [
+        "Juergen Wastl"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Circling a square: The geometry of Beinecke MS408 folio 86v and how to construct the scaffold of the Rosette map with compass and straightedge"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-7757-8001"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-07T23:28:15Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4NzYxPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkFjdGEgMDEgZGUgMjAxNSAgRGVwYXJ0YW1lbnRvIGRlIENpZW5jaWFzIEZpc2lvbGdpY2FzIChFQ0IpICBGYWN1bHRhZCBkZSBTYWx1ZCAtIFVuaXZlcnNpZGFkIGRlbCBWYWxsZTwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkpvcmdlIEggUmFtaXJlejwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTYxNzYtMjgxNjwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-07T23:28:15Z",
+      "doi": "10.6084/M9.FIGSHARE.1368761",
+      "creator": [
+        "Jorge H Ramirez"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Acta 01 de 2015  Departamento de Ciencias Fisiolgicas (ECB)  Facultad de Salud - Universidad del Valle"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-6176-2816"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T01:46:24Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzY4Nzc0PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlRvb2xzIGZvciByZXByb2R1Y2libGUgYW5kIGFjY2Vzc2libGUgc2NpZW5jZTogS25pdFIsIFZNcyBhbmQgT01FUk88L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlByZXNlbnRhdGlvbjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPlJvYiBEYXZpZHNvbjwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTAzMTEtOTc3NDwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T01:46:24Z",
+      "doi": "10.6084/M9.FIGSHARE.1368774",
+      "creator": [
+        "Rob Davidson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Tools for reproducible and accessible science: KnitR, VMs and OMERO"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-0311-9774"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T07:37:07Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcwODgyPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlJvYm90IE5hdmlnYXRpb24gZm9yIE1vbml0b3JpbmcgVW5zdGVhZHkgRW52aXJvbm1lbnRhbCBCb3VuZGFyaWVzIHdpdGhvdXQgRmllbGQgR3JhZGllbnQgRXN0aW1hdGlvbjwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iQ29sbGVjdGlvbiI+RmlsZXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPk1pY2hhZWwgSG95PC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNjkyMS01MzA3PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T07:37:07Z",
+      "doi": "10.6084/M9.FIGSHARE.1370882",
+      "creator": [
+        "Michael Hoy"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Robot Navigation for Monitoring Unsteady Environmental Boundaries without Field Gradient Estimation"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-6921-5307"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Collection"
+    }, {
+      "minted": "2015-04-08T08:54:57Z",
+      "datacentre_symbol": "BL.ADS",
+      "xml": "PHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4NC8xMDMwNDQ5PC9pZGVudGlmaWVyPjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QWxsZW4sIE1hcnR5bjwvY3JlYXRvck5hbWU+PC9jcmVhdG9yPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5CcmluZGxlLCBUb208L2NyZWF0b3JOYW1lPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+U21pdGgsIEFsZXg8L2NyZWF0b3JOYW1lPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+UmljaGFyZHMsIEp1bGlhbiBEPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDMtMzkzOC04OTlYPC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkV2YW5zLCBUaW08L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0yNzI1LTY3MzA8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+SG9sYnJvb2ssIE5laWw8L2NyZWF0b3JOYW1lPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RnVsZm9yZCwgTWljaGFlbDwvY3JlYXRvck5hbWU+PC9jcmVhdG9yPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5CbGljaywgTmF0aGFuPC9jcmVhdG9yTmFtZT48L2NyZWF0b3I+PC9jcmVhdG9ycz48dGl0bGVzPjx0aXRsZT5UaGUgUnVyYWwgU2V0dGxlbWVudCBvZiBSb21hbiBCcml0YWluOiBhbiBvbmxpbmUgcmVzb3VyY2U8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+QXJjaGFlb2xvZ3kgRGF0YSBTZXJ2aWNlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHN1YmplY3RzPjxzdWJqZWN0IHN1YmplY3RTY2hlbWU9IkxDU0giPkFyY2hhZW9sb2d5PC9zdWJqZWN0PjxzdWJqZWN0IHN1YmplY3RTY2hlbWU9Ik1vbnVtZW50IFR5cGUgQ2xhc3MiPlJFTElHSU9VUyBSSVRVQUwgQU5EIEZVTkVSQVJZPC9zdWJqZWN0PjxzdWJqZWN0IHN1YmplY3RTY2hlbWU9Ik1vbnVtZW50IFR5cGUgQ2xhc3MiPkRPTUVTVElDPC9zdWJqZWN0PjxzdWJqZWN0IHN1YmplY3RTY2hlbWU9Ik1vbnVtZW50IFR5cGUgQ2xhc3MiPklORFVTVFJJQUw8L3N1YmplY3Q+PHN1YmplY3Qgc3ViamVjdFNjaGVtZT0iTW9udW1lbnQgVHlwZSBDbGFzcyI+QUdSSUNVTFRVUkUgQU5EIFNVQlNJU1RFTkNFPC9zdWJqZWN0PjxzdWJqZWN0IHN1YmplY3RTY2hlbWU9Ik1vbnVtZW50IFR5cGUgQ2xhc3MiPkNPTU1VTklDQVRJT05TPC9zdWJqZWN0Pjwvc3ViamVjdHM+PGNvbnRyaWJ1dG9ycz48Y29udHJpYnV0b3IgY29udHJpYnV0b3JUeXBlPSJSZWxhdGVkUGVyc29uIj48Y29udHJpYnV0b3JOYW1lPkhhcmRtYW4sIENhdGhlcmluZTwvY29udHJpYnV0b3JOYW1lPjwvY29udHJpYnV0b3I+PGNvbnRyaWJ1dG9yIGNvbnRyaWJ1dG9yVHlwZT0iRnVuZGVyIj48Y29udHJpYnV0b3JOYW1lPkxldmVyaHVsbWUgVHJ1c3Q8L2NvbnRyaWJ1dG9yTmFtZT48L2NvbnRyaWJ1dG9yPjxjb250cmlidXRvciBjb250cmlidXRvclR5cGU9IkZ1bmRlciI+PGNvbnRyaWJ1dG9yTmFtZT5FbmdsaXNoIEhlcml0YWdlPC9jb250cmlidXRvck5hbWU+PC9jb250cmlidXRvcj48Y29udHJpYnV0b3IgY29udHJpYnV0b3JUeXBlPSJSaWdodHNIb2xkZXIiPjxjb250cmlidXRvck5hbWU+VW5pdmVyc2l0eSBvZiBSZWFkaW5nPC9jb250cmlidXRvck5hbWU+PC9jb250cmlidXRvcj48L2NvbnRyaWJ1dG9ycz48ZGF0ZXM+PGRhdGUgZGF0ZVR5cGU9IkNyZWF0ZWQiPjAyLUFwci0yMDEyLzMxLU1hci0yMDE1PC9kYXRlPjwvZGF0ZXM+PGxhbmd1YWdlPmVuPC9sYW5ndWFnZT48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPkFyY2hpdmU8L3Jlc291cmNlVHlwZT48YWx0ZXJuYXRlSWRlbnRpZmllcnM+PGFsdGVybmF0ZUlkZW50aWZpZXIgYWx0ZXJuYXRlSWRlbnRpZmllclR5cGU9IkFEUyBDb2xsZWN0aW9uIElEIj4xMzUyPC9hbHRlcm5hdGVJZGVudGlmaWVyPjwvYWx0ZXJuYXRlSWRlbnRpZmllcnM+PHZlcnNpb24+MTwvdmVyc2lvbj48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2FyY2hhZW9sb2d5ZGF0YXNlcnZpY2UuYWMudWsvYWR2aWNlL3Rlcm1zT2ZVc2VBbmRBY2Nlc3MiPkFEUyBUZXJtcyBhbmQgQ29uZGl0aW9ucyBhcHBseSB0byByZXVzZTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48ZGVzY3JpcHRpb25zPjxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9Ik90aGVyIj5UaGlzIHJlc291cmNlIGJyaW5ncyB0b2dldGhlciB0aGUgZXhjYXZhdGVkIGV2aWRlbmNlIGZvciB0aGUgcnVyYWwgc2V0dGxlbWVudCBvZiBSb21hbiBCcml0YWluIHdpdGggdGhlIG92ZXItYXJjaGluZyBhaW0gdG8gaW5mb3JtIGEgY29tcHJlaGVuc2l2ZSByZWFzc2Vzc21lbnQgb2YgdGhlIGNvdW50cnlzaWRlIG9mIFJvbWFuIEJyaXRhaW4uIEl0IGluY2x1ZGVzIGJvdGggdHJhZGl0aW9uYWxseSBwdWJsaXNoZWQgcmVwb3J0cyBhbmQgJmFwb3M7Z3JleSBsaXRlcmF0dXJlJmFwb3M7IHJlcG9ydHMgZnJvbSBkZXZlbG9wZXItZnVuZGVkIGV4Y2F2YXRpb25zIHNpbmNlIDE5OTAuIFRoZSBwcm9qZWN0IGFyb3NlIGZyb20gcGlsb3QgcHJvamVjdHMgdW5kZXJ0YWtlbiBieSBDb3Rzd29sZCBBcmNoYWVvbG9neSBhbmQgZnVuZGVkIGJ5IEVuZ2xpc2ggSGVyaXRhZ2UgYW5kIGl0IGJlZ2FuIGluIDIwMTIuIEl0IGlzIGZ1bmRlZCBieSBncmFudHMgZnJvbSB0aGUgTGV2ZXJodWxtZSBUcnVzdCB0byB0aGUgVW5pdmVyc2l0aWVzIG9mIFJlYWRpbmcgYW5kIFlvcmsgKEFEUykgYW5kIGZyb20gRW5nbGlzaCBIZXJpdGFnZS9IaXN0b3JpYyBFbmdsYW5kIHRvIENvdHN3b2xkIEFyY2hhZW9sb2d5LiBQaGFzZSAxIChBcHJpbCAyMDE1KSBwdWJsaXNoZXMgdGhlIHNldHRsZW1lbnQgZXZpZGVuY2UgZnJvbSBSb21hbiBFbmdsYW5kLiBTdWJzZXF1ZW50IHBoYXNlcyB3aWxsIGFkZCBSb21hbiBXYWxlcyAoYnkgRGVjZW1iZXIgMjAxNSkgYW5kIHRoZSByZWxhdGVkIGZpbmRzLCBlbnZpcm9ubWVudGFsIGFuZCBidXJpYWwgZGF0YSAoYnkgMXN0IEFwcmlsIDIwMTcpLiBUaGVzZSB3aWxsIGJlIHVzZWQgYWxvbmdzaWRlIHRoZSBzcGVjaWZpYyBzaXRlIGRhdGEgaW4gYSBzZXJpZXMgb2YgaW50ZWdyYXRpdmUgc3R1ZGllcyBvbiBydXJhbCBzZXR0bGVtZW50LCBlY29ub215LCBwZW9wbGUgYW5kIHJpdHVhbCB0byBiZSBwdWJsaXNoZWQgYnkgdGhlIFNvY2lldHkgZm9yIHRoZSBQcm9tb3Rpb24gb2YgUm9tYW4gU3R1ZGllcyBhcyBCcml0YW5uaWEgTW9ub2dyYXBocyBiZXR3ZWVuIDIwMTYgYW5kIDIwMTguDQpSb21hbiBFbmdsYW5kIGluY2x1ZGVzIHNvbWUgMyw0ODIgcmVwb3J0cywgdGhlIHZhc3QgbWFqb3JpdHkgb2Ygd2hpY2ggd2VyZSBwcm9kdWNlZCBzaW5jZSB0aGUgaW1wbGVtZW50YXRpb24gb2YgUFBHIDE2IGluIDE5OTAuIEhvd2V2ZXIgdGhlIHByb2plY3QgaGFzIHJlYWNoZWQgYmFjayBhbmQgaW5jbHVkZXMgc29tZSBzaXRlcyBwdWJsaXNoZWQgYXMgZWFybHkgYXMgMTgwOC4gRWFjaCBzaXRlIGlzIGRlc2NyaWJlZCB3aXRoIGJpYmxpb2dyYXBoaWMgZW50cmllcywgYXMgd2VsbCBhcyBpbmZvcm1hdGlvbiBvbiBjaHJvbm9sb2d5LCBzZXR0bGVtZW50IHR5cGUgYW5kIG1vcnBob2xvZ2ljYWwgZm9ybS4gVGhlIHByb2plY3QgaGFzIG5vdCBpbmNsdWRlZCBhbGwgaW52ZXN0aWdhdGlvbnMsIHN1Y2ggYXMgd2F0Y2hpbmcgYnJpZWZzIGFuZCBzbWFsbC1zY2FsZSBldmFsdWF0aW9ucyBwcm9kdWNpbmcgUm9tYW4gZXZpZGVuY2UsIGJ1dCBoYXMgbGltaXRlZCBpdHMgc2NvcGUgdG8gdGhvc2UgdGhhdCBoYXZlIHlpZWxkZWQgcGxhbiwgY2hyb25vbG9neSBhbmQgcXVhbnRpZmllZCBmaW5kcyBkYXRhIHN1c2NlcHRpYmxlIG9mIGNoYXJhY3RlcmlzYXRpb24gYW5kIHN5bnRoZXNpcy4gVGhlIGN1dC1vZmYgZm9yIGluY2x1c2lvbiBoZXJlIGlzIHB1YmxpY2F0aW9uIGJlZm9yZSAzMXN0IERlY2VtYmVyIDIwMTQuPC9kZXNjcmlwdGlvbj48L2Rlc2NyaXB0aW9ucz48Z2VvTG9jYXRpb25zPjxnZW9Mb2NhdGlvbj48L2dlb0xvY2F0aW9uPjwvZ2VvTG9jYXRpb25zPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T08:54:57Z",
+      "doi": "10.5284/1030449",
+      "publisher": "Archaeology Data Service",
+      "creator": [
+        "Allen, Martyn",
+        "Brindle, Tom",
+        "Smith, Alex",
+        "Richards, Julian D",
+        "Evans, Tim",
+        "Holbrook, Neil",
+        "Fulford, Michael",
+        "Blick, Nathan"
+      ],
+      "title": [
+        "The Rural Settlement of Roman Britain: an online resource"
+      ],
+      "resourceTypeGeneral": "Dataset",
+      "nameIdentifier": [
+        "ORCID:0000-0003-3938-899X",
+        "ORCID:0000-0002-2725-6730"
+      ],
+      "publicationYear": "2015"
+    }, {
+      "minted": "2013-07-14T00:34:46Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NDUzMDE8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+QmVoYXZpb3JhbCBNb2RlbCBmb3IgQ29tYW5jaGUgaGFydmVzdGVyIGFudCBpbnRlcmFjdGlvbnM8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTM8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T13:56:30Z",
+      "doi": "10.6084/M9.FIGSHARE.745301",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Behavioral Model for Comanche harvester ant interactions"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2013-07-14T19:57:14Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NDUzMTM8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+VGhlIGNvdXJ0c2hpcCBiZWhhdmlvciBvZiB0d28gWnlnb2JhbGx1cyBzcC4gKEFyYW5lYWU6IFNhbHRpY2lkYWUpOiBGaW5hbCBTdW1tZXIgUHJvamVjdCBSZXBvcnQgKDE5ODMpPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDEzPC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5QYXBlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFubiBNYXlvPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDItMzU0Ni0xMDQ4PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T13:56:30Z",
+      "doi": "10.6084/M9.FIGSHARE.745313",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "The courtship behavior of two Zygoballus sp. (Araneae: Salticidae): Final Summer Project Report (1983)"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-07-17T15:43:04Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NDY5NjA8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+QW50IFNhbXBsaW5nIFNpdGVzIGluIHRoZSBGb3J0IFdvcnRoIE5hdHVyZSBDZW50ZXI8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTM8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T13:56:32Z",
+      "doi": "10.6084/M9.FIGSHARE.746960",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Ant Sampling Sites in the Fort Worth Nature Center"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2013-07-01T02:46:44Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43MzU4MTA8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+QW50IFNwZWNpZXMgUHJlc2VuY2UgRGF0YSBmb3IgU3VtbWVyIDIwMTIgYXQgdGhlIEZvcnQgV29ydGggTmF0dXJlIENlbnRlciwgVGV4YXM8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTM8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPkRhdGFzZXQ8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T13:56:29Z",
+      "doi": "10.6084/M9.FIGSHARE.735810",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Ant Species Presence Data for Summer 2012 at the Fort Worth Nature Center, Texas"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-07-01T02:48:05Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43MzU4MTE8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+UGl0ZmFsbCBUcmFwIExvY2F0aW9ucyBpbiB0aGUgRm9ydCBXb3J0aCBOYXR1cmUgQ2VudGVyPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDEzPC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJJbWFnZSI+RmlndXJlPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:29Z",
+      "doi": "10.6084/M9.FIGSHARE.735811",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Pitfall Trap Locations in the Fort Worth Nature Center"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2014-04-16T00:45:06Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS45OTkyMzk8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+TmVzdCBTdHJ1Y3R1cmUgb2YgdGhlIENvbWFuY2hlIEhhcnZlc3RlciBBbnQ8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTQ8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlBvc3RlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFubiBNYXlvPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDItMzU0Ni0xMDQ4PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T13:56:35Z",
+      "doi": "10.6084/M9.FIGSHARE.999239",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Nest Structure of the Comanche Harvester Ant"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:22:40Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDc3PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlN1cnZleSBvZiAzJ0dHIGdSTkEgc2l0ZXMgaW4gNiBnZW5vbWVzPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJDb2xsZWN0aW9uIj5GaWxlc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RWxpc2hhIFJvYmVyc29uPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTkyMS0yMzk5PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T17:22:41Z",
+      "doi": "10.6084/M9.FIGSHARE.1371077",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Survey of 3'GG gRNA sites in 6 genomes"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Collection"
+    }, {
+      "minted": "2015-04-08T17:35:30Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDA5PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNhZW5vcmhhYmRpdGlzIGVsZWdhbnMgYW5ub3RhdGVkIDMgcHJpbWUgR0cgbW90aWYgZ1JOQXM8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPkRhdGFzZXQ8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5FbGlzaGEgUm9iZXJzb248L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS01OTIxLTIzOTk8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T17:35:30Z",
+      "doi": "10.6084/M9.FIGSHARE.1371009",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Caenorhabditis elegans annotated 3 prime GG motif gRNAs"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:30Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDA4PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNhZW5vcmhhYmRpdGlzIGVsZWdhbnMgMyBwcmltZSBHRyBnUk5BcyBwZXIgR2VuZTwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkVsaXNoYSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTU5MjEtMjM5OTwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T17:35:30Z",
+      "doi": "10.6084/M9.FIGSHARE.1371008",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Caenorhabditis elegans 3 prime GG gRNAs per Gene"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:30Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDEwPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkRhbmlvIHJlcmlvIDMgcHJpbWUgR0cgZ1JOQXMgcGVyIEdlbmU8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPkRhdGFzZXQ8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5FbGlzaGEgUm9iZXJzb248L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS01OTIxLTIzOTk8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T17:35:30Z",
+      "doi": "10.6084/M9.FIGSHARE.1371010",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Danio rerio 3 prime GG gRNAs per Gene"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:31Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDExPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkRyb3NvcGhpbGEgbWVsYW5vZ2FzdGVyIDMgcHJpbWUgR0cgZ1JOQXMgcGVyIEdlbmU8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPkRhdGFzZXQ8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5FbGlzaGEgUm9iZXJzb248L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS01OTIxLTIzOTk8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T17:35:31Z",
+      "doi": "10.6084/M9.FIGSHARE.1371011",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Drosophila melanogaster 3 prime GG gRNAs per Gene"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:33Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDEzPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkhvbW8gc2FwaWVucyAzIHByaW1lIEdHIGdSTkFzIHBlciBHZW5lPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RWxpc2hhIFJvYmVyc29uPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTkyMS0yMzk5PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T17:35:33Z",
+      "doi": "10.6084/M9.FIGSHARE.1371013",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Homo sapiens 3 prime GG gRNAs per Gene"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:33Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDE0PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPk11cyBtdXNjdWx1cyAzIHByaW1lIEdHIGdSTkFzIHBlciBHZW5lPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RWxpc2hhIFJvYmVyc29uPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTkyMS0yMzk5PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T17:35:33Z",
+      "doi": "10.6084/M9.FIGSHARE.1371014",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Mus musculus 3 prime GG gRNAs per Gene"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:34Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDEyPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkRyb3NvcGhpbGEgbWVsYW5vZ2FzdGVyIGFubm90YXRlZCAzIHByaW1lIEdHIG1vdGlmIGdSTkFzPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RWxpc2hhIFJvYmVyc29uPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTkyMS0yMzk5PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T17:35:34Z",
+      "doi": "10.6084/M9.FIGSHARE.1371012",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Drosophila melanogaster annotated 3 prime GG motif gRNAs"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:34Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDE1PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlNhY2NoYXJvbXljZXMgY2VyZXZpc2lhZSAzIHByaW1lIEdHIGdSTkFzIHBlciBHZW5lPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RWxpc2hhIFJvYmVyc29uPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTkyMS0yMzk5PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T17:35:34Z",
+      "doi": "10.6084/M9.FIGSHARE.1371015",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Saccharomyces cerevisiae 3 prime GG gRNAs per Gene"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:36Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDE3PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkRhbmlvIHJlcmlvIGFubm90YXRlZCAzIHByaW1lIEdHIG1vdGlmIGdSTkFzPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5EYXRhc2V0PC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+RWxpc2hhIFJvYmVyc29uPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTkyMS0yMzk5PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T17:35:36Z",
+      "doi": "10.6084/M9.FIGSHARE.1371017",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Danio rerio annotated 3 prime GG motif gRNAs"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:38Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDE4PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPk11cyBtdXNjdWx1cyBhbm5vdGF0ZWQgMyBwcmltZSBHRyBtb3RpZiBnUk5BczwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkVsaXNoYSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTU5MjEtMjM5OTwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T17:35:38Z",
+      "doi": "10.6084/M9.FIGSHARE.1371018",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Mus musculus annotated 3 prime GG motif gRNAs"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:37Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDE2PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlNhY2NoYXJvbXljZXMgY2VyZXZpc2lhZSBhbm5vdGF0ZWQgMyBwcmltZSBHRyBtb3RpZiBnUk5BczwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkVsaXNoYSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTU5MjEtMjM5OTwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T17:35:37Z",
+      "doi": "10.6084/M9.FIGSHARE.1371016",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Saccharomyces cerevisiae annotated 3 prime GG motif gRNAs"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T17:35:37Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMDE5PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkhvbW8gc2FwaWVucyBhbm5vdGF0ZWQgMyBwcmltZSBHRyBtb3RpZiBnUk5BczwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+RGF0YXNldDwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkVsaXNoYSBSb2JlcnNvbjwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTU5MjEtMjM5OTwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T17:35:37Z",
+      "doi": "10.6084/M9.FIGSHARE.1371019",
+      "creator": [
+        "Elisha Roberson"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Homo sapiens annotated 3 prime GG motif gRNAs"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5921-2399"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T20:30:18Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMTE0PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPjIwMTUtMDQtMDMgV2lraUFyYWJpYSBHTEFNLXdpa2k8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlByZXNlbnRhdGlvbjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFuZHkgTWFiYmV0dDwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTU4ODItNjgyMzwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T20:30:18Z",
+      "doi": "10.6084/M9.FIGSHARE.1371114",
+      "creator": [
+        "Andy Mabbett"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "2015-04-03 WikiArabia GLAM-wiki"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5882-6823"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T20:32:25Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzM3OTUzPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPk9SQ0lEIGluIFdpa2lwZWRpYTwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+UG9zdGVyPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5keSBNYWJiZXR0PC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtNTg4Mi02ODIzPC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T20:32:25Z",
+      "doi": "10.6084/M9.FIGSHARE.1337953",
+      "creator": [
+        "Andy Mabbett"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "ORCID in Wikipedia"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-5882-6823"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2015-04-08T23:41:41Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMTM3PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNvbWFuY2hlICBoYXJ2ZXN0ZXIgYW50IGluIHRoZSBTb3V0aHdlc3QgTmF0dXJlIFByZXNlcnZlLCBBcmxpbmd0b24sIFRleGFzPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE1PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJJbWFnZSI+RmlndXJlPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T23:41:41Z",
+      "doi": "10.6084/M9.FIGSHARE.1371137",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Comanche  harvester ant in the Southwest Nature Preserve, Arlington, Texas"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-08T23:48:49Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMTM4PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNvbWFuY2hlIGhhcnZlc3RlciBhbnQgaW4gVG9kZCBJc2xhbmQgKDEpaW4gdGhlIEZvcnQgV29ydGggTmF0dXJlIENlbnRlcjwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNTwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iSW1hZ2UiPkZpZ3VyZTwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFubiBNYXlvPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDItMzU0Ni0xMDQ4PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T23:48:49Z",
+      "doi": "10.6084/M9.FIGSHARE.1371138",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Comanche harvester ant in Todd Island (1)in the Fort Worth Nature Center"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2015-04-08T23:55:26Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMzcxMTM5PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkNvbWFuY2hlIGhhcnZlc3RlciBhbnQgb24gVG9kZCBJc2xhbmQgKDIpIGluIHRoZSBGb3J0IFdvcnRoIE5hdHVyZSBDZW50ZXI8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTU8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T23:55:26Z",
+      "doi": "10.6084/M9.FIGSHARE.1371139",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Comanche harvester ant on Todd Island (2) in the Fort Worth Nature Center"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2015",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2013-05-28T23:17:58Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43MDczNTA8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+V29ya2luZyBtZW1vcnkgZm9yIHZpc3VhbCBhbmQgaGFwdGljIHRhcmdldHM6IEEgc3R1ZHkgdXNpbmcgdGhlIGludGVyZmVyZW5jZSBwYXJhZGlnbTwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxMzwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+UG9zdGVyPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+TWFudWVsIFNlYmFzdGluPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDEtOTk2NC02OTg0PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-07T11:44:34Z",
+      "doi": "10.6084/M9.FIGSHARE.707350",
+      "creator": [
+        "Manuel Sebastin"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Working memory for visual and haptic targets: A study using the interference paradigm"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-9964-6984"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-05-28T23:19:24Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43MDczNTE8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+VGhldGEgcG93ZXIgbW9kdWxhdGlvbnMgZHVyaW5nIHRoZSBleHBsaWNpdCByZWNvZ25pdGlvbiBvZiB1bmZhbWlsaWFyIDMtRCBvYmplY3RzIGV4cGxvcmVkIGhhcHRpY2FsbHk8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTM8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlBvc3RlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPk1hbnVlbCBTZWJhc3RpbjwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAxLTk5NjQtNjk4NDwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-07T11:44:34Z",
+      "doi": "10.6084/M9.FIGSHARE.707351",
+      "creator": [
+        "Manuel Sebastin"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Theta power modulations during the explicit recognition of unfamiliar 3-D objects explored haptically"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0001-9964-6984"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-08-22T00:40:17Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43Nzg3MDE8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+UGVkaWxsdXMgdGVybWluYWxpcyBhbmQgbWltaWMgc3BlY2llczwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxMzwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+UGFwZXI8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Kb2R5IEtvY3NpczwvY3JlYXRvck5hbWU+PC9jcmVhdG9yPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5CZW5qYW1pbiBKLiBTd2FydHo8L2NyZWF0b3JOYW1lPjwvY3JlYXRvcj48Y3JlYXRvcj48Y3JlYXRvck5hbWU+R3JhZW1lIFRheWxvcjwvY3JlYXRvck5hbWU+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T13:56:35Z",
+      "doi": "10.6084/M9.FIGSHARE.778701",
+      "creator": [
+        "Ann Mayo",
+        "Jody Kocsis",
+        "Benjamin J. Swartz",
+        "Graeme Taylor"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Pedillus terminalis and mimic species"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-08-22T04:04:35Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43Nzk3MDU8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+QW50cyBpbiB0aGUgR3Jhc3NsYW5kOnRoZWlyIGltb3J0YW5jZSBhbmQgcG90ZW50aWFsIGFzIGluZGljYXRvcnMgb2YgZWNvc3lzdGVtIGhlYWx0aDwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxMzwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+UHJlc2VudGF0aW9uPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:35Z",
+      "doi": "10.6084/M9.FIGSHARE.779705",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Ants in the Grassland:their imortance and potential as indicators of ecosystem health"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-08-01T01:56:31Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NjA3MTY8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+RG9vciBDb25zdHJ1Y3Rpb24gQmVoYXZpb3IgaW4gdGhlIE15Z2Fsb21vcnBoIFNwaWRlciBGYW1pbHkgQW50cm9kaWFldGlkYWUgYW5kIE9uZSBNZW1iZXIgb2YgdGhlIEZhbWlseSBDdGVuaXppZGFlIChBcmFuZWFlOiBNeWdhbG9tb3JwaGFlKTwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxMzwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+VGhlc2lzPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:32Z",
+      "doi": "10.6084/M9.FIGSHARE.760716",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Door Construction Behavior in the Mygalomorph Spider Family Antrodiaetidae and One Member of the Family Ctenizidae (Araneae: Mygalomorphae)"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-08-11T17:51:31Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NjkyNzI8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+VGVzdGluZyBjZW50cmFsIHBsYWNlIGZvcmFnaW5nIHRoZW9yeSBpbiB0aGUgYW50IGdlbnVzIFBvZ29ubXlybWV4OiBhIHJldmlldyBvZiB0aGUgbGl0ZXJhdHVyZSBmcm9tIDE5OTcgLSAyMDA4PC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDEzPC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5QYXBlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFubiBNYXlvPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDItMzU0Ni0xMDQ4PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T13:56:35Z",
+      "doi": "10.6084/M9.FIGSHARE.769272",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Testing central place foraging theory in the ant genus Pogonmyrmex: a review of the literature from 1997 - 2008"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-08-11T17:58:38Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NjkyNzE8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+RGV0ZXJtaW5hdGlvbiBvZiBzZXggcmF0aW9zIGluIGFudHM8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTM8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlBhcGVyPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:32Z",
+      "doi": "10.6084/M9.FIGSHARE.769271",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Determination of sex ratios in ants"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2013-08-11T18:02:15Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS43NjkyNzA8L2lkZW50aWZpZXI+PHRpdGxlcz48dGl0bGU+UHJlbGltaW5hcnkgQXNzZXNzbWVudCAgb2YgdGhlIEFydGhyb3BvZCBhbmQgQW50IEFzc2VtYmxhZ2VzIG9mIFRvZGQgSXNsYW5kLCBNYXJjaCAxNCBhbmQgMjgsIDIwMTAgKEZvcnQgV29ydGggTmF0dXJlIENlbnRlciwgRm9ydCBXb3J0aCwgVGV4YXMpPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDEzPC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5QYXBlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFubiBNYXlvPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDItMzU0Ni0xMDQ4PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T13:56:32Z",
+      "doi": "10.6084/M9.FIGSHARE.769270",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Preliminary Assessment  of the Arthropod and Ant Assemblages of Todd Island, March 14 and 28, 2010 (Fort Worth Nature Center, Fort Worth, Texas)"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2013",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2014-06-02T01:33:35Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMDQxNTQ3PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPkppbGxzIG9mIEFsbCBUcmFkZXM6IEFudCBEaXZlcnNpdHkgYW5kIFZlcnNhdGlsaXR5IGluIHRoZSBDcm9zcyBUaW1iZXJzIEVjb3JlZ2lvbjwvdGl0bGU+PC90aXRsZXM+PHB1Ymxpc2hlcj5GaWdzaGFyZTwvcHVibGlzaGVyPjxwdWJsaWNhdGlvblllYXI+MjAxNDwvcHVibGljYXRpb25ZZWFyPjxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCI+UHJlc2VudGF0aW9uPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:40Z",
+      "doi": "10.6084/M9.FIGSHARE.1041547",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Jills of All Trades: Ant Diversity and Versatility in the Cross Timbers Ecoregion"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2014-05-02T23:51:05Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMDE0MzUxPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlJEQSBUcmlwbG90IG9mICBBbnQgU3BlY2llcyBQcmVzZW5jZSBhbmQgU29pbCBUeXBlPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE0PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJJbWFnZSI+RmlndXJlPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:38Z",
+      "doi": "10.6084/M9.FIGSHARE.1014351",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "RDA Triplot of  Ant Species Presence and Soil Type"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2014-05-02T23:51:54Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMDE0MzQ4PC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlJEQSBUcmlwbG90IG9mIFNwZWNpZXMgUHJlc2VuY2U8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTQ8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkltYWdlIj5GaWd1cmU8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T13:56:38Z",
+      "doi": "10.6084/M9.FIGSHARE.1014348",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "RDA Triplot of Species Presence"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2014-05-03T00:43:42Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMDE0MzUyPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlJEQSBUcmlwbG90IG9mIEFudCBTcGVjaWVzIEFidW5kYW5jZSBhdCB0aCBGb3J0IFdvcnRoIE5hdHVyZSBDZW50ZXIsIFRleGFzPC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE0PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJJbWFnZSI+RmlndXJlPC9yZXNvdXJjZVR5cGU+PHJpZ2h0c0xpc3Q+PHJpZ2h0cyByaWdodHNVUkk9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzMuMC91cy8iPkNDLUJZPC9yaWdodHM+PC9yaWdodHNMaXN0PjxjcmVhdG9ycz48Y3JlYXRvcj48Y3JlYXRvck5hbWU+QW5uIE1heW88L2NyZWF0b3JOYW1lPjxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMi0zNTQ2LTEwNDg8L25hbWVJZGVudGlmaWVyPjwvY3JlYXRvcj48L2NyZWF0b3JzPjwvcmVzb3VyY2U+",
+      "updated": "2015-04-08T13:56:40Z",
+      "doi": "10.6084/M9.FIGSHARE.1014352",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "RDA Triplot of Ant Species Abundance at th Fort Worth Nature Center, Texas"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Image"
+    }, {
+      "minted": "2014-04-28T12:44:11Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMDA4MzIxPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPlRyYWNraW5nIHRoZSBDb21hbmNoZSBIYXJ2ZXN0ZXIgQW50IGluIHRoZSBGb3J0IFdvcnRoIE5hdHVyZSBDZW50ZXI8L3RpdGxlPjwvdGl0bGVzPjxwdWJsaXNoZXI+Rmlnc2hhcmU8L3B1Ymxpc2hlcj48cHVibGljYXRpb25ZZWFyPjIwMTQ8L3B1YmxpY2F0aW9uWWVhcj48cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiPlBvc3RlcjwvcmVzb3VyY2VUeXBlPjxyaWdodHNMaXN0PjxyaWdodHMgcmlnaHRzVVJJPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS8zLjAvdXMvIj5DQy1CWTwvcmlnaHRzPjwvcmlnaHRzTGlzdD48Y3JlYXRvcnM+PGNyZWF0b3I+PGNyZWF0b3JOYW1lPkFubiBNYXlvPC9jcmVhdG9yTmFtZT48bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIj4wMDAwLTAwMDItMzU0Ni0xMDQ4PC9uYW1lSWRlbnRpZmllcj48L2NyZWF0b3I+PC9jcmVhdG9ycz48L3Jlc291cmNlPg==",
+      "updated": "2015-04-08T13:56:38Z",
+      "doi": "10.6084/M9.FIGSHARE.1008321",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Tracking the Comanche Harvester Ant in the Fort Worth Nature Center"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Dataset"
+    }, {
+      "minted": "2014-04-28T13:12:45Z",
+      "datacentre_symbol": "CDL.DIGSCI",
+      "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtMyBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC0zL21ldGFkYXRhLnhzZCI+PGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNjA4NC9NOS5GSUdTSEFSRS4xMDA4MzIwPC9pZGVudGlmaWVyPjx0aXRsZXM+PHRpdGxlPk5lc3QgRGlzdHJpYnV0aW9uIG9mIHRoZSBDb21hbmNoZSBIYXJ2ZXN0ZXIgQW50PC90aXRsZT48L3RpdGxlcz48cHVibGlzaGVyPkZpZ3NoYXJlPC9wdWJsaXNoZXI+PHB1YmxpY2F0aW9uWWVhcj4yMDE0PC9wdWJsaWNhdGlvblllYXI+PHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ij5Qb3N0ZXI8L3Jlc291cmNlVHlwZT48cmlnaHRzTGlzdD48cmlnaHRzIHJpZ2h0c1VSST0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvMy4wL3VzLyI+Q0MtQlk8L3JpZ2h0cz48L3JpZ2h0c0xpc3Q+PGNyZWF0b3JzPjxjcmVhdG9yPjxjcmVhdG9yTmFtZT5Bbm4gTWF5bzwvY3JlYXRvck5hbWU+PG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM1NDYtMTA0ODwvbmFtZUlkZW50aWZpZXI+PC9jcmVhdG9yPjwvY3JlYXRvcnM+PC9yZXNvdXJjZT4=",
+      "updated": "2015-04-08T13:56:37Z",
+      "doi": "10.6084/M9.FIGSHARE.1008320",
+      "creator": [
+        "Ann Mayo"
+      ],
+      "publisher": "Figshare",
+      "title": [
+        "Nest Distribution of the Comanche Harvester Ant"
+      ],
+      "nameIdentifier": [
+        "ORCID:0000-0002-3546-1048"
+      ],
+      "publicationYear": "2014",
+      "resourceTypeGeneral": "Dataset"
+    }]
   }
 }

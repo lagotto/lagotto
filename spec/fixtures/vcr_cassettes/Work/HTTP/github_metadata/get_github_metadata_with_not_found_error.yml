@@ -11,6 +11,8 @@ http_interactions:
       - Lagotto - http://lagotto.local
       Accept:
       - application/json
+      Authorization:
+      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
   response:
     status:
       code: 404
@@ -19,7 +21,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 22 Mar 2016 11:01:48 GMT
+      - Tue, 26 Apr 2016 13:48:23 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -27,11 +29,15 @@ http_interactions:
       Status:
       - 404 Not Found
       X-Ratelimit-Limit:
-      - '60'
+      - '5000'
       X-Ratelimit-Remaining:
-      - '50'
+      - '4933'
       X-Ratelimit-Reset:
-      - '1458647722'
+      - '1461679875'
+      X-Oauth-Scopes:
+      - gist, repo, user
+      X-Accepted-Oauth-Scopes:
+      - repo
       X-Github-Media-Type:
       - github.v3
       Access-Control-Expose-Headers:
@@ -50,10 +56,10 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3EE06C37:2E02:44D2798:56F1261C
+      - 3EE067F6:DA3B:10B9F847:571F71A7
     body:
       encoding: UTF-8
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 11:01:48 GMT
+  recorded_at: Tue, 26 Apr 2016 13:48:24 GMT
 recorded_with: VCR 2.9.3

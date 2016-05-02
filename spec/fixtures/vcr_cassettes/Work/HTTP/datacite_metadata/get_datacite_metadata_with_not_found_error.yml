@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sat, 16 Apr 2016 14:53:50 GMT
+      - Tue, 26 Apr 2016 13:50:23 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -31,7 +31,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":0,"start":0,"docs":[]}}
+        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Sat, 16 Apr 2016 14:52:02 GMT
+  recorded_at: Tue, 26 Apr 2016 13:48:22 GMT
 recorded_with: VCR 2.9.3

@@ -17,3 +17,6 @@ records:
   - sprig_id: publishers
     name: publishers
     title: Publishers
+  - sprig_id: deposits
+    name: deposits
+    title: Deposits

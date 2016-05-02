@@ -80,7 +80,7 @@ describe Reddit, type: :model, vcr: true do
                                           "URL"=>"http://www.reddit.com/r/askscience/comments/1ee560/askscience_ama_we_are_the_authors_of_a_recent/",
                                           "type"=>"personal_communication",
                                           "tracked"=>false,
-                                          "registration_agency"=>"reddit")
+                                          "registration_agency_id"=>"reddit")
     end
 
     it "should catch timeout errors with the Reddit API" do

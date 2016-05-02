@@ -43,7 +43,7 @@ class BmcFulltext < Agent
                 "DOI" => doi,
                 "type" => "article-journal",
                 "tracked" => tracked,
-                "registration_agency" => "crossref" } }
+                "registration_agency_id" => "crossref" } }
     end
   end
 

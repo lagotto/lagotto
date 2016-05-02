@@ -82,7 +82,8 @@ describe Github, type: :model, vcr: true do
                                               "relation_type_id"=>"bookmarks",
                                               "total"=>7,
                                               "provenance_url" => "https://github.com/ropensci/alm",
-                                              "source_id"=>"github")
+                                              "source_id"=>"github",
+                                              "registration_agency_id" => "github")
       expect(response.first[:subj]).to eq("pid"=>"https://github.com/2013/9",
                                           "URL"=>"https://github.com", "title"=>"Github activity for September 2013",
                                           "type"=>"webpage",
@@ -94,7 +95,8 @@ describe Github, type: :model, vcr: true do
                                              "relation_type_id"=>"is_derived_from",
                                              "total"=>3,
                                              "provenance_url" => "https://github.com/ropensci/alm",
-                                             "source_id"=>"github")
+                                             "source_id"=>"github",
+                                             "registration_agency_id" => "github")
     end
 
     it "should catch timeout errors with the github API" do

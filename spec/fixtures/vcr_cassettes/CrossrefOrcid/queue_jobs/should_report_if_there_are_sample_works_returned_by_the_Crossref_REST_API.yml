@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.crossref.org/works?filter=has-orcid:true,from-update-date:2015-04-07,until-update-date:2015-04-08&offset=0&rows=0
+    uri: http://api.crossref.org/works?filter=has-orcid:true,from-update-date:2015-04-07,until-update-date:2015-04-08&sample=20
     body:
       encoding: US-ASCII
       string: ''
@@ -25,16 +25,326 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '188'
+      - '61316'
       Server:
       - http-kit
       Date:
-      - Mon, 21 Mar 2016 13:18:07 GMT
+      - Tue, 26 Apr 2016 18:54:10 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":0,"items":[],"total-results":819,"facets":{}}}'
+      string: '{"status":"ok","message-type":"work-list","message-version":"1.0.0","message":{"query":{"search-terms":null,"start-index":0},"items-per-page":20,"items":[{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T12:02:54Z","timestamp":1450612974149},"reference-count":31,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,6,1]],"date-time":"2015-06-01T00:00:00Z","timestamp":1433116800000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"funder":[{"award":[],"name":"National
+        University of Sciences and Technology"}],"published-print":{"date-parts":[[2015,6]]},"DOI":"10.1016\/j.memsci.2015.02.011","type":"journal-article","created":{"date-parts":[[2015,3,3]],"date-time":"2015-03-03T18:34:39Z","timestamp":1425407679000},"page":"75-83","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Membrane
+        biofouling retardation and improved sludge characteristics using quorum quenching
+        bacteria in submerged membrane bioreactor"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"483","author":[{"affiliation":[],"family":"Maqbool","given":"Tahir"},{"affiliation":[],"family":"Khan","given":"Sher
+        Jamal","ORCID":"http:\/\/orcid.org\/0000-0003-2832-638X"},{"affiliation":[],"family":"Waheed","given":"Hira"},{"affiliation":[],"family":"Lee","given":"Chung-Hak"},{"affiliation":[],"family":"Hashmi","given":"Imran"},{"affiliation":[],"family":"Iqbal","given":"Hamid"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
+        of Membrane Science"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0376738815001088?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0376738815001088?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T15:25:58Z","timestamp":1428420358000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,6]]},"alternative-id":["S0376738815001088"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.memsci.2015.02.011","ISSN":["0376-7388"],"subject":["Physical
+        and Theoretical Chemistry","Filtration and Separation","Materials Science(all)","Biochemistry"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Membrane biofouling retardation and
+        improved sludge characteristics using quorum quenching bacteria in submerged
+        membrane bioreactor"},{"label":"Journal Title","name":"journaltitle","value":"Journal
+        of Membrane Science"},{"label":"CrossRef DOI link to publisher maintained
+        version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.memsci.2015.02.011"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2015 Elsevier B.V. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:16:10Z","timestamp":1450617370307},"reference-count":31,"publisher":"Elsevier
+        BV","issue":"1","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,1,1]],"date-time":"2015-01-01T00:00:00Z","timestamp":1420070400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2014,9,1]],"date-time":"2014-09-01T00:00:00Z","timestamp":1409529600000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/3.0\/"}],"published-print":{"date-parts":[[2015,1]]},"DOI":"10.1016\/j.sjdr.2014.06.002","type":"journal-article","created":{"date-parts":[[2014,6,26]],"date-time":"2014-06-26T17:05:04Z","timestamp":1403802304000},"page":"21-25","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["A
+        cross sectional study of gender differences in dental anxiety prevailing in
+        the students of a Pakistani dental college"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"6","author":[{"affiliation":[],"family":"Farooq","given":"Imran","ORCID":"http:\/\/orcid.org\/0000-0002-4891-2522"},{"affiliation":[],"family":"Ali","given":"Saqib"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["The
+        Saudi Journal for Dental Research"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2352003514000215?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2352003514000215?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T09:16:03Z","timestamp":1428484563000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,1]]},"alternative-id":["S2352003514000215"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.sjdr.2014.06.002","ISSN":["2352-0035"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"A cross sectional study of gender differences
+        in dental anxiety prevailing in the students of a Pakistani dental college"},{"label":"Journal
+        Title","name":"journaltitle","value":"The Saudi Journal for Dental Research"},{"label":"CrossRef
+        DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.sjdr.2014.06.002"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Production and hosting by Elsevier B.V."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T11:49:28Z","timestamp":1450612168324},"reference-count":17,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,7,1]],"date-time":"2014-07-01T00:00:00Z","timestamp":1404172800000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"funder":[{"award":["285487"],"doi-asserted-by":"publisher","name":"Cancer
+        Council South Australia","DOI":"10.13039\/501100000950"},{"award":[],"name":"Netherlands
+        Forensic Institute (NFI)"},{"award":[],"name":"Netherlands Genomic Initiative
+        (NGI)\/Netherlands Organization for Scientific Research (NWO)"},{"award":[],"name":"Paulo
+        Foundation"}],"published-print":{"date-parts":[[2014,7]]},"DOI":"10.1016\/j.fsigen.2014.04.006","type":"journal-article","created":{"date-parts":[[2014,4,21]],"date-time":"2014-04-21T09:16:28Z","timestamp":1398071788000},"page":"241-251","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Collaborative
+        EDNAP exercise on the IrisPlex system for DNA-based prediction of human eye
+        colour"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"11","author":[{"affiliation":[],"family":"Chaitanya","given":"Lakshmi","ORCID":"http:\/\/orcid.org\/0000-0002-6458-192X"},{"affiliation":[],"family":"Walsh","given":"Susan"},{"affiliation":[],"family":"Andersen","given":"Jeppe
+        Dyrberg"},{"affiliation":[],"family":"Ansell","given":"Ricky"},{"affiliation":[],"family":"Ballantyne","given":"Kaye"},{"affiliation":[],"family":"Ballard","given":"David"},{"affiliation":[],"family":"Banemann","given":"Regine"},{"affiliation":[],"family":"Bauer","given":"Christiane
+        Maria"},{"affiliation":[],"family":"Bento","given":"Ana Margarida"},{"affiliation":[],"family":"Brisighelli","given":"Francesca"},{"affiliation":[],"family":"Capal","given":"Tomas"},{"affiliation":[],"family":"Clarisse","given":"Lindy"},{"affiliation":[],"family":"Gross","given":"Theresa
+        E."},{"affiliation":[],"family":"Haas","given":"Cordula"},{"affiliation":[],"family":"Hoff-Olsen","given":"Per"},{"affiliation":[],"family":"Hollard","given":"Cl\u00e9mence"},{"affiliation":[],"family":"Keyser","given":"Christine"},{"affiliation":[],"family":"Kiesler","given":"Kevin
+        M."},{"affiliation":[],"family":"Kohler","given":"Priscila"},{"affiliation":[],"family":"Kupiec","given":"Tomasz"},{"affiliation":[],"family":"Linacre","given":"Adrian"},{"affiliation":[],"family":"Minawi","given":"Anglika"},{"affiliation":[],"family":"Morling","given":"Niels"},{"affiliation":[],"family":"Nilsson","given":"Helena"},{"affiliation":[],"family":"Nor\u00e9n","given":"Lina"},{"affiliation":[],"family":"Ottens","given":"Ren\u00e9e"},{"affiliation":[],"family":"Palo","given":"Jukka
+        U."},{"affiliation":[],"family":"Parson","given":"Walther"},{"affiliation":[],"family":"Pascali","given":"Vincenzo
+        L."},{"affiliation":[],"family":"Phillips","given":"Chris"},{"affiliation":[],"family":"Porto","given":"Maria
+        Jo\u00e3o"},{"affiliation":[],"family":"Sajantila","given":"Antti"},{"affiliation":[],"family":"Schneider","given":"Peter
+        M."},{"affiliation":[],"family":"Sijen","given":"Titia"},{"affiliation":[],"family":"S\u00f6chtig","given":"Jens"},{"affiliation":[],"family":"Syndercombe-Court","given":"Denise"},{"affiliation":[],"family":"Tillmar","given":"Andreas"},{"affiliation":[],"family":"Turanska","given":"Martina"},{"affiliation":[],"family":"Vallone","given":"Peter
+        M."},{"affiliation":[],"family":"Zatkal\u00edkov\u00e1","given":"L\u00edvia"},{"affiliation":[],"family":"Zidkova","given":"Anastassiya"},{"affiliation":[],"family":"Branicki","given":"Wojciech"},{"affiliation":[],"family":"Kayser","given":"Manfred"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Forensic
+        Science International: Genetics"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1872497314000829?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1872497314000829?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T14:17:41Z","timestamp":1428416261000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,7]]},"alternative-id":["S1872497314000829"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.fsigen.2014.04.006","ISSN":["1872-4973"],"subject":["Pathology
+        and Forensic Medicine","Genetics"],"assertion":[{"label":"This article is
+        maintained by","name":"publisher","value":"Elsevier"},{"label":"Article Title","name":"articletitle","value":"Collaborative
+        EDNAP exercise on the IrisPlex system for DNA-based prediction of human eye
+        colour"},{"label":"Journal Title","name":"journaltitle","value":"Forensic
+        Science International: Genetics"},{"label":"CrossRef DOI link to publisher
+        maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.fsigen.2014.04.006"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier Ireland Ltd. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T08:43:10Z","timestamp":1450600990182},"reference-count":16,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,1,1]],"date-time":"2015-01-01T00:00:00Z","timestamp":1420070400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":25,"start":{"date-parts":[[2015,1,26]],"date-time":"2015-01-26T00:00:00Z","timestamp":1422230400000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/4.0\/"}],"published-print":{"date-parts":[[2015]]},"DOI":"10.1016\/j.rmcr.2015.01.002","type":"journal-article","created":{"date-parts":[[2015,1,29]],"date-time":"2015-01-29T07:17:47Z","timestamp":1422515867000},"page":"49-52","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Recurrent
+        nitrofurantoin-induced giant cell interstitial pneumonia: Case report and
+        literature review"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"14","author":[{"affiliation":[],"family":"Lee","given":"Boeun"},{"affiliation":[],"family":"Balavenkataraman","given":"Arvind","ORCID":"http:\/\/orcid.org\/0000-0002-0096-4294"},{"affiliation":[],"family":"Sanghavi","given":"Devang"},{"affiliation":[],"family":"Walter","given":"Kristin"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Respiratory
+        Medicine Case Reports"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2213007115000039?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2213007115000039?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T03:56:14Z","timestamp":1428378974000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015]]},"alternative-id":["S2213007115000039"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.rmcr.2015.01.002","ISSN":["2213-0071"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Recurrent nitrofurantoin-induced giant
+        cell interstitial pneumonia: Case report and literature review"},{"label":"Journal
+        Title","name":"journaltitle","value":"Respiratory Medicine Case Reports"},{"label":"CrossRef
+        DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.rmcr.2015.01.002"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2015 The Authors. Published by Elsevier Ltd."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T11:54:50Z","timestamp":1450612490727},"reference-count":66,"publisher":"Elsevier
+        BV","issue":"12","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,12,1]],"date-time":"2014-12-01T00:00:00Z","timestamp":1417392000000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"published-print":{"date-parts":[[2014,12]]},"DOI":"10.1016\/j.rasd.2014.09.010","type":"journal-article","created":{"date-parts":[[2014,10,11]],"date-time":"2014-10-11T06:31:24Z","timestamp":1413009084000},"page":"1722-1733","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Teaching
+        social\u2013emotional skills to school-aged children with Autism Spectrum
+        Disorder: A treatment versus control trial in 41 mainstream schools"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"8","author":[{"affiliation":[],"family":"Ratcliffe","given":"Belinda","ORCID":"http:\/\/orcid.org\/0000-0003-1586-8155"},{"affiliation":[],"family":"Wong","given":"Michelle"},{"affiliation":[],"family":"Dossetor","given":"David"},{"affiliation":[],"family":"Hayes","given":"Susan"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Research
+        in Autism Spectrum Disorders"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1750946714002281?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1750946714002281?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T05:40:16Z","timestamp":1428385216000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,12]]},"alternative-id":["S1750946714002281"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.rasd.2014.09.010","ISSN":["1750-9467"],"subject":["Developmental
+        and Educational Psychology","Clinical Psychology","Psychiatry and Mental health"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Teaching social\u2013emotional skills
+        to school-aged children with Autism Spectrum Disorder: A treatment versus
+        control trial in 41 mainstream schools"},{"label":"Journal Title","name":"journaltitle","value":"Research
+        in Autism Spectrum Disorders"},{"label":"CrossRef DOI link to publisher maintained
+        version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.rasd.2014.09.010"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier Ltd. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:22:45Z","timestamp":1450617765721},"reference-count":45,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,2,1]],"date-time":"2015-02-01T00:00:00Z","timestamp":1422748800000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"funder":[{"award":["#2013M541504"],"doi-asserted-by":"publisher","name":"China
+        Postdoctoral Science Foundation","DOI":"10.13039\/501100002858"},{"award":["#12ZZ092"],"doi-asserted-by":"publisher","name":"Shanghai
+        Municipal Education Commission","DOI":"10.13039\/501100003395"},{"award":["#11172161","#11372173","#11402141"],"name":"National
+        Science Foundation of China"},{"award":["#1304H197500"],"name":"The Shanghai
+        Municipal Science and technology commission"},{"award":["#S30106"],"name":"Shanghai
+        Leading Academic Discipline"},{"award":[],"name":"Instrumental Analysis and
+        Research Center at Shanghai University"},{"award":[],"name":"Shanghai University"}],"published-print":{"date-parts":[[2015,2]]},"DOI":"10.1016\/j.jmbbm.2014.10.014","type":"journal-article","created":{"date-parts":[[2014,11,5]],"date-time":"2014-11-05T02:05:05Z","timestamp":1415153105000},"page":"1-9","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Damage
+        mechanisms in uniaxial compression of single enamel rods"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"42","author":[{"affiliation":[],"family":"An","given":"Bingbing","ORCID":"http:\/\/orcid.org\/0000-0003-1507-0581"},{"affiliation":[],"family":"Wang","given":"Raorao"},{"affiliation":[],"family":"Arola","given":"Dwayne"},{"affiliation":[],"family":"Zhang","given":"Dongsheng"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
+        of the Mechanical Behavior of Biomedical Materials"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1751616114003385?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1751616114003385?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T05:18:37Z","timestamp":1428470317000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,2]]},"alternative-id":["S1751616114003385"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jmbbm.2014.10.014","ISSN":["1751-6161"],"subject":["Mechanics
+        of Materials","Biomaterials","Biomedical Engineering"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Damage mechanisms in uniaxial compression
+        of single enamel rods"},{"label":"Journal Title","name":"journaltitle","value":"Journal
+        of the Mechanical Behavior of Biomedical Materials"},{"label":"CrossRef DOI
+        link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.jmbbm.2014.10.014"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier Ltd. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T12:03:40Z","timestamp":1450613020252},"reference-count":9,"publisher":"American
+        Society for Microbiology","issue":"2","published-print":{"date-parts":[[2015,4,30]]},"DOI":"10.1128\/genomea.00066-15","type":"journal-article","created":{"date-parts":[[2015,3,6]],"date-time":"2015-03-06T02:42:37Z","timestamp":1425609757000},"page":"e00066-15","update-policy":"http:\/\/dx.doi.org\/10.1128\/asmj-crossmark-policy-page","source":"CrossRef","title":["Draft
+        Genome Sequence of Filamentous Marine Cyanobacterium Lyngbya confervoides
+        Strain BDU141951"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1128","volume":"3","author":[{"affiliation":[],"family":"Chandrababunaidu","given":"Mathu
+        Malar"},{"affiliation":[],"family":"Sen","given":"Diya"},{"affiliation":[],"family":"Tripathy","given":"Sucheta","ORCID":"http:\/\/orcid.org\/0000-0003-0611-8088"}],"member":"http:\/\/id.crossref.org\/member\/235","published-online":{"date-parts":[[2015,3,5]]},"container-title":["Genome
+        Announcements","Genome Announc."],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T17:32:28Z","timestamp":1428427948000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,3,5]]},"alternative-id":["10.1128\/genomeA.00066-15"],"URL":"http:\/\/dx.doi.org\/10.1128\/genomea.00066-15","ISSN":["2169-8287"]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T12:00:37Z","timestamp":1450612837596},"reference-count":44,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,5,1]],"date-time":"2015-05-01T00:00:00Z","timestamp":1430438400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"funder":[{"award":[],"name":"Centennial
+        Coal"}],"published-print":{"date-parts":[[2015,5]]},"DOI":"10.1016\/j.aquabot.2015.02.002","type":"journal-article","created":{"date-parts":[[2015,2,9]],"date-time":"2015-02-09T07:32:35Z","timestamp":1423467155000},"page":"54-63","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Detecting
+        the effects of water regime on wetland plant communities: Which plant indicator
+        groups perform best?"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"123","author":[{"affiliation":[],"family":"Johns","given":"C.V.","ORCID":"http:\/\/orcid.org\/0000-0002-3114-8222"},{"affiliation":[],"family":"Brownstein","given":"G."},{"affiliation":[],"family":"Fletcher","given":"A."},{"affiliation":[],"family":"Blick","given":"R.A.J."},{"affiliation":[],"family":"Erskine","given":"P.D."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Aquatic
+        Botany"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0304377015000157?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0304377015000157?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T15:26:29Z","timestamp":1428420389000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,5]]},"alternative-id":["S0304377015000157"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.aquabot.2015.02.002","ISSN":["0304-3770"],"subject":["Plant
+        Science","Aquatic Science"],"assertion":[{"label":"This article is maintained
+        by","name":"publisher","value":"Elsevier"},{"label":"Article Title","name":"articletitle","value":"Detecting
+        the effects of water regime on wetland plant communities: Which plant indicator
+        groups perform best?"},{"label":"Journal Title","name":"journaltitle","value":"Aquatic
+        Botany"},{"label":"CrossRef DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.aquabot.2015.02.002"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2015 Elsevier B.V. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:05:08Z","timestamp":1450616708781},"reference-count":21,"publisher":"Elsevier
+        BV","issue":"3","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2013,9,1]],"date-time":"2013-09-01T00:00:00Z","timestamp":1377993600000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":53,"start":{"date-parts":[[2013,10,24]],"date-time":"2013-10-24T00:00:00Z","timestamp":1382572800000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/4.0\/"}],"published-print":{"date-parts":[[2013,9]]},"DOI":"10.1016\/j.jma.2013.10.002","type":"journal-article","created":{"date-parts":[[2013,11,5]],"date-time":"2013-11-05T07:30:17Z","timestamp":1383636617000},"page":"224-229","source":"CrossRef","title":["Development
+        of a magnesium alloy with good casting characteristics on the basis of Mg\u2013Al\u2013Ca\u2013Mn
+        system, having Mg\u2013Al2Ca structure"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"1","author":[{"affiliation":[],"family":"Koltygin","given":"A.V.","ORCID":"http:\/\/orcid.org\/0000-0002-8376-0480"},{"affiliation":[],"family":"Bazhenov","given":"V.E."},{"affiliation":[],"family":"Belova","given":"E.A."},{"affiliation":[],"family":"Nikitina","given":"A.A."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
+        of Magnesium and Alloys"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2213956713000455?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2213956713000455?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T12:32:44Z","timestamp":1428496364000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2013,9]]},"alternative-id":["S2213956713000455"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jma.2013.10.002","ISSN":["2213-9567"]},{"indexed":{"date-parts":[[2015,12,22]],"date-time":"2015-12-22T20:39:44Z","timestamp":1450816784497},"reference-count":0,"publisher":"Springer
+        Science + Business Media","DOI":"10.1186\/isrctn66631530","type":"dataset","created":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T11:05:21Z","timestamp":1428491121000},"update-policy":"http:\/\/dx.doi.org\/10.1186\/isrctn_crossmark_policy","source":"CrossRef","title":["Treatment
+        of Jianpi Shugan recipe in the treatment of diarrhoea-predominant irritable
+        bowel syndrome (IBS-D)"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1186","author":[{"affiliation":[],"family":"Zhao","given":"Luqing","ORCID":"http:\/\/orcid.org\/0000-0003-1986-3511"}],"member":"http:\/\/id.crossref.org\/member\/297","container-title":["http:\/\/isrctn.com\/"],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T11:05:21Z","timestamp":1428491121000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[null]]},"URL":"http:\/\/dx.doi.org\/10.1186\/isrctn66631530"},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:28:23Z","timestamp":1450618103359},"reference-count":29,"publisher":"Elsevier
+        BV","issue":"4","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,4,1]],"date-time":"2015-04-01T00:00:00Z","timestamp":1427846400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"published-print":{"date-parts":[[2015,4]]},"DOI":"10.1016\/j.sleep.2014.12.006","type":"journal-article","created":{"date-parts":[[2015,1,5]],"date-time":"2015-01-05T17:04:07Z","timestamp":1420477447000},"page":"483-488","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Sleep
+        patterns and sleep disturbances across pregnancy"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"16","author":[{"affiliation":[],"family":"Mindell","given":"Jodi
+        A.","ORCID":"http:\/\/orcid.org\/0000-0001-7628-815X"},{"affiliation":[],"family":"Cook","given":"Rae
+        Ann"},{"affiliation":[],"family":"Nikolovski","given":"Janeta"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Sleep
+        Medicine"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1389945714004997?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1389945714004997?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T14:31:04Z","timestamp":1428503464000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,4]]},"alternative-id":["S1389945714004997"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.sleep.2014.12.006","ISSN":["1389-9457"],"subject":["Medicine(all)"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Sleep patterns and sleep disturbances
+        across pregnancy"},{"label":"Journal Title","name":"journaltitle","value":"Sleep
+        Medicine"},{"label":"CrossRef DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.sleep.2014.12.006"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier B.V. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:06:07Z","timestamp":1450616767575},"reference-count":92,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,1,1]],"date-time":"2014-01-01T00:00:00Z","timestamp":1388534400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2013,11,11]],"date-time":"2013-11-11T00:00:00Z","timestamp":1384128000000},"URL":"http:\/\/creativecommons.org\/licenses\/by\/3.0\/"}],"funder":[{"award":[],"name":"University
+        Research Priority Program \u2018Foundations of Human Social Behaviour\u2019
+        at the University of Zurich"},{"award":[],"name":"SystemsX.ch project \u2018Neurochoice\u2019"},{"award":[],"name":"CRPP
+        \u2018Multiple Sclerosis\u2019"},{"award":[],"name":"Ren\u00e9 and Susanne
+        Braginsky Foundation"}],"published-print":{"date-parts":[[2014]]},"DOI":"10.1016\/j.nicl.2013.11.002","type":"journal-article","created":{"date-parts":[[2013,11,16]],"date-time":"2013-11-16T13:33:47Z","timestamp":1384608827000},"page":"98-111","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Dissecting
+        psychiatric spectrum disorders by generative embedding"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"4","author":[{"affiliation":[],"family":"Brodersen","given":"Kay
+        H.","ORCID":"http:\/\/orcid.org\/0000-0002-7707-090X"},{"affiliation":[],"family":"Deserno","given":"Lorenz"},{"affiliation":[],"family":"Schlagenhauf","given":"Florian"},{"affiliation":[],"family":"Lin","given":"Zhihao"},{"affiliation":[],"family":"Penny","given":"Will
+        D."},{"affiliation":[],"family":"Buhmann","given":"Joachim M."},{"affiliation":[],"family":"Stephan","given":"Klaas
+        E."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["NeuroImage:
+        Clinical"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2213158213001502?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2213158213001502?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T18:12:35Z","timestamp":1428516755000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014]]},"alternative-id":["S2213158213001502"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.nicl.2013.11.002","ISSN":["2213-1582"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Dissecting psychiatric spectrum disorders
+        by generative embedding"},{"label":"Journal Title","name":"journaltitle","value":"NeuroImage:
+        Clinical"},{"label":"CrossRef DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.nicl.2013.11.002"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2013 The Authors. Published by Elsevier Inc."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T12:08:28Z","timestamp":1450613308493},"reference-count":78,"publisher":"Elsevier
+        BV","issue":"4","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,4,1]],"date-time":"2015-04-01T00:00:00Z","timestamp":1427846400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"published-print":{"date-parts":[[2015,4]]},"DOI":"10.1016\/j.gie.2014.12.026","type":"journal-article","created":{"date-parts":[[2015,3,21]],"date-time":"2015-03-21T17:20:58Z","timestamp":1426958458000},"page":"804-812","source":"CrossRef","title":["The
+        endoscopic management of pancreatic pseudocysts (with videos)"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"81","author":[{"affiliation":[],"family":"Holt","given":"Bronte
+        A."},{"affiliation":[],"family":"Varadarajulu","given":"Shyam","ORCID":"http:\/\/orcid.org\/0000-0002-1387-6525"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Gastrointestinal
+        Endoscopy"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0016510714025966?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0016510714025966?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T15:18:13Z","timestamp":1428419893000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,4]]},"alternative-id":["S0016510714025966"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.gie.2014.12.026","ISSN":["0016-5107"],"subject":["Gastroenterology","Radiology
+        Nuclear Medicine and imaging"]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T11:47:51Z","timestamp":1450612071280},"reference-count":23,"publisher":"The
+        Korean Academy of Asthma, Allergy and Clinical Immunology and The Korean Academy
+        of Pediatric Al","issue":"2","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,1,1]],"date-time":"2014-01-01T00:00:00Z","timestamp":1388534400000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/"}],"funder":[{"award":["A111218-PG01"],"doi-asserted-by":"publisher","name":"Ministry
+        of Health and Welfare","DOI":"10.13039\/501100003625"}],"published-print":{"date-parts":[[2014]]},"DOI":"10.4168\/aair.2014.6.2.156","type":"journal-article","created":{"date-parts":[[2014,2,24]],"date-time":"2014-02-24T00:59:22Z","timestamp":1393203562000},"page":"156","update-policy":"http:\/\/dx.doi.org\/10.4168\/crossmark_policy","source":"CrossRef","title":["Cross-reactivity
+        to Acetaminophen and Celecoxib According to the Type of Nonsteroidal Anti-inflammatory
+        Drug Hypersensitivity"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.4168","volume":"6","author":[{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Kim","given":"Yoon-Jeong"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Lim","given":"Kyung-Hwan"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Kim","given":"Mi-Young"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."},{"name":"Department of
+        Internal Medicine, Seoul National University Bundang Hospital, Seongnam, Korea."}],"family":"Jo","given":"Eun-Jung"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Lee","given":"Suh-Young"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."},{"name":"Department of
+        Internal Medicine, Seoul National University Bundang Hospital, Seongnam, Korea."}],"family":"Lee","given":"Seung-Eun"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."},{"name":"Department of
+        Internal Medicine, Seoul National University Boramae Medical Center, Seoul,
+        Korea."}],"family":"Yang","given":"Min-Suk"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Song","given":"Woo-Jung"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Kang","given":"Hye-Ryun"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Park","given":"Heung-Woo"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."},{"name":"Department of
+        Internal Medicine, Seoul National University Bundang Hospital, Seongnam, Korea."}],"family":"Chang","given":"Yoon-Seok","ORCID":"http:\/\/orcid.org\/0000-0003-3157-0447"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Cho","given":"Sang-Heon"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."}],"family":"Min","given":"Kyung-Up"},{"affiliation":[{"name":"Department
+        of Internal Medicine, Seoul National University College of Medicine, Seoul,
+        Korea."},{"name":"Institute of Allergy and Clinical Immunology, Seoul National
+        University Medical Research Center, Seoul, Korea."},{"name":"Department of
+        Internal Medicine, Seoul National University Bundang Hospital, Seongnam, Korea."}],"family":"Kim","given":"Sae-Hoon"}],"member":"http:\/\/id.crossref.org\/member\/2669","container-title":["Allergy
+        Asthma Immunol Res","Allergy, Asthma & Immunology Research"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"unspecified","URL":"http:\/\/synapse.koreamed.org\/pdf\/10.4168\/aair.2014.6.2.156"},{"intended-application":"text-mining","content-version":"vor","content-type":"unspecified","URL":"http:\/\/synapse.koreamed.org\/DOIx.php?id=10.4168\/aair.2014.6.2.156"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T10:58:38Z","timestamp":1428404318000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014]]},"URL":"http:\/\/dx.doi.org\/10.4168\/aair.2014.6.2.156","ISSN":["2092-7355","2092-7363"],"subject":["Immunology","Immunology
+        and Allergy","Pulmonary and Respiratory Medicine"],"assertion":[{"group":{"label":"Full
+        text available at:","name":"multiple_resolution"},"label":"Synapse","name":"synapse","URL":"http:\/\/synapse.koreamed.org\/DOIx.php?id=10.4168\/aair.2014.6.2.156","value":"http:\/\/synapse.koreamed.org\/DOIx.php?id=10.4168\/aair.2014.6.2.156"},{"group":{"label":"Full
+        text available at:","name":"multiple_resolution"},"label":"the Journal","name":"the_journal","URL":"http:\/\/e-aair.org\/DOIx.php?id=10.4168\/aair.2014.6.2.156","value":"http:\/\/e-aair.org\/DOIx.php?id=10.4168\/aair.2014.6.2.156"},{"group":{"label":"ORCID","name":"orcid"},"label":"Yoon-Seok
+        Chang","name":"author","URL":"http:\/\/orcid.org\/0000-0003-3157-0447","value":"http:\/\/orcid.org\/0000-0003-3157-0447"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Recevied","name":"recevied","value":"2013-03-04"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Revised","name":"revised","value":"2013-05-23"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Accepted","name":"accepted","value":"2013-07-02"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Published online","name":"published_online","value":"2013-12-13"},{"group":{"label":"Copyright
+        and Licensing","name":"Copyright_and_licensing"},"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 The Korean Academy of Asthma, Allergy and Clinical Immunology
+        \u2022 The Korean Academy of Pediatric Allergy and Respiratory Disease"},{"group":{"label":"Copyright
+        and Licensing","name":"Copyright_and_licensing"},"explanation":{"URL":"http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/"},"label":"License","name":"license","value":"This
+        is an Open Access article distributed under the terms of the Creative Commons
+        Attribution Non-Commercial License (http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/)
+        which permits unrestricted non-commercial use, distribution, and reproduction
+        in any medium, provided the original work is properly cited."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T11:25:58Z","timestamp":1450610758040},"reference-count":15,"publisher":"The
+        Korean Academy of Asthma, Allergy and Clinical Immunology and The Korean Academy
+        of Pediatric Al","issue":"3","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2011,1,1]],"date-time":"2011-01-01T00:00:00Z","timestamp":1293840000000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/"},{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2011,1,1]],"date-time":"2011-01-01T00:00:00Z","timestamp":1293840000000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/"}],"funder":[{"award":["2009-0078646"],"doi-asserted-by":"publisher","name":"Korea
+        Science and Engineering Foundation","DOI":"10.13039\/501100004084"}],"published-print":{"date-parts":[[2011]]},"DOI":"10.4168\/aair.2011.3.3.212","type":"journal-article","created":{"date-parts":[[2011,6,21]],"date-time":"2011-06-21T08:21:10Z","timestamp":1308644470000},"page":"212","update-policy":"http:\/\/dx.doi.org\/10.4168\/crossmark_policy","source":"CrossRef","title":["Occupational
+        Asthma Induced by the Reactive Dye Synozol Red-K 3BS"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.4168","volume":"3","author":[{"affiliation":[{"name":"Department
+        of Allergy and Rheumatology, Ajou University School of Medicine, Suwon, Korea."}],"family":"Jin","given":"Hyun
+        Jung"},{"affiliation":[{"name":"Department of Allergy and Rheumatology, Ajou
+        University School of Medicine, Suwon, Korea."}],"family":"Kim","given":"Joo-Hee"},{"affiliation":[{"name":"Department
+        of Allergy and Rheumatology, Ajou University School of Medicine, Suwon, Korea."}],"family":"Kim","given":"Jeong-Eun"},{"affiliation":[{"name":"Department
+        of Allergy and Rheumatology, Ajou University School of Medicine, Suwon, Korea."}],"family":"Ye","given":"Young-Min","ORCID":"http:\/\/orcid.org\/0000-0002-7517-1715"},{"affiliation":[{"name":"Department
+        of Allergy and Rheumatology, Ajou University School of Medicine, Suwon, Korea."}],"family":"Park","given":"Hae-Sim","ORCID":"http:\/\/orcid.org\/0000-0003-2614-0303"}],"member":"http:\/\/id.crossref.org\/member\/2669","container-title":["Allergy
+        Asthma Immunol Res","Allergy, Asthma & Immunology Research"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"application\/pdf","URL":"http:\/\/synapse.koreamed.org\/pdf\/10.4168\/aair.2011.3.3.212"},{"intended-application":"text-mining","content-version":"vor","content-type":"unspecified","URL":"http:\/\/synapse.koreamed.org\/DOIx.php?id=10.4168\/aair.2011.3.3.212"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T11:09:14Z","timestamp":1428404954000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2011]]},"URL":"http:\/\/dx.doi.org\/10.4168\/aair.2011.3.3.212","ISSN":["2092-7355","2092-7363"],"subject":["Immunology","Immunology
+        and Allergy","Pulmonary and Respiratory Medicine"],"assertion":[{"group":{"label":"Full
+        text available at:","name":"multiple_resolution"},"label":"Synapse","name":"synapse","URL":"http:\/\/synapse.koreamed.org\/DOIx.php?id=10.4168\/aair.2011.3.3.212","value":"http:\/\/synapse.koreamed.org\/DOIx.php?id=10.4168\/aair.2011.3.3.212"},{"group":{"label":"Full
+        text available at:","name":"multiple_resolution"},"label":"the Journal","name":"the_journal","URL":"http:\/\/e-aair.org\/DOIx.php?id=10.4168\/aair.2011.3.3.212","value":"http:\/\/e-aair.org\/DOIx.php?id=10.4168\/aair.2011.3.3.212"},{"group":{"label":"ORCID","name":"orcid"},"label":"Young-Min
+        Ye","name":"author","URL":"http:\/\/orcid.org\/0000-0002-7517-1715","value":"http:\/\/orcid.org\/0000-0002-7517-1715"},{"group":{"label":"ORCID","name":"orcid"},"label":"Hae-Sim
+        Park","name":"author","URL":"http:\/\/orcid.org\/0000-0003-2614-0303","value":"http:\/\/orcid.org\/0000-0003-2614-0303"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Recevied","name":"recevied","value":"2010-10-20"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Accepted","name":"accepted","value":"2010-11-22"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Published online","name":"published_online","value":"2011-02-09"},{"group":{"label":"Copyright
+        and Licensing","name":"Copyright_and_licensing"},"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2011 The Korean Academy of Asthma, Allergy and Clinical Immunology
+        \u2022 The Korean Academy of Pediatric Allergy and Respiratory Disease"},{"group":{"label":"Copyright
+        and Licensing","name":"Copyright_and_licensing"},"explanation":{"URL":"http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/"},"label":"License","name":"license","value":"This
+        is an Open Access article distributed under the terms of the Creative Commons
+        Attribution Non-Commercial License (http:\/\/creativecommons.org\/licenses\/by-nc\/3.0\/)
+        which permits unrestricted non-commercial use, distribution, and reproduction
+        in any medium, provided the original work is properly cited."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:25:17Z","timestamp":1450617917823},"reference-count":9,"publisher":"Elsevier
+        BV","issue":"1","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,1,1]],"date-time":"2015-01-01T00:00:00Z","timestamp":1420070400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2014,10,31]],"date-time":"2014-10-31T00:00:00Z","timestamp":1414713600000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/3.0\/"}],"published-print":{"date-parts":[[2015,1]]},"DOI":"10.1016\/j.epsc.2014.10.017","type":"journal-article","created":{"date-parts":[[2014,12,4]],"date-time":"2014-12-04T07:30:37Z","timestamp":1417678237000},"page":"30-31","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Asymptomatic
+        torsion of intra-abdominal testis"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"3","author":[{"affiliation":[],"family":"El-Gohary","given":"M.
+        Amin","ORCID":"http:\/\/orcid.org\/0000-0002-9045-1133"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
+        of Pediatric Surgery Case Reports"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S221357661400150X?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S221357661400150X?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T05:52:45Z","timestamp":1428472365000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,1]]},"alternative-id":["S221357661400150X"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.epsc.2014.10.017","ISSN":["2213-5766"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Asymptomatic torsion of intra-abdominal
+        testis"},{"label":"Journal Title","name":"journaltitle","value":"Journal of
+        Pediatric Surgery Case Reports"},{"label":"CrossRef DOI link to publisher
+        maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.epsc.2014.10.017"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2015 The Authors. Published by Elsevier Inc."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T08:35:13Z","timestamp":1450600513604},"reference-count":15,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,10,1]],"date-time":"2014-10-01T00:00:00Z","timestamp":1412121600000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2014,9,22]],"date-time":"2014-09-22T00:00:00Z","timestamp":1411344000000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-nd\/3.0\/"}],"published-print":{"date-parts":[[2014,10]]},"DOI":"10.1016\/j.csfs.2014.09.001","type":"journal-article","created":{"date-parts":[[2014,10,11]],"date-time":"2014-10-11T17:00:20Z","timestamp":1413046820000},"page":"16-27","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["A
+        modified critical velocity for road tunnel fire smoke management with dedicated
+        smoke extraction configuration"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"2","author":[{"affiliation":[],"family":"Liu","given":"Yunlong","ORCID":"http:\/\/orcid.org\/0000-0002-4750-3612"},{"affiliation":[],"family":"Cassady","given":"Sean"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Case
+        Studies in Fire Safety"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2214398X14000077?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S2214398X14000077?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T03:49:00Z","timestamp":1428378540000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,10]]},"alternative-id":["S2214398X14000077"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.csfs.2014.09.001","ISSN":["2214-398X"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"A modified critical velocity for road
+        tunnel fire smoke management with dedicated smoke extraction configuration"},{"label":"Journal
+        Title","name":"journaltitle","value":"Case Studies in Fire Safety"},{"label":"CrossRef
+        DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.csfs.2014.09.001"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Published by Elsevier Ltd."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:24:07Z","timestamp":1450617847415},"reference-count":116,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,1,1]],"date-time":"2015-01-01T00:00:00Z","timestamp":1420070400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"published-print":{"date-parts":[[2015,1]]},"DOI":"10.1016\/j.rasd.2014.10.008","type":"journal-article","created":{"date-parts":[[2014,11,19]],"date-time":"2014-11-19T16:45:12Z","timestamp":1416415512000},"page":"202-222","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Meta-analysis
+        of receptive and expressive language skills in autism spectrum disorder"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"9","author":[{"affiliation":[],"family":"Kwok","given":"Elaine
+        Y.L."},{"affiliation":[],"family":"Brown","given":"Heather M."},{"affiliation":[],"family":"Smyth","given":"Rachael
+        E.","ORCID":"http:\/\/orcid.org\/0000-0001-6673-1824"},{"affiliation":[],"family":"Oram
+        Cardy","given":"Janis","ORCID":"http:\/\/orcid.org\/0000-0002-7170-6145"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Research
+        in Autism Spectrum Disorders"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1750946714002402?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1750946714002402?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T13:57:33Z","timestamp":1428501453000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,1]]},"alternative-id":["S1750946714002402"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.rasd.2014.10.008","ISSN":["1750-9467"],"subject":["Developmental
+        and Educational Psychology","Clinical Psychology","Psychiatry and Mental health"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Meta-analysis of receptive and expressive
+        language skills in autism spectrum disorder"},{"label":"Journal Title","name":"journaltitle","value":"Research
+        in Autism Spectrum Disorders"},{"label":"CrossRef DOI link to publisher maintained
+        version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.rasd.2014.10.008"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier Ltd. All rights reserved."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T13:14:05Z","timestamp":1450617245344},"reference-count":56,"publisher":"Elsevier
+        BV","issue":"1","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,4,1]],"date-time":"2014-04-01T00:00:00Z","timestamp":1396310400000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"},{"content-version":"vor","delay-in-days":8,"start":{"date-parts":[[2014,4,9]],"date-time":"2014-04-09T00:00:00Z","timestamp":1397001600000},"URL":"http:\/\/creativecommons.org\/licenses\/by-nc-sa\/4.0\/"}],"published-print":{"date-parts":[[2014,4]]},"DOI":"10.1016\/j.tdj.2014.03.001","type":"journal-article","created":{"date-parts":[[2014,5,10]],"date-time":"2014-05-10T23:45:11Z","timestamp":1399765511000},"page":"1-11","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Effect
+        of different irrigant solutions on microhardness and smear layer removal of
+        root canal dentin"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"11","author":[{"affiliation":[],"family":"Kandil","given":"Hebatalla
+        E."},{"affiliation":[],"family":"Labib","given":"Ahmed H."},{"affiliation":[],"family":"Alhadainy","given":"Hatem
+        A.","ORCID":"http:\/\/orcid.org\/0000-0003-0390-418X"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Tanta
+        Dental Journal"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1687857414000110?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1687857414000110?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,8]],"date-time":"2015-04-08T16:51:43Z","timestamp":1428511903000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,4]]},"alternative-id":["S1687857414000110"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.tdj.2014.03.001","ISSN":["1687-8574"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"Effect of different irrigant solutions
+        on microhardness and smear layer removal of root canal dentin"},{"label":"Journal
+        Title","name":"journaltitle","value":"Tanta Dental Journal"},{"label":"CrossRef
+        DOI link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.tdj.2014.03.001"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Faculty of Dentistry, Tanta University. Production and hosting
+        by Elsevier B.V."}]},{"indexed":{"date-parts":[[2015,12,20]],"date-time":"2015-12-20T11:53:54Z","timestamp":1450612434834},"reference-count":45,"publisher":"Elsevier
+        BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2014,12,1]],"date-time":"2014-12-01T00:00:00Z","timestamp":1417392000000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"published-print":{"date-parts":[[2014,12]]},"DOI":"10.1016\/j.jmbbm.2014.09.007","type":"journal-article","created":{"date-parts":[[2014,9,16]],"date-time":"2014-09-16T05:37:38Z","timestamp":1410845858000},"page":"264-274","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["The
+        in vivo plantar soft tissue mechanical property under the metatarsal head:
+        implications of tissues\u05f3 joint-angle dependent response in foot finite
+        element modeling"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"40","author":[{"affiliation":[],"family":"Chen","given":"Wen-Ming","ORCID":"http:\/\/orcid.org\/0000-0002-1395-7288"},{"affiliation":[],"family":"Lee","given":"Sung-Jae"},{"affiliation":[],"family":"Lee","given":"Peter
+        Vee Sin"}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["Journal
+        of the Mechanical Behavior of Biomedical Materials"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1751616114002914?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S1751616114002914?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,4,7]],"date-time":"2015-04-07T14:00:19Z","timestamp":1428415219000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2014,12]]},"alternative-id":["S1751616114002914"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.jmbbm.2014.09.007","ISSN":["1751-6161"],"subject":["Mechanics
+        of Materials","Biomaterials","Biomedical Engineering"],"assertion":[{"label":"This
+        article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
+        Title","name":"articletitle","value":"The in vivo plantar soft tissue mechanical
+        property under the metatarsal head: implications of tissues\u05f3 joint-angle
+        dependent response in foot finite element modeling"},{"label":"Journal Title","name":"journaltitle","value":"Journal
+        of the Mechanical Behavior of Biomedical Materials"},{"label":"CrossRef DOI
+        link to publisher maintained version","name":"articlelink","value":"http:\/\/dx.doi.org\/10.1016\/j.jmbbm.2014.09.007"},{"label":"Content
+        Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
+        \u00a9 2014 Elsevier Ltd. All rights reserved."}]}],"total-results":795,"facets":{}}}'
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 13:18:07 GMT
+  recorded_at: Tue, 26 Apr 2016 18:54:10 GMT
 recorded_with: VCR 2.9.3

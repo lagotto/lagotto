@@ -127,7 +127,7 @@ describe TwitterSearch, type: :model, vcr: true do
                                           "URL"=>"http://twitter.com/ChampsEvrywhere/status/422039629882089472",
                                           "type"=>"personal_communication",
                                           "tracked"=>false,
-                                          "registration_agency"=>"twitter")
+                                          "registration_agency_id"=>"twitter")
     end
 
     it "should catch timeout errors with the Twitter Search API" do

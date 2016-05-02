@@ -81,7 +81,7 @@ describe PubMed, type: :model, vcr: true do
                                           "type"=>"article-journal",
                                           "tracked"=>false,
                                           "publisher_id"=>"1965",
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should report if there is a single event returned by the PubMed API" do
@@ -113,7 +113,7 @@ describe PubMed, type: :model, vcr: true do
                                           "type"=>"article-journal",
                                           "tracked"=>false,
                                           "publisher_id"=>"1965",
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should catch timeout errors with the PubMed API" do

@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://10.2.2.6/api/deposits?from_date=2009-04-07&page=1&per_page=0&registration_agency_id=crossref&until_date=2009-04-08
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Lagotto - http://lagotto.local
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - no-store, must-revalidate, private, max-age=0
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept-Encoding
+      X-Miniprofiler-Ids:
+      - '["76flpcsvsavtn4slwnhe","5gzb8g3147i0lyjokrhf","gxz3jwduup988rnaurx0","a1p4uc1iwk5g0tnwzya3","gxdj04bf5o8wvz9ma2fd","suz9fvenkxbxwhkz8plk","rzl7k5bef4tkv07i6pna","t0jzspvj4hcn4jd63gdx","dmr6oaxp2g0s6cut9b85","irit0ewh8uene0feh01q"]'
+      Access-Control-Max-Age:
+      - '1728000'
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Request-Id:
+      - 05818dd5-9ff3-477c-abcb-ffe53be0df1d
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS
+      Etag:
+      - W/"c69f97275a2f20bc828307040bdea1dc"
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Runtime:
+      - '0.597867'
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Wed, 27 Apr 2016 12:36:04 GMT
+      Set-Cookie:
+      - __profilin=p%3Dt; path=/, __profilin=p%3Dt; path=/, __profilin=p%3Dt; path=/
+      X-Powered-By:
+      - Phusion Passenger 5.0.27
+      Server:
+      - nginx/1.8.1 + Phusion Passenger 5.0.27
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"status":"ok","message-type":"deposit-list","message-version":"v7","total":0,"total_pages":1,"page":1},"deposits":[]}'
+    http_version: 
+  recorded_at: Wed, 27 Apr 2016 12:36:04 GMT
+recorded_with: VCR 2.9.3

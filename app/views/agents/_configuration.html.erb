@@ -28,6 +28,8 @@
               <%= f.input field, :as => :string %>
             <% elsif field == :expires_at %>
               <%= f.input field, :as => :hidden %>
+            <% elsif field == :registration_agency_id %>
+              <%= f.input field, collection: RegistrationAgency.order('title').map { |ra| [ra.title, ra.name] }, input_html: { class: "form-user" } %>
             <% elsif field == :only_publishers %>
               <%= f.input field, :as => :boolean, label: "Only publishers", checked_value: true, unchecked_value: false, input_html: { checked: @agent.only_publishers }, hint: "Import only works from included publishers" %>
             <% else %>

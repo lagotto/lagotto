@@ -67,7 +67,7 @@ describe Twitter, type: :model, vcr: true do
                                           "URL"=>"http://twitter.com/regrum/status/204270013081849857",
                                           "type"=>"personal_communication",
                                           "tracked"=>false,
-                                          "registration_agency"=>"twitter")
+                                          "registration_agency_id"=>"twitter")
     end
 
     it "should catch timeout errors with the Twitter API" do

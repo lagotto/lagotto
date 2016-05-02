@@ -57,7 +57,7 @@ describe DataciteDatacentre, type: :model, vcr: true do
                                               "source_id"=>"datacite_datacentre")
       expect(response.first[:subj]).to eq("name"=>"ANDS.CENTRE-1",
                                           "title"=>"Griffith University",
-                                          "registration_agency"=>"datacite",
+                                          "registration_agency_id"=>"datacite",
                                           "active"=>true)
     end
   end

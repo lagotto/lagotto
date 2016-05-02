@@ -28,7 +28,7 @@ class Orcid < Agent
                 "URL" => url,
                 "type" => 'entry',
                 "tracked" => tracked,
-                "registration_agency" => "orcid" }}
+                "registration_agency_id" => "orcid" }}
     end
   end
 

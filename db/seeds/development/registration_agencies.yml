@@ -1,0 +1,22 @@
+# Load registration agencies
+options:
+  find_existing_by: ['name']
+records:
+  - sprig_id: crossref
+    name: crossref
+    title: Crossref
+  - sprig_id: datacite
+    name: datacite
+    title: DataCite
+  - sprig_id: github
+    name: github
+    title: GitHub
+  - sprig_id: orcid
+    name: orcid
+    title: ORCID
+  - sprig_id: twitter
+    name: twitter
+    title: Twitter
+  - sprig_id: wikipedia
+    name: wikipedia
+    title: Wikipedia

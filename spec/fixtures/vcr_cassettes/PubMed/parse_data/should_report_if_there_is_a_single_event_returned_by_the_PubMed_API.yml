@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=3292175&idtype=pmcid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 19 Mar 2016 22:32:56 GMT
+      - Sat, 30 Apr 2016 14:49:42 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,8 +31,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-19 18:32:56",
-         "request": "email=info%40example.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-04-30 10:49:42",
+         "request": "email=noreply%40datacite.org;format=json;ids=3292175;idtype=pmcid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -52,7 +52,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 19 Mar 2016 22:32:56 GMT
+  recorded_at: Sat, 30 Apr 2016 14:49:42 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.3389%2Ffendo.2012.00005
@@ -61,7 +61,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -82,7 +82,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sat, 19 Mar 2016 22:32:56 GMT
+      - Sat, 30 Apr 2016 14:49:43 GMT
       Connection:
       - close
     body:
@@ -93,5 +93,5 @@ http_interactions:
         F."},{"affiliation":[],"family":"Madden","given":"Christopher J."},{"affiliation":[],"family":"Tupone","given":"Domenico"}],"member":"http:\/\/id.crossref.org\/member\/1965","published-online":{"date-parts":[[2012]]},"container-title":["Frontiers
         in Endocrinology","Front. Endocrin."],"deposited":{"date-parts":[[2015,2,18]],"date-time":"2015-02-18T20:08:25Z","timestamp":1424290105000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2012]]},"URL":"http:\/\/dx.doi.org\/10.3389\/fendo.2012.00005","ISSN":["1664-2392"]}}'
     http_version: 
-  recorded_at: Sat, 19 Mar 2016 22:32:56 GMT
+  recorded_at: Sat, 30 Apr 2016 14:49:43 GMT
 recorded_with: VCR 2.9.3

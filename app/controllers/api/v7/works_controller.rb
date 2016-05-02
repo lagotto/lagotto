@@ -17,7 +17,7 @@ class Api::V7::WorksController < Api::BaseController
     param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :contributor_id, :string, :optional, "Contributor ID"
     param :query, :relation_type_id, :string, :optional, "Relation_type ID"
-    param :query, :registration_agency, :string, :optional, "Registration agency"
+    param :query, :registration_agency_id, :string, :optional, "Registration agency"
     param :query, :sort, :string, :optional, "Sort by source result count descending, or by publication date descending if left empty."
     param :query, :page, :integer, :optional, "Page number"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
@@ -153,8 +153,8 @@ class Api::V7::WorksController < Api::BaseController
                    .where("relations.relation_type_id = ?", relation_type.id)
     end
 
-    if params[:registration_agency].present?
-      collection = collection.where(registration_agency: params[:registration_agency])
+    if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
+      collection = collection.where(registration_agency_id: registration_agency.id)
     end
 
     collection

@@ -1,6 +1,7 @@
 /*global d3 */
 
 var formatDate = d3.time.format.utc("%B %d, %Y"),
+    formatISO = d3.time.format.utc("%Y-%m-%d"),
     formatMonthYear = d3.time.format.utc("%B %Y"),
     formatYear = d3.time.format.utc("%Y"),
     formatDateTime = d3.time.format.utc("%d %b %Y %H:%M UTC"),
@@ -63,6 +64,11 @@ function formattedDate(date) {
     default:
       return formatDateTime(timestamp);
   }
+}
+
+// format date in iso8601
+function formattedPastDate(interval) {
+  return formatISO(d3.time.day.offset(new Date(), - interval));
 }
 
 // pagination
