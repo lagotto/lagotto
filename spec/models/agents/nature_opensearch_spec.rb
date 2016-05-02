@@ -15,7 +15,7 @@ describe NatureOpensearch, type: :model, vcr: true do
 
     it "should not look up canonical URL if there is work url" do
       lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => File.read(fixture_path + 'europe_pmc_fulltext.json'))
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => File.read(fixture_path + 'nature_opensearch.json'))
       response = subject.get_data(work_id: work.id)
       expect(lookup_stub).not_to have_been_requested
       expect(stub).to have_been_requested
