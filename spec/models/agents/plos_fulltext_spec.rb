@@ -97,7 +97,7 @@ describe PlosFulltext, type: :model, vcr: true do
                                           "DOI"=>"10.1371/journal.pcbi.1003833",
                                           "type"=>"article-journal",
                                           "tracked"=>false,
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should catch timeout errors with the PLOS Search API" do
