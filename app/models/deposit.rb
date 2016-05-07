@@ -23,7 +23,7 @@ class Deposit < ActiveRecord::Base
 
   before_create :create_uuid
   before_save :set_defaults
-  after_commit :queue_deposit_job, :on => :create
+  after_commit :queue_deposit_job, :on => :create, :if => Proc.new { |deposit| deposit.source && deposit.source.active }
 
   # NB this is coupled to deposits_controller, deposit.rake
   state_machine :initial => :waiting do
@@ -36,11 +36,12 @@ class Deposit < ActiveRecord::Base
       deposit.send_callback if deposit.callback.present?
     end
 
+    # only add job for further processing if associated source is active
     after_transition :failed => :waiting do |deposit|
-      deposit.queue_deposit_job
+      deposit.queue_deposit_job if deposit.source && deposit.source.active
     end
 
-    # Reset after failure.
+    # Reset after failure
     event :reset do
       transition [:failed] => :waiting
       transition any => same
