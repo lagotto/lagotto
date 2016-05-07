@@ -7,16 +7,18 @@ module Processable
       def update_prefix
         items = from_prefix_csl(subj)
         Array(items).each do |item|
-          p = Prefix.where(name: item[:prefix]).first_or_initialize
-          p.assign_attributes(item)
-          p.save!
-        end
-        true
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
-        if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-          Prefix.using(:master).where(name: item[:prefix]).first
-        else
-          handle_exception(exception, class_name: "prefix", id: item[:prefix])
+          begin
+            p = Prefix.where(name: item[:prefix]).first_or_initialize
+            p.assign_attributes(item)
+            p.save!
+            true
+          rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
+            if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
+              Prefix.using(:master).where(name: item[:prefix]).first
+            else
+              handle_exception(exception, class_name: "prefix", id: item[:prefix])
+            end
+          end
         end
       end
 
