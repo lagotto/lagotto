@@ -39,6 +39,16 @@ FactoryGirl.define do
       title "Mendeley"
     end
 
+    trait(:facebook) do
+      name "facebook"
+      title "Facebook"
+    end
+
+    trait(:github) do
+      name "github"
+      title "GitHub"
+    end
+
     trait(:counter_html) do
       name "counter_html"
       title "Counter Views"

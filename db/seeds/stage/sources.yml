@@ -111,21 +111,25 @@ records:
     name: crossref
     title: Crossref (Citations)
     description: Crossref is a non-profit organization that enables cross-publisher citation linking.
+    cumulative: true
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: scopus
     name: scopus
     title: Scopus
     description: Scopus is an abstract and citation database of peer-reviewed literature.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: mendeley
     name: mendeley
     title: Mendeley
     description: Mendeley is a reference manager and social bookmarking tool.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: facebook
     name: facebook
     title: Facebook
     description: Facebook is the largest social network.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: researchblogging
     name: researchblogging
@@ -161,6 +165,7 @@ records:
     name: wos
     title: Web of Science
     description: Web of Science is an online academic citation index.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: f1000
     name: f1000
@@ -191,6 +196,7 @@ records:
     name: github
     title: Github
     description: GitHub is a web-based Git repository hosting service.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: bitbucket
     name: bitbucket
