@@ -22,7 +22,7 @@ module Processable
         # update all attributes
         r.assign_attributes(relation_type_id: relation_type.present? ? relation_type.id : nil,
                             publisher_id: publisher.present? ? publisher.id : nil,
-                            total: total,
+                            total: adjusted_total(work_id),
                             occurred_at: occurred_at)
         r.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
@@ -43,7 +43,7 @@ module Processable
         # update all attributes, return saved inv_relation
         r.assign_attributes(relation_type_id: inv_relation_type.present? ? inv_relation_type.id : nil,
                             publisher_id: publisher.present? ? publisher.id : nil,
-                            total: total,
+                            total: adjusted_total(related_work_id),
                             occurred_at: occurred_at,
                             implicit: true)
         r.save!
@@ -65,6 +65,28 @@ module Processable
         return nil unless work.present? && related_work.present? && source.present?
 
         Relation.where(work_id: work.id, related_work_id: related_work.id, source_id: source.id).destroy_all
+      end
+
+      def adjusted_total(w_id)
+        if source.present? && source.cumulative
+          total - get_total_previous_month(w_id)
+        else
+          total
+        end
+      end
+
+      def get_total_previous_month(w_id)
+        return 0 unless w_id.present? && relation_type.present? && source.present?
+
+        relation = Relation.where(work_id: w_id)
+                           .where(source_id: source.id)
+                           .where(relation_type_id: relation_type.id)
+                           .where("occurred_at < ?", Time.zone.now.beginning_of_month)
+                           .order("occurred_at DESC").first
+
+        return 0 unless relation.present?
+
+        return relation.total
       end
     end
   end
