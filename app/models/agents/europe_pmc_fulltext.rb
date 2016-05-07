@@ -13,7 +13,7 @@ class EuropePmcFulltext < Agent
 
   def get_query_string(options = {})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present? && work.get_url && registration_agencies.include?(work.registration_agency)
+    return {} unless work.present? && work.get_url && registration_agencies.include?(work.registration_agency && work.registration_agency.name)
 
     # fulltext search doesn't search in the reference list
     if work.doi.present?

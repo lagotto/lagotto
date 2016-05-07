@@ -10,7 +10,7 @@ describe NatureOpensearch, type: :model, vcr: true do
       work = FactoryGirl.create(:work, :with_datacite, :doi => "10.1594/PANGAEA.815864", :canonical_url => nil)
       lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => 404)
       response = subject.get_data(work_id: work.id)
-      expect(lookup_stub).to have_been_requested
+      expect(lookup_stub).to have_been_requested.twice()
     end
 
     it "should not look up canonical URL if there is work url" do

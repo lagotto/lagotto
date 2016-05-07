@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:32 GMT
+      - Fri, 06 May 2016 20:02:42 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,7 +31,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:32",
+         "responseDate": "2016-05-06 16:02:42",
          "request": "email=noreply%40datacite.org;format=json;ids=25104065;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -48,7 +48,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:32 GMT
+  recorded_at: Fri, 06 May 2016 20:02:42 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=24608104&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -66,7 +66,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:33 GMT
+      - Fri, 06 May 2016 20:02:43 GMT
       Server:
       - Apache
       Content-Type:
@@ -80,7 +80,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:33",
+         "responseDate": "2016-05-06 16:02:43",
          "request": "email=noreply%40datacite.org;format=json;ids=24608104;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -97,7 +97,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:33 GMT
+  recorded_at: Fri, 06 May 2016 20:02:43 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=24141493&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -115,7 +115,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:33 GMT
+      - Fri, 06 May 2016 20:02:43 GMT
       Server:
       - Apache
       Content-Type:
@@ -129,7 +129,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:33",
+         "responseDate": "2016-05-06 16:02:43",
          "request": "email=noreply%40datacite.org;format=json;ids=24141493;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -147,7 +147,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:33 GMT
+  recorded_at: Fri, 06 May 2016 20:02:44 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=25334030&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -165,7 +165,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:34 GMT
+      - Fri, 06 May 2016 20:02:44 GMT
       Server:
       - Apache
       Content-Type:
@@ -179,7 +179,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:34",
+         "responseDate": "2016-05-06 16:02:44",
          "request": "email=noreply%40datacite.org;format=json;ids=25334030;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -196,7 +196,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:34 GMT
+  recorded_at: Fri, 06 May 2016 20:02:44 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=25426102&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -214,7 +214,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:34 GMT
+      - Fri, 06 May 2016 20:02:45 GMT
       Server:
       - Apache
       Content-Type:
@@ -228,7 +228,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:34",
+         "responseDate": "2016-05-06 16:02:45",
          "request": "email=noreply%40datacite.org;format=json;ids=25426102;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -245,7 +245,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:34 GMT
+  recorded_at: Fri, 06 May 2016 20:02:45 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=25332847&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -263,7 +263,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:35 GMT
+      - Fri, 06 May 2016 20:02:45 GMT
       Server:
       - Apache
       Content-Type:
@@ -277,7 +277,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:35",
+         "responseDate": "2016-05-06 16:02:45",
          "request": "email=noreply%40datacite.org;format=json;ids=25332847;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -294,7 +294,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:35 GMT
+  recorded_at: Fri, 06 May 2016 20:02:45 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=25193308&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -312,7 +312,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:35 GMT
+      - Fri, 06 May 2016 20:02:46 GMT
       Server:
       - Apache
       Content-Type:
@@ -326,7 +326,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:35",
+         "responseDate": "2016-05-06 16:02:46",
          "request": "email=noreply%40datacite.org;format=json;ids=25193308;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -343,7 +343,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:35 GMT
+  recorded_at: Fri, 06 May 2016 20:02:46 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=24739965&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -361,7 +361,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:36 GMT
+      - Fri, 06 May 2016 20:02:47 GMT
       Server:
       - Apache
       Content-Type:
@@ -375,7 +375,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:36",
+         "responseDate": "2016-05-06 16:02:47",
          "request": "email=noreply%40datacite.org;format=json;ids=24739965;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -393,7 +393,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:36 GMT
+  recorded_at: Fri, 06 May 2016 20:02:47 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=25503791&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -411,7 +411,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:36 GMT
+      - Fri, 06 May 2016 20:02:47 GMT
       Server:
       - Apache
       Content-Type:
@@ -425,7 +425,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:36",
+         "responseDate": "2016-05-06 16:02:47",
          "request": "email=noreply%40datacite.org;format=json;ids=25503791;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -442,7 +442,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:36 GMT
+  recorded_at: Fri, 06 May 2016 20:02:47 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=24349125&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -460,7 +460,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:36 GMT
+      - Fri, 06 May 2016 20:02:48 GMT
       Server:
       - Apache
       Content-Type:
@@ -474,7 +474,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:36",
+         "responseDate": "2016-05-06 16:02:48",
          "request": "email=noreply%40datacite.org;format=json;ids=24349125;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -491,7 +491,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:37 GMT
+  recorded_at: Fri, 06 May 2016 20:02:48 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=23487777&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -509,7 +509,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:37 GMT
+      - Fri, 06 May 2016 20:02:49 GMT
       Server:
       - Apache
       Content-Type:
@@ -523,7 +523,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:37",
+         "responseDate": "2016-05-06 16:02:49",
          "request": "email=noreply%40datacite.org;format=json;ids=23487777;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -540,7 +540,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:37 GMT
+  recorded_at: Fri, 06 May 2016 20:02:49 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=24348259&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -558,7 +558,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:37 GMT
+      - Fri, 06 May 2016 20:02:50 GMT
       Server:
       - Apache
       Content-Type:
@@ -572,7 +572,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:37",
+         "responseDate": "2016-05-06 16:02:50",
          "request": "email=noreply%40datacite.org;format=json;ids=24348259;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -589,7 +589,7 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:37 GMT
+  recorded_at: Fri, 06 May 2016 20:02:50 GMT
 - request:
     method: get
     uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=23284297&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
@@ -607,7 +607,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:52:38 GMT
+      - Fri, 06 May 2016 20:02:51 GMT
       Server:
       - Apache
       Content-Type:
@@ -621,7 +621,7 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:52:38",
+         "responseDate": "2016-05-06 16:02:51",
          "request": "email=noreply%40datacite.org;format=json;ids=23284297;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
@@ -638,5 +638,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:52:38 GMT
+  recorded_at: Fri, 06 May 2016 20:02:51 GMT
 recorded_with: VCR 2.9.3

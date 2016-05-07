@@ -10,7 +10,7 @@ describe EuropePmcFulltext, type: :model, vcr: true do
       work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0043007", doi: "10.1371/journal.pone.0043007", :canonical_url => nil)
       lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => 404)
       response = subject.get_data(work_id: work.id)
-      expect(lookup_stub).to have_been_requested
+      expect(lookup_stub).to have_been_requested.twice()
     end
 
     it "should not look up canonical URL if there is work url" do
@@ -36,8 +36,8 @@ describe EuropePmcFulltext, type: :model, vcr: true do
 
     it "should report if there are events and event_count returned by the Europe PMC Search API" do
       response = subject.get_data(work_id: work.id)
-      expect(response["hitCount"]).to eq(139)
-      expect(response["resultList"]["result"].length).to eq(139)
+      expect(response["hitCount"]).to eq(145)
+      expect(response["resultList"]["result"].length).to eq(145)
       result = response["resultList"]["result"].first
       expect(result["doi"]).to eq("10.1128/genomea.01646-15")
     end

@@ -33,7 +33,7 @@ describe Facebook, type: :model, vcr: true do
       report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => [404])
       response = subject.get_data(work_id: work.id)
-      expect(lookup_stub).to have_been_requested
+      expect(lookup_stub).to have_been_requested.twice()
     end
 
     it "should not look up canonical URL if there is work url" do

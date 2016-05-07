@@ -1,7 +1,7 @@
 class CrossRef < Agent
   def get_query_url(options={})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present? && work.doi.present? && registration_agencies.include?(work.registration_agency)
+    return {} unless work.present? && work.doi.present? && registration_agencies.include?(work.registration_agency && work.registration_agency.name)
 
     if work.publisher.present?
       # check that we have publisher-specific configuration
