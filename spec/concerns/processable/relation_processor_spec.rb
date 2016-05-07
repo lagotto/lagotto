@@ -80,5 +80,20 @@ describe Deposit, type: :model, vcr: true do
       expect(subject.work.relations.first.related_work).to eq(subject.related_work)
       expect(subject.error_messages).to be_nil
     end
+
+    it "github" do
+      FactoryGirl.create(:source, :github)
+      FactoryGirl.create(:relation_type, :bookmarks)
+      FactoryGirl.create(:relation_type, :is_bookmarked_by)
+      subject = FactoryGirl.create(:deposit_for_github)
+      subject.update_relations
+
+      expect(Work.count).to eq(2)
+
+      expect(subject.work.pid).to eq("https://github.com/2013/9")
+      expect(subject.work.relations.first.relation_type.name).to eq("is_supplement_to")
+      expect(subject.work.relations.first.related_work).to eq(subject.related_work)
+      expect(subject.error_messages).to be_nil
+    end
   end
 end

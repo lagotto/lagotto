@@ -569,6 +569,18 @@ FactoryGirl.define do
       publisher_id "CERN.ZENODO"
     end
 
+    factory :deposit_for_github do
+      source_id "github"
+      source_token "github_123"
+      subj_id "https://github.com/2013/9"
+      subj nil
+      obj_id "https://github.com/ropensci/alm"
+      relation_type_id "bookmarks"
+      publisher_id "CERN.ZENODO"
+      registration_agency_id "github"
+      total 7
+    end
+
     factory :deposit_for_contributor do
       message_type "contribution"
       source_id "datacite_orcid"
