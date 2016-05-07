@@ -83,14 +83,7 @@ namespace :queue do
     end
 
     agents.each do |agent|
-      task = Task.where(work_id: work.id, agent_id: agent.id).first
-
-      if task.nil?
-        puts "Task for work with pid #{args.pid} and agent with name #{args.agent} does not exist"
-        exit
-      end
-
-      agent.queue_jobs([task.id], queue: "high")
+      agent.queue_jobs([work.id], queue: "high")
       puts "Job for pid #{work.pid} and agent #{agent.title} has been queued."
     end
   end
