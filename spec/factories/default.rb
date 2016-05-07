@@ -455,6 +455,12 @@ FactoryGirl.define do
       inverse_name "is_bookmarked_by"
     end
 
+    trait(:references) do
+      name "references"
+      title "References"
+      inverse_name "is_referenced_by"
+    end
+
     trait(:is_discussed_by) do
       name "is_discussed_by"
       title "Is discussed by"
@@ -471,6 +477,12 @@ FactoryGirl.define do
       name "is_bookmarked_by"
       title "Is bookmarked by"
       inverse_name "bookmarks"
+    end
+
+    trait(:is_referenced_by) do
+      name "is_referenced_by"
+      title "Is referenced by"
+      inverse_name "references"
     end
 
     trait(:is_supplement_to) do
@@ -579,6 +591,16 @@ FactoryGirl.define do
       publisher_id "CERN.ZENODO"
       registration_agency_id "github"
       total 7
+    end
+
+    factory :deposit_for_facebook do
+      source_id "facebook"
+      source_token "facebook_123"
+      subj_id "https://facebook.com/2013/9"
+      subj nil
+      obj_id "http://doi.org/10.1371/journal.pmed.0020124"
+      relation_type_id "references"
+      total 9972
     end
 
     factory :deposit_for_contributor do
