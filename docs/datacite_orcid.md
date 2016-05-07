@@ -1,6 +1,6 @@
 ---
 layout: card
-title: "DataCite (ORCID)"
+title: "DataCite (ORCID Auto-Update)"
 ---
 
 Import works with ORCID nameIdentifier via the DataCite Solr API.

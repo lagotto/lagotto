@@ -9,9 +9,8 @@ class AgentJob < ActiveJob::Base
 
   queue_as :default
 
-  # don't raise error for ActiveRecord::ConnectionTimeoutError
-  rescue_from *RETRYABLE_EXCEPTIONS do |exception|
-
+  rescue_from ActiveJob::DeserializationError, ActiveRecord::ConnectionTimeoutError do
+    retry_job wait: 5.minutes, queue: :default
   end
 
   def perform(agent, options={})
@@ -32,7 +31,7 @@ class AgentJob < ActiveJob::Base
           fail ActiveRecord::RecordNotFound if work.nil?
 
           # store API response result and duration in api_responses table
-          response = { work_id: id, agent_id: agent.id }
+          response = { work_id: id, source_id: agent.source_id }
           ActiveSupport::Notifications.instrument("api_response.get") do |payload|
             response.merge!(agent.collect_data(options.merge(work_id: id)))
             payload.merge!(response)
@@ -50,7 +49,7 @@ class AgentJob < ActiveJob::Base
         sleep wait_time
 
         # store API response result and duration in api_responses table
-        response = { agent_id: agent.id }
+        response = { source_id: agent.source_id }
         ActiveSupport::Notifications.instrument("api_response.get") do |payload|
           response.merge!(agent.collect_data(options))
           payload.merge!(response)
@@ -61,7 +60,7 @@ class AgentJob < ActiveJob::Base
 
   after_perform do |job|
     ActiveRecord::Base.connection_pool.with_connection do
-      agent, _options = job.arguments
+      agent, options = job.arguments
       agent.wait_after_check
     end
   end

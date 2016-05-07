@@ -33,8 +33,10 @@ module Poise
   #   end
   module Provider
     include Poise::Helpers::DefinedIn
-    include Poise::Helpers::IncludeRecipe
     include Poise::Helpers::LWRPPolyfill
+    # IncludeRecipe must come after LWRPPolyfill because that pulls in the
+    # recipe DSL which has its own #include_recipe.
+    include Poise::Helpers::IncludeRecipe
     include Poise::Helpers::NotifyingBlock
     include Poise::Utils::ShellOut
 

@@ -5,6 +5,9 @@ describe Deposit, :type => :model, vcr: true do
 
   subject { FactoryGirl.create(:deposit) }
 
+  let!(:registration_agency) { FactoryGirl.create(:registration_agency) }
+  let!(:registration_agency_datacite) { FactoryGirl.create(:registration_agency, name: "datacite", title: "DataCite") }
+
   it { is_expected.to validate_presence_of(:source_token) }
   it { is_expected.to validate_presence_of(:subj_id) }
   it { is_expected.to validate_presence_of(:source_id) }
@@ -26,6 +29,7 @@ describe Deposit, :type => :model, vcr: true do
                                                    year: 2006,
                                                    month: 6,
                                                    day: 13,
+                                                   issued_at: "2006-06-13 16:14:19 UTC",
                                                    tracked: false,
                                                    csl: { "author"=>[{"given"=>"dbogartoit"}],
                                                           "container-title"=>"CiteULike"})
@@ -172,10 +176,10 @@ describe Deposit, :type => :model, vcr: true do
     end
   end
 
-  describe "update_publisher" do
+  describe "update_publishers" do
     it "update" do
       subject = FactoryGirl.create(:deposit_for_publisher)
-      expect(subject.update_publisher).to be true
+      expect(subject.update_publishers).to be true
       expect(subject.error_messages).to be_nil
 
       expect(Publisher.count).to eq(1)
@@ -188,7 +192,7 @@ describe Deposit, :type => :model, vcr: true do
 
     it "update missing title" do
       subject = FactoryGirl.create(:deposit_for_publisher, :no_publisher_title)
-      expect(subject.update_publisher).to be false
+      expect(subject.update_publishers).to be false
       expect(subject.error_messages).to eq("publisher"=>"Validation failed: Title can't be blank")
 
       expect(Publisher.count).to eq(0)

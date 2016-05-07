@@ -44,6 +44,12 @@
                 <td class="doi" %><%= link_to h(@work.pid), @work.pid %></td>
               </tr>
             <% end %>
+            <% if @work.handle_url.present? %>
+              <tr>
+                <th>Handle URL</th>
+                <td><%= link_to h(@work.handle_url), @work.handle_url %></td>
+              </tr>
+            <% end %>
             <% if @work.canonical_url.present? %>
               <tr>
                 <th>Canonical URL</th>
@@ -125,6 +131,10 @@
         <% if @work.publisher %>
           <h5>Publisher</h5>
           <div class="publisher"><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.name) %></div>
+        <% end %>
+        <% if @work.registration_agency %>
+          <h5>Registration Agency</h5>
+          <div class="registration_agency"><%= h(@work.registration_agency.title) %></div>
         <% end %>
       </div>
     </div>

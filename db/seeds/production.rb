@@ -4,4 +4,4 @@
 
 include Sprig::Helpers
 
-sprig [WorkType, RelationType, Report, Filter, Publisher, Group, Source, Agent, ContributorRole]
+sprig [WorkType, RelationType, Report, Filter, RegistrationAgency, Group, Source, Agent, ContributorRole]

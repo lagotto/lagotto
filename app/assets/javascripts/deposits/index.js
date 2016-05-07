@@ -13,6 +13,7 @@ if (!params.empty()) {
 
   var query = encodeURI("/api/deposits?page=" + page);
   if (per_page !== null) { query += "&per_page=" + per_page; }
+  query += "&from_date=" + formattedPastDate(7);
   if (q !== null) { query += "&q=" + q; }
   if (source_id !== null) { query += "&source_id=" + source_id; }
   if (state !== null) { query += "&state=" + state; }

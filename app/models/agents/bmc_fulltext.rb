@@ -9,7 +9,7 @@ class BmcFulltext < Agent
   def get_query_string(options = {})
     # don't query if work is BMC article
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return nil if work.nil? || work.doi =~ /^10.1186/ || !registration_agencies.include?(work.registration_agency)
+    return nil if work.nil? || work.doi =~ /^10.1186/ || !registration_agencies.include?(work.registration_agency && work.registration_agency.name)
 
     work.doi.presence || work.canonical_url.presence
   end
@@ -43,7 +43,7 @@ class BmcFulltext < Agent
                 "DOI" => doi,
                 "type" => "article-journal",
                 "tracked" => tracked,
-                "registration_agency" => "crossref" } }
+                "registration_agency_id" => "crossref" } }
     end
   end
 

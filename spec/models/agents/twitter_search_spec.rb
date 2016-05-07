@@ -48,7 +48,7 @@ describe TwitterSearch, type: :model, vcr: true do
       report = FactoryGirl.create(:fatal_error_report_with_admin_user)
       lookup_stub = stub_request(:get, work.pid).to_return(:status => 404)
       response = subject.get_data(work_id: work.id)
-      expect(lookup_stub).to have_been_requested
+      expect(lookup_stub).to have_been_requested.twice()
     end
 
     it "should not look up canonical URL if there is work url" do
@@ -127,7 +127,7 @@ describe TwitterSearch, type: :model, vcr: true do
                                           "URL"=>"http://twitter.com/ChampsEvrywhere/status/422039629882089472",
                                           "type"=>"personal_communication",
                                           "tracked"=>false,
-                                          "registration_agency"=>"twitter")
+                                          "registration_agency_id"=>"twitter")
     end
 
     it "should catch timeout errors with the Twitter Search API" do

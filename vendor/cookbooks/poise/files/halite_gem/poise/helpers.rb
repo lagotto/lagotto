@@ -31,5 +31,6 @@ module Poise
     autoload :ResourceSubclass, 'poise/helpers/resource_subclass'
     autoload :Subresources, 'poise/helpers/subresources'
     autoload :TemplateContent, 'poise/helpers/template_content'
+    autoload :Win32User, 'poise/helpers/win32_user'
   end
 end

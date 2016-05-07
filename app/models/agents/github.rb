@@ -87,7 +87,8 @@ class Github < Agent
                                    "relation_type_id" => "bookmarks",
                                    "total" => total,
                                    "provenance_url" => provenance_url,
-                                   "source_id" => source_id },
+                                   "source_id" => source_id,
+                                   "registration_agency_id" => "github" },
                        subj: subj }
       end
     end
@@ -105,7 +106,8 @@ class Github < Agent
                                    "relation_type_id" => "is_derived_from",
                                    "total" => total,
                                    "provenance_url" => provenance_url,
-                                   "source_id" => source_id },
+                                   "source_id" => source_id,
+                                   "registration_agency_id" => "github" },
                        subj: subj }
       end
     end

@@ -37,7 +37,7 @@ describe CrossrefImport, type: :model, vcr: true do
       expect(subject.get_query_url).to eq("http://api.crossref.org/works?filter=from-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08%2Cmember%3A340&offset=0&rows=1000")
     end
 
-    it "only publishers" do
+    it "ignoring member_id" do
       FactoryGirl.create(:publisher)
       subject = FactoryGirl.create(:crossref_import, only_publishers: false)
       expect(subject.get_query_url).to eq("http://api.crossref.org/works?filter=from-update-date%3A2015-04-07%2Cuntil-update-date%3A2015-04-08&offset=0&rows=1000")
@@ -59,7 +59,7 @@ describe CrossrefImport, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(222977)
+      expect(subject.get_total).to eq(142138)
     end
 
     it "with no works" do
@@ -75,7 +75,7 @@ describe CrossrefImport, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(222977)
+      expect(response).to eq(142138)
     end
 
     it "should report if there are sample works returned by the Crossref REST API" do
@@ -93,7 +93,7 @@ describe CrossrefImport, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(222977)
+      expect(response["message"]["total-results"]).to eq(142138)
       item = response["message"]["items"].first
       expect(item["DOI"]).to eq("10.15857/ksep.2008.17.4.483")
     end
@@ -133,6 +133,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                                   {"family"=>"Stone", "given"=>"Andrew H. W."}],
                                        "container-title"=>"OECD Journal: General Papers",
                                        "title"=>"Investment climate, capabilities and firm performance",
+                                       "published" => nil,
                                        "issued"=>"2008-07-26",
                                        "DOI"=>"10.1787/gen_papers-v2008-art6-en",
                                        "publisher_id"=>"1963",
@@ -140,6 +141,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "issue"=>"1",
                                        "page"=>"1-37",
                                        "type"=>"article-journal",
+                                       "registration_agency_id" => "crossref",
                                        "tracked"=>true)
     end
 
@@ -158,6 +160,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
                                        "container-title"=>"The Dublin Journal of Medical Science",
                                        "title"=>"Sanitary and meteorological notes",
+                                       "published" => nil,
                                        "issued"=>"1884-08",
                                        "DOI"=>"10.1007/bf02975686",
                                        "publisher_id"=>"297",
@@ -165,6 +168,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "issue"=>"2",
                                        "page"=>"185-189",
                                        "type"=>"article-journal",
+                                       "registration_agency_id" => "crossref",
                                        "tracked"=>true)
     end
 
@@ -192,12 +196,14 @@ describe CrossrefImport, type: :model, vcr: true do
                                                   {"family"=>"Mankowski", "given"=>"Joseph L."}],
                                        "container-title"=>"European Journal of Pharmacology",
                                        "title"=>"Paving the path to HIV neurotherapy: Predicting SIV CNS disease",
+                                       "published" => "2015-07",
                                        "issued"=>"2015-05-24",
                                        "DOI"=>"10.1016/j.ejphar.2015.03.018",
                                        "publisher_id"=>"78", "volume"=>"759",
                                        "issue"=>nil,
                                        "page"=>"303-312",
                                        "type"=>"article-journal",
+                                       "registration_agency_id" => "crossref",
                                        "tracked"=>true)
     end
 
@@ -216,6 +222,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "author"=>[{"family"=>"Miyamoto", "given"=>"Koji"}],
                                        "container-title"=>"OECD Journal: General Papers",
                                        "title"=>"Human capital formation and foreign direct",
+                                       "published" => nil,
                                        "issued"=>"2008-07-26",
                                        "DOI"=>"10.1787/gen_papers-v2008-art4-en",
                                        "publisher_id"=>"1963",
@@ -223,6 +230,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "issue"=>"1",
                                        "page"=>"1-40",
                                        "type"=>"article-journal",
+                                       "registration_agency_id" => "crossref",
                                        "tracked"=>true)
     end
 
@@ -242,6 +250,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
                                        "container-title"=>"The Dublin Journal of Medical Science",
                                        "title"=>nil,
+                                       "published" => nil,
                                        "issued"=>"1884-08",
                                        "DOI"=>"10.1007/bf02975686",
                                        "publisher_id"=>"297",
@@ -249,7 +258,8 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "issue"=>"2",
                                        "page"=>"185-189",
                                        "type"=>"article-journal",
-                                       "tracked"=>true)
+                                       "tracked"=>true,
+                                       "registration_agency_id" => "crossref")
     end
 
     it "should report if there are works with missing title journal-issue returned by the Crossref REST API" do
@@ -269,6 +279,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
                                        "container-title"=>"The Dublin Journal of Medical Science",
                                        "title"=>"The Dublin Journal of Medical Science",
+                                       "published" => nil,
                                        "issued"=>"1884-08",
                                        "DOI"=>"10.1007/bf02975686",
                                        "publisher_id"=>"297",
@@ -276,7 +287,8 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "issue"=>"2",
                                        "page"=>"185-189",
                                        "type"=>nil,
-                                       "tracked"=>true)
+                                       "tracked"=>true,
+                                       "registration_agency_id" => "crossref")
     end
 
     it "should report if there are works with missing title missing container-title journal-issue returned by the Crossref REST API" do
@@ -297,6 +309,7 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "author"=>[{"family"=>"Moore", "given"=>"J. W"}],
                                        "container-title"=>nil,
                                        "title"=>"No title",
+                                       "published" => nil,
                                        "issued"=>"1884-08",
                                        "DOI"=>"10.1007/bf02975686",
                                        "publisher_id"=>"297",
@@ -304,7 +317,8 @@ describe CrossrefImport, type: :model, vcr: true do
                                        "issue"=>"2",
                                        "page"=>"185-189",
                                        "type"=>nil,
-                                       "tracked"=>true)
+                                       "tracked"=>true,
+                                       "registration_agency_id" => "crossref")
     end
 
     it "should catch timeout errors with the Crossref Metadata Search API" do

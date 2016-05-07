@@ -1,6 +1,7 @@
 /*global d3 */
 
 var formatDate = d3.time.format.utc("%B %d, %Y"),
+    formatISO = d3.time.format.utc("%Y-%m-%d"),
     formatMonthYear = d3.time.format.utc("%B %Y"),
     formatYear = d3.time.format.utc("%Y"),
     formatDateTime = d3.time.format.utc("%d %b %Y %H:%M UTC"),
@@ -63,6 +64,11 @@ function formattedDate(date) {
     default:
       return formatDateTime(timestamp);
   }
+}
+
+// format date in iso8601
+function formattedPastDate(interval) {
+  return formatISO(d3.time.day.offset(new Date(), - interval));
 }
 
 // pagination
@@ -132,9 +138,8 @@ function signpostsFromWork(work, sources, source_id, sort) {
 }
 
 function formattedSignpost(title, count, name) {
-  var results = (count > 1) ? " Results" : " Result";
   return { "title": title,
-           "count": formatFixed(count) + results,
+           "count": count,
            "name": name };
 }
 
@@ -154,7 +159,7 @@ function metadataToString(work, work_types) {;
   var work_type = work_types.filter(function(d) { return d.id === work.work_type_id; })[0];
   if (typeof work_type == "undefined" || work_type === "") { work_type = { "title": "Work" }; }
 
-  return work_type.title + " published " + formattedDate(work.issued) + containerTitleString;
+  return work_type.title + " published " + formattedDate(work.published) + containerTitleString;
 }
 
 // construct author list from author object

@@ -4,9 +4,9 @@ Lagotto::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   devise_scope :user do
-    get 'sign_in', :to => 'devise/sessions#new', :as => :new_session
-    post 'sign_in', :to => 'devise/session#create', :as => :session
-    delete 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
+    get 'sign_in', :to => 'users/sessions#new', :as => :new_session
+    post 'sign_in', :to => 'users/session#create', :as => :session
+    delete 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
 
   authenticate :user, lambda { |u| u.is_admin? } do
@@ -70,7 +70,9 @@ Lagotto::Application.routes.draw do
       resources :docs, only: [:index, :show]
       resources :groups, only: [:index, :show]
       resources :notifications
+      resources :prefixes, constraints: { :id => /.+/ }
       resources :publishers, constraints: { :id => /.+/ }, concerns: [:workable]
+      resources :registration_agencies
       resources :relations
       resources :relation_types, only: [:index, :show]
       resources :results

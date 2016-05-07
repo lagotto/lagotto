@@ -27,6 +27,7 @@
         data-apikey="<%= ENV['BUGSNAG_JS_KEY'] %>">
       </script>
     <% end %>
+    <%= render partial: "layouts/#{ENV['MODE']}/head" -%>
   </head>
 
   <body>

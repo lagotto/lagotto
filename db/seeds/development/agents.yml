@@ -32,11 +32,11 @@ records:
     title: Wikipedia
     description: Wikipedia is a free encyclopedia that everyone can edit.
     group_id: <%= sprig_record(Group, "relations").id %>
-  - sprig_id: datacite
-    type: Datacite
-    name: datacite
-    title: DataCite
-    description: Helping you to find, access, and reuse research data.
+  - sprig_id: datacite_crossref
+    type: DataciteCrossref
+    name: datacite_crossref
+    title: DataCite (Crossref)
+    description: Import works with Crossref DOI relatedIdentifiers via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: europe_pmc
     type: EuropePmc
@@ -262,16 +262,16 @@ records:
     group_id: <%= sprig_record(Group, "works").id %>
   - sprig_id: dataone_import
     type: DataoneImport
-    name: DataONE (Import)
-    title: DataoneImport
+    name: dataone_import
+    title: Dataone (Import)
     description: Import works via the DataONE Solr API.
     group_id: <%= sprig_record(Group, "works").id %>
-  - sprig_id: datacite_data
-    type: DataciteData
-    name: datacite_data
-    title: DataCite (Data)
-    description: Helping you to find, access, and reuse research data.
-    group_id: <%= sprig_record(Group, "relations").id %>
+  - sprig_id: lagotto_registration_agency
+    type: LagottoRegistrationAgency
+    name: lagotto_registration_agency
+    title: Lagotto (Registration Agency)
+    description: Import deposits from other Lagotto instances filtered by registration agency.
+    group_id: <%= sprig_record(Group, "deposits").id %>
   - sprig_id: datacite_datacentre
     type: DataciteDatacentre
     name: datacite_datacentre

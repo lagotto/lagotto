@@ -7,40 +7,40 @@ describe DataciteImport, type: :model, vcr: true do
 
   context "get_query_url" do
     it "default" do
-      expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
+      expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
     end
 
     it "with zero rows" do
-      expect(subject.get_query_url(rows: 0)).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=0&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
+      expect(subject.get_query_url(rows: 0)).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=0&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
     end
 
     it "with different from_date and until_date" do
-      expect(subject.get_query_url(from_date: "2015-04-05", until_date: "2015-04-05")).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-05T00%3A00%3A00Z+TO+2015-04-05T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
+      expect(subject.get_query_url(from_date: "2015-04-05", until_date: "2015-04-05")).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-05T00%3A00%3A00Z+TO+2015-04-05T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
     end
 
     it "with name" do
-      FactoryGirl.create(:publisher, name: "CDL.DRYAD", registration_agency: "datacite")
-      expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue+AND+datacentre_symbol%3ACDL.DRYAD&wt=json")
+      FactoryGirl.create(:publisher, :with_datacite, name: "CDL.DRYAD")
+      expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue+AND+datacentre_symbol%3ACDL.DRYAD&wt=json")
     end
 
     it "ignoring name" do
-      FactoryGirl.create(:publisher, name: "CDL.DRYAD", registration_agency: "datacite")
+      FactoryGirl.create(:publisher, name: "CDL.DRYAD")
       subject = FactoryGirl.create(:datacite_import, only_publishers: false)
-      expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
+      expect(subject.get_query_url).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
     end
 
     it "with offset" do
-      expect(subject.get_query_url(offset: 250)).to eq("http://search.datacite.org/api?q=*%3A*&start=250&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
+      expect(subject.get_query_url(offset: 250)).to eq("http://search.datacite.org/api?q=*%3A*&start=250&rows=1000&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
     end
 
     it "with rows" do
-      expect(subject.get_query_url(rows: 250)).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=250&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
+      expect(subject.get_query_url(rows: 250)).to eq("http://search.datacite.org/api?q=*%3A*&start=0&rows=250&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json")
     end
   end
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(3308)
+      expect(subject.get_total).to eq(3283)
     end
 
     it "with no works" do
@@ -56,7 +56,7 @@ describe DataciteImport, type: :model, vcr: true do
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       response = subject.queue_jobs
-      expect(response).to eq(3308)
+      expect(response).to eq(3283)
     end
   end
 
@@ -68,15 +68,15 @@ describe DataciteImport, type: :model, vcr: true do
 
     it "should report if there are works returned by the Datacite Metadata Search API" do
       response = subject.get_data
-      expect(response["response"]["numFound"]).to eq(3308)
+      expect(response["response"]["numFound"]).to eq(3283)
       doc = response["response"]["docs"].first
-      expect(doc["doi"]).to eq("10.5517/CC143SLM")
+      expect(doc["doi"]).to eq("10.6084/M9.FIGSHARE.1370910")
     end
 
     it "should catch errors with the Datacite Metadata Search API" do
       stub = stub_request(:get, subject.get_query_url(rows: 0, source_id: subject.source_id)).to_return(:status => [408])
       response = subject.get_data(rows: 0, source_id: subject.source_id)
-      expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=*%3A*&start=0&rows=0&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json", :status=>408)
+      expect(response).to eq(error: "the server responded with status 408 for http://search.datacite.org/api?q=*%3A*&start=0&rows=0&fl=doi%2Ccreator%2Ctitle%2Cpublisher%2CpublicationYear%2CresourceTypeGeneral%2Cdatacentre_symbol%2CrelatedIdentifier%2CnameIdentifier%2Cxml%2Cminted%2Cupdated&fq=updated%3A%5B2015-04-07T00%3A00%3A00Z+TO+2015-04-08T23%3A59%3A59Z%5D+AND+has_metadata%3Atrue+AND+is_active%3Atrue&wt=json", :status=>408)
       expect(stub).to have_been_requested
       expect(Notification.count).to eq(1)
       notification = Notification.first
@@ -97,67 +97,83 @@ describe DataciteImport, type: :model, vcr: true do
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response.length).to eq(10)
-      expect(response.first[:prefix]).to eq("10.5061")
-      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.47SD5",
+      expect(response.length).to eq(1283)
+      expect(response.first[:prefix]).to eq("10.6084")
+      expect(response.first[:relation]).to eq("subj_id"=>"http://doi.org/10.6084/M9.FIGSHARE.1370910",
                                               "source_id"=>"datacite_import",
-                                              "publisher_id"=>"CDL.DRYAD")
+                                              "publisher_id"=>"CDL.DIGSCI",
+                                              "occurred_at"=>"2015-04-08T09:36:37Z")
 
-      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.47SD5",
-                                          "DOI"=>"10.5061/DRYAD.47SD5",
-                                          "author"=>[],
-                                          "title"=>"Data from: A call for more transparent reporting of error rates: the quality of AFLP data in ecological and evolutionary research",
-                                          "container-title"=>"Dryad Digital Repository",
-                                          "issued"=>"2012",
-                                          "publisher_id"=>"CDL.DRYAD",
-                                          "registration_agency"=>"datacite",
+      expect(response.first[:subj]).to eq("pid"=>"http://doi.org/10.6084/M9.FIGSHARE.1370910",
+                                          "DOI"=>"10.6084/M9.FIGSHARE.1370910",
+                                          "author"=>[{"family"=>"Lynam", "given"=>"Frank"}],
+                                          "title"=>"linkedarc.net survey ontology",
+                                          "container-title"=>"Figshare",
+                                          "published"=>"2015",
+                                          "issued"=>"2015-04-08T09:36:37Z",
+                                          "publisher_id"=>"CDL.DIGSCI",
+                                          "registration_agency_id"=>"datacite",
                                           "tracked"=>true,
                                           "type"=>"dataset")
     end
 
     it "should report if there are works with incomplete date returned by the Datacite Metadata Search API" do
+      FactoryGirl.create(:registration_agency, name: "datacite", title: "DataCite")
+      FactoryGirl.create(:relation_type, :is_part_of)
       body = File.read(fixture_path + 'datacite_import.json')
       result = JSON.parse(body)
       response = subject.parse_data(result)
 
-      expect(response.length).to eq(10)
+      expect(response.length).to eq(1283)
       expect(response[5][:prefix]).to eq("10.5061")
-      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.NK151/2",
-                                           "source_id"=>"datacite_import",
-                                           "publisher_id"=>"CDL.DRYAD")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.56M2G/1",
+                                           "obj_id"=>"http://doi.org/10.5061/DRYAD.56M2G",
+                                           "relation_type_id"=>"is_part_of",
+                                           "source_id"=>"datacite_related",
+                                           "publisher_id"=>"CDL.DRYAD",
+                                           "registration_agency_id" => "datacite",
+                                           "occurred_at"=>"2015-04-08T13:54:45Z")
 
-      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.NK151/2",
-                                       "DOI"=>"10.5061/DRYAD.NK151/2",
-                                       "author"=>[],
-                                       "title"=>"Presence/absence SNPs matrix",
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.56M2G/1",
+                                       "DOI"=>"10.5061/DRYAD.56M2G/1",
+                                       "author"=>[{"family"=>"Bataillon", "given"=>"Thomas"}, {"family"=>"Duan", "given"=>"Jinjie"}],
+                                       "title"=>"Zip archive VCF files",
                                        "container-title"=>"Dryad Digital Repository",
-                                       "issued"=>"2013",
+                                       "published"=>"2015",
+                                       "issued"=>"2015-04-08T13:54:45Z",
                                        "publisher_id"=>"CDL.DRYAD",
-                                       "registration_agency"=>"datacite",
+                                       "registration_agency_id"=>"datacite",
                                        "tracked"=>true,
                                        "type"=>"dataset")
     end
 
     it "should report if there are works with missing title returned by the Datacite Metadata Search API" do
+      FactoryGirl.create(:registration_agency, name: "datacite", title: "DataCite")
+      FactoryGirl.create(:relation_type, :is_part_of)
       body = File.read(fixture_path + 'datacite_import.json')
       result = JSON.parse(body)
       result["response"]["docs"][5]["title"] = []
       response = subject.parse_data(result)
 
-      expect(response.length).to eq(10)
+      expect(response.length).to eq(1283)
       expect(response[5][:prefix]).to eq("10.5061")
-      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.NK151/2",
-                                           "source_id"=>"datacite_import",
-                                           "publisher_id"=>"CDL.DRYAD")
+      expect(response[5][:relation]).to eq("subj_id"=>"http://doi.org/10.5061/DRYAD.56M2G/1",
+                                           "obj_id"=>"http://doi.org/10.5061/DRYAD.56M2G",
+                                           "relation_type_id"=>"is_part_of",
+                                           "source_id"=>"datacite_related",
+                                           "publisher_id"=>"CDL.DRYAD",
+                                           "registration_agency_id" => "datacite",
+                                           "occurred_at"=>"2015-04-08T13:54:45Z")
 
-      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.NK151/2",
-                                       "DOI"=>"10.5061/DRYAD.NK151/2",
-                                       "author"=>[],
+      expect(response[5][:subj]).to eq("pid"=>"http://doi.org/10.5061/DRYAD.56M2G/1",
+                                       "DOI"=>"10.5061/DRYAD.56M2G/1",
+                                       "author"=>[{"family"=>"Bataillon", "given"=>"Thomas"}, {"family"=>"Duan", "given"=>"Jinjie"}],
                                        "title"=>nil,
                                        "container-title"=>"Dryad Digital Repository",
-                                       "issued"=>"2013",
+                                       "published"=>"2015",
+                                       "issued"=>"2015-04-08T13:54:45Z",
                                        "publisher_id"=>"CDL.DRYAD",
-                                       "registration_agency"=>"datacite",
+                                       "registration_agency_id"=>"datacite",
                                        "tracked"=>true,
                                        "type"=>"dataset")
     end

@@ -8,7 +8,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <%= link_to ENV['SITENAME'], '/', class: 'navbar-brand' %>
+        <a class="navbar-brand" href="/">
+          <span><%= ENV['SITENAME'] %></span>
+        </a>
       </div>
       <div class="navbar-collapse collapse">
         <% unless ["sessions","registrations"].include?(controller.controller_name) %>

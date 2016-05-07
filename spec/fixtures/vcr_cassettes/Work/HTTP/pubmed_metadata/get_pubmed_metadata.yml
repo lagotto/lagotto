@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 21 Mar 2016 23:40:02 GMT
+      - Tue, 26 Apr 2016 13:48:28 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
@@ -29,18 +29,18 @@ http_interactions:
       Connection:
       - Keep-Alive
       Set-Cookie:
-      - JSESSIONID=249C5757768B6F20B98F92DCF944A091; Path=/europepmc/webservices
+      - JSESSIONID=FD42D195898C0D4644105068A784156E; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
       - Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
     body:
       encoding: UTF-8
-      string: '{"version":"4.5.0","hitCount":1,"request":{"query":"ext_id:17183658","resultType":"lite","synonym":false,"page":1,"pageSize":25},"resultList":{"result":[{"id":"17183658","source":"MED","pmid":"17183658","pmcid":"PMC1762313","title":"Triose
+      string: '{"version":"4.5.0.1","hitCount":1,"request":{"query":"ext_id:17183658","resultType":"lite","synonym":false,"page":1,"pageSize":25},"resultList":{"result":[{"id":"17183658","source":"MED","pmid":"17183658","pmcid":"PMC1762313","doi":"10.1371/journal.pone.0000030","title":"Triose
         phosphate isomerase deficiency is caused by altered dimerization--not catalytic
         inactivity--of the mutant enzymes.","authorString":"Ralser M, Heeren G, Breitenbach
         M, Lehrach H, Krobitsch S.","journalTitle":"PLoS One","issue":"1","journalVolume":"1","pubYear":"2006","journalIssn":"1932-6203","pageInfo":"e30","pubType":"journal
-        article; research support, non-u.s. gov''t; research-article","isOpenAccess":"Y","inEPMC":"Y","inPMC":"N","hasPDF":"Y","hasBook":"N","hasSuppl":"Y","citedByCount":23,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"Y","dbCrossReferenceList":{"dbName":["UNIPROT"]},"hasLabsLinks":"Y","epmcAuthMan":"N","hasTMAccessionNumbers":"N","luceneScore":"NaN","doi":"10.1371/journal.pone.0000030"}]}}'
+        article; research support, non-u.s. gov''t; research-article","isOpenAccess":"Y","inEPMC":"Y","inPMC":"N","hasPDF":"Y","hasBook":"N","hasSuppl":"Y","citedByCount":23,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"Y","dbCrossReferenceList":{"dbName":["UNIPROT"]},"hasLabsLinks":"Y","epmcAuthMan":"N","hasTMAccessionNumbers":"N","luceneScore":"NaN"}]}}'
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 23:40:02 GMT
+  recorded_at: Tue, 26 Apr 2016 13:48:29 GMT
 recorded_with: VCR 2.9.3

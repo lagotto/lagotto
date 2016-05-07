@@ -3,19 +3,19 @@ require 'rails_helper'
 describe NatureOpensearch, type: :model, vcr: true do
   subject { FactoryGirl.create(:nature_opensearch) }
 
-  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
+  let(:work) { FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
-      work = FactoryGirl.create(:work, :doi => "10.1594/PANGAEA.815864", :canonical_url => nil, registration_agency: "datacite")
+      work = FactoryGirl.create(:work, :with_datacite, :doi => "10.1594/PANGAEA.815864", :canonical_url => nil)
       lookup_stub = stub_request(:get, work.doi_as_url(work.doi)).to_return(:status => 404)
       response = subject.get_data(work_id: work.id)
-      expect(lookup_stub).to have_been_requested
+      expect(lookup_stub).to have_been_requested.twice()
     end
 
     it "should not look up canonical URL if there is work url" do
       lookup_stub = stub_request(:get, work.canonical_url).to_return(:status => 200, :headers => { 'Location' => work.canonical_url })
-      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => File.read(fixture_path + 'europe_pmc_fulltext.json'))
+      stub = stub_request(:get, subject.get_query_url(work_id: work.id)).to_return(:body => File.read(fixture_path + 'nature_opensearch.json'))
       response = subject.get_data(work_id: work.id)
       expect(lookup_stub).not_to have_been_requested
       expect(stub).to have_been_requested
@@ -29,7 +29,7 @@ describe NatureOpensearch, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the Nature OpenSearch API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
+      work = FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work_id: work.id)
       expect(response["feed"]["opensearch:totalResults"]).to eq(0)
     end
@@ -69,7 +69,7 @@ describe NatureOpensearch, type: :model, vcr: true do
     end
 
     it "should report if there are events and event_count returned by the Nature OpenSearch API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15", registration_agency: "github")
+      work = FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'nature_opensearch.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
@@ -92,7 +92,7 @@ describe NatureOpensearch, type: :model, vcr: true do
                                           "DOI"=>"10.1038/ismej.2014.200",
                                           "type"=>"article-journal",
                                           "tracked"=>true,
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should catch timeout errors with the Nature OpenSearch API" do

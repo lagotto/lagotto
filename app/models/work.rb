@@ -28,6 +28,7 @@ class Work < ActiveRecord::Base
   nilify_blanks
 
   belongs_to :publisher
+  belongs_to :registration_agency
   belongs_to :work_type
   has_many :results, inverse_of: :work
   has_many :sources, :through => :results
@@ -40,13 +41,14 @@ class Work < ActiveRecord::Base
   has_many :contributors, :through => :contributions
   has_many :deposits, inverse_of: :work
 
-  validates :pid, :title, presence: true
+  validates :pid, :title, :issued_at, presence: true
   validates :doi, uniqueness: true, format: { with: DOI_FORMAT }, case_sensitive: false, allow_blank: true
   validates :canonical_url, uniqueness: true, format: { with: URL_FORMAT }, allow_blank: true
   validates :ark, uniqueness: true, format: { with: ARK_FORMAT }, allow_blank: true
   validates :pmid, :pmcid, :arxiv, :wos, :scp, uniqueness: true, allow_blank: true
   validates :year, numericality: { only_integer: true }
   validate :validate_published_on
+  validates_datetime :issued_at, on_or_before: lambda { Time.zone.now }
 
   before_validation :set_metadata, :sanitize_title, :normalize_url
 
@@ -99,10 +101,12 @@ class Work < ActiveRecord::Base
     return true if canonical_url.present?
     return false unless doi.present?
 
-    url = get_canonical_url(doi_as_url(doi), work_id: id)
+    _handle_url = get_handle_url(doi_as_url(doi), work_id: id)
+    _canonical_url = get_canonical_url(doi_as_url(doi), work_id: id)
 
-    if url.present? && url.is_a?(String)
-      update_attributes(:canonical_url => url)
+    if _canonical_url.is_a?(String) && _handle_url.is_a?(String)
+      update_attributes(canonical_url: _canonical_url,
+                        handle_url: _handle_url)
     else
       false
     end
@@ -189,7 +193,7 @@ class Work < ActiveRecord::Base
     results.group(:source_id).sum(:total).map { |r| [cached_source_names[r[0]], r[1]] }.to_h
   end
 
-  def issued
+  def published
     get_date_from_parts(year, month, day)
   end
 
@@ -244,14 +248,7 @@ class Work < ActiveRecord::Base
   # Uses  "01" for month and day if they are missing
   def validate_published_on
     date_parts = [year, month, day].reject(&:blank?)
-    published_on = Date.new(*date_parts)
-    if published_on > Time.zone.now.to_date
-      errors.add :published_on, "is a date in the future"
-    elsif published_on < Date.new(0000)
-      errors.add :published_on, "is before 0000"
-    else
-      write_attribute(:published_on, published_on)
-    end
+    self.published_on = Date.new(*date_parts)
   rescue ArgumentError
     errors.add :published_on, "is not a valid date"
   end
@@ -277,21 +274,28 @@ class Work < ActiveRecord::Base
 
   # collect missing metadata for doi, pmid, github
   def set_metadata
-    return if registration_agency.present? && title.present? && year.present?
+    return if pid.present? && title.present? && issued_at.present?
 
     id_hash = get_id_hash(pid)
 
     if id_hash[:doi].present?
-      registration_agency ||= get_doi_ra(id_hash[:doi])
-      return nil if registration_agency.nil? || registration_agency.is_a?(Hash)
+      if registration_agency_id.nil?
+        # get_doi_ra returns hash with keys :id, :name, :title
+        ra = get_doi_ra(id_hash[:doi])
+        return nil if ra.nil? || ra[:error]
+
+        self.registration_agency_id = ra[:id]
+      end
+
+      return nil unless registration_agency.present?
 
       tracked = true
-      metadata = get_metadata(id_hash[:doi], registration_agency)
+      metadata = get_metadata(id_hash[:doi], registration_agency[:name])
     elsif id_hash[:canonical_url].present? && github_release_from_url(id_hash[:canonical_url]).present?
       tracked = false
       metadata = get_metadata(id_hash[:canonical_url], "github_release")
     elsif id_hash[:canonical_url].present? && github_repo_from_url(id_hash[:canonical_url]).present?
-      registration_agency = "github"
+      registration_agency = cached_registration_agency("github") unless registration_agency.present?
       tracked = true
       metadata = get_metadata(id_hash[:canonical_url], "github")
     else
@@ -302,8 +306,8 @@ class Work < ActiveRecord::Base
     write_metadata(metadata, registration_agency, tracked)
   end
 
-  def write_metadata(metadata, ra, tracked)
-    self.registration_agency = ra
+  def write_metadata(metadata, registration_agency, tracked)
+    self.registration_agency = registration_agency
     self.tracked = tracked
 
     self.csl = {
@@ -319,7 +323,13 @@ class Work < ActiveRecord::Base
     publisher = metadata.fetch("publisher_id", nil)
     self.publisher_id = Publisher.where(name: publisher).pluck(:id).first
 
-    self.year, self.month, self.day = get_year_month_day(metadata.fetch("issued", nil))
+    if metadata["published"].present?
+      self.year, self.month, self.day = get_year_month_day(metadata.fetch("published", nil))
+    else
+      self.year, self.month, self.day = get_year_month_day(metadata.fetch("issued", nil))
+    end
+
+    self.issued_at = get_datetime_from_iso8601(metadata.fetch("issued", nil))
 
     self.title = metadata.fetch("title", nil)
 

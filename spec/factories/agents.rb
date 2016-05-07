@@ -277,28 +277,6 @@ FactoryGirl.define do
     initialize_with { ScienceSeeker.where(name: name).first_or_initialize }
   end
 
-  factory :datacite, class: Datacite do
-    type "Datacite"
-    name "datacite"
-    title "DataCite"
-    state_event "activate"
-
-    group
-
-    initialize_with { Datacite.where(name: name).first_or_initialize }
-  end
-
-  factory :datacite_data, class: Datacite do
-    type "DataciteData"
-    name "datacite_data"
-    title "DataCite Data"
-    state_event "activate"
-
-    group
-
-    initialize_with { DataciteData.where(name: name).first_or_initialize }
-  end
-
   factory :wordpress, class: Wordpress do
     type "Wordpress"
     name "wordpress"
@@ -620,7 +598,7 @@ FactoryGirl.define do
   factory :datacite_import, class: DataciteImport do
     type "DataciteImport"
     name "datacite_import"
-    title "Datacite Import"
+    title "Datacite (Import)"
     state_event "activate"
     only_publishers true
 
@@ -632,12 +610,23 @@ FactoryGirl.define do
   factory :datacite_related, class: DataciteRelated do
     type "DataciteRelated"
     name "datacite_related"
-    title "Datacite Related"
+    title "Datacite (RelatedIdentifier)"
     state_event "activate"
 
     group
 
     initialize_with { DataciteRelated.where(name: name).first_or_initialize }
+  end
+
+  factory :datacite_crossref, class: DataciteCrossref do
+    type "DataciteCrossref"
+    name "datacite_crossref"
+    title "Datacite (Crossref)"
+    state_event "activate"
+
+    group
+
+    initialize_with { DataciteCrossref.where(name: name).first_or_initialize }
   end
 
   factory :datacite_orcid, class: DataciteOrcid do
@@ -683,5 +672,18 @@ FactoryGirl.define do
     group
 
     initialize_with { DataoneImport.where(name: name).first_or_initialize }
+  end
+
+  factory :lagotto_registration_agency, class: LagottoRegistrationAgency do
+    type "LagottoRegistrationAgency"
+    name "lagotto_registration_agency"
+    title "Lagotto (Registration Agency)"
+    url_private "http://10.2.2.6/api/deposits?"
+    registration_agency_id "crossref"
+    state_event "activate"
+
+    group
+
+    initialize_with { LagottoRegistrationAgency.where(name: name).first_or_initialize }
   end
 end

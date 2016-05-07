@@ -18,7 +18,7 @@
     "inline": ["sudo apt-get install -y git",
                "sudo mkdir -p /var/www/lagotto",
                "sudo chown -R ubuntu:ubuntu /var/www/lagotto",
-               "git clone -b {{user `git_branch`}} https://github.com/lagotto/lagotto.git /var/www/lagotto"]  },
+               "git clone -b {{user `git_branch`}} {{user `git_repo`}} /var/www/lagotto"]  },
   {
     "type": "file",
     "source": ".env.production",
@@ -56,7 +56,8 @@
   "variables": {
     "compression_level": "6",
     "mirror": "http://releases.ubuntu.com",
-    "git_branch": "5-0-unstable",
+    "git_repo": "{{env `GIT_REPO`}}",
+    "git_branch": "{{env `GIT_BRANCH`}}",
     "chef_version": "12.5.1",
     "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
     "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",

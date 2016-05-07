@@ -10,7 +10,7 @@ end
 json.recommendations @recommendations do |recommendation|
   json.cache! ['v7', "recommendation", recommendation, params[:work_id], params[:source_id], params[:relation_type_id]], skip_digest: true do
     json.(recommendation, :subj_id, :obj_id, :source_id, :publisher_id, :relation_type_id)
-    json.(recommendation.work, :author, :title, :issued)
+    json.(recommendation.work, :author, :title, :published, :issued)
     json.set! :"container-title", recommendation.work.container_title
     json.(recommendation.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :results)
     json.(recommendation, :timestamp)

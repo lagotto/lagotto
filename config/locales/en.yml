@@ -27,5 +27,8 @@ en:
       models:
         work:
           attributes:
+            issued_at:
+              on_or_before: "is a datetime in the future"
+              invalid_datetime: "invalid datetime format"
             published_on:
               invalid_date: "invalid date format"

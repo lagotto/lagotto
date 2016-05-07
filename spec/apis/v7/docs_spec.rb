@@ -14,7 +14,7 @@ describe "/api/v7/docs", :type => :api do
 
       response = JSON.parse(last_response.body)
       data = response["docs"]
-      expect(data.length).to eq(63)
+      expect(data.length).to eq(65)
 
       item = data.first
       expect(item["id"]).to eq ("ads")

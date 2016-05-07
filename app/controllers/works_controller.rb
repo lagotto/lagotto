@@ -10,6 +10,7 @@ class WorksController < ApplicationController
     @class_name = params[:class_name]
     @publisher = cached_publisher(params[:publisher_id])
     @source = cached_source(params[:source_id])
+    @registration_agency = cached_registration_agency(params[:registration_agency_id])
     @sort = Source.active.where(name: params[:sort]).first
     @relation_type = cached_relation_type(params[:relation_type_id])
   end
@@ -78,6 +79,6 @@ class WorksController < ApplicationController
   private
 
   def safe_params
-    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :year, :month, :day, :publisher_id, :work_type_id, :arxiv, :scp, :wos, :ark, :dataone, :tracked)
+    params.require(:work).permit(:doi, :title, :pmid, :pmcid, :canonical_url, :handle_url, :issued_at, :year, :month, :day, :publisher_id, :work_type_id, :arxiv, :scp, :wos, :ark, :dataone, :tracked)
   end
 end

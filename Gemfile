@@ -11,6 +11,7 @@ gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false
 gem 'parse-cron', '~> 0.1.4'
 gem "mail", "~> 2.6.1"
+gem 'mailgun_rails', '~> 0.7.0'
 gem 'immigrant', '~> 0.3.4'
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem 'lograge', '~> 0.3.5'
@@ -42,6 +43,7 @@ gem 'omniauth-jwt', '~> 0.0.3', git: 'https://github.com/datacite/omniauth-jwt.g
 gem 'omniauth', '~> 1.2.2'
 gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
+gem 'iso8601', '~> 0.9.0'
 gem "strip_attributes", "~> 1.2"
 gem 'draper', '~> 2.1.0'
 gem 'jbuilder', '~> 2.2.12'

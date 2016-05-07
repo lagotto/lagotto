@@ -39,7 +39,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
   context "get_total" do
     it "with works" do
-      expect(subject.get_total).to eq(819)
+      expect(subject.get_total).to eq(795)
     end
 
     it "with no works" do
@@ -55,7 +55,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.queue_jobs
-      expect(response).to eq(819)
+      expect(response).to eq(795)
     end
 
     it "should report if there are sample works returned by the Crossref REST API" do
@@ -73,7 +73,7 @@ describe CrossrefOrcid, type: :model, vcr: true do
 
     it "should report if there are works returned by the Crossref REST API" do
       response = subject.get_data
-      expect(response["message"]["total-results"]).to eq(819)
+      expect(response["message"]["total-results"]).to eq(795)
       item = response["message"]["items"].first
       expect(item["DOI"]).to eq("10.1063/1.4916805")
     end
@@ -111,17 +111,19 @@ describe CrossrefOrcid, type: :model, vcr: true do
                                               "publisher_id"=>"78")
 
       expect(response.first[:obj]).to eq("pid"=>"http://doi.org/10.1016/j.mmcr.2014.03.001",
-                                          "author"=>[{"affiliation"=>[], "family"=>"Brown", "given"=>"Jeremy D."}, {"affiliation"=>[], "family"=>"Lim", "given"=>"Lyn-li"}, {"affiliation"=>[], "family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}],
+                                          "author"=>[{"family"=>"Brown", "given"=>"Jeremy D."}, {"family"=>"Lim", "given"=>"Lyn-li"}, {"family"=>"Koning", "given"=>"Sonia", "ORCID"=>"http://orcid.org/0000-0001-9344-779X"}],
                                           "title"=>"Voriconazole associated torsades de pointes in two adult patients with haematological malignancies",
                                           "container-title"=>"Medical Mycology Case Reports",
-                                          "issued"=>{"date-parts"=>[[2014, 4]]},
+                                          "published" => nil,
+                                          "issued"=>"2014-04",
                                           "DOI"=>"10.1016/j.mmcr.2014.03.001",
                                           "publisher_id"=>"78",
                                           "volume"=>"4",
                                           "issue"=>nil,
                                           "page"=>"23-25",
                                           "type"=>"article-journal",
-                                          "tracked"=>true)
+                                          "tracked"=>true,
+                                          "registration_agency_id" => "crossref")
     end
 
     it "should catch timeout errors with the Crossref API" do

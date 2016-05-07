@@ -154,7 +154,7 @@ describe CrossRef, type: :model, vcr: true do
                                           "type"=>"article-journal",
                                           "tracked"=>false,
                                           "publisher_id"=>"297",
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should report if there is one event returned by the CrossRef API" do
@@ -185,7 +185,7 @@ describe CrossRef, type: :model, vcr: true do
                                           "type"=>"article-journal",
                                           "tracked"=>false,
                                           "publisher_id"=>"297",
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should catch timeout errors with the CrossRef API" do

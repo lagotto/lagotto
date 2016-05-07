@@ -9,7 +9,7 @@ DEPENDENCIES
     revision: 3760e235c2cf7876119e6e2488c7c2b39319d4c4
   lagotto
     git: git@github.com:lagotto/lagotto-cookbook.git
-    revision: 4ae5888e58965571b72a431b89968d95fc551f33
+    revision: cde8bca1d4cadfdc2e8f8e2be50c3d74bba9a13b
   memcached
   mysql
     git: git@github.com:lagotto/mysql.git
@@ -20,8 +20,6 @@ DEPENDENCIES
   passenger_nginx
     git: git@github.com:lagotto/passenger_nginx-cookbook.git
     revision: f5f00174a878d5f9c1d92e5dae49e31768f66d5b
-  postfix
-  redisio
   rsyslog
     git: git@github.com:datacite/rsyslog.git
     revision: 39b8834bac41046207aa7abc931ca320fd2d8961
@@ -35,7 +33,7 @@ GRAPH
     build-essential (>= 0.0.0)
     seven_zip (>= 0.0.0)
     windows (>= 0.0.0)
-  aws (3.3.1)
+  aws (3.3.2)
     ohai (>= 2.1.0)
   build-essential (3.2.0)
     seven_zip (>= 0.0.0)
@@ -78,7 +76,7 @@ GRAPH
   hostnames (0.3.6)
     hostsfile (>= 0.0.0)
   hostsfile (2.4.5)
-  lagotto (5.0.14)
+  lagotto (5.1.0)
     apt (>= 0.0.0)
     capistrano (~> 1.0.0)
     consul (>= 0.0.0)
@@ -86,7 +84,6 @@ GRAPH
     memcached (>= 0.0.0)
     nodejs (>= 0.0.0)
     passenger_nginx (~> 1.0.0)
-    postfix (>= 0.0.0)
     rsyslog (>= 0.0.0)
     ruby (~> 0.7.0)
   memcached (2.1.0)
@@ -108,7 +105,7 @@ GRAPH
     build-essential (>= 0.0.0)
     homebrew (>= 0.0.0)
     yum-epel (>= 0.0.0)
-  nssm (1.2.0)
+  nssm (1.2.1)
     windows (~> 1.0)
   ohai (3.0.1)
   openssl (4.4.0)
@@ -119,17 +116,13 @@ GRAPH
     hostnames (>= 0.0.0)
     nodejs (>= 0.0.0)
     ruby (~> 0.7.0)
-  poise (2.6.1)
+  poise (2.7.0)
   poise-service (1.2.1)
     poise (~> 2.0)
-  postfix (3.8.0)
-  postgresql (4.0.4)
+  postgresql (4.0.6)
     apt (>= 1.9.0)
     build-essential (>= 0.0.0)
     openssl (~> 4.0)
-  redisio (2.3.0)
-    build-essential (>= 0.0.0)
-    ulimit (>= 0.1.2)
   rsyslog (4.0.4)
     compat_resource (>= 0.0.0)
   ruby (0.7.7)
@@ -141,12 +134,11 @@ GRAPH
     packagecloud (>= 0.0.0)
   seven_zip (2.0.0)
     windows (>= 1.2.2)
-  ulimit (0.3.3)
-  windows (1.39.2)
+  windows (1.40.0)
     chef_handler (>= 0.0.0)
   xfs (2.0.1)
   yum (3.10.0)
-  yum-epel (0.6.6)
-    yum (~> 3.10.0)
+  yum-epel (0.7.0)
+    yum (>= 3.6.3)
   yum-mysql-community (0.2.0)
     yum (>= 3.2)

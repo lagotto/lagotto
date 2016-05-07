@@ -23,7 +23,7 @@ class Deposit < ActiveRecord::Base
 
   before_create :create_uuid
   before_save :set_defaults
-  after_commit :queue_deposit_job, :on => :create
+  after_commit :queue_deposit_job, :on => :create, :if => Proc.new { |deposit| deposit.source && deposit.source.active }
 
   # NB this is coupled to deposits_controller, deposit.rake
   state_machine :initial => :waiting do
@@ -36,11 +36,12 @@ class Deposit < ActiveRecord::Base
       deposit.send_callback if deposit.callback.present?
     end
 
+    # only add job for further processing if associated source is active
     after_transition :failed => :waiting do |deposit|
-      deposit.queue_deposit_job
+      deposit.queue_deposit_job if deposit.source && deposit.source.active
     end
 
-    # Reset after failure.
+    # Reset after failure
     event :reset do
       transition [:failed] => :waiting
       transition any => same
@@ -106,7 +107,7 @@ class Deposit < ActiveRecord::Base
   def collect_data
     case
     when message_type == "publisher" && message_action == "delete" then delete_publisher
-    when message_type == "publisher" then update_publisher
+    when message_type == "publisher" then update_publishers
     when message_type == "contribution" && message_action == "delete" then delete_contributor
     when message_type == "contribution" then update_contributions
     when message_type == "relation" && message_action == "delete" then delete_relation
@@ -148,6 +149,10 @@ class Deposit < ActiveRecord::Base
 
   def update_contributions
     update_contributor && update_related_work && update_contribution
+  end
+
+  def update_publishers
+    update_publisher && update_prefix
   end
 
   def update_work
@@ -270,7 +275,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def update_publisher
-    item = Publisher.from_csl(subj)
+    item = from_publisher_csl(subj)
     p = Publisher.where(name: subj_id).first_or_initialize
     p.assign_attributes(item)
     p.save!
@@ -279,6 +284,22 @@ class Deposit < ActiveRecord::Base
        Publisher.using(:master).where(name: subj_id).first
     else
       handle_exception(exception, class_name: "publisher", id: subj_id)
+    end
+  end
+
+  def update_prefix
+    items = from_prefix_csl(subj)
+    Array(items).each do |item|
+      p = Prefix.where(name: item[:prefix]).first_or_initialize
+      p.assign_attributes(item)
+      p.save!
+    end
+    true
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
+    if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
+      Prefix.using(:master).where(name: item[:prefix]).first
+    else
+      handle_exception(exception, class_name: "prefix", id: item[:prefix])
     end
   end
 
@@ -299,7 +320,13 @@ class Deposit < ActiveRecord::Base
   # convert CSL into format that the database understands
   # don't update nil values
   def from_csl(item)
-    year, month, day = get_year_month_day(item.fetch("issued", nil))
+    issued_at = item.fetch("issued", nil)
+
+    if item["published"].present?
+      year, month, day = get_year_month_day(item.fetch("published", nil))
+    else
+      year, month, day = get_year_month_day(issued_at)
+    end
 
     type = item.fetch("type", nil)
     work_type = cached_work_type(type) if type.present?
@@ -321,10 +348,36 @@ class Deposit < ActiveRecord::Base
       year: year,
       month: month,
       day: day,
+      issued_at: get_datetime_from_iso8601(issued_at),
       work_type_id: work_type,
       tracked: item.fetch("tracked", nil),
-      registration_agency: item.fetch("registration_agency", nil),
+      registration_agency_id: item.fetch("registration_agency_id", nil),
       csl: csl }.compact
+  end
+
+  # convert publisher CSL into format that the database understands
+  # don't update nil values
+  def from_publisher_csl(item)
+    ra = cached_registration_agency(item.fetch("registration_agency_id", nil))
+
+    { title: item.fetch("title", nil),
+      other_names: item.fetch("other_names", nil),
+      registration_agency_id: ra.present? ? ra.id : nil,
+      checked_at: item.fetch("issued", Time.now.utc.iso8601),
+      active: item.fetch("active", nil) }.compact
+  end
+
+  # convert prefix CSL into format that the database understands
+  # don't update nil values
+  def from_prefix_csl(item)
+    ra = cached_registration_agency(item.fetch("registration_agency_id", nil))
+    publisher = cached_publisher(subj_id)
+
+    Array(item.fetch("prefixes", nil)).map do |prefix|
+      { name: prefix,
+        publisher_id: publisher.present? ? publisher.id : nil,
+        registration_agency_id: ra.present? ? ra.id : nil }.compact
+    end
   end
 
   def send_callback

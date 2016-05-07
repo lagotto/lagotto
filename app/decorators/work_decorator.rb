@@ -30,6 +30,10 @@ class WorkDecorator < Draper::Decorator
     cached_work_type_names[model.work_type_id] if model.work_type.present?
   end
 
+  def registration_agency_id
+    cached_registration_agency_names[model.registration_agency_id] if model.registration_agency.present?
+  end
+
   def DOI
     model.doi
   end
@@ -44,6 +48,10 @@ class WorkDecorator < Draper::Decorator
 
   def PMCID
     model.pmcid
+  end
+
+  def issued
+    model.issued_at.utc.iso8601
   end
 
   def cache_key

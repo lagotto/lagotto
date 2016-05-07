@@ -30,6 +30,7 @@ describe "/api/v7/deposits", :type => :api do
                               "type"=>"entry",
                               "tracked"=>false},
                     "obj"=>{} }}
+
   let(:user) { FactoryGirl.create(:admin_user) }
   let(:uuid) { SecureRandom.uuid }
   let(:headers) do

@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe Work, type: :model, vcr: true do
 
+  let!(:registration_agency) { FactoryGirl.create(:registration_agency) }
   let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.5555/12345678", doi: "10.5555/12345678") }
 
   subject { work }
 
   it { is_expected.to have_many(:relations).dependent(:destroy) }
   it { is_expected.to validate_uniqueness_of(:doi).case_insensitive }
-  it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
 
   context "validate doi format" do
@@ -128,8 +128,8 @@ describe Work, type: :model, vcr: true do
       expect(work).to be_valid
     end
 
-    it 'look up date for missing year, month and day' do
-      work = FactoryGirl.build(:work, year: nil, month: nil, day: nil, pid: "http://doi.org/10.1371/journal.pone.0067729")
+    it 'look up date for missing issued_at' do
+      work = FactoryGirl.build(:work, issued_at: nil, pid: "http://doi.org/10.1371/journal.pone.0067729", doi: "10.1371/journal.pone.0067729")
       expect(work).to be_valid
     end
 
@@ -139,23 +139,16 @@ describe Work, type: :model, vcr: true do
       expect(work.errors.messages).to eq(published_on: ["is not a valid date"])
     end
 
-    it 'don\'t validate date in the future' do
-      date = Time.zone.now.to_date + 1.day
-      work = FactoryGirl.build(:work, year: date.year, month: date.month, day: date.day)
+    it 'don\'t validate issued date in the future' do
+      work = FactoryGirl.build(:work, issued_at: Time.zone.now + 1.day)
       expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(published_on: ["is a date in the future"])
+      expect(work.errors.messages).to eq(issued_at: ["is a datetime in the future"])
     end
 
     it 'published_on' do
       work = FactoryGirl.create(:work)
       date = Date.new(work.year, work.month, work.day)
       expect(work.published_on).to eq(date)
-    end
-
-    it 'issued' do
-      work = FactoryGirl.create(:work)
-      date = Date.new(work.year, work.month, work.day)
-      expect(work.issued).to eq(date.iso8601)
     end
 
     it 'issued_date year month day' do
@@ -225,9 +218,11 @@ describe Work, type: :model, vcr: true do
   context "get_url" do
     it 'should get_url' do
       work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030", canonical_url: nil)
-      url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+      canonical_url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
+      handle_url = "http://dx.plos.org/10.1371/journal.pone.0000030"
       expect(work.get_url).not_to be_nil
-      expect(work.canonical_url).to eq(url)
+      expect(work.canonical_url).to eq(canonical_url)
+      expect(work.handle_url).to eq(handle_url)
     end
 
     it "with canonical_url" do

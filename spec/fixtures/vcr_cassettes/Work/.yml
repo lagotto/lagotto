@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://doi.crossref.org/doiRA/10.5555/12345678
+    uri: https://api.crossref.org/works/10.5555%2F12345678
     body:
       encoding: US-ASCII
       string: ''
@@ -16,27 +16,33 @@ http_interactions:
       code: 200
       message: ''
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Access-Control-Allow-Origin:
+      - "*"
+      Vary:
+      - Accept
       Content-Type:
       - application/json;charset=UTF-8
-      Content-Language:
-      - en-US
       Content-Length:
-      - '52'
+      - '2371'
+      Server:
+      - http-kit
       Date:
-      - Tue, 22 Mar 2016 00:46:35 GMT
+      - Tue, 26 Apr 2016 13:44:27 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: |-
-        [
-         {
-         "DOI": "10.5555/12345678",
-         "RA": "Public"
-        }
-        ]
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,1,23]],"date-time":"2016-01-23T10:24:27Z","timestamp":1453544667702},"reference-count":6,"publisher":"CrossRef
+        Test Account","issue":"11","license":[{"content-version":"tdm","delay-in-days":1195,"start":{"date-parts":[[2011,11,21]],"date-time":"2011-11-21T00:00:00Z","timestamp":1321833600000},"URL":"http:\/\/psychoceramicsproprietrylicenseV1.com"}],"funder":[{"award":["DE-SC0001091"],"doi-asserted-by":"publisher","name":"Basic
+        Energy Sciences","DOI":"10.13039\/100006151"},{"award":["CHE-1152342"],"doi-asserted-by":"publisher","name":"National
+        Science Foundation","DOI":"10.13039\/100000001"}],"published-print":{"date-parts":[[2008,8,14]]},"DOI":"10.5555\/12345678","type":"journal-article","created":{"date-parts":[[2011,11,9]],"date-time":"2011-11-09T14:42:05Z","timestamp":1320849725000},"page":"1-3","update-policy":"http:\/\/dx.doi.org\/10.5555\/crossmark_policy","source":"CrossRef","title":["Toward
+        a Unified Theory of High-Energy Metaphysics: Silly String Theory"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.5555","volume":"5","clinical-trial-number":[{"clinical-trial-number":"isrctn12345","registry":"10.18810\/isrctn"}],"author":[{"affiliation":[],"family":"Carberry","given":"Josiah","ORCID":"http:\/\/orcid.org\/0000-0002-1825-0097"}],"member":"http:\/\/id.crossref.org\/member\/7822","published-online":{"date-parts":[[2008,8,13]]},"container-title":["Journal
+        of Psychoceramics"],"deposited":{"date-parts":[[2016,1,20]],"date-time":"2016-01-20T15:44:56Z","timestamp":1453304696000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2008,8,13]]},"URL":"http:\/\/dx.doi.org\/10.5555\/12345678","ISSN":["0264-3561"],"assertion":[{"group":{"label":"Identifiers","name":"identifiers"},"label":"ORCID","name":"orcid","order":0,"URL":"http:\/\/orcid.org\/0000-0002-1825-0097","value":"http:\/\/orcid.org\/0000-0002-1825-0097"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Received","name":"received","order":0,"value":"2012-07-24"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Accepted","name":"accepted","order":1,"value":"2012-08-29"},{"group":{"label":"Publication
+        History","name":"publication_history"},"label":"Published","name":"published","order":2,"value":"2012-09-10"}]}}'
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 00:46:36 GMT
+  recorded_at: Tue, 26 Apr 2016 13:44:28 GMT
 recorded_with: VCR 2.9.3

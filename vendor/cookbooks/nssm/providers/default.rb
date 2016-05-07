@@ -1,5 +1,7 @@
 require 'win32ole' if RUBY_PLATFORM =~ /mswin|mingw32|windows/
 
+use_inline_resources
+
 def execute_wmi_query(wmi_query)
   wmi = ::WIN32OLE.connect('winmgmts://')
   result = wmi.ExecQuery(wmi_query)
@@ -8,13 +10,13 @@ def execute_wmi_query(wmi_query)
 end
 
 def service_installed?(servicename)
-  !(execute_wmi_query("select * from Win32_Service where name = '#{servicename}'").nil?)
+  !execute_wmi_query("select * from Win32_Service where name = '#{servicename}'").nil?
 end
 
 def install_nssm
   recipe_eval do
     run_context.include_recipe 'nssm::default'
-  end
+  end unless run_context.loaded_recipe? 'nssm::default'
 end
 
 def nssm_exe

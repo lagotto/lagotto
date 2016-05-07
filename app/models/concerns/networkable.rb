@@ -37,7 +37,10 @@ module Networkable
 
     def set_request_headers(url, options)
       options[:headers] ||= {}
-      options[:headers]['Host'] = URI.parse(url).host
+
+      if options[:host]
+        options[:headers]['Host'] = URI.parse(url).host
+      end
 
       if options[:content_type].present?
         accept_headers = { "html" => 'text/html; charset=UTF-8',
@@ -60,12 +63,12 @@ module Networkable
     end
 
     def faraday_conn(options = {})
-      options[:limit] ||= 10
+      options[:limit] ||= 20
 
       Faraday.new do |c|
         c.headers['Accept'] = options[:headers]['Accept']
         c.headers['User-Agent'] = "Lagotto - http://#{ENV['SERVERNAME']}"
-        c.use      FaradayMiddleware::FollowRedirects, limit: options[:limit]
+        c.use      FaradayMiddleware::FollowRedirects, limit: 20 unless options[:no_redirect]
         c.use      :cookie_jar
         c.request  :multipart
         c.request  :json if options[:headers]['Accept'] == 'application/json'

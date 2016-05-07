@@ -26,7 +26,16 @@ Lagotto::Application.configure do
   config.assets.js_compressor = :uglifier
 
   # See everything in the log (default is :info)
-  config.log_level = :debug
+  log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
+  config.log_level = log_level
+
+  if ENV['MAILGUN_API_KEY'].present?
+    config.action_mailer.delivery_method = :mailgun
+    config.action_mailer.mailgun_settings = {
+      api_key: ENV['MAILGUN_API_KEY'],
+      domain: ENV['MAILGUN_DOMAIN']
+    }
+  end
 
   # Expands the lines which load the assets
   config.assets.debug = true

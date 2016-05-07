@@ -38,7 +38,7 @@ class Twitter < Agent
                 "URL" => url,
                 "type" => 'personal_communication',
                 "tracked" => tracked,
-                "registration_agency" => "twitter" }}
+                "registration_agency_id" => "twitter" }}
     end
   end
 
