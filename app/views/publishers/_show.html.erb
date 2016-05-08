@@ -4,7 +4,7 @@
       <div class="panel-body">
         <h4 class="work"><%= @publisher.title.html_safe %></h4>
         <% if @publisher.prefixes %>
-          <div class="prefix"><%= 'Prefix'.pluralize(@publisher.prefixes.size) + ": " + @publisher.prefixes.join(" ") %></div>
+          <div class="prefix"><%= 'Prefix'.pluralize(@publisher.prefixes.size) + ": " + @publisher.prefixes.map { |p| p.name }.join(" ") %></div>
         <% end %>
         <% if can?(:read, Notification) && @publisher.users.present? %>
           <h5>Users</h5>
