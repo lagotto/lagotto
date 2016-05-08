@@ -21,7 +21,7 @@
             <div class="panel-heading"><%= publisher.title %></div>
             <div class="panel-body">
               <% if publisher.prefixes %>
-                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.map { |p| p.name }.join(" ") %></p>
               <% end %>
               <%= radio_button_tag "id", publisher.name, class: "radio_tag", tabindex: i %>Select
             </div>
@@ -65,7 +65,7 @@
             <div class="panel-body">
               <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.name) %></h4>
               <% if publisher.prefixes.present? %>
-                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.map { |p| p.name }.join(" ") %></p>
               <% end %>
             </div>
             <div class="panel-footer">
