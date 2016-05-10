@@ -56,15 +56,6 @@ class Notification < ActiveRecord::Base
     report.send_fatal_error_report(message)
   end
 
-  # legacy support without any functionality
-  def agent_id
-    nil
-  end
-
-  def agent_id=(value)
-    nil
-  end
-
   def create_date
     created_at.utc.iso8601
   end
