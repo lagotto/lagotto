@@ -53,10 +53,15 @@ class PublishersController < ApplicationController
 
     if params[:registration_agency_id].present? && registration_agency = cached_registration_agency(params[:registration_agency_id])
       collection = collection.where(registration_agency_id: registration_agency.id)
-      @registration_agency_group = collection.where(registration_agency_id: registration_agency.id).group(:registration_agency_id).count.first
+      @registration_agency_group = collection.where(registration_agency_id: registration_agency.id).group(:registration_agency_id).count.map do |s|
+        [cached_registration_agency_id(s[0]), s[1]]
+      end.first
     end
 
-    @registration_agencies = collection.where.not(registration_agency_id: nil).group(:registration_agency_id).count
+    @registration_agencies = collection.where.not(registration_agency_id: nil).group(:registration_agency_id).count.map do |s|
+      [cached_registration_agency_id(s[0]), s[1]]
+    end
+
     @publisher_count = collection.count
     @publishers = collection.order(:title).paginate(page: (params[:page] || 1).to_i)
   end
