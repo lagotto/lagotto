@@ -23,9 +23,18 @@ class Api::V7::PublishersController < Api::BaseController
   def index
     collection = Publisher.active
     collection = collection.query(params[:q]) if params[:q]
-    if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
+
+    if params[:registration_agency_id].present? && registration_agency = cached_registration_agency(params[:registration_agency_id])
       collection = collection.where(registration_agency_id: registration_agency.id)
+      @registration_agency_group = collection.where(registration_agency_id: registration_agency.id).group(:registration_agency_id).count.first
     end
+
+    @registration_agencies = collection.where.not(registration_agency_id: nil).group(:registration_agency_id).count.reduce({}) do |sum, s|
+      key = cached_registration_agency_names[s[0]]
+      sum[key] = s[1]
+      sum
+    end
+
     collection = collection.order(:title)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000

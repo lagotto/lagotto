@@ -100,15 +100,14 @@
               <% if @registration_agency_group %>
                 <li class="active">
                   <%= link_to icon('check-square-o').html_safe, publishers_path(q: params[:q]) %>
-                  <%= @registration_agency_group.first.humanize %>
+                  <%= @registration_agency_group.first.title %>
                   <span class="number pull-right"><%= number_with_delimiter(@registration_agency_group.last) %></span>
                 </li>
               <% else %>
                 <% @registration_agencies.each do |ra| %>
-                  <% registration_agency = RegistrationAgency.where(id: ra.first).first %>
                   <li>
-                    <%= link_to icon('square-o').html_safe, publishers_path(q: params[:q], registration_agency_id: registration_agency.name) %>
-                    <%= registration_agency.title %>
+                    <%= link_to icon('square-o').html_safe, publishers_path(q: params[:q], registration_agency_id: ra.first.name) %>
+                    <%= ra.first.title %>
                     <span class="number pull-right"><%= number_with_delimiter(ra.last) %></span>
                   </li>
                 <% end %>

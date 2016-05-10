@@ -49,6 +49,18 @@ class Api::V7::RelationsController < Api::BaseController
       collection = collection.last_x_days(params[:recent].to_i)
     end
 
+    @sources = @work.inverse_relations.where.not(source_id: nil).group(:source_id).count.reduce({}) do |sum, s|
+      key = cached_source_names[s[0]]
+      sum[key] = s[1]
+      sum
+    end
+
+    @relation_types = @work.inverse_relations.where.not(relation_type_id: nil).group(:relation_type_id).count.reduce({}) do |sum, s|
+      key = cached_relation_type_names[s[0]]
+      sum[key] = s[1]
+      sum
+    end
+
     collection = collection.order("relations.updated_at DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
