@@ -18,8 +18,11 @@
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic|Source+Code+Pro:400,600' rel='stylesheet' type='text/css'>
     <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
-
-    <%= stylesheet_link_tag ENV['MODE'], :media => "all" %>
+    <% if ENV['CDN_HOST'] %>
+      <link href="//<%= ENV['CDN_HOST'] %>/assets/default.css" rel='stylesheet' type='text/css'>
+    <% else %>
+      <%= stylesheet_link_tag ENV['MODE'], :media => "all" %>
+    <% end %>
     <%= javascript_include_tag "application" %>
     <% if ENV['BUGSNAG_JS_KEY'] %>
       <script
@@ -43,5 +46,7 @@
     <%= render partial: "layouts/#{ENV['MODE']}/footer" -%>
   </body>
 
-  <%= javascript_include_tag 'layouts/index' if controller.controller_name != "index" %>
+  <% if ENV['MODE'] != "datacite" %>
+    <%= javascript_include_tag 'layouts/index' if controller.controller_name != "index" %>
+  <% end %>
 </html>

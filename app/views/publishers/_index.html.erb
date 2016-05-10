@@ -2,7 +2,7 @@
   <div class="search">
     <%= form_tag(new_publisher_path, :method => "get", :id => "search_form", :class => "form-inline", :role => "form", remote: true) do %>
       <div class="form-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control", autofocus: true %>
+        <%= search_field_tag :q, params[:q], :placeholder => "Search publisher", :class => "form-control", autofocus: true %>
       </div>
       <button type="submit" id="submit" class="btn btn-default"><%= icon("search") %></button>
       <% if params[:q].blank? %>
@@ -43,17 +43,20 @@
     <% end %>
   </div>
 <% else %>
-  <div class="search-wide">
-    <%= form_tag(publishers_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
-      <div class="input-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
-        <div class="input-group-btn">
-          <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
-        </div>
+  <div class="row">
+    <div class='col-md-9'>
+      <div class="search-wide">
+        <%= form_tag(publishers_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+          <div class="input-group">
+            <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-primary hidden-xs">Search</button>
+            </div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
-
   <div class="row">
     <div class='col-md-9'>
       <% if @publisher_count > 0 %>

@@ -1,16 +1,15 @@
-<div class="search-wide">
-  <%= form_tag(contributors_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
-    <div class="input-group">
-      <%= search_field_tag :q, params[:q], :placeholder => "Search by ORCID ID or Github username", :class => "form-control" %>
-      <div class="input-group-btn">
-        <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
-      </div>
-    </div>
-  <% end %>
-</div>
-
 <div class="row">
   <div class='col-md-9'>
+    <div class="search-wide">
+      <%= form_tag(contributors_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+        <div class="input-group">
+          <%= search_field_tag :q, params[:q], :placeholder => "Search contributor", :class => "form-control" %>
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-primary hidden-xs">Search</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
     <% if @contributor_count > 0 %>
       <% if @contributor_count > 1 %>
         <h4 class="results"><%= number_with_delimiter(@contributor_count) %> Contributors</h4>

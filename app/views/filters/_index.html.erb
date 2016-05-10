@@ -1,72 +1,76 @@
 <% if @filters.size > 0 %>
-  <div class="panel-group" id="filter">
-    <% @filters.each do |filter| %>
-      <div class="panel <%= filter.active ? 'panel-info' : 'panel-default' %>">
-        <div class="panel-heading panel-title panel-list">
-          <%= link_to filter.name, "#filter_#{filter.id}", :class => "accordion-toggle", :id => "link_#{filter.id}", :data => { :toggle => "collapse", :parent => "#filter" }, :href => "#filter_#{filter.id}" %>
-          <% if filter.active %>
-            <small class="pull-right">active</small>
-          <% end %>
-        </div>
-        <% if can?(:manage, Notification) && @filter && @filter.id == filter.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
-          <div id="filter_<%= filter.id %>" class="panel-collapse collapse.in">
-            <div class="panel-body">
-              <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => filter_path(@filter), :html => { :remote => true }) do |f| %>
-                <% f.object = @filter.becomes(@filter.class) %>
-                <% if not @filter.get_config_fields.empty? %>
-                  <% @filter.get_config_fields.each do |field| %>
-                    <% if field[:field_name] == "source_ids" %>
-                      <%= f.input :source_ids, :as => :check_boxes,
-                                                collection: Source.active.where("name != ?", 'relativemetric'),
-                                                label_method: :title,
-                                                value_method: :id,
-                                                label: "Sources",
-                                                :selected => @filter.source_ids %>
-                    <% elsif field[:field_type] == "check_box" %>
-                      <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
-                    <% elsif field[:field_type] == "text_field" %>
-                      <%= f.input field[:field_name], :as => :numeric, hint: h(field[:field_hint]), input_html: { class: "form-user" } %>
-                    <% elsif field[:field_type] == "text_area" %>
-                      <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "form-control" } %>
-                    <% elsif field[:field_type] == "password_field" %>
-                      <%= f.input field[:field_name], :as => :string, :input_html => { :class => "form-control" } %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-
-                <div class="form-group">
-                  <%= f.submit "Save ", class: "btn btn-default" %>
-                  <%= link_to 'Cancel', filters_path, { remote: true, class: 'btn' } %>
-                </div>
+  <div class="row">
+    <div class='col-md-9'>
+      <div class="panel-group" id="filter">
+        <% @filters.each do |filter| %>
+          <div class="panel <%= filter.active ? 'panel-info' : 'panel-default' %>">
+            <div class="panel-heading panel-title panel-list">
+              <%= link_to filter.name, "#filter_#{filter.id}", :class => "accordion-toggle", :id => "link_#{filter.id}", :data => { :toggle => "collapse", :parent => "#filter" }, :href => "#filter_#{filter.id}" %>
+              <% if filter.active %>
+                <small class="pull-right">active</small>
               <% end %>
             </div>
-          </div>
-        <% else %>
-          <div id="filter_<%= filter.id %>" class="panel-collapse collapse">
-            <div class="panel-body">
-              <% if can?(:manage, Notification) %>
-                <div class="btn-toolbar pull-right">
-                  <% unless filter.get_config_fields.empty? %>
-                    <div class="btn-group btn-group-sm">
-                      <%= link_to icon("pencil").html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+            <% if can?(:manage, Notification) && @filter && @filter.id == filter.id && (controller.action_name == "edit" or (controller.action_name == "update" and !@filter.errors.empty?)) %>
+              <div id="filter_<%= filter.id %>" class="panel-collapse collapse.in">
+                <div class="panel-body">
+                  <%= simple_form_for([:admin, @filter.becomes(Filter)], :url => filter_path(@filter), :html => { :remote => true }) do |f| %>
+                    <% f.object = @filter.becomes(@filter.class) %>
+                    <% if not @filter.get_config_fields.empty? %>
+                      <% @filter.get_config_fields.each do |field| %>
+                        <% if field[:field_name] == "source_ids" %>
+                          <%= f.input :source_ids, :as => :check_boxes,
+                                                    collection: Source.active.where("name != ?", 'relativemetric'),
+                                                    label_method: :title,
+                                                    value_method: :id,
+                                                    label: "Sources",
+                                                    :selected => @filter.source_ids %>
+                        <% elsif field[:field_type] == "check_box" %>
+                          <%= f.input field[:field_name], :label => field[:field_name].gsub(/_/, " ").capitalize %>
+                        <% elsif field[:field_type] == "text_field" %>
+                          <%= f.input field[:field_name], :as => :numeric, hint: h(field[:field_hint]), input_html: { class: "form-user" } %>
+                        <% elsif field[:field_type] == "text_area" %>
+                          <%= f.input field[:field_name], :input_html => { :rows => (field[:size] ? field[:size] : 2), :class => "form-control" } %>
+                        <% elsif field[:field_type] == "password_field" %>
+                          <%= f.input field[:field_name], :as => :string, :input_html => { :class => "form-control" } %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+
+                    <div class="form-group">
+                      <%= f.submit "Save ", class: "btn btn-default" %>
+                      <%= link_to 'Cancel', filters_path, { remote: true, class: 'btn' } %>
                     </div>
                   <% end %>
-                  <div class="btn-group btn-group-sm">
-                    <% if filter.active %>
-                      <%= link_to 'Inactivate'.html_safe, filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
-                    <% else %>
-                      <%= link_to 'Activate'.html_safe, filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
-                    <% end %>
-                  </div>
                 </div>
-              <% end %>
+              </div>
+            <% else %>
+              <div id="filter_<%= filter.id %>" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <% if can?(:manage, Notification) %>
+                    <div class="btn-toolbar pull-right">
+                      <% unless filter.get_config_fields.empty? %>
+                        <div class="btn-group btn-group-sm">
+                          <%= link_to icon("pencil").html_safe, edit_filter_path(filter), { :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-edit" } %>
+                        </div>
+                      <% end %>
+                      <div class="btn-group btn-group-sm">
+                        <% if filter.active %>
+                          <%= link_to 'Inactivate'.html_safe, filter_path(filter, active: 0), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                        <% else %>
+                          <%= link_to 'Activate'.html_safe, filter_path(filter, active: 1), :method => :put, :remote => true, :class => 'btn btn-default btn-sm', :id => "#{filter.name}-status" %>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
 
-              <p><%= filter.description %></p>
-            </div>
+                  <p><%= filter.description %></p>
+                </div>
+              </div>
+            <% end %>
           </div>
         <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
 <% else %>
   <div class="alert alert-info">There are currently no filters</div>

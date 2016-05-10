@@ -188,6 +188,6 @@ module ApplicationHelper
     data[:sort] = @sort.name if @sort.present?
     data[:state] = states[@state] if @state.present?
 
-    { class: "navbar-text", id: "api_key", data: data }
+    { class: "logo", id: "api_key", data: data }
   end
 end
