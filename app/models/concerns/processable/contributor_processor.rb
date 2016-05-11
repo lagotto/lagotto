@@ -21,8 +21,12 @@ module Processable
         return true unless obj_id.present?
 
         c = Contribution.where(contributor_id: contributor_id,
-                               work_id: related_work_id,
-                               source_id: source.present? ? source.id : nil).first_or_initialize
+                               work_id: related_work_id).first_or_initialize
+
+        # update all attributes
+        c.assign_attributes(source_id: source.present? ? source.id : nil,
+                            publisher_id: publisher.present? ? publisher.id : nil)
+
         c.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
         handle_exception(exception, class_name: "contribution", id: "#{subj_id}/#{obj_id}/#{source_id}")
