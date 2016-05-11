@@ -89,6 +89,8 @@ class NotificationsController < ApplicationController
 
     collection = collection.query(params[:q]) if params[:q]
 
+    collection = collection.includes(:source, :work, :deposit)
+
     @levels = collection.where.not(level: nil).group(:level).count
     @hostnames = collection.where.not(hostname: nil).group(:hostname).count
     @class_names = collection.where.not(class_name: nil).group(:class_name).count
