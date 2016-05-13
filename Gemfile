@@ -61,6 +61,7 @@ gem "ember-cli-rails"
 gem "zenodo", "~> 0.0.8"
 
 group :development do
+  gem 'byebug'
   gem 'pry-rails', '~> 0.3.2'
   gem 'better_errors', '~> 2.0.0'
   gem 'binding_of_caller', '~> 0.7.2'
@@ -69,7 +70,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'capistrano-npm', '~> 1.0.0'
-  gem 'spring', '~> 1.1.2'
+  # gem 'spring', '~> 1.1.2'
   gem 'hologram', '~> 1.3.1'
 end
 
@@ -86,13 +87,13 @@ group :test do
   gem "shoulda-matchers", "~> 2.7.0", :require => false
   gem "webmock", "~> 1.20.0"
   gem 'vcr', '~> 2.9.3'
-  gem "poltergeist", "~> 1.5.0"
+  gem "poltergeist", "~> 1.6.0"
   gem "with_env", "~> 1.1.0"
 end
 
 group :test, :development do
   gem "rspec-rails", "~> 3.1.0"
-  gem 'spring-commands-rspec', '~> 1.0.4'
+  # gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'teaspoon-jasmine', '~> 2.2.0'
   gem "brakeman", "~> 2.6.0", :require => false
   gem 'rubocop', '~> 0.27.0'
