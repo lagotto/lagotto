@@ -92,7 +92,10 @@ end
 
 namespace :deploy do
   before :starting, "files:upload"
-  before :starting, "sidekiq:quiet"
+
+  if ENV['SIDEKIQ_ENABLE'] == '1'
+    before :starting, "sidekiq:quiet"
+  end
 
   desc 'Restart application'
   task :restart do
@@ -106,6 +109,9 @@ namespace :deploy do
   after :publishing, "swagger:docs"
 
   after :finishing, "deploy:cleanup"
-  after :finishing, "sidekiq:stop"
-  after :finished, "sidekiq:start"
+
+  if ENV['SIDEKIQ_ENABLE'] == '1'
+    after :finishing, "sidekiq:stop"
+    after :finished, "sidekiq:start"
+  end
 end
