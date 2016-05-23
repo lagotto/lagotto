@@ -25,7 +25,7 @@ describe "pmc:update" do
     config = pmc.publisher_configs.first
     publisher_id = config[0]
     journal = config[1].journals.split(" ").first
-    stub = stub_request(:get, pmc.get_feed_url(publisher_id, month, year, journal)).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc.xml'), :status => 200)
+    stub = stub_request(:post, pmc.feed_url).to_return(:headers => { "Content-Type" => "application/xml" }, :body => File.read(fixture_path + 'pmc.xml'), :status => 200)
     expect(capture_stdout { subject.invoke }).to eq(output)
   end
 end
