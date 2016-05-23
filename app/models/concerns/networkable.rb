@@ -43,7 +43,13 @@ module Networkable
       conn = faraday_conn(options[:content_type], options)
       conn.basic_auth(options[:username], options[:password]) if options[:username]
       conn.options[:timeout] = options[:timeout] || DEFAULT_TIMEOUT
-      response = conn.get url
+      if options[:data]
+        response = conn.post url, {}, options[:headers] do |request|
+          request.body = options[:data]
+        end
+      else
+        response = conn.get url
+      end
 
       File.open("#{Rails.root}/tmp/files/#{filename}", 'w') { |file| file.write(response.body) }
       filename

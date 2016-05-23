@@ -60,9 +60,19 @@ class Pmc < Source
 
   # Retrieve usage stats in XML and store in /tmp/files directory
   def get_feed(publisher_id, month, year, journal, options={})
-    feed_url = get_feed_url(publisher_id, month, year, journal)
+    # check that we have publisher-specific configuration
+    pc = publisher_config(publisher_id)
+    if pc.username.nil? || pc.password.nil?
+      Rails.logger.info "Username and password required for PMC source (publisher_id=#{publisher_id})"
+    end
+
+    data = { year: year, month: month, jrid: journal, user: pc.username, password: pc.password }.map{|k,v| "#{k}=#{v}"}.join('&')
+
     filename = "pmcstat_#{journal}_#{month}_#{year}.xml"
-    save_to_file(feed_url, filename, options)
+
+    save_to_file(feed_url, filename, options.merge(
+      data: data,
+      headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
   end
 
   # Parse usage stats and store in CouchDB. Returns an empty array if no error occured
@@ -127,14 +137,6 @@ class Pmc < Source
     put_lagotto_data(url_db)
   end
 
-  def get_feed_url(publisher_id, month, year, journal)
-    # check that we have publisher-specific configuration
-    pc = publisher_config(publisher_id)
-    return nil if pc.username.nil? || pc.password.nil?
-
-    feed_url % { year: year, month: month, journal: journal, username: pc.username, password: pc.password }
-  end
-
   def get_events_url(work)
     events_url % { :pmcid => work.pmcid } if work.pmcid.present?
   end
@@ -148,6 +150,7 @@ class Pmc < Source
   end
 
   def feed_url
+    "https://www.ncbi.nlm.nih.gov/pmc/utils/publisher/pmcstat/pmcstat.cgi"
     "https://www.ncbi.nlm.nih.gov/pmc/utils/publisher/pmcstat/pmcstat.cgi?year=%{year}&month=%{month}&jrid=%{journal}&user=%{username}&password=%{password}"
   end
 

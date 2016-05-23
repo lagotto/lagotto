@@ -61,7 +61,6 @@ gem "ember-cli-rails"
 gem "zenodo", "~> 0.0.8"
 
 group :development do
-  gem 'byebug'
   gem 'pry-rails', '~> 0.3.2'
   gem 'better_errors', '~> 2.0.0'
   gem 'binding_of_caller', '~> 0.7.2'
@@ -92,6 +91,7 @@ group :test do
 end
 
 group :test, :development do
+  gem 'byebug'
   gem "rspec-rails", "~> 3.1.0"
   # gem 'spring-commands-rspec', '~> 1.0.4'
   gem 'teaspoon-jasmine', '~> 2.2.0'
