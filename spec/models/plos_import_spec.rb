@@ -4,6 +4,8 @@ describe PlosImport, type: :model, vcr: true do
 
   before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
+  SOLR_URL="http://solr-102.soma.plos.org:8011/solr/select"
+
   context "query_url" do
     it "should have total_results" do
       import = PlosImport.new
@@ -14,31 +16,31 @@ describe PlosImport, type: :model, vcr: true do
   context "query_url" do
     it "should have default query_url" do
       import = PlosImport.new
-      url = "http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json"
+      url = "#{SOLR_URL}?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with from_pub_date" do
       import = PlosImport.new(from_pub_date: "2013-09-01")
-      url = "http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-01T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json"
+      url = "#{SOLR_URL}?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-01T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with until_pub_date" do
       import = PlosImport.new(until_pub_date: "2013-09-04")
-      url = "http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-04T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json"
+      url = "#{SOLR_URL}?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-04T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json"
       expect(import.query_url).to eq(url)
     end
 
     it "should have query_url with offset" do
       import = PlosImport.new
-      url = "http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=250&wt=json"
+      url = "#{SOLR_URL}?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=250&wt=json"
       expect(import.query_url(offset = 250)).to eq(url)
     end
 
     it "should have query_url with rows" do
       import = PlosImport.new
-      url = "http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=250&start=0&wt=json"
+      url = "#{SOLR_URL}?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=250&start=0&wt=json"
       expect(import.query_url(offset = 0, rows = 250)).to eq(url)
     end
   end
