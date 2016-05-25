@@ -75,7 +75,7 @@ describe PlosImport, type: :model, vcr: true do
       import = PlosImport.new
       stub = stub_request(:get, import.query_url).to_return(:status => 408)
       response = import.get_data
-      expect(response).to eq(error: "the server responded with status 408 for http://api.plos.org/search?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json", status: 408)
+      expect(response).to eq(error: "the server responded with status 408 for #{SOLR_URL}?fl=id%2Cpublication_date%2Ctitle_display%2Ccross_published_journal_name%2Cauthor_display%2Cvolume%2Cissue%2Celocation_id&fq=%2Bpublication_date%3A%5B2013-09-04T00%3A00%3A00Z+TO+2013-09-05T23%3A59%3A59Z%5D+%2Bdoc_type%3Afull+-article_type%3A%22Issue+Image%22&q=%2A%3A%2A&rows=1000&start=0&wt=json", status: 408)
       expect(stub).to have_been_requested
 
       expect(Alert.count).to eq(1)
