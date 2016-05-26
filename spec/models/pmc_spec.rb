@@ -23,8 +23,8 @@ describe Pmc, type: :model, vcr: true do
       publisher_id = config[0]
       journal = config[1].journals.split(" ").first
       file = "#{Rails.root}/tmp/files/pmcstat_#{journal}_#{month}_#{year}.xml"
-      stub = stub_request(:get, subject.get_feed_url(publisher_id, month, year, journal)).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
-      expect(subject.get_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_6_2015.xml")
+      stub = stub_request(:post, subject.feed_url).to_return(:body => File.read(fixture_path + 'pmc_alt.xml'))
+      expect(subject.get_feed(publisher_id, month, year, journal)).to eq("pmcstat_ajrccm_#{month}_#{year}.xml")
       expect(File.exist?(file)).to be true
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(0)

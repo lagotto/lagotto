@@ -38,6 +38,7 @@ pickle-email-*.html
 erl_crash.dump
 optimise-db.txt
 doc/dependencies*
+.byebug_history
 .env
 .env.*
 !.env.example
