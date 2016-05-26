@@ -63,7 +63,7 @@ class Pmc < Source
     # check that we have publisher-specific configuration
     pc = publisher_config(publisher_id)
     if pc.username.nil? || pc.password.nil?
-      Rails.logger.info "Username and password required for PMC source (publisher_id=#{publisher_id})"
+      Rails.logger.warn "Username and password required for PMC source (publisher_id=#{publisher_id})"
     end
 
     data = { year: year, month: month, jrid: journal, user: pc.username, password: pc.password }.map{|k,v| "#{k}=#{v}"}.join('&')
