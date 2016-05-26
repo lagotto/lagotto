@@ -10,6 +10,7 @@
 .svn
 *.rbc
 *.sassc
+.byebug_history
 .sass-cache
 capybara-*.html
 .rspec

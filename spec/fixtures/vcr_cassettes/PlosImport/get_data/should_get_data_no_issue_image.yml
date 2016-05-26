@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://api.plos.org/search?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-02-27T00:00:00Z%20TO%202015-02-27T23:59:59Z%5D%20%2Bdoc_type:full%20-article_type:%22Issue%20Image%22&q=*:*&rows=1000&start=0&wt=json
+    uri: http://solr-102.soma.plos.org:8011/solr/select?fl=id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id&fq=%2Bpublication_date:%5B2015-02-27T00:00:00Z%20TO%202015-02-27T23:59:59Z%5D%20%2Bdoc_type:full%20-article_type:%22Issue%20Image%22&q=*:*&rows=1000&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
