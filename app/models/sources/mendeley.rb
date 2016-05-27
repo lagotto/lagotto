@@ -42,7 +42,7 @@ class Mendeley < Source
     result = get_result(authentication_url, options.merge(
       username: client_id,
       password: client_secret,
-      data: "grant_type=client_credentials",
+      data: "grant_type=client_credentials&scope=all",
       source_id: id,
       headers: { "Content-Type" => "application/x-www-form-urlencoded;charset=UTF-8" }))
 
