@@ -91,5 +91,17 @@ module Cacheable
         ContributorRole.order(:name).pluck(:id, :name).to_h
       end
     end
+
+    def cached_group(name)
+      Rails.cache.fetch("group/#{name}", expires_in: 1.month) do
+        Group.where(name: name).first
+      end
+    end
+
+    def cached_group_names
+      Rails.cache.fetch("group/names", expires_in: 1.month) do
+        Group.order(:name).pluck(:id, :name).to_h
+      end
+    end
   end
 end

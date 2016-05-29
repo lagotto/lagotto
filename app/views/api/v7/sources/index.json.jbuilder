@@ -3,6 +3,7 @@ json.meta do
   json.set! :"message-type", "source-list"
   json.set! :"message-version", "v7"
   json.total @sources.size
+  json.groups @groups
 end
 
 json.sources @sources do |source|
