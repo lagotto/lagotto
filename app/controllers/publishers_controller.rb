@@ -2,7 +2,10 @@ class PublishersController < ApplicationController
   before_filter :load_publisher, only: [:show, :destroy]
   before_filter :load_index, only: [:index]
   load_and_authorize_resource
-  skip_authorize_resource :only => [:show, :index]
+
+  if ENV['MODE'] != "datacite"
+    skip_authorize_resource :only => [:show, :index]
+  end
 
   def index
   end

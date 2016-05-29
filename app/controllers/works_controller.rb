@@ -2,7 +2,10 @@ class WorksController < ApplicationController
   before_filter :load_work, only: [:show, :edit, :update, :destroy]
   before_filter :new_work, only: [:create]
   load_and_authorize_resource
-  skip_authorize_resource :only => [:show, :index]
+
+  if ENV['MODE'] != "datacite"
+    skip_authorize_resource :only => [:show, :index]
+  end
 
   def index
     @page = (params[:page] || 1).to_i
