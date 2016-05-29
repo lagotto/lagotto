@@ -138,6 +138,14 @@ class Api::V7::WorksController < Api::BaseController
       collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
       collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
+    elsif params[:id]
+      id_hash = get_id_hash(params[:id])
+      if id_hash.respond_to?("key")
+        key, value = id_hash.first
+        collection = Work.where(key => value)
+      else
+        collection = Work.none
+      end
     else
       collection = Work.tracked
     end
