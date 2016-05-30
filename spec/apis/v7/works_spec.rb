@@ -209,7 +209,7 @@ describe "/api/v7/works", :type => :api do
 
     context "no records found" do
       let(:uri) { "/api/works?ids=xxx" }
-      let(:nothing_found) { { "meta" => { "status" => "ok", "message-type" => "work-list", "message-version" => "v7", "total" => 0, "total_pages" => 1, "page" => 1 }, "works" => [] } }
+      let(:nothing_found) { { "meta" => { "status" => "ok", "message-type" => "work-list", "message-version" => "v7", "total" => 0, "total_pages" => 1, "page" => 1, "sources" => {}, "relation_types" => {} }, "works" => [] } }
 
       it "JSON" do
         get uri, nil, headers
