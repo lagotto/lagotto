@@ -170,6 +170,18 @@ namespace :db do
     end
   end
 
+  namespace :publishers do
+
+    desc "Fill member_id column for all publishers"
+    task :migrate => :environment do
+      Publisher.joins(:registration_agency).where(registration_agencies: { name: "datacite" }).find_each do |publisher|
+        member_id = publisher.name.split(".").first
+        publisher.update_columns(member_id: member_id)
+        puts "Added member_id #{member_id} for publisher #{publisher.title}"
+      end
+    end
+  end
+
   namespace :registration_agencies do
 
     desc "Migrate works, prefixes and publishers to registration agency model"

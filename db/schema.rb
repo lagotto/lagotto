@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510175544) do
+ActiveRecord::Schema.define(version: 20160530172543) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -268,6 +268,7 @@ ActiveRecord::Schema.define(version: 20160510175544) do
     t.boolean  "active",                               default: false
     t.datetime "checked_at",                           default: '1970-01-01 00:00:00', null: false
     t.integer  "registration_agency_id", limit: 4,                                     null: false
+    t.string   "member_id",              limit: 191
   end
 
   add_index "publishers", ["name"], name: "index_publishers_on_name", using: :btree
@@ -445,8 +446,8 @@ ActiveRecord::Schema.define(version: 20160510175544) do
     t.string   "registration_agency",    limit: 255
     t.string   "dataone",                limit: 191
     t.integer  "lock_version",           limit: 4,        default: 0,                     null: false
-    t.datetime "issued_at",                               default: '1970-01-01 00:00:00', null: false
     t.text     "handle_url",             limit: 65535
+    t.datetime "issued_at",                               default: '1970-01-01 00:00:00', null: false
     t.integer  "registration_agency_id", limit: 4
   end
 
