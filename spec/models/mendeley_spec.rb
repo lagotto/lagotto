@@ -10,18 +10,19 @@ describe Mendeley, :type => :model do
       allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5))
       subject.access_token = nil
       subject.expires_at = Time.now
-      stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials", :headers => { :authorization => auth })
+      stub = stub_request(:post, subject.authentication_url).with(:body => "grant_type=client_credentials&scope=all", :headers => { :authorization => auth })
              .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       expect(subject.get_access_token).not_to be false
       expect(stub).to have_been_requested
       expect(subject.access_token).to eq("MSwxMzk0OTg1MDcyMDk0LCwxOCwsLElEeF9XU256OWgzMDNlMmc4V0JaVkMyVnFtTQ")
       expect(subject.expires_at).to eq(Time.zone.now + 3600.seconds)
+      expect(JSON(stub.response.body)["scope"]).to eq("all")
     end
 
     it "should look up access token if blank" do
       subject.access_token = nil
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials&scope=all")
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
 
@@ -34,7 +35,7 @@ describe Mendeley, :type => :model do
     it "should look up access token if expired" do
       subject.expires_at = Time.zone.now
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+      stub_auth = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials&scope=all")
                   .to_return(:body => File.read(fixture_path + 'mendeley_auth.json'))
       stub = stub_request(:get, subject.get_query_url(work)).to_return(:status => [408])
 
@@ -47,7 +48,7 @@ describe Mendeley, :type => :model do
     it "should report that there are no events if access token can't be retrieved" do
       subject.access_token = nil
       work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0043007")
-      stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials")
+      stub = stub_request(:post, subject.authentication_url).with(:headers => { :authorization => auth }, :body => "grant_type=client_credentials&scope=all")
              .to_return(:body => "Credentials are required to access this resource.", :status => 401)
       expect { subject.get_data(work, options = { :source_id => subject.id }) }.to raise_error(ArgumentError, "No Mendeley access token.")
       expect(stub).to have_been_requested
