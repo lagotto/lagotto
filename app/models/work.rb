@@ -28,6 +28,7 @@ class Work < ActiveRecord::Base
   nilify_blanks
 
   belongs_to :publisher
+  belongs_to :registration_agency
   belongs_to :work_type
   has_many :results, inverse_of: :work
   has_many :sources, :through => :results
@@ -273,21 +274,28 @@ class Work < ActiveRecord::Base
 
   # collect missing metadata for doi, pmid, github
   def set_metadata
-    return if registration_agency.present? && title.present? && issued_at.present?
+    return if pid.present? && title.present? && issued_at.present?
 
     id_hash = get_id_hash(pid)
 
     if id_hash[:doi].present?
-      registration_agency ||= get_doi_ra(id_hash[:doi])
-      return nil if registration_agency.nil? || registration_agency.is_a?(Hash)
+      if registration_agency_id.nil?
+        # get_doi_ra returns hash with keys :id, :name, :title
+        ra = get_doi_ra(id_hash[:doi])
+        return nil if ra.nil? || ra[:error]
+
+        self.registration_agency_id = ra[:id]
+      end
+
+      return nil unless registration_agency.present?
 
       tracked = true
-      metadata = get_metadata(id_hash[:doi], registration_agency)
+      metadata = get_metadata(id_hash[:doi], registration_agency[:name])
     elsif id_hash[:canonical_url].present? && github_release_from_url(id_hash[:canonical_url]).present?
       tracked = false
       metadata = get_metadata(id_hash[:canonical_url], "github_release")
     elsif id_hash[:canonical_url].present? && github_repo_from_url(id_hash[:canonical_url]).present?
-      registration_agency = "github"
+      registration_agency = cached_registration_agency("github") unless registration_agency.present?
       tracked = true
       metadata = get_metadata(id_hash[:canonical_url], "github")
     else
@@ -298,8 +306,8 @@ class Work < ActiveRecord::Base
     write_metadata(metadata, registration_agency, tracked)
   end
 
-  def write_metadata(metadata, ra, tracked)
-    self.registration_agency = ra
+  def write_metadata(metadata, registration_agency, tracked)
+    self.registration_agency = registration_agency
     self.tracked = tracked
 
     self.csl = {

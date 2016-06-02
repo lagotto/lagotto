@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19749171&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:50:55 GMT
+      - Fri, 06 May 2016 20:34:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -31,8 +31,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:50:55",
-         "request": "email=info%40example.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:14",
+         "request": "email=noreply%40datacite.org;format=json;ids=19749171;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC2763780",
@@ -48,16 +48,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:50:55 GMT
+  recorded_at: Fri, 06 May 2016 20:34:14 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19776281&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -66,7 +66,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:51:59 GMT
+      - Fri, 06 May 2016 20:34:14 GMT
       Server:
       - Apache
       Content-Type:
@@ -80,8 +80,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:51:59",
-         "request": "email=info%40example.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:14",
+         "request": "email=noreply%40datacite.org;format=json;ids=19776281;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC2782675",
@@ -98,16 +98,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:51:59 GMT
+  recorded_at: Fri, 06 May 2016 20:34:14 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19308318&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -116,7 +116,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:00 GMT
+      - Fri, 06 May 2016 20:34:15 GMT
       Server:
       - Apache
       Content-Type:
@@ -130,8 +130,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:00",
-         "request": "email=info%40example.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:15",
+         "request": "email=noreply%40datacite.org;format=json;ids=19308318;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "19308318",
@@ -142,16 +142,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:00 GMT
+  recorded_at: Fri, 06 May 2016 20:34:15 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=21196160&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -160,7 +160,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:00 GMT
+      - Fri, 06 May 2016 20:34:16 GMT
       Server:
       - Apache
       Content-Type:
@@ -174,8 +174,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:00",
-         "request": "email=info%40example.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:16",
+         "request": "email=noreply%40datacite.org;format=json;ids=21196160;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC3051412",
@@ -191,16 +191,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:00 GMT
+  recorded_at: Fri, 06 May 2016 20:34:16 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=20107070&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -209,7 +209,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:01 GMT
+      - Fri, 06 May 2016 20:34:16 GMT
       Server:
       - Apache
       Content-Type:
@@ -223,8 +223,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:01",
-         "request": "email=info%40example.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:16",
+         "request": "email=noreply%40datacite.org;format=json;ids=20107070;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC2824913",
@@ -241,16 +241,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:01 GMT
+  recorded_at: Fri, 06 May 2016 20:34:16 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=17275915&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -259,7 +259,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:01 GMT
+      - Fri, 06 May 2016 20:34:17 GMT
       Server:
       - Apache
       Content-Type:
@@ -273,8 +273,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:01",
-         "request": "email=info%40example.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:17",
+         "request": "email=noreply%40datacite.org;format=json;ids=17275915;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC1976277",
@@ -291,16 +291,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:01 GMT
+  recorded_at: Fri, 06 May 2016 20:34:17 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=21270352&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -309,7 +309,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:02 GMT
+      - Fri, 06 May 2016 20:34:17 GMT
       Server:
       - Apache
       Content-Type:
@@ -323,8 +323,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:02",
-         "request": "email=info%40example.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:17",
+         "request": "email=noreply%40datacite.org;format=json;ids=21270352;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC3098654",
@@ -340,16 +340,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:02 GMT
+  recorded_at: Fri, 06 May 2016 20:34:17 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=21116297&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -358,7 +358,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:02 GMT
+      - Fri, 06 May 2016 20:34:18 GMT
       Server:
       - Apache
       Content-Type:
@@ -372,8 +372,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:02",
-         "request": "email=info%40example.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:18",
+         "request": "email=noreply%40datacite.org;format=json;ids=21116297;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "21116297",
@@ -384,16 +384,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:02 GMT
+  recorded_at: Fri, 06 May 2016 20:34:18 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=17927775&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -402,7 +402,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:03 GMT
+      - Fri, 06 May 2016 20:34:19 GMT
       Server:
       - Apache
       Content-Type:
@@ -416,8 +416,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:03",
-         "request": "email=info%40example.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:19",
+         "request": "email=noreply%40datacite.org;format=json;ids=17927775;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "17927775",
@@ -428,16 +428,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:03 GMT
+  recorded_at: Fri, 06 May 2016 20:34:19 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19949811&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -446,7 +446,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:03 GMT
+      - Fri, 06 May 2016 20:34:19 GMT
       Server:
       - Apache
       Content-Type:
@@ -460,8 +460,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:03",
-         "request": "email=info%40example.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:19",
+         "request": "email=noreply%40datacite.org;format=json;ids=19949811;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "19949811",
@@ -472,16 +472,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:03 GMT
+  recorded_at: Fri, 06 May 2016 20:34:19 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=18413319&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -490,7 +490,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:04 GMT
+      - Fri, 06 May 2016 20:34:20 GMT
       Server:
       - Apache
       Content-Type:
@@ -504,8 +504,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:04",
-         "request": "email=info%40example.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:20",
+         "request": "email=noreply%40datacite.org;format=json;ids=18413319;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "18413319",
@@ -516,16 +516,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:04 GMT
+  recorded_at: Fri, 06 May 2016 20:34:20 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19252922&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -534,7 +534,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:04 GMT
+      - Fri, 06 May 2016 20:34:20 GMT
       Server:
       - Apache
       Content-Type:
@@ -548,8 +548,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:04",
-         "request": "email=info%40example.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:20",
+         "request": "email=noreply%40datacite.org;format=json;ids=19252922;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "19252922",
@@ -560,16 +560,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:04 GMT
+  recorded_at: Fri, 06 May 2016 20:34:20 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19515980&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -578,7 +578,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:05 GMT
+      - Fri, 06 May 2016 20:34:21 GMT
       Server:
       - Apache
       Content-Type:
@@ -592,8 +592,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:05",
-         "request": "email=info%40example.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:21",
+         "request": "email=noreply%40datacite.org;format=json;ids=19515980;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC2724239",
@@ -609,16 +609,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:05 GMT
+  recorded_at: Fri, 06 May 2016 20:34:21 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=18617624&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -627,7 +627,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:05 GMT
+      - Fri, 06 May 2016 20:34:22 GMT
       Server:
       - Apache
       Content-Type:
@@ -641,8 +641,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:05",
-         "request": "email=info%40example.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:22",
+         "request": "email=noreply%40datacite.org;format=json;ids=18617624;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC2576030",
@@ -658,16 +658,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:05 GMT
+  recorded_at: Fri, 06 May 2016 20:34:22 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=18386391&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -676,7 +676,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:05 GMT
+      - Fri, 06 May 2016 20:34:22 GMT
       Server:
       - Apache
       Content-Type:
@@ -690,8 +690,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:05",
-         "request": "email=info%40example.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:22",
+         "request": "email=noreply%40datacite.org;format=json;ids=18386391;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "18386391",
@@ -702,16 +702,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:05 GMT
+  recorded_at: Fri, 06 May 2016 20:34:22 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=20393159&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -720,7 +720,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:06 GMT
+      - Fri, 06 May 2016 20:34:23 GMT
       Server:
       - Apache
       Content-Type:
@@ -734,8 +734,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:06",
-         "request": "email=info%40example.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:23",
+         "request": "email=noreply%40datacite.org;format=json;ids=20393159;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC2886697",
@@ -751,16 +751,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:06 GMT
+  recorded_at: Fri, 06 May 2016 20:34:23 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=20416284&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -769,7 +769,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:06 GMT
+      - Fri, 06 May 2016 20:34:23 GMT
       Server:
       - Apache
       Content-Type:
@@ -783,8 +783,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:06",
-         "request": "email=info%40example.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:23",
+         "request": "email=noreply%40datacite.org;format=json;ids=20416284;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "20416284",
@@ -795,16 +795,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:06 GMT
+  recorded_at: Fri, 06 May 2016 20:34:23 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=22389645&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -813,7 +813,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:07 GMT
+      - Fri, 06 May 2016 20:34:24 GMT
       Server:
       - Apache
       Content-Type:
@@ -827,8 +827,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:07",
-         "request": "email=info%40example.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:24",
+         "request": "email=noreply%40datacite.org;format=json;ids=22389645;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC3292175",
@@ -848,16 +848,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:07 GMT
+  recorded_at: Fri, 06 May 2016 20:34:24 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=18686574&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -866,7 +866,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:07 GMT
+      - Fri, 06 May 2016 20:34:25 GMT
       Server:
       - Apache
       Content-Type:
@@ -880,8 +880,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:07",
-         "request": "email=info%40example.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:25",
+         "request": "email=noreply%40datacite.org;format=json;ids=18686574;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "18686574",
@@ -892,16 +892,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:07 GMT
+  recorded_at: Fri, 06 May 2016 20:34:25 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=19937527&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -910,7 +910,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:08 GMT
+      - Fri, 06 May 2016 20:34:25 GMT
       Server:
       - Apache
       Content-Type:
@@ -924,8 +924,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:08",
-         "request": "email=info%40example.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:25",
+         "request": "email=noreply%40datacite.org;format=json;ids=19937527;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "19937527",
@@ -936,16 +936,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:08 GMT
+  recorded_at: Fri, 06 May 2016 20:34:25 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=21113688&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -954,7 +954,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:08 GMT
+      - Fri, 06 May 2016 20:34:26 GMT
       Server:
       - Apache
       Content-Type:
@@ -968,8 +968,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:08",
-         "request": "email=info%40example.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:26",
+         "request": "email=noreply%40datacite.org;format=json;ids=21113688;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "21113688",
@@ -980,16 +980,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:08 GMT
+  recorded_at: Fri, 06 May 2016 20:34:26 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=21142998&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -998,7 +998,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:09 GMT
+      - Fri, 06 May 2016 20:34:26 GMT
       Server:
       - Apache
       Content-Type:
@@ -1012,8 +1012,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:09",
-         "request": "email=info%40example.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:26",
+         "request": "email=noreply%40datacite.org;format=json;ids=21142998;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmid": "21142998",
@@ -1024,16 +1024,16 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:09 GMT
+  recorded_at: Fri, 06 May 2016 20:34:26 GMT
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%20-%20http://lagotto.local
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=22823405&idtype=pmid&tool=Lagotto%20-%20http://10.2.2.6
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Lagotto - http://10.2.2.6
       Accept:
       - application/json
   response:
@@ -1042,7 +1042,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Mon, 21 Mar 2016 11:52:09 GMT
+      - Fri, 06 May 2016 20:34:27 GMT
       Server:
       - Apache
       Content-Type:
@@ -1056,8 +1056,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-03-21 07:52:09",
-         "request": "email=info%40example.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2Flagotto.local",
+         "responseDate": "2016-05-06 16:34:27",
+         "request": "email=noreply%40datacite.org;format=json;ids=22823405;idtype=pmid;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
          "records": [
            {
             "pmcid": "PMC3443659",
@@ -1073,5 +1073,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 11:52:09 GMT
+  recorded_at: Fri, 06 May 2016 20:34:27 GMT
 recorded_with: VCR 2.9.3

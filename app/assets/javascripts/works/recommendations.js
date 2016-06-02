@@ -107,7 +107,7 @@ function recommendationsViz(json, sources, relation_types, work_types) {
 
     d3.select("#panel-recommendations-" + i).insert("div")
       .attr("class", "panel-footer")
-      .attr("id", "panel-footer-" + i).append("a")
+      .attr("id", "panel-footer-recommendations-" + i).append("a")
       .attr("href", function() { return work.subj_id; })
       .html('<i class="fa fa-external-link"/>').append('span')
       .text(work.subj_id);

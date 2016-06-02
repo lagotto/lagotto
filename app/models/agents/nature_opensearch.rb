@@ -10,7 +10,7 @@ class NatureOpensearch < Agent
 
   def get_query_string(options = {})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present? && registration_agencies.include?(work.registration_agency) && (work.get_url || work.doi.present?)
+    return {} unless work.present? && registration_agencies.include?(work.registration_agency && work.registration_agency.name) && (work.get_url || work.doi.present?)
 
     [work.doi, work.canonical_url].compact.map { |i| "%22#{i}%22" }.join("+OR+")
   end
@@ -69,7 +69,7 @@ class NatureOpensearch < Agent
                 "DOI" => doi,
                 "type" => "article-journal",
                 "tracked" => tracked,
-                "registration_agency" => "crossref" }}
+                "registration_agency_id" => "crossref" }}
     end
   end
 

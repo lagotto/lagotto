@@ -11,6 +11,8 @@ http_interactions:
       - Lagotto - http://lagotto.local
       Accept:
       - application/json
+      Authorization:
+      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
   response:
     status:
       code: 200
@@ -19,7 +21,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 22 Mar 2016 11:01:43 GMT
+      - Tue, 26 Apr 2016 13:47:49 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -27,19 +29,23 @@ http_interactions:
       Status:
       - 200 OK
       X-Ratelimit-Limit:
-      - '60'
+      - '5000'
       X-Ratelimit-Remaining:
-      - '53'
+      - '4940'
       X-Ratelimit-Reset:
-      - '1458647722'
+      - '1461679875'
       Cache-Control:
-      - public, max-age=60, s-maxage=60
+      - private, max-age=60, s-maxage=60
       Vary:
-      - Accept, Accept-Encoding
+      - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
       Etag:
-      - '"0ed8249ec58e4cb89d6c1b11522a46f7"'
+      - '"340db210f97ea898b3a332fbc6fa61ea"'
       Last-Modified:
       - Sat, 27 Feb 2016 02:09:12 GMT
+      X-Oauth-Scopes:
+      - gist, repo, user
+      X-Accepted-Oauth-Scopes:
+      - user
       X-Github-Media-Type:
       - github.v3
       Access-Control-Expose-Headers:
@@ -58,12 +64,12 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Served-By:
-      - cee4c0729c8e9147e7abcb45b9d69689
+      - 3e3b9690823fb031da84658eb58aa83b
       X-Github-Request-Id:
-      - 3EE06C37:6B9D:7C9FE28:56F12617
+      - 3EE067F6:174B5:21BAC67C:571F7185
     body:
       encoding: UTF-8
       string: '{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false,"name":"Lagotto","company":null,"blog":"http://lagotto.io","location":null,"email":null,"hireable":null,"bio":null,"public_repos":35,"public_gists":0,"followers":0,"following":0,"created_at":"2012-05-01T19:38:33Z","updated_at":"2016-02-27T02:09:12Z"}'
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 11:01:43 GMT
+  recorded_at: Tue, 26 Apr 2016 13:47:49 GMT
 recorded_with: VCR 2.9.3

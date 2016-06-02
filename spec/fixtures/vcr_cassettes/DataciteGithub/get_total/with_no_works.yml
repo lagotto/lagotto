@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,xml,updated&fq=updated:%5B2009-04-07T00:00:00Z%20TO%202009-04-08T23:59:59Z%5D%20AND%20has_metadata:true%20AND%20is_active:true&q=relatedIdentifier:URL%5C:https%5C:%5C/%5C/github.com*&rows=0&start=0&wt=json
+    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre_symbol,relatedIdentifier,nameIdentifier,xml,minted,updated&fq=updated:%5B2009-04-07T00:00:00Z%20TO%202009-04-08T23:59:59Z%5D%20AND%20has_metadata:true%20AND%20is_active:true&q=relatedIdentifier:URL%5C:https%5C:%5C/%5C/github.com*&rows=0&start=0&wt=json
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Mon, 21 Mar 2016 13:17:11 GMT
+      - Tue, 26 Apr 2016 09:21:16 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -31,7 +31,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |
-        {"responseHeader":{"status":0,"QTime":1},"response":{"numFound":0,"start":0,"docs":[]}}
+        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":0,"start":0,"docs":[]}}
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 13:15:58 GMT
+  recorded_at: Tue, 26 Apr 2016 09:19:14 GMT
 recorded_with: VCR 2.9.3

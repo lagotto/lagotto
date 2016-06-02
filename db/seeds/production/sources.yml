@@ -27,11 +27,6 @@ records:
     title: Wikipedia
     description: Wikipedia is a free encyclopedia that everyone can edit.
     group_id: <%= sprig_record(Group, "relations").id %>
-  - sprig_id: datacite
-    name: datacite
-    title: DataCite
-    description: Helping you to find, access, and reuse research data.
-    group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: europe_pmc
     name: europe_pmc
     title: Europe PMC (Citations)
@@ -84,7 +79,7 @@ records:
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: datacite_orcid
     name: datacite_orcid
-    title: DataCite (ORCID Auto-Update)
+    title: DataCite (ORCID)
     description: Import works with ORCID nameIdentifier via the DataCite Solr API.
     group_id: <%= sprig_record(Group, "contributions").id %>
   - sprig_id: datacite_search_link
@@ -116,21 +111,25 @@ records:
     name: crossref
     title: Crossref (Citations)
     description: Crossref is a non-profit organization that enables cross-publisher citation linking.
+    cumulative: true
     group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: scopus
     name: scopus
     title: Scopus
     description: Scopus is an abstract and citation database of peer-reviewed literature.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: mendeley
     name: mendeley
     title: Mendeley
     description: Mendeley is a reference manager and social bookmarking tool.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: facebook
     name: facebook
     title: Facebook
     description: Facebook is the largest social network.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: researchblogging
     name: researchblogging
@@ -166,6 +165,7 @@ records:
     name: wos
     title: Web of Science
     description: Web of Science is an online academic citation index.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: f1000
     name: f1000
@@ -196,6 +196,7 @@ records:
     name: github
     title: Github
     description: GitHub is a web-based Git repository hosting service.
+    cumulative: true
     group_id: <%= sprig_record(Group, "results").id %>
   - sprig_id: bitbucket
     name: bitbucket
@@ -252,11 +253,6 @@ records:
     title: Dataone (Import)
     description: Import works via the DataONE Solr API.
     group_id: <%= sprig_record(Group, "works").id %>
-  - sprig_id: datacite_data
-    name: datacite_data
-    title: DataCite (Data)
-    description: Helping you to find, access, and reuse research data.
-    group_id: <%= sprig_record(Group, "relations").id %>
   - sprig_id: crossref_publisher
     name: crossref_publisher
     title: Crossref (Publisher)

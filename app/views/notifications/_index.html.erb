@@ -1,12 +1,16 @@
-<div class="search-wide">
-  <%= form_tag(notifications_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
-    <div class="input-group">
-      <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
-      <div class="input-group-btn">
-        <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
-      </div>
+<div class="row">
+  <div class='col-md-9'>
+    <div class="search-wide">
+      <%= form_tag(notifications_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+        <div class="input-group">
+          <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-primary hidden-xs">Search</button>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 </div>
 
 <div class="row">

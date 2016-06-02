@@ -2,7 +2,7 @@
   <div class="search">
     <%= form_tag(new_publisher_path, :method => "get", :id => "search_form", :class => "form-inline", :role => "form", remote: true) do %>
       <div class="form-group">
-        <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control", autofocus: true %>
+        <%= search_field_tag :q, params[:q], :placeholder => "Search publisher", :class => "form-control", autofocus: true %>
       </div>
       <button type="submit" id="submit" class="btn btn-default"><%= icon("search") %></button>
       <% if params[:q].blank? %>
@@ -21,7 +21,7 @@
             <div class="panel-heading"><%= publisher.title %></div>
             <div class="panel-body">
               <% if publisher.prefixes %>
-                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.map { |p| p.name }.join(" ") %></p>
               <% end %>
               <%= radio_button_tag "id", publisher.name, class: "radio_tag", tabindex: i %>Select
             </div>
@@ -43,18 +43,20 @@
     <% end %>
   </div>
 <% else %>
-  <div class="search-wide">
-    <%= form_tag(publishers_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
-      <div class="input-group">
-        <%= hidden_field_tag :registration_agency, params[:registration_agency] %>
-        <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
-        <div class="input-group-btn">
-          <button type="submit" class="btn btn-primary hidden-xs"><%= icon("search") %></button>
-        </div>
+  <div class="row">
+    <div class='col-md-9'>
+      <div class="search-wide">
+        <%= form_tag(publishers_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
+          <div class="input-group">
+            <%= search_field_tag :q, params[:q], :placeholder => "Search", :class => "form-control" %>
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-primary hidden-xs">Search</button>
+            </div>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
-
   <div class="row">
     <div class='col-md-9'>
       <% if @publisher_count > 0 %>
@@ -66,12 +68,14 @@
             <div class="panel-body">
               <h4 class="work"><%= link_to h(publisher.title), publisher_path(publisher.name) %></h4>
               <% if publisher.prefixes.present? %>
-                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.join(" ") %></p>
+                <p><%= 'Prefix'.pluralize(publisher.prefixes.size) + ": " + publisher.prefixes.map { |p| p.name }.join(" ") %></p>
               <% end %>
             </div>
             <div class="panel-footer">
               <%= icon("info-circle") %> <%= publisher.name %>
-              <span class="pull-right"> <%= publisher.registration_agency %></span>
+              <% if publisher.registration_agency_id.present? %>
+                <span class="pull-right"> <%= publisher.registration_agency.title %></span>
+              <% end %>
             </div>
           </div>
         <% end %>
@@ -91,20 +95,20 @@
       <% if @registration_agencies.size > 0 %>
         <div class="panel facets">
           <div class="panel-body">
-            <h4>Registration agencies</h4>
+            <h4>Registration Agencies</h4>
             <ul>
-              <% if @registration_agency %>
+              <% if @registration_agency_group %>
                 <li class="active">
                   <%= link_to icon('check-square-o').html_safe, publishers_path(q: params[:q]) %>
-                  <%= @registration_agency.first.humanize %>
-                  <span class="number pull-right"><%= number_with_delimiter(@registration_agency.last) %></span>
+                  <%= @registration_agency_group.first.title %>
+                  <span class="number pull-right"><%= number_with_delimiter(@registration_agency_group.last) %></span>
                 </li>
               <% else %>
-                <% @registration_agencies.each do |registration_agency| %>
+                <% @registration_agencies.each do |ra| %>
                   <li>
-                    <%= link_to icon('square-o').html_safe, publishers_path(q: params[:q], registration_agency: registration_agency.first) %>
-                    <%= registration_agency.first.humanize %>
-                    <span class="number pull-right"><%= number_with_delimiter(registration_agency.last) %></span>
+                    <%= link_to icon('square-o').html_safe, publishers_path(q: params[:q], registration_agency_id: ra.first.name) %>
+                    <%= ra.first.title %>
+                    <span class="number pull-right"><%= number_with_delimiter(ra.last) %></span>
                   </li>
                 <% end %>
               <% end %>

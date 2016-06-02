@@ -29,7 +29,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Mon, 21 Mar 2016 23:40:05 GMT
+      - Tue, 26 Apr 2016 13:48:10 GMT
       Connection:
       - close
     body:
@@ -40,5 +40,5 @@ http_interactions:
         A."}],"member":"http:\/\/id.crossref.org\/member\/311","container-title":["Ecology"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"unspecified","URL":"http:\/\/api.wiley.com\/onlinelibrary\/tdm\/v1\/articles\/10.1890%2F0012-9658(2006)87%5B2832:TIOPMA%5D2.0.CO;2"}],"deposited":{"date-parts":[[2016,2,24]],"date-time":"2016-02-24T15:03:26Z","timestamp":1456326206000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2006,11]]},"alternative-id":["10.1890\/0012-9658(2006)87[2832:TIOPMA]2.0.CO;2"],"URL":"http:\/\/dx.doi.org\/10.1890\/0012-9658(2006)87[2832:tiopma]2.0.co;2","ISSN":["0012-9658"],"subject":["Ecology,
         Evolution, Behavior and Systematics"]}}'
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 23:40:05 GMT
+  recorded_at: Tue, 26 Apr 2016 13:48:10 GMT
 recorded_with: VCR 2.9.3

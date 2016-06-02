@@ -61,7 +61,7 @@ class PubMed < Agent
                   "type" => metadata.fetch("type", nil),
                   "tracked" => tracked,
                   "publisher_id" => metadata.fetch("publisher_id", nil),
-                  "registration_agency" => registration_agency }}
+                  "registration_agency_id" => registration_agency }}
       end
     end.compact
   end

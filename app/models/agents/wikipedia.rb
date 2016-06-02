@@ -85,7 +85,7 @@ class Wikipedia < Agent
                 "URL" => url,
                 "type" => "entry-encyclopedia",
                 "tracked" => tracked,
-                "registration_agency" => "wikipedia" }}
+                "registration_agency_id" => "wikipedia" }}
     end
   end
 

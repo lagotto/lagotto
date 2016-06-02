@@ -36,15 +36,20 @@ module Poise
         # ever fire because the superclass re-raises if there is an error.
         return super if error
         delayed_actions.each do |notification|
-          notifications = run_context.parent_run_context.delayed_notifications(@resource)
-          if notifications.any? { |existing_notification| existing_notification.duplicates?(notification) }
-              Chef::Log.info( "#{@resource} not queuing delayed action #{notification.action} on #{notification.resource}"\
-                              " (delayed), as it's already been queued")
+          if @resource.run_context.respond_to?(:add_delayed_action)
+            @resource.run_context.add_delayed_action(notification)
           else
-            notifications << notification
+            notifications = run_context.parent_run_context.delayed_notifications(@resource)
+            if notifications.any? { |existing_notification| existing_notification.duplicates?(notification) }
+              Chef::Log.info( "#{@resource} not queuing delayed action #{notification.action} on #{notification.resource}"\
+                             " (delayed), as it's already been queued")
+            else
+              notifications << notification
+            end
           end
         end
       end
+
     end
   end
 end

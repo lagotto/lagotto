@@ -25,7 +25,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Sat, 16 Apr 2016 11:38:12 GMT
+      - Tue, 26 Apr 2016 13:24:22 GMT
       Connection:
       - close
     body:
@@ -38,7 +38,7 @@ http_interactions:
         }
         ]
     http_version: 
-  recorded_at: Sat, 16 Apr 2016 11:38:12 GMT
+  recorded_at: Tue, 26 Apr 2016 13:24:23 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PONE.0067729
@@ -64,21 +64,21 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '1437'
+      - '1648'
       Server:
       - http-kit
       Date:
-      - Sat, 16 Apr 2016 11:38:13 GMT
+      - Tue, 26 Apr 2016 13:24:26 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,12,28]],"date-time":"2015-12-28T05:40:20Z","timestamp":1451281220334},"reference-count":0,"publisher":"Public
-        Library of Science (PLoS)","issue":"7","DOI":"10.1371\/journal.pone.0067729","type":"journal-article","created":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T20:59:20Z","timestamp":1373317160000},"page":"e67729","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Introgressive
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,4,20]],"date-time":"2016-04-20T19:51:51Z","timestamp":1461181911206},"reference-count":0,"publisher":"Public
+        Library of Science (PLoS)","issue":"7","license":[{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T00:00:00Z","timestamp":1373241600000},"URL":"http:\/\/creativecommons.org\/licenses\/by\/4.0\/"}],"DOI":"10.1371\/journal.pone.0067729","type":"journal-article","created":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T20:59:20Z","timestamp":1373317160000},"page":"e67729","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Introgressive
         Hybridization between Anciently Diverged Lineages of Silene (Caryophyllaceae)"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"8","author":[{"affiliation":[],"family":"Petri","given":"Anna"},{"affiliation":[],"family":"Pfeil","given":"Bernard
         E."},{"affiliation":[],"family":"Oxelman","given":"Bengt"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2013,7,8]]},"container-title":["PLoS
-        ONE"],"deposited":{"date-parts":[[2014,3,6]],"date-time":"2014-03-06T03:16:27Z","timestamp":1394075787000},"score":1.0,"subtitle":[],"editor":[{"affiliation":[],"family":"Michalak","given":"Pawel"}],"issued":{"date-parts":[[2013,7,8]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0067729","ISSN":["1932-6203"],"subject":["Biochemistry,
+        ONE"],"deposited":{"date-parts":[[2016,4,20]],"date-time":"2016-04-20T18:00:27Z","timestamp":1461175227000},"score":1.0,"subtitle":[],"editor":[{"affiliation":[],"family":"Michalak","given":"Pawel"}],"issued":{"date-parts":[[2013,7,8]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0067729","ISSN":["1932-6203"],"subject":["Biochemistry,
         Genetics and Molecular Biology(all)","Agricultural and Biological Sciences(all)","Medicine(all)"]}}'
     http_version: 
-  recorded_at: Sat, 16 Apr 2016 11:38:13 GMT
+  recorded_at: Tue, 26 Apr 2016 13:24:27 GMT
 recorded_with: VCR 2.9.3

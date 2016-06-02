@@ -19,7 +19,7 @@ http_interactions:
       Server:
       - nginx/1.1.19
       Date:
-      - Sat, 16 Apr 2016 14:53:56 GMT
+      - Tue, 26 Apr 2016 13:50:22 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
@@ -128,5 +128,5 @@ http_interactions:
         blllYXIiOiIyMDExIiwicmVzb3VyY2VUeXBlR2VuZXJhbCI6IkRhdGFzZXQi
         fV19fQo=
     http_version: 
-  recorded_at: Sat, 16 Apr 2016 14:52:08 GMT
+  recorded_at: Tue, 26 Apr 2016 13:48:21 GMT
 recorded_with: VCR 2.9.3

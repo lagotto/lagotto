@@ -3,7 +3,7 @@ require 'rails_helper'
 describe BmcFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:bmc_fulltext) }
 
-  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/najoshi/sickle", registration_agency: "github") }
+  let(:work) { FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/najoshi/sickle") }
 
   context "lookup canonical URL" do
     it "should look up canonical URL if there is no work url" do
@@ -31,7 +31,7 @@ describe BmcFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the BMC Search API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
+      work = FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work_id: work.id)
       expect(response).to eq({ "entries" => [] })
     end
@@ -95,7 +95,7 @@ describe BmcFulltext, type: :model, vcr: true do
                                           "DOI" => "10.1186/s13007-014-0041-7",
                                           "type" => "article-journal",
                                           "tracked" => true,
-                                          "registration_agency" => "crossref")
+                                          "registration_agency_id" => "crossref")
     end
 
     it "should catch timeout errors with the BMC Search API" do

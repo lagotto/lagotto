@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PlosFulltext, type: :model, vcr: true do
   subject { FactoryGirl.create(:plos_fulltext) }
 
-  let(:work) { FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/rougier/ten-rules", registration_agency: "github") }
+  let(:work) { FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/rougier/ten-rules") }
 
   context "urls" do
     it "should get_query_url" do
@@ -37,7 +37,7 @@ describe PlosFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are no events returned by the PLOS Search API" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: "https://github.com/pymor/pymor", registration_agency: "github")
+      work = FactoryGirl.create(:work, :with_github, doi: nil, canonical_url: "https://github.com/pymor/pymor")
       response = subject.get_data(work_id: work.id)
       expect(response["response"]["numFound"]).to eq(0)
     end
@@ -75,7 +75,7 @@ describe PlosFulltext, type: :model, vcr: true do
     end
 
     it "should report if there are events returned by the PLOS Search API" do
-      work = FactoryGirl.create(:work, doi: nil, pid: "https://github.com/rougier/ten-rules", canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15", registration_agency: "github")
+      work = FactoryGirl.create(:work, :with_github, doi: nil, pid: "https://github.com/rougier/ten-rules", canonical_url: "https://github.com/rougier/ten-rules", published_on: "2009-03-15")
       body = File.read(fixture_path + 'plos_fulltext.json')
       result = JSON.parse(body)
       response = subject.parse_data(result, work_id: work.id)
@@ -97,7 +97,7 @@ describe PlosFulltext, type: :model, vcr: true do
                                           "DOI"=>"10.1371/journal.pcbi.1003833",
                                           "type"=>"article-journal",
                                           "tracked"=>false,
-                                          "registration_agency"=>"crossref")
+                                          "registration_agency_id"=>"crossref")
     end
 
     it "should catch timeout errors with the PLOS Search API" do

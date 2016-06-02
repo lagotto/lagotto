@@ -76,38 +76,30 @@ class Github < Agent
 
     stargazers_count = result.fetch("stargazers_count", 0)
     if stargazers_count > 0
-      total_previous_month = get_total_previous_month(work.id, "bookmarks")
-      total = stargazers_count - total_previous_month
-
-      if total > 0
-        relations << { prefix: work.prefix,
-                       occurred_at: subj_date,
-                       relation: { "subj_id" => subj_id,
-                                   "obj_id" => work.pid,
-                                   "relation_type_id" => "bookmarks",
-                                   "total" => total,
-                                   "provenance_url" => provenance_url,
-                                   "source_id" => source_id },
-                       subj: subj }
-      end
+      relations << { prefix: work.prefix,
+                     occurred_at: subj_date,
+                     relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "bookmarks",
+                                 "total" => stargazers_count,
+                                 "provenance_url" => provenance_url,
+                                 "source_id" => source_id,
+                                 "registration_agency_id" => "github" },
+                     subj: subj }
     end
 
     forks_count = result.fetch("forks_count", 0)
     if forks_count > 0
-      forks_count_previous_month = get_total_previous_month(work.id, "is_derived_from")
-      total = forks_count - forks_count_previous_month
-
-      if total > 0
-        relations << { prefix: work.prefix,
-                       occurred_at: subj_date,
-                       relation: { "subj_id" => subj_id,
-                                   "obj_id" => work.pid,
-                                   "relation_type_id" => "is_derived_from",
-                                   "total" => total,
-                                   "provenance_url" => provenance_url,
-                                   "source_id" => source_id },
-                       subj: subj }
-      end
+      relations << { prefix: work.prefix,
+                     occurred_at: subj_date,
+                     relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "is_derived_from",
+                                 "total" => forks_count,
+                                 "provenance_url" => provenance_url,
+                                 "source_id" => source_id,
+                                 "registration_agency_id" => "github" },
+                     subj: subj }
     end
 
     relations

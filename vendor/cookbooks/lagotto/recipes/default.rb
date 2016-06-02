@@ -7,7 +7,6 @@ end.run_action(:load)
 # install and configure dependencies
 include_recipe "apt"
 include_recipe "memcached"
-include_recipe "postfix"
 include_recipe "nodejs"
 
 # install nginx and create configuration file and application root

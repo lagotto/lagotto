@@ -129,7 +129,7 @@ describe "/api/v7/works", :type => :api, vcr: true do
         expect(last_response.status).to eq(400)
 
         response = JSON.parse(last_response.body)
-        expect(response["meta"]["error"]).to eq("pid"=>["can't be blank"], "title"=>["can't be blank"], "year"=>["is not a number"], "published_on"=>["is before 0000"])
+        expect(response["meta"]["error"]).to eq("pid"=>["can't be blank"], "title"=>["can't be blank"], "year"=>["is not a number"])
         expect(response["meta"]["status"]).to eq("error")
         expect(response["work"]).to be_blank
       end

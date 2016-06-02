@@ -43,7 +43,14 @@ class Agent < ActiveRecord::Base
                    "twitter_search" => [:access_token],
                    "scopus" => [:insttoken],
                    "crossref_import" => [:sample, :only_publishers],
-                   "datacite_import" => [:only_publishers] }
+                   "crossref_orcid" => [:sample, :only_publishers],
+                   "crossref_publisher" => [:sample, :only_publishers],
+                   "datacite_crossref" => [:only_publishers, :personal_access_token],
+                   "datacite_datacentre" => [:only_publishers, :personal_access_token],
+                   "datacite_import" => [:only_publishers, :personal_access_token],
+                   "datacite_orcid" => [:only_publishers, :personal_access_token],
+                   "datacite_github" => [:only_publishers],
+                   "datacite_related" => [:only_publishers, :personal_access_token] }
 
   has_many :publishers, :through => :publisher_options
   has_many :publisher_options
@@ -219,6 +226,7 @@ class Agent < ActiveRecord::Base
                         relation_type_id: relation.fetch('relation_type_id', nil),
                         source_id: relation.fetch('source_id', nil),
                         publisher_id: relation.fetch('publisher_id', nil),
+                        registration_agency_id: relation.fetch('registration_agency_id', nil),
                         total: relation.fetch('total', nil),
                         occurred_at: relation.fetch('occurred_at', nil))
         sum << deposit
@@ -328,23 +336,6 @@ class Agent < ActiveRecord::Base
     cron_parser.next(Time.zone.now)
   rescue ArgumentError
     errors.add(:cron_line, "is not a valid crontab entry")
-  end
-
-  def get_total_previous_month(work_id, relation_type_id)
-    source = cached_source(source_id)
-    relation_type = cached_relation_type(relation_type_id)
-
-    return 0 unless relation_type.present? && source.present?
-
-    relation = Relation.where(work_id: work_id)
-                       .where(source_id: source.id)
-                       .where(relation_type_id: relation_type.id)
-                       .where("occurred_at < ?", Time.zone.now.beginning_of_month)
-                       .order("occurred_at DESC").first
-
-    return 0 unless relation.present?
-
-    return relation.total
   end
 
   def timestamp

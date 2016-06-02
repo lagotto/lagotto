@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "status": "ok",
+    "message-type": "deposit-list",
+    "message-version": "v7",
+    "total": 0,
+    "total_pages": 1,
+    "page": 1
+  },
+  "deposits": []
+}

@@ -4,7 +4,7 @@
       <div class="panel-body">
         <h4 class="work"><%= @publisher.title.html_safe %></h4>
         <% if @publisher.prefixes %>
-          <div class="prefix"><%= 'Prefix'.pluralize(@publisher.prefixes.size) + ": " + @publisher.prefixes.join(" ") %></div>
+          <div class="prefix"><%= 'Prefix'.pluralize(@publisher.prefixes.size) + ": " + @publisher.prefixes.map { |p| p.name }.join(" ") %></div>
         <% end %>
         <% if can?(:read, Notification) && @publisher.users.present? %>
           <h5>Users</h5>
@@ -27,8 +27,8 @@
     <div class="panel facets">
       <div class="panel-body metadata">
         <% if @publisher.registration_agency.present? %>
-          <h5>Registration agency</h5>
-          <div class="registration_agency"><%= @publisher.registration_agency.humanize %></div>
+          <h5>Registration Agency</h5>
+          <div class="registration_agency"><%= @publisher.registration_agency.title %></div>
         <% end %>
       </div>
     </div>

@@ -10,6 +10,7 @@ class Api::V7::ContributionsController < Api::BaseController
     summary "Returns list of works for a particular contributor"
     param :query, :contributor_role_id, :string, :optional, "Contributor_role ID"
     param :query, :source_id, :string, :optional, "Source ID"
+    param :query, :publisher_id, :string, :optional, "Publisher ID"
     param :query, :page, :integer, :optional, "Page number"
     param :query, :recent, :integer, :optional, "Limit to contributions created last x days"
     param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
@@ -36,6 +37,10 @@ class Api::V7::ContributionsController < Api::BaseController
 
     if params[:source_id] && source = Source.where(name: params[:source_id]).first
       collection = collection.where(source_id: source.id)
+    end
+
+    if params[:publisher_id] && publisher = Publisher.where(name: params[:publisher_id]).first
+      collection = collection.where(publisher_id: publisher.id)
     end
 
     if params[:recent]

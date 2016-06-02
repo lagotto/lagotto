@@ -96,7 +96,7 @@ describe Wikipedia, type: :model, vcr: true do
                                           "URL"=>"http://en.wikipedia.org/wiki/Lobatus_costatus",
                                           "type"=>"entry-encyclopedia",
                                           "tracked"=>false,
-                                          "registration_agency"=>"wikipedia")
+                                          "registration_agency_id"=>"wikipedia")
     end
 
     it "should report if there are events and event_count returned by the Wikimedia Commons API" do
@@ -120,7 +120,7 @@ describe Wikipedia, type: :model, vcr: true do
                                           "URL"=>"http://en.wikipedia.org/wiki/Lesula",
                                           "type"=>"entry-encyclopedia",
                                           "tracked"=>false,
-                                          "registration_agency"=>"wikipedia")
+                                          "registration_agency_id"=>"wikipedia")
     end
 
     it "should catch timeout errors with the Wikipedia API" do

@@ -11,11 +11,61 @@
       </div>
       <a class="navbar-brand" href="/">
         <%= image_tag('datacite/logo.png', class: 'logo') %>
-        <span class="logo">Data</span><span>Cite <%= ENV['SITENAME'] %></span>
+        <%= content_tag :span, "Data", data_tags_for_api %><span>Cite <%= ENV['SITENAME'] %></span>
       </a>
       <div class="navbar-collapse collapse">
         <% unless ["sessions","registrations"].include?(controller.controller_name) %>
           <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to "Works", works_path %></li>
+            <li class="hidden-sm"><%= link_to "Contributors", contributors_path %></li>
+            <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
+            <% if can?(:read, Notification) %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "Agents", agents_path %></li>
+                  <li><%= link_to "Deposits", deposits_path %></li>
+                  <li><%= link_to "Sources", sources_path %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to "Users", users_path %></li>
+                  <li><%= link_to "API Requests", api_requests_path %></li>
+                  <li><%= link_to "Filters", filters_path %></li>
+                  <li class="divider"></li>
+                  <li><%= link_to "Notifications", notifications_path %></li>
+                  <li><%= link_to "Status", status_index_path %></li>
+                </ul>
+              </li>
+            <% end %>
+            <li class="dropdown hidden-sm">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "API", "/api" %></li>
+                <li class="divider"></li>
+                <% documents.each do |document| %>
+                  <% if document == "-" %>
+                    <li class="divider"></li>
+                  <% else %>
+                    <li><%= link_to h(document.tr('-', ' ')), "/docs/#{document.downcase}" %></li>
+                  <% end %>
+                <% end %>
+                <li class="divider"></li>
+                <li><%= link_to "Support Forum", "http://discuss.lagotto.io" %></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= icon('th') %> <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header">DataCite Labs</li>
+                <% settings.labs_links.each do |item| %>
+                  <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
+                <% end %>
+                <li class="divider"></li>
+                <li class="dropdown-header">DataCite</li>
+                <% settings.production_links.each do |item| %>
+                  <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
+                <% end %>
+              </ul>
+            </li>
             <% if user_signed_in? %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= current_user.name %> <span class="caret"></span></a>
@@ -40,22 +90,6 @@
             <% end %>
           </ul>
         <% end %>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="account_menu_link"><%= icon('th') %> <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li class="dropdown-header">DataCite Labs</li>
-              <% settings.labs_links.each do |item| %>
-                <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
-              <% end %>
-              <li class="divider"></li>
-              <li class="dropdown-header">DataCite</li>
-              <% settings.production_links.each do |item| %>
-                <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
-              <% end %>
-            </ul>
-          </li>
-        </ul>
       </div>
     </div>
   </div>

@@ -13,7 +13,7 @@ class EuropePmcFulltext < Agent
 
   def get_query_string(options = {})
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return {} unless work.present? && work.get_url && registration_agencies.include?(work.registration_agency)
+    return {} unless work.present? && work.get_url && registration_agencies.include?(work.registration_agency && work.registration_agency.name)
 
     # fulltext search doesn't search in the reference list
     if work.doi.present?
@@ -34,7 +34,7 @@ class EuropePmcFulltext < Agent
       pmcid = ids.fetch("pmcid", nil)
       pmcid = pmcid[3..-1] if pmcid
       author_string = item.fetch("authorString", "").chomp(".")
-      registration_agency = doi.present? ? "crossref" : "pubmed"
+      registration_agency_id = doi.present? ? "crossref" : "pubmed"
 
       subj_id = doi_as_url(doi)
 
@@ -53,7 +53,7 @@ class EuropePmcFulltext < Agent
                 "PMCID" => pmcid,
                 "type" => "article-journal",
                 "tracked" => tracked,
-                "registration_agency" => registration_agency }}
+                "registration_agency_id" => registration_agency_id }}
     end
   end
 

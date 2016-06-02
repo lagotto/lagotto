@@ -32,7 +32,13 @@ Lagotto::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-
+  if ENV['MAILGUN_API_KEY'].present?
+    config.action_mailer.delivery_method = :mailgun
+    config.action_mailer.mailgun_settings = {
+      api_key: ENV['MAILGUN_API_KEY'],
+      domain: ENV['MAILGUN_DOMAIN']
+    }
+  end
   # Enable threaded mode
   # config.threadsafe!
 

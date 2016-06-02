@@ -1,6 +1,6 @@
 class CrossrefPublisher < Agent
-  # include common methods for Import
-  include Importable
+  # include common methods for Crossref
+  include Crossrefable
 
   def get_query_url(options={})
     offset = options[:offset].to_i
@@ -9,39 +9,6 @@ class CrossrefPublisher < Agent
     params = { offset: offset, rows: rows }
 
     url + params.to_query
-  end
-
-  def get_total(options={})
-    query_url = get_query_url(options.merge(rows: 0))
-    result = get_result(query_url, options)
-    result.fetch('message', {}).fetch('total-results', 0)
-  end
-
-  def queue_jobs(options={})
-    return 0 unless active?
-
-    unless options[:all]
-      return 0 unless stale?
-    end
-
-    query_url = get_query_url(options.merge(rows: 0))
-    result = get_result(query_url, options)
-    total = result.fetch("message", {}).fetch("total-results", 0)
-
-    if total > 0
-      # walk through paginated results
-      total_pages = (total.to_f / job_batch_size).ceil
-
-      (0...total_pages).each do |page|
-        options[:offset] = page * job_batch_size
-        AgentJob.set(queue: queue, wait_until: schedule_at).perform_later(self, options)
-      end
-
-      schedule_next_run
-    end
-
-    # return number of works queued
-    total
   end
 
   def parse_data(result, options={})
@@ -62,13 +29,9 @@ class CrossrefPublisher < Agent
                 "other_names" => item.fetch('names', []),
                 "prefixes" => item.fetch('prefixes', []),
                 "issued" => get_iso8601_from_epoch(item.fetch('last-status-check-time', nil)),
-                "registration_agency" => "crossref",
+                "registration_agency_id" => "crossref",
                 "active" => true } }
     end
-  end
-
-  def config_fields
-    [:url]
   end
 
   def url
@@ -77,9 +40,5 @@ class CrossrefPublisher < Agent
 
   def cron_line
     config.cron_line || "40 2 * * 1"
-  end
-
-  def job_batch_size
-    config.job_batch_size || 1000
   end
 end

@@ -5,6 +5,8 @@ json.meta do
   json.total @relations.total_entries
   json.total_pages @relations.per_page > 0 ? @relations.total_pages : 1
   json.page @relations.total_entries > 0 ? @relations.current_page : 1
+  json.sources @sources
+  json.relation_types @relation_types
 end
 
 json.relations @relations do |relation|

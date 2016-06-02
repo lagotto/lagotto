@@ -55,67 +55,47 @@ class Facebook < Agent
 
     relations = []
     if url_linkstat.blank? && total > 0
-      total_previous_month = get_total_previous_month(work.id, "references")
-      total = total - total_previous_month
-
-      if total > 0
-        relations << { prefix: work.prefix,
-                       occurred_at: subj_date,
-                       relation: { "subj_id" => subj_id,
-                                   "obj_id" => work.pid,
-                                   "relation_type_id" => "references",
-                                   "total" => total,
-                                   "source_id" => source_id },
-                       subj: subj }
-      end
+      relations << { prefix: work.prefix,
+                     occurred_at: subj_date,
+                     relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "references",
+                                 "total" => total,
+                                 "source_id" => source_id },
+                     subj: subj }
     end
 
     if readers > 0
-      readers_previous_month = get_total_previous_month(work.id, "bookmarks")
-      total = readers - readers_previous_month
-
-      if total > 0
-        relations << { prefix: work.prefix,
-                       occurred_at: subj_date,
-                       relation: { "subj_id" => subj_id,
-                                   "obj_id" => work.pid,
-                                   "relation_type_id" => "bookmarks",
-                                   "total" => total,
-                                   "source_id" => source_id },
-                       subj: subj }
-      end
+      relations << { prefix: work.prefix,
+                     occurred_at: subj_date,
+                     relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "bookmarks",
+                                 "total" => readers,
+                                 "source_id" => source_id },
+                     subj: subj }
     end
 
     if comments > 0
-      comments_previous_month = get_total_previous_month(work.id, "discusses")
-      total = comments - comments_previous_month
-
-      if total > 0
-        relations << { prefix: work.prefix,
-                       occurred_at: subj_date,
-                       relation: { "subj_id" => subj_id,
-                                   "obj_id" => work.pid,
-                                   "relation_type_id" => "discusses",
-                                   "total" => total,
-                                   "source_id" => source_id },
-                       subj: subj }
-      end
+      relations << { prefix: work.prefix,
+                     occurred_at: subj_date,
+                     relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "discusses",
+                                 "total" => comments,
+                                 "source_id" => source_id },
+                     subj: subj }
     end
 
     if likes > 0
-      likes_previous_month = get_total_previous_month(work.id, "likes")
-      total = likes - likes_previous_month
-
-      if total > 0
-        relations << { prefix: work.prefix,
-                       occurred_at: subj_date,
-                       relation: { "subj_id" => subj_id,
-                                   "obj_id" => work.pid,
-                                   "relation_type_id" => "likes",
-                                   "total" => total,
-                                   "source_id" => source_id },
-                       subj: subj }
-      end
+      relations << { prefix: work.prefix,
+                     occurred_at: subj_date,
+                     relation: { "subj_id" => subj_id,
+                                 "obj_id" => work.pid,
+                                 "relation_type_id" => "likes",
+                                 "total" => likes,
+                                 "source_id" => source_id },
+                     subj: subj }
     end
 
     relations

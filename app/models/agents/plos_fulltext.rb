@@ -16,7 +16,7 @@ class PlosFulltext < Agent
   def get_query_string(options={})
     # don't query if work is PLOS article
     work = Work.where(id: options.fetch(:work_id, nil)).first
-    return nil if work.nil? || work.prefix == "10.1371" || !registration_agencies.include?(work.registration_agency)
+    return nil if work.nil? || work.prefix == "10.1371" || !registration_agencies.include?(work.registration_agency && work.registration_agency.name)
 
     [work.doi, work.canonical_url].compact.map { |i| "everything:%22#{i}%22" }.join("+OR+")
   end
@@ -42,7 +42,7 @@ class PlosFulltext < Agent
                 "DOI" => doi,
                 "type" => "article-journal",
                 "tracked" => tracked,
-                "registration_agency" => "crossref" }}
+                "registration_agency_id" => "crossref" }}
     end
   end
 

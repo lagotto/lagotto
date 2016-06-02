@@ -52,7 +52,7 @@ describe "queue:all[datacite_import]", vcr: true do
     FactoryGirl.create(:datacite_import)
   end
 
-  let(:output) { "Queueing all works published from 2013-09-04 to 2013-09-05.\n419 works for agent Datacite Import have been queued.\n" }
+  let(:output) { "Queueing all works published from 2013-09-04 to 2013-09-05.\n414 works for agent Datacite (Import) have been queued.\n" }
 
   it "prerequisites should include environment" do
     expect(subject.prerequisites).to include("environment")

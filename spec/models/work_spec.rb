@@ -2,13 +2,13 @@ require 'rails_helper'
 
 describe Work, type: :model, vcr: true do
 
+  let!(:registration_agency) { FactoryGirl.create(:registration_agency) }
   let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.5555/12345678", doi: "10.5555/12345678") }
 
   subject { work }
 
   it { is_expected.to have_many(:relations).dependent(:destroy) }
   it { is_expected.to validate_uniqueness_of(:doi).case_insensitive }
-  it { is_expected.to validate_presence_of(:title) }
   it { is_expected.to validate_numericality_of(:year).only_integer }
 
   context "validate doi format" do

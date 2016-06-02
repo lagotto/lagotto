@@ -182,11 +182,12 @@ module ApplicationHelper
     data[:source_id] = @source.name if @source.present?
     data[:relation_type_id] = @relation_type.name if @relation_type.present?
     data[:work_type_id] = @work_type.name if @work_type.present?
+    data[:registration_agency_id] = @registration_agency.name if @registration_agency.present?
     data[:contributor_role_id] = @contributor_role.name if @contributor_role.present?
     data[:contributor_id] = @contributor.pid if @contributor.present?
     data[:sort] = @sort.name if @sort.present?
     data[:state] = states[@state] if @state.present?
 
-    { class: "navbar-text", id: "api_key", data: data }
+    { class: "logo", id: "api_key", data: data }
   end
 end

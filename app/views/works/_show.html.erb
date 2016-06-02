@@ -132,6 +132,10 @@
           <h5>Publisher</h5>
           <div class="publisher"><%= link_to h(@work.publisher.title), publisher_path(@work.publisher.name) %></div>
         <% end %>
+        <% if @work.registration_agency %>
+          <h5>Registration Agency</h5>
+          <div class="registration_agency"><%= h(@work.registration_agency.title) %></div>
+        <% end %>
       </div>
     </div>
   </div>

@@ -25,19 +25,19 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Content-Length:
-      - '2983'
+      - '3086'
       Server:
       - http-kit
       Date:
-      - Mon, 21 Mar 2016 23:40:03 GMT
+      - Tue, 26 Apr 2016 13:48:11 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2015,9,24]],"date-time":"2015-09-24T12:23:53Z","timestamp":1443097433289},"reference-count":98,"publisher":"Elsevier
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,3,24]],"date-time":"2016-03-24T16:46:03Z","timestamp":1458837963231},"reference-count":98,"publisher":"Elsevier
         BV","license":[{"content-version":"tdm","delay-in-days":0,"start":{"date-parts":[[2015,7,1]],"date-time":"2015-07-01T00:00:00Z","timestamp":1435708800000},"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/"}],"funder":[{"award":["R01
-        NS077869","R01 NS089482","P01 MH070306","T32 OD011089","P40 OD013117"],"name":"National
-        Institutes of Health","DOI":"10.13039\/100000002"}],"DOI":"10.1016\/j.ejphar.2015.03.018","type":"journal-article","created":{"date-parts":[[2015,4,6]],"date-time":"2015-04-06T07:31:19Z","timestamp":1428305479000},"page":"303-312","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Paving
+        NS077869","R01 NS089482","P01 MH070306","T32 OD011089","P40 OD013117"],"doi-asserted-by":"publisher","name":"National
+        Institutes of Health","DOI":"10.13039\/100000002"}],"published-print":{"date-parts":[[2015,7]]},"DOI":"10.1016\/j.ejphar.2015.03.018","type":"journal-article","created":{"date-parts":[[2015,4,6]],"date-time":"2015-04-06T07:31:19Z","timestamp":1428305479000},"page":"303-312","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Paving
         the path to HIV neurotherapy: Predicting SIV CNS disease"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"759","author":[{"affiliation":[],"family":"Beck","given":"Sarah
         E."},{"affiliation":[],"family":"Queen","given":"Suzanne E."},{"affiliation":[],"family":"Witwer","given":"Kenneth
         W."},{"affiliation":[],"family":"Metcalf Pate","given":"Kelly A."},{"affiliation":[],"family":"Mangus","given":"Lisa
@@ -45,7 +45,7 @@ http_interactions:
         J."},{"affiliation":[],"family":"Clements","given":"Janice E."},{"affiliation":[],"family":"Christine
         Zink","given":"M."},{"affiliation":[],"family":"Mankowski","given":"Joseph
         L."}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["European
-        Journal of Pharmacology"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299915002332?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299915002332?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,9,3]],"date-time":"2015-09-03T11:19:50Z","timestamp":1441279190000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,7]]},"alternative-id":["S0014299915002332"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.ejphar.2015.03.018","ISSN":["0014-2999"],"assertion":[{"label":"This
+        Journal of Pharmacology"],"link":[{"intended-application":"text-mining","content-version":"vor","content-type":"text\/xml","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299915002332?httpAccept=text\/xml"},{"intended-application":"text-mining","content-version":"vor","content-type":"text\/plain","URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299915002332?httpAccept=text\/plain"}],"deposited":{"date-parts":[[2015,10,23]],"date-time":"2015-10-23T15:51:06Z","timestamp":1445615466000},"score":1.0,"subtitle":[],"issued":{"date-parts":[[2015,7]]},"alternative-id":["S0014299915002332"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.ejphar.2015.03.018","ISSN":["0014-2999"],"subject":["Pharmacology"],"assertion":[{"label":"This
         article is maintained by","name":"publisher","value":"Elsevier"},{"label":"Article
         Title","name":"articletitle","value":"Paving the path to HIV neurotherapy:
         Predicting SIV CNS disease"},{"label":"Journal Title","name":"journaltitle","value":"European
@@ -54,5 +54,5 @@ http_interactions:
         Type","name":"content_type","value":"article"},{"label":"Copyright","name":"copyright","value":"Copyright
         \u00a9 2015 Elsevier B.V. All rights reserved."}]}}'
     http_version: 
-  recorded_at: Mon, 21 Mar 2016 23:40:03 GMT
+  recorded_at: Tue, 26 Apr 2016 13:48:12 GMT
 recorded_with: VCR 2.9.3

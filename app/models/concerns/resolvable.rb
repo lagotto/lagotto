@@ -343,6 +343,9 @@ module Resolvable
       rescue_faraday_error(url, e, options)
     end
 
+    # lookup registration agency for a given doi
+    # first lookup cached prefixes
+    # return hash with keys :name, :title, or :error
     def get_doi_ra(doi, options = {})
       return {} if doi.blank?
 
@@ -352,16 +355,20 @@ module Resolvable
       return {} if prefix_string.blank?
 
       prefix = cached_prefix(prefix_string)
-      return prefix.registration_agency if prefix.present?
+      return { id: prefix.registration_agency.id,
+               name: prefix.registration_agency.name,
+               title: prefix.registration_agency.title } if prefix.present?
 
       url = "http://doi.crossref.org/doiRA/#{doi}"
       response = get_result(url, options.merge(host: true))
 
       ra = response.first.fetch("RA", nil)
       if ra.present?
-        ra = ra.delete(' ').downcase
-        Prefix.where(prefix: prefix_string).first_or_create(registration_agency: ra)
-        ra
+        registration_agency = cached_registration_agency(ra.delete(' ').downcase)
+        registration_agency.prefixes.where(name: prefix_string).first_or_create
+        { id: registration_agency.id,
+          name: registration_agency.name,
+          title: registration_agency.title }
       else
         error = response.first.fetch("status", "An error occured")
         { error: error, status: 400 }
