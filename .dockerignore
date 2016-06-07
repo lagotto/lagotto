@@ -1,0 +1,9 @@
+.env
+.env.*
+.bundle
+.vagrant
+.git
+log/*
+tmp/*
+vendor/bundle/*
+vendor/cookbooks/*
