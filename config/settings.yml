@@ -1,4 +1,26 @@
 datacite:
+  development_links:
+   - name: API
+     url: http://localhost:8040
+     icon: cogs
+   - name: Assets
+     url: http://localhost:8010
+     icon: file-image-o
+   - name: Blog
+     url: http://localhost:8030
+     icon: rss
+   - name: Event Data
+     url: http://localhost:8050
+     icon: link
+   - name: Profiles
+     url: http://localhost:8080
+     icon: user
+   - name: Schema
+     url: http://localhost:8020
+     icon: file-code-o
+   - name: Search
+     url: http://localhost:8000
+     icon: search
   labs_links:
    - name: Profiles
      url: https://profiles.labs.datacite.org
