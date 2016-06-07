@@ -3,29 +3,14 @@
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
 
-begin
-  # make sure DOTENV is set
-  ENV["DOTENV"] ||= "default"
-
-  # load ENV variables from file specified by DOTENV
-  # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
-
-  fail Errno::ENOENT unless File.exist?(File.expand_path("../../#{filename}", __FILE__))
-
-  # load ENV variables from file specified by APP_ENV, fallback to .env
-  require "dotenv"
-  Dotenv.load! filename
-rescue Errno::ENOENT
-  $stderr.puts "Please create file .env in the Rails root folder"
-  exit
-rescue LoadError
-  $stderr.puts "Please install dotenv with \"gem install dotenv\""
-  exit
+# load ENV variables from .env file if it exists
+env_file = File.expand_path("../../.env", __FILE__)
+if File.exist?(env_file)
+  require 'dotenv'
+  Dotenv.load! env_file
 end
 
 env :PATH, ENV['PATH']
-env :DOTENV, ENV['DOTENV']
 set :environment, ENV['RAILS_ENV']
 set :output, "log/cron.log"
 
