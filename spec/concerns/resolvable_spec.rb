@@ -199,7 +199,7 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
-      it "xxx" do
+      it "can't find id" do
         id = "xxx"
         expect(subject.get_id_hash(id)).to be_blank
       end
