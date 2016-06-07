@@ -20,7 +20,7 @@ class Api::BaseController < ActionController::Base
   def load_work
     # Load one work given query params
     id_hash = get_id_hash(params[:id])
-    if id_hash.respond_to?("key")
+    id_hash.present?
       key, value = id_hash.first
       @work = Work.where(key => value).first
     else
