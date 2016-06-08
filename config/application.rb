@@ -7,12 +7,25 @@ require 'syslog/logger'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-begin
-  Dotenv.load! File.expand_path("../../.env", __FILE__)
-rescue Errno::ENOENT
-  $stderr.puts "Please create .env file, e.g. from .env.example"
-  exit
+# load ENV variables from .env file if it exists
+env_file = File.expand_path("../../.env", __FILE__)
+if File.exist?(env_file)
+  require 'dotenv'
+  Dotenv.load! env_file
 end
+
+# load ENV variables from container environment if json file exists
+# see https://github.com/phusion/baseimage-docker#envvar_dumps
+env_json_file = "/etc/container_environment.json"
+if File.exist?(env_json_file)
+  env_vars = JSON.parse(File.read(env_json_file))
+  env_vars.each { |k, v| ENV[k] = v }
+end
+
+# default values for some ENV variables
+ENV['APPLICATION'] ||= "lagotto"
+ENV['SITENAMELONG'] ||= "Lagotto"
+ENV['TRUSTED_IP'] ||= "10.0.10.1"
 
 module Lagotto
   class Application < Rails::Application
@@ -25,7 +38,7 @@ module Lagotto
     config.autoload_paths += Dir["#{config.root}/app/models/**/**", "#{config.root}/app/controllers/**/"]
 
     # add assets from Ember app
-    config.assets.paths << "#{Rails.root}/frontend/bower_components"
+    config.assets.paths << "#{Rails.root}/vendor/bower_components"
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -48,6 +61,10 @@ module Lagotto
     # Configure sensitive parameters which will be filtered from the log file.
     # TODO: do I need to add salt here?
     config.filter_parameters += [:password, :authentication_token]
+
+    # Use a different logger for distributed setups
+    config.lograge.enabled = true
+    config.logger = Syslog::Logger.new(ENV['APPLICATION'])
 
     # Use a different cache store
     # dalli uses ENV['MEMCACHE_SERVERS']

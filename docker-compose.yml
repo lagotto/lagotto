@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  web:
+    env_file: .env
+    image: lagotto/lagotto
+    ports:
+      - "8080:80"
+  db:
+    env_file: .env
+    image: mysql:5.6
+    ports:
+      - "3307:3306"
+  redis:
+    image: redis:2.8

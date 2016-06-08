@@ -160,7 +160,7 @@ class Api::V7::WorksController < Api::BaseController
       collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
     elsif params[:id]
       id_hash = get_id_hash(params[:id])
-      if id_hash.respond_to?("key")
+      if id_hash.present?
         key, value = id_hash.first
         collection = Work.where(key => value)
       else

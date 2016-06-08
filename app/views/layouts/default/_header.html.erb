@@ -9,7 +9,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/">
-          <span><%= ENV['SITENAME'] %></span>
+          <%= content_tag :span, ENV['SITENAME'], data_tags_for_api %>
         </a>
       </div>
       <div class="navbar-collapse collapse">

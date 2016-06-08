@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
+  "name": "webapp",
   "version": "0.0.0",
-  "description": "Ember frontend for Lagotto",
+  "description": "webapp",
   "private": true,
   "directories": {
     "doc": "doc",
