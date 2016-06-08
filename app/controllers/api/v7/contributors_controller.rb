@@ -32,7 +32,7 @@ class Api::V7::ContributorsController < Api::BaseController
     collection = collection.order_by_name
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
-    page = params[:page] && params[:per_page].to_i > 0 ? params[:page].to_i : 1
+    page = params[:page] && params[:page].to_i > 0 ? params[:page].to_i : 1
     total_entries = get_total_entries(params)
 
     collection = collection.paginate(per_page: per_page,

@@ -1,7 +1,10 @@
 class AgentsController < ApplicationController
   before_filter :load_agent, only: [:show, :edit, :update]
   load_and_authorize_resource
-  skip_authorize_resource :only => [:show, :index]
+
+  if ENV['MODE'] != "datacite"
+    skip_authorize_resource :only => [:show, :index]
+  end
 
   def show
     @doc = Doc.find(@agent.name)

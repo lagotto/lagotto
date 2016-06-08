@@ -19,6 +19,7 @@ class Publisher < ActiveRecord::Base
   validates :title, :presence => true
   validates :name, :presence => true, :uniqueness => true
 
+  before_create :set_defaults
   after_commit :update_cache, :on => :create
 
   scope :order_by_name, -> { order("publishers.title") }
@@ -54,6 +55,12 @@ class Publisher < ActiveRecord::Base
   def work_count_by_source=(source_id, time)
     Rails.cache.write("publisher/#{name}/#{source_id}/work_count/#{time}",
                       works.has_results.by_source(source_id).size)
+  end
+
+  # set member_id for DataCite publisher
+  def set_defaults
+    member = name.to_s.split(".")
+    write_attribute(:member_id, member.first) if member_id.blank? && member.length == 2
   end
 
   def cache_key

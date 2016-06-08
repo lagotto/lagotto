@@ -76,6 +76,26 @@ class Api::V7::WorksController < Api::BaseController
 
   def index
     collection = get_ids(params)
+
+    if params[:source_id] && source = cached_source(params[:source_id])
+      @sources = { params[:source_id] => collection.joins(:results)
+                                                   .where("results.source_id = ?", source.id)
+                                                   .where("results.total > 0").count }
+    else
+      sources = collection.joins(:results).group("results.source_id").count
+      source_names = cached_source_names
+      @sources = sources.map { |k,v| [source_names[k], v] }.to_h
+    end
+
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
+      @relation_types = { params[:relation_type_id] => collection.joins(:relations)
+                                                                 .where("relations.relation_type_id = ?", relation_type.id).count }
+    else
+      relation_types = collection.joins(:relations).group("relations.relation_type_id").count
+      relation_type_names = cached_relation_type_names
+      @relation_types = relation_types.map { |k,v| [relation_type_names[k], v] }.to_h
+    end
+
     collection = get_sort(collection, params)
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000
@@ -138,6 +158,14 @@ class Api::V7::WorksController < Api::BaseController
       collection = Work.where(publisher_id: publisher.id)
     elsif params[:contributor_id] && contributor = Contributor.where(pid: params[:contributor_id]).first
       collection = Work.joins(:contributions).where("contributions.contributor_id = ?", contributor.id)
+    elsif params[:id]
+      id_hash = get_id_hash(params[:id])
+      if id_hash.respond_to?("key")
+        key, value = id_hash.first
+        collection = Work.where(key => value)
+      else
+        collection = Work.none
+      end
     else
       collection = Work.tracked
     end

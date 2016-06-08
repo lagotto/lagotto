@@ -13,9 +13,6 @@ Lagotto::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  #root :to => "ember#index"
-  #get '/docs/*path' => 'ember#index'
-
   # simplify GET route to works
   #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
   root :to => "docs#index"

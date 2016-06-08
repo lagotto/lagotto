@@ -35,16 +35,24 @@ class Api::V7::ContributionsController < Api::BaseController
       collection = collection.where(contributor_role_id: contributor_role.id)
     end
 
-    if params[:source_id] && source = Source.where(name: params[:source_id]).first
+    if params[:source_id] && source = cached_source(params[:source_id])
       collection = collection.where(source_id: source.id)
     end
 
-    if params[:publisher_id] && publisher = Publisher.where(name: params[:publisher_id]).first
+    if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
       collection = collection.where(publisher_id: publisher.id)
     end
 
     if params[:recent]
       collection = collection.last_x_days(params[:recent].to_i)
+    end
+
+    if params[:source_id] && source = cached_source(params[:source_id])
+      @sources = { params[:source_id] => collection.where(source_id: source.id).count }
+    else
+      sources = collection.where.not(source_id: nil).group(:source_id).count
+      source_names = cached_source_names
+      @sources = sources.map { |k,v| [source_names[k], v] }.to_h
     end
 
     collection = collection.order("contributions.updated_at DESC")

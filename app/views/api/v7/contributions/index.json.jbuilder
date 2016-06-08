@@ -5,6 +5,7 @@ json.meta do
   json.total @contributions.total_entries
   json.total_pages @contributions.per_page > 0 ? @contributions.total_pages : 1
   json.page @contributions.total_entries > 0 ? @contributions.current_page : 1
+  json.sources @sources
 end
 
 json.contributions @contributions do |contribution|

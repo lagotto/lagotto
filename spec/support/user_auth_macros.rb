@@ -1,6 +1,10 @@
 module UserAuthMacros
-  def sign_in(role = "admin")
-    OmniAuth.config.add_mock(:jwt, { info: { role: role }})
+  def sign_in(role = "admin", credentials = nil)
+    if credentials == "invalid"
+      OmniAuth.config.mock_auth[:jwt] = :invalid_credentials
+    else
+      OmniAuth.config.add_mock(:jwt, { info: { role: role }})
+    end
     visit "/"
 
     click_link "Sign in"

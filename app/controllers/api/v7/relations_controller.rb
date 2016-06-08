@@ -49,16 +49,20 @@ class Api::V7::RelationsController < Api::BaseController
       collection = collection.last_x_days(params[:recent].to_i)
     end
 
-    @sources = @work.inverse_relations.where.not(source_id: nil).group(:source_id).count.reduce({}) do |sum, s|
-      key = cached_source_names[s[0]]
-      sum[key] = s[1]
-      sum
+    if params[:source_id] && source = cached_source(params[:source_id])
+      @sources = { params[:source_id] => collection.where(source_id: source.id).count }
+    else
+      sources = collection.where.not(source_id: nil).group(:source_id).count
+      source_names = cached_source_names
+      @sources = sources.map { |k,v| [source_names[k], v] }.to_h
     end
 
-    @relation_types = @work.inverse_relations.where.not(relation_type_id: nil).group(:relation_type_id).count.reduce({}) do |sum, s|
-      key = cached_relation_type_names[s[0]]
-      sum[key] = s[1]
-      sum
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
+      @relation_types = { params[:relation_type_id] => collection.where(relation_type_id: relation_type.id).count }
+    else
+      relation_types = collection.where.not(relation_type_id: nil).group(:relation_type_id).count
+      relation_type_names = cached_relation_type_names
+      @relation_types = relation_types.map { |k,v| [relation_type_names[k], v] }.to_h
     end
 
     collection = collection.order("relations.updated_at DESC")

@@ -23,6 +23,7 @@ class Source < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :title, :presence => true
 
+  scope :query, ->(query) { where("name like ? OR title like ?", "%#{query}%", "%#{query}%") }
   scope :order_by_name, -> { order("group_id, sources.title") }
   scope :active, -> { where(active: true).order_by_name }
   scope :for_results, -> { active.joins(:group).where("groups.name = ?", "results") }

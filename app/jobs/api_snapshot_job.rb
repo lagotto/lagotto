@@ -1,6 +1,10 @@
 class ApiSnapshotJob < ActiveJob::Base
   queue_as :high
 
+  rescue_from ActiveJob::DeserializationError, ActiveRecord::ConnectionTimeoutError do
+    retry_job wait: 5.minutes, queue: :default
+  end
+
   def perform(options={})
     ActiveRecord::Base.connection_pool.with_connection do
       id = options[:id] || raise(ArgumentError, "Must supply :id")
