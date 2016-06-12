@@ -7,31 +7,31 @@
 
 Lagotto allows a user to track events around research articles and other scholarly outputs, including how often a work has been viewed, cited, saved, discussed and recommended. The application was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Visit the [Lagotto website](http://lagotto.io) to learn more.
 
-## How to start developing now?
+## Installation
 
-`Lagotto` uses [Vagrant](https://www.vagrantup.com/) and [Virtualbox](https://www.virtualbox.org/) for setting up the development environment. To start developing now on your local machine (Mac OS X, Linux or Windows):
+Using Docker.
 
-1. Install Vagrant: https://www.vagrantup.com/downloads.html
-1. Install Virtualbox: https://www.virtualbox.org/wiki/Downloads
-2. Clone this repository `git clone git@github.com:lagotto/lagotto.git`
-3. Cd into it
-4. Copy the file `.env.example` to `.env` and make any changes to the configuration as needed
-5. Run `vagrant up`
+```
+docker run -p 8050:80 lagotto/lagotto
+```
 
-Once the setup is complete (it might take up to 15 minutes), you'll be able to open up a browser and navigate to [http://10.2.2.4](http://10.2.2.4), and you should see this screen:
+You can now point your browser to `http://localhost:8050` and use the application.
 
-![Lagotto screenshot](https://github.com/lagotto/lagotto/blob/master/public/images/start.png)
+![Screenshot](https://raw.githubusercontent.com/lagotto/lagotto/5-1-unstable/public/images/start.png)
 
-## Documentation
+For a more detailed configuration, including serving the application from the host for live editing, look at `docker-compose.yml` in the root folder.
 
-Detailed instructions on how to start developing are [here](https://github.com/lagotto/lagotto/blob/master/docs/installation.md). There is extensive documentation - including installation instructions - at the [Lagotto website](http://lagotto.io).
+## Development
 
-## Discussion
-Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io). Use the [Github Issue Tracker](https://github.com/lagotto/lagotto/issues) to follow the ongoing development, or use the [Waffle Board](https://waffle.io/lagotto/lagotto) for a development overview.
+We use Rspec for unit and acceptance testing:
 
-[![Stories in Progress](https://badge.waffle.io/lagotto/lagotto.svg?label=in%20progress&title=In%20Progress)](https://waffle.io/lagotto/lagotto)
+```
+bundle exec rspec
+```
 
-## Note on Patches/Pull Requests
+Follow along via [Github Issues](https://github.com/datacite/lagotto/issues).
+
+### Note on Patches/Pull Requests
 
 * Fork the project
 * Write tests for your new feature or a test that reproduces a bug
@@ -40,4 +40,4 @@ Please direct questions about the application to the [discussion forum](http://d
 * Commit, push and make a pull request. Bonus points for topical branches.
 
 ## License
-Lagotto is released under the [MIT License](https://github.com/lagotto/lagotto/blob/master/LICENSE.md).
+**lagotto** is released under the [MIT License](https://github.com/datacite/lagotto/blob/master/LICENSE).
