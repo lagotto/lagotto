@@ -25,6 +25,8 @@ end
 # default values for some ENV variables
 ENV['APPLICATION'] ||= "lagotto"
 ENV['SITENAMELONG'] ||= "Lagotto"
+ENV['LOG_LEVEL'] ||= "info"
+ENV['GITHUB_URL'] ||= "https://github.com/lagotto/lagotto"
 ENV['TRUSTED_IP'] ||= "10.0.10.1"
 
 module Lagotto
