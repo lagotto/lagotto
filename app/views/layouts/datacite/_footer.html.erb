@@ -1,7 +1,9 @@
+<!-- footer start -->
+
 <div class="row footer">
   <div class="container-fluid">
     <div class="col-md-3">
-      <h4><%= link_to 'About DataCite', 'https://www.datacite.org/about-datacite' %></h4>
+      <h4>About DataCite</h4>
       <ul>
         <% settings.about_links.each do |item| %>
           <li><%= link_to item['name'], item['url'] %></li>
@@ -9,27 +11,38 @@
       </ul>
     </div>
     <div class="col-md-3">
-      <h4><%= link_to 'DataCite for You', 'https://www.datacite.org/services' %></h4>
+      <h4>Services</h4>
       <ul>
-        <% settings.foryou_links.each do |item| %>
+        <% settings.services_links.each do |item| %>
           <li><%= link_to item['name'], item['url'] %></li>
         <% end %>
       </ul>
     </div>
     <div class="col-md-3">
-      <h4><%= link_to 'Participate', 'https://www.datacite.org/participate' %></h4>
+      <h4>Resources</h4>
       <ul>
-        <% settings.participate_links.each do |item| %>
+        <% settings.resources_links.each do |item| %>
+          <li><%= link_to item['name'], item['url'] %></li>
+        <% end %>
+      </ul>
+      <h4>Community</h4>
+      <ul>
+        <% settings.community_links.each do |item| %>
           <li><%= link_to item['name'], item['url'] %></li>
         <% end %>
       </ul>
     </div>
-    <div class="col-md-3 share">
-      <h4>Join us on<h4>
-      <%= link_to icon('twitter', class: 'fa-2x'), 'https://twitter.com/datacite' %>
-      <%= link_to icon('facebook', class: 'fa-2x'), 'https://www.facebook.com/datacite' %>
-      <%= link_to icon('youtube', class: 'fa-2x'), 'https://www.youtube.com/user/datacite' %>
-      <%= link_to icon('linkedin', class: 'fa-2x'), 'https://www.linkedin.com/company/datacite' %>
+    <div class="col-md-3">
+      <h4 class="share">Contact us</h4>
+      <%= link_to icon('envelope', class: 'fa-2x'), 'mailto:support@datacite.org', class: "share"  %>
+      <%= link_to icon('rss', class: 'fa-2x'), 'https://blog.datacite.org', class: "share"  %>
+      <%= link_to icon('twitter', class: 'fa-2x'), 'https://twitter.com/datacite', class: "share" %>
+      <%= link_to icon('linkedin', class: 'fa-2x'), 'https://www.linkedin.com/company/datacite', class: "share"  %>
+      <ul class="share">
+        <% settings.contact_links.each do |item| %>
+          <li><%= link_to item['name'], item['url'] %></li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>

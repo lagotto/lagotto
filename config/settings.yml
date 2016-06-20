@@ -12,6 +12,9 @@ datacite:
    - name: Event Data
      url: http://localhost:8050
      icon: link
+   - name: Homepage
+     url: http://localhost:8060
+     icon: globe
    - name: Profiles
      url: http://localhost:8080
      icon: user
@@ -25,12 +28,15 @@ datacite:
    - name: Profiles
      url: https://profiles.labs.datacite.org
      icon: user
+   - name: Schema
+     url: http://schema.labs.datacite.org
+     icon: file-code-o
    - name: Search
      url: https://search.labs.datacite.org
      icon: search
   production_links:
    - name: Blog
-     url: http://blog.datacite.org
+     url: https://blog.datacite.org
      icon: rss
    - name: Citation Formatter
      url: http://crosscite.org/citeproc/
@@ -41,9 +47,6 @@ datacite:
    - name: Homepage
      url: https://www.datacite.org
      icon: globe
-   - name: Event Data
-     url: https://eventdata.datacite.org
-     icon: link
    - name: MDS
      url: https://mds.datacite.org
      icon: database
@@ -51,7 +54,7 @@ datacite:
      url: http://oai.datacite.org
      icon: table
    - name: Schema
-     url: https://schema.datacite.org
+     url: http://schema.datacite.org
      icon: file-code-o
    - name: Search
      url: https://search.datacite.org
@@ -64,48 +67,60 @@ datacite:
      icon: calendar-check-o
   about_links:
    - name: What we do
-     url: https://www.datacite.org/about-datacite/what-do-we-do
+     url: https://www.labs.datacite.org/mission.html
    - name: Board
-     url: https://www.datacite.org/about-datacite/board
+     url: https://www.labs.datacite.org/board.html
+   - name: Steering groups
+     url: https://www.labs.datacite.org/steering.html
    - name: Staff
-     url: https://www.datacite.org/about-datacite/staff
-   - name: Members
-     url: https://www.datacite.org/about-datacite/members
-   - name: Resources
-     url: https://www.datacite.org/resources
-   - name: Working groups
-     url: https://www.datacite.org/about-datacite/working-groups
-   - name: Partners
-     url: https://www.datacite.org/about-datacite/partners
+     url: https://www.labs.datacite.org/staff.html
    - name: Job opportunities
-     url: https://www.datacite.org/about-datacite/job-opportunities
-  foryou_links:
-   - name: Cite your data
-     url: https://www.datacite.org/services/cite-your-data.html
-   - name: Format your citations
-     url: https://www.datacite.org/services/format-your-citation.html
-   - name: Find a repository
-     url: https://www.datacite.org/services/find-repository.html
-   - name: Find a dataset
-     url: https://www.datacite.org/services/find-dataset.html
-   - name: Get your DOI statistics
-     url: https://www.datacite.org/services/get-your-doi-statistics.html
+     url: https://www.labs.datacite.org/jobopportunities.html
+  services_links:
+   - name: Assign DOIs
+     url: https://www.labs.datacite.org/dois.html
+   - name: Metadata search
+     url: https://www.labs.datacite.org/search.html
+   - name: Event data
+     url: https://www.labs.datacite.org/eventdata.html
+   - name: Profiles
+     url: https://www.labs.datacite.org/profiles.html
+   - name: re3data
+     url: https://www.labs.datacite.org/re3data.html
+   - name: Citation formatter
+     url: https://www.labs.datacite.org/citation.html
+   - name: Statistics
+     url: https://www.labs.datacite.org/stats.html
+   - name: Service status
+     url: https://www.labs.datacite.org/service.html
    - name: Content negotiation
-     url: https://www.datacite.org/services/content-negotiation.html
-   - name: OAI provider
-     url: https://www.datacite.org/services/oai-provider.html
-   - name: Metadata store
-     url: https://www.datacite.org/services/metadata-store.html
+     url: https://www.labs.datacite.org/content.html
+   - name: OAI-PMH
+     url: https://www.labs.datacite.org/oaipmh.html
    - name: Test environment
-     url: https://www.datacite.org/services/test-environment.html
-  participate_links:
-   - name: Researchers
-     url: https://www.datacite.org/participate/researchers
-   - name: Research organizations
-     url: https://www.datacite.org/participate/research-organisations
-   - name: Libraries
-     url: https://www.datacite.org/participate/libraries
-   - name: Journal editors
-     url: https://www.datacite.org/participate/journal-editors
-   - name: Data centres
-     url: https://www.datacite.org/participate/data-centres
+     url: https://www.labs.datacite.org/test.html
+  resources_links:
+   - name: Metadata schema
+     url: https://schema.datacite.org
+   - name: Technical documentation
+     url: https://www.labs.datacite.org/technical.html
+   - name: Outreach material
+     url: https://www.labs.datacite.org/outreach.html
+   - name: Events
+     url: https://www.labs.datacite.org/events.html
+  community_links:
+   - name: Members
+     url: https://www.labs.datacite.org/members.html
+   - name: Partners
+     url: https://www.labs.datacite.org/partners.html
+   - name: Steering groups
+     url: https://www.labs.datacite.org/steering.html
+   - name: Events
+     url: https://www.labs.datacite.org/events.html
+  contact_links:
+   - name: Terms and conditions
+     url: https://www.labs.datacite.org/terms.html
+   - name: Privacy policy
+     url: https://www.labs.datacite.org/privacy.html
+   - name: Acknowledgements
+     url: https://www.labs.datacite.org/acknowledgments.html
