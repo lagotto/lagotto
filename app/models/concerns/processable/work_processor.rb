@@ -16,7 +16,7 @@ module Processable
 
         # save deposit and work (thanks to autosave option) to the database
         self.save!
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError, ActiveRecord::StatementInvalid => exception
         if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
           self.work = Work.using(:master).where(pid: pid).first
         else
@@ -38,7 +38,7 @@ module Processable
 
         # save deposit and related_work (thanks to autosave option) to the database
         self.save!
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError, ActiveRecord::StatementInvalid => exception
         if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
           self.related_work = Work.using(:master).where(pid: pid).first
         else

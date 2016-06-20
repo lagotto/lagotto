@@ -25,7 +25,7 @@ module Processable
                             total: adjusted_total(work_id),
                             occurred_at: occurred_at)
         r.save!
-      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
+      rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid => exception
         if exception.class == ActiveRecord::RecordNotUnique
           Relation.using(:master).where(work_id: work_id,
                                         related_work_id: related_work_id,
