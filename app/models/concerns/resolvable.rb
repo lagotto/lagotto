@@ -153,6 +153,9 @@ module Resolvable
         else
           metadata["issued"] = get_date_from_parts(year, month, day)
         end
+      # handle missing date issued, e.g. for components
+      else
+        metadata["issued"] = metadata.fetch("created", {}).fetch("date-time", nil)
       end
 
       metadata["title"] = case metadata["title"].length
