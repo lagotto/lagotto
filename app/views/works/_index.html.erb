@@ -41,13 +41,13 @@
           <% if @registration_agency.present? %>
             <li class="active">
               <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], source_id: params[:source_id], relation_type_id: params[:relation_type_id]) %>
-              <%= @registration_agency.title %>
+              <div class="facet-title"><%= @registration_agency.title %></div>
             </li>
           <% else %>
             <% RegistrationAgency.is_doi_ra.each do |registration_agency| %>
               <li>
                 <%= link_to icon('square-o').html_safe, works_path(q: params[:q], registration_agency_id: registration_agency.name, source_id: params[:source_id], relation_type_id: params[:relation_type_id]) %>
-                <%= registration_agency.title %>
+                <div class="facet-title"><%= registration_agency.title %></div>
               </li>
             <% end %>
           <% end %>
@@ -62,13 +62,13 @@
             <% if @source.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], relation_type_id: params[:relation_type_id], registration_agency_id: params[:registration_agency_id]) %>
-                <%= @source.title %>
+                <div class="facet-title"><%= @source.title %></div>
               </li>
             <% else %>
               <% Source.for_results_and_relations.each do |source| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name, relation_type_id: params[:relation_type_id], registration_agency_id: params[:registration_agency_id]) %>
-                  <%= source.title %>
+                  <div class="facet-title"><%= source.title %></div>
                 </li>
               <% end %>
             <% end %>
@@ -84,13 +84,13 @@
             <% if @relation_type.present? %>
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], source_id: params[:source_id], registration_agency_id: params[:registration_agency_id]) %>
-                <%= @relation_type.title %>
+                <div class="facet-title"><%= @relation_type.title %></div>
               </li>
             <% else %>
               <% RelationType.order("name").each do |relation_type| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, works_path(q: params[:q], relation_type_id: relation_type.name, source_id: params[:source_id], registration_agency_id: params[:registration_agency_id]) %>
-                  <%= relation_type.title %>
+                  <div class="facet-title"><%= relation_type.title %></div>
                 </li>
               <% end %>
             <% end %>

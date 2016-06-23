@@ -95,14 +95,14 @@
           <% if @role.present? %>
             <li class="active">
               <%= link_to icon('check-square-o').html_safe, users_path(q: params[:q]) %>
-              <%= @role.first.humanize %>
+              <div class="facet-title"><%= @role.first.humanize %></div>
               <span class="number pull-right"><%= number_with_delimiter(@role.last) %></span>
             </li>
           <% else %>
             <% @roles.each do|role| %>
               <li>
                 <%= link_to icon('square-o').html_safe, users_path(q: params[:q], role: role.first) %>
-                <%= role.first.humanize %>
+                <div class="facet-title"><%= role.first.humanize %></div>
                 <span class="number pull-right"><%= number_with_delimiter(role.last) %></span>
               </li>
             <% end %>
