@@ -67,60 +67,60 @@ datacite:
      icon: calendar-check-o
   about_links:
    - name: What we do
-     url: https://www.labs.datacite.org/mission.html
+     url: https://www.datacite.org/mission.html
    - name: Board
-     url: https://www.labs.datacite.org/board.html
+     url: https://www.datacite.org/board.html
    - name: Steering groups
-     url: https://www.labs.datacite.org/steering.html
+     url: https://www.datacite.org/steering.html
    - name: Staff
-     url: https://www.labs.datacite.org/staff.html
+     url: https://www.datacite.org/staff.html
    - name: Job opportunities
-     url: https://www.labs.datacite.org/jobopportunities.html
+     url: https://www.datacite.org/jobopportunities.html
   services_links:
    - name: Assign DOIs
-     url: https://www.labs.datacite.org/dois.html
+     url: https://www.datacite.org/dois.html
    - name: Metadata search
-     url: https://www.labs.datacite.org/search.html
+     url: https://www.datacite.org/search.html
    - name: Event data
-     url: https://www.labs.datacite.org/eventdata.html
+     url: https://www.datacite.org/eventdata.html
    - name: Profiles
-     url: https://www.labs.datacite.org/profiles.html
+     url: https://www.datacite.org/profiles.html
    - name: re3data
-     url: https://www.labs.datacite.org/re3data.html
+     url: https://www.datacite.org/re3data.html
    - name: Citation formatter
-     url: https://www.labs.datacite.org/citation.html
+     url: https://www.datacite.org/citation.html
    - name: Statistics
-     url: https://www.labs.datacite.org/stats.html
+     url: https://www.datacite.org/stats.html
    - name: Service status
-     url: https://www.labs.datacite.org/service.html
+     url: https://www.datacite.org/service.html
    - name: Content negotiation
-     url: https://www.labs.datacite.org/content.html
+     url: https://www.datacite.org/content.html
    - name: OAI-PMH
-     url: https://www.labs.datacite.org/oaipmh.html
+     url: https://www.datacite.org/oaipmh.html
    - name: Test environment
-     url: https://www.labs.datacite.org/test.html
+     url: https://www.datacite.org/test.html
   resources_links:
    - name: Metadata schema
      url: https://schema.datacite.org
    - name: Technical documentation
-     url: https://www.labs.datacite.org/technical.html
+     url: https://www.datacite.org/technical.html
    - name: Outreach material
-     url: https://www.labs.datacite.org/outreach.html
+     url: https://www.datacite.org/outreach.html
    - name: Events
-     url: https://www.labs.datacite.org/events.html
+     url: https://www.datacite.org/events.html
   community_links:
    - name: Members
-     url: https://www.labs.datacite.org/members.html
+     url: https://www.datacite.org/members.html
    - name: Partners
-     url: https://www.labs.datacite.org/partners.html
+     url: https://www.datacite.org/partners.html
    - name: Steering groups
-     url: https://www.labs.datacite.org/steering.html
+     url: https://www.datacite.org/steering.html
    - name: Events
-     url: https://www.labs.datacite.org/events.html
+     url: https://www.datacite.org/events.html
   contact_links:
    - name: Terms and conditions
-     url: https://www.labs.datacite.org/terms.html
+     url: https://www.datacite.org/terms.html
    - name: Privacy policy
-     url: https://www.labs.datacite.org/privacy.html
+     url: https://www.datacite.org/privacy.html
    - name: Acknowledgements
-     url: https://www.labs.datacite.org/acknowledgments.html
+     url: https://www.datacite.org/acknowledgments.html
