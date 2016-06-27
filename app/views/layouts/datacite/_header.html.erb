@@ -39,7 +39,7 @@
             <li class="dropdown hidden-sm">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Support <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><%= link_to "API", "/api" %></li>
+                <li><%= link_to "API", "/docs/api" %></li>
                 <li class="divider"></li>
                 <% documents.each do |document| %>
                   <% if document == "-" %>
@@ -61,12 +61,6 @@
                     <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
                   <% end %>
                 <% else %>
-                  <li class="dropdown-header">DataCite Labs</li>
-                  <% settings.labs_links.each do |item| %>
-                    <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
-                  <% end %>
-                  <li class="divider"></li>
-                  <li class="dropdown-header">DataCite</li>
                   <% settings.production_links.each do |item| %>
                     <li><%= link_to "#{icon(item['icon'])} #{item['name']}".html_safe, item['url'] %></li>
                   <% end %>

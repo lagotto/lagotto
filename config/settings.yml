@@ -24,10 +24,6 @@ datacite:
    - name: Search
      url: http://localhost:8000
      icon: search
-  labs_links:
-   - name: Schema
-     url: http://schema.labs.datacite.org
-     icon: file-code-o
   production_links:
    - name: API
      url: https://api.datacite.org
