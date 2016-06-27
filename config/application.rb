@@ -13,18 +13,27 @@ if defined?(Bundler)
   Bundler.require(:default, Rails.env)
 end
 
-begin
-  # make sure DOTENV is set
-  ENV["DOTENV"] ||= "default"
-
-  # load ENV variables from file specified by DOTENV
-  # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
-  Dotenv.load! File.expand_path("../../#{filename}", __FILE__)
-rescue Errno::ENOENT
-  $stderr.puts "Please create #{filename} file, or use DOTENV=example for example configuration"
-  exit
+# load ENV variables from .env file if it exists
+env_file = File.expand_path("../../.env", __FILE__)
+if File.exist?(env_file)
+  require 'dotenv'
+  Dotenv.load! env_file
 end
+
+# load ENV variables from container environment if json file exists
+# see https://github.com/phusion/baseimage-docker#envvar_dumps
+env_json_file = "/etc/container_environment.json"
+if File.exist?(env_json_file)
+  env_vars = JSON.parse(File.read(env_json_file))
+  env_vars.each { |k, v| ENV[k] = v }
+end
+
+# default values for some ENV variables
+ENV['APPLICATION'] ||= "lagotto"
+ENV['SITENAMELONG'] ||= "Lagotto"
+ENV['LOG_LEVEL'] ||= "info"
+ENV['GITHUB_URL'] ||= "https://github.com/lagotto/lagotto"
+ENV['TRUSTED_IP'] ||= "10.0.10.1"
 
 module Lagotto
   class Application < Rails::Application
