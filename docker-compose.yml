@@ -1,11 +1,15 @@
-# env_file:
-#   - .env
-web:
-  build: .
-  links:
-   - db
-   - couchdb
-db:
-  image: lagotto/percona
-couchdb:
-  image: lagotto/couchdb
+version: '2'
+
+services:
+  web:
+    env_file: .env
+    image: lagotto/lagotto
+    ports:
+      - "8050:80"
+  db:
+    env_file: .env
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis:2.8
