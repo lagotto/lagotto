@@ -1,16 +1,11 @@
 require 'sidekiq/web'
 
 Lagotto::Application.routes.draw do
-  # mount EmberCLI::Engine => "ember-tests" if Rails.env.development?
-
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }
 
   authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
-
-  #root :to => "ember#index"
-  #get '/docs/*path' => 'ember#index'
 
   # simplify GET route to works
   #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
