@@ -5,7 +5,6 @@ title: "API"
 
 ## Basic Information
 
-* a live version of the API (using [Swagger](http://swagger.io/)) is [here](/api)
 * version 7 of the API was released April 11, 2016 (Lagotto 5.0).
 
 ### Base URL
