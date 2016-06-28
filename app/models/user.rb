@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:persona, :cas, :github, :orcid]
+         :omniauthable, :omniauth_providers => [:persona, :cas, :github, :orcid, :jwt]
 
   validates :name, presence: true
   validates :email, uniqueness: true, allow_blank: true
