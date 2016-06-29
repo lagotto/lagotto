@@ -4,6 +4,9 @@ MAINTAINER Martin Fenner "mfenner@datacite.org"
 # Set correct environment variables
 ENV HOME /home/app
 
+# Use runit to manage sidekiq workers
+ENV RUNIT 1
+
 # Allow app user to read /etc/container_environment
 RUN usermod -a -G docker_env app
 
