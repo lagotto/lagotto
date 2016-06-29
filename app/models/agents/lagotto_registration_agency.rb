@@ -53,7 +53,26 @@ class LagottoRegistrationAgency < Agent
     result = { error: "No hash returned." } unless result.is_a?(Hash)
     return [result] if result[:error]
 
-    result.fetch('deposits', [])
+    deposits = result.fetch('deposits', [])
+
+    # We retrieve Deposits from the remote API but it's already normalized them.
+    # Put back into the structure that Agent::push_data expects.
+    puts 
+    deposits.map { | deposit | 
+      {:relation => {
+        "subj_id" => deposit["subj_id"],
+        "obj_id" => deposit["obj_id"],
+        "relation_type_id" => deposit["relation_type_id"],
+        "source_id" => deposit["source_id"],
+        "publisher_id" => deposit["publisher_id"],
+        "registration_agency_id" => deposit["registration_agency_id"],
+        "total" => deposit["total"],
+        "occurred_at" => deposit["occurred_at"]
+        },
+       :subj => deposit["subj"],
+       :obj => deposit["obj"],
+       :message_type => "relation",
+       :prefix  => deposit["prefix"]}}
   end
 
   def config_fields
