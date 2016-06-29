@@ -90,11 +90,11 @@ describe LagottoRegistrationAgency, type: :model, vcr: true do
       response = subject.parse_data(result)
 
       expect(response.length).to eq(95)
-      expect(response[1]["subj_id"]).to eq("http://doi.org/10.5517/CCDC.CSD.CC1JW79Y")
-      expect(response[1]["obj_id"]).to eq("http://doi.org/10.1016/J.ICA.2016.04.009")
-      expect(response[1]["relation_type_id"]).to eq("is_supplement_to")
-      expect(response[1]["source_id"]).to eq("datacite_crossref")
-      expect(response[1]["subj"]).to eq("pid"=>"http://doi.org/10.5517/CCDC.CSD.CC1JW79Y",
+      expect(response[1][:relation]["subj_id"]).to eq("http://doi.org/10.5517/CCDC.CSD.CC1JW79Y")
+      expect(response[1][:relation]["obj_id"]).to eq("http://doi.org/10.1016/J.ICA.2016.04.009")
+      expect(response[1][:relation]["relation_type_id"]).to eq("is_supplement_to")
+      expect(response[1][:relation]["source_id"]).to eq("datacite_crossref")
+      expect(response[1][:subj]).to eq("pid"=>"http://doi.org/10.5517/CCDC.CSD.CC1JW79Y",
                                         "DOI"=>"10.5517/CCDC.CSD.CC1JW79Y",
                                         "author"=>[{"family"=>"Okayama", "given"=>"Tetsuya"}, {"family"=>"Watanabe", "given"=>"Takashi"}, {"family"=>"Hatayama", "given"=>"Yuki"}, {"family"=>"Ishihara", "given"=>"Shinji"}, {"family"=>"Yamaguchi", "given"=>"Yoshitaka"}],
                                         "title"=>"CCDC 1426350: Experimental Crystal Structure Determination",
