@@ -2,13 +2,12 @@ language: ruby
 cache: bundler
 sudo: false
 rvm:
-  - 2.2.0
+  - 2.2.5
 
 env:
   - DB=mysql
 
 services:
-  - couchdb
   - redis-server
 
 before_script:
