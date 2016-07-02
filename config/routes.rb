@@ -7,9 +7,9 @@ Lagotto::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  # simplify GET route to works
-  #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
   root :to => "docs#index"
+
+  get '/heartbeat' , to: "heartbeats#index"
 
   resources :alerts
   resources :api_requests
