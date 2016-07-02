@@ -15,7 +15,7 @@ before_script:
   - memcached -p 11211 &
   - cp .env.travis .env
   - mkdir -p tmp/pids tmp/files tmp/reports tmp/snapshots
-  - cd frontend && npm install
+  - cd vendor && npm install
   - cd ../ && npm install -g istanbul codeclimate-test-reporter
   - bundle exec rake db:setup RAILS_ENV=test
 
@@ -42,9 +42,3 @@ notifications:
       - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
     format: html
   slack: lagotto:PQRg85DOsMv4EJCi1CUNi2AE
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/a275593b238b22c47314
-    on_success: change
-    on_failure: always
-    on_start: false
