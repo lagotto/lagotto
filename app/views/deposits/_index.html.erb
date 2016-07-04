@@ -26,12 +26,14 @@
             <li class="active">
               <%= link_to icon('check-square-o').html_safe, deposits_path(q: params[:q], source_id: params[:source_id]) %>
               <div class="facet-title"><%= states[@state] %></div>
+              <div class="clearfix"/>
             </li>
           <% else %>
             <% states.each do |state| %>
               <li>
                 <%= link_to icon('square-o').html_safe, deposits_path(q: params[:q], source_id: params[:source_id], state: state) %>
                 <div class="facet-title"><%= state %></div>
+                <div class="clearfix"/>
               </li>
             <% end %>
           <% end %>
@@ -47,12 +49,14 @@
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, deposits_path(q: params[:q], state: params[:state]) %>
                 <div class="facet-title"><%= @source.title %></div>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% Source.active.each do |source| %>
                 <li>
                   <%= link_to icon('square-o').html_safe,deposits_path(q: params[:q], state: params[:state], source_id: source.name) %>
                   <div class="facet-title"><%= source.title %></div>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>

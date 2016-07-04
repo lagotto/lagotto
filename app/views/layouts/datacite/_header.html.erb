@@ -10,7 +10,11 @@
         </button>
       </div>
       <a class="navbar-brand" href="/">
+        <% if ENV['CDN_HOST'] %>
+        <img src="<%= asset_path '/images/datacite.png', host: ENV['CDN_HOST'] %>" class="logo">
+        <% else %>
         <%= image_tag('datacite/logo.png', class: 'logo') %>
+        <% end %>
         <%= content_tag :span, "Data", data_tags_for_api %><span>Cite <%= ENV['SITENAME'] %></span>
       </a>
       <div class="navbar-collapse collapse">
