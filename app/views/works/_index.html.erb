@@ -42,12 +42,14 @@
             <li class="active">
               <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], source_id: params[:source_id], relation_type_id: params[:relation_type_id]) %>
               <div class="facet-title"><%= @registration_agency.title %></div>
+              <div class="clearfix"/>
             </li>
           <% else %>
             <% RegistrationAgency.is_doi_ra.each do |registration_agency| %>
               <li>
                 <%= link_to icon('square-o').html_safe, works_path(q: params[:q], registration_agency_id: registration_agency.name, source_id: params[:source_id], relation_type_id: params[:relation_type_id]) %>
                 <div class="facet-title"><%= registration_agency.title %></div>
+                <div class="clearfix"/>
               </li>
             <% end %>
           <% end %>
@@ -63,12 +65,14 @@
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], relation_type_id: params[:relation_type_id], registration_agency_id: params[:registration_agency_id]) %>
                 <div class="facet-title"><%= @source.title %></div>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% Source.for_results_and_relations.each do |source| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, works_path(q: params[:q], source_id: source.name, relation_type_id: params[:relation_type_id], registration_agency_id: params[:registration_agency_id]) %>
                   <div class="facet-title"><%= source.title %></div>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>
@@ -85,12 +89,14 @@
               <li class="active">
                 <%= link_to icon('check-square-o').html_safe, works_path(q: params[:q], source_id: params[:source_id], registration_agency_id: params[:registration_agency_id]) %>
                 <div class="facet-title"><%= @relation_type.title %></div>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% RelationType.order("name").each do |relation_type| %>
                 <li>
                   <%= link_to icon('square-o').html_safe, works_path(q: params[:q], relation_type_id: relation_type.name, source_id: params[:source_id], registration_agency_id: params[:registration_agency_id]) %>
                   <div class="facet-title"><%= relation_type.title %></div>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>

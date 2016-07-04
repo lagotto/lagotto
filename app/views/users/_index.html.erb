@@ -97,6 +97,7 @@
               <%= link_to icon('check-square-o').html_safe, users_path(q: params[:q]) %>
               <div class="facet-title"><%= @role.first.humanize %></div>
               <span class="number pull-right"><%= number_with_delimiter(@role.last) %></span>
+              <div class="clearfix"/>
             </li>
           <% else %>
             <% @roles.each do|role| %>
@@ -104,6 +105,7 @@
                 <%= link_to icon('square-o').html_safe, users_path(q: params[:q], role: role.first) %>
                 <div class="facet-title"><%= role.first.humanize %></div>
                 <span class="number pull-right"><%= number_with_delimiter(role.last) %></span>
+                <div class="clearfix"/>
               </li>
             <% end %>
           <% end %>

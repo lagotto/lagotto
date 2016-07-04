@@ -161,6 +161,7 @@
                 <%= link_to icon('check-square-o').html_safe, notifications_path(class_name: params[:class_name], level: params[:level], q: params[:q]) %>
                 <div class="facet-title"><%= @hostname.first %></div>
                 <span class="number pull-right"><%= number_with_delimiter(@hostname.last) %></span>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% @hostnames.each do |hostname| %>
@@ -168,6 +169,7 @@
                   <%= link_to icon('square-o').html_safe, notifications_path(source_id: params[:source_id], class_name: params[:class_name], level: params[:level], hostname: hostname.first, q: params[:q]) %>
                   <div class="facet-title"><%= hostname.first %></div>
                   <span class="number pull-right"><%= number_with_delimiter(hostname.last) %></span>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>
@@ -185,6 +187,7 @@
                 <%= link_to icon('check-square-o').html_safe, notifications_path(class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]), id: Notification::LEVELS[@level.first].humanize %>
                 <div class="facet-title"><%= Notification::LEVELS[@level.first].humanize %></div>
                 <span class="number pull-right"><%= number_with_delimiter(@level.last) %></span>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% @levels.each do |level| %>
@@ -192,6 +195,7 @@
                   <%= link_to icon('square-o').html_safe, notifications_path(level: Notification::LEVELS[level.first].downcase, class_name: params[:class_name], source_id: params[:source_id], hostname: params[:hostname], q: params[:q]), id: Notification::LEVELS[level.first].humanize %>
                   <div class="facet-title"><%= Notification::LEVELS[level.first].humanize %></div>
                   <span class="number pull-right"><%= number_with_delimiter(level.last) %></span>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>
@@ -209,6 +213,7 @@
                 <%= link_to icon('check-square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], hostname: params[:hostname], q: params[:q]) %>
                 <div class="facet-title"><%= Source.where(name: @source_group.first).first.title %></div>
                 <span class="number pull-right"><%= number_with_delimiter(@source_group.last) %></span>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% @sources.each do |source| %>
@@ -216,6 +221,7 @@
                   <%= link_to icon('square-o').html_safe, notifications_path(level: params[:level], class_name: params[:class_name], source_id: source.first, hostname: params[:hostname], q: params[:q]) %>
                   <div class="facet-title"><%= Source.where(name: source.first).first ? Source.where(name: source.first).first.title : source.first %></div>
                   <span class="number pull-right"><%= number_with_delimiter(source.last) %></span>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>
@@ -233,6 +239,7 @@
                 <%= link_to icon('check-square-o').html_safe, notifications_path(source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]), id: @class_name.first %>
                 <div class="facet-title"><%= formatted_class_name(@class_name.first) %></div>
                 <span class="number pull-right"><%= number_with_delimiter(@class_name.last) %></span>
+                <div class="clearfix"/>
               </li>
             <% else %>
               <% @class_names.each do |class_name| %>
@@ -240,6 +247,7 @@
                   <%= link_to icon('square-o').html_safe, notifications_path(class_name: class_name.first, source_id: params[:source_id], level: params[:level], hostname: params[:hostname], q: params[:q]), id: class_name.first %>
                   <div class="facet-title"><%= formatted_class_name(class_name.first) %></div>
                   <span class="number pull-right"><%= number_with_delimiter(class_name.last) %></span>
+                  <div class="clearfix"/>
                 </li>
               <% end %>
             <% end %>
