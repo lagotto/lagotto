@@ -9,12 +9,11 @@ Lagotto::Application.routes.draw do
 
   root :to => "docs#index"
 
-  get '/heartbeat' , to: "heartbeats#index"
-
   resources :alerts
   resources :api_requests
   resources :docs, :only => [:index, :show], :constraints => { :id => /[0-z\-\.\(\)]+/ }
   resources :filters
+  resources :heartbeat, :only => [:index]
   resources :publishers
   resources :references
 
