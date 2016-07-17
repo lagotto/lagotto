@@ -1,4 +1,4 @@
-FROM phusion/passenger-full:0.9.18
+FROM phusion/passenger-full:0.9.19
 MAINTAINER Martin Fenner "mfenner@datacite.org"
 
 # Set correct environment variables
@@ -38,7 +38,7 @@ RUN chown -R app:app /home/app/tmp && \
 
 # Install npm and bower packages
 WORKDIR /home/app/tmp/vendor
-RUN sudo -u app npm install
+RUN /sbin/setuser app npm install
 
 # Install Ruby gems
 COPY Gemfile /home/app/tmp/Gemfile
@@ -48,7 +48,7 @@ RUN gem install bundler && \
     mkdir -p /home/app/tmp/vendor/bundle && \
     chown -R app:app /home/app/tmp/vendor/bundle && \
     chmod -R 755 /home/app/tmp/vendor/bundle && \
-    sudo -u app bundle install --path vendor/bundle
+    /sbin/setuser app bundle install --path vendor/bundle
 
 # Copy webapp folder
 ADD . /home/app/webapp

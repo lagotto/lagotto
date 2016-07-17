@@ -1,3 +1,3 @@
 #!/bin/sh
-sudo -u app bundle exec rake db:migrate
-sudo -u app bundle exec rake db:seed
+/sbin/setuser app bundle exec rake db:migrate
+/sbin/setuser app bundle exec rake db:seed

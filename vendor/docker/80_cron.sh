@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo -u app bundle exec whenever --update-crontab -i webapp
+/sbin/setuser app bundle exec whenever --update-crontab -i webapp
