@@ -30,6 +30,7 @@ end
 
 # default values for some ENV variables
 ENV['APPLICATION'] ||= "lagotto"
+ENV['SESSION_KEY'] ||= "_#{ENV['APPLICATION']}_session"
 ENV['SITENAMELONG'] ||= "Lagotto"
 ENV['LOG_LEVEL'] ||= "info"
 ENV['GITHUB_URL'] ||= "https://github.com/lagotto/lagotto"
