@@ -21,19 +21,6 @@ class User < ActiveRecord::Base
 
   # fetch additional user information for cas strategy
   # use Auth Hash Schema https://github.com/intridea/omniauth/wiki/Auth-Hash-Schema
-  def self.fetch_raw_info(uid)
-    return { error: "no uid provided" } if uid.nil?
-
-    url = "#{ENV['CAS_INFO_URL']}/#{uid}"
-    profile = User.new.get_result(url) || { error: "no profile returned" }
-    return profile if profile[:error]
-
-    { name: profile.fetch("realName", uid),
-      email: profile.fetch("email", nil),
-      nickname: profile.fetch("displayName", nil),
-      first_name: profile.fetch("givenNames", nil),
-      last_name: profile.fetch("surname", nil) }
-  end
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -84,17 +71,11 @@ class User < ActiveRecord::Base
   end
 
   def self.generate_user(auth)
-    if User.count > 0 || Rails.env.test?
-      authentication_token = generate_authentication_token
-      role = "user"
-    else
-      # use admin role and specific token for first user
-      authentication_token = ENV['API_KEY']
-      role = "admin"
-    end
 
-    { email: auth.info.email,
-      name: auth.info.name,
+    authentication_token = generate_authentication_token
+    role = "user"
+    { email: auth.extra.emailAddress,
+      name: auth.extra.displayName,
       authentication_token: authentication_token,
       role: role }
   end
