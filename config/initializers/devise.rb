@@ -213,15 +213,20 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  if ENV['CAS_URL']
+  if ENV['CAS_URL'] and (ENV['RAILS_ENV']=="development" or ENV['RAILS_ENV']=="test")
     config.omniauth :cas, url: ENV['CAS_URL'],
                           login_url: "#{ENV['CAS_PREFIX']}/login",
                           logout_url: "#{ENV['CAS_PREFIX']}/logout",
-                          service_validate_url: "#{ENV['CAS_PREFIX']}/serviceValidate",
-                          ssl: true,
-                          fetch_raw_info: lambda { |strategy, options, ticket, user_info|
-                            User.fetch_raw_info(user_info.fetch('user'))
-                          }
+                          service_validate_url: "#{ENV['CAS_PREFIX']}/p3/serviceValidate",
+                          disable_ssl_verification: true
+  end
+
+  if ENV['CAS_URL'] and (ENV['RAILS_ENV']=="production" or ENV['RAILS_ENV']=="stage")
+    config.omniauth :cas, url: ENV['CAS_URL'],
+                          login_url: "#{ENV['CAS_PREFIX']}/login",
+                          logout_url: "#{ENV['CAS_PREFIX']}/logout",
+                          service_validate_url: "#{ENV['CAS_PREFIX']}/p3/serviceValidate",
+                          ssl: true
   end
 
   config.omniauth :github, ENV['GITHUB_CLIENT_ID'],
