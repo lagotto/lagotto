@@ -73,9 +73,10 @@ class User < ActiveRecord::Base
   def self.generate_user(auth)
 
     authentication_token = generate_authentication_token
+    name = auth.extra.firstName+" "+auth.extra.lastName
     role = "user"
     { email: auth.extra.emailAddress,
-      name: auth.extra.displayName,
+      name: name,
       authentication_token: authentication_token,
       role: role }
   end
