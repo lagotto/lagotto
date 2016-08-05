@@ -119,6 +119,7 @@ describe Work, type: :model, vcr: true do
         expect(subject.get_id_hash(id)).to eq(ark: id)
       end
 
+      # HTTP DOIs
       it "http://doi.org" do
         id = "http://doi.org/10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
@@ -126,6 +127,17 @@ describe Work, type: :model, vcr: true do
 
       it "http://dx.doi.org" do
         id = "http://dx.doi.org/10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
+      end
+
+      # HTTPS DOIs
+      it "https://doi.org" do
+        id = "https://doi.org/10.1371/journal.pone.0000030"
+        expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
+      end
+
+      it "https://dx.doi.org" do
+        id = "https://dx.doi.org/10.1371/journal.pone.0000030"
         expect(subject.get_id_hash(id)).to eq(doi: "10.1371/JOURNAL.PONE.0000030")
       end
 
