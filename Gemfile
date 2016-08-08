@@ -101,3 +101,4 @@ group :test, :development do
 end
 
 gem 'rack-mini-profiler', '~> 0.9.1', require: false
+gem 'puma'
