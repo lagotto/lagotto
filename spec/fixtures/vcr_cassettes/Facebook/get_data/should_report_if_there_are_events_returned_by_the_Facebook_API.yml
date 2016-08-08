@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://graph.facebook.com/oauth/access_token?client_id=<FACEBOOK_CLIENT_ID>&client_secret=<FACEBOOK_CLIENT_SECRET>&grant_type=client_credentials
+    uri: https://graph.facebook.com/oauth/access_token?client_id=FACEBOOK_CLIENT_ID&client_secret=FACEBOOK_CLIENT_SECRET&grant_type=client_credentials
     body:
       encoding: US-ASCII
       string: ''
@@ -44,12 +44,12 @@ http_interactions:
       - '57'
     body:
       encoding: UTF-8
-      string: access_token=<FACEBOOK_CLIENT_ID>|ujiT_Cb58T4QUkneUYJu0L3zmwM
+      string: access_token=FACEBOOK_CLIENT_ID|ujiT_Cb58T4QUkneUYJu0L3zmwM
     http_version: 
   recorded_at: Sat, 09 Apr 2016 13:49:32 GMT
 - request:
     method: get
-    uri: https://graph.facebook.com/v2.1/?access_token=<FACEBOOK_CLIENT_ID>%7CujiT_Cb58T4QUkneUYJu0L3zmwM&id=http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124
+    uri: https://graph.facebook.com/v2.1/?access_token=FACEBOOK_CLIENT_ID%7CujiT_Cb58T4QUkneUYJu0L3zmwM&id=http://www.plosmedicine.org/article/info:doi/10.1371/journal.pmed.0020124
     body:
       encoding: US-ASCII
       string: ''
@@ -59,7 +59,7 @@ http_interactions:
       Accept:
       - application/json
       Authorization:
-      - Bearer <FACEBOOK_CLIENT_ID>|ujiT_Cb58T4QUkneUYJu0L3zmwM
+      - Bearer FACEBOOK_CLIENT_ID|ujiT_Cb58T4QUkneUYJu0L3zmwM
   response:
     status:
       code: 200

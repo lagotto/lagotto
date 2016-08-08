@@ -13,6 +13,7 @@ class AgentJob < ActiveJob::Base
     retry_job wait: 5.minutes, queue: :default
   end
 
+  # This is queued by the queue.rake task.
   def perform(agent, options={})
     ActiveRecord::Base.connection_pool.with_connection do
       if options[:ids].present?

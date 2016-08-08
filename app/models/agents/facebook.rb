@@ -39,9 +39,9 @@ class Facebook < Agent
     elsif url_linkstat.blank?
       readers, comments, likes = 0, 0, 0
     else
-      readers = result.deep_fetch('data', 0, 'share_count') { 0 }
-      comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
-      likes = result.deep_fetch('data', 0, 'like_count') { 0 }
+      readers = result.deep_fetch('share', 0, 'share_count') { 0 }
+      comments = result.deep_fetch('share', 0, 'comment_count') { 0 }
+      likes = result.deep_fetch('share', 0, 'like_count') { 0 }
     end
 
     now = Date.new(current_year, current_month, 1)

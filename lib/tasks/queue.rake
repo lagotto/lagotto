@@ -31,7 +31,8 @@ namespace :queue do
 
   desc "Queue all works"
   task :all => :environment do |_, args|
-    if args.extras.empty?
+    # args can be string or nil hence `blank?`.
+    if args.extras.blank?
       agents = Agent.active
     else
       agents = Agent.active.where("name in (?)", args.extras)

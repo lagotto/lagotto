@@ -353,8 +353,9 @@ FactoryGirl.define do
     type "Facebook"
     name "facebook"
     title "Facebook"
-    client_id ENV['FACEBOOK_CLIENT_ID']
-    client_secret ENV['FACEBOOK_CLIENT_SECRET']
+    client_id "FACEBOOK_CLIENT_ID"
+    client_secret "FACEBOOK_CLIENT_SECRET"
+
 
     group
 
