@@ -6,6 +6,7 @@ module Processable
       DepositJob.set(wait: 3.minutes).perform_later(self)
     end
 
+    # Called as part of DepositJob.
     def process_data
       self.start
 

@@ -1,4 +1,5 @@
 module Processable
+  # Used in the Deposit model only.
   module ContributorProcessor
     extend ActiveSupport::Concern
     include Processable

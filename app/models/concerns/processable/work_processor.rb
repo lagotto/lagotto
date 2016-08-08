@@ -1,4 +1,5 @@
 module Processable
+  # Used in the Deposit model only. Updates attached subject and object works.
   module WorkProcessor
     extend ActiveSupport::Concern
     include Processable

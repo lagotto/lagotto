@@ -394,6 +394,9 @@ module Resolvable
       # workaround, as nginx and the rails router swallow double backslashes
       id = id.gsub(/(http|https):\/+(\w+)/, '\1://\2')
 
+      # Try to match a DOI with HTTP or HTTPS, using any resolver.
+      doi_match = /^https?:\/\/(dx\.)?doi.org\/(.*)$/.match(id)
+
       case
       when id.starts_with?("doi.org/")           then { doi: CGI.unescape(id[8..-1]).upcase }
       when id.starts_with?("www.ncbi.nlm.nih.gov/pubmed/")                  then { pmid: id[28..-1] }
@@ -402,8 +405,7 @@ module Resolvable
       when id.starts_with?("n2t.net/ark:")       then { ark: id[8..-1] }
       when id.starts_with?("github.com/")        then { canonical_url: PostRank::URI.clean(id) }
 
-      when id.starts_with?("http://doi.org/")    then { doi: CGI.unescape(id[15..-1]).upcase }
-      when id.starts_with?("http://dx.doi.org/") then { doi: CGI.unescape(id[18..-1]).upcase }
+      when doi_match then { doi: CGI.unescape(doi_match[2]).upcase }
       when id.starts_with?("http://www.ncbi.nlm.nih.gov/pubmed/")           then { pmid: id[35..-1] }
       when id.starts_with?("http://www.ncbi.nlm.nih.gov/pmc/articles/PMC")  then { pmcid: id[44..-1] }
       when id.starts_with?("http://arxiv.org/abs/")                         then { arxiv: id[21..-1] }
