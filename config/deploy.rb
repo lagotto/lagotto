@@ -42,9 +42,6 @@ set :branch, ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
 # install/update npm modules and bower components
 set :npm_target_path, -> { release_path.join('frontend') }
 
-# restart passenger method
-set :passenger_restart_with_touch, true
-
 # Bugsnag deploy tracking
 set :bugsnag_api_key, ENV["BUGSNAG_KEY"] if ENV["BUGSNAG_KEY"]
 
@@ -93,25 +90,9 @@ end
 namespace :deploy do
   before :starting, "files:upload"
 
-  if ENV['SIDEKIQ_ENABLE'] == '1'
-    before :starting, "sidekiq:quiet"
-  end
-
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
-    end
-  end
-
   after :publishing, :restart
   after :publishing, "data:migrate"
   after :publishing, "swagger:docs"
 
   after :finishing, "deploy:cleanup"
-
-  if ENV['SIDEKIQ_ENABLE'] == '1'
-    after :finishing, "sidekiq:stop"
-    after :finished, "sidekiq:start"
-  end
 end
