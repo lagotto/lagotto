@@ -37,4 +37,4 @@ Follow along via [Github Issues](https://github.com/datacite/lagotto/issues).
 * Commit, push and make a pull request. Bonus points for topical branches.
 
 ## License
-**lagotto** is released under the [MIT License](https://github.com/datacite/lagotto/blob/master/LICENSE).
+**lagotto** is released under the [MIT License](https://github.com/datacite/lagotto/blob/master/LICENSE.md).
