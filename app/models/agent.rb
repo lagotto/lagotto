@@ -161,6 +161,8 @@ class Agent < ActiveRecord::Base
     end
   end
 
+  # Starting point for fetching a batch of data. Called by AgentJob.
+  # options should contain: work_id .
   def collect_data(options = {})
     data = get_data(options.merge(timeout: timeout, source_id: source_id))
 
@@ -176,12 +178,12 @@ class Agent < ActiveRecord::Base
     push_data(data, options)
   end
 
+  # Retrieve data from source API.
   def get_data(options={})
     query_url = get_query_url(options)
     return query_url.extend Hashie::Extensions::DeepFetch if query_url.is_a?(Hash)
 
     result = get_result(query_url, options.merge(request_options))
-
     # make sure we return a hash
     result = { 'data' => result } unless result.is_a?(Hash)
 
