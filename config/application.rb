@@ -25,7 +25,7 @@ end
 # default values for some ENV variables
 ENV['APPLICATION'] ||= "lagotto"
 ENV['SESSION_KEY'] ||= "_#{ENV['APPLICATION']}_session"
-ENV['SITENAMELONG'] ||= "Lagotto"
+ENV['SITE_TITLE'] ||= "Lagotto"
 ENV['LOG_LEVEL'] ||= "info"
 ENV['GITHUB_URL'] ||= "https://github.com/lagotto/lagotto"
 ENV['TRUSTED_IP'] ||= "10.0.10.1"
@@ -63,7 +63,11 @@ module Lagotto
 
     # Configure sensitive parameters which will be filtered from the log file.
     # TODO: do I need to add salt here?
-    config.filter_parameters += [:password, :authentication_token]
+    config.filter_parameters += [:password, :authentication_token, :jwt]
+
+    # See everything in the log (default is :info)
+    log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
+    config.log_level = log_level
 
     # Use a different logger for distributed setups
     config.lograge.enabled = true
