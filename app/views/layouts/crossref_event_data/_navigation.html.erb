@@ -6,7 +6,7 @@
         <li><%= link_to "Home", "/" %></li>
         <% if user_signed_in? %><li><%= link_to "Status", status_index_path %></li><% end %>
         <li><%= link_to "Works", works_path %></li>
-        
+
         <% if user_signed_in? %>
           <% if can?(:read, Notification) || publishers.length > 1 %>
             <li class="hidden-sm"><%= link_to "Publishers", publishers_path %></li>
@@ -14,7 +14,7 @@
         <% end %>
 
         <li><%= link_to "Sources", sources_path %></li>
-        
+
         <% if can?(:read, Notification) %>
           <%= %w(status agents notifications users api_requests filters).include?(controller.controller_name) ? '<li class="dropdown active">'.html_safe : '<li class="dropdown">'.html_safe %>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
@@ -40,7 +40,6 @@
               <% documents.each do |document| %>
                 <% if document == "-" %>
                   <li class="divider"></li>
-                <% elsif document == "styleguide" %>
                 <% else %>
                   <li><%= link_to h(document.tr('-', ' ')), "/docs/#{document.downcase}" %></li>
                 <% end %>

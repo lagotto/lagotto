@@ -49,12 +49,6 @@ describe "docs", type: :feature, js: true do
     expect(page).to have_css ".panel-heading a", text: "Setup"
   end
 
-  it "show styleguide" do
-    visit "/docs/styleguide"
-
-    expect(page).to have_css ".panel-heading a", text: "Colors"
-  end
-
   it "show releases" do
     visit "/docs/releases"
 

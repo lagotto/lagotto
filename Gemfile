@@ -75,7 +75,6 @@ group :development do
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'capistrano-npm', '~> 1.0.0'
   gem 'spring', '~> 1.6', '>= 1.6.3'
-  gem 'hologram', '~> 1.3.1'
 end
 
 group :test do
