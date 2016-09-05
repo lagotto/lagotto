@@ -20,8 +20,6 @@ before_script:
 
 script:
   - bundle exec rspec
-  - bundle exec teaspoon
-  - CODECLIMATE_REPO_TOKEN=2fe327f67e242f98cc9a5d6ef1629d5289983acd445e35d5b5f44cd3979a71a1 codeclimate < ./coverage/default/lcov.info
 
 env:
   global:
