@@ -1,8 +1,0 @@
-{
-    "id": "jerry",
-    "username": "speedy",
-    "age": 22,
-    "gender": "male",
-    "married": true,
-    "color": "green"
-}
