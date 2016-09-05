@@ -1,23 +1,6 @@
 class Api::V7::ResultsController < Api::BaseController
   before_filter :authenticate_user_from_token!, :load_work
 
-  swagger_controller :results, "Results"
-
-  swagger_api :index do
-    summary "Returns results by work IDs and/or source names"
-    notes "If no work ids or source names are provided in the query, all results are returned, 1000 per page and sorted by update date."
-    param :query, :work_id, :string, :optional, "Work ID"
-    param :query, :work_ids, :string, :optional, "Work IDs"
-    param :query, :source_id, :string, :optional, "Source name"
-    param :query, :sort, :string, :optional, "Sort by result descending, or by update date descending if left empty."
-    param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page, defaults to 1000"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-    response :internal_server_error
-  end
-
   def index
     if @work
       collection = @work.results

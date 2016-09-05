@@ -47,8 +47,6 @@ gem 'iso8601', '~> 0.9.0'
 gem "strip_attributes", "~> 1.2"
 gem 'draper', '~> 2.1.0'
 gem 'jbuilder', '~> 2.2.12'
-gem "swagger-docs", "~> 0.1.9"
-gem 'swagger-ui_rails', '~> 0.1.7'
 gem "dalli", "~> 2.7.0"
 gem 'will_paginate', '3.0.7'
 gem "will_paginate-bootstrap", "~> 1.0.1"

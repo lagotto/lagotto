@@ -1,25 +1,4 @@
 class Api::V7::PublishersController < Api::BaseController
-  swagger_controller :publishers, "Publishers"
-
-  swagger_api :index do
-    summary 'Returns all publishers, sorted by name, 1000 per page'
-    param :query, :registration_agency_id, :string, :optional, "Registration agency"
-    param :query, :page, :integer, :optional, "Page number"
-    response :ok
-    response :not_found
-    response :unprocessable_entity
-    response :internal_server_error
-  end
-
-  swagger_api :show do
-    summary 'Returns publisher by name'
-    param :path, :id, :string, :required, "name"
-    response :ok
-    response :not_found
-    response :unprocessable_entity
-    response :internal_server_error
-  end
-
   def index
     collection = Publisher.active
     collection = collection.query(params[:q]) if params[:q]

@@ -1,21 +1,4 @@
 class Api::V7::WorkTypesController < Api::BaseController
-  swagger_controller :work_types, "Work Types"
-
-  swagger_api :index do
-    summary 'Returns all work types, ordered by title'
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-  end
-
-  swagger_api :show do
-    summary 'Returns work type by id'
-    param :path, :id, :string, :required, "Work type ID"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-  end
-
   def show
     work_type = WorkType.where(name: params[:id]).first
     if work_type.present?

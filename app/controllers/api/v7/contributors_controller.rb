@@ -1,21 +1,4 @@
 class Api::V7::ContributorsController < Api::BaseController
-  swagger_controller :contributors, "Contributors"
-
-  swagger_api :index do
-    summary 'Returns all contributors, ordered by family name'
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-  end
-
-  swagger_api :show do
-    summary 'Returns contributor by pid'
-    param :path, :id, :string, :required, "Contributor pid"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-  end
-
   def show
     pid = get_pid(params[:id])
     contributor = Contributor.where(pid: pid).first

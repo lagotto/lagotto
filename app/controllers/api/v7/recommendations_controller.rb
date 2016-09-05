@@ -1,21 +1,6 @@
 class Api::V7::RecommendationsController < Api::BaseController
   before_filter :load_work
 
-  swagger_controller :recommendations, "Recommendations"
-
-  swagger_api :index do
-    summary "Returns list of recommendations given a work, optionally filtered by relation_type and/or source"
-    param :query, :work_id, :string, :required, "Work ID"
-    param :query, :relation_type_id, :string, :optional, "Relation_type ID"
-    param :query, :source_id, :string, :optional, "Source ID"
-    param :query, :page, :integer, :optional, "Page number"
-    param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-    response :internal_server_error
-  end
-
   def index
     related_work_ids = @work.relations.pluck(:related_work_id)
     relation_type_ids = @work.relation_types_for_recommendations

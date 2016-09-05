@@ -4,22 +4,6 @@ class Api::V7::ContributionsController < Api::BaseController
 
   before_filter :authenticate_user_from_token!, :load_contributor, :load_work
 
-  swagger_controller :contributions, "Contributions"
-
-  swagger_api :index do
-    summary "Returns list of works for a particular contributor"
-    param :query, :contributor_role_id, :string, :optional, "Contributor_role ID"
-    param :query, :source_id, :string, :optional, "Source ID"
-    param :query, :publisher_id, :string, :optional, "Publisher ID"
-    param :query, :page, :integer, :optional, "Page number"
-    param :query, :recent, :integer, :optional, "Limit to contributions created last x days"
-    param :query, :per_page, :integer, :optional, "Results per page (0-1000), defaults to 1000"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-    response :internal_server_error
-  end
-
   def index
     if @contributor
       collection = @contributor.contributions

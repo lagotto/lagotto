@@ -4,30 +4,6 @@ class Api::V7::DepositsController < Api::BaseController
   load_and_authorize_resource :except => [:create, :show, :index]
   load_resource :except => [:create]
 
-  swagger_controller :deposits, "Deposits"
-
-  swagger_api :index do
-    summary 'Returns all deposits, sorted by date'
-    param :query, :message_type, :string, :optional, "Filter by message_type"
-    param :query, :source_token, :string, :optional, "Filter by source_token"
-    param :query, :source_id, :string, :optional, "Filter by source_id"
-    param :query, :registration_agency_id, :string, :optional, "Filter by registration_agency_id"
-    param :query, :state, :string, :optional, "Filter by state"
-    param :query, :prefix, :string, :optional, "Filter by DOI prefix"
-    param :query, :q, :string, :optional, "Query for deposit UUID"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-  end
-
-  swagger_api :show do
-    summary 'Returns deposit by ID'
-    param :path, :id, :string, :required, "Deposit ID"
-    response :ok
-    response :unprocessable_entity
-    response :not_found
-  end
-
   def create
     @deposit = Deposit.new(safe_params)
     authorize! :create, @deposit
