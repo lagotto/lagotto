@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2', '>= 4.2.6'
 gem 'mysql2', '0.3.18'
-gem 'ar-octopus', '~> 0.8.5'
+gem 'ar-octopus', '~> 0.8.5', :require => 'octopus', :git => 'https://github.com/tchandy/octopus.git'
 
 gem "dotenv", '~> 1.0.2'
 gem 'sidekiq', '~> 4.0', '>= 4.0.1'
@@ -36,11 +36,11 @@ gem 'rubyzip',  "~> 1.1", :require => 'zip'
 gem 'colorize', '~> 0.7.7'
 
 gem "devise", "~> 3.4.1"
-gem "omniauth-cas", "~> 1.1.0"
+gem "omniauth-cas", "~> 1.1.0", :git => 'https://github.com/dlindahl/omniauth-cas.git'
 gem 'omniauth-github', '~> 1.1.2'
-gem "omniauth-orcid", "~> 1.0"
-gem 'omniauth-jwt', '~> 0.0.3', git: 'https://github.com/datacite/omniauth-jwt.git'
-gem 'omniauth', '~> 1.2.2'
+gem "omniauth-orcid", '~> 1.2'
+gem 'omniauth', '~> 1.3', '>= 1.3.1'
+gem 'jwt', '~> 1.5', '>= 1.5.4'
 gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem 'iso8601', '~> 0.9.0'
