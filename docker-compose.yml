@@ -3,7 +3,7 @@ version: '2'
 services:
   web:
     env_file: .env
-    image: lagotto/lagotto
+    image: lagotto/lagotto:5-1-unstable
     ports:
       - "8050:80"
   db:

@@ -16,6 +16,7 @@ CMD ["/sbin/my_init"]
 # Update installed APT packages, clean up when done
 RUN apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+    apt-get install ntp -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -25,37 +26,29 @@ RUN rm -f /etc/service/nginx/down && \
     rm /etc/nginx/sites-enabled/default
 COPY vendor/docker/webapp.conf /etc/nginx/sites-enabled/webapp.conf
 COPY vendor/docker/00_app_env.conf /etc/nginx/conf.d/00_app_env.conf
-COPY vendor/docker/cors.conf /etc/nginx/conf.d/cors.conf
+
+# Use Amazon NTP servers
+COPY vendor/docker/ntp.conf /etc/ntp.conf
 
 # Enable the memcached service
 RUN rm -f /etc/service/memcached/down
 
-# Prepare tmp folder for installation of Ruby gems and npm modules
-RUN mkdir -p /home/app/tmp
-COPY vendor /home/app/tmp/vendor
-RUN chown -R app:app /home/app/tmp && \
-    chmod -R 755 /home/app/tmp
-
-# Install npm and bower packages
-WORKDIR /home/app/tmp/vendor
-RUN /sbin/setuser app npm install
-
-# Install Ruby gems
-COPY Gemfile /home/app/tmp/Gemfile
-COPY Gemfile.lock /home/app/tmp/Gemfile.lock
-WORKDIR /home/app/tmp
-RUN gem install bundler && \
-    mkdir -p /home/app/tmp/vendor/bundle && \
-    chown -R app:app /home/app/tmp/vendor/bundle && \
-    chmod -R 755 /home/app/tmp/vendor/bundle && \
-    /sbin/setuser app bundle install --path vendor/bundle
-
 # Copy webapp folder
-ADD . /home/app/webapp
-WORKDIR /home/app/webapp
+COPY . /home/app/webapp/
 RUN mkdir -p /home/app/webapp/tmp/pids && \
+    mkdir -p /home/app/webapp/vendor/bundle && \
     chown -R app:app /home/app/webapp && \
     chmod -R 755 /home/app/webapp
+
+# Install npm and bower packages
+WORKDIR /home/app/webapp/vendor
+RUN /sbin/setuser app npm install && \
+    npm install -g phantomjs-prebuilt
+
+# Install Ruby gems
+WORKDIR /home/app/webapp
+RUN gem install bundler && \
+    /sbin/setuser app bundle install --path vendor/bundle
 
 # Add Runit script for sidekiq workers
 RUN mkdir /etc/service/sidekiq
@@ -63,7 +56,7 @@ ADD vendor/docker/sidekiq.sh /etc/service/sidekiq/run
 
 # Run additional scripts during container startup (i.e. not at build time)
 RUN mkdir -p /etc/my_init.d
-COPY vendor/docker/70_install.sh /etc/my_init.d/70_install.sh
+COPY vendor/docker/70_precompile.sh /etc/my_init.d/70_precompile.sh
 COPY vendor/docker/80_cron.sh /etc/my_init.d/80_cron.sh
 COPY vendor/docker/90_migrate.sh /etc/my_init.d/90_migrate.sh
 
