@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :reports
   has_one :contributor, primary_key: "uid", foreign_key: "orcid"
 
-  devise :omniauthable, :omniauth_providers => [:cas, :github, :orcid, :jwt]
+  devise :omniauthable, :omniauth_providers => [:cas, :github, :orcid]
 
   validates :name, presence: true
   validates :uid, presence: true, uniqueness: true

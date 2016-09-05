@@ -229,13 +229,6 @@ Devise.setup do |config|
                            scope: "user,repo" if ENV['GITHUB_CLIENT_ID']
   config.omniauth :orcid, ENV['ORCID_CLIENT_ID'],
                           ENV['ORCID_CLIENT_SECRET'] if ENV['ORCID_CLIENT_ID']
-  config.omniauth :jwt, ENV['JWT_SECRET_KEY'],
-                        auth_url: "#{ENV['JWT_HOST']}/services/#{ENV['JWT_NAME']}",
-                        uid_claim: 'uid',
-                        required_claims: ['uid', 'name'],
-                        info_map: { "name" => "name",
-                                    "api_key" => "authentication_token",
-                                    "role" => "role" }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

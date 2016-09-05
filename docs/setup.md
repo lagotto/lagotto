@@ -16,9 +16,9 @@ Lagotto supports the following forms of authentication:
 * authentication with [ORCID](http://www.orcid.org/)
 * authentication with [Github](https://developer.github.com/guides/basics-of-authentication/)
 * authentication with [JWT](https://jwt.io)
-* authentication with (currently PLOS only)
+* authentication with [CAS](currently PLOS only)
 
-Authentication with [Mozilla Persona](https://login.persona.org/) was removed, as the service will be discontinued by the end of 2016. Authentication via username/password is not supported.
+Authentication via username/password is not supported.
 
 Only one authentication method can ab enabled at a time. The first user created in the system automatically has an admin role, and this user can be created with any of the authentication methods listed above. From then on all user accounts are created with an API user role, and users have to create their own account using third-party authentication . Admin users can change the user role after an account has been created, but can't create user accounts
 

@@ -5,7 +5,7 @@ module ApplicationHelper
   def login_link
     case ENV['OMNIAUTH']
     when "cas" then link_to "Sign in with PLOS ID", user_omniauth_authorize_path(:cas), :id => "sign-in", class: 'btn btn-default'
-    when "jwt" then link_to "Sign in", user_omniauth_authorize_path(:jwt), :id => "sign-in", class: 'btn btn-default'
+    when "jwt" then link_to "Sign in", "#{ENV['JWT_HOST']}/sign_in", :id => "sign-in", class: 'btn btn-default'
     when "github" then link_to "Sign in with Github", user_omniauth_authorize_path(:github), :id => "sign-in", class: 'btn btn-default'
     when "orcid" then link_to "Sign in with ORCID", user_omniauth_authorize_path(:orcid), :id => "sign-in", class: 'btn btn-default'
     else

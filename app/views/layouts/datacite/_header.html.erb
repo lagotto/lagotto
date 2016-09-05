@@ -87,7 +87,7 @@
                     <li><%= link_to "#{icon('user')} Settings".html_safe, user_path("me") %></li>
                   <% end %>
                   <li class="divider"></li>
-                  <li><%= link_to "#{icon('sign-out')} Sign Out".html_safe, destroy_user_session_path, :method => :delete, :id => "sign_out" %></li>
+                  <li><%= link_to "#{icon('sign-out')} Sign Out".html_safe, "#{ENV['JWT_HOST']}/sign_out", :id => "sign_out" %></li>
                 </ul>
               </li>
             <% else %>
