@@ -44,16 +44,11 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  # See everything in the log (default is :info)
-  config.log_level = :debug
-
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
   # for devise
   config.action_mailer.default_url_options = { :host => "localhost" }
-
-  config.web_console.whitelisted_ips = ENV['TRUSTED_IP']
 end
 
 BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP']
