@@ -9,4 +9,4 @@ The DataCite Event Data service collects events around DataCite DOIs. The events
 
 Examples of events include references to related data, data citations in journal articles, and new versions of a work.
 
-Event Data is a backend service, the data are made available via the [DataCite API](https://api.datacite.org) and via [DataCite Search](https://search.datacite.org). Please contact [DataCite staff](mailto:support@datacite.org) for more information.
+Event Data is a backend service, the data are made available via the [DataCite API](https://api.datacite.org) and via [DataCite Search](https://search.datacite.org).
