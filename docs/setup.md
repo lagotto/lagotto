@@ -174,7 +174,7 @@ The reports are generated via the cron jobs mentioned above. Make sure you have 
 bundle exec rake report:all_stats RAILS_ENV=production
 ```
 
-This rake task generates the monthly report file and this file is then available for download from the [Zenodo](https://zenodo.org/) data repository. Make sure the `ZENODO_API_KEY`, `SITENAMELONG` and `CREATOR` ENV variables are set correctly. Users who have signed up for this report will be notified by email when the report has been generated.
+This rake task generates the monthly report file and this file is then available for download from the [Zenodo](https://zenodo.org/) data repository. Make sure the `ZENODO_API_KEY`, `SITE_TITLE` and `CREATOR` ENV variables are set correctly. Users who have signed up for this report will be notified by email when the report has been generated.
 
 ### Snapshotting the API
 
@@ -208,7 +208,7 @@ This requires [Zenodo integration](https://zenodo.org/dev) and expects the follo
 * ZENODO_URL: used in posting the zip file to Zenodo
 * APPLICATION: used in posting the zip file to Zenodo
 * CREATOR: used in posting the zip file to Zenodo
-* SITENAMELONG: used in posting the zip file to Zenodo
+* SITE_TITLE: used in posting the zip file to Zenodo
 * GITHUB_URL: used in posting the zip file to Zenodo
 
 Also, you must be running Sidekiq (bin/rake sidekiq:start) in order for the APIs to be snapshotted as the work is done in the background.

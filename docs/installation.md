@@ -84,10 +84,10 @@ SERVERS=lagotto.local
 # CONSUL_SERVERS=
 
 # name used on navigation bar and in email subject line
-SITENAME=ALM Dev
+SITE_NAME=ALM Dev
 
 # Longer, more descriptive name of the installation site
-SITENAMELONG="PLOS ALM"
+SITE_TITLE="PLOS ALM"
 
 # email address for sending emails
 ADMIN_EMAIL=info@example.org

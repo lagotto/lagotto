@@ -50,7 +50,7 @@ class ApiSnapshotUtility
 
   def self.export_to_zenodo(snapshot)
     publication_date = snapshot.created_at.to_date
-    sitenamelong = ENV['SITENAMELONG']
+    sitenamelong = ENV['SITE_TITLE']
 
     title = "API Snapshot of #{snapshot.url} on #{snapshot.snapshot_date}"
     description = <<-EOS.gsub(/^\s*/, '').gsub(/\s*\n\s*/, " ")

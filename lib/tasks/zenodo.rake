@@ -11,7 +11,7 @@ namespace :zenodo do
 
     ENV['APPLICATION'] || raise("APPLICATION env variable must be set!")
     ENV['CREATOR'] || raise("CREATOR env variable must be set!")
-    ENV['SITENAMELONG'] || raise("SITENAMELONG env variable must be set!")
+    ENV['SITE_TITLE'] || raise("SITE_TITLE env variable must be set!")
     ENV['GITHUB_URL'] || raise("GITHUB_URL env variable must be set!")
   end
 end

@@ -11,7 +11,7 @@ describe "zenodo:requirements_check" do
       "ZENODO_URL" => "example.com",
       "APPLICATION" => "value",
       "CREATOR" => "value",
-      "SITENAMELONG" => "value",
+      "SITE_TITLE" => "value",
       "GITHUB_URL" => "value"
     }
   }
@@ -34,7 +34,7 @@ describe "zenodo:requirements_check" do
     end
   end
 
-  %w(APPLICATION CREATOR SITENAMELONG GITHUB_URL).each do |env_var|
+  %w(APPLICATION CREATOR SITE_TITLE GITHUB_URL).each do |env_var|
     it "errors when all the #{env_var} env var isn't set" do
       expect {
         without_env(env_var){ subject.invoke }

@@ -1,47 +1,53 @@
-<!-- footer start -->
-
-<div class="row footer">
+<footer class='row footer'>
   <div class="container-fluid">
-    <div class="col-md-3">
+    <div class='col-sm-3'>
       <h4>About DataCite</h4>
       <ul>
-        <% settings.about_links.each do |item| %>
-          <li><%= link_to item['name'], item['url'] %></li>
-        <% end %>
+      <% settings.about_links.each do |link| %>
+        <li><%= link_to link.name, link.url %></a></li>
+      <% end %>
       </ul>
     </div>
-    <div class="col-md-3">
+    <div class='col-sm-3'>
       <h4>Services</h4>
       <ul>
-        <% settings.services_links.each do |item| %>
-          <li><%= link_to item['name'], item['url'] %></li>
-        <% end %>
+      <% settings.services_links.each do |link| %>
+        <li><%= link_to link.name, link.url %></a></li>
+      <% end %>
       </ul>
     </div>
-    <div class="col-md-3">
+    <div class='col-sm-3'>
       <h4>Resources</h4>
       <ul>
-        <% settings.resources_links.each do |item| %>
-          <li><%= link_to item['name'], item['url'] %></li>
-        <% end %>
+      <% settings.resources_links.each do |link| %>
+        <li><%= link_to link.name, link.url %></a></li>
+      <% end %>
       </ul>
       <h4>Community</h4>
       <ul>
-        <% settings.community_links.each do |item| %>
-          <li><%= link_to item['name'], item['url'] %></li>
-        <% end %>
+      <% settings.community_links.each do |link| %>
+        <li><%= link_to link.name, link.url %></a></li>
+      <% end %>
       </ul>
     </div>
-    <div class="col-md-3">
+    <div class='col-sm-3'>
       <h4 class="share">Contact us</h4>
-      <%= link_to icon('envelope', class: 'fa-2x'), 'mailto:support@datacite.org', class: "share"  %>
-      <%= link_to icon('rss', class: 'fa-2x'), 'https://blog.datacite.org', class: "share"  %>
-      <%= link_to icon('twitter', class: 'fa-2x'), 'https://twitter.com/datacite', class: "share" %>
-      <%= link_to icon('linkedin', class: 'fa-2x'), 'https://www.linkedin.com/company/datacite', class: "share"  %>
+      <a href='mailto:support@datacite.org' class="share">
+        <i class='fa fa-at'></i>
+      </a>
+      <a href='https://blog.datacite.org' class="share">
+        <i class='fa fa-rss'></i>
+      </a>
+      <a href='https://twitter.com/datacite' class="share">
+        <i class='fa fa-twitter'></i>
+      </a>
+      <a href='https://www.linkedin.com/company/datacite' class="share">
+        <i class='fa fa-linkedin'></i>
+      </a>
       <ul class="share">
-        <% settings.contact_links.each do |item| %>
-          <li><%= link_to item['name'], item['url'] %></li>
-        <% end %>
+      <% settings.contact_links.each do |link| %>
+        <li><%= link_to link.name, link.url %></a></li>
+      <% end %>
       </ul>
     </div>
   </div>

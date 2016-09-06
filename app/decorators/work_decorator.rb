@@ -173,7 +173,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def provider_name
-    ENV['SITENAME']
+    ENV['SITE_NAME']
   end
 
   def provider_url

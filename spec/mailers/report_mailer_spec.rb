@@ -8,7 +8,7 @@ describe ReportMailer, :type => :mailer do
     let(:mail) { ReportMailer.send_error_report(report) }
 
     it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Error Report")
+      expect(mail.subject).to eq("[#{ENV['SITE_NAME']}] Error Report")
       expect(mail.to).to eq([report.users.map(&:email).join(",")])
       expect(mail.from).to eq([ENV['ADMIN_EMAIL']])
     end
@@ -32,7 +32,7 @@ describe ReportMailer, :type => :mailer do
     let(:mail) { ReportMailer.send_status_report(report) }
 
     it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Status Report")
+      expect(mail.subject).to eq("[#{ENV['SITE_NAME']}] Status Report")
       expect(mail.to).to eq([report.users.map(&:email).join(",")])
       expect(mail.from).to eq([ENV['ADMIN_EMAIL']])
     end
@@ -52,7 +52,7 @@ describe ReportMailer, :type => :mailer do
     let(:mail) { ReportMailer.send_work_statistics_report(report) }
 
     it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Work Statistics Report")
+      expect(mail.subject).to eq("[#{ENV['SITE_NAME']}] Work Statistics Report")
       expect(mail.bcc).to eq([report.users.map(&:email).join(",")])
       expect(mail.to).to eq([ENV['ADMIN_EMAIL']])
       expect(mail.from).to eq([ENV['ADMIN_EMAIL']])
@@ -77,7 +77,7 @@ describe ReportMailer, :type => :mailer do
     let(:mail) { ReportMailer.send_fatal_error_report(report, message) }
 
     it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Fatal Error Report")
+      expect(mail.subject).to eq("[#{ENV['SITE_NAME']}] Fatal Error Report")
       expect(mail.to).to eq([report.users.map(&:email).join(",")])
       expect(mail.from).to eq([ENV['ADMIN_EMAIL']])
     end
@@ -99,7 +99,7 @@ describe ReportMailer, :type => :mailer do
     let(:mail) { ReportMailer.send_stale_source_report(report, source_ids) }
 
     it "sends email" do
-      expect(mail.subject).to eq("[#{ENV['SITENAME']}] Stale Source Report")
+      expect(mail.subject).to eq("[#{ENV['SITE_NAME']}] Stale Source Report")
       expect(mail.to).to eq([report.users.map(&:email).join(",")])
       expect(mail.from).to eq([ENV['ADMIN_EMAIL']])
     end

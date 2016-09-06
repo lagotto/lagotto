@@ -32,7 +32,7 @@ namespace :report do
     end
 
     publication_date = alm_stats_zip_record.created_at.to_date
-    sitenamelong = ENV['SITENAMELONG']
+    sitenamelong = ENV['SITE_TITLE']
     title = "Cumulative #{sitenamelong} Report - #{publication_date.to_s(:month_and_year)}"
     description = <<-EOS.gsub(/^\s*/, '').gsub(/\s*\n\s*/, " ")
       Article-Level Metrics (ALM) measure the reach and online engagement of scholarly works.
