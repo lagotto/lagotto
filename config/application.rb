@@ -96,5 +96,7 @@ module Lagotto
 
     # parameter keys that are not explicitly permitted will raise error
     config.action_controller.action_on_unpermitted_parameters = :raise
+
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
