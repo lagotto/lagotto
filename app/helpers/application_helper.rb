@@ -173,7 +173,11 @@ module ApplicationHelper
 
   def data_tags_for_api
     data = { per_page: 15, model: controller.controller_name }
-    data[:api_key] = current_user.api_key if current_user
+    if ENV['JWT_HOST'].present?
+      data[:api_key] = cookies[:jwt].to_s
+    else
+      data[:api_key] = current_user.api_key if current_user
+    end
     data[:page] = @page if @page.present?
     data[:pid] = @work.pid if @work.present?
     data[:q] = @q if @q.present?
@@ -189,5 +193,21 @@ module ApplicationHelper
     data[:state] = states[@state] if @state.present?
 
     { class: "logo", id: "api_key", data: data }
+  end
+
+  def current_user
+    if ENV['JWT_HOST'].present?
+      @current_user ||= cookies[:jwt].present? ? JwtUser.new((JWT.decode cookies[:jwt], ENV['JWT_SECRET_KEY']).first) : nil
+    else
+      super
+    end
+  end
+
+  def user_signed_in?
+    !!current_user
+  end
+
+  def is_admin_or_staff?
+    current_user && current_user.is_admin_or_staff?
   end
 end

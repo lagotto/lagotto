@@ -8,7 +8,11 @@ class ApplicationController < ActionController::Base
   # include helper module for query caching
   include Cacheable
 
+  include ApplicationHelper
+
   protect_from_forgery
+
+  helper_method :current_user
 
   before_filter :miniprofiler
 

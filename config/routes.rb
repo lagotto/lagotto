@@ -9,7 +9,7 @@ Lagotto::Application.routes.draw do
     delete 'sign_out', :to => 'users/sessions#destroy', :as => :destroy_user_session
   end
 
-  authenticate :user, lambda { |u| u.is_admin? } do
+  constraints lambda {|request| AuthConstraint.admin?(request) } do
     mount Sidekiq::Web => '/sidekiq'
   end
 

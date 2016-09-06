@@ -16,24 +16,33 @@ module Authenticable
 
     def authenticate_user_from_token_param!
       token = params[:api_key].presence
-      user = token && User.where(authentication_token: token).first
 
-      if user && Devise.secure_compare(user.authentication_token, token)
-        sign_in user, store: false
+      if ENV['JWT_PATH'].present?
+        current_user = token && User.new((JWT.decode token, ENV['JWT_SECRET_KEY']).first)
       else
-        current_user = false
-      end
-    end
-
-    # looking for header "Authorization: Token token=12345"
-    def authenticate_user_from_token!
-      authenticate_with_http_token do |token, options|
         user = token && User.where(authentication_token: token).first
 
         if user && Devise.secure_compare(user.authentication_token, token)
           sign_in user, store: false
         else
           current_user = false
+        end
+      end
+    end
+
+    # looking for header "Authorization: Token token=12345"
+    def authenticate_user_from_token!
+      authenticate_with_http_token do |token, options|
+        if ENV['JWT_PATH'].present?
+          current_user = token && JwtUser.new((JWT.decode token, ENV['JWT_SECRET_KEY']).first)
+        else
+          user = token && User.where(authentication_token: token).first
+
+          if user && Devise.secure_compare(user.authentication_token, token)
+            sign_in user, store: false
+          else
+            current_user = false
+          end
         end
       end
     end
