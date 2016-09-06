@@ -160,7 +160,7 @@ module ApplicationHelper
   end
 
   def documents
-    %w(Installation Deployment Setup - Agents Deposits Rake Notifications Styleguide - Releases Roadmap Contributors)
+    %w(Installation Deployment Setup - Agents Deposits Rake Notifications - Releases Roadmap Contributors)
   end
 
   def roles

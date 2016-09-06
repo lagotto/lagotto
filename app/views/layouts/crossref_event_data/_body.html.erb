@@ -1,0 +1,5 @@
+<div class="container-fluid">
+  <% @flash = flash -%>
+  <div id="flash"><%= render :partial => 'layouts/flash' -%></div>
+  <%= yield -%>
+</div>

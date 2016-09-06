@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-9" id="content-docs">
     <div class="content markdown">
+      <h3 class="results"><%= @doc.title %></h3>
       <div class="panel panel-default">
-        <div id="api_key" data-id="<%= @doc.id %>" class="panel-heading panel-title"><%= @doc.title %></div>
-        <div class="panel-body">
+        <div class="panel-body" id="api_key" data-id="<%= @doc.id %>">
           <%= markdown @doc.content %>
         </div>
       </div>

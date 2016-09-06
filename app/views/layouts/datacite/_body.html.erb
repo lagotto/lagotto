@@ -1,0 +1,7 @@
+<% if @show_image.present? %>
+  <%= yield -%>
+<% else %>
+  <div class="container-fluid">
+    <%= yield -%>
+  </div>
+<% end %>
