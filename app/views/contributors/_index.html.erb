@@ -3,7 +3,7 @@
     <div class="search-wide">
       <%= form_tag(contributors_path, :method => "get", :class => "form form-horizontal", :role => "form") do %>
         <div class="input-group">
-          <%= search_field_tag :q, params[:q], :placeholder => "Search contributor", :class => "form-control" %>
+          <%= search_field_tag :q, params[:q], :placeholder => "Search contributor", :class => "form-control", id: "query" %>
           <div class="input-group-btn">
             <button type="submit" class="btn btn-primary hidden-xs">Search</button>
           </div>
