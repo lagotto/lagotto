@@ -1,0 +1,9 @@
+The following sources have not been updated for 24 hours:
+
+<% unless @sources.empty? -%>
+<% @sources.each do |source| -%>
+<%= source.title %>
+<% end -%>
+<% else -%>
+No stale source found.
+<% end -%>

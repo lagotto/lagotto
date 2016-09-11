@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api:<MAILGUN_API_KEY>@api.mailgun.net/v3/<MAILGUN_DOMAIN>/messages
+    body:
+      encoding: UTF-8
+      string: from=noreply%40datacite.org&to=mfenner%40datacite.org&subject=%5B%5D%20Error%20Report&text=Found%200%20work%20not%20updated%20errors%20in%2029%2C899%20API%20responses%2C%20taking%2029.899%20ms%0A%0AGo%20to%20admin%20dashboard%3A%20http%3A%2F%2Flocalhost%3A8050%2Fnotifications%0A&html=%3Cp%3E%0AFound%200%20work%20not%20updated%20errors%20in%2029%2C899%20API%20responses%2C%20taking%2029.899%20ms%3Cbr%2F%3E%0A%3C%2Fp%3E%0A%0A%3Cp%3E%3Ca%20href%3D%22http%3A%2F%2Flocalhost%3A8050%2Fnotifications%22%3EGo%20to%20admin%20dashboard%3C%2Fa%3E%3C%2Fp%3E%0A
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '551'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 11 Sep 2016 18:51:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '102'
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - inline
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '600'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type, x-requested-with
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "<20160911185114.12514.67372.77E4E4A2@<MAILGUN_DOMAIN>>",
+          "message": "Queued. Thank you."
+        }
+    http_version: 
+  recorded_at: Sun, 11 Sep 2016 18:51:14 GMT
+recorded_with: VCR 2.9.3

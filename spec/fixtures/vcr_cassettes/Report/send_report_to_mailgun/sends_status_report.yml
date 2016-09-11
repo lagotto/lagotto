@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api:<MAILGUN_API_KEY>@api.mailgun.net/v3/<MAILGUN_DOMAIN>/messages
+    body:
+      encoding: UTF-8
+      string: from=noreply%40datacite.org&to=mfenner%40datacite.org&subject=%5B%5D%20Status%20Report&text=0%20Works%0A0%20Works%20added%20today%0A0%20Results%0A0%20Unresolved%20notifications%0A%0A0%20API%20responses%20in%20the%20last%20hour%0A0%20API%20requests%20in%20the%20last%20hour%0A%0A0%20Disabled%20agents%0ALagotto%20Version%205.1-beta%0ADatabase%20size%202.02%20MB%0A%0AGo%20to%20admin%20dashboard%3A%20http%3A%2F%2Flocalhost%3A8050%2Fstatus%0A&html=%3Cp%3E0%20Works%3Cbr%2F%3E%0A0%20Works%20added%20today%3Cbr%2F%3E%0A0%20Results%3Cbr%2F%3E%0A0%20Unresolved%20notifications%3Cbr%2F%3E%0A%3C%2Fbr%3E%0A0%20API%20responses%20in%20the%20last%20hour%3Cbr%2F%3E%0A0%20API%20requests%20in%20the%20last%20hour%3Cbr%2F%3E%0A%3Cbr%2F%3E%0A0%20Disabled%20agents%3Cbr%2F%3E%0ALagotto%20Version%205.1-beta%3Cbr%2F%3E%0ADatabase%20size%202.02%20MB%3Cbr%2F%3E%3C%2Fp%3E%0A%0A%3Cp%3E%3Ca%20href%3D%22http%3A%2F%2Flocalhost%3A8050%2Fstatus%22%3EGo%20to%20admin%20dashboard%3C%2Fa%3E%3C%2Fp%3E%0A
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '976'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 11 Sep 2016 18:47:40 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '102'
+      Connection:
+      - keep-alive
+      Content-Disposition:
+      - inline
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '600'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type, x-requested-with
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "<20160911184740.12492.17640.BBB16763@<MAILGUN_DOMAIN>>",
+          "message": "Queued. Thank you."
+        }
+    http_version: 
+  recorded_at: Sun, 11 Sep 2016 18:47:40 GMT
+recorded_with: VCR 2.9.3

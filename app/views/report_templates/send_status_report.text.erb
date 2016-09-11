@@ -1,5 +1,3 @@
-This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:long) %> UTC.
-
 <%= number_with_delimiter(@status.works_count) %> Works
 <%= number_with_delimiter(@status.works_new_count) %> Works added today
 <%= number_with_delimiter(@status.results_count) %> Results
@@ -12,4 +10,4 @@ This is the Lagotto status report, generated <%= Time.zone.now.to_formatted_s(:l
 Lagotto Version <%= @status.version %>
 Database size <%= number_to_human_size(@status.db_size) %>
 
-Go to admin dashboard: <%= status_index_url(host: ENV['SERVERNAME']) %>
+Go to admin dashboard: <%= @link %>

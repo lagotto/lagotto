@@ -79,14 +79,14 @@ describe "filter:all" do
   context "report source not updated errors" do
 
     before do
-      @citeulike = FactoryGirl.create(:citeulike)
+      source = FactoryGirl.create(:source)
       FactoryGirl.create(:mendeley)
-      FactoryGirl.create(:change, source_id: @citeulike.id)
+      FactoryGirl.create(:change, source_id: source.id)
       FactoryGirl.create(:source_not_updated_error)
       FactoryGirl.create(:stale_source_report_with_admin_user)
     end
 
-    let(:output) { "Found 1 source not updated error" }
+    let(:output) { "Found 0 source not updated errors in 1 API response" }
 
     it "should run the rake task" do
       expect(capture_stdout { subject.invoke }).to include(output)

@@ -8,8 +8,9 @@ title: "Notifications"
 To properly set up notifications and reports, do the following:
 
 * make sure at least one filter is enabled
-* setup mail sending in `.env`. The default settings (`address`: localhost, `port`: 25) assume a *postfix* server on the same machine as the Lagotto software.
 * setup cron jobs for rake tasks with `bin/whenever -w`. Use `bin/whenever` to see all cron jobs created by this command.
+* setup report configuration in `.env`. Reports can be sent via mail (using the [Mailgun](https://www.mailgun.com/) service), Slack and/or Webhook. The following ENV variables are used: `ADMIN_EMAIL`, `MAILGUN_API_KEY`, `MAILGUN_DOMAIN`, `SLACK_WEBHOOK_URL`, and `WEBHOOK_URL`.
+
 
 ## Notifications
 
@@ -41,4 +42,4 @@ Filters are relatively easy to write, so please create a Github issue if you hav
 
 A background task runs every 24 hours to apply the filters to the API responses of the last 24 hours. Filters can also be applied manually by running `bundle exec rake filter:all`. The API responses will be marked as resolved with this command, use `bundle exec rake filter:unresolve to again mark them as unresolved. Use this command to re-apply filters after changing filter settings.
 
-Reports can be manually sent by using `bundle exec rake mailer:all`.
+Reports can be manually sent by using `bundle exec rake notification:all`.

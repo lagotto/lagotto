@@ -1,5 +1,0 @@
-<p>Some workers are missing at <%= Time.zone.now.to_formatted_s(:long) %> UTC:</p>
-
-<p>Expected <%= pluralize(ENV['WORKERS'], 'worker') %>, but only <%= pluralize(@workers_count, 'worker') %> running.</p>
-
-<p><%= link_to "Go to admin dashboard", status_index_url(host: ENV['SERVERNAME']) %></p>

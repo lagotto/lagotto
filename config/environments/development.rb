@@ -22,14 +22,6 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-  if ENV['MAILGUN_API_KEY'].present?
-    config.action_mailer.delivery_method = :mailgun
-    config.action_mailer.mailgun_settings = {
-      api_key: ENV['MAILGUN_API_KEY'],
-      domain: ENV['MAILGUN_DOMAIN']
-    }
-  end
-
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.

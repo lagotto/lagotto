@@ -16,7 +16,6 @@ CodeClimate::TestReporter.start
 require File.expand_path("../../config/environment", __FILE__)
 require "rspec/rails"
 require "shoulda-matchers"
-require "email_spec"
 require "factory_girl_rails"
 require "capybara/rspec"
 require "capybara/rails"
@@ -68,6 +67,9 @@ VCR.configure do |c|
   c.filter_sensitive_data("<GITHUB_PERSONAL_ACCESS_TOKEN>") { ENV["GITHUB_PERSONAL_ACCESS_TOKEN"] }
   c.filter_sensitive_data("<FACEBOOK_CLIENT_ID>") { ENV["FACEBOOK_CLIENT_ID"] }
   c.filter_sensitive_data("<FACEBOOK_CLIENT_SECRET>") { ENV["FACEBOOK_CLIENT_SECRET"] }
+  c.filter_sensitive_data("<SLACK_WEBHOOK_URL>") { ENV["SLACK_WEBHOOK_URL"] }
+  c.filter_sensitive_data("<MAILGUN_API_KEY>") { ENV["MAILGUN_API_KEY"] }
+  c.filter_sensitive_data("<MAILGUN_DOMAIN>") { ENV["MAILGUN_DOMAIN"] }
   c.configure_rspec_metadata!
 end
 
@@ -104,8 +106,6 @@ RSpec.configure do |config|
   config.order = :random
 
   # config.include WebMock::API
-  config.include EmailSpec::Helpers
-  config.include EmailSpec::Matchers
   config.include MailerMacros
 
   config.include FactoryGirl::Syntax::Methods

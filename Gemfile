@@ -10,8 +10,9 @@ gem 'sinatra'
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false
 gem 'parse-cron', '~> 0.1.4'
-gem "mail", "~> 2.6.1"
-gem 'mailgun_rails', '~> 0.7.0'
+gem 'mailgun-ruby', '~> 1.1'
+gem 'slack-notifier', '~> 1.5', '>= 1.5.1'
+gem 'backport_new_renderer', '~> 1.0'
 gem 'immigrant', '~> 0.3.4'
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem 'lograge', '~> 0.3.5'
@@ -81,7 +82,6 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.3'
   gem "database_cleaner", "~> 1.3.0"
   gem "launchy", "~> 2.4.2"
-  gem "email_spec", "~> 1.6.0"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.9.1", :require => false
   gem 'codeclimate-test-reporter', '~> 0.4.1', :require => nil

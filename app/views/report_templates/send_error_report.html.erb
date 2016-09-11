@@ -1,0 +1,9 @@
+<% unless @reviews.empty? -%>
+<p><% @reviews.each do |review| -%>
+<%= review.message %><br/>
+<% end -%></p>
+<% else -%>
+<p>No review found.</p>
+<% end -%>
+
+<p><%= link_to "Go to admin dashboard", @link %></p>
