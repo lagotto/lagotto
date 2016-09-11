@@ -25,7 +25,7 @@
         </div>
       <% end %>
       <div class="text-center">
-        &nbsp;<%= will_paginate @contributors, :params => { :controller => contributors_path }, :renderer => BootstrapPagination::Rails %>
+        &nbsp;<%= will_paginate @contributors, :params => { :controller => contributors_path }, :renderer => BootstrapPagination::Rails, inner_window: 1 %>
       </div>
     <% else %>
       <div class="alert alert-info">

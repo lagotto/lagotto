@@ -80,7 +80,7 @@
           </div>
         <% end %>
         <div class="text-center">
-          &nbsp;<%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails %>
+          &nbsp;<%= will_paginate @publishers, :params => { :controller => publishers_path }, :renderer => BootstrapPagination::Rails, inner_window: 1 %>
         </div>
       <% else %>
         <div class="alert alert-info">

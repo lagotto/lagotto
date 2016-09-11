@@ -134,7 +134,7 @@
         </div>
       <% end %>
       <div class="text-center">
-        <%= will_paginate @notifications, :params => { :controller => notifications_path }, :renderer => BootstrapPagination::Rails %>
+        <%= will_paginate @notifications, :params => { :controller => notifications_path }, :renderer => BootstrapPagination::Rails, inner_window: 1 %>
       </div>
     <% else %>
       <div class="alert alert-info">There are currently no <% unless @class_name.nil? %><%= h(@class_name.first) %> <% end %>notifications
