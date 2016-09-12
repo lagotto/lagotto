@@ -5,9 +5,9 @@ class ReportJob < ActiveJob::Base
     retry_job wait: 5.minutes, queue: :default
   end
 
-  def perform(report, template, params, options={})
+  def perform(report, template, options={})
     ActiveRecord::Base.connection_pool.with_connection do
-      report.send_report(template, params, options)
+      logger.debug report.send_report(template, options)
     end
   end
 end

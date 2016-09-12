@@ -40,17 +40,18 @@ class Report < ActiveRecord::Base
   # Reports are sent via ActiveJob
   # Supports sending reports to mailgun, slack, and/or webhook
 
-  def send_report(template, params, options={})
+  def send_report(template, options={})
     options[:title] ||= "#{ENV['SITE_TITLE']} Report"
     options[:level] ||= Notification::INFO
     options[:link] ||= ENV['SERVER_URL'] + "/notifications"
 
-    send_report_to_mailgun(template, params, options) if ENV['MAILGUN_API_KEY'].present?
-    send_report_to_slack(template, params, options) if ENV['SLACK_WEBHOOK_URL'].present?
-    send_report_to_webhook(template, params, options) if ENV['WEBHOOK_URL'].present?
+    result = []
+    result << send_report_to_mailgun(template, options) if ENV['MAILGUN_API_KEY'].present?
+    result << send_report_to_slack(template, options) if ENV['SLACK_WEBHOOK_URL'].present?
+    result << send_report_to_webhook(template, options) if ENV['WEBHOOK_URL'].present?
   end
 
-  def send_report_to_mailgun(template, params, options={})
+  def send_report_to_mailgun(template, options={})
     if ENV['JWT_HOST'].present?
       return nil unless ENV['REPORT_EMAIL'].present?
       to = ENV['REPORT_EMAIL']
@@ -63,8 +64,8 @@ class Report < ActiveRecord::Base
                       ENV['MAILGUN_DOMAIN'].present? &&
                       ENV['ADMIN_EMAIL'].present?
 
-    text = render_template(template + '.text.erb', params).to_str
-    html = render_template(template + '.html.erb', params).to_str
+    text = render_template(template + '.text.erb', options).to_str
+    html = render_template(template + '.html.erb', options).to_str
 
     message_params = {
       from: ENV['ADMIN_EMAIL'],
@@ -79,10 +80,10 @@ class Report < ActiveRecord::Base
     JSON.parse(response.body)
   end
 
-  def send_report_to_slack(template, params, options={})
+  def send_report_to_slack(template, options={})
     return nil unless ENV['SLACK_WEBHOOK_URL'].present?
 
-    text = render_template(template + '.md.erb', params).to_str
+    text = render_template(template + '.md.erb', options).to_str
 
     attachment = {
       title: options[:title],
@@ -98,10 +99,10 @@ class Report < ActiveRecord::Base
     response.body
   end
 
-  def send_report_to_webhook(template, params, options={})
+  def send_report_to_webhook(template, options={})
     return nil unless ENV['WEBHOOK_URL'].present?
 
-    text = render_template(template + '.html.erb', params).to_str
+    text = render_template(template + '.html.erb', options).to_str
 
     data = { "title" => options[:title],
              "text" => text,
@@ -114,40 +115,36 @@ class Report < ActiveRecord::Base
     reviews = Review.daily_report.to_a
     return nil unless reviews.present?
 
-    link = ENV['SERVER_URL'] + "/notifications"
-    params = { reviews: reviews, link: link }
-    ReportJob.perform_later(self, __method__.to_s, params,
+    ReportJob.perform_later(self, __method__.to_s,
+                            reviews: reviews,
                             title: "Error Report",
-                            link: link,
+                            link: ENV['SERVER_URL'] + "/notifications",
                             level: Notification::ERROR)
   end
 
   def send_status_report
-    link = ENV['SERVER_URL'] + "/status"
-    params = { status: Status.first_or_create, link: link }
-    ReportJob.perform_later(self, __method__.to_s, params,
+    ReportJob.perform_later(self, __method__.to_s,
+                            status: Status.first_or_create,
                             title: "Status Report",
-                            link: link,
+                            link: ENV['SERVER_URL'] + "/status",
                             level: Notification::INFO)
   end
 
   def send_work_statistics_report
-    link = ENV['SERVER_URL'] + "/status"
-    params = { status: Status.first_or_create, link: link }
-    ReportJob.perform_later(self, __method__.to_s, params,
+    ReportJob.perform_later(self, __method__.to_s,
+                            status: Status.first_or_create,
                             title: "Work Statistics Report",
-                            link: link,
+                            link: ENV['SERVER_URL'] + "/status",
                             level: Notification::INFO)
   end
 
   def send_fatal_error_report(message)
     return nil unless message.present?
 
-    link = ENV['SERVER_URL'] + "/notifications?level=fatal"
-    params = { message: message, link: link }
-    ReportJob.perform_later(self, __method__.to_s, params,
+    ReportJob.perform_later(self, __method__.to_s,
+                            message: message,
                             title: "Fatal Error Report",
-                            link: link,
+                            link:  ENV['SERVER_URL'] + "/notifications?level=fatal",
                             level: Notification::FATAL)
   end
 
@@ -155,11 +152,10 @@ class Report < ActiveRecord::Base
     sources = Source.where(id: source_ids).to_a
     return nil unless sources.present?
 
-    link = ENV['SERVER_URL'] + "/notifications?class=SourceNotUpdatedError"
-    params = { sources: sources, link: link }
-    ReportJob.perform_later(self, __method__.to_s, params,
+    ReportJob.perform_later(self, __method__.to_s,
+                            sources: sources,
                             title: "Stale Source Report",
-                            link: link,
+                            link: ENV['SERVER_URL'] + "/notifications?class=SourceNotUpdatedError",
                             level: Notification::WARN)
   end
 
