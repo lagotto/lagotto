@@ -18,8 +18,8 @@ namespace :cron do
     Rake::Task["filter:all"].invoke
     Rake::Task["filter:all"].reenable
 
-    Rake::Task["mailer:error_report"].invoke
-    Rake::Task["mailer:error_report"].reenable
+    Rake::Task["notification:error_report"].invoke
+    Rake::Task["notification:error_report"].reenable
 
     Rake::Task["db:api_requests:delete"].invoke
     Rake::Task["db:api_requests:delete"].reenable
@@ -42,8 +42,8 @@ namespace :cron do
 
   desc 'Weekly cron task'
   task :weekly => :environment do
-    Rake::Task["mailer:status_report"].invoke
-    Rake::Task["mailer:status_report"].reenable
+    Rake::Task["notification:status_report"].invoke
+    Rake::Task["notification:status_report"].reenable
 
     Rake::Task["db:notifications:delete"].invoke
     Rake::Task["db:notifications:delete"].reenable
@@ -54,7 +54,7 @@ namespace :cron do
     Rake::Task["report:all_stats"].invoke
     Rake::Task["report:all_stats"].reenable
 
-    Rake::Task["mailer:work_statistics_report"].invoke
-    Rake::Task["mailer:work_statistics_report"].reenable
+    Rake::Task["notification:work_statistics_report"].invoke
+    Rake::Task["notification:work_statistics_report"].reenable
   end
 end
