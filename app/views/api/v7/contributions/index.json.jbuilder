@@ -6,6 +6,7 @@ json.meta do
   json.total_pages @contributions.per_page > 0 ? @contributions.total_pages : 1
   json.page @contributions.total_entries > 0 ? @contributions.current_page : 1
   json.sources @sources
+  json.publishers @publishers
 end
 
 json.contributions @contributions do |contribution|
@@ -13,9 +14,9 @@ json.contributions @contributions do |contribution|
     json.(contribution, :subj_id)
     json.(contribution.contributor, :credit_name)
     json.(contribution, :obj_id)
-    json.(contribution.work, :publisher_id, :author, :title, :published, :issued)
+    json.(contribution.work, :author, :title, :published, :issued)
     json.set! :"container-title", contribution.work.container_title
     json.(contribution.work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :publisher_id, :work_type_id, :results)
-    json.(contribution, :source_id, :contributor_role_id, :timestamp)
+    json.(contribution, :source_id, :publisher_id, :contributor_role_id, :timestamp)
   end
 end

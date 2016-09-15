@@ -39,6 +39,14 @@ class Api::V7::ContributionsController < Api::BaseController
       @sources = sources.map { |k,v| [source_names[k], v] }.to_h
     end
 
+    if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
+      @publishers = { params[:publisher_id] => collection.where(publisher_id: publisher.id).count }
+    else
+      publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
+      publisher_names = cached_publisher_names
+      @publishers = publishers.map { |k,v| [publisher_names[k], v] }.to_h
+    end
+
     collection = collection.order("contributions.updated_at DESC")
 
     per_page = params[:per_page] && (0..1000).include?(params[:per_page].to_i) ? params[:per_page].to_i : 1000

@@ -20,6 +20,10 @@ class ContributionDecorator < Draper::Decorator
     cached_source_names[model.source_id]
   end
 
+  def publisher_id
+    cached_publisher_names[model.publisher_id]
+  end
+
   def contributor_role_id
     cached_contributor_role_names.fetch(model.contributor_role_id, "contribution")
   end
