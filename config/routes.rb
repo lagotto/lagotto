@@ -13,8 +13,6 @@ Lagotto::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-  # simplify GET route to works
-  #get '/:id', to: 'works#show', constraints: { id: /(http|https):\/\/.+/, format: /html/ }
   root :to => "docs#index"
 
   resources :agents do
@@ -47,7 +45,6 @@ Lagotto::Application.routes.draw do
   get "oembed", to: "oembed#show"
 
   get "/files/alm_report.zip", to: redirect("/files/alm_report.zip")
-  get "/api", to: "api/index#index"
 
   namespace :api, defaults: { format: "json" } do
     scope module: :v7, constraints: ApiConstraint.new(version: 7, default: :true) do

@@ -9,6 +9,11 @@ class Api::V7::PublishersController < Api::BaseController
       @registration_agency_group = collection.where(registration_agency_id: registration_agency.id).group(:registration_agency_id).count.first
     end
 
+    if params[:ids].present?
+      ids = params[:ids].split(",").map { |id| id.upcase }
+      collection = collection.where(name: ids)
+    end
+
     if params[:registration_agency_id].present? && registration_agency = cached_registration_agency(params[:registration_agency_id])
       @registration_agencies = { params[:registration_agency_id] => collection.where(registration_agency_id: registration_agency.id).count }
     else
