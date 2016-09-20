@@ -76,7 +76,7 @@ module Lagotto
     config.logger = Syslog::Logger.new(ENV['APPLICATION'])
 
     # Use a different cache store
-    # dalli uses ENV['MEMCACHE_SERVERS']
+    # dalli uses ENV['MEMCACHE_SERVERS'], further options are defined here
     config.cache_store = :dalli_store, nil, { :namespace => ENV['APPLICATION'], :compress => true }
 
     # Skip validation of locale

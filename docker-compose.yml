@@ -13,3 +13,5 @@ services:
       - "3306:3306"
   redis:
     image: redis:2.8
+  memcached:
+    image: memcached:1.4.31

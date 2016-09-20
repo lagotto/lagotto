@@ -30,9 +30,6 @@ COPY vendor/docker/00_app_env.conf /etc/nginx/conf.d/00_app_env.conf
 # Use Amazon NTP servers
 COPY vendor/docker/ntp.conf /etc/ntp.conf
 
-# Enable the memcached service
-RUN rm -f /etc/service/memcached/down
-
 # Copy webapp folder
 COPY . /home/app/webapp/
 RUN mkdir -p /home/app/webapp/tmp/pids && \
