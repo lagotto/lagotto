@@ -86,6 +86,13 @@ namespace :db do
     end
   end
 
+  namespace :contributions do
+    desc "Add publisher_id to all contributions"
+    task :add_publisher => :environment do
+      ContributionJob.perform_later
+    end
+  end
+
   namespace :notifications do
     desc "Resolve all notifications with level INFO and WARN"
     task :resolve => :environment do
