@@ -6,7 +6,7 @@ class ResultDecorator < Draper::Decorator
   end
 
   def source_id
-    cached_source_names[model.source_id]
+    cached_source_names.fetch(model.source_id, {}).fetch(:name, nil)
   end
 
   def work_id

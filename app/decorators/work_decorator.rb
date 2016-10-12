@@ -27,11 +27,11 @@ class WorkDecorator < Draper::Decorator
   end
 
   def work_type_id
-    cached_work_type_names[model.work_type_id] if model.work_type.present?
+    cached_work_type_names.fetch(model.work_type_id, {}).fetch(:name, nil)
   end
 
   def registration_agency_id
-    cached_registration_agency_names[model.registration_agency_id] if model.registration_agency.present?
+    cached_registration_agency_names.fetch(model.registration_agency_id, {}).fetch(:name, nil)
   end
 
   def DOI

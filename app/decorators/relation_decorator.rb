@@ -16,7 +16,7 @@ class RelationDecorator < Draper::Decorator
   end
 
   def source_id
-    cached_source_names[model.source_id]
+    cached_source_names.fetch(model.source_id, {}).fetch(:name, nil)
   end
 
   def publisher_id
@@ -24,7 +24,7 @@ class RelationDecorator < Draper::Decorator
   end
 
   def relation_type_id
-    cached_relation_type_names[model.relation_type_id]
+    cached_relation_type_names.fetch(model.relation_type_id, {}).fetch(:name, nil)
   end
 
   def implicit

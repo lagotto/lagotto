@@ -17,14 +17,14 @@ class ContributionDecorator < Draper::Decorator
   end
 
   def source_id
-    cached_source_names[model.source_id]
+    cached_source_names.fetch(model.source_id, {}).fetch(:name, nil)
   end
 
   def publisher_id
-    cached_publisher_names[model.publisher_id]
+    cached_publisher_names.fetch(model.publisher_id, {}).fetch(:name, nil)
   end
 
   def contributor_role_id
-    cached_contributor_role_names.fetch(model.contributor_role_id, "contribution")
+    cached_contributor_role_names.fetch(model.contributor_role_id, {}).fetch(:name, "contribution")
   end
 end

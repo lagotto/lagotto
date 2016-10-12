@@ -10,6 +10,6 @@ class PrefixDecorator < Draper::Decorator
   end
 
   def registration_agency_id
-    cached_registration_agency_id(model.registration_agency_id).name if model.registration_agency_id.present?
+    cached_registration_agency_names.fetch(model.registration_agency_id, {}). fetch(:name, nil)
   end
 end

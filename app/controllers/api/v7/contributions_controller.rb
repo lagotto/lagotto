@@ -32,19 +32,23 @@ class Api::V7::ContributionsController < Api::BaseController
     end
 
     if params[:source_id] && source = cached_source(params[:source_id])
-      @sources = { params[:source_id] => collection.where(source_id: source.id).count }
+      @sources = { id: params[:source_id],
+                   title: source.title,
+                   count: collection.where(source_id: source.id).count }
     else
       sources = collection.where.not(source_id: nil).group(:source_id).count
       source_names = cached_source_names
-      @sources = sources.map { |k,v| [source_names[k], v] }.to_h
+      @sources = sources.map { |k,v| { id: source_names[k][:name], title: source_names[k][:title], count: v } }
     end
 
     if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
-      @publishers = { params[:publisher_id] => collection.where(publisher_id: publisher.id).count }
+      @publishers = { id: params[:publisher_id],
+                      title: publisher.title,
+                      count: collection.where(publisher_id: publisher.id).count }
     else
       publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
       publisher_names = cached_publisher_names
-      @publishers = publishers.map { |k,v| [publisher_names[k], v] }.to_h
+      @publishers = publishers.map { |k,v| { id: publisher_names[k][:name], title: publisher_names[k][:title], count: v } }
     end
 
     collection = collection.order("contributions.updated_at DESC")

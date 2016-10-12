@@ -25,6 +25,10 @@ class Api::V7::RelationsController < Api::BaseController
       collection = collection.where(source_id: source.id)
     end
 
+    if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
+      collection = collection.where(publisher_id: publisher.id)
+    end
+
     collection = collection.joins(:related_work)
 
     if params[:recent]
@@ -32,11 +36,23 @@ class Api::V7::RelationsController < Api::BaseController
     end
 
     if params[:source_id] && source = cached_source(params[:source_id])
-      @sources = { params[:source_id] => collection.where(source_id: source.id).count }
+      @sources = { id: params[:source_id],
+                   title: source.title,
+                   count: collection.where(source_id: source.id).count }
     else
       sources = collection.where.not(source_id: nil).group(:source_id).count
       source_names = cached_source_names
-      @sources = sources.map { |k,v| [source_names[k], v] }.to_h
+      @sources = sources.map { |k,v| { id: source_names[k][:name], title: source_names[k][:title], count: v } }
+    end
+
+    if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
+      @publishers = { id: params[:publisher_id],
+                      title: publisher.title,
+                      count: collection.where(publisher_id: publisher.id).count }
+    else
+      publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
+      publisher_names = cached_publisher_names
+      @publishers = publishers.map { |k,v| { id: publisher_names[k][:name], title: publisher_names[k][:title], count: v } }
     end
 
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
@@ -44,7 +60,7 @@ class Api::V7::RelationsController < Api::BaseController
     else
       relation_types = collection.where.not(relation_type_id: nil).group(:relation_type_id).count
       relation_type_names = cached_relation_type_names
-      @relation_types = relation_types.map { |k,v| [relation_type_names[k], v] }.to_h
+      @relation_types = relation_types.map { |k,v| { id: relation_type_names[k][:name], title: relation_type_names[k][:title], count: v } }
     end
 
     collection = collection.order("relations.updated_at DESC")

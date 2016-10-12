@@ -10,7 +10,7 @@ class PublisherDecorator < Draper::Decorator
   end
 
   def registration_agency_id
-    cached_registration_agency_names[model.registration_agency_id] if model.registration_agency.present?
+    cached_registration_agency_names.fetch(model.registration_agency_id, {}). fetch(:name, nil)
   end
 
   def users
