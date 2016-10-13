@@ -2,13 +2,7 @@ class Facebook < Source
   def get_query_url(work, options = {})
     fail ArgumentError, "No Facebook access token." unless get_access_token
     return {} unless work.get_url
-
-    # use depreciated v2.0 API if url_linkstat is used
-    if url_linkstat.present?
-      URI.escape(url_linkstat % { access_token: access_token, query_url: work.canonical_url_escaped })
-    else
       url % { access_token: access_token, query_url: work.canonical_url_escaped }
-    end
   end
 
   def request_options
@@ -19,29 +13,24 @@ class Facebook < Source
     return result if result[:error]
 
     result.extend Hashie::Extensions::DeepFetch
-
-    # use depreciated v2.0 API if url_linkstat is used
-    # requires user account registerd before August 2014
-    if url_linkstat.present?
-      total = result.deep_fetch('data', 0, 'total_count') { 0 }
-    else
       total = result.deep_fetch('share', 'share_count') { 0 }
-
-    end
-
-    # don't trust results if event count is above preset limit
-    # workaround for Facebook getting confused about the canonical URL
+ 
     if total > count_limit.to_i
       readers, comments, likes, total = 0, 0, 0, 0
       extra = {}
-    elsif url_linkstat.blank?
-      readers, comments, likes = 0, 0, 0
-      extra = result
     else
-      readers = result.deep_fetch('data', 0, 'share_count') { 0 }
-      comments = result.deep_fetch('data', 0, 'comment_count') { 0 }
-      likes = result.deep_fetch('data', 0, 'like_count') { 0 }
-      extra = result['data'] || {}
+      readers = result.deep_fetch('share', 'share_count') { 0 }
+      comments = result.deep_fetch('share', 0, 'comment_count') { 0 }
+      likes = result.deep_fetch('share', 0, 'like_count') { 0 }
+      url = result['id']
+      # Need clarification on what to use for getting facebook likes from the graph api
+      extra = {
+               "comment_count" => comments, 
+               "share_count" =>  readers, 
+               "like_count" => likes,
+               "url" => url,
+               "total_count" => total
+      } || {}
     end
 
     { events: {
@@ -76,7 +65,7 @@ class Facebook < Source
   end
 
   def config_fields
-    [:url, :url_linkstat, :authentication_url, :client_id, :client_secret, :access_token, :count_limit]
+    [:url, :authentication_url, :client_id, :client_secret, :access_token, :count_limit]
   end
 
   def authentication_url
@@ -84,17 +73,7 @@ class Facebook < Source
   end
 
   def url
-    "https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=%{query_url}"
+    "https://graph.facebook.com/v2.7/?access_token=%{access_token}&id=%{query_url}"
   end
-
-  # use depreciated v2.0 API if url_linkstat is used
-  # requires user account registerd before August 2014
-  # https://graph.facebook.com/fql?access_token=%{access_token}&q=select url, share_count, like_count, comment_count, click_count, total_count from link_stat where url = '%{query_url}'
-  def url_linkstat
-    config.url_linkstat
-  end
-
-  def url_linkstat=(value)
-    config.url_linkstat = value
-  end
+  
 end
