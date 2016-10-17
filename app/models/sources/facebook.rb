@@ -2,7 +2,7 @@ class Facebook < Source
   def get_query_url(work, options = {})
     fail ArgumentError, "No Facebook access token." unless get_access_token
     return {} unless work.get_url
-      url % { access_token: access_token, query_url: work.canonical_url_escaped }
+    url % { access_token: access_token, query_url: work.canonical_url_escaped }
   end
 
   def request_options
@@ -19,18 +19,19 @@ class Facebook < Source
       readers, comments, likes, total = 0, 0, 0, 0
       extra = {}
     else
-      readers = result.deep_fetch('share', 'share_count') { 0 }
+      readers = 0
+      share_count = result.deep_fetch('share', 'share_count') {0}
       comments = result.deep_fetch('share', 0, 'comment_count') { 0 }
       likes = result.deep_fetch('share', 0, 'like_count') { 0 }
       url = result['id']
       # Need clarification on what to use for getting facebook likes from the graph api
       extra = {
                "comment_count" => comments, 
-               "share_count" =>  readers, 
+               "share_count" =>  share_count, 
                "like_count" => likes,
                "url" => url,
                "total_count" => total
-      } || {}
+      } 
     end
 
     { events: {
