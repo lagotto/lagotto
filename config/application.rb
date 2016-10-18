@@ -71,14 +71,6 @@ module Lagotto
     log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
     config.log_level = log_level
 
-    # Use a different logger for distributed setups
-    config.lograge.enabled = true
-    config.logger = Syslog::Logger.new(ENV['APPLICATION'])
-
-    # Use a different cache store
-    # dalli uses ENV['MEMCACHE_SERVERS'], further options are defined here
-    config.cache_store = :dalli_store, nil, { :namespace => ENV['APPLICATION'], :compress => true }
-
     # Skip validation of locale
     I18n.enforce_available_locales = false
 

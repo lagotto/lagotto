@@ -16,8 +16,13 @@ Rails.application.configure do
   # Compress JavaScripts and CSS
   config.assets.js_compressor = :uglifier
 
-  # Use a different cache store in production
-  # config.cache_store = :dalli_store, { :namespace => "alm" }
+  # Use a different logger for distributed setups
+  config.lograge.enabled = true
+  config.logger = Syslog::Logger.new("#{ENV['APPLICATION']}_stage")
+
+  # Use a different cache store
+  # dalli uses ENV['MEMCACHE_SERVERS'], further options are defined here
+  config.cache_store = :dalli_store, nil, { :namespace => "#{ENV['APPLICATION']}_stage", :compress => true }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
