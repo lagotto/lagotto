@@ -32,9 +32,9 @@ class Api::V7::ContributionsController < Api::BaseController
     end
 
     if params[:source_id] && source = cached_source(params[:source_id])
-      @sources = { id: params[:source_id],
-                   title: source.title,
-                   count: collection.where(source_id: source.id).count }
+      @sources = [{ id: source.name,
+                    title: source.title,
+                    count: collection.where(source_id: source.id).count }]
     else
       sources = collection.where.not(source_id: nil).group(:source_id).count
       source_names = cached_source_names
@@ -42,9 +42,9 @@ class Api::V7::ContributionsController < Api::BaseController
     end
 
     if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
-      @publishers = { id: params[:publisher_id],
-                      title: publisher.title,
-                      count: collection.where(publisher_id: publisher.id).count }
+      @publishers = [{ id: publisher.name,
+                       title: publisher.title,
+                       count: collection.where(publisher_id: publisher.id).count }]
     else
       publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
       publisher_names = cached_publisher_names

@@ -36,9 +36,9 @@ class Api::V7::RelationsController < Api::BaseController
     end
 
     if params[:source_id] && source = cached_source(params[:source_id])
-      @sources = { id: params[:source_id],
-                   title: source.title,
-                   count: collection.where(source_id: source.id).count }
+      @sources = [{ id: params[:source_id],
+                    title: source.title,
+                    count: collection.where(source_id: source.id).count }]
     else
       sources = collection.where.not(source_id: nil).group(:source_id).count
       source_names = cached_source_names
@@ -46,9 +46,9 @@ class Api::V7::RelationsController < Api::BaseController
     end
 
     if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
-      @publishers = { id: params[:publisher_id],
-                      title: publisher.title,
-                      count: collection.where(publisher_id: publisher.id).count }
+      @publishers = [{ id: publisher.name,
+                       title: publisher.title,
+                       count: collection.where(publisher_id: publisher.id).count }]
     else
       publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
       publisher_names = cached_publisher_names
@@ -56,7 +56,9 @@ class Api::V7::RelationsController < Api::BaseController
     end
 
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
-      @relation_types = { params[:relation_type_id] => collection.where(relation_type_id: relation_type.id).count }
+      @relation_types = [{ id: relation_type.name,
+                           title: relation_type.title,
+                           count: collection.where(relation_type_id: relation_type.id).count }]
     else
       relation_types = collection.where.not(relation_type_id: nil).group(:relation_type_id).count
       relation_type_names = cached_relation_type_names

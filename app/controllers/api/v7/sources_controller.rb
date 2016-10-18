@@ -7,7 +7,7 @@ class Api::V7::SourcesController < Api::BaseController
     end
     if params[:group_id].present? && group = cached_group(params[:group_id])
       collection = collection.where(group_id: group.id)
-      @groups = [{ id: params[:group_id],
+      @groups = [{ id: group.name,
                    title: group.title,
                    count: collection.where(group_id: group.id).count }]
     else
