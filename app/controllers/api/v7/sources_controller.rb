@@ -13,7 +13,7 @@ class Api::V7::SourcesController < Api::BaseController
     else
       groups = collection.where.not(group_id: nil).group(:group_id).count
       group_names = cached_group_names
-      @groups = groups.map { |k,v| { id: group_names[k][:name], title: group_names[k][:title], count: v } }
+      @groups = groups.map { |k,v| { id: group_names[k][:name], title: group_names[k][:title], count: v }} #.map { |k,v| { id: group_names[k.to_i][:name], title: group_names[k.to_i][:title], count: v } }
     end
 
     @sources = collection.decorate

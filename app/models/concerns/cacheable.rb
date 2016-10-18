@@ -10,7 +10,7 @@ module Cacheable
 
     def cached_source_names
       Rails.cache.fetch("source/names", expires_in: 1.month) do
-        Source.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }
+        Source.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
       end
     end
 
@@ -22,7 +22,7 @@ module Cacheable
 
     def cached_publisher_names
       Rails.cache.fetch("source/publishers", expires_in: 1.month) do
-        Publisher.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }
+        Publisher.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
       end
     end
 
@@ -76,7 +76,7 @@ module Cacheable
 
     def cached_work_type_names
       Rails.cache.fetch("work_type/names", expires_in: 1.month) do
-        WorkType.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }
+        WorkType.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
       end
     end
 
@@ -94,7 +94,7 @@ module Cacheable
 
     def cached_contributor_role_names
       Rails.cache.fetch("contributor_role/names", expires_in: 1.month) do
-        ContributorRole.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }
+        ContributorRole.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
       end
     end
 
@@ -106,7 +106,7 @@ module Cacheable
 
     def cached_group_names
       Rails.cache.fetch("group/names", expires_in: 1.month) do
-        Group.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }
+        Group.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
       end
     end
   end
