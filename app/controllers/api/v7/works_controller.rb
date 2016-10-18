@@ -14,23 +14,38 @@ class Api::V7::WorksController < Api::BaseController
   def index
     collection = get_ids(params)
 
+    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
+      collection = collection.joins(:relations)
+                             .where("relations.relation_type_id = ?", relation_type.id)
+    end
+
     if params[:source_id] && source = cached_source(params[:source_id])
-      @sources = { params[:source_id] => collection.joins(:results)
-                                                   .where("results.source_id = ?", source.id)
-                                                   .where("results.total > 0").count }
-    else
-      sources = collection.joins(:results).group("results.source_id").count
-      source_names = cached_source_names
-      @sources = sources.map { |k,v| [source_names[k], v] }.to_h
+      collection = collection.joins(:results)
+                             .where("results.source_id = ?", source.id)
+                             .where("results.total > 0")
     end
 
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
-      @relation_types = { params[:relation_type_id] => collection.joins(:relations)
-                                                                 .where("relations.relation_type_id = ?", relation_type.id).count }
+      @relation_types = [{ id: relation_type.name,
+                           title: relation_type.title,
+                           count: collection.joins(:relations)
+                                            .where("relations.relation_type_id = ?", relation_type.id).count }]
     else
       relation_types = collection.joins(:relations).group("relations.relation_type_id").count
       relation_type_names = cached_relation_type_names
-      @relation_types = relation_types.map { |k,v| [relation_type_names[k], v] }.to_h
+      @relation_types = relation_types.map { |k,v| { id: relation_type_names[k][:name], title: relation_type_names[k][:title], count: v } }
+    end
+
+    if params[:source_id] && source = cached_source(params[:source_id])
+      @sources = [{ id: source.name,
+                    title: source.title,
+                    count: collection.joins(:results)
+                                     .where("results.source_id = ?", source.id)
+                                     .where("results.total > 0").count }]
+    else
+      sources = collection.joins(:results).group("results.source_id").count
+      source_names = cached_source_names
+      @sources = sources.map { |k,v| { id: source_names[k][:name], title: source_names[k][:title], count: v } }
     end
 
     collection = get_sort(collection, params)
