@@ -9,6 +9,9 @@ datacite:
    - name: Blog
      url: http://localhost:8030
      icon: rss
+   - name: Citation Formatter
+     url: http://localhost:9020
+     icon: rss
    - name: Event Data
      url: http://localhost:8050
      icon: link
@@ -24,6 +27,37 @@ datacite:
    - name: Search
      url: http://localhost:8000
      icon: search
+   - name: Statistics
+     url: http://localhost:9010
+     icon: bar-chart
+  stage_links:
+   - name: API
+     url: https://api.labs.datacite.org
+     icon: cogs
+   - name: Blog
+     url: https://blog.labs.datacite.org
+     icon: rss
+   - name: Citation Formatter
+     url: http://citation.labs.crosscite.org
+     icon: file-text-o
+   - name: Content Resolver
+     url: https://data.labs.datacite.org
+     icon: repeat
+   - name: Homepage
+     url: https://www.labs.datacite.org
+     icon: globe
+   - name: Profiles
+     url: https://profiles.labs.datacite.org
+     icon: user
+   - name: Schema
+     url: https://schema.labs.datacite.org
+     icon: file-code-o
+   - name: Search
+     url: https://search.labs.datacite.org
+     icon: search
+   - name: Statistics
+     url: https://stats.labs.datacite.org
+     icon: bar-chart
   production_links:
    - name: API
      url: https://api.datacite.org
@@ -32,10 +66,10 @@ datacite:
      url: https://blog.datacite.org
      icon: rss
    - name: Citation Formatter
-     url: http://crosscite.org/citeproc/
+     url: http://citation.crosscite.org
      icon: file-text-o
    - name: Content Resolver
-     url: http://data.datacite.org
+     url: https://data.datacite.org
      icon: repeat
    - name: Homepage
      url: https://www.datacite.org
@@ -44,19 +78,19 @@ datacite:
      url: https://mds.datacite.org
      icon: database
    - name: OAI-PMH
-     url: http://oai.datacite.org
+     url: https://oai.datacite.org
      icon: table
    - name: Profiles
      url: https://profiles.datacite.org
      icon: user
    - name: Schema
-     url: http://schema.datacite.org
+     url: https://schema.datacite.org
      icon: file-code-o
    - name: Search
      url: https://search.datacite.org
      icon: search
    - name: Statistics
-     url: http://stats.datacite.org
+     url: https://stats.datacite.org
      icon: bar-chart
    - name: Status
      url: http://status.datacite.org
