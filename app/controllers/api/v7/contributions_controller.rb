@@ -44,13 +44,13 @@ class Api::V7::ContributionsController < Api::BaseController
     end
 
     if params[:publisher_id].present? && publisher = cached_publisher(params[:publisher_id])
-      @publishers = [{ id: publisher.name,
+      @publishers = [{ id: publisher.name.underscore.dasherize,
                        title: publisher.title,
                        count: collection.where(publisher_id: publisher.id).count }]
     else
       publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
       publisher_names = cached_publisher_names
-      @publishers = publishers.map { |k,v| { id: publisher_names[k][:name], title: publisher_names[k][:title], count: v } }
+      @publishers = publishers.map { |k,v| { id: publisher_names[k][:name].underscore.dasherize, title: publisher_names[k][:title], count: v } }
                               .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
                               .first(15)
     end
