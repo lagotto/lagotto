@@ -84,7 +84,7 @@ CROSSREF_TYPE_TRANSLATIONS = {
   "book-set" => nil
 }
 
-# DataCite resourceTypeGeneral from DataCite metadata schema: http://dx.doi.org/10.5438/0010
+# DataCite resourceTypeGeneral from DataCite metadata schema: https://doi.org/10.5438/0012
 DATACITE_TYPE_TRANSLATIONS = {
   "Audiovisual" => "motion_picture",
   "Collection" => nil,
