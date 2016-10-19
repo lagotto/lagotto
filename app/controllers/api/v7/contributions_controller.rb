@@ -31,7 +31,7 @@ class Api::V7::ContributionsController < Api::BaseController
       collection = collection.last_x_days(params[:recent].to_i)
     end
 
-    if params[:source_id] && source = cached_source(params[:source_id])
+    if params[:source_id].present? && source = cached_source(params[:source_id])
       @sources = [{ id: source.name,
                     title: source.title,
                     count: collection.where(source_id: source.id).count }]
@@ -39,9 +39,11 @@ class Api::V7::ContributionsController < Api::BaseController
       sources = collection.where.not(source_id: nil).group(:source_id).count
       source_names = cached_source_names
       @sources = sources.map { |k,v| { id: source_names[k][:name], title: source_names[k][:title], count: v } }
+                        .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
+                        .first(15)
     end
 
-    if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
+    if params[:publisher_id].present? && publisher = cached_publisher(params[:publisher_id])
       @publishers = [{ id: publisher.name,
                        title: publisher.title,
                        count: collection.where(publisher_id: publisher.id).count }]
@@ -49,6 +51,8 @@ class Api::V7::ContributionsController < Api::BaseController
       publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
       publisher_names = cached_publisher_names
       @publishers = publishers.map { |k,v| { id: publisher_names[k][:name], title: publisher_names[k][:title], count: v } }
+                              .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
+                              .first(15)
     end
 
     collection = collection.order("contributions.updated_at DESC")
