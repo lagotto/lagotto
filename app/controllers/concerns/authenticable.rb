@@ -64,36 +64,38 @@ module Authenticable
       request.env["devise.skip_trackable"] = true
     end
 
-    rescue_from *RESCUABLE_EXCEPTIONS do |exception|
-      status = case exception.class.to_s
-               when "CanCan::AccessDenied" then 401
-               when "ActiveRecord::RecordNotFound" then 404
-               when "ActiveModel::ForbiddenAttributesError", "ActionController::UnpermittedParameters", "NoMethodError" then 422
-               else 400
-               end
+    if Rails.env.production? || Rails.env.stage?
+      rescue_from *RESCUABLE_EXCEPTIONS do |exception|
+        status = case exception.class.to_s
+                 when "CanCan::AccessDenied" then 401
+                 when "ActiveRecord::RecordNotFound" then 404
+                 when "ActiveModel::ForbiddenAttributesError", "ActionController::UnpermittedParameters", "NoMethodError" then 422
+                 else 400
+                 end
 
-      if status == 404
-        message = "The page you are looking for doesn't exist."
-      elsif status == 401
-        message = "You are not authorized to access this page."
-      else
-        create_notification(exception, status: status)
-        message = exception.message
-      end
-
-      respond_to do |format|
-        format.html do
-          if /(jpe?g|png|gif|css)/i == request.path
-            render text: message, status: status
-          else
-            @notification = Notification.where(message: message).where(unresolved: true).first_or_initialize(
-              status: status)
-            render "notifications/show", status: status
-          end
+        if status == 404
+          message = "The page you are looking for doesn't exist."
+        elsif status == 401
+          message = "You are not authorized to access this page."
+        else
+          create_notification(exception, status: status)
+          message = exception.message
         end
-        format.xml { render xml: { error: message }.to_xml, status: status }
-        format.rss { render :show, status: status, layout: false }
-        format.all { render json: { meta: { status: "error", error: message }}, status: status }
+
+        respond_to do |format|
+          format.html do
+            if /(jpe?g|png|gif|css)/i == request.path
+              render text: message, status: status
+            else
+              @notification = Notification.where(message: message).where(unresolved: true).first_or_initialize(
+                status: status)
+              render "notifications/show", status: status
+            end
+          end
+          format.xml { render xml: { error: message }.to_xml, status: status }
+          format.rss { render :show, status: status, layout: false }
+          format.all { render json: { meta: { status: "error", error: message }}, status: status }
+        end
       end
     end
   end
