@@ -9,7 +9,7 @@ class Api::V7::ContributionsController < Api::BaseController
       collection = @contributor.contributions
     elsif @work
       collection = @work.contributions
-    elsif params[:contributor_id]
+    elsif params[:contributor_id].present? || params[:work_id].present?
       collection = Contribution.none
     else
       collection = Contribution
@@ -72,13 +72,12 @@ class Api::V7::ContributionsController < Api::BaseController
     return nil unless params[:work_id].present?
 
     id_hash = get_id_hash(params[:work_id])
-    if id_hash.respond_to?("key")
+    if id_hash.present? && id_hash.respond_to?("key")
       key, value = id_hash.first
       @work = Work.where(key => value).first
     else
       @work = nil
     end
-    fail ActiveRecord::RecordNotFound unless @work.present?
   end
 
   def load_contributor

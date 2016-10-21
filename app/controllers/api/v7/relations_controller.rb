@@ -4,6 +4,8 @@ class Api::V7::RelationsController < Api::BaseController
   def index
     if @work
       collection = @work.inverse_relations
+    elsif params[:work_id].present?
+      collection = Relation.none
     else
       collection = Relation
 
@@ -104,6 +106,5 @@ class Api::V7::RelationsController < Api::BaseController
     else
       @work = nil
     end
-    fail ActiveRecord::RecordNotFound unless @work.present?
   end
 end
