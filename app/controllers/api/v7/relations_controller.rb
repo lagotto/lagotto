@@ -98,7 +98,7 @@ class Api::V7::RelationsController < Api::BaseController
     return nil unless params[:work_id].present?
 
     id_hash = get_id_hash(params[:work_id])
-    if id_hash.respond_to?("key")
+    if id_hash.present? && id_hash.respond_to?("key")
       key, value = id_hash.first
       @work = Work.where(key => value).first
     else
