@@ -25,6 +25,14 @@ class Api::V7::WorksController < Api::BaseController
                              .where("results.total > 0")
     end
 
+    if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
+      collection = collection.where(publisher_id: publisher.id)
+    end
+
+    if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
+      collection = collection.where(registration_agency_id: registration_agency.id)
+    end
+
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       @relation_types = [{ id: relation_type.name,
                            title: relation_type.title,
@@ -34,6 +42,8 @@ class Api::V7::WorksController < Api::BaseController
       relation_types = collection.joins(:relations).group("relations.relation_type_id").count
       relation_type_names = cached_relation_type_names
       @relation_types = relation_types.map { |k,v| { id: relation_type_names[k][:name], title: relation_type_names[k][:title], count: v } }
+                                      .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
+                                      .first(15)
     end
 
     if params[:source_id] && source = cached_source(params[:source_id])
@@ -46,6 +56,20 @@ class Api::V7::WorksController < Api::BaseController
       sources = collection.joins(:results).group("results.source_id").count
       source_names = cached_source_names
       @sources = sources.map { |k,v| { id: source_names[k][:name], title: source_names[k][:title], count: v } }
+                        .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
+                        .first(15)
+    end
+
+    if params[:publisher_id].present? && publisher = cached_publisher(params[:publisher_id])
+      @publishers = [{ id: publisher.name.underscore.dasherize,
+                       title: publisher.title,
+                       count: collection.where(publisher_id: publisher.id).count }]
+    else
+      publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
+      publisher_names = cached_publisher_names
+      @publishers = publishers.map { |k,v| { id: publisher_names[k][:name].underscore.dasherize, title: publisher_names[k][:title], count: v } }
+                              .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
+                              .first(15)
     end
 
     collection = get_sort(collection, params)
@@ -120,21 +144,6 @@ class Api::V7::WorksController < Api::BaseController
       end
     else
       collection = Work.tracked
-    end
-
-    if params[:source_id] && source = cached_source(params[:source_id])
-      collection = collection.joins(:results)
-                   .where("results.source_id = ?", source.id)
-                   .where("results.total > 0")
-    end
-
-    if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
-      collection = collection.joins(:relations)
-                   .where("relations.relation_type_id = ?", relation_type.id)
-    end
-
-    if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
-      collection = collection.where(registration_agency_id: registration_agency.id)
     end
 
     collection
