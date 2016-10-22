@@ -8,6 +8,7 @@ json.meta do
   json.sources @sources
   json.publishers @publishers
   json.relation_types @relation_types
+  json.resource_types @resource_types
   json.years @years
 end
 
@@ -15,6 +16,6 @@ json.works @works do |work|
   json.cache! ['v7', work], skip_digest: true do
     json.(work, :id, :author, :title, :published, :issued, :updated)
     json.set! :"container-title", work.container_title
-    json.(work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :publisher_id, :registration_agency_id, :work_type_id, :results)
+    json.(work, :volume, :page, :issue, :DOI, :URL, :PMID, :PMCID, :arxiv, :scp, :wos, :ark, :publisher_id, :member_id, :registration_agency_id, :work_type_id, :resource_type_id, :results)
   end
 end
