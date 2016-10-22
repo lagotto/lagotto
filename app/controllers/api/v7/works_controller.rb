@@ -94,7 +94,7 @@ class Api::V7::WorksController < Api::BaseController
                   count: collection.where(year: params[:year]).count }]
     else
       years = collection.where.not(year: nil).group(:year).count
-      @years = years.map { |k,v| { id: params[:year], title: params[:year], count: v } }
+      @years = years.map { |k,v| { id: k, title: k, count: v } }
                               .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
                               .first(15)
     end
