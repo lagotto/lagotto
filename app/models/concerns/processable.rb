@@ -37,11 +37,14 @@ module Processable
     end
 
     def update_publishers
-      update_publisher && update_prefix
+      update_publisher &&
+      update_prefix
     end
 
     def update_contributions
-      update_contributor && update_related_work && update_contribution
+      update_contributor &&
+      update_related_work &&
+      update_contribution
     end
 
     def handle_exception(exception, options={})

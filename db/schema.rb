@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530172543) do
+ActiveRecord::Schema.define(version: 20161022063937) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -82,10 +82,13 @@ ActiveRecord::Schema.define(version: 20160530172543) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.integer  "publisher_id",        limit: 4
+    t.integer  "month_id",            limit: 4
+    t.datetime "occurred_at"
   end
 
   add_index "contributions", ["contributor_id"], name: "index_contributions_on_contributor_id", using: :btree
   add_index "contributions", ["contributor_role_id"], name: "index_contributions_on_contributor_role_id", using: :btree
+  add_index "contributions", ["month_id"], name: "contributions_month_id_fk", using: :btree
   add_index "contributions", ["source_id"], name: "index_contributions_on_source_id", using: :btree
   add_index "contributions", ["work_id", "contributor_id", "source_id"], name: "index_contributions_on_work_id_and_contributor_id_and_source_id", unique: true, using: :btree
 

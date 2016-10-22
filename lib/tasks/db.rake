@@ -91,6 +91,13 @@ namespace :db do
     task :add_publisher => :environment do
       ContributionJob.perform_later
     end
+
+    desc "Update month_id for all contributions"
+    task :set_month_id => :environment do
+      count = Contribution.where(month_id: nil).count
+      ContributionMonthJob.perform_later
+      puts "Update of month_id for #{count} contributions has been queued."
+    end
   end
 
   namespace :notifications do

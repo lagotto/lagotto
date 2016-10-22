@@ -21,6 +21,7 @@ class Deposit < ActiveRecord::Base
   include Processable::PrefixProcessor
   include Processable::PublisherProcessor
   include Processable::RelationProcessor
+  include Processable::ContributionProcessor
 
   belongs_to :work, inverse_of: :deposits, autosave: true
   belongs_to :related_work, class_name: "Work", inverse_of: :deposits, autosave: true
