@@ -8,6 +8,7 @@ json.meta do
   json.sources @sources
   json.publishers @publishers
   json.relation_types @relation_types
+  json.years @years
 end
 
 json.works @works do |work|
