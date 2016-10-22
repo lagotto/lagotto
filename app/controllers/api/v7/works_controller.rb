@@ -35,6 +35,10 @@ class Api::V7::WorksController < Api::BaseController
       collection = collection.where(registration_agency_id: registration_agency.id)
     end
 
+    if params[:year].present?
+      collection = collection.where(year: params[:year])
+    end
+
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       @relation_types = [{ id: relation_type.name,
                            title: relation_type.title,
@@ -80,6 +84,17 @@ class Api::V7::WorksController < Api::BaseController
       publishers = collection.where.not(publisher_id: nil).group(:publisher_id).count
       publisher_names = cached_publisher_names
       @publishers = publishers.map { |k,v| { id: publisher_names[k][:name].underscore.dasherize, title: publisher_names[k][:title], count: v } }
+                              .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
+                              .first(15)
+    end
+
+    if params[:year].present?
+      @years = [{ id: params[:year],
+                  title: params[:year],
+                  count: collection.where(year: params[:year]).count }]
+    else
+      years = collection.where.not(year: nil).group(:year).count
+      @years = years.map { |k,v| { id: params[:year], title: params[:year], count: v } }
                               .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
                               .first(15)
     end
