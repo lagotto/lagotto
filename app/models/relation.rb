@@ -27,7 +27,7 @@ class Relation < ActiveRecord::Base
   scope :with_sources, -> { joins(:source).where("sources.active = ?", 1).order("group_id, title") }
 
   def self.set_month_id
-    Relation.where(implicit: false).where(month_id: nil).each do |relation|
+    Relation.where(implicit: false).where(month_id: nil).find_each do |relation|
       result = Result.where(work_id: relation.related_work_id,
                                       source_id: relation.source_id).first_or_create
 

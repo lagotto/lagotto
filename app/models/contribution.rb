@@ -15,7 +15,7 @@ class Contribution < ActiveRecord::Base
   scope :last_x_days, ->(duration) { where("contributions.created_at > ?", Time.zone.now.beginning_of_day - duration.days) }
 
   def self.set_month_id
-    Contribution.where(month_id: nil).each do |contribution|
+    Contribution.where(month_id: nil).find_each do |contribution|
       result = Result.where(work_id: contribution.related_work_id,
                             source_id: contribution.source_id).first_or_create
 
