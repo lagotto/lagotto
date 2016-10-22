@@ -27,8 +27,16 @@ class Api::V7::WorksController < Api::BaseController
                              .distinct
     end
 
+    if params[:resource_type_id].present?
+      collection = collection.where(resource_type_id: params[:resource_type_id])
+    end
+
     if params[:publisher_id] && publisher = cached_publisher(params[:publisher_id])
       collection = collection.where(publisher_id: publisher.id)
+    end
+
+    if params[:member_id].present?
+      collection = collection.where(member_id: params[:member_id])
     end
 
     if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
@@ -86,6 +94,16 @@ class Api::V7::WorksController < Api::BaseController
       @publishers = publishers.map { |k,v| { id: publisher_names[k][:name].underscore.dasherize, title: publisher_names[k][:title], count: v } }
                               .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
                               .first(15)
+    end
+
+    if params[:resource_type_id].present?
+      @resource_types = [{ id: params[:resource_type_id],
+                           title: params[:resource_type_id],
+                           count: collection.where(resource_type_id: params[:resource_type_id]).count }]
+    else
+      resource_types = collection.where.not(resource_type_id: nil).group(:resource_type_id).count
+      @resource_types = resource_types.map { |k,v| { id: k, title: k, count: v } }
+                                      .sort { |a, b| b.fetch(:id) <=> a.fetch(:id) }
     end
 
     if params[:year].present?

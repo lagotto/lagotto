@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161022063937) do
+ActiveRecord::Schema.define(version: 20161022190937) do
 
   create_table "agents", force: :cascade do |t|
     t.string   "type",        limit: 191
@@ -452,6 +452,8 @@ ActiveRecord::Schema.define(version: 20161022063937) do
     t.datetime "issued_at",                               default: '1970-01-01 00:00:00', null: false
     t.text     "handle_url",             limit: 65535
     t.integer  "registration_agency_id", limit: 4
+    t.string   "member_id",              limit: 191
+    t.string   "resource_type_id",       limit: 191
   end
 
   add_index "works", ["ark", "published_on", "id"], name: "index_works_on_ark_published_on_id", using: :btree
@@ -465,6 +467,7 @@ ActiveRecord::Schema.define(version: 20161022063937) do
   add_index "works", ["doi", "published_on", "id"], name: "index_articles_doi_published_on_article_id", using: :btree
   add_index "works", ["doi"], name: "index_works_on_doi", unique: true, using: :btree
   add_index "works", ["issued_at"], name: "index_on_issued_at", using: :btree
+  add_index "works", ["member_id"], name: "works_member_id_fk", using: :btree
   add_index "works", ["pid"], name: "index_works_on_pid", unique: true, length: {"pid"=>191}, using: :btree
   add_index "works", ["pmcid", "published_on", "id"], name: "index_works_on_pmcid_published_on_id", using: :btree
   add_index "works", ["pmcid"], name: "index_works_on_pmcid", unique: true, using: :btree
@@ -474,6 +477,7 @@ ActiveRecord::Schema.define(version: 20161022063937) do
   add_index "works", ["publisher_id", "published_on"], name: "index_works_on_publisher_id_and_published_on", using: :btree
   add_index "works", ["registration_agency"], name: "index_works_on_registration_agency", length: {"registration_agency"=>191}, using: :btree
   add_index "works", ["registration_agency_id"], name: "index_on_registration_agency_id", using: :btree
+  add_index "works", ["resource_type_id"], name: "works_resource_type_id_fk", using: :btree
   add_index "works", ["scp", "published_on", "id"], name: "index_works_on_scp_published_on_id", using: :btree
   add_index "works", ["scp"], name: "index_works_on_scp", unique: true, using: :btree
   add_index "works", ["tracked", "published_on"], name: "index_works_on_tracked_published_on", using: :btree
