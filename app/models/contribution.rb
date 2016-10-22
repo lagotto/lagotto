@@ -16,10 +16,10 @@ class Contribution < ActiveRecord::Base
 
   def self.set_month_id
     Contribution.where(month_id: nil).find_each do |contribution|
-      result = Result.where(work_id: contribution.related_work_id,
+      result = Result.where(work_id: contribution.work_id,
                             source_id: contribution.source_id).first_or_create
 
-      m = Month.where(work_id: contribution.related_work_id,
+      m = Month.where(work_id: contribution.work_id,
                       source_id: contribution.source_id,
                       year: contribution.occurred_at.year,
                       month: contribution.occurred_at.month,
