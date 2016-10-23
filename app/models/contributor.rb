@@ -30,7 +30,7 @@ class Contributor < ActiveRecord::Base
 
   # after_commit :update_cache, :on => :create
 
-  scope :order_by_name, -> { order("contributors.family_name") }
+  scope :order_by_name, -> { order("ISNULL(contributors.family_name), contributors.family_name") }
   scope :query, ->(query) { where("orcid = ? OR github = ? OR CONCAT_WS(' ', given_names, family_name) LIKE ?", query, query, "%#{query}%") }
 
   def self.count_all
