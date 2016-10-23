@@ -36,7 +36,7 @@ class Api::V7::WorksController < Api::BaseController
     end
 
     if params[:member_id].present?
-      collection = collection.where(member_id: params[:member_id])
+      collection = collection.where(member_id: params[:member_id].upcase)
     end
 
     if params[:registration_agency_id] && registration_agency = cached_registration_agency(params[:registration_agency_id])
@@ -103,7 +103,7 @@ class Api::V7::WorksController < Api::BaseController
     else
       resource_types = collection.where.not(resource_type_id: nil).group(:resource_type_id).count
       @resource_types = resource_types.map { |k,v| { id: k, title: k, count: v } }
-                                      .sort { |a, b| b.fetch(:id) <=> a.fetch(:id) }
+                                      .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
     end
 
     if params[:year].present?
