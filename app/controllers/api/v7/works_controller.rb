@@ -98,11 +98,11 @@ class Api::V7::WorksController < Api::BaseController
 
     if params[:resource_type_id].present?
       @resource_types = [{ id: params[:resource_type_id],
-                           title: params[:resource_type_id],
+                           title: params[:resource_type_id].underscore.humanize,
                            count: collection.where(resource_type_id: params[:resource_type_id]).count }]
     else
       resource_types = collection.where.not(resource_type_id: nil).group(:resource_type_id).count
-      @resource_types = resource_types.map { |k,v| { id: k, title: k, count: v } }
+      @resource_types = resource_types.map { |k,v| { id: k, title: k.underscore.humanize, count: v } }
                                       .sort { |a, b| b.fetch(:count) <=> a.fetch(:count) }
     end
 
