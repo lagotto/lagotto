@@ -1,8 +1,10 @@
 namespace :cron do
   desc 'Hourly cron task'
   task :hourly => :environment do
-    Rake::Task["queue:stale"].invoke
-    Rake::Task["queue:stale"].reenable
+    unless ENV['RAILS_ENV'] == "stage"
+      Rake::Task["queue:stale"].invoke
+      Rake::Task["queue:stale"].reenable
+    end
 
     Rake::Task["cache:update"].invoke
     Rake::Task["cache:update"].reenable
