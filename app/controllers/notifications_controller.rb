@@ -62,7 +62,7 @@ class NotificationsController < ApplicationController
       collection = collection.includes(:source)
                    .where("sources.name = ?", params[:source_id])
                    .references(:source)
-      @source_group = collection.group(:source_id).count.map { |s| [cached_source_names[s[0]], s[1]] }.first
+      @source_group = collection.group(:source_id).count.map { |s| [cached_source_names.fetch(s[0], {}).fetch(:name, nil), s[1]] }.first
       @source = cached_source(params[:source_id])
     end
 
@@ -94,7 +94,7 @@ class NotificationsController < ApplicationController
     @levels = collection.where.not(level: nil).group(:level).count
     @hostnames = collection.where.not(hostname: nil).group(:hostname).count
     @class_names = collection.where.not(class_name: nil).group(:class_name).count
-    @sources = collection.where.not("notifications.source_id IS NULL").group("notifications.source_id").count.map { |s| [cached_source_names[s[0]], s[1]] }
+    @sources = collection.where.not("notifications.source_id IS NULL").group("notifications.source_id").count.map { |s| [cached_source_names.fetch(s[0], {}).fetch(:name, nil), s[1]] }
 
     @notification_count = collection.count
     @notifications = collection.paginate(page: (params[:page] || 1).to_i)
