@@ -15,7 +15,7 @@ class WorkDecorator < Draper::Decorator
   end
 
   def results
-    model.metrics.select { |k,v| filtered_sources.include?(k) && v.to_i > 0 }
+    model.metrics.select { |r| filtered_sources.include?(r[:id]) && r[:count].to_i > 0 }
   end
 
   def publication_date

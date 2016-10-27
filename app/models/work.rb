@@ -188,9 +188,9 @@ class Work < ActiveRecord::Base
     results.where(source_id: source.id).pluck(:total).first
   end
 
-  # returns hash with source names as keys and aggregated total for each source as values
+  # returns array of hashes with source name, source title and aggregated total
   def metrics
-    results.group(:source_id).sum(:total).map { |r| [cached_source_names.fetch(r[0], {}).fetch(:name, nil), r[1]] }.to_h
+    results.group(:source_id).sum(:total).map { |r| { id: cached_source_names[r[0]][:name], title: cached_source_names[r[0]][:title], count: r[1] } }
   end
 
   def published
