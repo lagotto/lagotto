@@ -190,7 +190,7 @@ class Work < ActiveRecord::Base
 
   # returns hash with source names as keys and aggregated total for each source as values
   def metrics
-    results.group(:source_id).sum(:total).map { |r| [cached_source_names.fetch(s[0], {}).fetch(:name, nil), r[1]] }.to_h
+    results.group(:source_id).sum(:total).map { |r| [cached_source_names.fetch(r[0], {}).fetch(:name, nil), r[1]] }.to_h
   end
 
   def published
