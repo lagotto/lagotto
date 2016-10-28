@@ -14,6 +14,30 @@ class Api::V7::WorksController < Api::BaseController
   def index
     collection = get_ids(params)
 
+    if params[:from_created_date].present? || params[:until_created_date].present?
+      begin
+        from_created_date = params[:from_created_date].present? ? Date.parse(params[:from_created_date]).iso8601 : (Time.zone.now.to_date - 10.years).iso8601
+        until_created_date = params[:until_created_date].present? ? Date.parse(params[:until_created_date]).iso8601 : Time.zone.now.to_date.iso8601
+      rescue => e
+        # if invalid date supplied
+        from_created_date = (Time.zone.now.to_date - 10.years).iso8601
+        until_created_date = Time.zone.now.to_date.iso8601
+      end
+      collection = collection.where(created_at: from_created_date..until_created_date)
+    end
+
+    if params[:from_update_date].present? || params[:until_update_date].present?
+      begin
+        from_update_date = params[:from_update_date].present? ? Date.parse(params[:from_update_date]).iso8601 : (Time.zone.now.to_date - 10.years).iso8601
+        until_update_date = params[:until_update_date].present? ? Date.parse(params[:until_update_date]).iso8601 : Time.zone.now.to_date.iso8601
+      rescue => e
+        # if invalid date supplied
+        from_update_date = (Time.zone.now.to_date - 10.years).iso8601
+        until_update_date = Time.zone.now.to_date.iso8601
+      end
+      collection = collection.where(updated_at: from_update_date..until_update_date)
+    end
+
     if params[:relation_type_id] && relation_type = cached_relation_type(params[:relation_type_id])
       collection = collection.joins(:relations)
                              .where("relations.relation_type_id = ?", relation_type.id)
