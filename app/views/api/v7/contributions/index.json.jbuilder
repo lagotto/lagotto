@@ -12,7 +12,7 @@ end
 json.contributions @contributions do |contribution|
   json.cache! ['v7', "contribution", contribution, params[:contributor_id], params[:source_id], params[:contributor_role_id]], skip_digest: true do
     json.(contribution, :subj_id)
-    json.(contribution.contributor, :credit_name)
+    json.(contribution.contributor, :given, :family, :credit_name)
     json.(contribution, :obj_id)
     json.(contribution.work, :author, :title, :published, :issued)
     json.set! :"container-title", contribution.work.container_title
