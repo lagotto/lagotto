@@ -52,6 +52,7 @@ Lagotto::Application.routes.draw do
     namespace :v5 do
       resources :works, path: "articles", constraints: { :id => /.+?/ }, only: [:index]
       resources :work_totals, path: "article/totals", constraints: { :id => /.+?/ }, only: [:index]
+      resources :work_views, path: "article/views", constraints: { :id => /.+?/ }, only: [:index]
       resources :sources, only: [:index, :show]
       resources :status, only: [:index]
       resources :api_requests, only: [:index]
