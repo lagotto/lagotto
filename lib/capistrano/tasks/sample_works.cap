@@ -5,7 +5,7 @@ namespace :sample_works do
     on roles(:db) do
      within release_path do
        with rails_env: fetch(:rails_env) do
-         rake 'db:articles:load < IMPORT.TXT' unless (fetch(:rails_env) == "production" or fetch(:rails_env) == "stage")
+         rake 'db:articles:load < import.txt' unless (fetch(:rails_env) == "production" or fetch(:rails_env) == "stage")
        end
      end
     end
