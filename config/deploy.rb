@@ -93,7 +93,7 @@ namespace :deploy do
   after :publishing, :restart
   after :publishing, "data:migrate"
   after :publishing, "swagger:docs"
-  after :publishing, Rake::Task["db:articles:load"].invoke('imports.txt')
+  after :publishing, "db:works:import:plos"
 
   after :finishing, "deploy:cleanup"
 end
