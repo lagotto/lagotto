@@ -2,7 +2,7 @@ module Statable
   extend ActiveSupport::Concern
 
   included do
-    state_machine :initial => :inactive do
+    state_machine :initial => :available do
       state :available, value: 0 # source available, but not installed
       state :retired, value: 1   # source installed, but no longer accepting new data
       state :inactive, value: 2  # source disabled by admin
