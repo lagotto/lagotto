@@ -1,2 +1,48 @@
 10.1371/journal.pbio.0000006 2003-08-18 DNA Analysis Indicates That Asian Elephants Are Native to Borneo and Are Therefore a High Priority for Conservation
 10.1371/journal.pone.0000003 2006-12-20 Invasion and Persistence of a Selfish Gene in the Cnidaria
+10.1371/journal.pone.0005723 2009-05-19 Complete Primate Skeleton from the Middle Eocene of Messel in Germany: Morphology and Paleobiology
+10.1371/journal.pmed.1000431 2011-04-05 Strategies and Practices in Off-Label Marketing of Pharmaceuticals: A Retrospective Analysis of Whistleblower Complaints
+10.1371/journal.pmed.0030132 2006-04-11 Bigger and Better: How Pfizer Redefined Erectile Dysfunction
+10.1371/journal.pmed.0020402 2005-11-01 Tackling Inherited Blindness
+10.1371/journal.pmed.0040303 2007-10-23 Which Single Intervention Would Do the Most to Improve the Health of Those Living on Less Than $1 Per Day?
+10.1371/journal.pone.0160653 2016-09-07 Demonstration of Protein-Based Human Identification Using the Hair Shaft Proteome
+10.1371/journal.pone.0016329 2011-01-27 Expanding the Diversity of Mycobacteriophages: Insights into Genome Architecture and Evolution
+10.1371/journal.pmed.1001418 2013-04-09 Life Expectancies of South African Adults Starting Antiretroviral Treatment: Collaborative Analysis of Cohort Studies
+10.1371/journal.pmed.1001080 2011-08-30 Neonatal Mortality Levels for 193 Countries in 2009 with Trends since 1990: A Systematic Analysis of Progress, Projections, and Priorities
+10.1371/journal.pone.0016976 2011-02-14 A Systematic Review and Meta-Analysis of the Efficacy and Safety of Intermittent Preventive Treatment of Malaria in Children (IPTc)
+10.1371/journal.pbio.1001199 2011-11-15 Interplay between BRCA1 and RHAMM Regulates Epithelial Apicobasal Polarization and May Influence Risk of Breast Cancer
+10.1371/journal.pbio.0030408 2005-10-18 Stimulating the Brain Makes the Fingers More Sensitive
+10.1371/journal.pmed.0020007 2005-01-25 Educating the Brain to Avoid Dementia: Can Mental Exercise Prevent Alzheimer Disease?
+10.1371/journal.pone.0047391 2012-12-06 Monitoring HIV Viral Load in Resource Limited Settings: Still a Matter of Debate?
+10.1371/journal.pone.0028031 2011-11-21 Polymorphisms in Genes Involved in the NF-κB Signalling Pathway Are Associated with Bone Mineral Density, Geometry and Turnover in Men
+10.1371/journal.pbio.1001315 2012-04-24 Sialyllactose in Viral Membrane Gangliosides Is a Novel Molecular Recognition Pattern for Mature Dendritic Cell Capture of HIV-1
+10.1371/journal.ppat.1002247 2011-09-08 Vaccinia Virus Protein C6 Is a Virulence Factor that Binds TBK-1 Adaptor Proteins and Inhibits Activation of IRF3 and IRF7
+10.1371/journal.pone.0058242 2013-03-13 Improved Glomerular Filtration Rate Estimation by an Artificial Neural Network
+10.1371/journal.pmed.0030520 2006-12-26 Angiotensin-Converting Enzyme I/D Polymorphism and Preeclampsia Risk: Evidence of Small-Study Bias
+10.1371/journal.pone.0012262 2010-08-18 Cancer Biomarker Discovery: The Entropic Hallmark
+10.1371/journal.pmed.0030205 2006-04-25 Mischievous Odds Ratios
+10.1371/journal.pone.0116586 2015-03-13 Diminished Response of Arctic Plants to Warming over Time
+10.1371/journal.pone.0138823 2015-08-24 Structure-Activity Relationship of Indole-Tethered Pyrimidine Derivatives that Concurrently Inhibit Epidermal Growth Factor Receptor and Other Angiokinases
+10.1371/journal.pone.0040259 2012-07-11 The Eyes Don’t Have It: Lie Detection and Neuro-Linguistic Programming
+10.1371/journal.ppat.0040045 2008-02-15 Iron Source Preference and Regulation of Iron Uptake in Cryptococcus neoformans
+10.1371/journal.pmed.1000097 2009-07-21 Preferred Reporting Items for Systematic Reviews and Meta-Analyses: The PRISMA Statement
+10.1371/journal.pcbi.1000589 2009-12-24 A Quick Guide for Developing Effective Bioinformatics Programming Skills
+10.1371/journal.pone.0055490 2013-02-11 Genetic Testing for TMEM154 Mutations Associated with Lentivirus Susceptibility in Sheep
+10.1371/journal.pmed.0030445 2006-10-24 Social Medicine in the Twenty-First Century
+10.1371/journal.pone.0005723 2009-05-19 Complete Primate Skeleton from the Middle Eocene of Messel in Germany: Morphology and Paleobiology
+10.1371/journal.ppat.0020025 2006-03-31 Identification of a Novel Gammaretrovirus in Prostate Tumors of Patients Homozygous for R462Q RNASEL Variant
+10.1371/journal.pbio.1000359 2010-04-27 The Light-Driven Proton Pump Proteorhodopsin Enhances Bacterial Survival during Tough Times
+10.1371/journal.pone.0108198 2014-09-09 Correction: Macrophage Control of Phagocytosed Mycobacteria Is Increased by Factors Secreted by Alveolar Epithelial Cells through Nitric Oxide Independent Mechanisms
+10.1371/journal.pone.0153170 2016-04-05 Renal Transplant Recipients Treated with Calcineurin-Inhibitors Lack Circulating Immature Transitional CD19+CD24hiCD38hi Regulatory B-Lymphocytes
+10.1371/journal.pcbi.1000204 2008-10-31 Defrosting the Digital Library: Bibliographic Tools for the Next Generation Web
+10.1371/journal.pone.0126470 2015-06-03 Topology Analysis of Social Networks Extracted from Literature
+10.1371/journal.pcbi.1001051 2011-01-20 Theoretical Analysis of the Stress Induced B-Z Transition in Superhelical DNA
+10.1371/journal.pcbi.1004082 2015-03-20 On the Number of Neurons and Time Scale of Integration Underlying the Formation of Percepts in the Brain
+10.1371/journal.pmed.1001473 2013-06-25 Uncovering Treatment Burden as a Key Concept for Stroke Care: A Systematic Review of Qualitative Research
+10.1371/journal.pone.0067227 2013-06-13 The Relationship between Leukocyte Mitochondrial DNA Copy Number and Telomere Length in Community-Dwelling Elderly Women
+10.1371/journal.pbio.0020188 2004-06-15 Taking the Stem Cell Debate to the Public
+10.1371/journal.pmed.1001518 2013-09-24 Acupuncture and Counselling for Depression in Primary Care: A Randomised Controlled Trial
+10.1371/journal.ppat.1003133 2013-01-10 Schmallenberg Virus Pathogenesis, Tropism and Interaction with the Innate Immune System of the Host
+10.1371/journal.pntd.0001041 2011-04-12 A Phase Two Randomised Controlled Double Blind Trial of High Dose Intravenous Methylprednisolone and Oral Prednisolone versus Intravenous Normal Saline and Oral Prednisolone in Individuals with Leprosy Type 1 Reactions and/or Nerve Function Impairment
+10.1371/journal.pcbi.1004692 2016-02-04 Ensemble Tractography
+10.1371/journal.pone.0120049 2015-03-17 Effects of Acute Exposure to Increased Plasma Branched-Chain Amino Acid Concentrations on Insulin-Mediated Plasma Glucose Turnover in Healthy Young Subjects
