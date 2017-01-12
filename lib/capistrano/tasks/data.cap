@@ -27,7 +27,7 @@ namespace :data do
     on roles(:db) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          rake 'data:seed' unless (fetch(:rails_env) == "production" or fetch(:rails_env) == "stage")
+          rake 'db:seed' unless (fetch(:rails_env) == "production" or fetch(:rails_env) == "stage")
         end
       end
     end
