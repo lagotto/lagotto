@@ -21,4 +21,16 @@ namespace :data do
       end
     end
   end
+
+  desc Seed data'
+  task :seed do
+    on roles(:db) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          byebug
+          puts 'db:seed'
+        end
+      end
+    end
+  end
 end

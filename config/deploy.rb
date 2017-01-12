@@ -92,6 +92,7 @@ namespace :deploy do
 
   after :publishing, :restart
   after :publishing, "data:migrate"
+  after :publishing, "data:seed"
   after :publishing, "swagger:docs"
 
   after :finishing, "deploy:cleanup"
