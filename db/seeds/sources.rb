@@ -49,17 +49,56 @@ citeulike_cfg['workers']                        = 50
 citeulike_cfg['events_url']                     = 'http://www.citeulike.org/doi/%{doi}'
 citeulike_cfg['priority']                       = 6
 citeulike_cfg['queue']                          = 'low'
-citeulike_cfg['tracked']                        = "'0'"
+citeulike_cfg['tracked']                        = 0
 
 citeulike = Citeulike.where(name: 'citeulike').first_or_create(
   :id          => 2,
-  :type        => Citeulike,
-  :name        => citeulike,
-  :title       => CiteULike,
+  :type        => 'Citeulike',
+  :name        => 'citeulike',
+  :title       => 'CiteULike',
   :config      => citeulike_cfg,
   :group_id    => saved.id,
   :private     => 0,
+  :state_event => 'inactivate',
   :description => 'CiteULike is a free social bookmarking service for scholarly content.',
+  :queueable   => 1,
+  :eventable   => 1)
+
+
+crossref_cfg = OpenStruct.new
+crossref_cfg['username'] = 'plos'
+crossref_cfg['password'] = 'plos1'
+crossref_cfg['url'] = 'http://doi.crossref.org/servlet/getForwardLinks?usr=%{username}&pwd=%{password}&doi=%{doi}'
+crossref_cfg['default_url'] = 'http://www.crossref.org/openurl/?pid=%{pid}&id=doi:%{doi}&noredirect=true'
+crossref_cfg['job_batch_size']                 = 200
+crossref_cfg['batch_time_interval']            = 3600
+crossref_cfg['rate_limiting']                  = 70000
+crossref_cfg['wait_time']                      = 300
+crossref_cfg['staleness_week']                 = 86400
+crossref_cfg['staleness_month']                = 86400
+crossref_cfg['staleness_year']                 = 648000
+crossref_cfg['staleness_all']                  = 2592000
+crossref_cfg['timeout']                        = 90
+crossref_cfg['max_failed_queries']             = 200
+crossref_cfg['max_failed_query_time_interval'] = 86400
+crossref_cfg['disable_delay']                  = 10
+crossref_cfg['workers']                        = 10
+crossref_cfg['priority']                       = 5
+crossref_cfg['openurl'] = 'http://www.crossref.org/openurl/?pid=%{openurl_username}&id=doi:%{doi}&noredirect=true'
+crossref_cfg['openurl_username']               = 'plos'
+crossref_cfg['queue']                          = 'default'
+crossref_cfg['tracked']                        = 0
+
+crossref = CrossRef.where(name: 'crossref').first_or_create(
+  :id          => 4,
+  :type        => 'CrossRef',
+  :name        => 'crossref',
+  :title       => 'CrossRef',
+  :config      => crossref_cfg,
+  :group_id    => cited.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'CrossRef is a DOI Registration Agency for scholarly content.',
   :queueable   => 1,
   :eventable   => 1)
 
