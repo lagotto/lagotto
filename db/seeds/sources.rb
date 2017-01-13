@@ -102,6 +102,38 @@ crossref = CrossRef.where(name: 'crossref').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
+
+nature_cfg = OpenStruct.new
+nature_cfg['api_key']             = '7jug74j8rh49n8rbn8atwyec'
+nature_cfg['url']                 = 'http://blogs.nature.com/posts.json?doi = %{doi}'
+nature_cfg['job_batch_size']      = 200
+nature_cfg['batch_time_interval'] = 3600
+nature_cfg['rate_limiting']       = 5000
+nature_cfg['wait_time']           = 300
+nature_cfg['staleness_week']      = 86400
+nature_cfg['staleness_month']     = 86400
+nature_cfg['staleness_year']      = 2592000
+nature_cfg['staleness_all']       = 2592000
+nature_cfg['timeout']             = 45
+nature_cfg['max_failed_queries']  = 200
+nature_cfg['max_failed_query_time_interval'] = 86400
+nature_cfg['disable_delay']       = 10
+nature_cfg['workers']             = 50
+nature_cfg['priority']            = 6
+
+nature = Nature.where(name: 'nature').first_or_create(
+  :id          => 5,
+  :type        => 'Nature',
+  :name        => 'nature',
+  :title       => 'Nature',
+  :config      => nature_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'A science blogs aggregator.',
+  :queueable   => 1,
+  :eventable   => 1)
+
 #
 # PUBLISHER_OPTIONS 
 #
