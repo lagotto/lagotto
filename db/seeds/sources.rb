@@ -19,7 +19,6 @@ bloglines_cfg['password'] = '1D556489390DB3E4DA0F6D97A9AB4949'
 bloglines_cfg['url'] = 'http://www.bloglines.com/search?format=publicapi&apiuser=%{username}&apikey=%{password}&q=%{title}'
 
 bloglines = Bloglines.where(name: 'bloglines').first_or_create(
-  :id          => 1,
   :type        => 'Bloglines',
   :name        => 'bloglines',
   :title       => 'Bloglines',
@@ -52,7 +51,6 @@ citeulike_cfg['queue']                          = 'low'
 citeulike_cfg['tracked']                        = 0
 
 citeulike = Citeulike.where(name: 'citeulike').first_or_create(
-  :id          => 2,
   :type        => 'Citeulike',
   :name        => 'citeulike',
   :title       => 'CiteULike',
@@ -90,7 +88,6 @@ crossref_cfg['queue']                          = 'default'
 crossref_cfg['tracked']                        = 0
 
 crossref = CrossRef.where(name: 'crossref').first_or_create(
-  :id          => 4,
   :type        => 'CrossRef',
   :name        => 'crossref',
   :title       => 'CrossRef',
@@ -122,7 +119,6 @@ nature_cfg['workers']             = 50
 nature_cfg['priority']            = 6
 
 nature = Nature.where(name: 'nature').first_or_create(
-  :id          => 5,
   :type        => 'Nature',
   :name        => 'nature',
   :title       => 'Nature',
@@ -159,7 +155,6 @@ scopus_cfg['url'] = 'https://api.elsevier.com/content/search/index:SCOPUS?query=
 scopus_cfg['queue']               = 'default'
 
 scopus = Scopus.where(name: 'scopus').first_or_create(
-  :id          => 8,
   :type        => 'Scopus',
   :name        => 'scopus',
   :title       => 'Scopus',
@@ -193,7 +188,6 @@ counter_cfg['queue']               = 'high'
 counter_cfg['url_private'] = 'http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}'
 
 counter = Counter.where(name: 'counter').first_or_create(
-  :id          => 9,
   :type        => 'Counter',
   :name        => 'counter',
   :title       => 'Counter',
@@ -225,7 +219,6 @@ wos_cfg['queue']                          = 'default'
 wos_cfg['url_private']                    = 'https://ws.isiknowledge.com/cps/xrpc'
 
 wos = Wos.where(name: 'wos').first_or_create(
-  :id          => 12,
   :type        => 'Wos',
   :name        => 'wos',
   :title       => 'Web of Science®',
@@ -267,7 +260,6 @@ pmc_cfg['events_url'] = 'http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}'
 pmc_cfg['url_db']     = 'http://lagotto-201.sfo.plos.org:5984/pmc_usage_stats/'
 
 pmc = Pmc.where(name: 'pmc').first_or_create(
-  :id          => 13,
   :type        => 'Pmc',
   :name        => 'pmc',
   :title       => 'PMC Usage Stats',
@@ -317,7 +309,6 @@ facebook_cfg['url_linkstat'] =
     "where url = '%{query_url}'"
 
 facebook = Facebook.where(name: 'facebook').first_or_create(
-  :id          => 15,
   :type        => 'Facebook',
   :name        => 'facebook',
   :title       => 'Facebook',
@@ -359,7 +350,6 @@ mendeley_cfg['client_secret'] = 'yE6$Hn5{D8:rD7i9'
 mendeley_cfg['queue']         = 'default'
 
 mendeley = Mendeley.where(name: 'mendeley').first_or_create(
-  :id          => 17,
   :type        => 'Mendeley',
   :name        => 'mendeley',
   :title       => 'Mendeley',
@@ -394,7 +384,6 @@ twitter_cfg['url_private'] = 'http://lagotto-201.sfo.org:5984/plos-tweetstream/_
 twitter_cfg['tracked']                        = '0'
 
 twitter = Twitter.where(name: 'twitter').first_or_create(
-  :id          => 19,
   :type        => 'Twitter',
   :name        => 'twitter',
   :title       => 'Twitter',
@@ -429,7 +418,6 @@ wikipedia_cfg['queue']      = 'default'
 wikipedia_cfg['tracked']    = '0'
 
 wikipedia = Wikipedia.where(name: 'wikipedia').first_or_create(
-  :id          => 21,
   :type        => 'Wikipedia',
   :name        => 'wikipedia',
   :title       => 'Wikipedia',
@@ -465,7 +453,6 @@ relativemetric_cfg['url_private'] = 'http://lagotto-201.sfo.plos.org:5984/relati
 relativemetric_cfg['tracked']     = '0'
 
 relativemetric = RelativeMetric.where(name: 'relativemetric').first_or_create(
-  :id          => 25,
   :type        => 'RelativeMetric',
   :name        => 'relativemetric',
   :title       => 'RelativeMetric',
@@ -475,6 +462,141 @@ relativemetric = RelativeMetric.where(name: 'relativemetric').first_or_create(
   :state_event => 'inactivate',
   :description => 'Relative metric gives context to the raw numbers that are collected.',
   :queueable   => 0,
+  :eventable   => 1)
+
+
+#TODO: salt f1000 config
+f1000_cfg = OpenStruct.new
+f1000_cfg['url'] = 'http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml'
+f1000_cfg['filename']                       = 'PLOS-intermediate.xml'
+f1000_cfg['job_batch_size']                 = 200
+f1000_cfg['batch_time_interval']            = 3600
+f1000_cfg['rate_limiting']                  = 200000
+f1000_cfg['wait_time']                      = 300
+f1000_cfg['staleness_week']                 = 86400
+f1000_cfg['staleness_month']                = 86400
+f1000_cfg['staleness_year']                 = 648000
+f1000_cfg['staleness_all']                  = 2592000
+f1000_cfg['timeout']                        = 15
+f1000_cfg['max_failed_queries']             = 1000
+f1000_cfg['max_failed_query_time_interval'] = 86400
+f1000_cfg['disable_delay']                  = 10
+f1000_cfg['workers']                        = 50
+f1000_cfg['cron_line']                      = '* 03 * * 3'
+f1000_cfg['db_url']   = 'http://lagotto-201.sfo.plos.org:5984/f1000/'
+f1000_cfg['feed_url'] = 'http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml'
+f1000_cfg['queue']    = 'default'
+f1000_cfg['url_db']   = 'http://lagotto-201.sfo.plos.org:5984/f1000/'
+f1000_cfg['url_feed'] = 'http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml'
+f1000_cfg['tracked']  = '0'
+
+f1000 = F1000.where(name: 'f1000').first_or_create(
+  :type        => 'F1000',
+  :name        => 'f1000',
+  :title       => 'F1000Prime',
+  :config      => f1000_cfg,
+  :group_id    => recommended.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Post-publication peer review of the biomedical literature.',
+  :queueable   => 0,
+  :eventable   => 1)
+
+
+figshare_cfg = OpenStruct.new
+figshare_cfg['url'] = 'http://api.figshare.com/v1/publishers/search_for?doi=%{doi}'
+figshare_cfg['job_batch_size']                 = 200
+figshare_cfg['batch_time_interval']            = 3600
+figshare_cfg['rate_limiting']                  = 50000
+figshare_cfg['wait_time']                      = 300
+figshare_cfg['staleness_week']                 = 86400
+figshare_cfg['staleness_month']                = 86400
+figshare_cfg['staleness_year']                 = 648000
+figshare_cfg['staleness_all']                  = 2592000
+figshare_cfg['timeout']                        = 30
+figshare_cfg['max_failed_queries']             = 1000
+figshare_cfg['max_failed_query_time_interval'] = 86400
+figshare_cfg['disable_delay']                  = 10
+figshare_cfg['workers']                        = 50
+figshare_cfg['queue']                          = 'default'
+figshare_cfg['url_private'] = 'http://api.figshare.com/v1/publishers/search_for?doi=%{doi}'
+
+figshare = Figshare.where(name: 'f1000').first_or_create(
+  :type        => 'Figshare',
+  :name        => 'figshare',
+  :title       => 'Figshare',
+  :config      => figshare_cfg,
+  :group_id    => viewed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Figures, tables and supplementary files hosted by figshare',
+  :queueable   => 1,
+  :eventable   => 0)
+
+
+wordpress_cfg = OpenStruct.new
+wordpress_cfg['workers'] = 50
+wordpress_cfg['url'] = 'http://en.search.wordpress.com/?q=%{query_string}&t=post&f=json&size=20'
+wordpress_cfg['job_batch_size'] = 1000
+wordpress_cfg['batch_time_interval'] = 3600
+wordpress_cfg['rate_limiting'] = 1000
+wordpress_cfg['wait_time'] = 300
+wordpress_cfg['staleness_week'] = 2592000
+wordpress_cfg['staleness_month'] = 2592000
+wordpress_cfg['staleness_year'] = 2592000
+wordpress_cfg['staleness_all'] = 2592000
+wordpress_cfg['timeout'] = 30
+wordpress_cfg['max_failed_queries'] = 10000
+wordpress_cfg['max_failed_query_time_interval'] = 86400
+wordpress_cfg['disable_delay'] = 10
+wordpress_cfg['events_url'] = 'http://en.search.wordpress.com/?q=%{query_string}&t=post'
+wordpress_cfg['priority'] = 6
+wordpress_cfg['queue'] = 'low'
+wordpress_cfg['tracked'] = '0'
+
+wordpress = Wordpress.where(name: 'wordpress').first_or_create(
+  :type        => 'Wordpress',
+  :name        => 'wordpress',
+  :title       => 'Wordpress.com',
+  :config      => wordpress_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Wordpress.com is one of the largest blog hosting platforms.',
+  :queueable   => 1,
+  :eventable   => 1)
+
+
+reddit_cfg = OpenStruct.new
+reddit_cfg['workers'] = 50
+reddit_cfg['url'] = 'http://www.reddit.com/search.json?q=%{query_string}&limit=100'
+reddit_cfg['job_batch_size']                 = 200
+reddit_cfg['batch_time_interval']            = 3600
+reddit_cfg['rate_limiting']                  = 1800
+reddit_cfg['wait_time']                      = 300
+reddit_cfg['staleness_week']                 = 86400
+reddit_cfg['staleness_month']                = 86400
+reddit_cfg['staleness_year']                 = 648000
+reddit_cfg['staleness_all']                  = 2592000
+reddit_cfg['timeout']                        = 30
+reddit_cfg['max_failed_queries']             = 200
+reddit_cfg['max_failed_query_time_interval'] = 86400
+reddit_cfg['disable_delay']                  = 10
+reddit_cfg['events_url'] = 'http://www.reddit.com/search?q = %{query_string}'
+reddit_cfg['priority']   = 6
+reddit_cfg['queue']      = 'low'
+reddit_cfg['tracked']    = '0'
+
+reddit = Reddit.where(name: 'reddit').first_or_create(
+  :type        => 'Reddit',
+  :name        => 'reddit',
+  :title       => 'Reddit',
+  :config      => reddit_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'User-generated news links.',
+  :queueable   => 1,
   :eventable   => 1)
 
 #
