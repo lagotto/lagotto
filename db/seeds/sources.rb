@@ -1,6 +1,8 @@
 #
 # GROUPS
 #
+Group.delete_all  # clean-slate
+
 saved       = Group.where(name: 'saved').first_or_create(title: 'Saved')
 cited       = Group.where(name: 'cited').first_or_create(title: 'Cited')
 discussed   = Group.where(name: 'discussed').first_or_create(title: 'Discussed')
@@ -9,9 +11,9 @@ other       = Group.where(name: 'other').first_or_create(title: 'Other')
 recommended = Group.where(name: 'recommended').first_or_create(title: 'Recommended')
 
 #
-# SOURCES (start with a clean slate)
+# SOURCES
 #
-Source.delete_all
+Source.delete_all   # clean-slate 
 
 bloglines_cfg = OpenStruct.new
 bloglines_cfg['username'] = 'admin@plos.org'
@@ -168,6 +170,72 @@ scopus = Scopus.where(name: 'scopus').first_or_create(
   :private     => 0,
   :state_event => 'inactivate',
   :description => 'Scopus is an abstract and citation database of peer-reviewed literature.',
+  :queueable   => 1,
+  :eventable   => 0)
+
+
+counter_cfg = OpenStruct.new
+counter_cfg['url'] = 'http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}'
+counter_cfg['job_batch_size']      = 200
+counter_cfg['batch_time_interval'] = 3600
+counter_cfg['rate_limiting']       = 200000
+counter_cfg['wait_time']           = 300
+counter_cfg['staleness_week']      = 86400
+counter_cfg['staleness_month']     = 86400
+counter_cfg['staleness_year']      = 86400
+counter_cfg['staleness_all']       = 86400
+counter_cfg['timeout']             = 30
+counter_cfg['max_failed_queries']  = 1000
+counter_cfg['max_failed_query_time_interval'] = 86400
+counter_cfg['disable_delay']       = 10
+counter_cfg['workers']             = 50
+counter_cfg['cron_line']           = '30 13 * * *'
+counter_cfg['priority']            = 2
+counter_cfg['queue']               = 'high'
+counter_cfg['url_private'] = 'http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}'
+
+counter = Counter.where(name: 'counter').first_or_create(
+  :id          => 9,
+  :type        => 'Counter',
+  :name        => 'counter',
+  :title       => 'Counter',
+  :config      => counter_cfg,
+  :group_id    => viewed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => '',
+  :queueable   => 0,
+  :eventable   => 0)
+
+
+wos_cfg = OpenStruct.new
+wos_cfg['url']                            = 'https://ws.isiknowledge.com/cps/xrpc'
+wos_cfg['job_batch_size']                 = 200
+wos_cfg['batch_time_interval']            = 3600
+wos_cfg['rate_limiting']                  = 50000
+wos_cfg['wait_time']                      = 300
+wos_cfg['staleness_week']                 = 86400
+wos_cfg['staleness_month']                = 86400
+wos_cfg['staleness_year']                 = 648000
+wos_cfg['staleness_all']                  = 2592000
+wos_cfg['timeout']                        = 30
+wos_cfg['max_failed_queries']             = 200
+wos_cfg['max_failed_query_time_interval'] = 86400
+wos_cfg['disable_delay']                  = 10
+wos_cfg['workers']                        = 50
+wos_cfg['queue']                          = 'default'
+wos_cfg['url_private']                    = 'https://ws.isiknowledge.com/cps/xrpc'
+
+wos = Wos.where(name: 'wos').first_or_create(
+  :id          => 12,
+  :type        => 'Wos',
+  :name        => 'wos',
+  :title       => 'Web of Science®',
+  :config      => wos_cfg,
+  :group_id    => cited.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Web of Science is an online academic citation index.',
   :queueable   => 1,
   :eventable   => 0)
 
