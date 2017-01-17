@@ -1,8 +1,6 @@
 #
 # GROUPS
 #
-Group.delete_all  # clean-slate
-
 saved       = Group.where(name: 'saved').first_or_create(title: 'Saved')
 cited       = Group.where(name: 'cited').first_or_create(title: 'Cited')
 discussed   = Group.where(name: 'discussed').first_or_create(title: 'Discussed')
@@ -279,6 +277,57 @@ pmc = Pmc.where(name: 'pmc').first_or_create(
   :state_event => 'inactivate',
   :description => '',
   :queueable   => 0,
+  :eventable   => 0)
+
+
+facebook_cfg = OpenStruct.new
+
+facebook_cfg['api_key']      = '318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q'
+facebook_cfg['url']          = 'https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=%{query_url}'
+facebook_cfg['access_token'] = '318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q'
+
+facebook_cfg['job_batch_size']                 = 200
+facebook_cfg['batch_time_interval']            = 3600
+facebook_cfg['rate_limiting']                  = 100000
+facebook_cfg['wait_time']                      = 300
+facebook_cfg['staleness_week']                 = 86400
+facebook_cfg['staleness_month']                = 86400
+facebook_cfg['staleness_year']                 = 648000
+facebook_cfg['staleness_all']                  = 2592000
+facebook_cfg['timeout']                        = 30
+facebook_cfg['max_failed_queries']             = 3000
+facebook_cfg['max_failed_query_time_interval'] = 86400
+facebook_cfg['disable_delay']                  = 10
+facebook_cfg['workers']                        = 50
+facebook_cfg['count_limit']                    = 20000
+facebook_cfg['priority']                       = 2
+
+facebook_cfg['linkstat_url'] = 
+    "https://graph.facebook.com/fql?access_token=%{access_token}&q=select\n" \
+    "url,share_count,like_count,comment_count,click_count,total_count from link_stat\n " \
+    "where url='%{query_url}'"
+
+facebook_cfg['authentication_url'] = 'https://graph.facebook.com/oauth/access_token?client_id = %{client_id}&client_secret = %{client_secret}&grant_type = client_credentials'
+facebook_cfg['client_id']          = ''
+facebook_cfg['client_secret']      = ''
+facebook_cfg['queue']              = 'default'
+
+facebook_cfg['url_linkstat'] =
+    "https://graph.facebook.com/fql?access_token=%{access_token}&q=select\n" \
+    "url, share_count, like_count, comment_count, click_count, total_count from link_stat\n" \
+    "where url = '%{query_url}'"
+
+facebook = Facebook.where(name: 'facebook').first_or_create(
+  :id          => 15,
+  :type        => 'Facebook',
+  :name        => 'facebook',
+  :title       => 'Facebook',
+  :config      => facebook_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Facebook is the largest social network.',
+  :queueable   => 1,
   :eventable   => 0)
 
 #
