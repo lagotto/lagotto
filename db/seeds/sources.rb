@@ -303,8 +303,8 @@ facebook_cfg['count_limit']                    = 20000
 facebook_cfg['priority']                       = 2
 
 facebook_cfg['linkstat_url'] = 
-    "https://graph.facebook.com/fql?access_token=%{access_token}&q=select\n" \
-    "url,share_count,like_count,comment_count,click_count,total_count from link_stat\n " \
+    "https://graph.facebook.com/fql?access_token=%{access_token}&q=select " \
+    "url,share_count,like_count,comment_count,click_count,total_count from link_stat " \
     "where url='%{query_url}'"
 
 facebook_cfg['authentication_url'] = 'https://graph.facebook.com/oauth/access_token?client_id = %{client_id}&client_secret = %{client_secret}&grant_type = client_credentials'
