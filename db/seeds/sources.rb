@@ -391,7 +391,7 @@ twitter_cfg['workers']                        = 50
 twitter_cfg['priority']                       = 2
 twitter_cfg['queue']                          = 'high'
 twitter_cfg['url_private'] = 'http://lagotto-201.sfo.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key="%{doi}"'
-twitter_cfg['tracked']                        = 0
+twitter_cfg['tracked']                        = '0'
 
 twitter = Twitter.where(name: 'twitter').first_or_create(
   :id          => 19,
@@ -404,6 +404,77 @@ twitter = Twitter.where(name: 'twitter').first_or_create(
   :state_event => 'inactivate',
   :description => 'Twitter is an online social networking service and microblogging service.',
   :queueable   => 1,
+  :eventable   => 1)
+
+
+wikipedia_cfg = OpenStruct.new
+wikipedia_cfg['url'] = 'http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{query_string}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1'
+wikipedia_cfg['job_batch_size']                 = 200
+wikipedia_cfg['batch_time_interval']            = 3600
+wikipedia_cfg['rate_limiting']                  = 200000
+wikipedia_cfg['wait_time']                      = 300
+wikipedia_cfg['staleness_week']                 = 86400
+wikipedia_cfg['staleness_month']                = 86400
+wikipedia_cfg['staleness_year']                 = 648000
+wikipedia_cfg['staleness_all']                  = 2592000
+wikipedia_cfg['timeout']                        = 90
+wikipedia_cfg['max_failed_queries']             = 200
+wikipedia_cfg['max_failed_query_time_interval'] = 86400
+wikipedia_cfg['disable_delay']                  = 10
+wikipedia_cfg['workers']                        = 50
+wikipedia_cfg['languages']  = 'en nl de sv fr it es pl war ceb ja vi pt zh uk ca no fi fa id cs ko hu ar commons'
+wikipedia_cfg['priority']   = 5
+wikipedia_cfg['events_url'] = 'http://en.wikipedia.org/w/index.php?search=%{query_string}'
+wikipedia_cfg['queue']      = 'default'
+wikipedia_cfg['tracked']    = '0'
+
+wikipedia = Wikipedia.where(name: 'wikipedia').first_or_create(
+  :id          => 21,
+  :type        => 'Wikipedia',
+  :name        => 'wikipedia',
+  :title       => 'Wikipedia',
+  :config      => wikipedia_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Wikipedia is a free encyclopedia that everyone can edit.',
+  :queueable   => 1,
+  :eventable   => 1)
+
+
+#TODO: salt relativemetric config (solr + couch?)
+relativemetric_cfg = OpenStruct.new
+relativemetric_cfg['url'] = 'http://lagotto-201.sfo.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key="%{doi}"'
+relativemetric_cfg['solr_url']                       = 'http://api.plos.org/search'
+relativemetric_cfg['job_batch_size']                 = 200
+relativemetric_cfg['batch_time_interval']            = 3600
+relativemetric_cfg['rate_limiting']                  = 200000
+relativemetric_cfg['wait_time']                      = 300
+relativemetric_cfg['staleness_week']                 = 86400
+relativemetric_cfg['staleness_month']                = 86400
+relativemetric_cfg['staleness_year']                 = 86400
+relativemetric_cfg['staleness_all']                  = 86400
+relativemetric_cfg['timeout']                        = 200
+relativemetric_cfg['max_failed_queries']             = 1000
+relativemetric_cfg['max_failed_query_time_interval'] = 3600
+relativemetric_cfg['disable_delay']                  = 10
+relativemetric_cfg['workers']                        = 50
+relativemetric_cfg['cron_line']                      = '* 09 * * 2'
+relativemetric_cfg['queue']                          = 'default'
+relativemetric_cfg['url_private'] = 'http://lagotto-201.sfo.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key="%{doi}"'
+relativemetric_cfg['tracked']     = '0'
+
+relativemetric = RelativeMetric.where(name: 'relativemetric').first_or_create(
+  :id          => 25,
+  :type        => 'RelativeMetric',
+  :name        => 'relativemetric',
+  :title       => 'RelativeMetric',
+  :config      => relativemetric_cfg,
+  :group_id    => other.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Relative metric gives context to the raw numbers that are collected.',
+  :queueable   => 0,
   :eventable   => 1)
 
 #
