@@ -653,7 +653,7 @@ plos_comments_cfg['queue']         = 'default'
 plos_comments_cfg['url_private']   = 'http://api.plosjournals.org/v1/articles/%{doi}?comments'
 plos_comments_cfg['tracked']       = '0'
 
-plos_comments = ArticleCoverageCurated.where(name: 'plos_comments').first_or_create(
+plos_comments = PlosComments.where(name: 'plos_comments').first_or_create(
   :type        => 'PlosComments',
   :name        => 'plos_comments',
   :title       => 'Journal Comments',
