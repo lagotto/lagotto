@@ -13,6 +13,7 @@ recommended = Group.where(name: 'recommended').first_or_create(title: 'Recommend
 #
 Source.delete_all   # clean-slate 
 
+# Bloglines
 bloglines_cfg = OpenStruct.new
 bloglines_cfg['username'] = 'admin@plos.org'
 bloglines_cfg['password'] = '1D556489390DB3E4DA0F6D97A9AB4949'
@@ -29,7 +30,7 @@ bloglines = Bloglines.where(name: 'bloglines').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
+# CiteULike 
 citeulike_cfg = OpenStruct.new
 citeulike_cfg['url'] = 'http://www.citeulike.org/api/posts/for/doi/%{doi}'
 citeulike_cfg['job_batch_size']                 = 200
@@ -62,7 +63,7 @@ citeulike = Citeulike.where(name: 'citeulike').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
+# CrossRef 
 crossref_cfg = OpenStruct.new
 crossref_cfg['username'] = 'plos'
 crossref_cfg['password'] = 'plos1'
@@ -99,7 +100,7 @@ crossref = CrossRef.where(name: 'crossref').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
+# Nature
 nature_cfg = OpenStruct.new
 nature_cfg['api_key']             = '7jug74j8rh49n8rbn8atwyec'
 nature_cfg['url']                 = 'http://blogs.nature.com/posts.json?doi = %{doi}'
@@ -130,7 +131,7 @@ nature = Nature.where(name: 'nature').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
+# Scopus
 scopus_cfg = OpenStruct.new
 scopus_cfg['username']            = 'AMBRA'
 scopus_cfg['live_mode']           = 'true'
@@ -166,7 +167,7 @@ scopus = Scopus.where(name: 'scopus').first_or_create(
   :queueable   => 1,
   :eventable   => 0)
 
-
+# Counter
 counter_cfg = OpenStruct.new
 counter_cfg['url'] = 'http://www.plosreports.org/services/rest?method=usage.stats&doi=%{doi}'
 counter_cfg['job_batch_size']      = 200
@@ -199,7 +200,7 @@ counter = Counter.where(name: 'counter').first_or_create(
   :queueable   => 0,
   :eventable   => 0)
 
-
+# Web of Science
 wos_cfg = OpenStruct.new
 wos_cfg['url']                            = 'https://ws.isiknowledge.com/cps/xrpc'
 wos_cfg['job_batch_size']                 = 200
@@ -230,8 +231,8 @@ wos = Wos.where(name: 'wos').first_or_create(
   :queueable   => 1,
   :eventable   => 0)
 
-
-#TODO: salt pmc config
+#TODO: salt
+# PMC Usage Stats
 pmc_cfg = OpenStruct.new
 pmc_cfg['url']                            = 'http://lagotto-201.sfo.plos.org:5984/pmc_usage_stats/'
 pmc_cfg['filepath']                       = '/home/alm/pmcdata/'
@@ -271,7 +272,7 @@ pmc = Pmc.where(name: 'pmc').first_or_create(
   :queueable   => 0,
   :eventable   => 0)
 
-
+# Facebook
 facebook_cfg = OpenStruct.new
 facebook_cfg['api_key']      = '318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q'
 facebook_cfg['url']          = 'https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=%{query_url}'
@@ -320,7 +321,7 @@ facebook = Facebook.where(name: 'facebook').first_or_create(
   :queueable   => 1,
   :eventable   => 0)
 
-
+# Mendeley
 mendeley_cfg = OpenStruct.new
 mendeley_cfg['api_key']              = 'dcd28c9a2ed8cd145533731ebd3278e504c06f3d5'
 mendeley_cfg['url']                  = 'https://api.mendeley.com/catalog?%{query_string}&view=stats'
@@ -361,7 +362,7 @@ mendeley = Mendeley.where(name: 'mendeley').first_or_create(
   :queueable   => 1,
   :eventable   => 0)
 
-
+# Twitter
 #TODO: salt twitter config
 twitter_cfg = OpenStruct.new
 twitter_cfg['url'] = 'http://lagotto-201.sfo.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key="%{doi}"'
@@ -395,7 +396,7 @@ twitter = Twitter.where(name: 'twitter').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
+# Wikipedia
 wikipedia_cfg = OpenStruct.new
 wikipedia_cfg['url'] = 'http://%{host}/w/api.php?action=query&list=search&format=json&srsearch=%{query_string}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=1'
 wikipedia_cfg['job_batch_size']                 = 200
@@ -429,8 +430,8 @@ wikipedia = Wikipedia.where(name: 'wikipedia').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
-#TODO: salt relativemetric config (solr + couch?)
+# Relative Metric
+#TODO: salt
 relativemetric_cfg = OpenStruct.new
 relativemetric_cfg['url'] = 'http://lagotto-201.sfo.plos.org:5984/relative_metrics/_design/relative_metric/_view/average_usage?key="%{doi}"'
 relativemetric_cfg['solr_url']                       = 'http://api.plos.org/search'
@@ -464,8 +465,8 @@ relativemetric = RelativeMetric.where(name: 'relativemetric').first_or_create(
   :queueable   => 0,
   :eventable   => 1)
 
-
-#TODO: salt f1000 config
+#TODO: salt
+# F1000
 f1000_cfg = OpenStruct.new
 f1000_cfg['url'] = 'http://linkout.export.f1000.com.s3.amazonaws.com/linkout/PLOS-intermediate.xml'
 f1000_cfg['filename']                       = 'PLOS-intermediate.xml'
@@ -502,7 +503,7 @@ f1000 = F1000.where(name: 'f1000').first_or_create(
   :queueable   => 0,
   :eventable   => 1)
 
-
+# Figshare
 figshare_cfg = OpenStruct.new
 figshare_cfg['url'] = 'http://api.figshare.com/v1/publishers/search_for?doi=%{doi}'
 figshare_cfg['job_batch_size']                 = 200
@@ -533,7 +534,7 @@ figshare = Figshare.where(name: 'f1000').first_or_create(
   :queueable   => 1,
   :eventable   => 0)
 
-
+# WordPress
 wordpress_cfg = OpenStruct.new
 wordpress_cfg['workers'] = 50
 wordpress_cfg['url'] = 'http://en.search.wordpress.com/?q=%{query_string}&t=post&f=json&size=20'
@@ -566,7 +567,7 @@ wordpress = Wordpress.where(name: 'wordpress').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
-
+# Reddit
 reddit_cfg = OpenStruct.new
 reddit_cfg['workers'] = 50
 reddit_cfg['url'] = 'http://www.reddit.com/search.json?q=%{query_string}&limit=100'
@@ -596,6 +597,71 @@ reddit = Reddit.where(name: 'reddit').first_or_create(
   :private     => 0,
   :state_event => 'inactivate',
   :description => 'User-generated news links.',
+  :queueable   => 1,
+  :eventable   => 1)
+
+#TODO: salt
+# Article Coverage Curated
+articlecoveragecurated_cfg = OpenStruct.new
+articlecoveragecurated_cfg['workers']             = 50
+articlecoveragecurated_cfg['url']                 = 'http://mediacuration-101.soma.plos.org/api/v1?doi = %{doi}'
+articlecoveragecurated_cfg['job_batch_size']      = 200
+articlecoveragecurated_cfg['batch_time_interval'] = 3600
+articlecoveragecurated_cfg['rate_limiting']       = 200000
+articlecoveragecurated_cfg['wait_time']           = 300
+articlecoveragecurated_cfg['staleness_week']      = 86400
+articlecoveragecurated_cfg['staleness_month']     = 86400
+articlecoveragecurated_cfg['staleness_year']      = 648000
+articlecoveragecurated_cfg['staleness_all']       = 2592000
+articlecoveragecurated_cfg['timeout']             = 30
+articlecoveragecurated_cfg['max_failed_queries']  = 200
+articlecoveragecurated_cfg['max_failed_query_time_interval'] = 86400
+articlecoveragecurated_cfg['disable_delay'] = 10
+articlecoveragecurated_cfg['priority']      = 2
+articlecoveragecurated_cfg['queue']         = 'default'
+articlecoveragecurated_cfg['url_private']   = 'http://mediacuration-101.soma.plos.org/api/v1?doi = %{doi}'
+articlecoveragecurated_cfg['tracked']       = '0'
+
+articlecoveragecurated = ArticleCoverageCurated.where(name: 'articlecoveragecurated').first_or_create(
+  :type        => 'ArticleCoverageCurated',
+  :name        => 'articlecoveragecurated',
+  :title       => 'Article Coverage Curated',
+  :config      => articlecoveragecurated_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Article Coverage Curated',
+  :queueable   => 1,
+  :eventable   => 1)
+
+# PLOS Comments
+plos_comments_cfg = OpenStruct.new
+plos_comments_cfg['job_batch_size']     = 200
+plos_comments_cfg['workers']            = 50
+plos_comments_cfg['rate_limiting']      = 200000
+plos_comments_cfg['wait_time']          = 300
+plos_comments_cfg['staleness_week']     = 86400
+plos_comments_cfg['staleness_month']    = 86400
+plos_comments_cfg['staleness_year']     = 648000
+plos_comments_cfg['staleness_all']      = 2592000
+plos_comments_cfg['timeout']            = 30
+plos_comments_cfg['max_failed_queries'] = 200
+plos_comments_cfg['max_failed_query_time_interval'] = 86400
+plos_comments_cfg['disable_delay'] = 10
+plos_comments_cfg['url']           = 'http://api.plosjournals.org/v1/articles/%{doi}?comments'
+plos_comments_cfg['queue']         = 'default'
+plos_comments_cfg['url_private']   = 'http://api.plosjournals.org/v1/articles/%{doi}?comments'
+plos_comments_cfg['tracked']       = '0'
+
+plos_comments = ArticleCoverageCurated.where(name: 'plos_comments').first_or_create(
+  :type        => 'PlosComments',
+  :name        => 'plos_comments',
+  :title       => 'Journal Comments',
+  :config      => plos_comments_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Comments from the PLOS website.',
   :queueable   => 1,
   :eventable   => 1)
 
