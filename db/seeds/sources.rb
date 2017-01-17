@@ -134,6 +134,43 @@ nature = Nature.where(name: 'nature').first_or_create(
   :queueable   => 1,
   :eventable   => 1)
 
+
+scopus_cfg = OpenStruct.new
+scopus_cfg['username']            = 'AMBRA'
+scopus_cfg['live_mode']           = 'true'
+scopus_cfg['salt']                = 'Q)M4ha6:G1twpMxGvsnyj=iS0A!qvr!T'
+scopus_cfg['partner_id']          = 'OIVxnoIl'
+scopus_cfg['api_key']             = '788818e50c994eab70b681b2ed46c77a'
+scopus_cfg['insttoken']           = 'b7efefd626fe2fc84fc97be1c48bdc06'
+scopus_cfg['job_batch_size']      = 200
+scopus_cfg['batch_time_interval'] = 3600
+scopus_cfg['rate_limiting']       = 50000
+scopus_cfg['wait_time']           = 300
+scopus_cfg['staleness_week']      = 86400
+scopus_cfg['staleness_month']     = 86400
+scopus_cfg['staleness_year']      = 648000
+scopus_cfg['staleness_all']       = 2592000
+scopus_cfg['timeout']             = 30
+scopus_cfg['max_failed_queries']  = 1000
+scopus_cfg['max_failed_query_time_interval'] = 1800
+scopus_cfg['disable_delay']       = 10
+scopus_cfg['workers']             = 50
+scopus_cfg['url'] = 'https://api.elsevier.com/content/search/index:SCOPUS?query=DOI(%{doi})'
+scopus_cfg['queue']               = 'default'
+
+scopus = Scopus.where(name: 'scopus').first_or_create(
+  :id          => 8,
+  :type        => 'Scopus',
+  :name        => 'scopus',
+  :title       => 'Scopus',
+  :config      => scopus_cfg,
+  :group_id    => cited.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Scopus is an abstract and citation database of peer-reviewed literature.',
+  :queueable   => 1,
+  :eventable   => 0)
+
 #
 # PUBLISHER_OPTIONS 
 #
