@@ -239,24 +239,66 @@ wos = Wos.where(name: 'wos').first_or_create(
   :queueable   => 1,
   :eventable   => 0)
 
+
+# TODO: salt pmc config?
+pmc_cfg = OpenStruct.new
+pmc_cfg['url']                            = 'http://lagotto-201.sfo.plos.org:5984/pmc_usage_stats/'
+pmc_cfg['filepath']                       = '/home/alm/pmcdata/'
+pmc_cfg['job_batch_size']                 = 200
+pmc_cfg['batch_time_interval']            = 3600
+pmc_cfg['rate_limiting']                  = 200000
+pmc_cfg['wait_time']                      = 300
+pmc_cfg['staleness_week']                 = 2592000
+pmc_cfg['staleness_month']                = 2592000
+pmc_cfg['staleness_year']                 = 2592000
+pmc_cfg['staleness_all']                  = 2592000
+pmc_cfg['timeout']                        = 30
+pmc_cfg['max_failed_queries']             = 200
+pmc_cfg['max_failed_query_time_interval'] = 86400
+pmc_cfg['disable_delay']                  = 10
+pmc_cfg['username']                       = 'plospubs'
+pmc_cfg['password']                       = 'er56nm'
+pmc_cfg['workers']                        = 50
+pmc_cfg['cron_line']                      = '0 5 9 * *'
+pmc_cfg['priority']                       = 5
+pmc_cfg['queue']                          = 'high'
+pmc_cfg['journals']   = 'plosbiol plosmed ploscomp plosgen plospath plosone plosntd plosct ploscurrents'
+pmc_cfg['db_url']     = 'http://lagotto-201.sfo.plos.org:5984/pmc_usage_stats/'
+pmc_cfg['feed_url']   = 'https://www.ncbi.nlm.nih.gov/pmc/utils/publisher/pmcstat/pmcstat.cgi'
+pmc_cfg['events_url'] = 'http://www.ncbi.nlm.nih.gov/pmc/articles/PMC%{pmcid}'
+pmc_cfg['url_db']     = 'http://lagotto-201.sfo.plos.org:5984/pmc_usage_stats/'
+
+pmc = Pmc.where(name: 'pmc').first_or_create(
+  :id          => 13,
+  :type        => 'Pmc',
+  :name        => 'pmc',
+  :title       => 'PMC Usage Stats',
+  :config      => pmc_cfg,
+  :group_id    => viewed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => '',
+  :queueable   => 0,
+  :eventable   => 0)
+
 #
 # PUBLISHER_OPTIONS 
 #
-crossref_cfg = OpenStruct.new
-crossref_cfg['username'] = 'plos'
-crossref_cfg['password'] = 'plos1'
+crossref_po_cfg = OpenStruct.new
+crossref_po_cfg['username'] = 'plos'
+crossref_po_cfg['password'] = 'plos1'
 
 crossref_po = PublisherOption.where(source_id: crossref.id).where(publisher_id: 340).first_or_create(
   :publisher_id => 340,
   :source_id => crossref.id,
-  :config => crossref_cfg)
+  :config => crossref_po_cfg)
 
-#pmc_cfg = OpenStruct.new
-#pmc_cfg['journals'] = 'plosbiol plosmed ploscomp plosgen plospath plosone plosntd plosct ploscurrents'
-#pmc_cfg['username'] = 'plospubs'
-#pmc_cfg['password'] = 'er56nm'
+pmc_po_cfg = OpenStruct.new
+pmc_po_cfg['journals'] = 'plosbiol plosmed ploscomp plosgen plospath plosone plosntd plosct ploscurrents'
+pmc_po_cfg['username'] = 'plospubs'
+pmc_po_cfg['password'] = 'er56nm'
 
-#pmc = PublisherOption.where(source_id: 13).where(publisher_id: 340).first_or_create(
-  #:publisher_id => 340,
-  #:source_id => 13,
-  #:config => pmc_cfg)
+pmc = PublisherOption.where(source_id: 13).where(publisher_id: 340).first_or_create(
+  :publisher_id => 340,
+  :source_id => pmc.id,
+  :config => pmc_po_cfg)
