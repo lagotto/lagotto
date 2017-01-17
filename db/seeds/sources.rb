@@ -238,7 +238,7 @@ wos = Wos.where(name: 'wos').first_or_create(
   :eventable   => 0)
 
 
-# TODO: salt pmc config?
+#TODO: salt pmc config
 pmc_cfg = OpenStruct.new
 pmc_cfg['url']                            = 'http://lagotto-201.sfo.plos.org:5984/pmc_usage_stats/'
 pmc_cfg['filepath']                       = '/home/alm/pmcdata/'
@@ -281,7 +281,6 @@ pmc = Pmc.where(name: 'pmc').first_or_create(
 
 
 facebook_cfg = OpenStruct.new
-
 facebook_cfg['api_key']      = '318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q'
 facebook_cfg['url']          = 'https://graph.facebook.com/v2.1/?access_token=%{access_token}&id=%{query_url}'
 facebook_cfg['access_token'] = '318375554854773|tNMX2gWP_tTaah0p1Nf4ZFF4A5Q'
@@ -313,8 +312,8 @@ facebook_cfg['client_secret']      = ''
 facebook_cfg['queue']              = 'default'
 
 facebook_cfg['url_linkstat'] =
-    "https://graph.facebook.com/fql?access_token=%{access_token}&q=select\n" \
-    "url, share_count, like_count, comment_count, click_count, total_count from link_stat\n" \
+    "https://graph.facebook.com/fql?access_token=%{access_token}&q=select " \
+    "url, share_count, like_count, comment_count, click_count, total_count from link_stat " \
     "where url = '%{query_url}'"
 
 facebook = Facebook.where(name: 'facebook').first_or_create(
@@ -329,6 +328,83 @@ facebook = Facebook.where(name: 'facebook').first_or_create(
   :description => 'Facebook is the largest social network.',
   :queueable   => 1,
   :eventable   => 0)
+
+
+mendeley_cfg = OpenStruct.new
+mendeley_cfg['api_key']              = 'dcd28c9a2ed8cd145533731ebd3278e504c06f3d5'
+mendeley_cfg['url']                  = 'https://api.mendeley.com/catalog?%{query_string}&view=stats'
+mendeley_cfg['url_with_type']        = 'https://api-oauth2.mendeley.com/oapi/documents/details/%{id}/?type=%{doc_type}'
+mendeley_cfg['related_articles_url'] = 'https://api-oauth2.mendeley.com/oapi/documents/related/%{id}'
+mendeley_cfg['url_with_title']       = 'https://api-oauth2.mendeley.com/oapi/documents/search/%{title}/?items = 10'
+mendeley_cfg['job_batch_size']                 = 200
+mendeley_cfg['batch_time_interval']            = 3600
+mendeley_cfg['rate_limiting']                  = 50000
+mendeley_cfg['wait_time']                      = 300
+mendeley_cfg['staleness_week']                 = 86400
+mendeley_cfg['staleness_month']                = 86400
+mendeley_cfg['staleness_year']                 = 648000
+mendeley_cfg['staleness_all']                  = 2592000
+mendeley_cfg['timeout']                        = 30
+mendeley_cfg['max_failed_queries']             = 200
+mendeley_cfg['max_failed_query_time_interval'] = 86400
+mendeley_cfg['disable_delay']                  = 10
+mendeley_cfg['workers']                        = 50
+mendeley_cfg['authentication_url']             = 'https://api.mendeley.com/oauth/token'
+mendeley_cfg['client_id']                      = '18'
+mendeley_cfg['secret']                         = 'yE6$Hn5{D8:rD7i9'
+mendeley_cfg['access_token']  = 'MSwxNDgxNzYwNzI4MDIzLCwxOCxhbGwsLE80RDVQeFlnSW55bG8xaDZubVdLRGlHMDdxbw'
+mendeley_cfg['expires_at']    = '2016-12-14 16:12:09.007529279 -08:00'
+mendeley_cfg['priority']      = 5
+mendeley_cfg['client_secret'] = 'yE6$Hn5{D8:rD7i9'
+mendeley_cfg['queue']         = 'default'
+
+mendeley = Mendeley.where(name: 'mendeley').first_or_create(
+  :id          => 17,
+  :type        => 'Mendeley',
+  :name        => 'mendeley',
+  :title       => 'Mendeley',
+  :config      => mendeley_cfg,
+  :group_id    => saved.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Mendeley is a reference manager and social bookmarking tool.',
+  :queueable   => 1,
+  :eventable   => 0)
+
+
+#TODO: salt twitter config
+twitter_cfg = OpenStruct.new
+twitter_cfg['url'] = 'http://lagotto-201.sfo.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key="%{doi}"'
+twitter_cfg['job_batch_size']                 = 200
+twitter_cfg['batch_time_interval']            = 3600
+twitter_cfg['rate_limiting']                  = 200000
+twitter_cfg['wait_time']                      = 300
+twitter_cfg['staleness_week']                 = 21600
+twitter_cfg['staleness_month']                = 86400
+twitter_cfg['staleness_year']                 = 86400
+twitter_cfg['staleness_all']                  = 648000
+twitter_cfg['timeout']                        = 15
+twitter_cfg['max_failed_queries']             = 200
+twitter_cfg['max_failed_query_time_interval'] = 86400
+twitter_cfg['disable_delay']                  = 10
+twitter_cfg['workers']                        = 50
+twitter_cfg['priority']                       = 2
+twitter_cfg['queue']                          = 'high'
+twitter_cfg['url_private'] = 'http://lagotto-201.sfo.org:5984/plos-tweetstream/_design/tweets/_view/by_doi?key="%{doi}"'
+twitter_cfg['tracked']                        = 0
+
+twitter = Twitter.where(name: 'twitter').first_or_create(
+  :id          => 19,
+  :type        => 'Twitter',
+  :name        => 'twitter',
+  :title       => 'Twitter',
+  :config      => twitter_cfg,
+  :group_id    => discussed.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'Twitter is an online social networking service and microblogging service.',
+  :queueable   => 1,
+  :eventable   => 1)
 
 #
 # PUBLISHER_OPTIONS 
