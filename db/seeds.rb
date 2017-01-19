@@ -4,6 +4,6 @@
 
 Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].each { |seed| load seed }
 
-# load salted seed data, if any
+# load salted seed data, if any. this won't complain if path doesn't exist.
 
 Dir[File.join('/home/lagotto', 'db', 'seeds', '*.rb')].each { |seed| load seed }
