@@ -3,3 +3,7 @@
 # We have created individual seeds files for each model, and have put them into the db/seeds directory
 
 Dir[File.join(Rails.root, 'db', 'seeds', '*.rb')].each { |seed| load seed }
+
+# load salted seed data, if any. this won't complain if path doesn't exist.
+
+Dir[File.join('/home/lagotto', 'db', 'seeds', '*.rb')].each { |seed| load seed }
