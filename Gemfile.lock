@@ -74,7 +74,7 @@ GEM
       uniform_notifier (~> 1.9.0)
     byebug (8.2.2)
     cancancan (1.9.2)
-    capistrano (3.4.0)
+    capistrano (3.4.1)
       i18n
       rake (>= 10.0.0)
       sshkit (~> 1.3)

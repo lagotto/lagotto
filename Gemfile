@@ -64,7 +64,7 @@ group :development do
   gem 'pry-rails', '~> 0.3.2'
   gem 'better_errors', '~> 2.0.0'
   gem 'binding_of_caller', '~> 0.7.2'
-  gem 'capistrano', '~> 3.4.0'
+  gem 'capistrano', '~> 3.4.1'
   gem 'capistrano-rails', '~> 1.1.1', :require => false
   gem 'capistrano-bundler', '~> 1.1.2', :require => false
   gem 'capistrano-npm', '~> 1.0.0'
