@@ -30,7 +30,7 @@ module Processable
         c.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid => exception
         if exception.class == ActiveRecord::RecordNotUnique
-          Contribution.using(:master).where(contributor_id: contributor_id,
+          Contribution.where(contributor_id: contributor_id,
                                             work_id: related_work_id,
                                             source_id: source.id).first
         else

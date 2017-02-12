@@ -22,6 +22,12 @@ describe Work, type: :model, vcr: true do
       expect(response).to eq("10.5061/DRYAD.8515")
     end
 
+    it "doi_from_url not a doi" do
+      url = "https://handle.net/10.5061/dryad.8515"
+      response = subject.doi_from_url(url)
+      expect(response).to be_nil
+    end
+
     it "orcid_from_url" do
       url = "http://orcid.org/0000-0002-2590-225X"
       response = subject.orcid_from_url(url)
@@ -89,7 +95,7 @@ describe Work, type: :model, vcr: true do
 
     it "doi_as_url" do
       response = subject.doi_as_url(doi)
-      expect(response).to eq("http://doi.org/10.5061/DRYAD.8515")
+      expect(response).to eq("https://doi.org/10.5061/DRYAD.8515")
     end
 
     it "github_as_owner_url" do

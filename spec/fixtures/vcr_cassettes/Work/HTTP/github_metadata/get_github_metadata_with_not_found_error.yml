@@ -8,11 +8,11 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
       Authorization:
-      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
+      - Bearer 070a96ef2444139f00b1b8b13cec6615da091c98
   response:
     status:
       code: 404
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 26 Apr 2016 13:48:23 GMT
+      - Sat, 11 Feb 2017 14:28:36 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -31,9 +31,9 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4933'
+      - '4931'
       X-Ratelimit-Reset:
-      - '1461679875'
+      - '1486823895'
       X-Oauth-Scopes:
       - gist, repo, user
       X-Accepted-Oauth-Scopes:
@@ -56,10 +56,10 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 3EE067F6:DA3B:10B9F847:571F71A7
+      - F898:76DE:10FCA88:15A8D2E:589F1F94
     body:
       encoding: UTF-8
       string: '{"message":"Not Found","documentation_url":"https://developer.github.com/v3"}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:48:24 GMT
+  recorded_at: Sat, 11 Feb 2017 14:28:36 GMT
 recorded_with: VCR 2.9.3

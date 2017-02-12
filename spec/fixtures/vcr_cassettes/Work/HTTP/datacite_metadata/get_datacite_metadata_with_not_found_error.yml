@@ -2,36 +2,37 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.5061/DRYAD.8515x&rows=1&wt=json
+    uri: https://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,resourceType,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.5061/DRYAD.8515x&rows=1&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
       message: ''
     headers:
       Server:
-      - nginx/1.1.19
+      - openresty/1.11.2.2
       Date:
-      - Tue, 26 Apr 2016 13:50:23 GMT
+      - Sun, 12 Feb 2017 15:58:11 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
       - keep-alive
       Access-Control-Allow-Origin:
       - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
     body:
       encoding: UTF-8
-      string: |
-        {"responseHeader":{"status":0,"QTime":0},"response":{"numFound":0,"start":0,"docs":[]}}
+      string: '{"responseHeader":{"status":0,"QTime":1},"response":{"numFound":0,"start":0,"docs":[]}}
+
+'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:48:22 GMT
+  recorded_at: Sun, 12 Feb 2017 15:58:11 GMT
 recorded_with: VCR 2.9.3

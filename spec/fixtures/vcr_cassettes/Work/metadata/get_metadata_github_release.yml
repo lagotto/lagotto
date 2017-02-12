@@ -1,0 +1,170 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.github.com/repos/lagotto/lagotto/releases/tags/v.4.3
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - http://lagotto.local
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Bearer 070a96ef2444139f00b1b8b13cec6615da091c98
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sun, 12 Feb 2017 21:40:18 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '3415'
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4970'
+      X-Ratelimit-Reset:
+      - '1486938243'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
+      Etag:
+      - '"b0b801a42beb1e906b8fe32071749b7a"'
+      Last-Modified:
+      - Mon, 20 Jul 2015 00:09:16 GMT
+      X-Oauth-Scopes:
+      - gist, repo, user
+      X-Accepted-Oauth-Scopes:
+      - ''
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 76d9828c7e4f1d910f7ba069e90ce976
+      X-Github-Request-Id:
+      - EF49:76E5:2CC1FA2:3880C84:58A0D642
+    body:
+      encoding: UTF-8
+      string: '{"url":"https://api.github.com/repos/lagotto/lagotto/releases/1557733","assets_url":"https://api.github.com/repos/lagotto/lagotto/releases/1557733/assets","upload_url":"https://uploads.github.com/repos/lagotto/lagotto/releases/1557733/assets{?name,label}","html_url":"https://github.com/lagotto/lagotto/releases/tag/v.4.3","id":1557733,"tag_name":"v.4.3","target_commitish":"master","name":"Lagotto
+        4.3","draft":false,"author":{"login":"mfenner","id":23151,"avatar_url":"https://avatars.githubusercontent.com/u/23151?v=3","gravatar_id":"","url":"https://api.github.com/users/mfenner","html_url":"https://github.com/mfenner","followers_url":"https://api.github.com/users/mfenner/followers","following_url":"https://api.github.com/users/mfenner/following{/other_user}","gists_url":"https://api.github.com/users/mfenner/gists{/gist_id}","starred_url":"https://api.github.com/users/mfenner/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mfenner/subscriptions","organizations_url":"https://api.github.com/users/mfenner/orgs","repos_url":"https://api.github.com/users/mfenner/repos","events_url":"https://api.github.com/users/mfenner/events{/privacy}","received_events_url":"https://api.github.com/users/mfenner/received_events","type":"User","site_admin":false},"prerelease":false,"created_at":"2015-07-19T22:43:10Z","published_at":"2015-07-20T00:09:16Z","assets":[],"tarball_url":"https://api.github.com/repos/lagotto/lagotto/tarball/v.4.3","zipball_url":"https://api.github.com/repos/lagotto/lagotto/zipball/v.4.3","body":"Lagotto
+        4.3 was released on July 20, 2015 with the following changes:\n- created snapshop
+        of Lagotto JSON API responses for works, that is then automatically deposited
+        in Zenodo ([#343](https://github.com/lagotto/lagotto/issues/343))\n- fixed
+        failing rspec acceptance tests ([#380](https://github.com/lagotto/lagotto/issues/380))\n-
+        added registration_agency check to some sources ([#381](https://github.com/lagotto/lagotto/issues/381))\n-
+        added foreign_key constraints ([#382](https://github.com/lagotto/lagotto/issues/382))\n-
+        added DataONE identifier ([#384](https://github.com/lagotto/lagotto/issues/384))\n-
+        added two sources for DataONE usage stats ([#394](https://github.com/lagotto/lagotto/issues/394))\n-
+        enamed Github organization from `articlemetrics` to `lagotto` ([#397](https://github.com/lagotto/lagotto/issues/397))\n-
+        fixed nginx installation issue where nodejs can''t be found ([#399](https://github.com/lagotto/lagotto/issues/399))\n\n###
+        JSON API snapshots\n\nThe snapshots of the Lagotto JSON API require the same
+        ENV variables as the CSV export. Run `bundle exec rake api:snapshot:all` to
+        create the snapshots and export them to Zenodo. More information is available
+        in the `setup` documentation.\n\n### Foreign keys\n\nThis release adds foreign
+        keys (supported in Rails core since [Rails 4.2](http://weblog.rubyonrails.org/2014/12/19/Rails-4-2-final/))
+        to the database to enforce referential integrity.\n\n### Registration agency
+        checks\n\nSome sources now check for the work registration agency, allowing
+        different functionality, e.g. for CrossRef or DataCite DOIs.\n\n### DataONE
+        usage stats\n\nThis release adds two sources that collect usage stats from
+        the DataONE repository network. The `dataone_counter` source collects COUNTER-compliant
+        usage stats, whereas the `dataone_usage` source also includes machine usage
+        from some useragents.\n"}'
+    http_version: 
+  recorded_at: Sun, 12 Feb 2017 19:07:59 GMT
+- request:
+    method: get
+    uri: https://api.github.com/users/lagotto
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - http://lagotto.local
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Bearer 070a96ef2444139f00b1b8b13cec6615da091c98
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Sun, 12 Feb 2017 21:40:19 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '1118'
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4969'
+      X-Ratelimit-Reset:
+      - '1486938243'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
+      Etag:
+      - '"3627d78408dc2328ea254422e301e52a"'
+      Last-Modified:
+      - Sat, 27 Feb 2016 02:09:12 GMT
+      X-Oauth-Scopes:
+      - gist, repo, user
+      X-Accepted-Oauth-Scopes:
+      - ''
+      X-Github-Media-Type:
+      - github.v3
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Security-Policy:
+      - default-src 'none'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Served-By:
+      - 8dd185e423974a7e13abbbe6e060031e
+      X-Github-Request-Id:
+      - EF4A:76EE:43AF64C:54EA464:58A0D642
+    body:
+      encoding: UTF-8
+      string: '{"login":"lagotto","id":1696492,"avatar_url":"https://avatars.githubusercontent.com/u/1696492?v=3","gravatar_id":"","url":"https://api.github.com/users/lagotto","html_url":"https://github.com/lagotto","followers_url":"https://api.github.com/users/lagotto/followers","following_url":"https://api.github.com/users/lagotto/following{/other_user}","gists_url":"https://api.github.com/users/lagotto/gists{/gist_id}","starred_url":"https://api.github.com/users/lagotto/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/lagotto/subscriptions","organizations_url":"https://api.github.com/users/lagotto/orgs","repos_url":"https://api.github.com/users/lagotto/repos","events_url":"https://api.github.com/users/lagotto/events{/privacy}","received_events_url":"https://api.github.com/users/lagotto/received_events","type":"Organization","site_admin":false,"name":"Lagotto","company":null,"blog":"http://lagotto.io","location":null,"email":null,"hireable":null,"bio":null,"public_repos":35,"public_gists":0,"followers":0,"following":0,"created_at":"2012-05-01T19:38:33Z","updated_at":"2016-02-27T02:09:12Z"}'
+    http_version: 
+  recorded_at: Sun, 12 Feb 2017 19:08:00 GMT
+recorded_with: VCR 2.9.3

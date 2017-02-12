@@ -12,7 +12,7 @@ module Processable
         self.contributor.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError => exception
         if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-          contributor = Contributor.using(:master).where(pid: subj_id).first
+          contributor = Contributor.where(pid: subj_id).first
         else
           handle_exception(exception, class_name: "contributor", id: subj_id, target_url: subj_id)
         end

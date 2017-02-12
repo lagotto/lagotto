@@ -6,7 +6,7 @@ module Identifiable
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(url)
         uri = Addressable::URI.parse(url)
         uri.path[1..-1].upcase
-      elsif id.starts_with?("doi:")
+      elsif id.is_a?(String) && id.starts_with?("doi:")
         id[4..-1].upcase
       end
     end
@@ -41,7 +41,7 @@ module Identifiable
     end
 
     def doi_as_url(doi)
-      Addressable::URI.encode("http://doi.org/#{clean_doi(doi)}") if doi.present?
+      Addressable::URI.encode("https://doi.org/#{clean_doi(doi)}") if doi.present?
     end
 
     def pmid_as_url(pmid)

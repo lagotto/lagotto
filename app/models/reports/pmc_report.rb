@@ -1,2 +1,0 @@
-class PmcReport < SourceReport
-end

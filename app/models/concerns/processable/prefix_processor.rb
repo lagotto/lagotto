@@ -15,7 +15,7 @@ module Processable
             true
           rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
             if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-              Prefix.using(:master).where(name: item[:prefix]).first
+              Prefix.where(name: item[:prefix]).first
             else
               handle_exception(exception, class_name: "prefix", id: item[:prefix])
             end

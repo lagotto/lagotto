@@ -8,9 +8,9 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
@@ -21,22 +21,20 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 26 Apr 2016 13:48:28 GMT
+      - Sat, 11 Feb 2017 14:28:35 GMT
       Access-Control-Max-Age:
       - '3600'
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - Keep-Alive
-      Set-Cookie:
-      - JSESSIONID=B06DF69EFC7BCCA96D8DC99EC8C71A8C; Path=/europepmc/webservices
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
       Access-Control-Allow-Headers:
       - Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
     body:
       encoding: UTF-8
-      string: '{"version":"4.5.0.1","hitCount":0,"request":{"query":"ext_id:17183658x","resultType":"lite","synonym":false,"page":1,"pageSize":25},"resultList":{"result":[]}}'
+      string: '{"version":"5.0","hitCount":0,"nextCursorMark":"*","request":{"query":"ext_id:17183658x","resultType":"lite","synonym":false,"cursorMark":"*","pageSize":25,"sort":""},"resultList":{"result":[]}}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:48:29 GMT
+  recorded_at: Sat, 11 Feb 2017 14:28:36 GMT
 recorded_with: VCR 2.9.3

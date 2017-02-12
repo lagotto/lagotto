@@ -28,7 +28,7 @@ module Processable
         r.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid => exception
         if exception.class == ActiveRecord::RecordNotUnique
-          Relation.using(:master).where(work_id: work_id,
+          Relation.where(work_id: work_id,
                                         related_work_id: related_work_id,
                                         source_id: source.id).first
         else
@@ -50,7 +50,7 @@ module Processable
         r.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
         if exception.class == ActiveRecord::RecordNotUnique
-          Relation.using(:master).where(work_id: related_work_id,
+          Relation.where(work_id: related_work_id,
                                         related_work_id: work_id,
                                         source_id: source.id).first
         else

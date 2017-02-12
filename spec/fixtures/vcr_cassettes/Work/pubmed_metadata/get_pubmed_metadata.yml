@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.ebi.ac.uk/europepmc/webservices/rest/search/query=ext_id:17183658&format=json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - http://lagotto.local
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Sun, 12 Feb 2017 21:40:10 GMT
+      Access-Control-Max-Age:
+      - '3600'
+      Access-Control-Allow-Origin:
+      - "*"
+      Connection:
+      - Keep-Alive
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Headers:
+      - Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
+    body:
+      encoding: UTF-8
+      string: '{"version":"5.0","hitCount":1,"nextCursorMark":"AoIIP5qG5SgyMDEyMDE4OQ==","request":{"query":"ext_id:17183658","resultType":"lite","synonym":false,"cursorMark":"*","pageSize":25,"sort":""},"resultList":{"result":[{"id":"17183658","source":"MED","pmid":"17183658","pmcid":"PMC1762313","doi":"10.1371/journal.pone.0000030","title":"Triose
+        phosphate isomerase deficiency is caused by altered dimerization--not catalytic
+        inactivity--of the mutant enzymes.","authorString":"Ralser M, Heeren G, Breitenbach
+        M, Lehrach H, Krobitsch S.","journalTitle":"PLoS One","journalVolume":"1","pubYear":"2006","journalIssn":"1932-6203","pageInfo":"e30","pubType":"research-article;
+        journal article; research support, non-u.s. gov''t; ","isOpenAccess":"Y","inEPMC":"Y","inPMC":"N","hasPDF":"Y","hasBook":"N","hasSuppl":"Y","citedByCount":31,"hasReferences":"Y","hasTextMinedTerms":"Y","hasDbCrossReferences":"Y","dbCrossReferenceList":{"dbName":["UNIPROT"]},"hasLabsLinks":"Y","epmcAuthMan":"N","hasTMAccessionNumbers":"N"}]}}'
+    http_version: 
+  recorded_at: Sun, 12 Feb 2017 19:07:51 GMT
+recorded_with: VCR 2.9.3

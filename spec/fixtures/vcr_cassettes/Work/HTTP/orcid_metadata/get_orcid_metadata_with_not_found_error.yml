@@ -2,13 +2,13 @@
 http_interactions:
 - request:
     method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-0159-2197x/orcid-bio
+    uri: https://pub.orcid.org/v2.0/0000-0002-0159-2197x/person
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
       - application/json
   response:
@@ -21,17 +21,19 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 26 Apr 2016 13:48:13 GMT
+      - Sat, 11 Feb 2017 16:05:36 GMT
       Access-Control-Allow-Origin:
       - "*"
       Connection:
       - keep-alive
       Set-Cookie:
-      - X-Mapping-fjhppofk=BB082610361E703B21115ED5EB3CF586; path=/
+      - X-Mapping-fjhppofk=BB32ADE26669E4E542AAA075A6CC205A; path=/
+      Content-Length:
+      - '201'
     body:
       encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":null,"orcid-search-results":null,"error-desc":{"value":"Not
-        found : No entity found for query"}}'
+      string: '{"response-code":404,"developer-message":"javax.persistence.NoResultException","user-message":"The
+        resource was not found.","error-code":9016,"more-info":"http://members.orcid.org/api/api-error-codes"}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:48:14 GMT
+  recorded_at: Sat, 11 Feb 2017 16:05:36 GMT
 recorded_with: VCR 2.9.3

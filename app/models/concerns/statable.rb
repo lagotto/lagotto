@@ -66,11 +66,6 @@ module Statable
           class_name = "TooManyErrorsBySourceError"
           message = "#{agent.title} has exceeded maximum failed queries. Disabling the agent."
         end
-        Notification.where(message: message).where(unresolved: true).first_or_create(
-          exception: "",
-          class_name: class_name,
-          source_id: agent.source_id,
-          level: Notification::FATAL)
       end
 
       event :install do

@@ -2,37 +2,49 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://10.2.2.6
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://localhost:8050
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://10.2.2.6
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
       message: ''
     headers:
       Date:
-      - Sat, 30 Apr 2016 14:53:36 GMT
+      - Sat, 11 Feb 2017 14:54:11 GMT
       Server:
       - Apache
+      Strict-Transport-Security:
+      - max-age=1400; includeSubDomains; preload
+      Referrer-Policy:
+      - origin-when-cross-origin
+      Content-Security-Policy:
+      - upgrade-insecure-requests
+      Content-Security-Policy-Report-Only:
+      - 'default-src https:; script-src https: ''unsafe-inline'' ''unsafe-eval'';
+        font-src https: data:; img-src https: data:; style-src https: ''unsafe-inline'';
+        report-uri https://www.ncbi.nlm.nih.gov/corecgi/csp/csp.cgi'
       Content-Type:
       - application/json; charset=ISO-8859-1
       Vary:
       - Accept-Encoding
       X-Ua-Compatible:
       - IE=Edge
+      X-Xss-Protection:
+      - 1; mode=block
     body:
       encoding: UTF-8
       string: |
         {
          "status": "ok",
-         "responseDate": "2016-04-30 10:53:36",
-         "request": "email=noreply%40datacite.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2F10.2.2.6",
+         "responseDate": "2017-02-11 09:54:12",
+         "request": "email=noreply%40datacite.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flocalhost%3A8050",
          "records": [
            {
             "pmcid": "PMC1762313",
@@ -48,5 +60,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sat, 30 Apr 2016 14:53:36 GMT
+  recorded_at: Sat, 11 Feb 2017 14:54:11 GMT
 recorded_with: VCR 2.9.3

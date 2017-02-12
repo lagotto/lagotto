@@ -13,100 +13,36 @@ module Cacheable
         Source.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
       end
     end
+  end
 
-    def cached_publisher(name)
-      Rails.cache.fetch("publisher/#{name}", expires_in: 1.month) do
-        Publisher.where(name: name).first
+  module ClassMethods
+    def cached_work_count
+      Rails.cache.fetch("work_count", expires_in: 1.hour) do
+        Work.tracked.count
       end
     end
 
-    def cached_publisher_names
-      Rails.cache.fetch("source/publishers", expires_in: 1.month) do
-        Publisher.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
+    def cached_deposit_count
+      Rails.cache.fetch("deposit_count", expires_in: 1.hour) do
+        Deposit.count
       end
     end
 
-    def cached_publisher_id(id)
-      Rails.cache.fetch("publisher/#{id}", expires_in: 1.month) do
-        Publisher.where(id: id).first
+    def cached_deposit_state_count(state)
+      Rails.cache.fetch("deposit_state_count/#{state}", expires_in: 1.hour) do
+        Deposit.where(state: state).count
       end
     end
 
-    def cached_registration_agency(name)
-      Rails.cache.fetch("registration_agency/#{name}", expires_in: 1.month) do
-        RegistrationAgency.where(name: name).first
+    def cached_deposit_source_token_count(source_token)
+      Rails.cache.fetch("deposit_source_token_count/#{source_token}", expires_in: 1.hour) do
+        Deposit.where(source_token: source_token).count
       end
     end
 
-    def cached_registration_agency_id(id)
-      Rails.cache.fetch("registration_agency/#{id}", expires_in: 1.month) do
-        RegistrationAgency.where(id: id).first
-      end
-    end
-
-    def cached_registration_agency_names
-      Rails.cache.fetch("registration_agency/names", expires_in: 1.month) do
-        RegistrationAgency.order_by_name.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
-      end
-    end
-
-    def cached_relation_type(name)
-      Rails.cache.fetch("relation_type/#{name}", expires_in: 1.month) do
-        RelationType.where(name: name).first
-      end
-    end
-
-    def cached_relation_type_names
-      Rails.cache.fetch("relation_type/names", expires_in: 1.month) do
-        RelationType.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
-      end
-    end
-
-    def cached_inv_relation_type(name)
-      Rails.cache.fetch("inv_relation_type/#{name}", expires_in: 1.month) do
-        RelationType.where(inverse_name: name).first
-      end
-    end
-
-    def cached_work_type(name)
-      Rails.cache.fetch("work_type/#{name}", expires_in: 1.month) do
-        WorkType.where(name: name).first
-      end
-    end
-
-    def cached_work_type_names
-      Rails.cache.fetch("work_type/names", expires_in: 1.month) do
-        WorkType.pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
-      end
-    end
-
-    def cached_prefix(name)
-      Rails.cache.fetch("prefix/#{name}", expires_in: 1.month) do
-        Prefix.where(name: name).first
-      end
-    end
-
-    def cached_contributor_role(name)
-      Rails.cache.fetch("contributor_role/#{name}", expires_in: 1.month) do
-        ContributorRole.where(name: name).first
-      end
-    end
-
-    def cached_contributor_role_names
-      Rails.cache.fetch("contributor_role/names", expires_in: 1.month) do
-        ContributorRole.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
-      end
-    end
-
-    def cached_group(name)
-      Rails.cache.fetch("group/#{name}", expires_in: 1.month) do
-        Group.where(name: name).first
-      end
-    end
-
-    def cached_group_names
-      Rails.cache.fetch("group/names", expires_in: 1.month) do
-        Group.order(:name).pluck(:id, :name, :title).map { |i| [i[0], { name: i[1], title: i[2] }] }.to_h
+    def cached_deposit_source_token_state_count(source_token, state)
+      Rails.cache.fetch("deposit_source_token_statecount/#{source_token}-#{state}", expires_in: 1.hour) do
+        Deposit.where(source_token: source_token).where(state: state).count
       end
     end
   end

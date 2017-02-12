@@ -12,7 +12,7 @@ module Processable
         p.save!
       rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => exception
         if exception.class == ActiveRecord::RecordNotUnique || exception.message.include?("has already been taken") || exception.class == ActiveRecord::StaleObjectError
-           Publisher.using(:master).where(name: subj_id).first
+           Publisher.where(name: subj_id).first
         else
           handle_exception(exception, class_name: "publisher", id: subj_id)
         end

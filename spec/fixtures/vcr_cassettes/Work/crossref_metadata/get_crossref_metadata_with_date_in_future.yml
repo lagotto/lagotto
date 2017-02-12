@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.crossref.org/works/10.1016%2Fj.ejphar.2015.03.018
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - http://lagotto.local
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Content-Length:
+      - '3312'
+      Server:
+      - http-kit
+      Date:
+      - Sun, 12 Feb 2017 21:40:09 GMT
+      X-Rate-Limit-Limit:
+      - '50'
+      X-Rate-Limit-Interval:
+      - 1s
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,11,2]],"date-time":"2016-11-02T20:32:47Z","timestamp":1478118767063},"reference-count":98,"publisher":"Elsevier
+        BV","license":[{"URL":"http:\/\/www.elsevier.com\/tdm\/userlicense\/1.0\/","start":{"date-parts":[[2015,7,1]],"date-time":"2015-07-01T00:00:00Z","timestamp":1435708800000},"delay-in-days":0,"content-version":"tdm"}],"funder":[{"DOI":"10.13039\/100000002","name":"National
+        Institutes of Health","doi-asserted-by":"publisher","award":["R01 NS077869","R01
+        NS089482","P01 MH070306","T32 OD011089","P40 OD013117"]}],"content-domain":{"domain":["elsevier.com","sciencedirect.com"],"crossmark-restriction":false},"short-container-title":["European
+        Journal of Pharmacology"],"cited-count":0,"published-print":{"date-parts":[[2015,7]]},"DOI":"10.1016\/j.ejphar.2015.03.018","type":"journal-article","created":{"date-parts":[[2015,4,6]],"date-time":"2015-04-06T07:31:19Z","timestamp":1428305479000},"page":"303-312","update-policy":"http:\/\/dx.doi.org\/10.1016\/elsevier_cm_policy","source":"CrossRef","title":["Paving
+        the path to HIV neurotherapy: Predicting SIV CNS disease"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1016","volume":"759","author":[{"given":"Sarah
+        E.","family":"Beck","affiliation":[]},{"given":"Suzanne E.","family":"Queen","affiliation":[]},{"given":"Kenneth
+        W.","family":"Witwer","affiliation":[]},{"given":"Kelly A.","family":"Metcalf
+        Pate","affiliation":[]},{"given":"Lisa M.","family":"Mangus","affiliation":[]},{"given":"Lucio","family":"Gama","affiliation":[]},{"given":"Robert
+        J.","family":"Adams","affiliation":[]},{"given":"Janice E.","family":"Clements","affiliation":[]},{"given":"M.","family":"Christine
+        Zink","affiliation":[]},{"given":"Joseph L.","family":"Mankowski","affiliation":[]}],"member":"http:\/\/id.crossref.org\/member\/78","container-title":["European
+        Journal of Pharmacology"],"original-title":[],"link":[{"URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299915002332?httpAccept=text\/xml","content-type":"text\/xml","content-version":"vor","intended-application":"text-mining"},{"URL":"http:\/\/api.elsevier.com\/content\/article\/PII:S0014299915002332?httpAccept=text\/plain","content-type":"text\/plain","content-version":"vor","intended-application":"text-mining"}],"deposited":{"date-parts":[[2016,8,20]],"date-time":"2016-08-20T08:19:38Z","timestamp":1471681178000},"score":1.0,"subtitle":[],"short-title":[],"issued":{"date-parts":[[2015,7]]},"alternative-id":["S0014299915002332"],"URL":"http:\/\/dx.doi.org\/10.1016\/j.ejphar.2015.03.018","ISSN":["0014-2999"],"citing-count":98,"subject":["Pharmacology"],"assertion":[{"value":"Elsevier","name":"publisher","label":"This
+        article is maintained by"},{"value":"Paving the path to HIV neurotherapy:
+        Predicting SIV CNS disease","name":"articletitle","label":"Article Title"},{"value":"European
+        Journal of Pharmacology","name":"journaltitle","label":"Journal Title"},{"value":"http:\/\/dx.doi.org\/10.1016\/j.ejphar.2015.03.018","name":"articlelink","label":"CrossRef
+        DOI link to publisher maintained version"},{"value":"article","name":"content_type","label":"Content
+        Type"},{"value":"Copyright \u00a9 2015 Elsevier B.V. All rights reserved.","name":"copyright","label":"Copyright"}]}}'
+    http_version: 
+  recorded_at: Sun, 12 Feb 2017 19:07:50 GMT
+recorded_with: VCR 2.9.3

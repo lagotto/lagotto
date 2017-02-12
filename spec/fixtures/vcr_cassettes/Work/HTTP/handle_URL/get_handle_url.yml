@@ -8,9 +8,9 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - text/html; charset=UTF-8
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 303
@@ -23,18 +23,18 @@ http_interactions:
       Location:
       - http://dx.plos.org/10.1371/journal.pone.0000030
       Expires:
-      - Tue, 26 Apr 2016 14:00:22 GMT
+      - Sat, 11 Feb 2017 15:45:34 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '179'
       Date:
-      - Tue, 26 Apr 2016 13:50:31 GMT
+      - Sat, 11 Feb 2017 15:25:53 GMT
     body:
       encoding: UTF-8
       string: |-
         <html><head><title>Handle Redirect</title></head>
         <body><a href="http://dx.plos.org/10.1371/journal.pone.0000030">http://dx.plos.org/10.1371/journal.pone.0000030</a></body></html>
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:48:26 GMT
+  recorded_at: Sat, 11 Feb 2017 15:25:54 GMT
 recorded_with: VCR 2.9.3

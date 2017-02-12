@@ -6,255 +6,255 @@ records:
     name: citeulike
     title: CiteULike
     description: CiteULike is a free social bookmarking service for scholarly content.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: pubmed
     name: pubmed
     title: PubMed Central (Citations)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: wordpress
     name: wordpress
     title: Wordpress.com
     description: Wordpress.com is one of the largest blog hosting platforms.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: reddit
     name: reddit
     title: Reddit
     description: User-generated news links.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: wikipedia
     name: wikipedia
     title: Wikipedia
     description: Wikipedia is a free encyclopedia that everyone can edit.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: europe_pmc
     name: europe_pmc
     title: Europe PMC (Citations)
     description: Europe PubMed Central (Europe PMC) is an archive of life sciences journal literature.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: europe_pmc_data
     name: europe_pmc_data
     title: Europe PMC (Databases)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: europe_pmc_fulltext
     name: europe_pmc_fulltext
     title: Europe PMC (Fulltext)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: europe_pmc_fulltext_data
     name: europe_pmc_fulltext_data
     title: Europe PMC (DB Fulltext)
     description: Europe PubMed Central (Europe PMC) Database is an archive of life sciences journal data.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: scienceseeker
     name: scienceseeker
     title: ScienceSeeker
     description: Research Blogging is a science blog aggregator.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: nature
     name: nature
     title: Nature (Blogs)
     description: Nature Blogs is a science blog aggregator.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: openedition
     name: openedition
     title: OpenEdition
     description: OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: crossref_datacite
     name: crossref_datacite
     title: Crossref (DataCite)
     description: Import works linked to a DataCite DOI from Crossref.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: datacite_crossref
     name: datacite_crossref
     title: DataCite (Crossref)
     description: Import works with Crossref DOIs as relatedIdentifier via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: datacite_related
     name: datacite_related
     title: DataCite (RelatedIdentifier)
     description: Import works with relatedIdentifiers via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: datacite_orcid
     name: datacite_orcid
     title: DataCite (ORCID)
     description: Import works with ORCID nameIdentifier via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "contributions").id %>
+    group_id: contributions
   - sprig_id: datacite_search_link
     name: datacite_search_link
     title: DataCite (ORCID Search and Link)
     description: Import claimed to ORCID via the DataCite Profiles API.
-    group_id: <%= sprig_record(Group, "contributions").id %>
+    group_id: contributions
   - sprig_id: orcid
     name: orcid
     title: ORCID
     description: Import works via the ORCID API.
-    group_id: <%= sprig_record(Group, "contributions").id %>
+    group_id: contributions
   - sprig_id: datacite_github
     name: datacite_github
     title: DataCite (Github)
     description: Import works with Github relatedIdentifiers via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: crossref_orcid
     name: crossref_orcid
     title: Crossref (ORCID)
     description: Import works with ORCID identifiers via the Crossref REST API.
-    group_id: <%= sprig_record(Group, "contributions").id %>
+    group_id: contributions
   - sprig_id: github_contributor
     name: github_contributor
     title: Github (Contributor)
     description: Import contributors with works via the Github API.
-    group_id: <%= sprig_record(Group, "contributions").id %>
+    group_id: contributions
   - sprig_id: crossref
     name: crossref
     title: Crossref (Citations)
     description: Crossref is a non-profit organization that enables cross-publisher citation linking.
     cumulative: true
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: scopus
     name: scopus
     title: Scopus
     description: Scopus is an abstract and citation database of peer-reviewed literature.
     cumulative: true
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: mendeley
     name: mendeley
     title: Mendeley
     description: Mendeley is a reference manager and social bookmarking tool.
     cumulative: true
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: facebook
     name: facebook
     title: Facebook
     description: Facebook is the largest social network.
     cumulative: true
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: researchblogging
     name: researchblogging
     title: Research Blogging
     description: Research Blogging is a science blog aggregator.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id:
   - sprig_id: pmc_html
     name: pmc_html
     title: PubMed Central (Views)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: pmc_pdf
     name: pmc_pdf
     title: PubMed Central (Downloads)
     description: PubMed Central is a free full-text archive of biomedical literature at the National Library of Medicine.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: counter_html
     name: counter_html
     title: Counter (Views)
     description: Publisher view stats following COUNTER standard.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: counter_pdf
     name: counter_pdf
     title: Counter (Downloads)
     description: Publisher download stats following COUNTER standard.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: twitter
     name: twitter
     title: Twitter
     description: Twitter is a social networking and microblogging service.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id:
   - sprig_id: wos
     name: wos
     title: Web of Science
     description: Web of Science is an online academic citation index.
     cumulative: true
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: f1000
     name: f1000
     title: F1000Prime
     description: Post-publication peer review of the biomedical literature.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: figshare
     name: figshare
     title: Figshare
     description: Publisher figures, tables and supplementary files hosted by figshare.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: articlecoverage
     name: articlecoverage
     title: Article Coverage
     description: Article Coverage.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: articlecoveragecurated
     name: articlecoveragecurated
     title: Article Coverage (Curated)
     description: Article Coverage Curated.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: journal_comments
     name: journal_comments
     title: Journal Comments
     description: Comments from publisher websites.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: github
     name: github
     title: Github
     description: GitHub is a web-based Git repository hosting service.
     cumulative: true
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: bitbucket
     name: bitbucket
     title: Bitbucket
     description: Bitbucket is a web-based repository hosting service using git and mercurial.
-    group_id: <%= sprig_record(Group, "results").id %>
+    group_id: results
   - sprig_id: ads
     name: ads
     title: ADS
     description: Astrophysics Data System.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: ads_fulltext
     name: ads_fulltext
     title: ADS (Fulltext)
     description: Astrophysics Data System Fulltext Search.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: plos_fulltext
     name: plos_fulltext
     title: PLOS (Fulltext)
     description: Search the PLOS corpus for citations.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: bmc_fulltext
     name: bmc_fulltext
     title: BMC (Fulltext)
     description: Search the BioMed Central corpus for citations.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: nature_opensearch
     name: nature_opensearch
     title: Nature (OpenSearch)
     description: Search the Nature.com corpus for citations.
-    group_id: <%= sprig_record(Group, "relations").id %>
+    group_id: relations
   - sprig_id: plos_import
     name: plos_import
     title: PLOS (Import)
     description: Import works via the PLOS Solr API.
-    group_id: <%= sprig_record(Group, "works").id %>
+    group_id: works
   - sprig_id: datacite_datacentre
     name: datacite_datacentre
     title: DataCite (Datacentre)
     description: Import data centres via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "publishers").id %>
+    group_id: publishers
   - sprig_id: datacite_import
     name: datacite_import
     title: DataCite (Import)
     description: Import works via the DataCite Solr API.
-    group_id: <%= sprig_record(Group, "works").id %>
+    group_id: works
   - sprig_id: crossref_import
     name: crossref_import
     title: Crossref (Import)
     description: Import works via the Crossref REST API.
-    group_id: <%= sprig_record(Group, "works").id %>
+    group_id: works
   - sprig_id: dataone_import
     name: dataone_import
     title: Dataone (Import)
     description: Import works via the DataONE Solr API.
-    group_id: <%= sprig_record(Group, "works").id %>
+    group_id: works
   - sprig_id: crossref_publisher
     name: crossref_publisher
     title: Crossref (Publisher)
     description: Import publishers via the Crossref REST API.
-    group_id: <%= sprig_record(Group, "publishers").id %>
+    group_id: publishers

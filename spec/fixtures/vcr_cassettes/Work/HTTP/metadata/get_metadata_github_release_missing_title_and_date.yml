@@ -8,11 +8,11 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
       Authorization:
-      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
+      - Bearer 070a96ef2444139f00b1b8b13cec6615da091c98
   response:
     status:
       code: 200
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 26 Apr 2016 13:47:53 GMT
+      - Sat, 11 Feb 2017 14:28:25 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -31,15 +31,15 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4937'
+      - '4938'
       X-Ratelimit-Reset:
-      - '1461679875'
+      - '1486823895'
       Cache-Control:
       - private, max-age=60, s-maxage=60
       Vary:
       - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
       Etag:
-      - '"7fc53098ce212f8e94e4fee36db88960"'
+      - '"d03cf15bef6b69662effbde783665673"'
       Last-Modified:
       - Thu, 21 May 2015 02:27:36 GMT
       X-Oauth-Scopes:
@@ -64,15 +64,15 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Served-By:
-      - 065b43cd9674091fec48a221b420fbb3
+      - 49aa99f015c25437a7443c4d3a58cd17
       X-Github-Request-Id:
-      - 3EE067F6:174B5:21BACC74:571F7189
+      - F87E:76E5:222981F:2AFBAB5:589F1F88
     body:
       encoding: UTF-8
       string: '{"url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/releases/1320710","assets_url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/releases/1320710/assets","upload_url":"https://uploads.github.com/repos/brian-j-smith/Mamba.jl/releases/1320710/assets{?name,label}","html_url":"https://github.com/brian-j-smith/Mamba.jl/releases/tag/v0.4.8","id":1320710,"tag_name":"v0.4.8","target_commitish":"master","name":"Mamba
         0.4.8","draft":false,"author":{"login":"brian-j-smith","id":7605459,"avatar_url":"https://avatars.githubusercontent.com/u/7605459?v=3","gravatar_id":"","url":"https://api.github.com/users/brian-j-smith","html_url":"https://github.com/brian-j-smith","followers_url":"https://api.github.com/users/brian-j-smith/followers","following_url":"https://api.github.com/users/brian-j-smith/following{/other_user}","gists_url":"https://api.github.com/users/brian-j-smith/gists{/gist_id}","starred_url":"https://api.github.com/users/brian-j-smith/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/brian-j-smith/subscriptions","organizations_url":"https://api.github.com/users/brian-j-smith/orgs","repos_url":"https://api.github.com/users/brian-j-smith/repos","events_url":"https://api.github.com/users/brian-j-smith/events{/privacy}","received_events_url":"https://api.github.com/users/brian-j-smith/received_events","type":"User","site_admin":false},"prerelease":false,"created_at":"2015-05-21T01:52:37Z","published_at":"2015-05-21T02:27:36Z","assets":[],"tarball_url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/tarball/v0.4.8","zipball_url":"https://api.github.com/repos/brian-j-smith/Mamba.jl/zipball/v0.4.8","body":""}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:47:54 GMT
+  recorded_at: Sat, 11 Feb 2017 14:28:25 GMT
 - request:
     method: get
     uri: https://api.github.com/users/brian-j-smith
@@ -81,11 +81,11 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
       Authorization:
-      - Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>
+      - Bearer 070a96ef2444139f00b1b8b13cec6615da091c98
   response:
     status:
       code: 200
@@ -94,7 +94,7 @@ http_interactions:
       Server:
       - GitHub.com
       Date:
-      - Tue, 26 Apr 2016 13:47:54 GMT
+      - Sat, 11 Feb 2017 14:28:25 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -104,21 +104,21 @@ http_interactions:
       X-Ratelimit-Limit:
       - '5000'
       X-Ratelimit-Remaining:
-      - '4936'
+      - '4937'
       X-Ratelimit-Reset:
-      - '1461679875'
+      - '1486823895'
       Cache-Control:
       - private, max-age=60, s-maxage=60
       Vary:
       - Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding
       Etag:
-      - '"faf7acbebe4c4d70b5bdc3394b690228"'
+      - '"7dca7be09597fbd4708bd03af9f40420"'
       Last-Modified:
-      - Tue, 05 Jan 2016 14:26:45 GMT
+      - Fri, 10 Feb 2017 01:42:58 GMT
       X-Oauth-Scopes:
       - gist, repo, user
       X-Accepted-Oauth-Scopes:
-      - user
+      - ''
       X-Github-Media-Type:
       - github.v3
       Access-Control-Expose-Headers:
@@ -137,14 +137,14 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Served-By:
-      - 76d9828c7e4f1d910f7ba069e90ce976
+      - 13d09b732ebe76f892093130dc088652
       X-Github-Request-Id:
-      - 3EE067F6:174AE:5B96F58:571F718A
+      - F87F:76E5:222984D:2AFBAF4:589F1F89
     body:
       encoding: UTF-8
       string: '{"login":"brian-j-smith","id":7605459,"avatar_url":"https://avatars.githubusercontent.com/u/7605459?v=3","gravatar_id":"","url":"https://api.github.com/users/brian-j-smith","html_url":"https://github.com/brian-j-smith","followers_url":"https://api.github.com/users/brian-j-smith/followers","following_url":"https://api.github.com/users/brian-j-smith/following{/other_user}","gists_url":"https://api.github.com/users/brian-j-smith/gists{/gist_id}","starred_url":"https://api.github.com/users/brian-j-smith/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/brian-j-smith/subscriptions","organizations_url":"https://api.github.com/users/brian-j-smith/orgs","repos_url":"https://api.github.com/users/brian-j-smith/repos","events_url":"https://api.github.com/users/brian-j-smith/events{/privacy}","received_events_url":"https://api.github.com/users/brian-j-smith/received_events","type":"User","site_admin":false,"name":"Brian
         J Smith","company":"The University of Iowa","blog":"www.linkedin.com/pub/brian-j-smith/98/166/711/","location":"Iowa
-        City, IA","email":null,"hireable":null,"bio":null,"public_repos":7,"public_gists":1,"followers":11,"following":0,"created_at":"2014-05-16T18:04:10Z","updated_at":"2016-01-05T14:26:45Z"}'
+        City, IA","email":null,"hireable":null,"bio":null,"public_repos":8,"public_gists":1,"followers":11,"following":0,"created_at":"2014-05-16T18:04:10Z","updated_at":"2017-02-10T01:42:58Z"}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:47:54 GMT
+  recorded_at: Sat, 11 Feb 2017 14:28:25 GMT
 recorded_with: VCR 2.9.3

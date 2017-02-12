@@ -2,50 +2,15 @@
 http_interactions:
 - request:
     method: get
-    uri: http://pub.orcid.org/v1.2/0000-0002-4133-2218/orcid-bio
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Lagotto - http://10.2.2.6
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Server:
-      - nginx/1.4.6 (Ubuntu)
-      Content-Type:
-      - application/json;charset=UTF-8
-      Date:
-      - Sat, 07 May 2016 10:29:54 GMT
-      Access-Control-Allow-Origin:
-      - "*"
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - X-Mapping-fjhppofk=C09163FCAE41D74539C91CB2476C0D71; path=/
-    body:
-      encoding: UTF-8
-      string: '{"message-version":"1.2","orcid-profile":{"orcid":null,"orcid-id":null,"orcid-identifier":{"value":null,"uri":"http://orcid.org/0000-0002-4133-2218","path":"0000-0002-4133-2218","host":"orcid.org"},"orcid-deprecated":null,"orcid-preferences":{"locale":"EN"},"orcid-history":{"creation-method":"WEBSITE","completion-date":{"value":1351069178043},"submission-date":{"value":1351065546414},"last-modified-date":{"value":1462475693885},"claimed":{"value":true},"source":null,"deactivation-date":null,"verified-email":{"value":true},"verified-primary-email":{"value":true},"visibility":null},"orcid-bio":{"personal-details":{"given-names":{"value":"Hannes","visibility":null},"family-name":{"value":"Grobe","visibility":null},"credit-name":null,"other-names":null},"biography":null,"researcher-urls":null,"contact-details":{"email":[],"address":{"country":{"value":"DE","visibility":"PUBLIC"}}},"keywords":null,"external-identifiers":{"external-identifier":[{"orcid":null,"external-id-orcid":null,"external-id-common-name":{"value":"Scopus
-        Author ID"},"external-id-reference":{"value":"7003808390"},"external-id-url":{"value":"http://www.scopus.com/inward/authorDetails.url?authorID=7003808390&partnerID=MN8TOARS"},"external-id-source":null,"source":{"source-orcid":{"value":null,"uri":"http://orcid.org/0000-0002-5982-8983","path":"0000-0002-5982-8983","host":"orcid.org"},"source-client-id":null,"source-name":{"value":"Scopus
-        to ORCID"},"source-date":{"value":1377847183702}}}],"visibility":"PUBLIC"},"delegation":null,"scope":null},"orcid-activities":null,"orcid-internal":null,"type":"USER","group-type":null,"client-type":null},"orcid-search-results":null,"error-desc":null}'
-    http_version: 
-  recorded_at: Sat, 07 May 2016 10:29:54 GMT
-- request:
-    method: get
     uri: http://doi.crossref.org/doiRA/10.1594/PANGAEA.733793
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://10.2.2.6
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
@@ -53,14 +18,16 @@ http_interactions:
     headers:
       Server:
       - Apache-Coyote/1.1
+      Crossref-Deployment-Name:
+      - svc1-1
       Content-Type:
       - application/json;charset=UTF-8
       Content-Language:
       - en-US
       Content-Length:
-      - '61'
+      - '60'
       Date:
-      - Sat, 07 May 2016 10:29:55 GMT
+      - Sun, 12 Feb 2017 16:32:54 GMT
       Connection:
       - close
     body:
@@ -69,39 +36,39 @@ http_interactions:
         [
          {
          "DOI": "10.1594/PANGAEA.733793",
-         "RA": "Data Cite"
+         "RA": "DataCite"
         }
         ]
     http_version: 
-  recorded_at: Sat, 07 May 2016 10:29:55 GMT
+  recorded_at: Sun, 12 Feb 2017 16:32:54 GMT
 - request:
     method: get
-    uri: http://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.1594/PANGAEA.733793&rows=1&wt=json
+    uri: https://search.datacite.org/api?fl=doi,creator,title,publisher,publicationYear,resourceTypeGeneral,resourceType,datacentre,datacentre_symbol,prefix,relatedIdentifier,xml,minted,updated&q=doi:10.1594/PANGAEA.733793&rows=1&wt=json
     body:
       encoding: US-ASCII
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://10.2.2.6
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
       message: ''
     headers:
       Server:
-      - nginx/1.1.19
+      - openresty/1.11.2.2
       Date:
-      - Sat, 07 May 2016 10:32:12 GMT
+      - Sun, 12 Feb 2017 16:32:55 GMT
       Content-Type:
       - application/json;charset=UTF-8
       Connection:
       - keep-alive
       Access-Control-Allow-Origin:
       - "*"
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -241,7 +208,8 @@ http_interactions:
         dGhlIEFudGFyY3RpYyBjb250aW5lbnRhbCBzbG9wZSJdLCJyZXNvdXJjZVR5
         cGVHZW5lcmFsIjoiQ29sbGVjdGlvbiIsInJlbGF0ZWRJZGVudGlmaWVyIjpb
         IklzRG9jdW1lbnRlZEJ5OkhhbmRsZToxMDAxMy9lcGljLjM0MTQ5LmQwMDEi
-        XSwicHVibGljYXRpb25ZZWFyIjoiMTk4OSJ9XX19Cg==
+        XSwicmVzb3VyY2VUeXBlIjoiQ29sbGVjdGlvbiBvZiBEYXRhc2V0cyIsInB1
+        YmxpY2F0aW9uWWVhciI6IjE5ODkifV19fQo=
     http_version: 
-  recorded_at: Sat, 07 May 2016 10:29:56 GMT
+  recorded_at: Sun, 12 Feb 2017 16:32:55 GMT
 recorded_with: VCR 2.9.3

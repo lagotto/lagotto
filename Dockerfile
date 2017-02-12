@@ -1,17 +1,17 @@
-FROM phusion/passenger-full:0.9.19
+FROM phusion/passenger-full:0.9.20
 MAINTAINER Martin Fenner "mfenner@datacite.org"
 
 # Set correct environment variables
 ENV HOME /home/app
-
-# Use runit to manage sidekiq workers
-ENV RUNIT 1
 
 # Allow app user to read /etc/container_environment
 RUN usermod -a -G docker_env app
 
 # Use baseimage-docker's init process
 CMD ["/sbin/my_init"]
+
+# Install Ruby 2.3.3
+RUN bash -lc 'rvm --default use ruby-2.3.3'
 
 # Update installed APT packages, clean up when done
 RUN apt-get update && \
@@ -37,14 +37,10 @@ RUN mkdir -p /home/app/webapp/tmp/pids && \
     chown -R app:app /home/app/webapp && \
     chmod -R 755 /home/app/webapp
 
-# Install npm and bower packages
-WORKDIR /home/app/webapp/vendor
-RUN /sbin/setuser app npm install && \
-    npm install -g phantomjs-prebuilt
-
 # Install Ruby gems
 WORKDIR /home/app/webapp
-RUN gem install bundler && \
+RUN gem update --system && \
+    gem install bundler && \
     /sbin/setuser app bundle install --path vendor/bundle
 
 # Add Runit script for sidekiq workers
@@ -53,8 +49,6 @@ ADD vendor/docker/sidekiq.sh /etc/service/sidekiq/run
 
 # Run additional scripts during container startup (i.e. not at build time)
 RUN mkdir -p /etc/my_init.d
-COPY vendor/docker/70_precompile.sh /etc/my_init.d/70_precompile.sh
-COPY vendor/docker/80_cron.sh /etc/my_init.d/80_cron.sh
 COPY vendor/docker/90_migrate.sh /etc/my_init.d/90_migrate.sh
 
 # Expose web

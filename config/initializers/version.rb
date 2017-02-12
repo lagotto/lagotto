@@ -1,3 +1,3 @@
 module Lagotto
-  VERSION = "5.1-beta"
+  VERSION = "6.0-beta"
 end

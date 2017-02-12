@@ -1,2 +1,0 @@
-class CounterByMonthReport < SourceByMonthReport
-end

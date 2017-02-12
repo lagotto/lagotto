@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.crossref.org/works/10.1371%2Fjournal.pone.0000030
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - http://lagotto.local
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Vary:
+      - Accept
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - X-Requested-With
+      Content-Length:
+      - '1989'
+      Server:
+      - http-kit
+      Date:
+      - Sun, 12 Feb 2017 21:40:18 GMT
+      X-Rate-Limit-Limit:
+      - '50'
+      X-Rate-Limit-Interval:
+      - 1s
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2017,1,1]],"date-time":"2017-01-01T04:40:02Z","timestamp":1483245602775},"reference-count":73,"publisher":"Public
+        Library of Science (PLoS)","issue":"1","license":[{"URL":"http:\/\/creativecommons.org\/licenses\/by\/4.0\/","start":{"date-parts":[[2006,12,20]],"date-time":"2006-12-20T00:00:00Z","timestamp":1166572800000},"delay-in-days":0,"content-version":"vor"}],"content-domain":{"domain":["www.plosone.org"],"crossmark-restriction":false},"short-container-title":["PLoS
+        ONE"],"cited-count":0,"DOI":"10.1371\/journal.pone.0000030","type":"journal-article","created":{"date-parts":[[2006,12,20]],"date-time":"2006-12-20T19:38:57Z","timestamp":1166643537000},"page":"e30","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Triose
+        Phosphate Isomerase Deficiency Is Caused by Altered Dimerization\u2013Not
+        Catalytic Inactivity\u2013of the Mutant Enzymes"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"1","author":[{"given":"Markus","family":"Ralser","affiliation":[]},{"given":"Gino","family":"Heeren","affiliation":[]},{"given":"Michael","family":"Breitenbach","affiliation":[]},{"given":"Hans","family":"Lehrach","affiliation":[]},{"given":"Sylvia","family":"Krobitsch","affiliation":[]}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,12,20]]},"container-title":["PLoS
+        ONE"],"original-title":[],"deposited":{"date-parts":[[2017,1,1]],"date-time":"2017-01-01T03:37:08Z","timestamp":1483241828000},"score":1.0,"subtitle":[],"editor":[{"given":"Guilhem","family":"Janbon","affiliation":[]}],"short-title":[],"issued":{"date-parts":[[2006,12,20]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0000030","ISSN":["1932-6203"],"citing-count":73,"subject":["Biochemistry,
+        Genetics and Molecular Biology(all)","Agricultural and Biological Sciences(all)","Medicine(all)"]}}'
+    http_version: 
+  recorded_at: Sun, 12 Feb 2017 19:07:59 GMT
+recorded_with: VCR 2.9.3

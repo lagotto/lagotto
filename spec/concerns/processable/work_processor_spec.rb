@@ -5,9 +5,6 @@ describe Deposit, type: :model, vcr: true do
 
   subject { FactoryGirl.create(:deposit) }
 
-  let!(:registration_agency) { FactoryGirl.create(:registration_agency) }
-  let!(:registration_agency_datacite) { FactoryGirl.create(:registration_agency, name: "datacite", title: "DataCite") }
-
   describe "update_work" do
     it "should be created" do
       expect(subject.update_work).to be true
@@ -28,7 +25,7 @@ describe Deposit, type: :model, vcr: true do
       expect(Work.count).to eq(1)
       expect(Deposit.count).to eq(1)
 
-      expect(subject.related_work.pid).to eq("http://doi.org/10.1371/JOURNAL.PMED.0030186")
+      expect(subject.related_work.pid).to eq("https://doi.org/10.1371/JOURNAL.PMED.0030186")
     end
   end
 
@@ -39,8 +36,7 @@ describe Deposit, type: :model, vcr: true do
                                                    year: 2006,
                                                    month: 6,
                                                    day: 13,
-                                                   issued_at: "2006-06-13 16:14:19 UTC",
-                                                   tracked: false,
+                                                   issued_at: "2006-06-13T16:14:19Z",
                                                    csl: { "author"=>[{"given"=>"dbogartoit"}],
                                                           "container-title"=>"CiteULike"})
     end

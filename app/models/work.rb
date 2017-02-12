@@ -1,16 +1,16 @@
 require 'cgi'
 require 'addressable/uri'
-require "builder"
+require 'builder'
 
 class Work < ActiveRecord::Base
-  # include HTTP request helpers
-  include Networkable
-
   # include helper module for DOI resolution
   include Resolvable
 
   # include helper module for extracting identifier
   include Identifiable
+
+  # include helper module to extract and generate metadata
+  include Metadatable
 
   # include author methods
   include Authorable
@@ -18,27 +18,12 @@ class Work < ActiveRecord::Base
   # include date methods
   include Dateable
 
-  # include methods for calculating metrics
-  include Measurable
-
   # include helper module for query caching
   include Cacheable
 
   # store blank values as nil
   nilify_blanks
 
-  belongs_to :publisher
-  belongs_to :registration_agency
-  belongs_to :work_type
-  has_many :results, inverse_of: :work
-  has_many :sources, :through => :results
-  has_many :notifications, :dependent => :destroy
-  has_many :api_responses
-  has_many :relations, dependent: :destroy
-  has_many :inverse_relations, class_name: "Relation", foreign_key: "related_work_id", dependent: :destroy
-  has_many :related_works, :through => :relations, source: :work
-  has_many :contributions
-  has_many :contributors, :through => :contributions
   has_many :deposits, inverse_of: :work
 
   validates :pid, :title, :issued_at, presence: true
@@ -61,12 +46,11 @@ class Work < ActiveRecord::Base
 
   serialize :csl, JSON
 
+  SCHEMA = "datacite"
+  SCHEMA_VERSION = "4.0"
+
   def self.per_page
     50
-  end
-
-  def self.count_all
-    Status.first && Status.first.works_count
   end
 
   def to_param  # overridden, use pid instead of id
@@ -75,10 +59,6 @@ class Work < ActiveRecord::Base
 
   def short_pid
     pid.gsub(/(http|https):\/+(\w+)/, '\2')
-  end
-
-  def events_count
-    @events_count ||= results.reduce(0) { |sum, r| sum + r.total }
   end
 
   def pid_escaped
@@ -101,12 +81,12 @@ class Work < ActiveRecord::Base
     return true if canonical_url.present?
     return false unless doi.present?
 
-    _handle_url = get_handle_url(doi_as_url(doi), work_id: id)
-    _canonical_url = get_canonical_url(doi_as_url(doi), work_id: id)
+    urls = {}
+    urls[:canonical_url] = get_canonical_url(doi_as_url(doi)).fetch(:url, nil)
+    urls[:handle_url] = get_handle_url(doi_as_url(doi)).fetch(:url, nil)
 
-    if _canonical_url.is_a?(String) && _handle_url.is_a?(String)
-      update_attributes(canonical_url: _canonical_url,
-                        handle_url: _handle_url)
+    if urls.present?
+      update_attributes(urls)
     else
       false
     end
@@ -152,45 +132,6 @@ class Work < ActiveRecord::Base
 
   def title_escaped
     CGI.escape(title.to_str).gsub("+", "%20")
-  end
-
-  def provenance_urls
-    relations.where.not(provenance_url: nil).pluck(:provenance_url)
-  end
-
-  def provenance_url(name)
-    source = cached_source(name)
-    return nil unless source.present?
-
-    relations.where(source_id: source.id).pluck(:provenance_url).first
-  end
-
-  def scopus_url
-    @scopus_url ||= provenance_url("scopus")
-  end
-
-  def wos_url
-    @wos_url ||= provenance_url("wos")
-  end
-
-  def mendeley_url
-    @mendeley_url ||= provenance_url("mendeley")
-  end
-
-  def result_counts(names)
-    names.reduce(0) { |sum, source| sum + result_count(source) }
-  end
-
-  def result_count(name)
-    source = cached_source(name)
-    return 0 unless source.present?
-
-    results.where(source_id: source.id).pluck(:total).first
-  end
-
-  # returns array of hashes with source name, source title and aggregated total
-  def metrics
-    results.group(:source_id).sum(:total).map { |r| { id: cached_source_names[r[0]][:name], title: cached_source_names[r[0]][:title], count: r[1] } }
   end
 
   def published
@@ -253,6 +194,12 @@ class Work < ActiveRecord::Base
     errors.add :published_on, "is not a valid date"
   end
 
+  def validate_xml
+    self.xml = Date.new(*date_parts)
+  rescue ArgumentError
+    errors.add :xml, "is not valid xml"
+  end
+
   def sanitize_title
     self.title = ActionController::Base.helpers.sanitize(title, tags: %w(b i sc sub sup))
   end
@@ -280,17 +227,13 @@ class Work < ActiveRecord::Base
 
     if id_hash[:doi].present?
       if registration_agency_id.nil?
-        # get_doi_ra returns hash with keys :id, :name, :title
-        ra = get_doi_ra(id_hash[:doi])
-        return nil if ra.nil? || ra[:error]
-
-        self.registration_agency_id = ra[:id]
+        # get_doi_ra returns hash with keys :id, :title
+        registration_agency = get_doi_ra(id_hash[:doi])
+        return nil if registration_agency[:id].nil?
       end
 
-      return nil unless registration_agency.present?
-
       tracked = true
-      metadata = get_metadata(id_hash[:doi], registration_agency[:name])
+      metadata = get_metadata(id_hash[:doi], registration_agency[:id])
     elsif id_hash[:canonical_url].present? && github_release_from_url(id_hash[:canonical_url]).present?
       tracked = false
       metadata = get_metadata(id_hash[:canonical_url], "github_release")
@@ -303,11 +246,27 @@ class Work < ActiveRecord::Base
     end
 
     return if metadata[:error].present?
-    write_metadata(metadata, registration_agency, tracked)
+    write_metadata(metadata, registration_agency[:id], tracked)
   end
 
-  def write_metadata(metadata, registration_agency, tracked)
-    self.registration_agency = registration_agency
+  def write_metadata(metadata, registration_agency_id, tracked)
+    # write metadata XML
+    datacite_metadata = metadata_for_datacite(metadata)
+    datacite_work = datacite_xml(datacite_metadata)
+
+    if datacite_work.validation_errors.body["errors"].present?
+      self.xml = nil
+    else
+      self.xml = datacite_work.data
+    end
+
+    self.schema = SCHEMA
+    self.schema_version = SCHEMA_VERSION
+
+    self.registration_agency_id = registration_agency_id
+    self.resource_type_id = metadata.fetch("resource_type_id", nil)
+    self.publisher_id = metadata.fetch("publisher_id", nil)
+    self.resource_type = metadata.fetch("resource_type", nil)
     self.tracked = tracked
 
     self.csl = {
@@ -317,12 +276,6 @@ class Work < ActiveRecord::Base
       "page" => metadata.fetch("page", nil),
       "issue" => metadata.fetch("issue", nil) }
 
-    type = metadata.fetch("type", nil)
-    self.work_type_id = WorkType.where(name: type).pluck(:id).first
-
-    publisher = metadata.fetch("publisher_id", nil)
-    self.publisher_id = Publisher.where(name: publisher).pluck(:id).first
-
     if metadata["published"].present?
       self.year, self.month, self.day = get_year_month_day(metadata.fetch("published", nil))
     else
@@ -330,9 +283,7 @@ class Work < ActiveRecord::Base
     end
 
     self.issued_at = get_datetime_from_iso8601(metadata.fetch("issued", nil))
-
     self.title = metadata.fetch("title", nil)
-
     self.doi = metadata.fetch("DOI", nil)
     self.canonical_url = metadata.fetch("URL", nil)
   end

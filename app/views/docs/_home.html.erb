@@ -1,6 +1,0 @@
-<div class="content markdown home">
-  <% @doc.content_list.each_with_index do |card, i| %>
-    <h2><%= card[:subtitle].html_safe %></h2>
-    <%= markdown card[:content] %>
-  <% end %>
-</div>

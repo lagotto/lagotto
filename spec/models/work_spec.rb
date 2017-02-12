@@ -2,12 +2,10 @@ require 'rails_helper'
 
 describe Work, type: :model, vcr: true do
 
-  let!(:registration_agency) { FactoryGirl.create(:registration_agency) }
   let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.5555/12345678", doi: "10.5555/12345678") }
 
   subject { work }
 
-  it { is_expected.to have_many(:relations).dependent(:destroy) }
   it { is_expected.to validate_uniqueness_of(:doi).case_insensitive }
   it { is_expected.to validate_numericality_of(:year).only_integer }
 
@@ -189,32 +187,6 @@ describe Work, type: :model, vcr: true do
     expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
   end
 
-  it 'result_count twitter' do
-    work = FactoryGirl.create(:work_with_twitter)
-    expect(work.result_count('twitter')).to eq(25)
-  end
-
-  it 'result_count mendeley' do
-    work = FactoryGirl.create(:work_with_mendeley)
-    expect(work.result_count('mendeley')).to eq(10)
-  end
-
-  it 'metrics' do
-    work = FactoryGirl.create(:work_with_crossref_and_mendeley)
-    expect(work.metrics).to eq("crossref"=>25, "mendeley"=>10)
-  end
-
-  it "events count" do
-    Work.all.each do |work|
-      total = work.events.reduce(0) { |sum, rs| sum + rs.result_count }
-      expect(total).to eq(work.events_count)
-    end
-  end
-
-  it "has results" do
-    expect(Work.has_results.all? { |work| work.events_count > 0 }).to be true
-  end
-
   context "get_url" do
     it 'should get_url' do
       work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030", canonical_url: nil)
@@ -245,41 +217,6 @@ describe Work, type: :model, vcr: true do
 
   it "should get all_urls" do
     work = FactoryGirl.build(:work, :canonical_url => "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000001")
-    expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact + work.provenance_urls)
-  end
-
-  context "relation_types_for_recommendations" do
-    FactoryGirl.create(:relation_type)
-    it "should return ids" do
-      expect(subject.relation_types_for_recommendations).to eq([5])
-    end
-  end
-
-  context "associations" do
-    it "should create associated aggregations" do
-      expect(Result.count).to eq(0)
-      @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Result.count).to eq(2)
-    end
-
-    it "should delete associated aggregations" do
-      @works = FactoryGirl.create_list(:work, 2, :with_events)
-      expect(Result.count).to eq(2)
-      @works.each(&:destroy)
-      expect(Result.count).to eq(0)
-    end
-
-    it "should create associated relations" do
-      expect(Relation.count).to eq(0)
-      @works = FactoryGirl.create_list(:work, 2, :with_relations)
-      expect(Relation.count).to eq(10)
-    end
-
-    it "should delete associated relations" do
-      @works = FactoryGirl.create_list(:work, 2, :with_relations)
-      expect(Relation.count).to eq(10)
-      @works.each(&:destroy)
-      expect(Relation.count).to eq(0)
-    end
+    expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact)
   end
 end

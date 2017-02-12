@@ -8,9 +8,9 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
@@ -18,6 +18,8 @@ http_interactions:
     headers:
       Server:
       - Apache-Coyote/1.1
+      Crossref-Deployment-Name:
+      - svc1-1
       Content-Type:
       - application/json;charset=UTF-8
       Content-Language:
@@ -25,7 +27,7 @@ http_interactions:
       Content-Length:
       - '66'
       Date:
-      - Tue, 26 Apr 2016 13:24:22 GMT
+      - Sun, 12 Feb 2017 06:21:27 GMT
       Connection:
       - close
     body:
@@ -34,11 +36,11 @@ http_interactions:
         [
          {
          "DOI": "10.1371/JOURNAL.PONE.0067729",
-         "RA": "CrossRef"
+         "RA": "Crossref"
         }
         ]
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:24:23 GMT
+  recorded_at: Sat, 11 Feb 2017 20:27:49 GMT
 - request:
     method: get
     uri: https://api.crossref.org/works/10.1371%2FJOURNAL.PONE.0067729
@@ -47,38 +49,43 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
       message: ''
     headers:
-      Access-Control-Allow-Headers:
-      - X-Requested-With
-      Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept
       Content-Type:
       - application/json;charset=UTF-8
+      Vary:
+      - Accept
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - X-Requested-With
       Content-Length:
-      - '1648'
+      - '1837'
       Server:
       - http-kit
       Date:
-      - Tue, 26 Apr 2016 13:24:26 GMT
+      - Sun, 12 Feb 2017 06:21:29 GMT
+      X-Rate-Limit-Limit:
+      - '50'
+      X-Rate-Limit-Interval:
+      - 1s
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,4,20]],"date-time":"2016-04-20T19:51:51Z","timestamp":1461181911206},"reference-count":0,"publisher":"Public
-        Library of Science (PLoS)","issue":"7","license":[{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T00:00:00Z","timestamp":1373241600000},"URL":"http:\/\/creativecommons.org\/licenses\/by\/4.0\/"}],"DOI":"10.1371\/journal.pone.0067729","type":"journal-article","created":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T20:59:20Z","timestamp":1373317160000},"page":"e67729","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Introgressive
-        Hybridization between Anciently Diverged Lineages of Silene (Caryophyllaceae)"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"8","author":[{"affiliation":[],"family":"Petri","given":"Anna"},{"affiliation":[],"family":"Pfeil","given":"Bernard
-        E."},{"affiliation":[],"family":"Oxelman","given":"Bengt"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2013,7,8]]},"container-title":["PLoS
-        ONE"],"deposited":{"date-parts":[[2016,4,20]],"date-time":"2016-04-20T18:00:27Z","timestamp":1461175227000},"score":1.0,"subtitle":[],"editor":[{"affiliation":[],"family":"Michalak","given":"Pawel"}],"issued":{"date-parts":[[2013,7,8]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0067729","ISSN":["1932-6203"],"subject":["Biochemistry,
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,12,28]],"date-time":"2016-12-28T23:41:03Z","timestamp":1482968463997},"reference-count":48,"publisher":"Public
+        Library of Science (PLoS)","issue":"7","license":[{"URL":"http:\/\/creativecommons.org\/licenses\/by\/4.0\/","start":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T00:00:00Z","timestamp":1373241600000},"delay-in-days":0,"content-version":"vor"}],"content-domain":{"domain":["www.plosone.org"],"crossmark-restriction":false},"short-container-title":["PLoS
+        ONE"],"cited-count":0,"DOI":"10.1371\/journal.pone.0067729","type":"journal-article","created":{"date-parts":[[2013,7,8]],"date-time":"2013-07-08T20:59:20Z","timestamp":1373317160000},"page":"e67729","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Introgressive
+        Hybridization between Anciently Diverged Lineages of Silene (Caryophyllaceae)"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"8","author":[{"given":"Anna","family":"Petri","affiliation":[]},{"given":"Bernard
+        E.","family":"Pfeil","affiliation":[]},{"given":"Bengt","family":"Oxelman","affiliation":[]}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2013,7,8]]},"container-title":["PLoS
+        ONE"],"original-title":[],"deposited":{"date-parts":[[2016,12,28]],"date-time":"2016-12-28T22:52:13Z","timestamp":1482965533000},"score":1.0,"subtitle":[],"editor":[{"given":"Pawel","family":"Michalak","affiliation":[]}],"short-title":[],"issued":{"date-parts":[[2013,7,8]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0067729","ISSN":["1932-6203"],"citing-count":48,"subject":["Biochemistry,
         Genetics and Molecular Biology(all)","Agricultural and Biological Sciences(all)","Medicine(all)"]}}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:24:27 GMT
+  recorded_at: Sat, 11 Feb 2017 20:27:50 GMT
 recorded_with: VCR 2.9.3

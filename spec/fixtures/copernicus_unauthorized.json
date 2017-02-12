@@ -1,6 +1,0 @@
-{
-  "error": {
-    "code": 401,
-    "message": "Unauthorized: You are not authorized to access this resource."
-  }
-}

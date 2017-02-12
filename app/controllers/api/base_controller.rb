@@ -8,13 +8,8 @@ class Api::BaseController < ActionController::Base
   # include helper module for query caching
   include Cacheable
 
-  # for access to current_user
-  include ApplicationHelper
-
-  prepend_before_filter :disable_devise_trackable,
-                        :authenticate_user_from_token!
-  before_filter :miniprofiler,
-                :default_format_json
+  prepend_before_filter :authenticate_user_from_token!
+  before_filter :default_format_json
   after_filter :cors_set_access_control_headers, :set_jsonp_format
 
   protected
@@ -33,11 +28,5 @@ class Api::BaseController < ActionController::Base
 
   def is_admin_or_staff?
     current_user && current_user.is_admin_or_staff? ? 1 : 0
-  end
-
-  private
-
-  def miniprofiler
-    Rack::MiniProfiler.authorize_request if current_user && current_user.is_admin?
   end
 end

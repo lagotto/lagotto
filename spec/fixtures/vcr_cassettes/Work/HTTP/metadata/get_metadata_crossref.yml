@@ -8,38 +8,43 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - Lagotto - http://lagotto.local
+      - Maremma - http://lagotto.local
       Accept:
-      - application/json
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
   response:
     status:
       code: 200
       message: ''
     headers:
-      Access-Control-Allow-Headers:
-      - X-Requested-With
-      Access-Control-Allow-Origin:
-      - "*"
-      Vary:
-      - Accept
       Content-Type:
       - application/json;charset=UTF-8
+      Vary:
+      - Accept
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - X-Requested-With
       Content-Length:
-      - '1804'
+      - '1989'
       Server:
       - http-kit
       Date:
-      - Tue, 26 Apr 2016 13:47:45 GMT
+      - Sat, 11 Feb 2017 15:48:02 GMT
+      X-Rate-Limit-Limit:
+      - '50'
+      X-Rate-Limit-Interval:
+      - 1s
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2016,4,20]],"date-time":"2016-04-20T20:51:45Z","timestamp":1461185505107},"reference-count":0,"publisher":"Public
-        Library of Science (PLoS)","issue":"1","license":[{"content-version":"vor","delay-in-days":0,"start":{"date-parts":[[2006,12,20]],"date-time":"2006-12-20T00:00:00Z","timestamp":1166572800000},"URL":"http:\/\/creativecommons.org\/licenses\/by\/4.0\/"}],"DOI":"10.1371\/journal.pone.0000030","type":"journal-article","created":{"date-parts":[[2006,12,20]],"date-time":"2006-12-20T19:38:57Z","timestamp":1166643537000},"page":"e30","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Triose
+      string: '{"status":"ok","message-type":"work","message-version":"1.0.0","message":{"indexed":{"date-parts":[[2017,1,1]],"date-time":"2017-01-01T04:40:02Z","timestamp":1483245602775},"reference-count":73,"publisher":"Public
+        Library of Science (PLoS)","issue":"1","license":[{"URL":"http:\/\/creativecommons.org\/licenses\/by\/4.0\/","start":{"date-parts":[[2006,12,20]],"date-time":"2006-12-20T00:00:00Z","timestamp":1166572800000},"delay-in-days":0,"content-version":"vor"}],"content-domain":{"domain":["www.plosone.org"],"crossmark-restriction":false},"short-container-title":["PLoS
+        ONE"],"cited-count":0,"DOI":"10.1371\/journal.pone.0000030","type":"journal-article","created":{"date-parts":[[2006,12,20]],"date-time":"2006-12-20T19:38:57Z","timestamp":1166643537000},"page":"e30","update-policy":"http:\/\/dx.doi.org\/10.1371\/journal.pone.corrections_policy","source":"CrossRef","title":["Triose
         Phosphate Isomerase Deficiency Is Caused by Altered Dimerization\u2013Not
-        Catalytic Inactivity\u2013of the Mutant Enzymes"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"1","author":[{"affiliation":[],"family":"Ralser","given":"Markus"},{"affiliation":[],"family":"Heeren","given":"Gino"},{"affiliation":[],"family":"Breitenbach","given":"Michael"},{"affiliation":[],"family":"Lehrach","given":"Hans"},{"affiliation":[],"family":"Krobitsch","given":"Sylvia"}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,12,20]]},"container-title":["PLoS
-        ONE"],"deposited":{"date-parts":[[2016,4,20]],"date-time":"2016-04-20T18:01:39Z","timestamp":1461175299000},"score":1.0,"subtitle":[],"editor":[{"affiliation":[],"family":"Janbon","given":"Guilhem"}],"issued":{"date-parts":[[2006,12,20]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0000030","ISSN":["1932-6203"],"subject":["Biochemistry,
+        Catalytic Inactivity\u2013of the Mutant Enzymes"],"prefix":"http:\/\/id.crossref.org\/prefix\/10.1371","volume":"1","author":[{"given":"Markus","family":"Ralser","affiliation":[]},{"given":"Gino","family":"Heeren","affiliation":[]},{"given":"Michael","family":"Breitenbach","affiliation":[]},{"given":"Hans","family":"Lehrach","affiliation":[]},{"given":"Sylvia","family":"Krobitsch","affiliation":[]}],"member":"http:\/\/id.crossref.org\/member\/340","published-online":{"date-parts":[[2006,12,20]]},"container-title":["PLoS
+        ONE"],"original-title":[],"deposited":{"date-parts":[[2017,1,1]],"date-time":"2017-01-01T03:37:08Z","timestamp":1483241828000},"score":1.0,"subtitle":[],"editor":[{"given":"Guilhem","family":"Janbon","affiliation":[]}],"short-title":[],"issued":{"date-parts":[[2006,12,20]]},"URL":"http:\/\/dx.doi.org\/10.1371\/journal.pone.0000030","ISSN":["1932-6203"],"citing-count":73,"subject":["Biochemistry,
         Genetics and Molecular Biology(all)","Agricultural and Biological Sciences(all)","Medicine(all)"]}}'
     http_version: 
-  recorded_at: Tue, 26 Apr 2016 13:47:46 GMT
+  recorded_at: Sat, 11 Feb 2017 15:48:02 GMT
 recorded_with: VCR 2.9.3

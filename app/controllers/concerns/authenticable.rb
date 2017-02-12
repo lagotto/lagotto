@@ -14,43 +14,11 @@ module Authenticable
       end
     end
 
-    def authenticate_user_from_token_param!
-      token = params[:api_key].presence
-
-      if ENV['JWT_PATH'].present?
-        current_user = token && User.new((JWT.decode token, ENV['JWT_SECRET_KEY']).first)
-      else
-        user = token && User.where(authentication_token: token).first
-
-        if user && Devise.secure_compare(user.authentication_token, token)
-          sign_in user, store: false
-        else
-          current_user = false
-        end
-      end
-    end
-
-    # looking for header "Authorization: Token token=12345"
+    # looking for header "Authorization: Token token=12345" where token is a jwt
     def authenticate_user_from_token!
       authenticate_with_http_token do |token, options|
-        if ENV['JWT_PATH'].present?
-          current_user = token && JwtUser.new((JWT.decode token, ENV['JWT_SECRET_KEY']).first)
-        else
-          user = token && User.where(authentication_token: token).first
-
-          if user && Devise.secure_compare(user.authentication_token, token)
-            sign_in user, store: false
-          else
-            current_user = false
-          end
-        end
+        @current_user = User.new((JWT.decode token, ENV['JWT_SECRET_KEY']).first)
       end
-    end
-
-    def create_notification(exception, options = {})
-      Notification.where(message: exception.message).where(unresolved: true).first_or_create(
-        exception: exception,
-        status: options[:status])
     end
 
     def cors_set_access_control_headers
@@ -60,43 +28,32 @@ module Authenticable
       headers['Access-Control-Max-Age'] = "1728000"
     end
 
-    def disable_devise_trackable
-      request.env["devise.skip_trackable"] = true
+    rescue_from *RESCUABLE_EXCEPTIONS do |exception|
+      status, message = case exception.class.to_s
+        when "CanCan::AccessDenied", "JWT::DecodeError"
+          [401, "You are not authorized to access this resource."]
+        when "ActiveRecord::RecordNotFound"
+          [404, "The resource you are looking for doesn't exist."]
+        when "ActiveModel::ForbiddenAttributesError", "ActionController::UnpermittedParameters", "ActionController::ParameterMissing"
+          [422, exception.message]
+        when "NoMethodError"
+          Rails.env.development? || Rails.env.test? ? [422, exception.message] : [422, "The request could not be processed."]
+        else
+          [400, exception.message]
+        end
+
+      respond_to do |format|
+        format.all { render json: { errors: [{ status: status.to_s,
+                                               title: message }]
+                                  }, status: status
+                   }
+      end
     end
 
-    if Rails.env.production? || Rails.env.stage?
-      rescue_from *RESCUABLE_EXCEPTIONS do |exception|
-        status = case exception.class.to_s
-                 when "CanCan::AccessDenied" then 401
-                 when "ActiveRecord::RecordNotFound" then 404
-                 when "ActiveModel::ForbiddenAttributesError", "ActionController::UnpermittedParameters", "NoMethodError" then 422
-                 else 400
-                 end
+    private
 
-        if status == 404
-          message = "The page you are looking for doesn't exist."
-        elsif status == 401
-          message = "You are not authorized to access this page."
-        else
-          create_notification(exception, status: status)
-          message = exception.message
-        end
-
-        respond_to do |format|
-          format.html do
-            if /(jpe?g|png|gif|css)/i == request.path
-              render text: message, status: status
-            else
-              @notification = Notification.where(message: message).where(unresolved: true).first_or_initialize(
-                status: status)
-              render "notifications/show", status: status
-            end
-          end
-          format.xml { render xml: { error: message }.to_xml, status: status }
-          format.rss { render :show, status: status, layout: false }
-          format.all { render json: { meta: { status: "error", error: message }}, status: status }
-        end
-      end
+    def current_user
+      @current_user
     end
   end
 end

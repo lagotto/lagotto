@@ -1,7 +1,4 @@
 class Deposit < ActiveRecord::Base
-  # include HTTP request helpers
-  include Networkable
-
   # include helper module for DOI resolution
   include Resolvable
 
@@ -17,18 +14,9 @@ class Deposit < ActiveRecord::Base
   # include deposit processing
   include Processable
   include Processable::WorkProcessor
-  include Processable::ContributorProcessor
-  include Processable::PrefixProcessor
-  include Processable::PublisherProcessor
-  include Processable::RelationProcessor
-  include Processable::ContributionProcessor
 
   belongs_to :work, inverse_of: :deposits, autosave: true
   belongs_to :related_work, class_name: "Work", inverse_of: :deposits, autosave: true
-  belongs_to :contributor, inverse_of: :deposits, autosave: true
-  belongs_to :source, primary_key: :name, inverse_of: :deposits
-  belongs_to :relation_type, primary_key: :name, inverse_of: :deposits
-  has_many :notifications
 
   before_create :create_uuid
   before_save :set_defaults
@@ -77,9 +65,6 @@ class Deposit < ActiveRecord::Base
 
   validates :subj_id, :source_id, :source_token, presence: true
   validates_associated :source
-  validates_associated :relation_type
-
-  scope :query, ->(query) { where(uuid: query) }
 
   scope :by_state, ->(state) { where("state = ?", state) }
   scope :order_by_date, -> { order("updated_at DESC") }
@@ -103,18 +88,6 @@ class Deposit < ActiveRecord::Base
     cached_source(source_id)
   end
 
-  def publisher
-    cached_publisher(publisher_id)
-  end
-
-  def relation_type
-    cached_relation_type(relation_type_id)
-  end
-
-  def inv_relation_type
-    cached_inv_relation_type(relation_type_id)
-  end
-
   def year
     occurred_at.year
   end
@@ -124,8 +97,9 @@ class Deposit < ActiveRecord::Base
   end
 
   def send_callback
-    data = { "deposit" => {
+    data = { "data" => {
                "id" => uuid,
+               "type" => "deposits",
                "state" => human_state_name,
                "errors" => error_messages,
                "message_type" => message_type,
@@ -133,7 +107,7 @@ class Deposit < ActiveRecord::Base
                "source_token" => source_token,
                "total" => total,
                "timestamp" => timestamp }}
-    get_result(callback, data: data.to_json, token: ENV['API_KEY'])
+    Maremma.post(callback, data: data.to_json, token: ENV['API_KEY'])
   end
 
   def timestamp

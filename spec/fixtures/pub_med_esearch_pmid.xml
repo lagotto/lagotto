@@ -1,5 +1,0 @@
-<?xml version="1.0" ?>
-<!DOCTYPE eSearchResult PUBLIC "-//NLM//DTD eSearchResult, 11 May 2002//EN" "http://www.ncbi.nlm.nih.gov/entrez/query/DTD/eSearch_020511.dtd">
-<eSearchResult><Count>1</Count><RetMax>1</RetMax><RetStart>0</RetStart><IdList>
-		<Id>17183631</Id>
-	</IdList><TranslationSet/><TranslationStack>   <TermSet>    <Term>10.1371/journal.pone.0000001[Publisher ID]</Term>    <Field>Publisher ID</Field>    <Count>1</Count>    <Explode>Y</Explode>   </TermSet>   <OP>GROUP</OP>  </TranslationStack><QueryTranslation>10.1371/journal.pone.0000001[Publisher ID]</QueryTranslation></eSearchResult>
