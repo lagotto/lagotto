@@ -19,6 +19,7 @@ before_script:
   - cp .env.travis .env
   - mkdir -p tmp/pids tmp/files tmp/reports tmp/snapshots
   - bundle exec rake db:setup RAILS_ENV=test
+  - bundle exec sidekiq --pidfile /tmp/pids/sidekiq.pid --config ./config/sidekiq.yml --daemon
 
 script:
   - bundle exec rspec
