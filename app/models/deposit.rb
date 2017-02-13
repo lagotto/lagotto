@@ -17,10 +17,11 @@ class Deposit < ActiveRecord::Base
 
   belongs_to :work, inverse_of: :deposits, autosave: true
   belongs_to :related_work, class_name: "Work", inverse_of: :deposits, autosave: true
+  belongs_to :source, primary_key: :name, inverse_of: :deposits
 
   before_create :create_uuid
   before_save :set_defaults
-  after_commit :queue_deposit_job, :on => :create, :if => Proc.new { |deposit| deposit.source && deposit.source.active }
+  after_commit :queue_deposit_job, :on => :create
 
   # NB this is coupled to deposits_controller, deposit.rake
   state_machine :initial => :waiting do
@@ -33,9 +34,8 @@ class Deposit < ActiveRecord::Base
       deposit.send_callback if deposit.callback.present?
     end
 
-    # only add job for further processing if associated source is active
     after_transition :failed => :waiting do |deposit|
-      deposit.queue_deposit_job if deposit.source && deposit.source.active
+      deposit.queue_deposit_job
     end
 
     # Reset after failure
