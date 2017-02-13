@@ -31,7 +31,6 @@ ENV['GITHUB_URL'] ||= "https://github.com/lagotto/lagotto"
 ENV['TRUSTED_IP'] ||= "127.0.0.0/8"
 ENV['MEMCACHE_SERVERS'] ||= "127.0.0.1"
 
-
 module Lagotto
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

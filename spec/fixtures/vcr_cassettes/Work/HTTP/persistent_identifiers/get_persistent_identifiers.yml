@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=noreply@datacite.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://localhost:8050
+    uri: https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?email=info@example.org&format=json&ids=10.1371/journal.pone.0000030&idtype=doi&tool=Lagotto%20-%20http://localhost:8050
     body:
       encoding: US-ASCII
       string: ''
@@ -17,7 +17,7 @@ http_interactions:
       message: ''
     headers:
       Date:
-      - Sun, 12 Feb 2017 16:56:57 GMT
+      - Mon, 13 Feb 2017 07:39:08 GMT
       Server:
       - Apache
       Strict-Transport-Security:
@@ -43,8 +43,8 @@ http_interactions:
       string: |
         {
          "status": "ok",
-         "responseDate": "2017-02-12 11:56:57",
-         "request": "email=noreply%40datacite.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flocalhost%3A8050",
+         "responseDate": "2017-02-13 02:39:08",
+         "request": "email=info%40example.org;format=json;ids=10.1371%2Fjournal.pone.0000030;idtype=doi;tool=Lagotto%20-%20http%3A%2F%2Flocalhost%3A8050",
          "records": [
            {
             "pmcid": "PMC1762313",
@@ -60,5 +60,5 @@ http_interactions:
          ]
         }
     http_version: 
-  recorded_at: Sun, 12 Feb 2017 16:56:57 GMT
+  recorded_at: Mon, 13 Feb 2017 07:39:08 GMT
 recorded_with: VCR 2.9.3
