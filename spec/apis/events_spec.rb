@@ -43,7 +43,7 @@ describe "/events", :type => :api do
   context "create" do
     let(:uri) { "/events" }
     let(:params) do
-      { "data" => { "type" => "deposits",
+      { "data" => { "type" => "events",
                     "attributes" => {
                       "uuid" => event.uuid,
                       "subj_id" => event.subj_id,
