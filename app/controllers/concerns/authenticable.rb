@@ -32,7 +32,7 @@ module Authenticable
       status, message = case exception.class.to_s
         when "CanCan::AccessDenied", "JWT::DecodeError"
           [401, "You are not authorized to access this resource."]
-        when "ActiveRecord::RecordNotFound"
+        when "ActiveRecord::RecordNotFound", "ActionController::RoutingError", "AbstractController::ActionNotFound"
           [404, "The resource you are looking for doesn't exist."]
         when "ActiveModel::ForbiddenAttributesError", "ActionController::UnpermittedParameters", "ActionController::ParameterMissing"
           [422, exception.message]
@@ -45,7 +45,7 @@ module Authenticable
       respond_to do |format|
         format.all { render json: { errors: [{ status: status.to_s,
                                                title: message }]
-                                  }, status: status
+                                  }, status: status, content_type: "application/json"
                    }
       end
     end

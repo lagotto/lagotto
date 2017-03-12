@@ -16,18 +16,18 @@ gem 'lograge', '~> 0.3.5'
 gem 'httplog'
 gem 'bugsnag', '~> 2.8.6'
 
-gem 'maremma', '~> 3.1', '>= 3.1.2'
+gem 'maremma', '~> 3.5'
 gem 'postrank-uri', '~> 1.0.18'
 gem "multi_xml", "~> 0.5.5"
 gem "nokogiri", "~> 1.6.0"
-gem 'cirneco', '~> 0.9.9'
+gem 'bolognese', '~> 0.8'
 gem 'config', '~> 1.0.0'
 gem 'sprig', '~> 0.1.7'
 gem 'hashie', '~> 3.3.2'
 gem 'namae', '~> 0.10.1'
 gem 'gender_detector', '~> 0.1.2'
 gem 'rubyzip',  "~> 1.1", :require => 'zip'
-gem 'colorize', '~> 0.7.7'
+gem 'colorize', '~> 0.8'
 
 gem 'jwt', '~> 1.5', '>= 1.5.4'
 gem 'cancancan', '~> 1.9.2'
