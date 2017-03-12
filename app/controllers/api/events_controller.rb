@@ -12,7 +12,7 @@ class Api::EventsController < Api::BaseController
       authorize! :create, @event
 
       if @event.save
-        render json: @event, :status => :accepted
+        render json: @event, :status => :created
       else
         errors = @event.errors.full_messages.map { |message| { status: 422, title: message } }
         render json: { errors: errors }, status: :unprocessable_entity
