@@ -62,54 +62,19 @@ records:
     title: OpenEdition
     description: OpenEdition is the umbrella portal for OpenEdition Books, Revues.org, Hypotheses and Calenda in the humanities and social sciences.
     group_id: relations
-  - sprig_id: crossref_datacite
-    name: crossref_datacite
-    title: Crossref (DataCite)
-    description: Import works linked to a DataCite DOI from Crossref.
-    group_id: relations
-  - sprig_id: datacite_crossref
-    name: datacite_crossref
-    title: DataCite (Crossref)
+  - sprig_id: datacite
+    name: datacite
+    title: DataCite
     description: Import works with Crossref DOIs as relatedIdentifier via the DataCite Solr API.
     group_id: relations
-  - sprig_id: datacite_related
-    name: datacite_related
-    title: DataCite (RelatedIdentifier)
-    description: Import works with relatedIdentifiers via the DataCite Solr API.
-    group_id: relations
-  - sprig_id: datacite_orcid
-    name: datacite_orcid
-    title: DataCite (ORCID)
-    description: Import works with ORCID nameIdentifier via the DataCite Solr API.
-    group_id: contributions
-  - sprig_id: datacite_search_link
-    name: datacite_search_link
-    title: DataCite (ORCID Search and Link)
-    description: Import claimed to ORCID via the DataCite Profiles API.
-    group_id: contributions
   - sprig_id: orcid
     name: orcid
     title: ORCID
     description: Import works via the ORCID API.
     group_id: contributions
-  - sprig_id: datacite_github
-    name: datacite_github
-    title: DataCite (Github)
-    description: Import works with Github relatedIdentifiers via the DataCite Solr API.
-    group_id: relations
-  - sprig_id: crossref_orcid
-    name: crossref_orcid
-    title: Crossref (ORCID)
-    description: Import works with ORCID identifiers via the Crossref REST API.
-    group_id: contributions
-  - sprig_id: github_contributor
-    name: github_contributor
-    title: Github (Contributor)
-    description: Import contributors with works via the Github API.
-    group_id: contributions
   - sprig_id: crossref
     name: crossref
-    title: Crossref (Citations)
+    title: Crossref
     description: Crossref is a non-profit organization that enables cross-publisher citation linking.
     cumulative: true
     group_id: relations
@@ -228,33 +193,3 @@ records:
     title: Nature (OpenSearch)
     description: Search the Nature.com corpus for citations.
     group_id: relations
-  - sprig_id: plos_import
-    name: plos_import
-    title: PLOS (Import)
-    description: Import works via the PLOS Solr API.
-    group_id: works
-  - sprig_id: datacite_datacentre
-    name: datacite_datacentre
-    title: DataCite (Datacentre)
-    description: Import data centres via the DataCite Solr API.
-    group_id: publishers
-  - sprig_id: datacite_import
-    name: datacite_import
-    title: DataCite (Import)
-    description: Import works via the DataCite Solr API.
-    group_id: works
-  - sprig_id: crossref_import
-    name: crossref_import
-    title: Crossref (Import)
-    description: Import works via the Crossref REST API.
-    group_id: works
-  - sprig_id: dataone_import
-    name: dataone_import
-    title: Dataone (Import)
-    description: Import works via the DataONE Solr API.
-    group_id: works
-  - sprig_id: crossref_publisher
-    name: crossref_publisher
-    title: Crossref (Publisher)
-    description: Import publishers via the Crossref REST API.
-    group_id: publishers

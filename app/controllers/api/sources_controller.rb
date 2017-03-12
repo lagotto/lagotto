@@ -1,6 +1,6 @@
 class Api::SourcesController < Api::BaseController
   def index
-    collection = Source.active
+    collection = Source.all
     collection = collection.query(params[:q]) if params[:q]
     if params[:id].present?
       collection = collection.where(name: params[:id])

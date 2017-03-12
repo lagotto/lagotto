@@ -15,9 +15,9 @@ describe "/sources", :type => :api do
     let(:token) { JWT.encode payload, ENV['JWT_SECRET_KEY'], 'HS256' }
     let(:uri) { "/sources" }
 
-    context "get events" do
+    context "get response" do
       let!(:source) { FactoryGirl.create(:source) }
-      let!(:works) { FactoryGirl.create_list(:work, 10) }
+      let!(:datacite) { FactoryGirl.create(:source, :datacite) }
 
       it "JSON" do
         get uri, nil, headers
@@ -25,9 +25,10 @@ describe "/sources", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        item = data.first
-        expect(item["id"]).to eq(source.name)
-        expect(item["attributes"]["state"]).to eq("active")
+        expect(data.count).to eq(2)
+        item = data.last
+        expect(item["id"]).to eq("datacite")
+        expect(item["attributes"]["title"]).to eq("DataCite")
       end
 
       it "JSONP" do
@@ -37,9 +38,10 @@ describe "/sources", :type => :api do
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
-        item = data.first
-        expect(item["id"]).to eq(source.name)
-        expect(item["attributes"]["state"]).to eq("active")
+        expect(data.count).to eq(2)
+        item = data.last
+        expect(item["id"]).to eq("datacite")
+        expect(item["attributes"]["title"]).to eq("DataCite")
       end
     end
   end
@@ -57,8 +59,8 @@ describe "/sources", :type => :api do
 
         response = JSON.parse(last_response.body)
         data = response["data"]
-        expect(data["id"]).to eq(source.name)
-        expect(data["attributes"]["state"]).to eq("active")
+        expect(data["id"]).to eq("citeulike")
+        expect(data["attributes"]["title"]).to eq("CiteULike")
       end
 
       it "JSONP" do
@@ -68,8 +70,8 @@ describe "/sources", :type => :api do
         # remove jsonp wrapper
         response = JSON.parse(last_response.body[6...-1])
         data = response["data"]
-        expect(data["id"]).to eq(source.name)
-        expect(data["attributes"]["state"]).to eq("active")
+        expect(data["id"]).to eq("citeulike")
+        expect(data["attributes"]["title"]).to eq("CiteULike")
       end
     end
   end
