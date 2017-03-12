@@ -9,7 +9,7 @@ class Ability
     elsif user.role == "staff"
       can :read, :all
     elsif user.role == "contributor"
-      can :manage, Deposit
+      can :manage, [Work, Event]
     else
     end
   end

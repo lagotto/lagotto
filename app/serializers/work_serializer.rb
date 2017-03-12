@@ -1,21 +1,13 @@
 class WorkSerializer < ActiveModel::Serializer
   cache key: 'work'
-  attributes :doi, :url, :author, :title, :container_title, :resource_type_id, :resource_type, :registration_agency_id, :schema_version, :published, :deposited, :updated, :xml
+  attributes :doi, :url, :provider_id, :updated
 
   def id
     object.to_param
   end
 
   def url
-    object.canonical_url
-  end
-
-  def published
-    object.published_on
-  end
-
-  def deposited
-    object.deposited_at
+    object.pid
   end
 
   def updated

@@ -2,221 +2,108 @@ require 'rails_helper'
 
 describe Work, type: :model, vcr: true do
 
-  let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.5555/12345678", doi: "10.5555/12345678") }
+  let(:work) { FactoryGirl.create(:work, pid: "http://doi.org/10.5555/12345678") }
 
   subject { work }
 
-  it { is_expected.to validate_uniqueness_of(:doi).case_insensitive }
-  it { is_expected.to validate_numericality_of(:year).only_integer }
+  context "validate pid" do
+    it "https://doi.org/10.5555/12345678" do
+      work = FactoryGirl.build(:work, pid: "https://doi.org/10.5555/12345678")
+      expect(work).to be_valid
+    end
 
-  context "validate doi format" do
+    it "http://doi.org/10.5555/12345678" do
+      work = FactoryGirl.build(:work, pid: "http://doi.org/10.5555/12345678")
+      expect(work).to be_valid
+    end
+
+    it "https://dx.doi.org/10.5555/12345678" do
+      work = FactoryGirl.build(:work, pid: "https://dx.doi.org/10.5555/12345678")
+      expect(work).to be_valid
+    end
+
+    it "http://dx.doi.org/10.5555/12345678" do
+      work = FactoryGirl.build(:work, pid: "http://dx.doi.org/10.5555/12345678")
+      expect(work).to be_valid
+    end
+
+    it "doi:10.5555/12345678" do
+      work = FactoryGirl.build(:work, pid: "doi:10.5555/12345678")
+      expect(work).to be_valid
+    end
+
     it "10.5555/12345678" do
-      work = FactoryGirl.build(:work, :doi => "10.5555/12345678")
+      work = FactoryGirl.build(:work, pid: "10.5555/12345678")
       expect(work).to be_valid
     end
 
     it "10.13039/100000001" do
-      work = FactoryGirl.build(:work, :doi => "10.13039/100000001")
+      work = FactoryGirl.build(:work, pid: "10.13039/100000001")
       expect(work).to be_valid
     end
 
     it "10.1386//crre.4.1.53_1" do
-      work = FactoryGirl.build(:work, :doi => " 10.1386//crre.4.1.53_1")
+      work = FactoryGirl.build(:work, pid: " 10.1386//crre.4.1.53_1")
       expect(work).not_to be_valid
     end
 
     it "10.555/12345678" do
-      work = FactoryGirl.build(:work, :doi => "10.555/12345678")
+      work = FactoryGirl.build(:work, pid: "10.555/12345678")
       expect(work).not_to be_valid
     end
 
     it "8.5555/12345678" do
-      work = FactoryGirl.build(:work, :doi => "8.5555/12345678")
+      work = FactoryGirl.build(:work, pid: "8.5555/12345678")
       expect(work).not_to be_valid
     end
 
     it "10.asdf/12345678" do
-      work = FactoryGirl.build(:work, :doi => "10.asdf/12345678")
+      work = FactoryGirl.build(:work, pid: "10.asdf/12345678")
       expect(work).not_to be_valid
     end
 
     it "10.5555" do
-      work = FactoryGirl.build(:work, :doi => "10.5555")
+      work = FactoryGirl.build(:work, pid: "10.5555")
       expect(work).not_to be_valid
     end
 
-    it "asdfasdfasdf" do
-      work = FactoryGirl.build(:work, :doi => "asdfasdfasdf")
-      expect(work).not_to be_valid
-    end
-  end
-
-  context "validate url format" do
     it "http://example.com/1234" do
-      work = FactoryGirl.build(:work, :canonical_url => "http://example.com/1234")
+      work = FactoryGirl.build(:work, pid: "http://example.com/1234")
       expect(work).to be_valid
     end
 
     it "https://example.com/1234" do
-      work = FactoryGirl.build(:work, :canonical_url => "http://example.com/1234")
+      work = FactoryGirl.build(:work, pid: "http://example.com/1234")
       expect(work).to be_valid
     end
 
     it "ftp://example.com/1234" do
-      work = FactoryGirl.build(:work, :canonical_url => "ftp://example.com/1234")
+      work = FactoryGirl.build(:work, pid: "ftp://example.com/1234")
       expect(work).not_to be_valid
     end
 
     it "http://" do
-      work = FactoryGirl.build(:work, :canonical_url => "http://")
+      work = FactoryGirl.build(:work, pid: "http://")
       expect(work).not_to be_valid
-      #expect{work}.to raise_error(Addressable::URI::InvalidURIError)
     end
 
     it "asdfasdfasdf" do
-      work = FactoryGirl.build(:work, :canonical_url => "asdfasdfasdf")
+      work = FactoryGirl.build(:work, pid: "asdfasdfasdf")
       expect(work).not_to be_valid
     end
   end
 
-  context "validate github" do
-    it "https://github.com/lagotto/lagotto/tree/v.4.3" do
-      work = FactoryGirl.build(:work, pid: "https://github.com/lagotto/lagotto/tree/v.4.3", doi: nil, canonical_url: "https://github.com/lagotto/lagotto/tree/v.4.3")
+  context "set provider" do
+    it "crossref" do
+      work = FactoryGirl.build(:work, pid: "https://doi.org/10.7554/elife.01567", provider_id: nil)
       expect(work).to be_valid
+      expect(work.provider_id).to eq("crossref")
     end
-  end
 
-  context "validate ark format" do
-    it "ark:/13030/m5br8stc" do
-      work = FactoryGirl.build(:work, :ark => "ark:/13030/m5br8stc")
+    it "datacite" do
+      work = FactoryGirl.build(:work, pid: "https://doi.org/10.5061/dryad.8515", provider_id: nil)
       expect(work).to be_valid
+      expect(work.provider_id).to eq("datacite")
     end
-
-    it "13030/m5br8stc" do
-      work = FactoryGirl.build(:work, :ark => " 13030/m5br8stc")
-      expect(work).not_to be_valid
-    end
-
-    it "ark:/13030" do
-      work = FactoryGirl.build(:work, :ark => "ark:/13030")
-      expect(work).not_to be_valid
-    end
-
-    it "ark:/1303x/m5br8stc" do
-      work = FactoryGirl.build(:work, :ark => "ark:/1303x/m5br8stc")
-      expect(work).not_to be_valid
-    end
-  end
-
-  context "validate date" do
-    before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
-
-    it 'validate date' do
-      work = FactoryGirl.build(:work)
-      expect(work).to be_valid
-    end
-
-    it 'validate date with missing day' do
-      work = FactoryGirl.build(:work, day: nil)
-      expect(work).to be_valid
-    end
-
-    it 'validate date with missing month and day' do
-      work = FactoryGirl.build(:work, month: nil, day: nil)
-      expect(work).to be_valid
-    end
-
-    it 'look up date for missing issued_at' do
-      work = FactoryGirl.build(:work, issued_at: nil, pid: "http://doi.org/10.1371/journal.pone.0067729", doi: "10.1371/journal.pone.0067729")
-      expect(work).to be_valid
-    end
-
-    it 'don\'t validate wrong date' do
-      work = FactoryGirl.build(:work, month: 2, day: 30)
-      expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(published_on: ["is not a valid date"])
-    end
-
-    it 'don\'t validate issued date in the future' do
-      work = FactoryGirl.build(:work, issued_at: Time.zone.now + 1.day)
-      expect(work).not_to be_valid
-      expect(work.errors.messages).to eq(issued_at: ["is a datetime in the future"])
-    end
-
-    it 'published_on' do
-      work = FactoryGirl.create(:work)
-      date = Date.new(work.year, work.month, work.day)
-      expect(work.published_on).to eq(date)
-    end
-
-    it 'issued_date year month day' do
-      work = FactoryGirl.create(:work, year: 2013, month: 2, day: 9)
-      expect(work.issued_date).to eq("February 9, 2013")
-    end
-
-    it 'issued_date year month' do
-      work = FactoryGirl.create(:work, year: 2013, month: 2, day: nil)
-      expect(work.issued_date).to eq("February 2013")
-    end
-
-    it 'issued_date year' do
-      work = FactoryGirl.create(:work, year: 2013, month: nil, day: nil)
-      expect(work.issued_date).to eq("2013")
-    end
-  end
-
-  context "sanitize title" do
-    it "strips tags and attributes" do
-      title = '<span id="date">2013-12-05</span'
-      work = FactoryGirl.create(:work, title: title)
-      expect(work.title).to eq("2013-12-05")
-    end
-
-    it "keeps allowed tags" do
-      title = "Characterization of the Na<sup>+</sup>/H<sup>+</sup> Antiporter from <i>Yersinia pestis</i>"
-      work = FactoryGirl.create(:work, title: title)
-      expect(work.title).to eq(title)
-    end
-  end
-
-  it 'to doi escaped' do
-    expect(CGI.escape(work.doi)).to eq(work.doi_escaped)
-  end
-
-  it 'to title escaped' do
-    expect(CGI.escape(work.title.to_str).gsub("+", "%20")).to eq(work.title_escaped)
-  end
-
-  context "get_url" do
-    it 'should get_url' do
-      work = FactoryGirl.create(:work, pid: "http://doi.org/10.1371/journal.pone.0000030", doi: "10.1371/journal.pone.0000030", canonical_url: nil)
-      canonical_url = "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030"
-      handle_url = "http://dx.plos.org/10.1371/journal.pone.0000030"
-      expect(work.get_url).not_to be_nil
-      expect(work.canonical_url).to eq(canonical_url)
-      expect(work.handle_url).to eq(handle_url)
-    end
-
-    it "with canonical_url" do
-      work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", canonical_url: "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000030")
-      expect(work.get_url).to be true
-    end
-
-    it "without doi" do
-      work = FactoryGirl.create(:work, doi: nil, canonical_url: nil)
-      expect(work.get_url).to be false
-      expect(work.canonical_url).to be_nil
-    end
-  end
-
-  it 'should get_ids' do
-    work = FactoryGirl.create(:work, doi: "10.1371/journal.pone.0000030", pmid: nil)
-    expect(work.get_ids).to be true
-    expect(work.pmid).to eq("17183658")
-  end
-
-  it "should get all_urls" do
-    work = FactoryGirl.build(:work, :canonical_url => "http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0000001")
-    expect(work.all_urls).to eq([work.canonical_url, work.pmid_as_europepmc_url].compact)
   end
 end

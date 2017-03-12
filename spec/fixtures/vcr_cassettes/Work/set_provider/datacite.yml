@@ -1,0 +1,72 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.datacite.org/prefixes/10.5061
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - http://lagotto.local
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
+      Access-Control-Allow-Methods:
+      - POST, GET, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '1728000'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Sun, 12 Mar 2017 09:41:50 GMT
+      Etag:
+      - W/"1eb3f4f371821b1becc6cd25a71755ce"
+      Server:
+      - openresty/1.11.2.2
+      Status:
+      - 200 OK
+      Vary:
+      - Accept-Encoding
+      Via:
+      - kong/0.10.0rc3
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Kong-Proxy-Latency:
+      - '1'
+      X-Kong-Upstream-Latency:
+      - '947'
+      X-Powered-By:
+      - Phusion Passenger 5.1.2
+      X-Ratelimit-Limit-Hour:
+      - '10000'
+      X-Ratelimit-Remaining-Hour:
+      - '9982'
+      X-Request-Id:
+      - 5f9430aa-bd1f-4814-8a15-8ca4ccea0d12
+      X-Runtime:
+      - '0.945962'
+      X-Xss-Protection:
+      - 1; mode=block
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"data":{"id":"10.5061","type":"prefixes","attributes":{"registration-agency":"DataCite","updated":"2016-09-21T20:27:07Z"}}}'
+    http_version: 
+  recorded_at: Sun, 12 Mar 2017 09:41:50 GMT
+recorded_with: VCR 2.9.3

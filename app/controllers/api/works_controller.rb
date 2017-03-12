@@ -1,9 +1,8 @@
 class Api::WorksController < Api::BaseController
-  # include helper module for DOI resolution
-  include Resolvable
-
-  prepend_before_filter :load_work, only: [:show, :update, :destroy]
-  before_filter :authenticate_user_from_token!
+  prepend_before_filter :load_work, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user_from_token!, :except => [:index, :show]
+  load_and_authorize_resource :except => [:create, :show, :index]
+  load_resource :except => [:create, :index]
 
   def show
     render json: @work
@@ -11,8 +10,58 @@ class Api::WorksController < Api::BaseController
     fresh_when last_modified: @work.updated_at
   end
 
+  def create
+    unless safe_params.key? :type
+      render json: { errors: [{ status: 422, title: "Missing attribute: type."}] }, status: :unprocessable_entity
+    else
+      @work = Work.new(safe_params.except(:type))
+      authorize! :create, @work
+
+      if @work.save
+        render json: @work, :status => :created
+      else
+        errors = @work.errors.full_messages.map { |message| { status: 422, title: message } }
+        render json: { errors: errors }, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def update
+    unless safe_params.key? :type
+      render json: { errors: [{ status: 422, title: "Missing attribute: type."}] }, status: :unprocessable_entity
+    else
+      if @work.update_attributes(safe_params.except(:type))
+        render json: @work, :status => :ok
+      else
+        errors = @work.errors.full_messages.map { |message| { status: 422, title: message } }
+        render json: { errors: errors }, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def destroy
+    if @work.destroy
+      head :no_content
+    else
+      render json: { errors: "An error has occurred." }, status: :bad_request
+    end
+  end
+
   def index
-    collection = get_ids(params)
+    if params[:ids]
+      ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| normalize_id(id) }[0...1000]
+      collection = Work.where(works: { pid: ids })
+    elsif params[:id]
+      pid = normalize_id(params[:id])
+      if pid.present?
+        collection = Work.where(pid: pid)
+      else
+        collection = Work.none
+      end
+    else
+      collection = Work.indexed
+    end
+
     collection = collection.order("works.updated_at DESC")
 
     page = params[:page] || {}
@@ -28,35 +77,32 @@ class Api::WorksController < Api::BaseController
     render json: @works, meta: meta
   end
 
-  # Load works from ids listed in query string, use type parameter if present
-  # Translate type query parameter into column name
-  def get_ids(params)
-    if params[:ids]
-      type = ["doi", "pmid", "pmcid", "arxiv", "wos", "scp", "ark", "url"].find { |t| t == params[:type] } || "pid"
-      type = "canonical_url" if type == "url"
-      ids = params[:ids].nil? ? nil : params[:ids].split(",").map { |id| get_clean_id(id) }
-      collection = Work.where(works: { type => ids })
-    elsif params[:id]
-      id_hash = get_id_hash(params[:id])
-      if id_hash.present?
-        key, value = id_hash.first
-        collection = Work.where(key => value)
-      else
-        collection = Work.none
-      end
-    else
-      collection = Work.tracked
-    end
-
-    collection
-  end
-
   # use cached counts for total number of results
   def get_total_entries(params)
     case
     when params[:ids] || params[:id] then nil # can't be cached
-    when Rails.env.development? || Rails.env.test? then Work.tracked.count
+    when Rails.env.development? || Rails.env.test? then Work.indexed.count
     else Work.cached_work_count
     end
+  end
+
+  protected
+
+  def load_work
+    # Load one work given query params
+    pid = normalize_id(params[:id])
+    if pid.present?
+      @work = Work.where(pid: pid).first
+    else
+      @work = Work.none
+    end
+    fail ActiveRecord::RecordNotFound unless @work.present?
+  end
+
+  private
+
+  def safe_params
+    attributes = [:pid, :provider_id, :indexed]
+    params.require(:data).permit(:id, :type, attributes: attributes)
   end
 end

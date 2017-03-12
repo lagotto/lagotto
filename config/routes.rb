@@ -10,4 +10,7 @@ Lagotto::Application.routes.draw do
     resources :status
     resources :works, constraints: { :id => /.+?/, :format=> false }
   end
+
+  # rescue routing errors
+  match "*path", to: "index#routing_error", via: :all
 end
