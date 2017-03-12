@@ -15,7 +15,7 @@ describe "/status", :type => :api do
     let(:token) { JWT.encode payload, ENV['JWT_SECRET_KEY'], 'HS256' }
     let(:uri) { "/status" }
     let!(:source) { FactoryGirl.create(:source) }
-    let!(:deposits) { FactoryGirl.create_list(:deposit, 5) }
+    let!(:events) { FactoryGirl.create_list(:event, 5) }
     let!(:works) { FactoryGirl.create_list(:work, 10) }
 
     context "as admin user" do

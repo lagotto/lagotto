@@ -6,6 +6,13 @@ describe Work, type: :model, vcr: true do
 
   subject { work }
 
+  context "set metadata" do
+    it "https://doi.org/10.5555/12345678" do
+      work = FactoryGirl.create(:work, pid: "https://doi.org/10.7554/elife.01567", provider_id: nil)
+      expect(work.metadata.title).to eq("Automated quantitative histology reveals vascular morphodynamics during Arabidopsis hypocotyl secondary growth")
+    end
+  end
+
   context "validate pid" do
     it "https://doi.org/10.5555/12345678" do
       work = FactoryGirl.build(:work, pid: "https://doi.org/10.5555/12345678")

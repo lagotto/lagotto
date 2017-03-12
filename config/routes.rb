@@ -5,7 +5,7 @@ Lagotto::Application.routes.draw do
   resources :heartbeat, only: [:index]
 
   scope module: :api, defaults: { format: "json" } do
-    resources :deposits
+    resources :events
     resources :sources
     resources :status
     resources :works, constraints: { :id => /.+?/, :format=> false }

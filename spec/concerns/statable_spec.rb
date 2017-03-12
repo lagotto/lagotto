@@ -1,8 +1,8 @@
 require "rails_helper"
 
-describe Deposit do
+describe Event do
 
-  subject { FactoryGirl.create(:deposit) }
+  subject { FactoryGirl.create(:event) }
 
   # describe "states" do
   #   describe ":waiting" do

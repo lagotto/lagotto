@@ -2,13 +2,13 @@ class Status
   extend ActiveModel::Naming
   include ActiveModel::Serialization
 
-  attr_reader :id, :state, :jobs, :deposit_count, :source_count, :work_count
+  attr_reader :id, :state, :jobs, :event_count, :source_count, :work_count
 
   def initialize
     @id = "status"
     @state = current_status
     @jobs = jobs
-    @deposit_count = deposit_count
+    @event_count = event_count
     @source_count = source_count
     @work_count = work_count
   end
@@ -49,21 +49,21 @@ class Status
     @process_set ||= Sidekiq::ProcessSet.new
   end
 
-  def deposit_count
+  def event_count
     if Rails.env.development? || Rails.env.test?
-      Deposit.count
+      Event.count
     else
-      Deposit.cached_deposit_count
+      Event.cached_event_count
     end
   end
 
   def source_count
-    Source.active.count
+    Source.count
   end
 
   def work_count
     if Rails.env.development? || Rails.env.test?
-      Work.tracked.count
+      Work.count
     else
       Work.cached_work_count
     end

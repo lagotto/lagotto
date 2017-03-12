@@ -203,7 +203,7 @@ describe "/works", :type => :api, vcr: true do
   end
 
   context "show" do
-    let(:work) { FactoryGirl.create(:work) }
+    let(:work) { FactoryGirl.create(:work, pid: "https://doi.org/10.7554/elife.01567") }
 
     context "work found via PID" do
       let(:uri) { "/works/#{work.pid}" }
@@ -214,8 +214,15 @@ describe "/works", :type => :api, vcr: true do
 
         response = JSON.parse(last_response.body)
         work = response["data"]
-        expect(work.fetch("id")).to start_with("https://doi.org/10.1371/journal.pone")
-        expect(work.fetch("attributes", {}).fetch("doi")).to start_with("10.1371/journal.pone")
+        expect(work.fetch("id")).to eq("https://doi.org/10.7554/elife.01567")
+        expect(work.fetch("attributes", {}).fetch("doi")).to eq("10.7554/elife.01567")
+        expect(work.fetch("attributes", {}).fetch("author")).to eq(
+          [{"type"=>"Person", "name"=>"Martial Sankar", "given-name"=>"Martial", "family-name"=>"Sankar"},
+           {"type"=>"Person", "name"=>"Kaisa Nieminen", "given-name"=>"Kaisa", "family-name"=>"Nieminen"},
+           {"type"=>"Person", "name"=>"Laura Ragni", "given-name"=>"Laura", "family-name"=>"Ragni"},
+           {"type"=>"Person", "name"=>"Ioannis Xenarios", "given-name"=>"Ioannis", "family-name"=>"Xenarios"},
+           {"type"=>"Person", "name"=>"Christian S Hardtke", "given-name"=>"Christian S", "family-name"=>"Hardtke"}])
+        expect(work.fetch("attributes", {}).fetch("title")).to eq("Automated quantitative histology reveals vascular morphodynamics during Arabidopsis hypocotyl secondary growth")
       end
     end
 
@@ -228,8 +235,15 @@ describe "/works", :type => :api, vcr: true do
 
         response = JSON.parse(last_response.body)
         work = response["data"]
-        expect(work.fetch("id")).to start_with("https://doi.org/10.1371/journal.pone")
-        expect(work.fetch("attributes", {}).fetch("doi")).to start_with("10.1371/journal.pone")
+        expect(work.fetch("id")).to eq("https://doi.org/10.7554/elife.01567")
+        expect(work.fetch("attributes", {}).fetch("doi")).to eq("10.7554/elife.01567")
+        expect(work.fetch("attributes", {}).fetch("author")).to eq(
+          [{"type"=>"Person", "name"=>"Martial Sankar", "given-name"=>"Martial", "family-name"=>"Sankar"},
+           {"type"=>"Person", "name"=>"Kaisa Nieminen", "given-name"=>"Kaisa", "family-name"=>"Nieminen"},
+           {"type"=>"Person", "name"=>"Laura Ragni", "given-name"=>"Laura", "family-name"=>"Ragni"},
+           {"type"=>"Person", "name"=>"Ioannis Xenarios", "given-name"=>"Ioannis", "family-name"=>"Xenarios"},
+           {"type"=>"Person", "name"=>"Christian S Hardtke", "given-name"=>"Christian S", "family-name"=>"Hardtke"}])
+        expect(work.fetch("attributes", {}).fetch("title")).to eq("Automated quantitative histology reveals vascular morphodynamics during Arabidopsis hypocotyl secondary growth")
       end
     end
   end

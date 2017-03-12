@@ -31,7 +31,7 @@ http_interactions:
       Content-Type:
       - application/vnd.api+json; charset=utf-8
       Date:
-      - Sun, 12 Mar 2017 14:12:20 GMT
+      - Sun, 12 Mar 2017 15:55:51 GMT
       Etag:
       - W/"daf85afdb45f3c2713bc7e75916ba82a"
       Server:
@@ -47,19 +47,19 @@ http_interactions:
       X-Frame-Options:
       - SAMEORIGIN
       X-Kong-Proxy-Latency:
-      - '1'
+      - '2'
       X-Kong-Upstream-Latency:
-      - '761'
+      - '724'
       X-Powered-By:
       - Phusion Passenger 5.1.2
       X-Ratelimit-Limit-Hour:
       - '10000'
       X-Ratelimit-Remaining-Hour:
-      - '9996'
+      - '9999'
       X-Request-Id:
-      - f3d9fd92-fe66-465a-81ec-db0196ffa914
+      - 4f3a879d-e059-4fd2-8878-27d0819417c6
       X-Runtime:
-      - '0.759578'
+      - '0.722532'
       X-Xss-Protection:
       - 1; mode=block
       Content-Length:
@@ -70,7 +70,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"data":{"id":"10.7554","type":"prefixes","attributes":{"registration-agency":"Crossref","updated":"2016-09-21T21:07:27Z"}}}'
     http_version: 
-  recorded_at: Sun, 12 Mar 2017 14:12:20 GMT
+  recorded_at: Sun, 12 Mar 2017 14:32:17 GMT
 - request:
     method: get
     uri: https://doi.org/10.7554/elife.01567
@@ -94,20 +94,20 @@ http_interactions:
       Location:
       - http://data.crossref.org/10.7554%2Felife.01567
       Expires:
-      - Sun, 12 Mar 2017 15:11:49 GMT
+      - Sun, 12 Mar 2017 16:50:07 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '177'
       Date:
-      - Sun, 12 Mar 2017 14:12:22 GMT
+      - Sun, 12 Mar 2017 15:55:53 GMT
     body:
       encoding: UTF-8
       string: |-
         <html><head><title>Handle Redirect</title></head>
         <body><a href="http://data.crossref.org/10.7554%2Felife.01567">http://data.crossref.org/10.7554%2Felife.01567</a></body></html>
     http_version: 
-  recorded_at: Sun, 12 Mar 2017 14:12:23 GMT
+  recorded_at: Sun, 12 Mar 2017 14:32:20 GMT
 - request:
     method: get
     uri: http://data.crossref.org/10.7554%2Felife.01567
@@ -143,7 +143,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sun, 12 Mar 2017 14:12:25 GMT
+      - Sun, 12 Mar 2017 15:55:57 GMT
       Connection:
       - close
     body:
@@ -786,5 +786,5 @@ http_interactions:
         aWNsZT4NCiAgICAgIDwvam91cm5hbD4NCiAgICA8L2Nyb3NzcmVmPg0KICA8
         L2RvaV9yZWNvcmQ+DQo8L2RvaV9yZWNvcmRzPg==
     http_version: 
-  recorded_at: Sun, 12 Mar 2017 14:12:25 GMT
+  recorded_at: Sun, 12 Mar 2017 14:32:23 GMT
 recorded_with: VCR 2.9.3

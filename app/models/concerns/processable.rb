@@ -2,11 +2,11 @@ module Processable
   extend ActiveSupport::Concern
 
   included do
-    def queue_deposit_job
-      DepositJob.set(wait: 3.minutes).perform_later(self)
+    def queue_event_job
+      EventJob.set(wait: 3.minutes).perform_later(self)
     end
 
-    # Called as part of DepositJob.
+    # Called as part of EventJob.
     def process_data
       self.start
 
@@ -18,14 +18,7 @@ module Processable
     end
 
     def collect_data
-      case
-      # when message_type == "publisher" && message_action == "delete" then delete_publisher
-      # when message_type == "publisher" then update_publisher
-      when message_type == "contribution" && message_action == "remove" then delete_contributor
-      when message_type == "contribution" then update_contributions
-      when message_type == "relation" && message_action == "remove" then delete_relation
-      else update_relations
-      end
+      update_relations
     end
 
     # update in order, stop if an error occured
@@ -34,15 +27,18 @@ module Processable
       update_related_work
     end
 
-    def update_contributions
-      update_related_work
+    def update_work
+      # initialize work if it doesn't exist
+      self.work = Work.where(pid: subj_id).first_or_create
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError, ActiveRecord::StatementInvalid => exception
+      self.work = Work.where(pid: pid).first
     end
 
-    def handle_exception(exception, options={})
-      message = "#{exception.message} for #{options[:class_name]} #{options[:id]}"
-      write_attribute(:error_messages, { options[:class_name] => exception.message })
-
-      false
+    def update_related_work
+      # initialize related_work if it doesn't exist
+      self.related_work = Work.where(pid: obj_id).first_or_create
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StaleObjectError, ActiveRecord::StatementInvalid => exception
+      self.related_work = Work.where(pid: obj_id).first
     end
   end
 end

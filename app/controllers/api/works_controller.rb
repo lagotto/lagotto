@@ -18,7 +18,7 @@ class Api::WorksController < Api::BaseController
       authorize! :create, @work
 
       if @work.save
-        render json: @work, :status => :created
+        render json: @work, :status => :created, serializer: SimpleWorkSerializer
       else
         errors = @work.errors.full_messages.map { |message| { status: 422, title: message } }
         render json: { errors: errors }, status: :unprocessable_entity
@@ -31,7 +31,7 @@ class Api::WorksController < Api::BaseController
       render json: { errors: [{ status: 422, title: "Missing attribute: type."}] }, status: :unprocessable_entity
     else
       if @work.update_attributes(safe_params.except(:type))
-        render json: @work, :status => :ok
+        render json: @work, :status => :ok, serializer: SimpleWorkSerializer
       else
         errors = @work.errors.full_messages.map { |message| { status: 422, title: message } }
         render json: { errors: errors }, status: :unprocessable_entity
@@ -62,7 +62,7 @@ class Api::WorksController < Api::BaseController
       collection = Work.indexed
     end
 
-    collection = collection.order("works.updated_at DESC")
+    collection = collection.order("updated_at DESC")
 
     page = params[:page] || {}
     page[:number] = page[:number] && page[:number].to_i > 0 ? page[:number].to_i : 1
@@ -74,7 +74,7 @@ class Api::WorksController < Api::BaseController
     @works = collection.page(page[:number]).per_page(page[:size])
 
     meta = { total: total, 'total-pages' => total_pages, page: page[:number].to_i }
-    render json: @works, meta: meta
+    render json: @works, meta: meta, each_serializer: SimpleWorkSerializer
   end
 
   # use cached counts for total number of results

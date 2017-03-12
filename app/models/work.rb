@@ -8,6 +8,8 @@ class Work < ActiveRecord::Base
   include Bolognese::Utils
   include Bolognese::DoiUtils
 
+  SCHEMA_VERSION = "http://datacite.org/schema/kernel-4"
+
   # store blank values as nil
   nilify_blanks
 
@@ -28,6 +30,16 @@ class Work < ActiveRecord::Base
 
   def doi
     validate_doi(pid)
+  end
+
+  def prefix
+    validate_prefix(pid)
+  end
+
+  # fetch metadata from DOI content negotiation or stored version
+  # display as schema.org JSON-LD
+  def metadata
+    @metadata ||= cached_metadata(pid: pid, provider_id: provider_id)
   end
 
   private

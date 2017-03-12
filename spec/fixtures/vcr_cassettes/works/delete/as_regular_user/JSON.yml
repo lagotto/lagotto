@@ -2,77 +2,6 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.datacite.org/prefixes/10.7554
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Maremma - http://lagotto.local
-      Accept:
-      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
-  response:
-    status:
-      code: 200
-      message: ''
-    headers:
-      Access-Control-Allow-Credentials:
-      - 'true'
-      Access-Control-Allow-Headers:
-      - Content-Type,Accept,Accept-Encoding,Origin,User-Agent,Cache-Control,Keep-Alive
-      Access-Control-Allow-Methods:
-      - POST, GET, OPTIONS
-      Access-Control-Allow-Origin:
-      - "*"
-      Access-Control-Max-Age:
-      - '1728000'
-      Cache-Control:
-      - max-age=0, private, must-revalidate
-      Content-Type:
-      - application/vnd.api+json; charset=utf-8
-      Date:
-      - Sun, 12 Mar 2017 14:12:20 GMT
-      Etag:
-      - W/"daf85afdb45f3c2713bc7e75916ba82a"
-      Server:
-      - openresty/1.11.2.2
-      Status:
-      - 200 OK
-      Vary:
-      - Accept-Encoding
-      Via:
-      - kong/0.10.0rc3
-      X-Content-Type-Options:
-      - nosniff
-      X-Frame-Options:
-      - SAMEORIGIN
-      X-Kong-Proxy-Latency:
-      - '1'
-      X-Kong-Upstream-Latency:
-      - '761'
-      X-Powered-By:
-      - Phusion Passenger 5.1.2
-      X-Ratelimit-Limit-Hour:
-      - '10000'
-      X-Ratelimit-Remaining-Hour:
-      - '9996'
-      X-Request-Id:
-      - f3d9fd92-fe66-465a-81ec-db0196ffa914
-      X-Runtime:
-      - '0.759578'
-      X-Xss-Protection:
-      - 1; mode=block
-      Content-Length:
-      - '124'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"data":{"id":"10.7554","type":"prefixes","attributes":{"registration-agency":"Crossref","updated":"2016-09-21T21:07:27Z"}}}'
-    http_version: 
-  recorded_at: Sun, 12 Mar 2017 14:12:20 GMT
-- request:
-    method: get
     uri: https://doi.org/10.7554/elife.01567
     body:
       encoding: US-ASCII
@@ -94,20 +23,20 @@ http_interactions:
       Location:
       - http://data.crossref.org/10.7554%2Felife.01567
       Expires:
-      - Sun, 12 Mar 2017 15:11:49 GMT
+      - Sun, 12 Mar 2017 14:11:49 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '177'
       Date:
-      - Sun, 12 Mar 2017 14:12:22 GMT
+      - Sun, 12 Mar 2017 13:23:43 GMT
     body:
       encoding: UTF-8
       string: |-
         <html><head><title>Handle Redirect</title></head>
         <body><a href="http://data.crossref.org/10.7554%2Felife.01567">http://data.crossref.org/10.7554%2Felife.01567</a></body></html>
     http_version: 
-  recorded_at: Sun, 12 Mar 2017 14:12:23 GMT
+  recorded_at: Sun, 12 Mar 2017 13:23:43 GMT
 - request:
     method: get
     uri: http://data.crossref.org/10.7554%2Felife.01567
@@ -143,7 +72,7 @@ http_interactions:
       Server:
       - http-kit
       Date:
-      - Sun, 12 Mar 2017 14:12:25 GMT
+      - Sun, 12 Mar 2017 13:23:45 GMT
       Connection:
       - close
     body:
@@ -786,5 +715,5 @@ http_interactions:
         aWNsZT4NCiAgICAgIDwvam91cm5hbD4NCiAgICA8L2Nyb3NzcmVmPg0KICA8
         L2RvaV9yZWNvcmQ+DQo8L2RvaV9yZWNvcmRzPg==
     http_version: 
-  recorded_at: Sun, 12 Mar 2017 14:12:25 GMT
+  recorded_at: Sun, 12 Mar 2017 13:23:45 GMT
 recorded_with: VCR 2.9.3

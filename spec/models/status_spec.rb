@@ -8,12 +8,12 @@ describe Status do
   end
 
   it "has jobs" do
-    expect(subject.jobs[:processed]).to be > 0
+    expect(subject.jobs[:processed]).to be_present
   end
 
-  it "has deposit count" do
-    FactoryGirl.create(:deposit)
-    expect(subject.deposit_count).to eq(1)
+  it "has event count" do
+    FactoryGirl.create(:event)
+    expect(subject.event_count).to eq(1)
   end
 
   it "has source count" do
