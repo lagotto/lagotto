@@ -56,6 +56,17 @@ module Lagotto
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # See everything in the log (default is :info)
+    log_level = ENV["LOG_LEVEL"] ? ENV["LOG_LEVEL"].to_sym : :info
+    config.log_level = log_level
+
+    # Prepend all log lines with the following tags.
+    # config.log_tags = [ :subdomain, :uuid ]
+
+    # Use a different logger for distributed setups
+    config.lograge.enabled = true
+    config.logger = Syslog::Logger.new(ENV['APPLICATION'])
+
     # Configure the default encoding used in templates for Ruby.
     config.encoding = "utf-8"
 

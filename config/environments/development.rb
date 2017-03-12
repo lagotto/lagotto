@@ -22,10 +22,6 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-  # Use a different logger for distributed setups
-  config.lograge.enabled = true
-  config.logger = Syslog::Logger.new(ENV['APPLICATION'])
-
   # Use a different cache store
   # dalli uses ENV['MEMCACHE_SERVERS'], further options are defined here
   config.cache_store = :dalli_store, nil, { :namespace => ENV['APPLICATION'], :compress => true }

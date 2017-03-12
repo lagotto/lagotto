@@ -30,10 +30,6 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  # Use a different logger for distributed setups
-  config.lograge.enabled = true
-  config.logger = Syslog::Logger.new(ENV['APPLICATION'])
-
   # Use a different cache store
   # dalli uses ENV['MEMCACHE_SERVERS'], further options are defined here
   config.cache_store = :dalli_store, nil, { :namespace => ENV['APPLICATION'], :compress => true }

@@ -16,10 +16,6 @@ Rails.application.configure do
   # Compress JavaScripts and CSS
   config.assets.js_compressor = :uglifier
 
-  # Use a different logger for distributed setups
-  config.lograge.enabled = true
-  config.logger = Syslog::Logger.new(ENV['APPLICATION'])
-
   # Use a different cache store
   # dalli uses ENV['MEMCACHE_SERVERS'], further options are defined here
   config.cache_store = :dalli_store, nil, { :namespace => ENV['APPLICATION'], :compress => true }
