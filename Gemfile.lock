@@ -148,8 +148,6 @@ GEM
     highline (1.6.21)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    httplog (0.99.2)
-      colorize
     i18n (0.8.1)
     immigrant (0.3.6)
       activerecord (>= 3.0)
@@ -359,7 +357,7 @@ DEPENDENCIES
   bullet (~> 4.14.0)
   cancancan (~> 1.9.2)
   capybara (~> 2.4.4)
-  codeclimate-test-reporter (~> 0.4.1)
+  codeclimate-test-reporter (~> 0.4.8)
   colorize (~> 0.8)
   config (~> 1.0.0)
   dalli (~> 2.7.0)
@@ -370,7 +368,6 @@ DEPENDENCIES
   gender_detector (~> 0.1.2)
   github-markdown (~> 0.6.3)
   hashie (~> 3.3.2)
-  httplog
   immigrant (~> 0.3.4)
   iso8601 (~> 0.9.0)
   jwt (~> 1.5, >= 1.5.4)

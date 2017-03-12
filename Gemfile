@@ -13,7 +13,6 @@ gem 'backport_new_renderer', '~> 1.0'
 gem 'immigrant', '~> 0.3.4'
 gem "state_machine", "~> 1.2.0", :git => 'https://github.com/fly1tkg/state_machine.git', :branch => 'issue/334'
 gem 'lograge', '~> 0.3.5'
-gem 'httplog'
 gem 'bugsnag', '~> 2.8.6'
 
 gem 'maremma', '~> 3.5'
@@ -57,7 +56,7 @@ group :test do
   gem "launchy", "~> 2.4.2"
   gem "rack-test", "~> 0.6.2", :require => "rack/test"
   gem "simplecov", "~> 0.9.1", :require => false
-  gem 'codeclimate-test-reporter', '~> 0.4.1', :require => nil
+  gem 'codeclimate-test-reporter', '~> 0.4.8', :require => nil
   gem "shoulda-matchers", "~> 2.7.0", :require => false
   gem "webmock", "~> 1.20.0"
   gem 'vcr', '~> 2.9.3'
