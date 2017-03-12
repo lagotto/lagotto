@@ -23,7 +23,6 @@ before_script:
 
 script:
   - bundle exec rspec
-  - bundle exec codeclimate-test-reporter
 
 env:
   global:
