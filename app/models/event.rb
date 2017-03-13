@@ -62,7 +62,7 @@ class Event < ActiveRecord::Base
   scope :waiting, -> { by_state(0).order_by_date }
   scope :working, -> { by_state(1).order_by_date }
   scope :failed, -> { by_state(2).order_by_date }
-  scope :stuck, -> { by_state(1).where("updated_at < ?", Time.zone.now - 24.hours).order_by_date }
+  scope :stuck, -> { where(state: [0,1]).where("updated_at < ?", Time.zone.now - 24.hours).order_by_date }
   scope :done, -> { by_state(3).order_by_date }
   scope :total, ->(duration) { where(updated_at: (Time.zone.now.beginning_of_hour - duration.hours)..Time.zone.now.beginning_of_hour) }
 
