@@ -18,6 +18,8 @@ class Api::EventsController < Api::BaseController
         render json: { errors: errors }, status: :unprocessable_entity
       end
     end
+  rescue ActiveRecord::RecordNotUnique
+    render json: @event, :status => :created
   end
 
   def show
