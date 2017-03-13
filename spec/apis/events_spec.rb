@@ -57,7 +57,7 @@ describe "/events", :type => :api do
     context "as admin user" do
       it "JSON" do
         post uri, params, headers
-        expect(last_response.status).to eq(202)
+        expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
         expect(response["errors"]).to be_nil
@@ -85,7 +85,7 @@ describe "/events", :type => :api do
 
       it "JSON" do
         post uri, params, headers
-        expect(last_response.status).to eq(202)
+        expect(last_response.status).to eq(201)
 
         response = JSON.parse(last_response.body)
         expect(response["errors"]).to be_nil
