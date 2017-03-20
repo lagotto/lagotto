@@ -1,3 +1,3 @@
 module Lagotto
-  VERSION = "4.5.100-SNAPSHOT"
+  VERSION = "4.5.0"
 end
