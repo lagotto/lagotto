@@ -88,9 +88,7 @@ ENV['SERVERS'].split(",").each_with_index do |s, i|
 end
 
 # only write cron table for lagotto instance running sidekiq
-if ENV['SIDEKIQ_ENABLE'] == '1'
-  set :whenever_roles, [:app] 
-end
+set :whenever_roles, (ENV['SIDEKIQ_ENABLE'] == '1') ? [:app] : []
 
 namespace :deploy do
   before :starting, "files:upload"
