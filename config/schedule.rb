@@ -38,24 +38,24 @@ set :output, "log/cron.log"
 # Generate a monthly report
 
 # every hour at 5 min past the hour
-every "5 * * * *" do
+every "5 * * * *", :roles => [:sidekiq] do
   rake "cron:hourly"
 end
 
-every 1.day, at: "1:20 AM" do
+every 1.day, at: "1:20 AM", :roles => [:sidekiq] do
   rake "cron:daily"
 end
 
-every "20 11,16 * * *" do
+every "20 11,16 * * *", :roles => [:sidekiq] do
   rake "cron:import", :output => "log/cron_import.log"
 end
 
-every :monday, at: "1:40 AM" do
+every :monday, at: "1:40 AM", :roles => [:sidekiq] do
   rake "cron:weekly"
 end
 
 # every 10th of the month at 2:10 AM
-every "50 2 10 * *" do
+every "50 2 10 * *", :roles => [:sidekiq] do
   rake "cron:monthly"
 end
 
