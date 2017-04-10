@@ -89,7 +89,7 @@ end
 
 # only write cron table for lagotto instance running sidekiq
 if ENV['SIDEKIQ_ENABLE'] == '1'
-  set :whenever_roles, [:sidekiq] 
+  set :whenever_roles, [:app] 
 end
 
 namespace :deploy do
