@@ -38,25 +38,25 @@ set :output, "log/cron.log"
 # Generate a monthly report
 
 # every hour at 5 min past the hour
-#every "5 * * * *", :roles => [:app] do
- #rake "cron:hourly"
-#end
+every "5 * * * *", :roles => [:app] do
+ rake "cron:hourly"
+end
 
-#every 1.day, at: "1:20 AM", :roles => [:app] do
-  #rake "cron:daily"
-#end
+every 1.day, at: "1:20 AM", :roles => [:app] do
+  rake "cron:daily"
+end
 
-#every "20 11,16 * * *", :roles => [:app] do
-  #rake "cron:import", :output => "log/cron_import.log"
-#end
+every "20 11,16 * * *", :roles => [:app] do
+  rake "cron:import", :output => "log/cron_import.log"
+end
 
-#every :monday, at: "1:40 AM", :roles => [:app] do
-  #rake "cron:weekly"
-#end
+every :monday, at: "1:40 AM", :roles => [:app] do
+  rake "cron:weekly"
+end
 
 # every 10th of the month at 2:10 AM
-#every "50 2 10 * *", :roles => [:app] do
-  #rake "cron:monthly"
-#end
+every "50 2 10 * *", :roles => [:app] do
+  rake "cron:monthly"
+end
 
 # Learn more: http://github.com/javan/whenever
