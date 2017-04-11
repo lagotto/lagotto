@@ -38,7 +38,7 @@ set :output, "log/cron.log"
 # Generate a monthly report
 
 # every hour at 5 min past the hour
-very "5 * * * *", :roles => [:app] do
+every "5 * * * *", :roles => [:app] do
  rake "cron:hourly"
 end
 
