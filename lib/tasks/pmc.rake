@@ -3,7 +3,7 @@ require 'addressable/uri'
 
 namespace :pmc do
   desc "Bulk-import PMC usage stats by month and journal"
-  task :update => :environment do
+  task :update, :is_precise => :environment do
     # silently exit if pmc source is not available
     source = Source.visible.where(name: "pmc").first
     exit if source.nil?
@@ -12,7 +12,8 @@ namespace :pmc do
     ENV['MONTH'] ||= date.month.to_s
     ENV['YEAR'] ||= date.year.to_s
 
-    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options={})
+    options = args[:is_precise]
+    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options=options)
 
     if publisher_ids.length > 0
       publisher_ids.each do |publisher_id|
