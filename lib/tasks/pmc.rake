@@ -18,6 +18,8 @@ namespace :pmc do
       options = false
     end
 
+    Rails.logger options + 'rake task'
+
     publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options=options)
 
     if publisher_ids.length > 0
