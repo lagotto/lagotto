@@ -23,7 +23,7 @@ namespace :pmc do
     if publisher_ids.length > 0
       publisher_ids.each do |publisher_id|
         publisher = Publisher.where(member_id: publisher_id).first
-        puts "Import of PMC usage stats queued for publisher #{publisher.title}, starting month #{ENV['MONTH']} and year #{ENV['YEAR']} and precise is #{ENV['IS_PRECISE']}"
+        puts "Import of PMC usage stats queued for publisher #{publisher.title}, starting month #{ENV['MONTH']} and year #{ENV['YEAR']}"
       end
     else
       puts "No publisher for PMC usage stats found."
