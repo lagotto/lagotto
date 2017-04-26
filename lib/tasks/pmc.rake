@@ -12,7 +12,7 @@ namespace :pmc do
     ENV['MONTH'] ||= date.month.to_s
     ENV['YEAR'] ||= date.year.to_s
 
-    options = args[:is_precise]
+    options = :is_precise
     publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options=options)
 
     if publisher_ids.length > 0
