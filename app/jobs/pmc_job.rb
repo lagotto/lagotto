@@ -11,7 +11,7 @@ class PmcJob < ActiveJob::Base
       dates = source.date_range(month: month, year: year)
     end
 
-    Rails.logger options + 'PMCJob'
+    Rails.logger options
 
     # we have to do this sequentally, as we are updating a single CouchDB document for a work for every month
     dates.each do |date|
