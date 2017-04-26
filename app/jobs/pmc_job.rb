@@ -5,7 +5,7 @@ class PmcJob < ActiveJob::Base
     source = Source.visible.where(name: "pmc").first
     return nil if publisher_id.nil? || month.nil? || year.nil? || journal.nil? || source.nil?
 
-    if is_precise == true
+    if is_precise == 'true'
       dates = [{month: month, year: year}]
     else
       dates = source.date_range(month: month, year: year)
