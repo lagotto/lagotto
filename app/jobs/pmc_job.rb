@@ -1,17 +1,15 @@
 class PmcJob < ActiveJob::Base
   queue_as :high
 
-  def perform(publisher_id, month, year, journal, options={})
+  def perform(publisher_id, month, year, journal, options={}, is_precise=false)
     source = Source.visible.where(name: "pmc").first
     return nil if publisher_id.nil? || month.nil? || year.nil? || journal.nil? || source.nil?
 
-    if options == true
+    if is_precise == true
       dates = [{month: month, year: year}]
     else
       dates = source.date_range(month: month, year: year)
     end
-
-    Rails.logger options
 
     # we have to do this sequentally, as we are updating a single CouchDB document for a work for every month
     dates.each do |date|

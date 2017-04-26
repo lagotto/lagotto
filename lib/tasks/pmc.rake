@@ -12,15 +12,9 @@ namespace :pmc do
     ENV['MONTH'] ||= date.month.to_s
     ENV['YEAR'] ||= date.year.to_s
 
-    if ENV['IS_PRECISE'] == 1
-      options = true
-    else
-      options = false
-    end
+    is_precise = ENV['IS_PRECISE'] || 0
 
-    Rails.logger.info options
-
-    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options=options)
+    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options={}, is_precise)
 
     if publisher_ids.length > 0
       publisher_ids.each do |publisher_id|

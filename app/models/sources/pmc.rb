@@ -42,7 +42,7 @@ class Pmc < Source
     end
   end
 
-  def process_feed(month, year, options={})
+  def process_feed(month, year, options={}, is_precise=false)
     raise ArgumentError("Missing: month") unless month.present?
     raise ArgumentError("Missing: year") unless year.present?
 
@@ -51,7 +51,7 @@ class Pmc < Source
       journals = publisher[1].journals.to_s.split(" ")
 
       journals.each do |journal|
-        PmcJob.perform_later(publisher_id, month, year, journal, options)
+        PmcJob.perform_later(publisher_id, month, year, journal, options, is_precise)
         Rails.logger.info options
         Rails.logger.info "Queueing pmc import for #{journal}, month #{month}, and year #{year}"
       end
