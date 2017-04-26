@@ -13,9 +13,9 @@ namespace :pmc do
     ENV['YEAR'] ||= date.year.to_s
 
     if ENV['IS_PRECISE'] == 1
-      is_precise = 1
+      is_precise = true
     else
-      is_precise = 0
+      is_precise = false
     end
 
     publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options={}, is_precise)
