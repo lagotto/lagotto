@@ -1,11 +1,11 @@
 class PmcJob < ActiveJob::Base
   queue_as :high
 
-  def perform(publisher_id, month, year, journal, options={}, is_precise=false)
+  def perform(publisher_id, month, year, journal, options={})
     source = Source.visible.where(name: "pmc").first
     return nil if publisher_id.nil? || month.nil? || year.nil? || journal.nil? || source.nil?
 
-    if is_precise == true
+    if options[:is_precise]
       dates = [{month: month, year: year}]
     else
       dates = source.date_range(month: month, year: year)
