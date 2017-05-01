@@ -52,7 +52,7 @@ class Pmc < Source
 
       journals.each do |journal|
         PmcJob.perform_later(publisher_id, month, year, journal, options)
-        Rails.logger.info "Queueing pmc import for #{journal}, month #{month}, and year #{year}"
+        Rails.logger.info "Queueing pmc import for #{journal}, month #{month}, and year #{year} [#{options}]"
       end
     end
     publisher_configs.map { |publisher| publisher[0] }
