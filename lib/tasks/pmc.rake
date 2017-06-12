@@ -12,12 +12,14 @@ namespace :pmc do
     ENV['MONTH'] ||= date.month.to_s
     ENV['YEAR'] ||= date.year.to_s
 
-    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options={})
+    is_precise = ENV['IS_PRECISE'] == '1' ? true : false
+
+    publisher_ids = source.process_feed(ENV['MONTH'], ENV['YEAR'], options={:is_precise => is_precise})
 
     if publisher_ids.length > 0
       publisher_ids.each do |publisher_id|
         publisher = Publisher.where(member_id: publisher_id).first
-        puts "Import of PMC usage stats queued for publisher #{publisher.title}, starting month #{ENV['MONTH']} and year #{ENV['YEAR']}"
+        puts "Import of PMC usage stats queued for publisher #{publisher.title}, starting month #{ENV['MONTH']} and year #{ENV['YEAR']} [precise:#{is_precise}]"
       end
     else
       puts "No publisher for PMC usage stats found."
