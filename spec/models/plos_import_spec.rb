@@ -4,7 +4,7 @@ describe PlosImport, type: :model, vcr: true do
 
   before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2013, 9, 5)) }
 
-  SOLR_URL="http://solr-102.soma.plos.org:8011/solr/select"
+  SOLR_URL = ENV['SOLR_URL'] || "http://solr-mega-dev.soma.plos.org/solr/journals_dev/select"
 
   context "query_url" do
     it "should have total_results" do
