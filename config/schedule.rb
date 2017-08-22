@@ -52,7 +52,7 @@ every "20 11,16 * * *", :roles => [:app] do
   import_rake_job "cron:import", 
       :output => "log/cron_import.log", 
       # default import window [a week ago - now]
-      :from_pub_date => '`date --date="7 days ago" +%Y-%m-%d`'
+      :from_pub_date => '`date --date="7 days ago" +\%Y-\%m-\%d`'
 end
 
 every :monday, at: "1:40 AM", :roles => [:app] do
