@@ -47,6 +47,8 @@ every 1.day, at: "1:20 AM", :roles => [:app] do
 end
 
 every "20 11,16 * * *", :roles => [:app] do
+  # default import window [a week ago - now]
+  env :FROM_PUB_DATE, "`date --date='7 days ago' +%Y-%m-%d`"
   rake "cron:import", :output => "log/cron_import.log"
 end
 
