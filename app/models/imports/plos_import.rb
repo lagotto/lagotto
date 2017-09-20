@@ -13,7 +13,7 @@ class PlosImport < Import
   end
 
   def query_url(offset = 0, rows = 1000)
-    url = "http://solr-102.soma.plos.org:8011/solr/select?"
+    url = "http://solr-101.soma.plos.org:8011/solr/select?"
     date_range = "publication_date:[#{from_pub_date}T00:00:00Z TO #{until_pub_date}T23:59:59Z]"
     params = { q: "*:*",
                start: offset,
