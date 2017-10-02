@@ -47,7 +47,12 @@ every 1.day, at: "1:20 AM", :roles => [:app] do
 end
 
 every "20 11,16 * * *", :roles => [:app] do
-  rake "cron:import", :output => "log/cron_import.log"
+  job_type :import_rake_job, "cd :path && RAILS_ENV=:environment FROM_PUB_DATE=:from_pub_date bundle exec rake :task --silent :output"
+
+  import_rake_job "cron:import", 
+      :output => "log/cron_import.log", 
+      # default import window [a week ago - now]
+      :from_pub_date => '`date --date="7 days ago" +%Y-%m-%d`'
 end
 
 every :monday, at: "1:40 AM", :roles => [:app] do
