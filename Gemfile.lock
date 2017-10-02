@@ -128,6 +128,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    colorize (0.8.1)
     connection_pool (2.2.1)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -459,6 +460,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0.3)
   codeclimate-test-reporter (~> 0.4.1)
   coffee-rails (~> 4.1.0)
+  colorize (~> 0.8.1)
   dalli (~> 2.7.0)
   database_cleaner (~> 1.3.0)
   devise (~> 3.4.1)
@@ -529,4 +531,4 @@ DEPENDENCIES
   zenodo (~> 0.0.8)
 
 BUNDLED WITH
-   1.12.5
+   1.14.6

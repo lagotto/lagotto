@@ -13,7 +13,6 @@ class PlosImport < Import
   end
 
   def query_url(offset = 0, rows = 1000)
-    url = "http://solr-101.soma.plos.org:8011/solr/select?"
     date_range = "publication_date:[#{from_pub_date}T00:00:00Z TO #{until_pub_date}T23:59:59Z]"
     params = { q: "*:*",
                start: offset,
@@ -21,7 +20,7 @@ class PlosImport < Import
                fl: "id,publication_date,title_display,cross_published_journal_name,author_display,volume,issue,elocation_id",
                fq: "+#{date_range} +doc_type:full -article_type:\"Issue Image\"",
                wt: "json" }
-    url + params.to_query
+    ENV['SOLR_URL'] +'?'+ params.to_query
   end
 
   def get_data(options={})
