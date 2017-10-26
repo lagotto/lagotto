@@ -27,11 +27,7 @@ The following organizations are using Lagotto (live status information available
 * [Public Library of Science (PLOS)](http://article-level-metrics.plos.org/)
 * [Copernicus Publications](http://publications.copernicus.org/services/article_level_metrics.html)
 * [Public Knowledge Project (PKP)](http://pkp.sfu.ca/pkp-launches-article-level-metrics-for-ojs-journals/)
-* [CrossRef Labs](http://crosstech.crossref.org/2014/02/many-metrics-such-data-wow.html)
-* [eLife](http://lagotto.svr.elifesciences.org/)
-* [Pensoft](http://alm.pensoft.net:81/)
 * [Making Data Count (Data-Level Metrics NSF project)](http://blogs.plos.org/tech/making-data-count-plos-cdl-and-dataone-join-forces-to-build-incentives-for-data-sharing/)
-* [Ubiquity Press](http://metrics.ubiquity.press)
 
 ## For Users
 Users can access the data via the [API](/api), or via one of the client applications:
@@ -41,4 +37,4 @@ Users can access the data via the [API](/api), or via one of the client applicat
 * [Python client](https://github.com/lagotto/pyalm)
 
 ## For Developers
-We always welcome feedback and code contributions, and we have a growing list of [contributors](/docs/contributors). For questions or comments regarding Lagotto, visit the [Lagotto support forum](http://discuss.lagotto.io) or use the [Github issue tracker](https://github.com/lagotto/lagotto/issues).
+We always welcome feedback and code contributions, and we have a growing list of [contributors](/docs/contributors). For questions or comments regarding Lagotto, visit the [Github issue tracker](https://github.com/lagotto/lagotto/issues).
