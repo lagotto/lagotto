@@ -9,6 +9,13 @@ class Counter < Source
     { content_type: "xml"}
   end
 
+  def get_data(work, options={})
+    result = super
+    # if doi not found (404), update status code so that db isn't updated
+    result[:status] = 400 if result[:status] == 404
+    result
+  end
+
   def parse_data(result, work, options={})
     return result if result[:error]
 
