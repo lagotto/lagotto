@@ -51,7 +51,7 @@ class RetrievalStatus < ActiveRecord::Base
       AGENT_LOGGER.tagged(source.name, work.pid) { AGENT_LOGGER.info "#{result.inspect}" }
     end
 
-    skipped = data[:error].present? && data[:status] != 404
+    skipped = data[:error].present?
     previous_total = total
     update_interval = retrieved_days_ago
 
