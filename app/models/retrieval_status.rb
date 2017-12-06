@@ -51,20 +51,26 @@ class RetrievalStatus < ActiveRecord::Base
       AGENT_LOGGER.tagged(source.name, work.pid) { AGENT_LOGGER.info "#{result.inspect}" }
     end
 
-    skipped = data[:error].present? && data[:status] != 404
-    skip_db_update = data[:error].present?
+    not_found = (data[:status] == 404)
+    # only update database for 200 & 404. skip everything else.
+    skipped = data[:error].present? && !not_found 
 
     previous_total = total
     update_interval = retrieved_days_ago
 
     # only update database if no error
-    unless skip_db_update
+    unless skipped
       data = source.parse_data(data, work, work_id: work_id, source_id: source_id)
 
       update_works(data.fetch(:works, []))
 
       data[:events] = data.fetch(:events, {})
-      update_data(data.fetch(:events, {}).except(:days, :months))
+      if (not_found)
+        # schedule when to try again (ignore staleness)
+        update_schedule_date(Time.zone.now + 1.days)
+      else 
+        update_data(data.fetch(:events, {}).except(:days, :months))
+      end
 
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?
@@ -81,6 +87,12 @@ class RetrievalStatus < ActiveRecord::Base
       previous_total: previous_total,
       skipped: skipped,
       update_interval: update_interval }
+  end
+
+  def update_schedule_date(sched_date)
+    update_attributes(retrieved_at: Time.zone.now,
+                      scheduled_at: sched_date,
+                      queued_at: nil)
   end
 
   def update_data(data)
