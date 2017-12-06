@@ -51,12 +51,14 @@ class RetrievalStatus < ActiveRecord::Base
       AGENT_LOGGER.tagged(source.name, work.pid) { AGENT_LOGGER.info "#{result.inspect}" }
     end
 
-    skipped = data[:error].present?
+    skipped = data[:error].present? && data[:status] != 404
+    skip_db_update = data[:error].present?
+
     previous_total = total
     update_interval = retrieved_days_ago
 
     # only update database if no error
-    unless skipped
+    unless skip_db_update
       data = source.parse_data(data, work, work_id: work_id, source_id: source_id)
 
       update_works(data.fetch(:works, []))
