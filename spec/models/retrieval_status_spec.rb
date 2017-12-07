@@ -395,10 +395,10 @@ describe RetrievalStatus, type: :model, vcr: true do
     it "error (404)" do
       stub = stub_request(:get, subject.source.get_query_url(subject.work))
         .to_return(:status => [404], :body => 'server responded with 404')
-      expect(subject.perform_get_data).to eq(total: 2, html: 0, pdf: 0, previous_total: 2, skipped: true, update_interval: 31)
+      expect(subject.perform_get_data).to eq(total: 2, html: 0, pdf: 0, previous_total: 2, skipped: false, update_interval: 31)
       expect(subject.total).to eq(2)
       expect(subject.readers).to eq(2)
-      expect(subject.months.count).to eq(0)
+      expect(subject.months.count).to eq(1)
     end
   end
 end
