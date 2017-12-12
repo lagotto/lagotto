@@ -66,8 +66,7 @@ class RetrievalStatus < ActiveRecord::Base
 
       data[:events] = data.fetch(:events, {})
       if (not_found)
-        # schedule when to try again (ignore staleness)
-        update_schedule_date(Time.zone.now + 1.days)
+        update_schedule_date(stale_at)
       else 
         update_data(data.fetch(:events, {}).except(:days, :months))
       end
