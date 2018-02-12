@@ -500,7 +500,7 @@ DEPENDENCIES
   puma
   rack-mini-profiler (~> 0.9.1)
   rack-test (~> 0.6.2)
-  rails (~> 4.2.1)
+  rails (~> 4.2.7.1)
   rake (~> 10.4.2)
   rouge (~> 1.7.2)
   rspec-rails (~> 3.1.0)
