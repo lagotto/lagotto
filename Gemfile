@@ -100,5 +100,5 @@ group :test, :development do
   gem 'bullet', '~> 4.14.0'
 end
 
-gem 'rack-mini-profiler', '~> 0.9.1', require: false
+gem 'rack-mini-profiler', '~> 0.10.1', require: false
 gem 'puma'
