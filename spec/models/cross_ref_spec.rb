@@ -110,7 +110,7 @@ describe CrossRef, type: :model, vcr: true do
   end
 
   context "parse_data from the CrossRef API" do
-    let(:null_response) { { works: [], events: { source: "crossref", work: work.pid, total: 0, extra: [] } } }
+    let(:null_response) { { events: { source: "crossref", work: work.pid, total: 0, extra: [] } } }
 
     it "should report if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
@@ -132,28 +132,9 @@ describe CrossRef, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(31)
       expect(response[:events][:total]).to eq(31)
-
-      event = response[:works].first
-      expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(event['title']).to eq("Audiotactile interactions in temporal perception")
-      expect(event['container-title']).to eq("Psychon Bull Rev")
-      expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])
-      expect(event['volume']).to eq("18")
-      expect(event['issue']).to eq("3")
-      expect(event['page']).to eq("429-454")
-      expect(event['type']).to eq("article-journal")
-      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
-
       extra = response[:events][:extra].first
-      expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(extra[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(extra[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
-      expect(extra[:event_csl]['type']).to eq("article-journal")
+      expect(extra[:event_url]).to eq("http://doi.org/10.3758/s13423-011-0070-4")
     end
 
     it "should report if there is one event returned by the CrossRef API" do
@@ -161,25 +142,9 @@ describe CrossRef, type: :model, vcr: true do
       result = Hash.from_xml(body)
       result.extend Hashie::Extensions::DeepFetch
       response = subject.parse_data(result, work)
-      expect(response[:works].length).to eq(1)
       expect(response[:events][:total]).to eq(1)
-
-      event = response[:works].first
-      expect(event["DOI"]).to eq("10.3758/s13423-011-0070-4")
-      expect(event['author']).to eq([{"affiliation"=>[], "family"=>"Occelli", "given"=>"Valeria"}, {"affiliation"=>[], "family"=>"Spence", "given"=>"Charles"}, {"affiliation"=>[], "family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(event['title']).to eq("Audiotactile interactions in temporal perception")
-      expect(event['container-title']).to eq("Psychon Bull Rev")
-      expect(event['issued']).to eq("date-parts"=>[[2011, 3, 12]])
-      expect(event['type']).to eq("article-journal")
-      expect(event['related_works']).to eq([{"related_work"=> work.pid, "source"=>"crossref", "relation_type"=>"cites"}])
-
       extra = response[:events][:extra].first
-      expect(extra[:event_url]).to eq("http://doi.org/#{extra[:event]['doi']}")
-      expect(extra[:event_csl]['author']).to eq([{"family"=>"Occelli", "given"=>"Valeria"}, {"family"=>"Spence", "given"=>"Charles"}, {"family"=>"Zampini", "given"=>"Massimiliano"}])
-      expect(extra[:event_csl]['title']).to eq("Audiotactile Interactions In Temporal Perception")
-      expect(extra[:event_csl]['container-title']).to eq("Psychonomic Bulletin & Review")
-      expect(extra[:event_csl]['issued']).to eq("date-parts"=>[[2011]])
-      expect(extra[:event_csl]['type']).to eq("article-journal")
+      expect(extra[:event_url]).to eq("http://doi.org/10.3758/s13423-011-0070-4")
     end
 
     it "should catch timeout errors with the CrossRef API" do
@@ -191,7 +156,7 @@ describe CrossRef, type: :model, vcr: true do
 
   context "parse_data from the CrossRef OpenURL API" do
     let(:work) { FactoryGirl.create(:work, doi: "10.1007/s00248-010-9734-2", canonical_url: "http://link.springer.com/work/10.1007%2Fs00248-010-9734-2#page-1", publisher_id: nil) }
-    let(:null_response) { { works: [], events: { source: "crossref", work: work.pid, total: 0, extra: [] } } }
+    let(:null_response) { { events: { source: "crossref", work: work.pid, total: 0, extra: [] } } }
 
     it "should report if the doi is missing" do
       result = {}
