@@ -42,5 +42,6 @@ doc/dependencies*
 .byebug_history
 .env
 .env.*
+!.env.rspec
 !.env.example
 !.env.travis
