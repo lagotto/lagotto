@@ -42,7 +42,8 @@ class CrossRef < Source
     elsif related_works.is_a?(Hash)
       related_works = nil
     end
-    related_works.nil? ? 0 : related_works.size
+    # only count journal citations
+    related_works.nil? ? 0 : related_works.select { |w| w['journal_cite'] }.size
   end
 
   def get_extra(result)
