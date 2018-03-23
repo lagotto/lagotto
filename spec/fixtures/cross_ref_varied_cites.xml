@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crossref_result version="2.0" xmlns="http://www.crossref.org/qrschema/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.crossref.org/qrschema/2.0 http://www.crossref.org/qrschema/crossref_query_output2.0.xsd">
+ <query_result>
+  <head>
+   <email_address>none</email_address>
+   <doi_batch_id>none</doi_batch_id>
+  </head>
+  <body>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="32">
+     <issn type="electronic">1553-7404</issn>
+     <journal_title>PLoS Genetics</journal_title>
+     <journal_abbreviation>PLoS Genet</journal_abbreviation>
+     <article_title>Blood-Informative Transcripts Define Nine Common Axes of Peripheral Blood Gene Expression</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Marcela</given_name>
+       <surname>Preininger</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Dalia</given_name>
+       <surname>Arafat</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Jinhee</given_name>
+       <surname>Kim</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Artika P.</given_name>
+       <surname>Nath</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Youssef</given_name>
+       <surname>Idaghdour</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Kenneth L.</given_name>
+       <surname>Brigham</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Greg</given_name>
+       <surname>Gibson</surname>
+      </contributor>
+      <contributor sequence="first" contributor_role="editor">
+       <given_name>Anna</given_name>
+       <surname>Di Rienzo</surname>
+      </contributor>
+     </contributors>
+     <volume>9</volume>
+     <issue>3</issue>
+     <first_page>e1003362</first_page>
+     <year>2013</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1371/journal.pgen.1003362</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="1">
+     <issn type="electronic">1932-6203</issn>
+     <journal_title>PLOS ONE</journal_title>
+     <journal_abbreviation>PLoS ONE</journal_abbreviation>
+     <article_title>A Novel Clustering Methodology Based on Modularity Optimisation for Detecting Authorship Affinities in Shakespearean Era Plays</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Leila M.</given_name>
+       <surname>Naeni</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Hugh</given_name>
+       <surname>Craig</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Regina</given_name>
+       <surname>Berretta</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Pablo</given_name>
+       <surname>Moscato</surname>
+      </contributor>
+      <contributor sequence="first" contributor_role="editor">
+       <given_name>Tamar</given_name>
+       <surname>Schlick</surname>
+      </contributor>
+     </contributors>
+     <volume>11</volume>
+     <issue>8</issue>
+     <first_page>e0157988</first_page>
+     <year>2016</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1371/journal.pone.0157988</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="3">
+     <issn type="electronic">2078-2489</issn>
+     <journal_title>Information</journal_title>
+     <journal_abbreviation>Information</journal_abbreviation>
+     <article_title>Information as a Manifestation of Development</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>James A.</given_name>
+       <surname>Coffman</surname>
+      </contributor>
+     </contributors>
+     <volume>2</volume>
+     <issue>1</issue>
+     <first_page>102</first_page>
+     <year>2011</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.3390/info2010102</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="4">
+     <issn type="print">0092-0606</issn>
+     <issn type="electronic">1573-0689</issn>
+     <journal_title>Journal of Biological Physics</journal_title>
+     <journal_abbreviation>J Biol Phys</journal_abbreviation>
+     <article_title>Thermodynamic measures of cancer: Gibbs free energy and entropy of protein–protein interactions</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Edward A.</given_name>
+       <surname>Rietman</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>John</given_name>
+       <surname>Platig</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Jack A.</given_name>
+       <surname>Tuszynski</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Giannoula</given_name>
+       <surname>Lakka Klement</surname>
+      </contributor>
+     </contributors>
+     <volume>42</volume>
+     <issue>3</issue>
+     <first_page>339</first_page>
+     <year>2016</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1007/s10867-016-9410-y</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="1">
+     <issn type="electronic">1756-0500</issn>
+     <journal_title>BMC Research Notes</journal_title>
+     <journal_abbreviation>BMC Res Notes</journal_abbreviation>
+     <article_title>EntropyExplorer: an R package for computing and comparing differential Shannon entropy, differential coefficient of variation and differential expression</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Kai</given_name>
+       <surname>Wang</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Charles A.</given_name>
+       <surname>Phillips</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Arnold M.</given_name>
+       <surname>Saxton</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Michael A.</given_name>
+       <surname>Langston</surname>
+      </contributor>
+     </contributors>
+     <volume>8</volume>
+     <issue>1</issue>
+     <item_number item_number_type="article-number">832</item_number>
+     <year>2015</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1186/s13104-015-1786-4</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="0">
+     <issn type="electronic">2056-5623</issn>
+     <journal_title>Future Science OA</journal_title>
+     <journal_abbreviation>Future Science OA</journal_abbreviation>
+     <article_title>Big data for big questions: it is time for data analysts to act</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Pablo</given_name>
+       <surname>Moscato</surname>
+      </contributor>
+     </contributors>
+     <volume>1</volume>
+     <issue>3</issue>
+     <item_number item_number_type="article-number">fso.15.19</item_number>
+     <year>2015</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.4155/fso.15.19</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="13">
+     <issn type="print">00796107</issn>
+     <journal_title>Progress in Biophysics and Molecular Biology</journal_title>
+     <journal_abbreviation>Progress in Biophysics and Molecular Biology</journal_abbreviation>
+     <article_title>On the origin of cancer: Can we ignore coherence?</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Matej</given_name>
+       <surname>Plankar</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Igor</given_name>
+       <surname>Jerman</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Rok</given_name>
+       <surname>Krašovec</surname>
+      </contributor>
+     </contributors>
+     <volume>106</volume>
+     <issue>2</issue>
+     <first_page>380</first_page>
+     <year>2011</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1016/j.pbiomolbio.2011.04.001</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="7">
+     <issn type="print">1617-4615</issn>
+     <issn type="electronic">1617-4623</issn>
+     <journal_title>Molecular Genetics and Genomics</journal_title>
+     <journal_abbreviation>Mol Genet Genomics</journal_abbreviation>
+     <article_title>Identification of important long non-coding RNAs and highly recurrent aberrant alternative splicing events in hepatocellular carcinoma through integrative analysis of multiple RNA-Seq datasets</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Lu</given_name>
+       <surname>Zhang</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Xiaoqiao</given_name>
+       <surname>Liu</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Xuegong</given_name>
+       <surname>Zhang</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Ronghua</given_name>
+       <surname>Chen</surname>
+      </contributor>
+     </contributors>
+     <volume>291</volume>
+     <issue>3</issue>
+     <first_page>1035</first_page>
+     <year>2016</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1007/s00438-015-1163-y</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="270">
+     <issn type="print">0036-8075</issn>
+     <issn type="electronic">1095-9203</issn>
+     <journal_title>Science</journal_title>
+     <journal_abbreviation>Science</journal_abbreviation>
+     <article_title>Evolutionary Dynamics of Gene and Isoform Regulation in Mammalian Tissues</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>J.</given_name>
+       <surname>Merkin</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>C.</given_name>
+       <surname>Russell</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>P.</given_name>
+       <surname>Chen</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>C. B.</given_name>
+       <surname>Burge</surname>
+      </contributor>
+     </contributors>
+     <volume>338</volume>
+     <issue>6114</issue>
+     <first_page>1593</first_page>
+     <year>2012</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1126/science.1228186</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="4">
+     <issn type="print">03010082</issn>
+     <journal_title>Progress in Neurobiology</journal_title>
+     <journal_abbreviation>Progress in Neurobiology</journal_abbreviation>
+     <article_title>The application of information theory for the research of aging and aging-related diseases</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>David</given_name>
+       <surname>Blokh</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Ilia</given_name>
+       <surname>Stambler</surname>
+      </contributor>
+     </contributors>
+     <volume>157</volume>
+     <first_page>158</first_page>
+     <year>2017</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1016/j.pneurobio.2016.03.005</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="18">
+     <issn type="print">0167-7659</issn>
+     <issn type="electronic">1573-7233</issn>
+     <journal_title>Cancer and Metastasis Reviews</journal_title>
+     <journal_abbreviation>Cancer Metastasis Rev</journal_abbreviation>
+     <article_title>Systems biology of cancer: entropy, disorder, and selection-driven evolution to independence, invasion and “swarm intelligence”</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>M.</given_name>
+       <surname>Tarabichi</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>A.</given_name>
+       <surname>Antoniou</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>M.</given_name>
+       <surname>Saiselet</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>J. M.</given_name>
+       <surname>Pita</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>G.</given_name>
+       <surname>Andry</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>J. E.</given_name>
+       <surname>Dumont</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>V.</given_name>
+       <surname>Detours</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>C.</given_name>
+       <surname>Maenhaut</surname>
+      </contributor>
+     </contributors>
+     <volume>32</volume>
+     <issue>3-4</issue>
+     <first_page>403</first_page>
+     <year>2013</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1007/s10555-013-9431-y</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <book_cite fl_count="0">
+     <issn type="print">2196-9906</issn>
+     <issn type="electronic">2196-9914</issn>
+     <isbn type="print">978-3-319-59240-4</isbn>
+     <isbn type="electronic">978-3-319-59242-8</isbn>
+     <series_title>Cancer Drug Discovery and Development</series_title>
+     <volume_title>Tumor Dormancy and Recurrence</volume_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Edward A.</given_name>
+       <surname>Rietman</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Jack A.</given_name>
+       <surname>Tuszynski</surname>
+      </contributor>
+     </contributors>
+     <first_page>61</first_page>
+     <year>2017</year>
+     <publication_type>full_text</publication_type>
+     <component_number>Chapter 5</component_number>
+     <doi type="book_content">10.1007/978-3-319-59242-8_5</doi>
+    </book_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="4">
+     <issn type="print">1687-8450</issn>
+     <issn type="electronic">1687-8469</issn>
+     <journal_title>Journal of Oncology</journal_title>
+     <journal_abbreviation>Journal of Oncology</journal_abbreviation>
+     <article_title>Transcriptome-Wide Detection of Differentially Expressed Coding and Non-Coding Transcripts and Their Clinical Significance in Prostate Cancer</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Nicholas</given_name>
+       <surname>Erho</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Christine</given_name>
+       <surname>Buerki</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Timothy J.</given_name>
+       <surname>Triche</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Elai</given_name>
+       <surname>Davicioni</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Ismael A.</given_name>
+       <surname>Vergara</surname>
+      </contributor>
+     </contributors>
+     <volume>2012</volume>
+     <first_page>1</first_page>
+     <year>2012</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1155/2012/541353</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="0">
+     <issn type="print">1931-7557</issn>
+     <issn type="electronic">1931-7565</issn>
+     <journal_title>Brain Imaging and Behavior</journal_title>
+     <journal_abbreviation>Brain Imaging and Behavior</journal_abbreviation>
+     <article_title>Graphical neuroimaging informatics: Application to Alzheimer’s disease</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>John Darrell</given_name>
+       <surname>Van Horn</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Ian</given_name>
+       <surname>Bowman</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Shantanu H.</given_name>
+       <surname>Joshi</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Vaughan</given_name>
+       <surname>Greer</surname>
+      </contributor>
+     </contributors>
+     <volume>8</volume>
+     <issue>2</issue>
+     <first_page>300</first_page>
+     <year>2014</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1007/s11682-013-9273-9</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="11">
+     <issn type="print">1536-2310</issn>
+     <issn type="electronic">1557-8100</issn>
+     <journal_title>OMICS: A Journal of Integrative Biology</journal_title>
+     <journal_abbreviation>OMICS: A Journal of Integrative Biology</journal_abbreviation>
+     <article_title>Post-Genomics Nanotechnology Is Gaining Momentum: Nanoproteomics and Applications in Life Sciences</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Firas H.</given_name>
+       <surname>Kobeissy</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Basri</given_name>
+       <surname>Gulbakan</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Ali</given_name>
+       <surname>Alawieh</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Pierre</given_name>
+       <surname>Karam</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Zhiqun</given_name>
+       <surname>Zhang</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Joy D.</given_name>
+       <surname>Guingab-Cagmat</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Stefania</given_name>
+       <surname>Mondello</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Weihong</given_name>
+       <surname>Tan</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>John</given_name>
+       <surname>Anagli</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Kevin</given_name>
+       <surname>Wang</surname>
+      </contributor>
+     </contributors>
+     <volume>18</volume>
+     <issue>2</issue>
+     <first_page>111</first_page>
+     <year>2014</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1089/omi.2013.0074</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="6">
+     <issn type="electronic">1932-6203</issn>
+     <journal_title>PLOS ONE</journal_title>
+     <journal_abbreviation>PLoS ONE</journal_abbreviation>
+     <article_title>The Discovery of Novel Biomarkers Improves Breast Cancer Intrinsic Subtype Prediction and Reconciles the Labels in the METABRIC Data Set</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Heloisa Helena</given_name>
+       <surname>Milioli</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Renato</given_name>
+       <surname>Vimieiro</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Carlos</given_name>
+       <surname>Riveros</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Inna</given_name>
+       <surname>Tishchenko</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Regina</given_name>
+       <surname>Berretta</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Pablo</given_name>
+       <surname>Moscato</surname>
+      </contributor>
+      <contributor sequence="first" contributor_role="editor">
+       <given_name>Roberto</given_name>
+       <surname>Amendola</surname>
+      </contributor>
+     </contributors>
+     <volume>10</volume>
+     <issue>7</issue>
+     <first_page>e0129711</first_page>
+     <year>2015</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1371/journal.pone.0129711</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="1">
+     <issn type="print">0092-8240</issn>
+     <issn type="electronic">1522-9602</issn>
+     <journal_title>Bulletin of Mathematical Biology</journal_title>
+     <journal_abbreviation>Bull Math Biol</journal_abbreviation>
+     <article_title>Transcriptomic Heterogeneity in Cancer as a Consequence of Dysregulation of the Gene–Gene Interaction Network</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Wessel N.</given_name>
+       <surname>van Wieringen</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Aad W.</given_name>
+       <surname>van der Vaart</surname>
+      </contributor>
+     </contributors>
+     <volume>77</volume>
+     <issue>9</issue>
+     <first_page>1768</first_page>
+     <year>2015</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1007/s11538-015-0103-7</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="2">
+     <issn type="electronic">1755-8794</issn>
+     <journal_title>BMC Medical Genomics</journal_title>
+     <journal_abbreviation>BMC Med Genomics</journal_abbreviation>
+     <article_title>Basal-like breast cancer: molecular profiles, clinical features and survival outcomes</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Heloisa H.</given_name>
+       <surname>Milioli</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Inna</given_name>
+       <surname>Tishchenko</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Carlos</given_name>
+       <surname>Riveros</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Regina</given_name>
+       <surname>Berretta</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Pablo</given_name>
+       <surname>Moscato</surname>
+      </contributor>
+     </contributors>
+     <volume>10</volume>
+     <issue>1</issue>
+     <item_number item_number_type="article-number">19</item_number>
+     <year>2017</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1186/s12920-017-0250-9</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="8">
+     <issn type="print">10408428</issn>
+     <journal_title>Critical Reviews in Oncology/Hematology</journal_title>
+     <journal_abbreviation>Critical Reviews in Oncology/Hematology</journal_abbreviation>
+     <article_title>Energy management – a critical role in cancer induction?</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>J.</given_name>
+       <surname>Garland</surname>
+      </contributor>
+     </contributors>
+     <volume>88</volume>
+     <issue>1</issue>
+     <first_page>198</first_page>
+     <year>2013</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1016/j.critrevonc.2013.04.001</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="3">
+     <issn type="electronic">2045-2322</issn>
+     <journal_title>Scientific Reports</journal_title>
+     <journal_abbreviation>Sci Rep</journal_abbreviation>
+     <article_title>Measuring intratumor heterogeneity by network entropy using RNA-seq data</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Youngjune</given_name>
+       <surname>Park</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Sangsoo</given_name>
+       <surname>Lim</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Jin-Wu</given_name>
+       <surname>Nam</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Sun</given_name>
+       <surname>Kim</surname>
+      </contributor>
+     </contributors>
+     <volume>6</volume>
+     <issue>1</issue>
+     <item_number item_number_type="article-number">37767</item_number>
+     <year>2016</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1038/srep37767</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <journal_cite fl_count="11">
+     <issn type="print">00068993</issn>
+     <journal_title>Brain Research</journal_title>
+     <journal_abbreviation>Brain Research</journal_abbreviation>
+     <article_title>Brain transcriptome perturbations in the Hfe−/− mouse model of genetic iron loading</article_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Daniel</given_name>
+       <surname>Johnstone</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Ross M.</given_name>
+       <surname>Graham</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Debbie</given_name>
+       <surname>Trinder</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Roheeth D.</given_name>
+       <surname>Delima</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Carlos</given_name>
+       <surname>Riveros</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>John K.</given_name>
+       <surname>Olynyk</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Rodney J.</given_name>
+       <surname>Scott</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Pablo</given_name>
+       <surname>Moscato</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Elizabeth A.</given_name>
+       <surname>Milward</surname>
+      </contributor>
+     </contributors>
+     <volume>1448</volume>
+     <first_page>144</first_page>
+     <year>2012</year>
+     <publication_type>full_text</publication_type>
+     <doi type="journal_article">10.1016/j.brainres.2012.02.006</doi>
+    </journal_cite>
+   </forward_link>
+   <forward_link doi="10.1371/journal.pone.0012262">
+    <book_cite fl_count="0">
+     <isbn type="electronic">9783527665471</isbn>
+     <isbn type="print">9783527332625</isbn>
+     <volume_title>Statistical Diagnostics for Cancer</volume_title>
+     <contributors>
+      <contributor first-author="true" sequence="first" contributor_role="author">
+       <given_name>Wessel N.</given_name>
+       <surname>van Wieringen</surname>
+      </contributor>
+      <contributor first-author="false" sequence="additional" contributor_role="author">
+       <given_name>Aad W.</given_name>
+       <surname>van der Vaart</surname>
+      </contributor>
+     </contributors>
+     <first_page>261</first_page>
+     <year>2013</year>
+     <publication_type/>
+     <doi type="book_content">10.1002/9783527665471.ch14</doi>
+    </book_cite>
+   </forward_link>
+  </body>
+ </query_result>
+</crossref_result>
