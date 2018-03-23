@@ -137,6 +137,17 @@ describe CrossRef, type: :model, vcr: true, focus: true do
       expect(extra[:event_url]).to eq("http://doi.org/10.3758/s13423-011-0070-4")
     end
 
+    it "should only count journal citations" do
+      body = File.read(fixture_path + 'cross_ref_varied_cites.xml')
+      result = Hash.from_xml(body)
+      result.extend Hashie::Extensions::DeepFetch
+      response = subject.parse_data(result, work)
+      expect(response[:events][:total]).to eq(20)
+      extra = response[:events][:extra].first
+      # another plos journal cites this article
+      expect(extra[:event_url]).to eq("http://doi.org/10.1371/journal.pgen.1003362")
+    end
+
     it "should report if there is one event returned by the CrossRef API" do
       body = File.read(fixture_path + 'cross_ref_one.xml')
       result = Hash.from_xml(body)
