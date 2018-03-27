@@ -1,43 +1,58 @@
-# Lagotto
+    .____                           __    __          
+    |    |   _____     ____   _____/  |__/  |_  ____  
+    |    |   \__  \   / ___\ /  _ \   __\   __\/  _ \ 
+    |    |___ / __ \_/ /_/  >  <_> )  |  |  | (  <_> )
+    |_______ (____  /\___  / \____/|__|  |__|  \____/ 
+            \/    \//_____/                           
 
-[![Build Status](https://travis-ci.org/lagotto/lagotto.png?branch=master)](https://travis-ci.org/lagotto/lagotto)
-[![Code Climate](https://codeclimate.com/github/lagotto/lagotto.png)](https://codeclimate.com/github/lagotto/lagotto)
-[![Code Climate Test Coverage](https://codeclimate.com/github/lagotto/lagotto/coverage.png)](https://codeclimate.com/github/lagotto/lagotto)
-[![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20046.svg)](http://doi.org/10.5281/zenodo.20046)
 
-Lagotto allows a user to track events around research articles and other scholarly outputs, including how often a work has been viewed, cited, saved, discussed and recommended. The application was called Article-Level Metrics (ALM) until September 2014 and was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Visit the [Lagotto website](http://lagotto.io) to learn more.
+## Overview
 
-## How to start developing now?
+    TODO
 
-`Lagotto` uses [Vagrant](https://www.vagrantup.com/) and [Virtualbox](https://www.virtualbox.org/) for setting up the development environment. To start developing now on your local machine (Mac OS X, Linux or Windows):
+## Running RSpec Tests 
 
-1. Install Vagrant: https://www.vagrantup.com/downloads.html
-1. Install Virtualbox: https://www.virtualbox.org/wiki/Downloads
-2. Clone this repository `git clone git@github.com:lagotto/lagotto.git`
-3. Cd into it
-4. Copy the file `.env.example` to `.env` and make any changes to the configuration as needed
-5. Run `vagrant up`
+Lagotto has a pretty comprehensive set of RSpec tests. Unfortunately, most of
+them are broken -- sigh. What to do? Fix them as we can especially when we fix a
+bug or add a feature -- fix the accompanying test too.
 
-Once the setup is complete (it might take up to 15 minutes), you'll be able to open up a browser and navigate to [http://10.2.2.4](http://10.2.2.4), and you should see this screen:
+We've updated the RSpec configuration to only run tests that have been
+explicitly enabled with focus:true (ex: spec/models/cross_ref_spec.rb).
 
-![Lagotto screenshot](https://github.com/lagotto/lagotto/blob/master/public/images/start.png)
+The RSpec tests require a MySQL database named lagotto_test, so the first thing
+to do is create this database plus a user. See .env.rspec for a listing of all
+properties used in the tests.
 
-## Documentation
+    mysql -u root -p<password>
 
-Detailed instructions on how to start developing are [here](https://github.com/lagotto/lagotto/blob/master/docs/installation.md). There is extensive documentation - including installation instructions - at the [Lagotto website](http://lagotto.io).
+    CREATE DATABASE lagotto_test /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-## Discussion
-Please direct questions about the application to the [discussion forum](http://discuss.lagotto.io). Use the [Github Issue Tracker](https://github.com/lagotto/lagotto/issues) to follow the ongoing development, or use the [Waffle Board](https://waffle.io/lagotto/lagotto) for a development overview.
+    CREATE USER 'vagrant'@'localhost' IDENTIFIED BY '';
+    GRANT ALL PRIVILEGES ON lagotto_test.* TO 'vagrant'@'localhost' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
 
-[![Stories in Progress](https://badge.waffle.io/lagotto/lagotto.svg?label=in%20progress&title=In%20Progress)](https://waffle.io/lagotto/lagotto)
+Create tables in schema
 
-## Note on Patches/Pull Requests
+    rake db:setup RAILS_ENV=test
 
-* Fork the project
-* Write tests for your new feature or a test that reproduces a bug
-* Implement your feature or make a bug fix
-* Do not mess with Rakefile, version or history
-* Commit, push and make a pull request. Bonus points for topical branches.
+You're now setup to run the rspec tests (only the ones which have been enabled).
 
-## License
-Lagotto is released under the [MIT License](https://github.com/lagotto/lagotto/blob/master/LICENSE.md).
+    $ DOTENV=rspec bin/rspec
+
+        Run options: include {:focus=>true}
+        ...............................*.......................*....
+        60 examples, 0 failures, 2 pending
+
+
+You can run the rspec tests in a deployed version too (via Capistrano).
+
+    ssh lagotto.vagrant.local
+
+    $ mysql -h 127.0.0.1 -u root -p<password>
+    // create schema and user (see above)
+
+    $ sudo -u lagotto -i
+    $ cd /var/www/lagotto/current
+    $ bundle install --with test
+    $ DOTENV=rspec bin/rake db:setup RAILS_ENV=test
+    $ DOTENV=rspec bin/rspec

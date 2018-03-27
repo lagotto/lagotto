@@ -22,59 +22,28 @@ class CrossRef < Source
   def parse_data(result, work, options={})
     return result if result[:error]
 
-    related_works = get_related_works(result, work)
-
     if work.publisher
-      total = related_works.length
+      total = related_works_count(result)
     else
       total = (result.deep_fetch('crossref_result', 'query_result', 'body', 'query', 'fl_count') { 0 }).to_i
     end
 
-    { works: related_works,
-      events: {
+    { events: {
         source: name,
         work: work.pid,
         total: total,
         extra: get_extra(result) } }
   end
 
-  def get_related_works(result, work)
+  def related_works_count(result)
     related_works = result.deep_fetch('crossref_result', 'query_result', 'body', 'forward_link') { nil }
     if related_works.is_a?(Hash) && related_works['journal_cite']
       related_works = [related_works]
     elsif related_works.is_a?(Hash)
       related_works = nil
     end
-
-    Array(related_works).map do |item|
-      item = item.fetch("journal_cite", {})
-      if item.empty?
-        nil
-      else
-        doi = item.fetch("doi", nil)
-        metadata = get_metadata(doi, "crossref")
-
-        if metadata[:error]
-          nil
-        else
-          { "issued" => metadata.fetch("issued", {}),
-            "author" => metadata.fetch("author", []),
-            "container-title" => metadata.fetch("container-title", nil),
-            "volume" => metadata.fetch("volume", nil),
-            "issue" => metadata.fetch("issue", nil),
-            "page" => metadata.fetch("page", nil),
-            "title" => metadata.fetch("title", nil),
-            "DOI" => doi,
-            "type" => metadata.fetch("type", nil),
-            "tracked" => tracked,
-            "publisher_id" => metadata.fetch("publisher_id", nil),
-            "registration_agency" => "crossref",
-            "related_works" => [{ "related_work" => work.pid,
-                                  "source" => name,
-                                  "relation_type" => "cites" }] }
-        end
-      end
-    end.compact
+    # only count journal citations
+    related_works.nil? ? 0 : related_works.select { |w| w['journal_cite'] }.size
   end
 
   def get_extra(result)
@@ -91,19 +60,7 @@ class CrossRef < Source
         nil
       else
         url = get_url_from_doi(item.fetch('doi', nil))
-
-        { event: item,
-          event_url: url,
-
-          # the rest is CSL (citation style language)
-          event_csl: {
-            'author' => get_authors(item.fetch('contributors', {}).fetch('contributor', [])),
-            'title' => String(item.fetch('article_title') { '' }).titleize,
-            'container-title' => item.fetch('journal_title') { '' },
-            'issued' => get_date_parts_from_parts(item['year']),
-            'url' => url,
-            'type' => 'article-journal' }
-        }
+        { event_url: url }
       end
     end.compact
   end

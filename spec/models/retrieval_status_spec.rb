@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RetrievalStatus, type: :model, vcr: true do
+describe RetrievalStatus, type: :model, vcr: true, focus: true do
   before(:each) { allow(Time.zone).to receive(:now).and_return(Time.mktime(2015, 4, 8)) }
 
   it { is_expected.to belong_to(:work) }
@@ -314,18 +314,6 @@ describe RetrievalStatus, type: :model, vcr: true do
       expect(month.year).to eq(2015)
       expect(month.month).to eq(4)
       expect(month.total).to eq(31)
-
-      expect(Work.count).to eq(32)
-      related_work = Work.last
-      expect(related_work.title).to eq("Examining the Effects of Community-Based Sanctions on Offender Recidivism")
-      expect(related_work.pid).to eq("http://doi.org/10.1080/07418825.2011.555413")
-
-      expect(Relation.count).to eq(62)
-      relation = Relation.first
-      expect(relation.relation_type.name).to eq("cites")
-      expect(relation.source.name).to eq("crossref")
-      expect(relation.work.pid).to eq("http://doi.org/10.3758/s13423-011-0070-4")
-      expect(relation.related_work.pid).to eq(work.pid)
     end
 
     #TODO fix broken test
