@@ -35,7 +35,7 @@ gem "omniauth-persona"
 gem "omniauth-cas", "~> 1.1.0"
 gem 'omniauth-github', '~> 1.1.2'
 gem "omniauth-orcid", "~> 1.0"
-gem 'omniauth', '~> 1.2.2'
+gem 'omniauth', '~> 1.3.2'
 gem 'cancancan', '~> 1.9.2'
 gem "validates_timeliness", "~> 3.0.14"
 gem "strip_attributes", "~> 1.2"
