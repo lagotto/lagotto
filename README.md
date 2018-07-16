@@ -1,8 +1,8 @@
 # Lagotto
 
 [![Build Status](https://travis-ci.org/lagotto/lagotto.png?branch=master)](https://travis-ci.org/lagotto/lagotto)
-[![Code Climate](https://codeclimate.com/github/lagotto/lagotto.png)](https://codeclimate.com/github/lagotto/lagotto)
-[![Code Climate Test Coverage](https://codeclimate.com/github/lagotto/lagotto/coverage.png)](https://codeclimate.com/github/lagotto/lagotto)
+[![Code Climate](https://codeclimate.com/github/lagotto/lagotto.svg)](https://codeclimate.com/github/lagotto/lagotto)
+[![Code Climate Test Coverage](https://codeclimate.com/github/lagotto/lagotto/coverage.svg)](https://codeclimate.com/github/lagotto/lagotto)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.20046.svg)](http://doi.org/10.5281/zenodo.20046)
 
 Lagotto allows a user to track events around research articles and other scholarly outputs, including how often a work has been viewed, cited, saved, discussed and recommended. The application was started in March 2009 by the Open Access publisher [Public Library of Science (PLOS)](http://www.plos.org/). Visit the [Lagotto website](http://lagotto.io) to learn more.
