@@ -81,14 +81,11 @@ class Pmc < Source
     file = File.open("#{Rails.root}/tmp/files/#{filename}", 'r') { |f| f.read }
     document = Nokogiri::XML(file)
 
-    status = document.at_xpath("//pmc-web-stat/response/@status").value
-
-    if status != "0"
-      error_message = document.at_xpath("//pmc-web-stat/response/error").content
-      message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: #{error_message}"
+    if document.xpath("//article").count == 0
+      message = "PMC Usage stats for journal #{journal}, month #{month} and year #{year}: no article nodes found. *** SKIPPED ***"
       Alert.where(message: message).where(unresolved: true).first_or_create(
         :exception => "",
-        :class_name => "Net::HTTPInternalServerError",
+        :class_name => "PmcDataError",
         :status => 500,
         :source_id => id)
       nil
