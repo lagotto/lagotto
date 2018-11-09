@@ -10,7 +10,7 @@
 
     TODO
 
-## Running RSpec Tests 
+## RSpec Tests 
 
 Lagotto has a pretty comprehensive set of RSpec tests. Unfortunately, most of
 them are broken -- sigh. What to do? Fix them as we can especially when we fix a
@@ -18,6 +18,9 @@ bug or add a feature -- fix the accompanying test too.
 
 We've updated the RSpec configuration to only run tests that have been
 explicitly enabled with focus:true (ex: spec/models/cross_ref_spec.rb).
+
+
+#### MySQL DB
 
 The RSpec tests require a MySQL database named lagotto_test, so the first thing
 to do is create this database plus a user. See .env.rspec for a listing of all
@@ -35,13 +38,23 @@ Create tables in schema
 
     rake db:setup RAILS_ENV=test
 
+
+#### Couch DB
+
+The tests also depend on a local Couchdb instance (http://localhost:5984), so
+you need to have that running too. You can spin one up in a Docker if inclined
+(see https://github.com/klaemo/docker-couchdb).
+
+
+#### Running Tests
+
 You're now setup to run the rspec tests (only the ones which have been enabled).
 
     $ DOTENV=rspec bin/rspec
 
         Run options: include {:focus=>true}
         ...............................*.......................*....
-        60 examples, 0 failures, 2 pending
+        85 examples, 0 failures, 2 pending
 
 
 You can run the rspec tests in a deployed version too (via Capistrano).
