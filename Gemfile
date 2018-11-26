@@ -17,8 +17,8 @@ gem "logstash-logger", "~> 0.7.0"
 gem 'bugsnag', '~> 2.8.6'
 gem 'sentry-raven', '~> 0.14.0'
 
-gem "faraday", "~> 0.9.0"
-gem "faraday_middleware", "~> 0.9.1"
+gem "faraday", "~> 0.10.1"
+gem "faraday_middleware", "~> 0.10.1"
 gem 'excon', '~> 0.45.3'
 gem 'addressable', "~> 2.3.5"
 gem 'postrank-uri', '~> 1.0.18'
