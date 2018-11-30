@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wikipedia, type: :model, vcr: true do
+describe Wikipedia, type: :model, vcr: true, focus: true do
 
   subject { FactoryGirl.create(:wikipedia) }
 

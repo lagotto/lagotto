@@ -206,6 +206,21 @@ class Work < ActiveRecord::Base
     doi[/^10\.\d{4,5}/]
   end
 
+  # jira: ALM-987
+  def get_url_for_wikipedia
+    return true if canonical_url.present?
+    return false unless doi.present?
+
+    # use plos doi resolver to reduce number of redirects
+    url = get_canonical_url(Addressable::URI.encode("https://dx.plos.org/#{doi}"), work_id: id)
+
+    if url.present? && url.is_a?(String)
+      update_attributes(:canonical_url => url)
+    else
+      false
+    end
+  end
+
   def get_url
     return true if canonical_url.present?
     return false unless doi.present?
