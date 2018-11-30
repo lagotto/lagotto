@@ -174,8 +174,9 @@ class Work < ActiveRecord::Base
     dataone.gsub(/\:/, '\:')  if dataone.present?
   end
 
+  # jira:alm-987 - use plos doi resolver to reduce number of http redirects
   def doi_as_url
-    Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
+    Addressable::URI.encode("https://dx.plos.org/#{doi}") if doi.present?
   end
 
   def pmid_as_url
@@ -204,21 +205,6 @@ class Work < ActiveRecord::Base
 
   def doi_prefix
     doi[/^10\.\d{4,5}/]
-  end
-
-  # jira: ALM-987
-  def get_url_for_wikipedia
-    return true if canonical_url.present?
-    return false unless doi.present?
-
-    # use plos doi resolver to reduce number of redirects
-    url = get_canonical_url(Addressable::URI.encode("https://dx.plos.org/#{doi}"), work_id: id)
-
-    if url.present? && url.is_a?(String)
-      update_attributes(:canonical_url => url)
-    else
-      false
-    end
   end
 
   def get_url
