@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Pmc, type: :model, vcr: true do
+describe Pmc, type: :model, vcr: true, focus: true do
 
   subject { FactoryGirl.create(:pmc) }
 
@@ -113,6 +113,33 @@ describe Pmc, type: :model, vcr: true do
       expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
       expect(alert.status).to eq(408)
       expect(alert.source_id).to eq(subject.id)
+    end
+  end
+
+  context "parse_feed" do
+    let(:month) { 1 }
+    let(:year) { 1970 }
+    let(:journal) { "ajrccm" }
+    let(:filename) { "pmcstat_#{journal}_#{month}_#{year}.xml" }
+    let(:file) { "#{Rails.root}/tmp/files/" + filename }
+
+    before(:each) do
+      FileUtils.cp(fixture_path + 'pmc_nil.xml', file)
+    end
+
+    after(:each) do
+      FileUtils.rm file
+    end
+
+    it "should raise an error if no articles found" do
+      config = subject.publisher_configs.first
+      publisher_id = config[0]
+      journal = config[1].journals.split(" ").first
+      expect(subject.parse_feed(publisher_id, month, year, journal)).to be_nil
+      expect(Alert.count).to eq(1)
+      alert = Alert.first
+      expect(alert.class_name).to eq("PmcDataError")
+      expect(alert.message).to include("no article nodes found. *** SKIPPED ***")
     end
   end
 
