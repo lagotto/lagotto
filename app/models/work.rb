@@ -174,8 +174,9 @@ class Work < ActiveRecord::Base
     dataone.gsub(/\:/, '\:')  if dataone.present?
   end
 
+  # jira:alm-987 - use plos doi resolver to reduce number of http redirects
   def doi_as_url
-    Addressable::URI.encode("http://doi.org/#{doi}") if doi.present?
+    Addressable::URI.encode("https://dx.plos.org/#{doi}") if doi.present?
   end
 
   def pmid_as_url

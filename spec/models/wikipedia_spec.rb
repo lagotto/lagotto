@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wikipedia, type: :model, vcr: true do
+describe Wikipedia, type: :model, vcr: true, focus: true do
 
   subject { FactoryGirl.create(:wikipedia) }
 
@@ -15,6 +15,11 @@ describe Wikipedia, type: :model, vcr: true do
     it "should return a query without doi if the doi is missing" do
       work = FactoryGirl.build(:work, :doi => nil)
       expect(subject.get_query_url(work)).to eq("http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
+    end
+
+    it "should use plos doi resolver" do
+      work = FactoryGirl.build(:work, :doi => "10.1371/journal.pone.0044294", canonical_url: nil)
+      expect(work.doi_as_url).to eq("https://dx.plos.org/10.1371/journal.pone.0044294")
     end
   end
 
