@@ -6,6 +6,9 @@
             \/    \//_____/                           
 
 
+build: [![Build Status Badge]][Build Status]&#8193;&#9733;&#8193;
+integration: [![Integration Status Badge]][Integration Status]
+
 ## Overview
 
     TODO
@@ -69,3 +72,9 @@ You can run the rspec tests in a deployed version too (via Capistrano).
     $ bundle install --with test
     $ DOTENV=rspec bin/rake db:setup RAILS_ENV=test
     $ DOTENV=rspec bin/rspec
+
+[Build Status]: https://teamcity.plos.org/teamcity/viewType.html?buildTypeId=Alm_LagottoRspecTests
+[Build Status Badge]: https://teamcity.plos.org/teamcity/app/rest/builds/buildType:(id:Alm_LagottoRspecTests)/statusIcon.svg
+
+[Integration Status]: https://teamcity.plos.org/teamcity/viewType.html?buildTypeId=IntegrationTests_LagottoDev
+[Integration Status Badge]: https://teamcity.plos.org/teamcity/app/rest/builds/buildType:(id:IntegrationTests_LagottoDev)/statusIcon.svg
