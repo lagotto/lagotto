@@ -13,19 +13,6 @@ if defined?(Bundler)
   Bundler.require(:default, Rails.env)
 end
 
-begin
-  # make sure DOTENV is set
-  ENV["DOTENV"] ||= "default"
-
-  # load ENV variables from file specified by DOTENV
-  # use .env with DOTENV=default
-  filename = ENV["DOTENV"] == "default" ? ".env" : ".env.#{ENV['DOTENV']}"
-  Dotenv.load! File.expand_path("../../#{filename}", __FILE__)
-rescue Errno::ENOENT
-  $stderr.puts "Please create #{filename} file, or use DOTENV=example for example configuration"
-  exit
-end
-
 module Lagotto
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
