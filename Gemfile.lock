@@ -144,7 +144,10 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.3)
     docile (1.1.5)
-    dotenv (1.0.2)
+    dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     dotiw (2.0)
       actionpack (>= 3)
       i18n
@@ -469,7 +472,7 @@ DEPENDENCIES
   dalli (~> 2.7.0)
   database_cleaner (~> 1.3.0)
   devise (~> 3.4.1)
-  dotenv (~> 1.0.2)
+  dotenv-rails
   dotiw (~> 2.0)
   draper (~> 2.1.0)
   email_spec (~> 1.6.0)
@@ -534,6 +537,3 @@ DEPENDENCIES
   will_paginate-bootstrap (~> 1.0.1)
   with_env (~> 1.1.0)
   zenodo (~> 0.0.8)
-
-BUNDLED WITH
-   1.16.1
