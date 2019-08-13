@@ -59,6 +59,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem "ember-cli-rails"
 
 gem "zenodo", "~> 0.0.8"
+gem 'tzinfo-data'
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'

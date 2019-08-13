@@ -419,6 +419,8 @@ GEM
       hitimes
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2019.2)
+      tzinfo (>= 1.0.0)
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -528,6 +530,7 @@ DEPENDENCIES
   swagger-docs (~> 0.1.9)
   swagger-ui_rails (~> 0.1.7)
   teaspoon-jasmine (~> 2.2.0)
+  tzinfo-data
   uglifier (~> 2.5.3)
   validates_timeliness (~> 3.0.14)
   vcr (~> 2.9.3)
