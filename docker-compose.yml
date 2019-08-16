@@ -3,9 +3,12 @@
 web:
   build: .
   links:
-   - db
-   - couchdb
+    - db
+  environment:
+    DATABASE_URL: mysql2://root:password@db/alm?pool=5&timeout=5000&encoding=utf8mb4
+  ports:
+    - 9292:9292
 db:
-  image: lagotto/percona
-couchdb:
-  image: lagotto/couchdb
+  image: percona
+  environment:
+    MYSQL_ROOT_PASSWORD: password
