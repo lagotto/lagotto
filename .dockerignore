@@ -7,3 +7,6 @@ vendor/bundle/*
 vendor/cookbooks/*
 public/api/*
 public/api-docs.json
+frontend/node_modules
+frontend/bower_components
+frontend/dist
