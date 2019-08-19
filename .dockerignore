@@ -10,3 +10,6 @@ public/api-docs.json
 frontend/node_modules
 frontend/bower_components
 frontend/dist
+bin/teamcity-build
+docker-compose.yml
+Dockerfile
