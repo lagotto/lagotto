@@ -1,6 +1,6 @@
 # env_file:
 #   - .env
-web:
+app:
   build: .
   links:
     - db

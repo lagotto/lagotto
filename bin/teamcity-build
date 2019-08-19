@@ -1,0 +1,40 @@
+#!/bin/sh -e
+# Environment variables passed in by TC: $HASH and $BRANCH
+
+function retry5times() {
+    n=0
+    until [ $n -ge 5 ]
+    do
+        $@ && break
+        n=$[$n+1]
+        sleep 2
+    done
+}
+
+APP_NAME=lagotto
+SHORT_HASH=$(echo "$HASH" | cut -b 1-7)
+export SHORT_HASH
+# Cleaned for use a docker tag: only a-z0-9-_ allowed
+CLEAN_BRANCH=$(printf "%s" "$BRANCH" | tr -c '[:alnum:]-_' '_')
+export CLEAN_BRANCH
+
+UID=$(id -u)
+export UID
+GID=$(id -g)
+export GID
+
+mkdir -p artifacts/
+
+echo "##teamcity[importData type='junit' file='./artifacts/TEST-minitest.xml']"
+
+docker-compose down -v
+docker-compose build
+# retry the following a few times because the db server typically doesn't
+# start listening in time for the web container to connect to it.
+retry5times docker-compose run -e RAILS_ENV=test app rake db:create db:setup
+docker-compose run -e RAILS_ENV=test app bundle exec rspec ./spec/models/retrieval_status_spec.rb
+
+docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"
+docker push "plos/$APP_NAME:$CLEAN_BRANCH"
+docker push "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH"
+docker-compose down -v

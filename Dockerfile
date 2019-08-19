@@ -50,7 +50,7 @@ ENV \
     SITENAME="ALM Dev" \
     SITENAMELONG="PLOS ALM" \
     SKIP_EMBER=1 \
-    SOLR_URL= \
+    SOLR_URL=http://solr-mega-dev.soma.plos.org/solr/journals_dev/select \
     ZENODO_KEY= \
     ZENODO_URL=https://sandbox.zenodo.org/api/
 
