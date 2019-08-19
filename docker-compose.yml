@@ -15,6 +15,7 @@ services:
     ports:
       - 9292:9292
     volumes:
+      - railsassets:/code/public
       - ./artifacts:/code/artifacts
   db:
     image: percona
@@ -22,3 +23,17 @@ services:
       MYSQL_ROOT_PASSWORD: password
   redis:
     image: redis
+  web:
+    image: nginxinc/nginx-unprivileged:1.16-alpine
+    ports:
+      - 8080:8080
+    volumes:
+      - railsassets:/code/public
+      # proxy for rails app
+      - ./docker/web/conf/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    command: [ "nginx", "-g", "daemon off;" ]
+    depends_on:
+      - app
+
+volumes:
+  railsassets:
