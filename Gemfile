@@ -88,6 +88,7 @@ group :test do
   gem 'vcr', '~> 2.9.3'
   gem "poltergeist", "~> 1.6.0"
   gem "with_env", "~> 1.1.0"
+  gem "rspec_junit_formatter"
 end
 
 group :test, :development do
