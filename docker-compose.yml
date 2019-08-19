@@ -1,20 +1,22 @@
-# env_file:
-#   - .env
-app:
-  build: .
-  links:
-    - db
-    - redis
-  environment:
-    DATABASE_URL: mysql2://root:password@db/alm?pool=5&timeout=5000&encoding=utf8mb4
-    REDIS_URL: redis://redis:6379/0
-    SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
-  ports:
-    - 9292:9292
-db:
-  image: percona
-  environment:
-    MYSQL_ROOT_PASSWORD: password
+version: '3'
 
-redis:
-  image: redis
+services:
+  app:
+    image: plos/lagotto:${CLEAN_BRANCH:-unknown}-${SHORT_HASH:-unknown}
+    user: "${UID-2012}:${GID-2012}"
+    build: .
+    links:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: mysql2://root:password@db/alm?pool=5&timeout=5000&encoding=utf8mb4
+      REDIS_URL: redis://redis:6379/0
+      SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
+    ports:
+      - 9292:9292
+  db:
+    image: percona
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  redis:
+    image: redis
