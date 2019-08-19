@@ -1,9 +1,8 @@
 source 'http://rubygems.org'
 
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'rails', '~> 4.2.7.1'
 gem 'mysql2', '0.3.18'
-
-gem 'dotenv-rails', groups: [:development, :test]
 gem 'sidekiq', '~> 3.3.0'
 gem 'sinatra'
 gem 'rake', '~> 10.4.2'
