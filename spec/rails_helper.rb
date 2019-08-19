@@ -1,3 +1,8 @@
+require 'simplecov'
+SimpleCov.start do
+  coverage_dir 'artifacts/coverage'
+end
+
 # set ENV variables for testing
 ENV["RAILS_ENV"] = "test"
 ENV["OMNIAUTH"] = "cas"

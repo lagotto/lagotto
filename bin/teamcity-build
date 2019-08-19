@@ -32,7 +32,7 @@ docker-compose build
 # retry the following a few times because the db server typically doesn't
 # start listening in time for the web container to connect to it.
 retry5times docker-compose run -e RAILS_ENV=test app rake db:create db:setup
-docker-compose run -e RAILS_ENV=test -v app bundle exec rspec --format RspecJunitFormatter --out artifacts/rspec.xml
+docker-compose run -e RAILS_ENV=test app bundle exec rspec --format RspecJunitFormatter --out artifacts/rspec.xml
 
 docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"
 docker push "plos/$APP_NAME:$CLEAN_BRANCH"
