@@ -14,6 +14,8 @@ services:
       SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
     ports:
       - 9292:9292
+    volumes:
+      - ./artifacts:/code/artifacts
   db:
     image: percona
     environment:

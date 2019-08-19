@@ -45,3 +45,4 @@ doc/dependencies*
 !.env.rspec
 !.env.example
 !.env.travis
+artifacts/*
