@@ -17,6 +17,18 @@ services:
     volumes:
       - railsassets:/code/public
       - ./artifacts:/code/artifacts
+  worker:
+    image: plos/lagotto:${CLEAN_BRANCH:-unknown}-${SHORT_HASH:-unknown}
+    user: "${UID-2012}:${GID-2012}"
+    build: .
+    command: bundle exec sidekiq
+    links:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: mysql2://root:password@db/alm?pool=5&timeout=5000&encoding=utf8mb4
+      REDIS_URL: redis://redis:6379/0
+      SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
   db:
     image: percona
     environment:
@@ -34,6 +46,5 @@ services:
     command: [ "nginx", "-g", "daemon off;" ]
     depends_on:
       - app
-
 volumes:
   railsassets:
