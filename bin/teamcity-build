@@ -1,16 +1,6 @@
 #!/bin/sh -e
 # Environment variables passed in by TC: $HASH and $BRANCH
 
-retry5times() {
-    n=0
-    until [ $n -ge 5 ]
-    do
-        $@ && break
-        n=$[$n+1]
-        sleep 2
-    done
-}
-
 APP_NAME=lagotto
 SHORT_HASH=$(echo "$HASH" | cut -b 1-7)
 export SHORT_HASH
@@ -29,9 +19,7 @@ echo "##teamcity[importData type='junit' file='./artifacts/rspec.xml']"
 
 docker-compose down -v
 docker-compose build
-# retry the following a few times because the db server typically doesn't
-# start listening in time for the web container to connect to it.
-retry5times docker-compose run -e RAILS_ENV=test app rake db:create db:setup
+docker-compose run -e RAILS_ENV=test app docker/wait-for.sh db:3306 -- rake db:setup
 docker-compose run -e RAILS_ENV=test app bundle exec rspec --format RspecJunitFormatter --out artifacts/rspec.xml
 
 docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"

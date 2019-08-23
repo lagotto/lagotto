@@ -84,10 +84,9 @@ Build the lagotto image
 ```
 docker-compose build
 ```
-Initialize the database. This command might fail the first time if the mysql
-server doesn't start listening in time. If it does, just run it again.
+Initialize the database
 ```
-docker-compose run app rake db:setup
+docker-compose run app docker/wait-for.sh db:3306 -- rake db:setup
 ```
 Run lagotto
 ```
@@ -114,9 +113,9 @@ Build the image
 ```
 docker-compose build
 ```
-Set up the database. Like above, if this fails the first time, try it again.
+Set up the database
 ```
-docker-compose run -e RAILS_ENV=test app rake db:setup
+docker-compose run -e RAILS_ENV=test app docker/wait-for.sh db:3306 -- rake db:setup
 ```
 Run the specs
 ```
