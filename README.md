@@ -11,7 +11,14 @@ integration: [![Integration Status Badge]][Integration Status]
 
 ## Overview
 
-    TODO
+Lagotto is an Open Source application started in March 2009 by the Open Access
+publisher Public Library of Science (PLOS). Lagotto retrieves data from a wide
+set of services (sources). Some of these sources represent the actual channels
+where users are directly viewing, sharing, discussing, citing, recommending the
+works (e.g., Twitter and Mendeley). Others are third-party vendors which provide
+this information (e.g., CrossRef for citations).
+
+To see Lagotto in action, visit http://alm.plos.org/
 
 ## RSpec Tests 
 
