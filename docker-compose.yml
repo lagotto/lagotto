@@ -5,7 +5,7 @@ services:
     image: plos/lagotto:${CLEAN_BRANCH:-unknown}-${SHORT_HASH:-unknown}
     user: "${UID-2012}:${GID-2012}"
     build: .
-    links:
+    depends_on:
       - db
       - redis
     environment:
@@ -22,7 +22,7 @@ services:
     user: "${UID-2012}:${GID-2012}"
     build: .
     command: bundle exec sidekiq
-    links:
+    depends_on:
       - db
       - redis
     environment:
