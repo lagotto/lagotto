@@ -91,10 +91,6 @@ Build the lagotto image
 ```
 docker-compose build
 ```
-Initialize the database
-```
-docker-compose run app docker/wait-for.sh db:3306 -- rake db:setup
-```
 Run lagotto
 ```
 docker-compose up
@@ -102,7 +98,12 @@ docker-compose up
 After a few seconds of start up time, navigate to http://localhost:8080 in your
 browser.
 
-To stop it, use `ctrl-c`. To clean up the containers and volumes run:
+If you would like to initialize some seed data, run
+```
+docker-compose exec -e SEED_SOURCES=true app bundle exec rake db:seed
+```
+
+To stop the application, use `ctrl-c`. To clean up the containers and volumes run:
 ```
 docker-compose down -v
 ```
