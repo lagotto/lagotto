@@ -14,45 +14,23 @@ WORKDIR /code
 USER alm
 RUN gem install bundler -v 1.17.3
 
+# These Env vars are required to be set for Lagotto to start.
+# This list should match up with the list in config/initializers/dotenv.rb
 ENV \ 
     ADMIN_EMAIL=info@example.org \
     API_KEY=CHANGEME \
-    APPLICATION=lagotto \
-    AWS_KEY= \
-    AWS_KEYNAME= \
-    AWS_KEYPATH= \
-    AWS_SECRET= \
-    CAS_INFO_URL= \
-    CAS_PREFIX= \
-    CAS_URL= \
     CONCURRENCY=25 \
-    CREATOR="Public Library of Science" \
     DATABASE_URL=mysql2://username:passwork@host/database?pool=5&timeout=5000&encoding=utf8mb4 \
-    DO_PROVIDER_TOKEN= \
-    DO_SIZE=1GB \
-    GITHUB_CLIENT_ID= \
-    GITHUB_CLIENT_SECRET= \
-    GITHUB_URL=https://github.com/lagotto/lagotto \
-    HOSTNAME=lagotto.local \
-    IMPORT= \
-    LOG_LEVEL=info \
     MAIL_ADDRESS=localhost \
     MAIL_DOMAIN=localhost \
     MAIL_PORT=25 \
     OMNIAUTH=persona \
-    ORCID_CLIENT_ID= \
-    ORCID_CLIENT_SECRET= \
-    RAILS_ENV=production \
-    RAILS_LOG_TO_STDOUT=true \
     SECRET_KEY_BASE=CHANGEME \
     SERVERNAME=lagotto.local \
     SERVERS=lagotto.local \
     SITENAME="ALM Dev" \
-    SITENAMELONG="PLOS ALM" \
-    SKIP_EMBER=1 \
-    SOLR_URL=http://solr-mega-dev.soma.plos.org/solr/journals_dev/select \
-    ZENODO_KEY= \
-    ZENODO_URL=https://sandbox.zenodo.org/api/
+    SKIP_EMBER=1 \ 
+    SOLR_URL=http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
 
 COPY --chown=alm:alm Gemfile .
 COPY --chown=alm:alm Gemfile.lock .
