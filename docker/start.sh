@@ -4,4 +4,4 @@
 
 docker/wait-for.sh -t 30 $1
 bundle exec rake db:create db:migrate
-bundle exec puma
+bundle exec puma -C config/puma.rb
