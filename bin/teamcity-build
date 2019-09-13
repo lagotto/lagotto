@@ -8,10 +8,10 @@ export SHORT_HASH
 CLEAN_BRANCH=$(printf "%s" "$BRANCH" | tr -c '[:alnum:]-_' '_')
 export CLEAN_BRANCH
 
-UID=$(id -u)
-export UID
-GID=$(id -g)
-export GID
+DOCKER_UID=$(id -u)
+export DOCKER_UID
+DOCKER_GID=$(id -g)
+export DOCKER_GID
 
 mkdir -p artifacts/
 
@@ -22,7 +22,10 @@ docker-compose build
 docker-compose run -e RAILS_ENV=test app docker/wait-for.sh -t 30 db:3306 -- rake db:setup
 docker-compose run -e RAILS_ENV=test app bundle exec rspec --format RspecJunitFormatter --out artifacts/rspec.xml
 
-docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"
-docker push "plos/$APP_NAME:$CLEAN_BRANCH"
-docker push "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH"
+if [ -n "$TEAMCITY_VERSION" ] ; then
+    docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"
+    docker push "plos/$APP_NAME:$CLEAN_BRANCH"
+    docker push "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH"
+fi
+
 docker-compose down -v

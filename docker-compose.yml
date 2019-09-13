@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     image: plos/lagotto:${CLEAN_BRANCH:-unknown}-${SHORT_HASH:-unknown}
-    user: "${UID-2012}:${GID-2012}"
+    user: "${DOCKER_UID-2012}:${DOCKER_GID-2012}"
     build: .
     depends_on:
       - db
@@ -20,7 +20,7 @@ services:
       - ./artifacts:/code/artifacts
   worker:
     image: plos/lagotto:${CLEAN_BRANCH:-unknown}-${SHORT_HASH:-unknown}
-    user: "${UID-2012}:${GID-2012}"
+    user: "${DOCKER_UID-2012}:${DOCKER_GID-2012}"
     build: .
     command: bundle exec sidekiq
     depends_on:
