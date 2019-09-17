@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh -ex
 # Environment variables passed in by TC: $HASH and $BRANCH
 
 APP_NAME=lagotto
@@ -8,12 +8,7 @@ export SHORT_HASH
 CLEAN_BRANCH=$(printf "%s" "$BRANCH" | tr -c '[:alnum:]-_' '_')
 export CLEAN_BRANCH
 
-DOCKER_UID=$(id -u)
-export DOCKER_UID
-DOCKER_GID=$(id -g)
-export DOCKER_GID
-
-mkdir -p artifacts/
+rm -rf artifacts/
 
 echo "##teamcity[importData type='junit' file='./artifacts/rspec.xml']"
 
@@ -21,6 +16,7 @@ docker-compose down -v
 docker-compose build
 docker-compose run -e RAILS_ENV=test app docker/wait-for.sh -t 30 db:3306 -- rake db:setup
 docker-compose run -e RAILS_ENV=test app bundle exec rspec --format RspecJunitFormatter --out artifacts/rspec.xml
+docker-compose run -T app tar czf - artifacts/ | tar xzf -
 
 if [ -n "$TEAMCITY_VERSION" ] ; then
     docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"

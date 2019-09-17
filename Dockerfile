@@ -41,6 +41,8 @@ COPY --chown=alm:alm frontend/bower.json frontend/
 
 RUN cd frontend && bower install
 
+RUN mkdir artifacts
+
 COPY --chown=alm:alm . .
 
 RUN bundle exec rake assets:precompile
