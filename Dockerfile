@@ -25,6 +25,7 @@ ENV \
     MAIL_DOMAIN=localhost \
     MAIL_PORT=25 \
     OMNIAUTH=persona \
+    RAILS_ENV=production \
     SECRET_KEY_BASE=CHANGEME \
     SERVERNAME=lagotto.local \
     SERVERS=lagotto.local \
