@@ -12,16 +12,20 @@ rm -rf artifacts/
 
 echo "##teamcity[importData type='junit' file='./artifacts/rspec.xml']"
 
+function export_results {
+    docker-compose run -T app tar czf - artifacts/ | tar xzf -
+    docker-compose down -v
+}
+
+trap export_results EXIT
+
 docker-compose down -v
 docker-compose build
 docker-compose run -e RAILS_ENV=test app docker/wait-for.sh -t 30 db:3306 -- rake db:setup
 docker-compose run -e RAILS_ENV=test app bundle exec rspec --format RspecJunitFormatter --out artifacts/rspec.xml
-docker-compose run -T app tar czf - artifacts/ | tar xzf -
 
 if [ -n "$TEAMCITY_VERSION" ] ; then
     docker tag "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH" "plos/$APP_NAME:$CLEAN_BRANCH"
     docker push "plos/$APP_NAME:$CLEAN_BRANCH"
     docker push "plos/$APP_NAME:$CLEAN_BRANCH-$SHORT_HASH"
 fi
-
-docker-compose down -v
