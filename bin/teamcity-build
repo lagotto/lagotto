@@ -1,5 +1,6 @@
-#!/bin/sh -ex
+#!/bin/bash
 # Environment variables passed in by TC: $HASH and $BRANCH
+set -ex
 
 APP_NAME=lagotto
 SHORT_HASH=$(echo "$HASH" | cut -b 1-7)
