@@ -100,7 +100,7 @@ browser.
 
 If you would like to initialize some seed data, run
 ```
-docker-compose exec -e SEED_SOURCES=true app bundle exec rake db:seed
+docker-compose exec -e SEED_SOURCES=true appserver bundle exec rake db:seed
 ```
 
 To stop the application, use `ctrl-c`. To clean up the containers and volumes run:
@@ -123,11 +123,11 @@ docker-compose build
 ```
 Set up the database
 ```
-docker-compose run -e RAILS_ENV=test app docker/wait-for.sh db:3306 -- rake db:setup
+docker-compose run -e RAILS_ENV=test appserver docker/wait-for.sh db:3306 -- rake db:setup
 ```
 Run the specs
 ```
-docker-compose run app rspec
+docker-compose run appserver rspec
 ```
 Clean up
 ```
