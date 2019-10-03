@@ -71,6 +71,8 @@ class RetrievalStatus < ActiveRecord::Base
         update_data(data.fetch(:events, {}).except(:days, :months))
       end
 
+      notify_subscribers(work.doi, work.plos_journal_key, source.name, previous_total, total)
+
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?
       update_months(data.fetch(:months))
@@ -86,6 +88,29 @@ class RetrievalStatus < ActiveRecord::Base
       previous_total: previous_total,
       skipped: skipped,
       update_interval: update_interval }
+  end
+
+  def get_subscribers(journal, source)
+    #TODO get real config data
+    []
+  end
+
+  def notify_subscribers(doi, journal_key, source_name, previous_total, current_total )
+    return unless current_total > previous_total
+    range = (previous_total..current_total)
+
+    subs = get_subscribers(journal_key, source_name)
+    subs.each do |s|
+      next unless s[:journal] == journal_key && s[:source] == source_name
+      milestones = s[:milestones]
+      # returns the first milestone that matches the criteria
+      hit = milestones.detect{ |m| range.include?(m) }
+      notify_subscriber(s[:url], doi, hit) if hit
+    end
+  end
+
+  def notify_subscriber(url, doi, milestone)
+    #TODO call the url with appropriate query params including milestone
   end
 
   def update_schedule_date(sched_date)
@@ -303,6 +328,10 @@ class RetrievalStatus < ActiveRecord::Base
 
   # calculate events for current month based on past numbers
   def get_events_current_month
+    # TODO - this is broken.  previous month is treated as a cumulative count
+    # but it is actually only a month's count.  You will not get a valid
+    # month's count by subtracting the previous month's count from the
+    # current total.
     row = get_events_previous_month
 
     { year: today.year,
