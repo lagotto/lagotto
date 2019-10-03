@@ -109,6 +109,7 @@ docker-compose down -v
 ```
 
 ### Running the tests
+
 Unless you configure it otherwise, the same database will be used for 
 RAILS_ENV=test and RAILS_ENV=production in docker-compose. It may not strictly 
 be necessary, but I recommend destroying your containers before and after 
