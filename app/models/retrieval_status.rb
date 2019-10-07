@@ -110,7 +110,7 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def notify_subscriber(url, doi, milestone)
-    #TODO call the url with appropriate query params including milestone
+    Faraday.get(url, doi: doi, milestone: milestone)
   end
 
   def update_schedule_date(sched_date)

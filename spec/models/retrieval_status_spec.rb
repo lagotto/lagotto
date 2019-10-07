@@ -439,4 +439,13 @@ describe RetrievalStatus, type: :model, vcr: true, focus: true do
       expect(subject.months.count).to eq(1)
     end
   end
+
+  describe "notify_subscriber" do
+    it 'sends a request with relevant query params' do
+      subject = FactoryGirl.create(:retrieval_status)
+
+      expect(Faraday).to receive(:get).with('https://example.com/subscriber', {doi: '10.1371/pone.1234567', milestone: 42})
+      subject.notify_subscriber('https://example.com/subscriber', '10.1371/pone.1234567', 42)
+    end
+  end
 end
