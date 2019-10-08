@@ -91,8 +91,8 @@ class RetrievalStatus < ActiveRecord::Base
   end
 
   def get_subscribers(journal, source)
-    #TODO get real config data
-    []
+    subs = SUBSCRIBERS_CONFIG[:subscribers]
+    return subs.select { |s| s.values_at(:journal, :source) == [journal, source] }
   end
 
   def notify_subscribers(doi, journal_key, source_name, previous_total, current_total )

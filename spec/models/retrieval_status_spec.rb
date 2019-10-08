@@ -448,4 +448,35 @@ describe RetrievalStatus, type: :model, vcr: true, focus: true do
       subject.notify_subscriber('https://example.com/subscriber', '10.1371/pone.1234567', 42)
     end
   end
+
+  describe "get_subscribers" do
+    it "matches on journal and source" do
+      subs = [
+        {
+          journal: 'pmed',
+          source: 'crossref',
+          milestones: [1, 15],
+          url: 'https://example.com/pmed-xref',
+        },
+        {
+          journal: 'pone',
+          source: 'crossref',
+          milestones: [1, 15],
+          url: 'https://example.com/pone-xref',
+        },
+        {
+          journal: 'pone',
+          source: 'mendeley',
+          milestones: [1, 15],
+          url: 'https://example.com/pone-mend',
+        }
+      ]
+      ::SUBSCRIBERS_CONFIG = {subscribers: subs}
+      expect(subject.get_subscribers('pone', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pone-xref'])
+      expect(subject.get_subscribers('pone', 'mendeley').map{|s| s[:url]}).to eq(['https://example.com/pone-mend'])
+      expect(subject.get_subscribers('pmed', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pmed-xref'])
+      expect(subject.get_subscribers('pbio', 'crossref')).to eq([])
+    end
+  end
+
 end
