@@ -207,10 +207,6 @@ class Work < ActiveRecord::Base
     doi[/^10\.\d{4,5}/]
   end
 
-  def plos_journal_key
-    doi.sub('10.1371/journal.', '').split('.')[0]
-  end
-
   def get_url
     return true if canonical_url.present?
     return false unless doi.present?

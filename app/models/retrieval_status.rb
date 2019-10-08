@@ -71,7 +71,7 @@ class RetrievalStatus < ActiveRecord::Base
         update_data(data.fetch(:events, {}).except(:days, :months))
       end
 
-      Subscribers.notify_subscribers(work.doi, work.plos_journal_key, source.name, previous_total, total)
+      Subscribers.notify(work.doi, source.name, previous_total, total)
 
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?

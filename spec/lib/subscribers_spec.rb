@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe Subscribers do
-  describe "notify_subscribers" do
-    context "a subscriber milestone has been passed" do
+describe Subscribers, vcr: false, focus: true do
+  describe 'notify' do
+    context 'a subscriber milestone has been passed' do
       before do
-        @subs = [
+        subs = [
           {
             journal: 'pone',
             source: 'crossref',
@@ -12,22 +12,22 @@ describe Subscribers do
             url: 'https://example.com',
           }
         ]
-        expect(Subscribers).to receive(:get_subscribers).with('pone', 'crossref').and_return(subs)
+        expect(Subscribers).to receive(:get).with('10.1371/journal.pone.0053745', 'crossref').and_return(subs)
       end
 
-      it "notifies subscribers" do
-        expect(Subscribers).to receive(:notify_subscriber).with('https://example.com', "10.1371/journal.pone.0053745", 15)
-        Subscribers.notify_subscribers("10.1371/journal.pone.0053745", 'pone', 'crossref', 20, 31)
+      it 'notifies subscribers' do
+        expect(Faraday).to receive(:get).with('https://example.com', {doi: '10.1371/journal.pone.0053745', milestone: 1})
+        Subscribers.notify('10.1371/journal.pone.0053745', 'crossref', 0, 14)
       end
 
-      it "uses the first milestone that was passed" do
-        expect(Subscribers).to receive(:notify_subscriber).with('https://example.com', "10.1371/journal.pone.0053745", 1)
-        Subscribers.notify_subscribers("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 17)
+      it 'uses the last milestone that was passed' do
+        expect(Faraday).to receive(:get).with('https://example.com', {doi: '10.1371/journal.pone.0053745', milestone: 15})
+        Subscribers.notify('10.1371/journal.pone.0053745', 'crossref', 0, 15)
       end
     end
 
-    context "a subscriber milestone has NOT been passed" do
-      it "does not notify subscribers" do
+    context 'a subscriber milestone has NOT been passed' do
+      it 'does not notify subscribers' do
         subs = [
           {
             journal: 'pone',
@@ -48,22 +48,16 @@ describe Subscribers do
             url: 'https://example-source-mismatch.com',
           }
         ]
-        expect(Subscribers).not_to receive(:notify_subscriber)
-        expect(Subscribers).to receive(:get_subscribers).with('pone', 'crossref').and_return(subs)
-        Subscribers.notify_subscribers("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 31)
+        expect(Subscribers).to receive(:get_from_config).and_return(subs)
+
+        expect(Faraday).not_to receive(:get)
+        Subscribers.notify('10.1371/journal.pone.0053745', 'crossref', 0, 31)
       end
     end
   end
 
-  describe "notify_subscriber" do
-    it 'sends a request with relevant query params' do
-      expect(Faraday).to receive(:get).with('https://example.com/subscriber', {doi: '10.1371/pone.1234567', milestone: 42})
-      Subscribers.notify_subscriber('https://example.com/subscriber', '10.1371/pone.1234567', 42)
-    end
-  end
-
-  describe "get_subscribers" do
-    it "matches on journal and source" do
+  describe 'get' do
+    it 'matches on journal and source' do
       subs = [
         {
           journal: 'pmed',
@@ -84,11 +78,11 @@ describe Subscribers do
           url: 'https://example.com/pone-mend',
         }
       ]
-      ::SUBSCRIBERS_CONFIG = {subscribers: subs}
-      expect(Subscribers.get_subscribers('pone', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pone-xref'])
-      expect(Subscribers.get_subscribers('pone', 'mendeley').map{|s| s[:url]}).to eq(['https://example.com/pone-mend'])
-      expect(Subscribers.get_subscribers('pmed', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pmed-xref'])
-      expect(Subscribers.get_subscribers('pbio', 'crossref')).to eq([])
+      expect(Subscribers).to receive(:get_from_config).and_return(subs).exactly(4).times
+      expect(Subscribers.get('10.1371/journal.pone.7', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pone-xref'])
+      expect(Subscribers.get('10.1371/journal.pone.7', 'mendeley').map{|s| s[:url]}).to eq(['https://example.com/pone-mend'])
+      expect(Subscribers.get('10.1371/journal.pmed.7', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pmed-xref'])
+      expect(Subscribers.get('10.1371/journal.pbio.7', 'crossref')).to eq([])
     end
   end
 end

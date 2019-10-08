@@ -1,24 +1,31 @@
 class Subscribers
-    def self.notify_subscribers(doi, journal_key, source_name, previous_total, current_total )
+  def self.notify(doi, source, previous_total, current_total )
     return unless current_total > previous_total
     range = (previous_total..current_total)
-
-    subs = get_subscribers(journal_key, source_name)
+    subs = get(doi, source)
     subs.each do |s|
-      next unless s[:journal] == journal_key && s[:source] == source_name
       milestones = s[:milestones]
-      # returns the first milestone that matches the criteria
-      hit = milestones.detect{ |m| range.include?(m) }
-      notify_subscriber(s[:url], doi, hit) if hit
+      # returns the last milestone in range
+      hit = milestones.select{ |m| range.include?(m) }.last
+      if hit
+        Faraday.get(s[:url], doi: doi, milestone: hit)
+      end
     end
   end
 
-  def self.get_subscribers(journal, source)
-    subs = SUBSCRIBERS_CONFIG[:subscribers]
+  def self.get(doi, source)
+    journal = journal_key(doi)
+    subs = get_from_config
     return subs.select { |s| s.values_at(:journal, :source) == [journal, source] }
   end
 
-  def self.notify_subscriber(url, doi, milestone)
-    Faraday.get(url, doi: doi, milestone: milestone)
+  def self.get_from_config
+    SUBSCRIBERS_CONFIG[:subscribers]
+  end
+
+  def self.journal_key(doi)
+    prefix = '10.1371/journal.'
+    return unless doi && doi.start_with?(prefix)
+    doi.sub(prefix, '').split('.').first
   end
 end

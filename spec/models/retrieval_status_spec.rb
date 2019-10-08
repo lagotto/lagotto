@@ -320,7 +320,7 @@ describe RetrievalStatus, type: :model, vcr: true, focus: true do
       end
 
       it 'notifies subscribers' do
-        expect(Subscribers).to receive(:notify_subscribers).with("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 31)
+        expect(Subscribers).to receive(:notify).with("10.1371/journal.pone.0053745", 'crossref', 0, 31)
         @subject.perform_get_data
       end
     end
