@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Subscribers do
   describe "notify_subscribers" do
     context "a subscriber milestone has been passed" do
-      it "notifies subscribers" do
-        subs = [
+      before do
+        @subs = [
           {
             journal: 'pone',
             source: 'crossref',
@@ -12,9 +12,17 @@ describe Subscribers do
             url: 'https://example.com',
           }
         ]
-        expect(Subscribers).to receive(:notify_subscriber).with('https://example.com', "10.1371/journal.pone.0053745", 1)
         expect(Subscribers).to receive(:get_subscribers).with('pone', 'crossref').and_return(subs)
-        Subscribers.notify_subscribers("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 31)
+      end
+
+      it "notifies subscribers" do
+        expect(Subscribers).to receive(:notify_subscriber).with('https://example.com', "10.1371/journal.pone.0053745", 15)
+        Subscribers.notify_subscribers("10.1371/journal.pone.0053745", 'pone', 'crossref', 20, 31)
+      end
+
+      it "uses the first milestone that was passed" do
+        expect(Subscribers).to receive(:notify_subscriber).with('https://example.com', "10.1371/journal.pone.0053745", 1)
+        Subscribers.notify_subscribers("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 17)
       end
     end
 
