@@ -319,50 +319,9 @@ describe RetrievalStatus, type: :model, vcr: true, focus: true do
         expect(month.total).to eq(31)
       end
 
-      context "a subscriber milestone has been passed" do
-        it "notifies subscribers" do
-          subs = [
-            {
-              journal: 'pone',
-              source: 'crossref',
-              milestones: [1,15],
-              url: 'https://example.com',
-            }
-          ]
-          expect(@subject).to receive(:notify_subscriber).with('https://example.com', "10.1371/journal.pone.0053745", 1)
-          expect(@subject).to receive(:get_subscribers).with('pone', 'crossref').and_return(subs) 
-          expect(@subject).to receive(:notify_subscribers).with("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 31).and_call_original
-          @subject.perform_get_data
-        end
-      end
-
-      context "a subscriber milestone has NOT been passed" do
-        it "does not notify subscribers" do
-          subs = [
-            {
-              journal: 'pone',
-              source: 'crossref',
-              milestones: [40, 50],
-              url: 'https://example-milestone-mismatch.com',
-            },
-            {
-              journal: 'pmed',
-              source: 'crossref',
-              milestones: [1, 15],
-              url: 'https://example-journal-mismatch.com',
-            },
-            {
-              journal: 'pone',
-              source: 'mendeley',
-              milestones: [1, 15],
-              url: 'https://example-source-mismatch.com',
-            }
-          ]
-          expect(@subject).not_to receive(:notify_subscriber)
-          expect(@subject).to receive(:get_subscribers).with('pone', 'crossref').and_return(subs)
-          expect(@subject).to receive(:notify_subscribers).with("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 31).and_call_original
-          @subject.perform_get_data
-        end
+      it 'notifies subscribers' do
+        expect(Subscribers).to receive(:notify_subscribers).with("10.1371/journal.pone.0053745", 'pone', 'crossref', 0, 31)
+        @subject.perform_get_data
       end
     end
 
@@ -439,44 +398,4 @@ describe RetrievalStatus, type: :model, vcr: true, focus: true do
       expect(subject.months.count).to eq(1)
     end
   end
-
-  describe "notify_subscriber" do
-    it 'sends a request with relevant query params' do
-      subject = FactoryGirl.create(:retrieval_status)
-
-      expect(Faraday).to receive(:get).with('https://example.com/subscriber', {doi: '10.1371/pone.1234567', milestone: 42})
-      subject.notify_subscriber('https://example.com/subscriber', '10.1371/pone.1234567', 42)
-    end
-  end
-
-  describe "get_subscribers" do
-    it "matches on journal and source" do
-      subs = [
-        {
-          journal: 'pmed',
-          source: 'crossref',
-          milestones: [1, 15],
-          url: 'https://example.com/pmed-xref',
-        },
-        {
-          journal: 'pone',
-          source: 'crossref',
-          milestones: [1, 15],
-          url: 'https://example.com/pone-xref',
-        },
-        {
-          journal: 'pone',
-          source: 'mendeley',
-          milestones: [1, 15],
-          url: 'https://example.com/pone-mend',
-        }
-      ]
-      ::SUBSCRIBERS_CONFIG = {subscribers: subs}
-      expect(subject.get_subscribers('pone', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pone-xref'])
-      expect(subject.get_subscribers('pone', 'mendeley').map{|s| s[:url]}).to eq(['https://example.com/pone-mend'])
-      expect(subject.get_subscribers('pmed', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/pmed-xref'])
-      expect(subject.get_subscribers('pbio', 'crossref')).to eq([])
-    end
-  end
-
 end

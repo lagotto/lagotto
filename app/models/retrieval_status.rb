@@ -71,7 +71,7 @@ class RetrievalStatus < ActiveRecord::Base
         update_data(data.fetch(:events, {}).except(:days, :months))
       end
 
-      notify_subscribers(work.doi, work.plos_journal_key, source.name, previous_total, total)
+      Subscribers.notify_subscribers(work.doi, work.plos_journal_key, source.name, previous_total, total)
 
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?
@@ -88,29 +88,6 @@ class RetrievalStatus < ActiveRecord::Base
       previous_total: previous_total,
       skipped: skipped,
       update_interval: update_interval }
-  end
-
-  def get_subscribers(journal, source)
-    subs = SUBSCRIBERS_CONFIG[:subscribers]
-    return subs.select { |s| s.values_at(:journal, :source) == [journal, source] }
-  end
-
-  def notify_subscribers(doi, journal_key, source_name, previous_total, current_total )
-    return unless current_total > previous_total
-    range = (previous_total..current_total)
-
-    subs = get_subscribers(journal_key, source_name)
-    subs.each do |s|
-      next unless s[:journal] == journal_key && s[:source] == source_name
-      milestones = s[:milestones]
-      # returns the first milestone that matches the criteria
-      hit = milestones.detect{ |m| range.include?(m) }
-      notify_subscriber(s[:url], doi, hit) if hit
-    end
-  end
-
-  def notify_subscriber(url, doi, milestone)
-    Faraday.get(url, doi: doi, milestone: milestone)
   end
 
   def update_schedule_date(sched_date)
