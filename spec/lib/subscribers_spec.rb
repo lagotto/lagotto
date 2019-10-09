@@ -12,7 +12,7 @@ describe Subscribers, vcr: false, focus: true do
             url: 'https://example.com',
           }
         ]
-        expect(Subscribers).to receive(:get).with('10.1371/journal.pone.0053745', 'crossref').and_return(subs)
+        expect(Subscribers).to receive(:get).with('10.1371/journal.pone.0053745', 'crossref').and_return(subs).at_least(:once)
       end
 
       it 'notifies subscribers' do
@@ -22,7 +22,14 @@ describe Subscribers, vcr: false, focus: true do
 
       it 'uses the last milestone that was passed' do
         expect(Faraday).to receive(:get).with('https://example.com', {doi: '10.1371/journal.pone.0053745', milestone: 15})
+        Subscribers.notify('10.1371/journal.pone.0053745', 'crossref', 0, 16)
+      end
+
+      it 'notifies once per milestone that was passed' do
+        expect(Faraday).to receive(:get).with('https://example.com', {doi: '10.1371/journal.pone.0053745', milestone: 1}).exactly(:once)
+        expect(Faraday).to receive(:get).with('https://example.com', {doi: '10.1371/journal.pone.0053745', milestone: 15}).exactly(:once)
         Subscribers.notify('10.1371/journal.pone.0053745', 'crossref', 0, 15)
+        Subscribers.notify('10.1371/journal.pone.0053745', 'crossref', 15, 20)
       end
     end
 

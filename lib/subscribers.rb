@@ -1,7 +1,7 @@
 class Subscribers
   def self.notify(doi, source, previous_total, current_total )
     return unless current_total > previous_total
-    range = (previous_total..current_total)
+    range = (previous_total...current_total)
     subs = get(doi, source)
     subs.each do |s|
       milestones = s[:milestones]
