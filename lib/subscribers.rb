@@ -1,8 +1,9 @@
 class Subscribers
-  def self.notify(doi, source, previous_total, current_total )
+  def self.notify(doi, source, previous_total, current_total)
     return unless current_total > previous_total
     range = (previous_total...current_total)
-    subs = get(doi, source)
+    journal = journal_key(doi)
+    subs = get(journal, source)
     subs.each do |s|
       milestones = s[:milestones]
       # returns the last milestone in range
@@ -13,8 +14,7 @@ class Subscribers
     end
   end
 
-  def self.get(doi, source)
-    journal = journal_key(doi)
+  def self.get(journal, source)
     subs = get_from_config
     return subs.select { |s| s.values_at(:journal, :source) == [journal, source] }
   end
