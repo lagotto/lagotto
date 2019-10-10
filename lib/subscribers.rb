@@ -1,7 +1,8 @@
 class Subscribers
   def self.notify(doi, source, previous_total, current_total)
     return unless current_total > previous_total
-    range = (previous_total...current_total)
+    low_end = previous_total + 1
+    range = (low_end..current_total)
     journal = journal_key(doi)
     subs = get(journal, source)
     subs.each do |s|

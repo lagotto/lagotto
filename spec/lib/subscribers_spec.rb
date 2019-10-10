@@ -31,12 +31,17 @@ describe Subscribers, vcr: false, focus: true do
         end
       end
 
-      context 'milestone is exactly the new total' do
-        it 'notifies only once' do
+      context 'milestone is exactly the new count' do
+        it 'notifies' do
           expect(Faraday).to receive(:get).with(@subscriber_url, {doi: @article_doi, milestone: 1}).exactly(:once)
-          expect(Faraday).to receive(:get).with(@subscriber_url, {doi: @article_doi, milestone: 15}).exactly(:once)
-          Subscribers.notify(@article_doi, @citation_source, 0, 15)
-          Subscribers.notify(@article_doi, @citation_source, 15, 20)
+          Subscribers.notify(@article_doi, @citation_source, 0, 1)
+        end
+      end
+
+      context 'milestone is exactly the old count' do
+        it 'does not notify since it would have been already notified in the previous update' do
+          expect(Faraday).not_to receive(:get)
+          Subscribers.notify(@article_doi, @citation_source, 1, 4)
         end
       end
     end
