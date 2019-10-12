@@ -14,6 +14,12 @@ class Subscribers
       end
     end
   end
+  
+  def self.journal_key(doi)
+    prefix = '10.1371/journal.'
+    return unless doi && doi.start_with?(prefix)
+    doi.sub(prefix, '').split('.').first
+  end
 
   def self.get(journal, source)
     subs = get_from_config
@@ -21,12 +27,7 @@ class Subscribers
   end
 
   def self.get_from_config
-    SUBSCRIBERS_CONFIG[:subscribers]
-  end
-
-  def self.journal_key(doi)
-    prefix = '10.1371/journal.'
-    return unless doi && doi.start_with?(prefix)
-    doi.sub(prefix, '').split('.').first
+    config = EnvConfig.config_for("SUBSCRIBERS__")
+    config[:subscribers] || []
   end
 end
