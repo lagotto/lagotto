@@ -27,6 +27,6 @@ class Subscribers
   end
 
   def self.all_subscribers
-    SUBSCRIBERS_CONFIG[:subscribers] || []
+    SUBSCRIBERS_CONFIG
   end
 end
