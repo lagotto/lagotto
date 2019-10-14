@@ -8,36 +8,36 @@ class EnvConfig
     end
   end
 
-  def self.add_to_config(env_key, env_value, config)
-    ancestors = env_key.split('__').map{ |kp| to_key(kp) }
+  def self.add_to_config(key_str, value_str, config)
     temp_config = config
-    # initialize empty structure for env var
+    ancestors = key_str.split('__').map{ |part| to_key(part) }
     ancestors.each_with_index do |parent_key, index|
-      # skip the last key; it will hold the value
+      # do not initialize a collection for the last key
       break if index == ancestors.size - 1
 
-      # initialize hash or array when child represents a hash key or array index
+      # initialize collection for key - array for int key, hash for string key
       child_key = ancestors[index + 1]
       temp_config[parent_key] ||= empty_collection(child_key)
       temp_config = temp_config[parent_key]
     end
 
-    # [] is same syntax for hash and array. Arg types differ (Integer vs Symbol)
-    temp_config[ancestors.last] = env_value
+    # the last key gets the value
+    value = is_int?(value_str) ? Integer(value_str) : value_str
+    temp_config[ancestors.last] = value
   end
 
-  def self.is_array_index(key_str)
-    key_str.match(/^\d+$/)
+  def self.is_int?(str)
+    str.match(/^\d+$/)
   end
 
-  def self.to_key(key_str)
-    if is_array_index(key_str)
-      Integer(key_str)
-    else 
-      key_str.downcase.to_sym  
+  def self.to_key(str)
+    if is_int?(str)
+      Integer(str)
+    else
+      str.downcase.to_sym
     end
   end
-  
+
   def self.empty_collection(key)
     key.is_a?(Integer) ? [] : {}
   end

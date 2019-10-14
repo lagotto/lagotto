@@ -25,17 +25,17 @@ describe EnvConfig, vcr: false, focus: true do
         {
           journal: 'pmed',
           source: 'crossref',
-          milestones: ["1", "15"],
+          milestones: [1, 15],
           url: 'https://example.com/notify-me-about-xref-changes-for-journal-pmed',
         },
         {
           journal: 'pone',
           source: 'crossref',
-          milestones: ["1", "15"],
+          milestones: [1, 15],
           url: 'https://example.com/notify-me-about-xref-changes-for-journal-pone',
         },
         {
-          nesting: [["1", "25", ["45", {nested: {key: "way nested"}}]]],
+          nesting: [[1, 25, [45, {nested: {key: "way nested"}}]]],
           url: 'https://example.com/complex-nesting',
         }
       ]})
