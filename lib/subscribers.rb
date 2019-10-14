@@ -22,12 +22,11 @@ class Subscribers
   end
 
   def self.get(journal, source)
-    subs = get_from_config
+    subs = all_subscribers
     return subs.select { |s| s.values_at(:journal, :source) == [journal, source] }
   end
 
-  def self.get_from_config
-    config = EnvConfig.config_for("SUBSCRIBERS__")
-    config[:subscribers] || []
+  def self.all_subscribers
+    SUBSCRIBERS_CONFIG[:subscribers] || []
   end
 end

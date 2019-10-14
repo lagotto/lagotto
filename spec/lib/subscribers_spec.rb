@@ -56,7 +56,7 @@ describe Subscribers, vcr: false, focus: true do
             url: 'https://example.com/milestones-out-of-range',
           }
         ]
-        expect(Subscribers).to receive(:get_from_config).and_return(subs)
+        expect(Subscribers).to receive(:all_subscribers).and_return(subs)
 
         expect(Faraday).not_to receive(:get)
         Subscribers.notify(@article_doi, @citation_source, 0, 31)
@@ -86,7 +86,7 @@ describe Subscribers, vcr: false, focus: true do
           url: 'https://example.com/notify-me-about-scopus-changes-for-journal-pone',
         }
       ]
-      expect(Subscribers).to receive(:get_from_config).and_return(subs).exactly(4).times
+      expect(Subscribers).to receive(:all_subscribers).and_return(subs).exactly(4).times
 
       expect(Subscribers.get('pone', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-xref-changes-for-journal-pone'])
       expect(Subscribers.get('pmed', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-xref-changes-for-journal-pmed'])

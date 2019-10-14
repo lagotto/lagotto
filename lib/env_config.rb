@@ -1,10 +1,9 @@
 class EnvConfig
   def self.config_for(prefix)
-    {}.tap do |top_config|
-      env_vars = env_vars_for(prefix)
-      env_vars.each do |env_key, env_value|
-        add_to_config(env_key, env_value, top_config)
-      end
+    @configs_by_prefix ||= {}
+    @configs_by_prefix[prefix] ||= {}.tap do |config|
+      vars = env_vars_for(prefix)
+      vars.each{ |k, v| add_to_config(k, v, config) }
     end
   end
 
@@ -43,6 +42,10 @@ class EnvConfig
   end
 
   def self.env_vars_for(prefix)
-    ENV.select{ |k,v| k.start_with?(prefix) }
+    env_vars.select{ |k,v| k.start_with?(prefix) }
+  end
+
+  def self.env_vars
+    @env_vars ||= ENV.to_hash
   end
 end

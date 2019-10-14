@@ -3,6 +3,7 @@ require 'rails_helper'
 describe EnvConfig, vcr: false, focus: true do
   describe '.config_for' do
     it 'converts specially formatted env vars to a hash' do
+      EnvConfig.instance_variable_set(:@configs_by_prefix, nil)
       expect(EnvConfig).to receive(:env_vars_for).with('SUBSCRIBERS__').and_return({
           "SUBSCRIBERS__0__JOURNAL" => "pmed",
           "SUBSCRIBERS__0__SOURCE" => "crossref",
