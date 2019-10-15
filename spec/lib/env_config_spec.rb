@@ -19,7 +19,7 @@ describe EnvConfig, vcr: false, focus: true do
           "SUBSCRIBERS__2__NESTING__0__1" => "25",
           "SUBSCRIBERS__2__NESTING__0__2__0" => "45",
           "SUBSCRIBERS__2__NESTING__0__2__1__NESTED__KEY" => "way nested",
-          "SUBSCRIBERS__2__URL" => "https://example.com/complex-nesting"
+          "SUBSCRIBERS__2__DESCR" => "example of complex nesting"
       })
 
       expect(EnvConfig.config_for('SUBSCRIBERS__')).to eq({ subscribers: [
@@ -36,8 +36,8 @@ describe EnvConfig, vcr: false, focus: true do
           url: 'https://example.com/notify-me-about-xref-changes-for-journal-pone',
         },
         {
-          nesting: [[1, 25, [45, {nested: {key: "way nested"}}]]],
-          url: 'https://example.com/complex-nesting',
+          nesting: [[1, 25, [45, {nested: {key: 'way nested'}}]]],
+          descr: 'example of complex nesting',
         }
       ]})
     end

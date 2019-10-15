@@ -3,26 +3,26 @@ class EnvConfig
     @configs_by_prefix ||= {}
     @configs_by_prefix[prefix] ||= {}.tap do |config|
       vars = env_vars_for(prefix)
-      vars.each{ |k, v| add_to_config(k, v, config) }
+      vars.each do |key_tokens_str, value_str|
+        keys = key_tokens_str.split('__').map{ |token| to_key(token) }
+        value = is_int?(value_str) ? Integer(value_str) : value_str
+        build_config_for_env_var(config, keys, value)
+      end
     end
   end
 
-  def self.add_to_config(key_str, value_str, config)
-    temp_config = config
-    ancestors = key_str.split('__').map{ |part| to_key(part) }
-    ancestors.each_with_index do |parent_key, index|
-      # do not initialize a collection for the last key
-      break if index == ancestors.size - 1
+  def self.build_config_for_env_var(collection, keys, value)
+    if keys.size > 1
+      key, next_key = keys.first(2)
+      collection[key] ||= empty_collection(next_key)
 
-      # initialize collection for key - array for int key, hash for string key
-      child_key = ancestors[index + 1]
-      temp_config[parent_key] ||= empty_collection(child_key)
-      temp_config = temp_config[parent_key]
+      next_collection = collection[key]
+      remaining_keys = keys.drop(1)
+      build_config_for_env_var(next_collection, remaining_keys, value)
+      next_collection
+    else
+      collection[keys.first] = value
     end
-
-    # the last key gets the value
-    value = is_int?(value_str) ? Integer(value_str) : value_str
-    temp_config[ancestors.last] = value
   end
 
   def self.is_int?(str)
