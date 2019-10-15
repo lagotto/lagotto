@@ -4,13 +4,15 @@ class Subscribers
     low_end = previous_total + 1
     range = (low_end..current_total)
     journal = journal_key(doi)
-    subs = get(journal, source)
+    subs = list_for(journal, source)
     subs.each do |s|
       milestones = s[:milestones]
       # returns the last milestone in range
       hit = milestones.select{ |m| range.include?(m) }.last
       if hit
-        Faraday.get(s[:url], doi: doi, milestone: hit)
+        Rails.logger.info("Notifying subscriber: #{{url: s[:url], doi: doi, milestone: hit}}")
+        resp = Faraday.get(s[:url], doi: doi, milestone: hit)
+        Rails.logger.info("Response from subscriber: #{resp.inspect}")
       end
     end
   end
@@ -21,7 +23,7 @@ class Subscribers
     doi.sub(prefix, '').split('.').first
   end
 
-  def self.get(journal, source)
+  def self.list_for(journal, source)
     subs = all_subscribers
     return subs.select { |s| s.values_at(:journal, :source) == [journal, source] }
   end

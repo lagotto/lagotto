@@ -16,7 +16,7 @@ describe Subscribers, vcr: false, focus: true do
           }
         ]
         @article_doi = '10.1371/journal.pone.0053745'
-        expect(Subscribers).to receive(:get).with(@journal, @citation_source).and_return(subs).at_least(:once)
+        expect(Subscribers).to receive(:list_for).with(@journal, @citation_source).and_return(subs).at_least(:once)
       end
 
       it 'notifies subscribers' do
@@ -40,7 +40,7 @@ describe Subscribers, vcr: false, focus: true do
 
       context 'milestone is exactly the old count' do
         it 'does not notify since it would have been already notified in the previous update' do
-          expect(Faraday).not_to receive(:get)
+          expect(Faraday).not_to receive(:list_for)
           Subscribers.notify(@article_doi, @citation_source, 1, 4)
         end
       end
@@ -58,14 +58,14 @@ describe Subscribers, vcr: false, focus: true do
         ]
         expect(Subscribers).to receive(:all_subscribers).and_return(subs)
 
-        expect(Faraday).not_to receive(:get)
+        expect(Faraday).not_to receive(:list_for)
         Subscribers.notify(@article_doi, @citation_source, 0, 31)
       end
     end
   end
 
-  describe 'get' do
-    it 'gets subscribers to notify of a milestone passed by an article' do
+  describe 'list_for' do
+    it 'lists subscribers to notify of a milestone passed by an article' do
       subs = [
         {
           journal: 'pmed',
@@ -88,10 +88,10 @@ describe Subscribers, vcr: false, focus: true do
       ]
       expect(Subscribers).to receive(:all_subscribers).and_return(subs).exactly(4).times
 
-      expect(Subscribers.get('pone', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-xref-changes-for-journal-pone'])
-      expect(Subscribers.get('pmed', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-xref-changes-for-journal-pmed'])
-      expect(Subscribers.get('pbio', 'crossref')).to eq([])
-      expect(Subscribers.get('pone', 'scopus').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-scopus-changes-for-journal-pone'])
+      expect(Subscribers.list_for('pone', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-xref-changes-for-journal-pone'])
+      expect(Subscribers.list_for('pmed', 'crossref').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-xref-changes-for-journal-pmed'])
+      expect(Subscribers.list_for('pbio', 'crossref')).to eq([])
+      expect(Subscribers.list_for('pone', 'scopus').map{|s| s[:url]}).to eq(['https://example.com/notify-me-about-scopus-changes-for-journal-pone'])
     end
   end
 end
