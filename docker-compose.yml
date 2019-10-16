@@ -11,6 +11,7 @@ services:
       DATABASE_URL: mysql2://root:password@db:3306/alm?pool=5&timeout=5000&encoding=utf8mb4
       REDIS_URL: redis://redis:6379/0
       SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
+      SERVERNAME: "localhost:8080"
     command: ["docker/start.sh", "db:3306"]
     ports:
       - 9292:9292
