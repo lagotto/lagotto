@@ -71,6 +71,8 @@ class RetrievalStatus < ActiveRecord::Base
         update_data(data.fetch(:events, {}).except(:days, :months))
       end
 
+      Subscribers.notify(work.doi, source.name, previous_total, total)
+
       data[:months] = data.fetch(:events, {}).fetch(:months, [])
       data[:months] = [get_events_current_month] if data[:months].blank?
       update_months(data.fetch(:months))
@@ -303,6 +305,10 @@ class RetrievalStatus < ActiveRecord::Base
 
   # calculate events for current month based on past numbers
   def get_events_current_month
+    # TODO - this is broken.  previous month is treated as a cumulative count
+    # but it is actually only a month's count.  You will not get a valid
+    # month's count by subtracting the previous month's count from the
+    # current total.
     row = get_events_previous_month
 
     { year: today.year,

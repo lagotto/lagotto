@@ -124,11 +124,11 @@ docker-compose build
 ```
 Set up the database
 ```
-docker-compose run -e RAILS_ENV=test appserver docker/wait-for.sh db:3306 -- rake db:setup
+docker-compose run --rm -e RAILS_ENV=test appserver docker/wait-for.sh db:3306 -- rake db:setup
 ```
 Run the specs
 ```
-docker-compose run appserver rspec
+docker-compose run --rm appserver rspec
 ```
 Clean up
 ```

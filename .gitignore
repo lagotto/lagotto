@@ -42,3 +42,5 @@ doc/dependencies*
 .byebug_history
 .env.local
 artifacts/*
+.vscode
+

@@ -295,25 +295,34 @@ describe RetrievalStatus, type: :model, vcr: true, focus: true do
       expect(month.total).to eq(34)
     end
 
-    it "success crossref" do
-      work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
-      relation_type = FactoryGirl.create(:relation_type)
-      inverse_relation_type = FactoryGirl.create(:relation_type, :inverse)
-      source = FactoryGirl.create(:crossref)
-      subject = FactoryGirl.create(:retrieval_status, total: 0, readers: 0, work: work, source: source)
-      body = File.read(fixture_path + 'cross_ref.xml')
-      stub = stub_request(:get, subject.source.get_query_url(work)).to_return(:body => body)
+    context "success with crossref data source" do
+      before do
+        work = FactoryGirl.create(:work, :doi => "10.1371/journal.pone.0053745")
+        relation_type = FactoryGirl.create(:relation_type)
+        inverse_relation_type = FactoryGirl.create(:relation_type, :inverse)
+        source = FactoryGirl.create(:crossref)
+        @subject = FactoryGirl.create(:retrieval_status, total: 0, readers: 0, work: work, source: source)
+        body = File.read(fixture_path + 'cross_ref.xml')
+        stub_request(:get, @subject.source.get_query_url(work)).to_return(:body => body)
+      end
 
-      expect(subject.months.count).to eq(0)
-      expect(subject.perform_get_data).to eq(total: 31, html: 0, pdf: 0, previous_total: 0, skipped: false, update_interval: 31)
-      expect(subject.total).to eq(31)
-      expect(subject.months.count).to eq(1)
-      expect(subject.days.count).to eq(0)
+      it "successfully updates citation counts" do
+        expect(@subject.months.count).to eq(0)
+        expect(@subject.perform_get_data).to eq(total: 31, html: 0, pdf: 0, previous_total: 0, skipped: false, update_interval: 31)
+        expect(@subject.total).to eq(31)
+        expect(@subject.months.count).to eq(1)
+        expect(@subject.days.count).to eq(0)
 
-      month = subject.months.last
-      expect(month.year).to eq(2015)
-      expect(month.month).to eq(4)
-      expect(month.total).to eq(31)
+        month = @subject.months.last
+        expect(month.year).to eq(2015)
+        expect(month.month).to eq(4)
+        expect(month.total).to eq(31)
+      end
+
+      it 'notifies subscribers' do
+        expect(Subscribers).to receive(:notify).with("10.1371/journal.pone.0053745", 'crossref', 0, 31)
+        @subject.perform_get_data
+      end
     end
 
     #TODO fix broken test
