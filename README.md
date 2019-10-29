@@ -1,9 +1,9 @@
-    .____                           __    __          
-    |    |   _____     ____   _____/  |__/  |_  ____  
-    |    |   \__  \   / ___\ /  _ \   __\   __\/  _ \ 
+    .____                           __    __
+    |    |   _____     ____   _____/  |__/  |_  ____
+    |    |   \__  \   / ___\ /  _ \   __\   __\/  _ \
     |    |___ / __ \_/ /_/  >  <_> )  |  |  | (  <_> )
-    |_______ (____  /\___  / \____/|__|  |__|  \____/ 
-            \/    \//_____/                           
+    |_______ (____  /\___  / \____/|__|  |__|  \____/
+            \/    \//_____/
 
 
 build: [![Build Status Badge]][Build Status]&#8193;&#9733;&#8193;
@@ -20,7 +20,7 @@ this information (e.g., CrossRef for citations).
 
 To see Lagotto in action, visit http://alm.plos.org/
 
-## RSpec Tests 
+## RSpec Tests
 
 Lagotto has a pretty comprehensive set of RSpec tests. Unfortunately, most of
 them are broken -- sigh. What to do? Fix them as we can especially when we fix a
@@ -110,9 +110,9 @@ docker-compose down -v
 
 ### Running the tests
 
-Unless you configure it otherwise, the same database will be used for 
-RAILS_ENV=test and RAILS_ENV=production in docker-compose. It may not strictly 
-be necessary, but I recommend destroying your containers before and after 
+Unless you configure it otherwise, the same database will be used for
+RAILS_ENV=test and RAILS_ENV=production in docker-compose. It may not strictly
+be necessary, but I recommend destroying your containers before and after
 running the tests in docker-compose so you the Development and Test data don't
 pollute eachother.
 ```
@@ -133,6 +133,36 @@ docker-compose run --rm appserver rspec
 Clean up
 ```
 docker-compose down -v
+```
+
+### Testing subscribers
+
+Subscribers can be configured to be notified when citations reach specific milestones.
+
+In one console window, rebuild with minimal test data. Watch the container logs here.
+```
+docker-compose down -v
+docker-compose up --build
+docker-compose exec appserver rake db:seed
+```
+
+Start a rails console in a new window.
+```bash
+docker exec -it lagotto_appserver_1 rails c
+Loading production environment (Rails 4.2.7.1)
+```
+Fetch new data and trigger a notification of a subscriber.
+```ruby
+Source.find_by(name: 'simple_source').retrieval_statuses.last.perform_get_data
+```
+```
+Notifying subscriber: {:url=>"http://test_subscriber:9055/notify-me-please", :doi=>"10.1371/journal.pcbi.0010052", :milestone=>1}
+Response from subscriber: #<Faraday::Response:0x00559db2d27da0 @on_complete_callbacks=[], @env=#<Faraday::Env @method=:get @body="test subscriber called" @url=#<URI::HTTP http://test_subscriber:9055/notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1> @request=#<Faraday::RequestOptions (empty)> @request_headers={"User-Agent"=>"Faraday v0.9.2"} @ssl=#<Faraday::SSLOptions (empty)> @response=#<Faraday::Response:0x00559db2d27da0 ...> @response_headers={"Server"=>"nginx/1.16.0", "Date"=>"Tue, 29 Oct 2019 23:38:19 GMT", "Content-Type"=>"application/octet-stream", "Content-Length"=>"22", "Connection"=>"keep-alive"} @status=200>>
+=> {:total=>10, :html=>0, :pdf=>0, :previous_total=>0, :skipped=>false, :update_interval=>1}
+```
+And in the docker-compose logs you'll see an entry from the test_subscriber container:
+```
+test_subscriber_1  | 192.168.16.5 - - [29/Oct/2019:23:38:19 +0000] "GET /notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1 HTTP/1.1" 200 22 "-" "Faraday v0.9.2" "-"
 ```
 
 [Build Status]: https://teamcity.plos.org/teamcity/viewType.html?buildTypeId=Alm_LagottoRspecTests
