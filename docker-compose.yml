@@ -12,11 +12,11 @@ services:
       REDIS_URL: redis://redis:6379/0
       SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
       SERVERNAME: "localhost:8080"
-      SUBSCRIBERS__0__JOURNAL: pmed,
-      SUBSCRIBERS__0__SOURCE: crossref,
-      SUBSCRIBERS__0__MILESTONES__0: 1,
-      SUBSCRIBERS__0__MILESTONES__1: 15,
-      SUBSCRIBERS__0__URL: http://localhost:9055/notify-me-about-xref-changes-for-journal-pmed,
+      SUBSCRIBERS__0__JOURNAL: "pcbi"
+      SUBSCRIBERS__0__SOURCE: "simplesource"
+      SUBSCRIBERS__0__MILESTONES__0: 1
+      SUBSCRIBERS__0__MILESTONES__1: 15
+      SUBSCRIBERS__0__URL: "http://test_subscriber:9055/notify-me-please"
     command: ["docker/start.sh", "db:3306"]
     ports:
       - 9292:9292

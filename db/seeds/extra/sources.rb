@@ -24,6 +24,21 @@ recommended = Group.where(name: 'recommended').first_or_create(title: 'Recommend
 #
 Source.delete_all   # clean-slate
 
+# Simple source for testing
+simple_source_cfg = OpenStruct.new
+simple_source_cfg['total'] = 5
+simple_source = SimpleSource.where(name: 'simplesource').first_or_create(
+  :type        => 'SimpleSource',
+  :name        => 'simplesource',
+  :title       => 'SimpleSource',
+  :config      => simple_source_cfg,
+  :group_id    => cited.id,
+  :private     => 0,
+  :state_event => 'inactivate',
+  :description => 'SimpleSource is a mock source that always returns the same total.',
+  :queueable   => 1,
+  :eventable   => 1)
+
 # CiteULike
 citeulike_cfg = OpenStruct.new
 citeulike_cfg['url'] = "http://#{ camouflage }/citeulike/api/posts/for/doi/%{doi}"
