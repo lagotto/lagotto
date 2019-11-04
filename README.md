@@ -137,32 +137,69 @@ docker-compose down -v
 
 ### Testing subscribers
 
-Subscribers can be configured to be notified when citations reach specific milestones.
+A subscriber consists of:
 
-In one console window, rebuild with minimal test data. Watch the container logs here.
+- a list of milestones for a metric
+- the `source_name` of the watched metric
+- a url to notify (by HTTP GET) when an article's metric reaches a milestone
+- additional filters, like journal
+- configuration is via environment variables. Example: 
+
+```bash
+SUBSCRIBERS__0__JOURNAL: "pcbi"
+SUBSCRIBERS__0__SOURCE: "simple_source"
+SUBSCRIBERS__0__MILESTONES__0: 1
+SUBSCRIBERS__0__MILESTONES__1: 15
+SUBSCRIBERS__0__URL: "http://test_subscriber:9055/notify-me-please"
 ```
+
+#### First start up the acceptance test environment.
+
+In one console window, rebuild the environment and seed it with minimal test data. You can observe the logs from all of the services here.
+```bash
 docker-compose down -v
 docker-compose up --build
 docker-compose exec appserver rake db:seed
 ```
 
+#### Open a rails console to issue commands to lagotto
+
 Start a rails console in a new window.
+
 ```bash
 docker exec -it lagotto_appserver_1 rails c
 Loading production environment (Rails 4.2.7.1)
 ```
-Fetch new data and trigger a notification of a subscriber.
+
+In the rails console, confirm the configuration for Subscribers:
+
+```ruby
+irb(main):020:0> EnvConfig.config_for "SUBSCRIBERS__"
+=> {:subscribers=>[{:milestones=>[1, 15], :source=>"simple_source", :journal=>"pcbi", :url=>"http://test_subscriber:9055/notify-me-please"}]}
+```
+
+Now tell lagotto to fetch new data. This will trigger a notification of the configured subscriber. Watch for an entry from the test_subscriber container in the  docker-compose logs:
+```
+test_subscriber_1  | 192.168.16.5 - - [29/Oct/2019:23:38:19 +0000] "GET /notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1 HTTP/1.1" 200 22 "-" "Faraday v0.9.2" "-"
+```
+
 ```ruby
 Source.find_by(name: 'simple_source').retrieval_statuses.last.perform_get_data
 ```
+
+#### Repeating the test
+
+You will rapidly hit both of the configured milestones for the test article.  As an alternative to destroying and rebuilding the environment you can just update the test article count to 0. To reset the current total count for the test article:
+
+```ruby
+Source.find_by(name: 'simple_source').retrieval_statuses.last.update_attributes(total: 0)
 ```
-Notifying subscriber: {:url=>"http://test_subscriber:9055/notify-me-please", :doi=>"10.1371/journal.pcbi.0010052", :milestone=>1}
-Response from subscriber: #<Faraday::Response:0x00559db2d27da0 @on_complete_callbacks=[], @env=#<Faraday::Env @method=:get @body="test subscriber called" @url=#<URI::HTTP http://test_subscriber:9055/notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1> @request=#<Faraday::RequestOptions (empty)> @request_headers={"User-Agent"=>"Faraday v0.9.2"} @ssl=#<Faraday::SSLOptions (empty)> @response=#<Faraday::Response:0x00559db2d27da0 ...> @response_headers={"Server"=>"nginx/1.16.0", "Date"=>"Tue, 29 Oct 2019 23:38:19 GMT", "Content-Type"=>"application/octet-stream", "Content-Length"=>"22", "Connection"=>"keep-alive"} @status=200>>
-=> {:total=>10, :html=>0, :pdf=>0, :previous_total=>0, :skipped=>false, :update_interval=>1}
-```
-And in the docker-compose logs you'll see an entry from the test_subscriber container:
-```
-test_subscriber_1  | 192.168.16.5 - - [29/Oct/2019:23:38:19 +0000] "GET /notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1 HTTP/1.1" 200 22 "-" "Faraday v0.9.2" "-"
+
+The subscriber is subscribing to data from the `simple_source` data source. This source is a simple service that returns a count and increments the count by 5 every time the service is called.
+To reset it:
+
+```ruby
+SimpleSource.class_variable_set(:@@total, 0)
 ```
 
 [Build Status]: https://teamcity.plos.org/teamcity/viewType.html?buildTypeId=Alm_LagottoRspecTests
