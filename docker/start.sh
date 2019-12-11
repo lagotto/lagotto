@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ex
+
 # Set up the database and then start puma. Used as CMD in salt docker container
 
 docker/wait-for.sh -t 30 $1
