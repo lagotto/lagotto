@@ -12,6 +12,11 @@ services:
       REDIS_URL: redis://redis:6379/0
       SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
       SERVERNAME: "localhost:8080"
+      SUBSCRIBERS__0__JOURNAL: "pcbi"
+      SUBSCRIBERS__0__SOURCE: "simple_source"
+      SUBSCRIBERS__0__MILESTONES__0: 1
+      SUBSCRIBERS__0__MILESTONES__1: 15
+      SUBSCRIBERS__0__URL: "http://test_subscriber:9055/notify-me-please"
     command: ["docker/start.sh", "db:3306"]
     ports:
       - 9292:9292
@@ -45,6 +50,16 @@ services:
     command: [ "nginx", "-g", "daemon off;" ]
     depends_on:
       - appserver
+  test_subscriber:
+    image: nginxinc/nginx-unprivileged:1.16-alpine
+    ports:
+      - 9055:9055
+    volumes:
+      - ./docker/test-subscriber/conf/etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    command: [ "nginx", "-g", "daemon off;" ]
+    depends_on:
+      - appserver
+
 volumes:
   railsassets:
   artifacts:

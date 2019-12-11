@@ -1,9 +1,9 @@
-    .____                           __    __          
-    |    |   _____     ____   _____/  |__/  |_  ____  
-    |    |   \__  \   / ___\ /  _ \   __\   __\/  _ \ 
+    .____                           __    __
+    |    |   _____     ____   _____/  |__/  |_  ____
+    |    |   \__  \   / ___\ /  _ \   __\   __\/  _ \
     |    |___ / __ \_/ /_/  >  <_> )  |  |  | (  <_> )
-    |_______ (____  /\___  / \____/|__|  |__|  \____/ 
-            \/    \//_____/                           
+    |_______ (____  /\___  / \____/|__|  |__|  \____/
+            \/    \//_____/
 
 
 build: [![Build Status Badge]][Build Status]&#8193;&#9733;&#8193;
@@ -20,7 +20,7 @@ this information (e.g., CrossRef for citations).
 
 To see Lagotto in action, visit http://alm.plos.org/
 
-## RSpec Tests 
+## RSpec Tests
 
 Lagotto has a pretty comprehensive set of RSpec tests. Unfortunately, most of
 them are broken -- sigh. What to do? Fix them as we can especially when we fix a
@@ -110,9 +110,9 @@ docker-compose down -v
 
 ### Running the tests
 
-Unless you configure it otherwise, the same database will be used for 
-RAILS_ENV=test and RAILS_ENV=production in docker-compose. It may not strictly 
-be necessary, but I recommend destroying your containers before and after 
+Unless you configure it otherwise, the same database will be used for
+RAILS_ENV=test and RAILS_ENV=production in docker-compose. It may not strictly
+be necessary, but I recommend destroying your containers before and after
 running the tests in docker-compose so you the Development and Test data don't
 pollute eachother.
 ```
@@ -133,6 +133,73 @@ docker-compose run --rm appserver rspec
 Clean up
 ```
 docker-compose down -v
+```
+
+### Testing subscribers
+
+A subscriber consists of:
+
+- a list of milestones for a metric
+- the `source_name` of the watched metric
+- a url to notify (by HTTP GET) when an article's metric reaches a milestone
+- additional filters, like journal
+- configuration is via environment variables. Example: 
+
+```bash
+SUBSCRIBERS__0__JOURNAL: "pcbi"
+SUBSCRIBERS__0__SOURCE: "simple_source"
+SUBSCRIBERS__0__MILESTONES__0: 1
+SUBSCRIBERS__0__MILESTONES__1: 15
+SUBSCRIBERS__0__URL: "http://test_subscriber:9055/notify-me-please"
+```
+
+#### First start up the acceptance test environment.
+
+In one console window, rebuild the environment and seed it with minimal test data. You can observe the logs from all of the services here.
+```bash
+docker-compose down -v
+docker-compose up --build
+docker-compose exec appserver rake db:seed
+```
+
+#### Open a rails console to issue commands to lagotto
+
+Start a rails console in a new window.
+
+```bash
+docker exec -it lagotto_appserver_1 rails c
+Loading production environment (Rails 4.2.7.1)
+```
+
+In the rails console, confirm the configuration for Subscribers:
+
+```ruby
+irb(main):020:0> EnvConfig.config_for "SUBSCRIBERS__"
+=> {:subscribers=>[{:milestones=>[1, 15], :source=>"simple_source", :journal=>"pcbi", :url=>"http://test_subscriber:9055/notify-me-please"}]}
+```
+
+Now tell lagotto to fetch new data. This will trigger a notification of the configured subscriber. Watch for an entry from the test_subscriber container in the  docker-compose logs:
+```
+test_subscriber_1  | 192.168.16.5 - - [29/Oct/2019:23:38:19 +0000] "GET /notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1 HTTP/1.1" 200 22 "-" "Faraday v0.9.2" "-"
+```
+
+```ruby
+Source.find_by(name: 'simple_source').retrieval_statuses.last.perform_get_data
+```
+
+#### Repeating the test
+
+You will rapidly hit both of the configured milestones for the test article.  As an alternative to destroying and rebuilding the environment you can just update the test article count to 0. To reset the current total count for the test article:
+
+```ruby
+Source.find_by(name: 'simple_source').retrieval_statuses.last.update_attributes(total: 0)
+```
+
+The subscriber is subscribing to data from the `simple_source` data source. This source is a simple service that returns a count and increments the count by 5 every time the service is called.
+To reset it:
+
+```ruby
+SimpleSource.class_variable_set(:@@total, 0)
 ```
 
 [Build Status]: https://teamcity.plos.org/teamcity/viewType.html?buildTypeId=Alm_LagottoRspecTests
