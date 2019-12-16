@@ -20,7 +20,7 @@ gem 'bugsnag', '~> 2.8.6'
 gem 'faraday', '~> 0.9.2'
 gem 'faraday_middleware', '~> 0.10.0'
 gem 'faraday-cookie_jar', '~> 0.0.6'
-gem 'excon', '~> 0.45.3'
+gem 'excon', '~> 0.71.0'
 gem 'addressable', "~> 2.3.8"
 gem 'postrank-uri', '~> 1.0.18'
 gem "multi_xml", "~> 0.5.5"
