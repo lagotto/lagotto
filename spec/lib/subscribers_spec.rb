@@ -20,20 +20,20 @@ describe Subscribers, vcr: false, focus: true do
       end
 
       it 'notifies subscribers' do
-        expect(Faraday).to receive(:get).with(@subscriber_url, {doi: @article_doi, milestone: 1})
+        expect(Faraday).to receive(:post).with(@subscriber_url, {doi: @article_doi, milestone: 1})
         Subscribers.notify(@article_doi, @citation_source, 0, 14)
       end
 
       context 'multiple milestones were passed' do
         it 'uses the last milestone that was passed' do
-          expect(Faraday).to receive(:get).with(@subscriber_url, {doi: @article_doi, milestone: 15})
+          expect(Faraday).to receive(:post).with(@subscriber_url, {doi: @article_doi, milestone: 15})
           Subscribers.notify(@article_doi, @citation_source, 0, 16)
         end
       end
 
       context 'milestone is exactly the new count' do
         it 'notifies' do
-          expect(Faraday).to receive(:get).with(@subscriber_url, {doi: @article_doi, milestone: 1}).exactly(:once)
+          expect(Faraday).to receive(:post).with(@subscriber_url, {doi: @article_doi, milestone: 1}).exactly(:once)
           Subscribers.notify(@article_doi, @citation_source, 0, 1)
         end
       end

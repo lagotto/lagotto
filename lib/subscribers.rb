@@ -11,7 +11,7 @@ class Subscribers
       hit = milestones.select{ |m| range.include?(m) }.last
       if hit
         Rails.logger.info("Notifying subscriber: #{{url: s[:url], doi: doi, milestone: hit}}")
-        resp = Faraday.get(s[:url], doi: doi, milestone: hit)
+        resp = Faraday.post(s[:url], doi: doi, milestone: hit)
         Rails.logger.info("Response from subscriber: #{resp.inspect}")
       end
     end
