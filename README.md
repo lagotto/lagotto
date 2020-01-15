@@ -180,7 +180,7 @@ irb(main):020:0> EnvConfig.config_for "SUBSCRIBERS__"
 
 Now tell lagotto to fetch new data. This will trigger a notification of the configured subscriber. Watch for an entry from the test_subscriber container in the  docker-compose logs:
 ```
-test_subscriber_1  | 192.168.16.5 - - [29/Oct/2019:23:38:19 +0000] "GET /notify-me-please?doi=10.1371%2Fjournal.pcbi.0010052&milestone=1 HTTP/1.1" 200 22 "-" "Faraday v0.9.2" "-"
+test_subscriber_1  | 192.168.16.5 - - [29/Oct/2019:23:38:19 +0000] "POST /notify-me-please HTTP/1.1" 200 22 "-" "Faraday v0.9.2" "-"
 ```
 
 ```ruby
