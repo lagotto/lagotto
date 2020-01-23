@@ -99,14 +99,17 @@ class UsersController < ApplicationController
   private
 
   def safe_params
-    params.require(:user).permit(:name,
-                                 :email,
-                                 :password,
-                                 :password_confirmation,
-                                 :subscribe,
-                                 :unsubscribe,
-                                 :role,
-                                 :publisher_id,
-                                 :authentication_token)
+    allowed_params = [
+      :name,
+      :email,
+      :password,
+      :password_confirmation,
+      :subscribe,
+      :unsubscribe,
+      :publisher_id,
+      :authentication_token
+    ]
+    allowed_params << :role if current_user.try(:is_admin?)
+    params.require(:user).permit(allowed_params)
   end
 end

@@ -8,6 +8,7 @@ services:
       - db
       - redis
     environment:
+      MEMCACHE_SERVERS: memcached
       DATABASE_URL: mysql2://root:password@db:3306/alm?pool=5&timeout=5000&encoding=utf8mb4
       REDIS_URL: redis://redis:6379/0
       SOLR_URL: http://solr-mega-dev.soma.plos.org/solr/journals_dev/select
@@ -59,6 +60,8 @@ services:
     command: [ "nginx", "-g", "daemon off;" ]
     depends_on:
       - appserver
+  memcached:
+    image: memcached:1.5.20
 
 volumes:
   railsassets:
