@@ -1,10 +1,10 @@
-FROM ruby:2.2-alpine
+FROM ruby:2.3-alpine
 
 RUN apk add --no-cache \
     build-base \
     git \
     mariadb-dev \
-    nodejs \
+    npm \
     && rm -rf /var/cache/apk/*
 RUN npm install -g bower
 
