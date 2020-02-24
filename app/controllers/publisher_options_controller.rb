@@ -1,5 +1,5 @@
 class PublisherOptionsController < ApplicationController
-  before_filter :load_source, only: [:show, :edit, :update]
+  before_action :load_source, only: [:show, :edit, :update]
   # load_and_authorize_resource
 
   def show

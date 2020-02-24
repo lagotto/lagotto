@@ -1,5 +1,5 @@
 class Rss::SourcesController < ApplicationController
-  before_filter :load_source
+  before_action :load_source
 
   def show
     if params[:days]

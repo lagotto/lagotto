@@ -1,6 +1,6 @@
 class Api::V5::WorksController < Api::BaseController
-  prepend_before_filter :load_work, only: [:show]
-  before_filter :authenticate_user_from_token_param!
+  prepend_before_action :load_work, only: [:show]
+  before_action :authenticate_user_from_token_param!
 
   def show
     @work = @work.includes(:retrieval_statuses).references(:retrieval_statuses)

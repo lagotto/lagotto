@@ -2,7 +2,7 @@ class Api::V6::ReferencesController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :authenticate_user_from_token!, :load_work
+  before_action :authenticate_user_from_token!, :load_work
 
   swagger_controller :references, "References"
 

@@ -5,8 +5,8 @@ class Api::BaseController < ActionController::Base
   # include helper module for DOI resolution
   include Resolvable
 
-  prepend_before_filter :disable_devise_trackable
-  before_filter :miniprofiler,
+  prepend_before_action :disable_devise_trackable
+  before_action :miniprofiler,
                 :default_format_json,
                 :authenticate_user_from_token!,
                 :cors_preflight_check

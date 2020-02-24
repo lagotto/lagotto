@@ -1,5 +1,5 @@
 class Rss::WorksController < ApplicationController
-  before_filter :load_work
+  before_action :load_work
 
   def show
     format_options = params.slice :source

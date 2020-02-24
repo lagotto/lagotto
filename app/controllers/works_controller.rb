@@ -1,6 +1,6 @@
 class WorksController < ApplicationController
-  before_filter :load_work, only: [:show, :edit, :update, :destroy]
-  before_filter :new_work, only: [:create]
+  before_action :load_work, only: [:show, :edit, :update, :destroy]
+  before_action :new_work, only: [:create]
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 

@@ -1,7 +1,7 @@
 require 'cgi'
 
 class OembedController < ApplicationController
-  before_filter :default_format_json
+  before_action :default_format_json
 
   def show
     if params[:url]
