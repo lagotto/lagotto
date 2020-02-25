@@ -6,7 +6,7 @@ GIT
     state_machine (1.2.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     actioncable (5.0.7.2)
       actionpack (= 5.0.7.2)
