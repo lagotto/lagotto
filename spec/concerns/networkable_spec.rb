@@ -93,7 +93,7 @@ describe Source, type: :model, vcr: true do
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.status).to eq(408)
       end
 
@@ -103,7 +103,7 @@ describe Source, type: :model, vcr: true do
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.status).to eq(408)
       end
 
@@ -113,7 +113,7 @@ describe Source, type: :model, vcr: true do
         expect(response).to eq(error: "the server responded with status 408 for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.status).to eq(408)
       end
 
@@ -122,7 +122,7 @@ describe Source, type: :model, vcr: true do
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(response).to be_nil }
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.status).to eq(408)
       end
     end
@@ -134,7 +134,7 @@ describe Source, type: :model, vcr: true do
         expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
@@ -145,7 +145,7 @@ describe Source, type: :model, vcr: true do
         expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
@@ -156,7 +156,7 @@ describe Source, type: :model, vcr: true do
         expect(response).to eq(error: "Excon::Errors::Timeout for #{url}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
@@ -166,7 +166,7 @@ describe Source, type: :model, vcr: true do
         subject.get_result(url, content_type: 'xml', data: post_data.to_xml) { |response| expect(response).to be_nil }
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.message).to include("Excon::Errors::Timeout")
         expect(alert.status).to eq(408)
       end
@@ -315,7 +315,7 @@ describe Source, type: :model, vcr: true do
         expect(stub).to have_been_requested
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.status).to eq(408)
       end
 

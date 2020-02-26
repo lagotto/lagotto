@@ -113,7 +113,7 @@ describe Mendeley, :type => :model do
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
       expect(alert.status).to eq(408)
       expect(alert.source_id).to eq(subject.id)
     end

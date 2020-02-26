@@ -49,7 +49,7 @@ describe Wikipedia, type: :model, vcr: true, focus: true do
       expect(stub).to have_been_requested
       expect(Alert.count).to eq(1)
       alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
       expect(alert.message).to eq("the server responded with status 408 for http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=#{subject.get_query_string(work)}&srnamespace=0&srwhat=text&srinfo=totalhits&srprop=timestamp&srlimit=50&sroffset=0&continue=")
       expect(alert.status).to eq(408)
       expect(alert.source_id).to eq(subject.id)

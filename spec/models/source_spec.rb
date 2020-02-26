@@ -269,7 +269,7 @@ describe Source, :type => :model do
 
       describe "check for failures" do
 
-        let(:class_name) { "Net::HTTPRequestTimeOut" }
+        let(:class_name) { "Net::HTTPRequestTimeout" }
         before(:each) do
           FactoryGirl.create_list(:alert, 10, source_id: subject.id, updated_at: Time.zone.now - 10.minutes, class_name: class_name)
         end
