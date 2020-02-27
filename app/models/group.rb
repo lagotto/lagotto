@@ -1,4 +1,4 @@
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   has_many :sources, -> { order(:title) }
 
   validates :name, :presence => true, :uniqueness => true

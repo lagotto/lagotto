@@ -1,4 +1,4 @@
-class PublisherOption < ActiveRecord::Base
+class PublisherOption < ApplicationRecord
   # include config methods
   include Configurable
 

@@ -1,4 +1,4 @@
-class Status < ActiveRecord::Base
+class Status < ApplicationRecord
   # include HTTP request helpers
   include Networkable
 
@@ -48,7 +48,7 @@ class Status < ActiveRecord::Base
   # get combined data and index size for all tables
   def get_db_size
     sql = "SELECT SUM(DATA_LENGTH + INDEX_LENGTH) as size FROM information_schema.TABLES where TABLE_SCHEMA = '#{ENV['DB_NAME'].to_s}';"
-    result = ActiveRecord::Base.connection.exec_query(sql)
+    result = ApplicationRecord.connection.exec_query(sql)
     result.rows.first.reduce(:+)
   end
 

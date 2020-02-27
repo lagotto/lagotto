@@ -1,4 +1,4 @@
-class Month < ActiveRecord::Base
+class Month < ApplicationRecord
   belongs_to :source
   belongs_to :work
   belongs_to :retrieval_status

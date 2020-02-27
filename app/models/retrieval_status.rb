@@ -1,4 +1,4 @@
-class RetrievalStatus < ActiveRecord::Base
+class RetrievalStatus < ApplicationRecord
   # include HTTP request helpers
   include Networkable
 

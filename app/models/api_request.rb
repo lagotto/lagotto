@@ -1,4 +1,4 @@
-class ApiRequest < ActiveRecord::Base
+class ApiRequest < ApplicationRecord
   scope :total, ->(duration) { where(created_at: (Time.zone.now.beginning_of_hour - duration.hours)..Time.zone.now.beginning_of_hour) }
 
   def self.per_page

@@ -1,4 +1,4 @@
-class FileWriteLog < ActiveRecord::Base
+class FileWriteLog < ApplicationRecord
   scope :with_name, -> (name){ where("filepath LIKE '%/#{name}'") }
   scope :order_by_newest_first, -> { order("created_at DESC") }
 

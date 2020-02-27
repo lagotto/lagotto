@@ -1,4 +1,4 @@
-class Relation < ActiveRecord::Base
+class Relation < ApplicationRecord
   belongs_to :work
   belongs_to :related_work, class_name: "Work"
   belongs_to :relation_type

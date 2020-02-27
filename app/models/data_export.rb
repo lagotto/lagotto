@@ -1,4 +1,4 @@
-class DataExport < ActiveRecord::Base
+class DataExport < ApplicationRecord
   class Error < ::StandardError ; end
   class FileNotFoundError < Error ; end
   class FilePermissionError < Error ; end
