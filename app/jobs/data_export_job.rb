@@ -1,4 +1,4 @@
-class DataExportJob < ActiveJob::Base
+class DataExportJob < ApplicationJob
   queue_as :high
 
   def perform(options={})

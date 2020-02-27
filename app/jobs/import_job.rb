@@ -1,4 +1,4 @@
-class ImportJob < ActiveJob::Base
+class ImportJob < ApplicationJob
   queue_as :high
 
   def perform(klass, options)

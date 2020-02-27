@@ -1,4 +1,4 @@
-class StatusCacheJob < ActiveJob::Base
+class StatusCacheJob < ApplicationJob
   queue_as :critical
 
   def perform

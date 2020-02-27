@@ -1,4 +1,4 @@
-class PmcJob < ActiveJob::Base
+class PmcJob < ApplicationJob
   queue_as :high
 
   def perform(publisher_id, month, year, journal, options={})

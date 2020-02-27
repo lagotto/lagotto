@@ -1,4 +1,4 @@
-class ApiSnapshotJob < ActiveJob::Base
+class ApiSnapshotJob < ApplicationJob
   queue_as :high
 
   def perform(options={})
