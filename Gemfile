@@ -83,7 +83,7 @@ group :test do
   gem "email_spec"
   gem "rack-test", require: 'rack/test'
   gem "simplecov", require: false
-  gem 'codeclimate-test-reporter', require: false
+  gem 'codeclimate-test-reporter', '0.4.8', require: false #simplecov still finds test cases
   gem "shoulda-matchers", require: false
   gem "webmock"
   gem 'vcr'
