@@ -1,7 +1,7 @@
 require 'custom_error'
 require 'timeout'
 
-class SourceJob < ActiveJob::Base
+class SourceJob < ApplicationJob
   # include HTTP request helpers
   include Networkable
 

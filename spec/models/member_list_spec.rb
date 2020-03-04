@@ -62,7 +62,7 @@ describe MemberList, :type => :model do
 
       expect(Alert.count).to eq(1)
       alert = Alert.first
-      expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+      expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
       expect(alert.status).to eq(408)
     end
   end

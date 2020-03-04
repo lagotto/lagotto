@@ -1,5 +1,5 @@
 class SourcesController < ApplicationController
-  before_filter :load_source, only: [:show, :edit, :update]
+  before_action :load_source, only: [:show, :edit, :update]
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 

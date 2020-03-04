@@ -1,4 +1,4 @@
-class DeleteWorkJob < ActiveJob::Base
+class DeleteWorkJob < ApplicationJob
   queue_as :high
 
   def perform(publisher_id)

@@ -1,4 +1,4 @@
-class Publisher < ActiveRecord::Base
+class Publisher < ApplicationRecord
   # include HTTP request helpers
   include Networkable
 

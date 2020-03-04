@@ -1,4 +1,4 @@
-class ApiResponse < ActiveRecord::Base
+class ApiResponse < ApplicationRecord
   # include HTTP request helpers
   include Networkable
 

@@ -1,5 +1,5 @@
 class RemoveFilesFromDataExport < ActiveRecord::Migration
-  class DataExport < ActiveRecord::Base
+  class DataExport < ApplicationRecord
     self.inheritance_column = :_type_disabled
 
     serialize :data, Hash

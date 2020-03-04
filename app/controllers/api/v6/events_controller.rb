@@ -2,7 +2,7 @@ class Api::V6::EventsController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :authenticate_user_from_token!
+  before_action :authenticate_user_from_token!
 
   swagger_controller :events, "Events"
 

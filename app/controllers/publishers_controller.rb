@@ -1,6 +1,6 @@
 class PublishersController < ApplicationController
-  before_filter :load_publisher, only: [:show, :update, :destroy]
-  before_filter :new_publisher, only: [:create]
+  before_action :load_publisher, only: [:show, :update, :destroy]
+  before_action :new_publisher, only: [:create]
   load_and_authorize_resource
   skip_authorize_resource :only => [:show, :index]
 

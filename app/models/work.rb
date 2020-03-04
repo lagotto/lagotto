@@ -2,7 +2,7 @@ require 'cgi'
 require 'addressable/uri'
 require "builder"
 
-class Work < ActiveRecord::Base
+class Work < ApplicationRecord
   class Metrics
     def self.load_for_works(works, method=:id)
       metrics_by_id = for_ids works.map(&method)

@@ -1,4 +1,4 @@
-class WorkType < ActiveRecord::Base
+class WorkType < ApplicationRecord
   has_many :works
 
   validates :name, :presence => true, :uniqueness => true

@@ -374,7 +374,7 @@ FactoryGirl.define do
 
   factory :alert do
     exception "An exception"
-    class_name "Net::HTTPRequestTimeOut"
+    class_name "Net::HTTPRequestTimeout"
     message "The request timed out."
     level 2
     trace "backtrace"

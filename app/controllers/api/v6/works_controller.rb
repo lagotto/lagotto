@@ -2,8 +2,8 @@ class Api::V6::WorksController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  prepend_before_filter :load_work, only: [:show, :update, :destroy]
-  before_filter :authenticate_user_from_token!
+  prepend_before_action :load_work, only: [:show, :update, :destroy]
+  before_action :authenticate_user_from_token!
 
   swagger_controller :works, "Works"
 

@@ -1,5 +1,5 @@
 class AlertsController < ApplicationController
-  before_filter :load_alert, only: [:destroy]
+  before_action :load_alert, only: [:destroy]
   load_and_authorize_resource
   skip_authorize_resource :only => [:create, :routing_error]
 

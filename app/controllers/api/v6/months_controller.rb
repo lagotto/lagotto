@@ -1,5 +1,5 @@
 class Api::V6::MonthsController < Api::BaseController
-  before_filter :authenticate_user_from_token!, :load_source
+  before_action :authenticate_user_from_token!, :load_source
 
   swagger_controller :months, "Months"
 

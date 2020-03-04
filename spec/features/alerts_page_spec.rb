@@ -56,7 +56,7 @@ describe "alerts", type: :feature, js: true do
 
     visit "/alerts"
     click_link "alert-menu"
-    click_link "Net::HTTPRequestTimeOut"
+    click_link "Net::HTTPRequestTimeout"
     expect(page).to have_css ".panel-heading a", text: "[408] The request timed out."
 
 

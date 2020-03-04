@@ -1,4 +1,4 @@
-class InsertRetrievalJob < ActiveJob::Base
+class InsertRetrievalJob < ApplicationJob
   queue_as :critical
 
   def perform(source)

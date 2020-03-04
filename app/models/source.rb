@@ -1,7 +1,7 @@
 require 'cgi'
 require "addressable/uri"
 
-class Source < ActiveRecord::Base
+class Source < ApplicationRecord
   # include state machine
   include Statable
 
@@ -397,6 +397,6 @@ class Source < ActiveRecord::Base
   def insert_retrievals
     sql = "insert into retrieval_statuses (work_id, source_id, created_at, updated_at) select id, #{id}, now(), now() from works"
     sql += " where id not in (select work_id from retrieval_statuses where source_id = #{id})"
-    ActiveRecord::Base.connection.execute sql
+    ApplicationRecord.connection.execute sql
   end
 end

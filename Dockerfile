@@ -1,10 +1,10 @@
-FROM ruby:2.2-alpine
+FROM ruby:2.6-alpine
 
 RUN apk add --no-cache \
     build-base \
     git \
     mariadb-dev \
-    nodejs \
+    npm \
     && rm -rf /var/cache/apk/*
 RUN npm install -g bower
 
@@ -12,7 +12,7 @@ RUN addgroup -g 2012 -S alm && adduser -u 2012 -G alm -S alm
 RUN mkdir /code && chown alm:alm /code
 WORKDIR /code
 USER alm
-RUN gem install bundler -v 1.17.3
+RUN gem install bundler
 
 # These Env vars are required to be set for Lagotto to start.
 # This list should match up with the list in config/initializers/dotenv.rb

@@ -1,4 +1,4 @@
-class Day < ActiveRecord::Base
+class Day < ApplicationRecord
   belongs_to :source
   belongs_to :work
   belongs_to :retrieval_status

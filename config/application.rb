@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 require 'safe_yaml'
@@ -7,11 +7,9 @@ SafeYAML::OPTIONS[:default_mode] = :safe
 SafeYAML::OPTIONS[:deserialize_symbols] = true
 SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/object:OpenStruct"]
 
-if defined?(Bundler)
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(:default, Rails.env)
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
 
 module Lagotto
   class Application < Rails::Application

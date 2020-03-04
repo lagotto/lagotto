@@ -1,6 +1,6 @@
 require 'sidekiq/web'
 
-Lagotto::Application.routes.draw do
+Rails.application.routes.draw do
   # mount EmberCLI::Engine => "ember-tests" if Rails.env.development?
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks", :registrations => "users/registrations" }

@@ -310,7 +310,7 @@ describe Work, type: :model, vcr: true do
         expect(response).to eq(error: "the server responded with status 408 for http://doi.org/#{work.doi}", status: 408)
         expect(Alert.count).to eq(1)
         alert = Alert.first
-        expect(alert.class_name).to eq("Net::HTTPRequestTimeOut")
+        expect(alert.class_name).to eq("Net::HTTPRequestTimeout")
         expect(alert.status).to eq(408)
         expect(stub).to have_been_requested
       end

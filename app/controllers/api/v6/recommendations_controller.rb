@@ -2,7 +2,7 @@ class Api::V6::RecommendationsController < Api::BaseController
   # include helper module for DOI resolution
   include Resolvable
 
-  before_filter :load_work
+  before_action :load_work
 
   swagger_controller :recommendations, "Recommendations"
 

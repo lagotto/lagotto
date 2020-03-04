@@ -1,4 +1,4 @@
-class DeleteEventJob < ActiveJob::Base
+class DeleteEventJob < ApplicationJob
   queue_as :high
 
   def perform(source)

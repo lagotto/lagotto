@@ -1,4 +1,4 @@
-class RelationType < ActiveRecord::Base
+class RelationType < ApplicationRecord
   has_many :relations
 
   validates :name, :presence => true, :uniqueness => true

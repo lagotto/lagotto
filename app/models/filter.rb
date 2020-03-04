@@ -1,4 +1,4 @@
-class Filter < ActiveRecord::Base
+class Filter < ApplicationRecord
   extend ActionView::Helpers::NumberHelper
   extend ActionView::Helpers::TextHelper
 

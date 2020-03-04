@@ -1,6 +1,6 @@
 require 'zip'
 
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   # include HTTP request helpers
   include Networkable
 

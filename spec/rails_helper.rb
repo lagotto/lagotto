@@ -13,16 +13,16 @@ ENV["API_KEY"] = "12345"
 ENV["ADMIN_EMAIL"] = "info@example.org"
 ENV["IMPORT"] = "member"
 
-# set up Code Climate
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.configure do |config|
-  config.logger.level = Logger::WARN
-end
-CodeClimate::TestReporter.start
-
 require File.expand_path("../../config/environment", __FILE__)
 require "rspec/rails"
 require "shoulda-matchers"
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
 require "email_spec"
 require "factory_girl_rails"
 require "capybara/rspec"
@@ -63,7 +63,6 @@ Capybara.configure do |config|
 end
 
 WebMock.disable_net_connect!(
-  allow: ['codeclimate.com', ENV['PRIVATE_IP'], ENV['HOSTNAME']],
   allow_localhost: true
 )
 

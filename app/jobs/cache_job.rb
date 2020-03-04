@@ -1,4 +1,4 @@
-class CacheJob < ActiveJob::Base
+class CacheJob < ApplicationJob
   queue_as :critical
 
   def perform(resource)

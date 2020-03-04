@@ -1,4 +1,4 @@
-class CouchdbImportJob < ActiveJob::Base
+class CouchdbImportJob < ApplicationJob
   queue_as :high
 
   def perform(rs_ids)

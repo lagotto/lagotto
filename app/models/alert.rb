@@ -1,4 +1,4 @@
-class Alert < ActiveRecord::Base
+class Alert < ApplicationRecord
   attr_accessor :exception, :request
 
   belongs_to :source

@@ -1,4 +1,4 @@
-class DeleteCanonicalUrlJob < ActiveJob::Base
+class DeleteCanonicalUrlJob < ApplicationJob
   queue_as :high
 
   def perform(source)
