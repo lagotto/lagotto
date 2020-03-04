@@ -53,7 +53,7 @@ gem "rouge"
 gem 'dotiw'
 
 gem 'sprockets-rails', require: 'sprockets/railtie'
-gem 'sass-rails', '5.0.7' # breaking change in 6.0
+gem 'sass-rails', '~> 5.0.7' # breaking change in 6.0
 gem "uglifier"
 gem 'coffee-rails'
 gem "ember-cli-rails"
