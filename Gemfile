@@ -69,7 +69,6 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-npm'
-  # gem 'spring'
   gem 'hologram'
 end
 
@@ -95,7 +94,6 @@ end
 group :test, :development do
   gem 'byebug'
   gem "rspec-rails"
-  # gem 'spring-commands-rspec'
   gem 'teaspoon-jasmine'
   gem "brakeman", require: false
   gem 'rubocop'
