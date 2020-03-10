@@ -4,9 +4,9 @@ require 'rouge'
 module ApplicationHelper
   def login_link
     case ENV['OMNIAUTH']
-    when "cas" then link_to "Sign in with PLOS ID", user_omniauth_authorize_path(:cas), :id => "sign_in"
-    when "github" then link_to "Sign in with Github", user_omniauth_authorize_path(:github), :id => "sign_in"
-    when "orcid" then link_to "Sign in with ORCID", user_omniauth_authorize_path(:orcid), :id => "sign_in"
+    when "cas" then link_to "Sign in with PLOS ID", user_cas_omniauth_authorize_path, :id => "sign_in"
+    when "github" then link_to "Sign in with Github", user_github_omniauth_authorize_path, :id => "sign_in"
+    when "orcid" then link_to "Sign in with ORCID", user_orcid_omniauth_authorize_path, :id => "sign_in"
     else
       form_tag "/users/auth/persona/callback", id: "persona_form", class: "navbar-form" do
         hidden_field_tag('assertion') +
