@@ -414,7 +414,7 @@ GEM
       crack (>= 0.3.2)
     websocket-driver (0.6.3)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.2)
+    websocket-extensions (0.1.5)
     whenever (0.9.4)
       chronic (>= 0.6.3)
     will_paginate (3.0.7)
