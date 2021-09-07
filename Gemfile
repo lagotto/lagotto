@@ -65,7 +65,7 @@ gem "zenodo", "~> 0.0.8"
 
 group :development do
   gem 'pry-rails', '~> 0.3.2'
-  gem 'better_errors', '~> 2.0.0'
+  gem 'better_errors', '~> 2.9.1'
   gem 'binding_of_caller', '~> 0.7.2'
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-passenger', '~> 0.1.1'
