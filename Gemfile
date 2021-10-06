@@ -5,7 +5,7 @@ gem 'mysql2', '0.3.18'
 gem 'ar-octopus', '~> 0.8.5'
 
 gem "dotenv", '~> 1.0.2'
-gem 'sidekiq', '~> 4.0', '>= 4.0.1'
+gem 'sidekiq', '~> 5.2'
 gem 'sinatra'
 gem 'rake', '~> 10.4.2'
 gem "whenever", "~> 0.9.0", require: false
