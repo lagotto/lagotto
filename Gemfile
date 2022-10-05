@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2', '>= 4.2.6'
+gem 'rails', '~> 4.2'
 gem 'mysql2', '0.3.18'
 gem 'ar-octopus', '~> 0.8.5'
 
@@ -21,10 +21,10 @@ gem 'faraday', '~> 0.9.2'
 gem 'faraday_middleware', '~> 0.10.0'
 gem 'faraday-cookie_jar', '~> 0.0.6'
 gem 'excon', '~> 0.45.3'
-gem 'addressable', "~> 2.3.8"
-gem 'postrank-uri', '~> 1.0.18'
+gem 'addressable', "~> 2.8.1"
+gem 'postrank-uri', '~> 1.0.24'
 gem "multi_xml", "~> 0.5.5"
-gem "nokogiri", "~> 1.6.0"
+gem "nokogiri", "~> 1.13.8"
 gem "multi_json", "~> 1.10.1"
 gem "oj", "~> 2.10.4"
 gem 'config', '~> 1.0.0'
@@ -35,7 +35,7 @@ gem 'rubyzip',  "~> 1.1", :require => 'zip'
 gem 'colorize', '~> 0.7.7'
 
 gem "devise", "~> 3.4.1"
-gem "omniauth-cas", "~> 1.1.0"
+gem "omniauth-cas", "~> 2.0.0"
 gem 'omniauth-github', '~> 1.1.2'
 gem "omniauth-orcid", "~> 1.0"
 gem 'omniauth-jwt', '~> 0.0.3', git: 'https://github.com/datacite/omniauth-jwt.git'
@@ -78,7 +78,7 @@ end
 
 group :test do
   gem "factory_girl_rails", "~> 4.5.0", :require => false
-  gem "capybara", "~> 2.4.4"
+  gem "capybara", "~> 2.18.0"
   gem 'capybara-screenshot', '~> 1.0.3'
   gem "database_cleaner", "~> 1.3.0"
   gem "launchy", "~> 2.4.2"
